@@ -124,8 +124,7 @@ export class NewEventComponent implements OnInit {
   var courseDurationId = courseNameArr[0];
   var courseNameId=courseNameArr[1];
   this.courseName=dropdown.text;
-  console.log("Course Name Id");
-  console.log(courseNameId);
+
   //this.eventForm.get('courseName').setValue(dropdown.text);
   this.eventForm.get('courseNameId').setValue(courseNameId);
   this.eventForm.get('courseDurationId').setValue(courseDurationId);
@@ -142,17 +141,11 @@ export class NewEventComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.eventForm.value['baseSchoolNameId'];
     this.isShown=true;
-    //console.log(baseSchoolNameId);
     this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-     // console.log(baseSchoolNameId+"hhh");
       this.selectedCourse=res;   
-      console.log("lof");
-      console.log(this.selectedCourse)
     });
     this.eventService.geteventBySchool(baseSchoolNameId).subscribe(res=>{
       this.selectedevent=res
-      console.log("ffff");
-      console.log(this.selectedevent);
     }); 
 } 
 
@@ -165,8 +158,6 @@ inActiveItem(row){
         this.eventService.ChangeEventStatus(id,1).subscribe(() => {
           this.eventService.geteventBySchool(baseSchoolNameId).subscribe(res=>{
             this.selectedevent=res
-            console.log("ffff");
-            console.log(this.selectedevent);
           }); 
           this.snackBar.open('Event Stopped!', '', {
             duration: 3000,
@@ -184,8 +175,6 @@ inActiveItem(row){
         this.eventService.ChangeEventStatus(id,0).subscribe(() => {
           this.eventService.geteventBySchool(baseSchoolNameId).subscribe(res=>{
             this.selectedevent=res
-            console.log("ffff");
-            console.log(this.selectedevent);
           }); 
           this.snackBar.open('Event Running!', '', { 
             duration: 3000,
@@ -200,11 +189,7 @@ inActiveItem(row){
 }
 
 stopevents(element){
-  //console.log("Number");
-  //console.log(id)
   if(element.status ===0){
-    console.log("element id");
-    console.log(element.status);
     this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
      this.eventService.stopevents(element.eventId).subscribe(() => {
@@ -212,8 +197,6 @@ stopevents(element){
 
       this.eventService.geteventBySchool(baseSchoolNameId).subscribe(res=>{
         this.selectedevent=res
-        console.log("ffff");
-        console.log(this.selectedevent);
       }); 
 
      // this.getCourseplanCreates();
@@ -299,10 +282,10 @@ stopevents(element){
 
   onSubmit() {
     const id = this.eventForm.get('eventId').value; 
-    console.log(this.eventForm.value);  
+    
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
+    
         if (result) {
           this.loading = true;
           this.eventService.update(+id,this.eventForm.value).subscribe(response => {
@@ -340,8 +323,6 @@ stopevents(element){
     
     if (this.allSelected.selected) {
   this.isShowCourseName=true;
-
-      //console.log('Test Form ',this.BulletinForm.controls.baseSchoolNameId)
       this.eventForm.controls.baseSchoolNameId
         .patchValue([...this.selectedbaseschools.map(item => item.value), 0]);
     } else {
@@ -352,8 +333,6 @@ stopevents(element){
   }
   toggleAllSelectionCourse() {
     if (this.allSelectedCourse.selected) {
-      //console.log('Test Form ',this.BulletinForm.controls.courseName)
-      //console.log('Test selectedcoursedurationbyschoolname ',this.selectedcoursedurationbyschoolname)
       this.eventForm.controls.courseName
         .patchValue([...this.selectedCourse.map(item => item.value), 0]);
     } else {
