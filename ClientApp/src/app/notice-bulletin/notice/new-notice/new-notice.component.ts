@@ -166,8 +166,15 @@ export class NewNoticeComponent implements OnInit {
         
       });
     }else{
+
+      if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
+        this.isShowCourseName=false;
+       }
+  else{
       this.isShowCourseName=true;
       this.selectedCourse=[];
+    }
+
     }
    
     this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{

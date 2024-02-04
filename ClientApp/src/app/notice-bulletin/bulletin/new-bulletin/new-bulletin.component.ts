@@ -126,9 +126,14 @@ export class NewBulletinComponent implements OnInit {
         }); 
  }
  else { 
+ 
+  if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
+    this.isShowCourseName=false;
+   }
+else{
   this.isShowCourseName=true;
   this.selectedcoursedurationbyschoolname=[];
-
+}
   }
 
     this.getBulletins(baseSchoolNameId);
