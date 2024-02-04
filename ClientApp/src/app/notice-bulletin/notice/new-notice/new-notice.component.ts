@@ -287,15 +287,12 @@ stopNotices(element){
      }
      
      else {
-      //debugger
       this.loading = true;
       this.NoticeForm.value.baseSchoolNameId.forEach(element => {  
-        debugger
         if(element!=0){
           this.NoticeForm.value.baseSchoolNameId=element;
           if(this.NoticeForm.value.courseName!=""){
-            this.NoticeForm.value.courseName.forEach((courseElement,index) => {
-       
+            this.NoticeForm.value.courseName.forEach((courseElement,index) => {    
             if (courseElement!=0){
               var courseNameArr = courseElement.split('_');    
               var courseDurationId = courseNameArr[0];
@@ -313,7 +310,6 @@ stopNotices(element){
               })
             }
            
-            debugger
               });
           
           }

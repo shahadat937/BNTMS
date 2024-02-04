@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
 import { Event } from '../../models/event';
 import { MatOption } from '@angular/material/core';
+import { Role } from 'src/app/core/models/role';
 
 @Component({
   selector: 'app-new-event',
@@ -18,6 +19,11 @@ import { MatOption } from '@angular/material/core';
 export class NewEventComponent implements OnInit {
   @ViewChild('allSelected') private allSelected: MatOption;
   @ViewChild('allSelectedCourse') private allSelectedCourse: MatOption;
+  role:any;
+  traineeId:any;
+  branchId:any;
+  baseSchoolId:any;
+  userRole = Role;
   isShowCourseName:boolean=false;
    masterData = MasterData;
   loading = false;
@@ -302,11 +308,22 @@ stopevents(element){
           })
         }
       })
-    }else {
+    }
+    else if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
       this.loading = true;
-      this.eventService.submit(this.eventForm.value).subscribe(response => {
-        // this.router.navigateByUrl('/event-bulletin/event-list');
+      this.selectedCourse.forEach(element => {
+        var courseNameArr = element.value.split('_');
+        var courseDurationId = courseNameArr[0];
+        var courseNameId=courseNameArr[1];
+        this.eventForm.get('courseNameId').patchValue(courseNameId);
+        this.eventForm.get('courseDurationId').patchValue(courseDurationId);
+      });
+      
+      this.eventForm.value.courseName.forEach(element => {
+        this.eventForm.value.courseName=element;
+        this.eventService.submit(this.eventForm.value).subscribe(response => {
         this.reloadCurrentRoute();
+        // this.getBulletins(baseSchoolNameId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',
@@ -316,6 +333,69 @@ stopevents(element){
       }, error => {
         this.validationErrors = error;
       })
+
+      });
+
+      
+     }
+     else {
+      this.loading = true;
+      this.eventForm.value.baseSchoolNameId.forEach(element => {  
+        debugger
+        console.log(element)
+        if(element!=0){
+          this.eventForm.value.baseSchoolNameId=element;
+          if(this.eventForm.value.courseName!=""){
+            this.eventForm.value.courseName.forEach((courseElement,index) => {
+            if (courseElement!=0){
+              var courseNameArr = courseElement.split('_');    
+              var courseDurationId = courseNameArr[0];
+              var courseNameId=courseNameArr[1];
+               this.eventForm.get('courseNameId').patchValue(courseNameId);
+                this.eventForm.get('courseDurationId').patchValue(courseDurationId);
+              this.eventForm.value.courseName="" 
+              this.eventForm.value.baseSchoolNameId=element
+            }
+            if (courseElement!=0){
+              this.eventService.submit(this.eventForm.value).subscribe(response => {
+              }, error => {
+                this.validationErrors = error;
+              })
+            }
+              });
+          
+          }
+          else{  
+            this.eventService.submit(this.eventForm.value).subscribe(response => {
+              // this.reloadCurrentRoute();
+              // // this.getBulletins(baseSchoolNameId);
+              // this.snackBar.open('Information Inserted Successfully ', '', {
+              //   duration: 2000,
+              //   verticalPosition: 'bottom',
+              //   horizontalPosition: 'right',
+              //   panelClass: 'snackbar-success'
+              // });
+            }, error => {
+              this.validationErrors = error;
+              console.log(error)
+            })
+      
+          }
+        }
+        debugger
+        
+       
+      });
+
+      this.reloadCurrentRoute();
+      // this.getBulletins(baseSchoolNameId);
+      this.snackBar.open('Information Inserted Successfully ', '', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'right',
+        panelClass: 'snackbar-success'
+      }); 
+     
     }
  
   }
