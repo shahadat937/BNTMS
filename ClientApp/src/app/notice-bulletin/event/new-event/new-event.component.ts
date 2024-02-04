@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../service/event.service';
@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
 import { Event } from '../../models/event';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-new-event',
@@ -15,6 +16,9 @@ import { Event } from '../../models/event';
   styleUrls: ['./new-event.component.sass']
 }) 
 export class NewEventComponent implements OnInit {
+  @ViewChild('allSelected') private allSelected: MatOption;
+  @ViewChild('allSelectedCourse') private allSelectedCourse: MatOption;
+  isShowCourseName:boolean=false;
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -331,5 +335,29 @@ stopevents(element){
       })
     }
  
+  }
+  toggleAllSelection() {
+    
+    if (this.allSelected.selected) {
+  this.isShowCourseName=true;
+
+      //console.log('Test Form ',this.BulletinForm.controls.baseSchoolNameId)
+      this.eventForm.controls.baseSchoolNameId
+        .patchValue([...this.selectedbaseschools.map(item => item.value), 0]);
+    } else {
+      //this.isShowCourseName=true;
+      this.eventForm.controls.baseSchoolNameId.patchValue([]);
+    }
+    
+  }
+  toggleAllSelectionCourse() {
+    if (this.allSelectedCourse.selected) {
+      //console.log('Test Form ',this.BulletinForm.controls.courseName)
+      //console.log('Test selectedcoursedurationbyschoolname ',this.selectedcoursedurationbyschoolname)
+      this.eventForm.controls.courseName
+        .patchValue([...this.selectedCourse.map(item => item.value), 0]);
+    } else {
+      this.eventForm.controls.courseName.patchValue([]);
+    }
   }
 }

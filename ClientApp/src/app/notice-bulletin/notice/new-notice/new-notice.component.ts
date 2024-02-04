@@ -353,7 +353,7 @@ stopNotices(element){
  
   }
   toggleAllSelection() {
-    debugger
+    
     if (this.allSelected.selected) {
   this.isShowCourseName=true;
 
@@ -364,7 +364,7 @@ stopNotices(element){
       //this.isShowCourseName=true;
       this.NoticeForm.controls.baseSchoolNameId.patchValue([]);
     }
-    debugger
+    
   }
   toggleAllSelectionCourse() {
     if (this.allSelectedCourse.selected) {
