@@ -91,7 +91,6 @@ export class NewRoutineNoteComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     if (id) {
@@ -158,7 +157,6 @@ export class NewRoutineNoteComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.RoutineNoteForm.value['baseSchoolNameId'];
     this.routineNoteService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-      console.log(res);
       this.selectedcoursedurationbyschoolname=res;
     });
 
@@ -183,7 +181,6 @@ export class NewRoutineNoteComponent implements OnInit {
 
     this.routineNoteService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
-      console.log(this.selectedWeek)
     }); 
 
   }
@@ -212,10 +209,8 @@ export class NewRoutineNoteComponent implements OnInit {
     this.courseId=this.RoutineNoteForm.value['courseNameId'];
     this.RoutineNoteForm.get('courseWeekId').setValue(dropdown.value);
     var courseWeekId=this.RoutineNoteForm.value['courseWeekId'];
-    console.log(courseWeekId)
     this.routineNoteService.getRoutineListForRoutineNote(this.schoolId,this.courseId,this.durationId,courseWeekId).subscribe(res=>{
       this.selectedRoutineList=res;
-      console.log(this.selectedRoutineList)
     });
   }
     
@@ -226,12 +221,9 @@ export class NewRoutineNoteComponent implements OnInit {
     var classroutineid=this.RoutineNoteForm.value['classRoutineId'];
     // this.weekName=dropdown.text;
     // this.weekId=dropdown.value;
-    console.log(classroutineid);
-    // console.log(this.schoolId,this.durationId,this.courseId,this.weekId);
     this.classRoutineService.getSubjectNameIdFromclassRoutine(classroutineid).subscribe(res=>{
       
       this.RoutineNoteForm.get('bnaSubjectNameId').setValue(res);
-      console.log("sub name", res);
       // this.RoutineNoteForm.get('courseWeekId').setValue(res.courseWeekId);
       
     });
@@ -242,8 +234,6 @@ export class NewRoutineNoteComponent implements OnInit {
       this.routineNoteList = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log("check")
-      console.log(response.items)
     })
   }
 
@@ -307,10 +297,8 @@ export class NewRoutineNoteComponent implements OnInit {
 
   onSubmit() {
     const id = this.RoutineNoteForm.get('routineNoteId').value;   
-    console.log(this.RoutineNoteForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.routineNoteService.update(+id,this.RoutineNoteForm.value).subscribe(response => {
@@ -341,14 +329,11 @@ export class NewRoutineNoteComponent implements OnInit {
         this.validationErrors = error;
       })
     }
- console.log("after save");
- console.log(this.RoutineNoteForm.value);
   }
 
   deleteItem(row) {
     const id = row.routineNoteId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.routineNoteService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();

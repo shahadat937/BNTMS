@@ -53,7 +53,6 @@ export class LoaderComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
     if(this.role == this.userRole.MasterAdmin){
       this.branchId = 0;
     }
@@ -85,9 +84,7 @@ export class LoaderComponent implements OnInit {
   //         courses: groups[readingMaterialTitle]
   //       };
   //     });
-  //     console.log(this.groupArrays);
 
-  //     console.log(this.dataSource.data)
   //     this.paging.length = response.totalItemsCount    
   //     this.isLoading = false;
   //   })
@@ -114,7 +111,6 @@ export class LoaderComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.readingMaterialId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.ReadingMaterialService.delete(id).subscribe(() => {
   //         this.getReadingMaterials();

@@ -68,7 +68,6 @@ export class MaritalstatusListComponent implements OnInit {
   deleteItem(row) {
     const id = row.maritalStatusId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This MaritalStatus Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.maritalStatusService.delete(id).subscribe(() => {
           this.getMaritalStatus();

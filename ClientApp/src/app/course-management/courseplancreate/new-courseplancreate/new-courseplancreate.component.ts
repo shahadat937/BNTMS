@@ -89,7 +89,6 @@ export class NewCourseplanCreateComponent implements OnInit {
    //multiple add
   addCoursePlan() {  
     this.coursePlanCreates().push(this.newCoursePlan());  
-    console.log(this.coursePlanCreates().value);
   }  
   //multiple add   
   removeCoursePlan(i:number) {    
@@ -122,10 +121,8 @@ export class NewCourseplanCreateComponent implements OnInit {
   }
   onSubmit() {
     const id = this.CourseplanCreateForm.get('coursePlanCreateId').value;   
-    console.log(this.CourseplanCreateForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.CourseplanCreateService.update(+id,this.CourseplanCreateForm.value).subscribe(response => {
@@ -145,7 +142,6 @@ export class NewCourseplanCreateComponent implements OnInit {
     }else {
       this.loading = true;
       this.CourseplanCreateService.submit(this.CourseplanCreateForm.value).subscribe(response => {
-        console.log(this.CourseplanCreateForm.value)
         this.router.navigateByUrl('/course-management/courseplancreate-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

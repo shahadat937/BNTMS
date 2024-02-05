@@ -58,7 +58,6 @@ export class NewSaylorBranchComponent implements OnInit {
     const id = this.SaylorBranchForm.get('saylorBranchId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.SaylorBranchService.update(+id,this.SaylorBranchForm.value).subscribe(response => {
             this.router.navigateByUrl('/basic-setup/saylorbranch-list');

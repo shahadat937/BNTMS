@@ -67,7 +67,6 @@ export class UTOfficerTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.utofficerTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.UTOfficerTypeService.delete(id).subscribe(() => {
           this.getUTOfficerTypes();

@@ -80,7 +80,6 @@ export class NewMigrationDocumentComponent implements OnInit {
     const id = this.MigrationDocumentForm.get('migrationDocumentId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.MigrationDocumentService.update(+id,this.MigrationDocumentForm.value).subscribe(response => {

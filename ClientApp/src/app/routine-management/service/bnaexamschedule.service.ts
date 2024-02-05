@@ -67,7 +67,6 @@ export class BNAExamScheduleService {
     return this.http.post<PostResponse>(this.baseUrl + '/bna-exam-schedule/save-bnaExamSchedule', model).pipe(
       map((BNAExamSchedule: PostResponse) => {
         if (BNAExamSchedule) {
-          console.log(BNAExamSchedule);
           return BNAExamSchedule;
         }
       })

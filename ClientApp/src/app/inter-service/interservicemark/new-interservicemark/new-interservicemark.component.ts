@@ -142,15 +142,10 @@ export class NewInterServiceMarkComponent implements OnInit {
   }
   getTraineeListonClick() {
     const control = <FormArray>this.InterServiceMarkForm.controls["traineeListForm"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
-      console.log("value...");
-      console.log(this.traineeList)
     }
     this.InterServiceMarkForm.patchValue({ traineeListForm: this.traineeList });
-    console.log("value...");
-    console.log(this.traineeList)
   }
 
   clearList() {
@@ -161,10 +156,8 @@ export class NewInterServiceMarkComponent implements OnInit {
     control.clearValidators();
   }
   onOrganizationNameSelectionChangeGetCourse(organizationNameId) {
-    console.log(organizationNameId)
     this.InterServiceMarkService.getCourseNameByOrganizationNameId(organizationNameId).subscribe(res => {
       this.selectedCourseValue = res
-      console.log(this.selectedCourseValue);
 
       
     });
@@ -176,20 +169,14 @@ export class NewInterServiceMarkComponent implements OnInit {
       this.courseDurationId = dropdown.source.value;
 
       this.InterServiceMarkForm.get('courseDurationId').setValue(dropdown.source.value)
-      console.log("courseDurationId")
-      console.log(this.courseDurationId)
-      console.log("ddddd")
 
       this.courseDurationService.find(this.courseDurationId).subscribe(res => {
         this.durateDateForm = res.durationFrom;
         this.durationDateTo = res.durationTo;
-        console.log(this.durateDateForm)
-        console.log(this.durationDateTo)
       });
 
       this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
         this.traineeList = res;
-        console.log(this.traineeList);
         this.clearList()
         this.getTraineeListonClick();
       });
@@ -216,7 +203,6 @@ export class NewInterServiceMarkComponent implements OnInit {
   // onFileChanged(event) {
   //   if (event.target.files.length > 0) {
   //     const file = event.target.files[0];
-  //     console.log(file);
   //     this.ForeignCourseGOInfoForm.patchValue({
   //       doc: file,
   //     });
@@ -224,7 +210,6 @@ export class NewInterServiceMarkComponent implements OnInit {
   // }
 
   onFileChanged(event,form) {
-    console.log(form);
    
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -242,7 +227,6 @@ export class NewInterServiceMarkComponent implements OnInit {
 
   onSubmit() {
     const id = this.InterServiceMarkForm.get('interServiceMarkId').value;
-   // console.log(this.InterServiceMarkForm.value);
 
     // const formData = new FormData();
     // for (const key of Object.keys(this.InterServiceMarkForm.value)) {
@@ -250,11 +234,8 @@ export class NewInterServiceMarkComponent implements OnInit {
     //   formData.append(key, value);
 
     // }  
-  console.log("form data");
-  console.log(this.InterServiceMarkForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.InterServiceMarkService.update(+id, this.InterServiceMarkForm.value).subscribe(response => {
@@ -273,13 +254,11 @@ export class NewInterServiceMarkComponent implements OnInit {
     }
     else {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         
         if(result){
           this.loading=true;
           this.InterServiceMarkService.submit(this.InterServiceMarkForm.value).subscribe(response => {
             
-            console.log(response)
             this.reloadCurrentRoute();
             
             this.isShown = false;

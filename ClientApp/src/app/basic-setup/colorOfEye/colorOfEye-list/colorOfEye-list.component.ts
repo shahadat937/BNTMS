@@ -84,7 +84,6 @@ export class ColorOfEyeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.colorOfEyeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Color Of Eye Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.colorOfEyeService.delete(id).subscribe(() => {
           this.getColorOfEyes();

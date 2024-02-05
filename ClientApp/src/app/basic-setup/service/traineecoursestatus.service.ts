@@ -49,7 +49,6 @@ export class TraineeCourseStatusService {
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-course-status/save-traineeCourseStatus', model).pipe(
       map((TraineeCourseStatus: PostResponse) => {
         if (TraineeCourseStatus) {
-          console.log(TraineeCourseStatus);
           return TraineeCourseStatus;
         }
       })

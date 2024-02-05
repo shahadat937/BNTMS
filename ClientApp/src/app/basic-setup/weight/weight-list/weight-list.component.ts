@@ -96,7 +96,6 @@ export class WeightListComponent implements OnInit {
   deleteItem(row) {
     const id = row.weightId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Weight Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.weightService.delete(id).subscribe(() => {
           this.getWeights();

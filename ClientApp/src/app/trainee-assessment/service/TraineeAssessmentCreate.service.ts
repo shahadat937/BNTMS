@@ -71,7 +71,6 @@ export class TraineeAssessmentCreateService {
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-assessment-create/save-TraineeAssessmentCreate', model).pipe(
       map((TraineeAssessmentCreate: PostResponse) => {
         if (TraineeAssessmentCreate) {
-          console.log(TraineeAssessmentCreate);
           return TraineeAssessmentCreate;
         }
       })

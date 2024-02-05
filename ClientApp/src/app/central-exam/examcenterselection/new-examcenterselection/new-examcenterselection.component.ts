@@ -79,7 +79,6 @@ export class NewExamCenterSelectionComponent implements OnInit {
     const id = this.ExamCenterSelectionForm.get('examCenterSelectionId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ExamCenterSelectionService.update(+id,this.ExamCenterSelectionForm.value).subscribe(response => {

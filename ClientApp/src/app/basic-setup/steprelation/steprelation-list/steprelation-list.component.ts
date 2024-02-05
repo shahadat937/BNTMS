@@ -65,7 +65,6 @@ export class StepRelationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.stepRelationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.StepRelationService.delete(id).subscribe(() => {
           this.getStepRelations();

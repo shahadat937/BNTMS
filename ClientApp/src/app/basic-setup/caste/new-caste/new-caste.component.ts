@@ -62,7 +62,6 @@ export class NewCasteComponent implements OnInit {
   getReligionName(){
     this.CasteService.getselectedreligion().subscribe(res=>{
       this.selectedModel=res
-      console.log(this.selectedModel);
     });
   }
   

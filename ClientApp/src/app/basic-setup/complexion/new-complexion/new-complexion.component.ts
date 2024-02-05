@@ -57,7 +57,6 @@ export class NewComplexionComponent implements OnInit {
     const id = this.complexionForm.get('complexionId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.complexionService.update(+id,this.complexionForm.value).subscribe(response => {

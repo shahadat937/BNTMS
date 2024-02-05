@@ -64,7 +64,6 @@ export class IndividualBulletinComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role,this.traineeId,this.branchId)
     if (id) {
       this.pageTitle = 'Edit Individual Bulletin'; 
       this.destination = "Edit"; 
@@ -144,15 +143,10 @@ export class IndividualBulletinComponent implements OnInit {
 
   getTraineeListonClick(){ 
     const control = <FormArray>this.NoticeForm.controls["traineeListForm"];
-    console.log(this.traineeNominationListForNotice)   
     for (let i = 0; i < this.traineeNominationListForNotice.length; i++) {
       control.push(this.createTraineeData()); 
-      // console.log("value...");
-      // console.log(this.traineeNominationListForNotice)
     }
     this.NoticeForm.patchValue({ traineeListForm: this.traineeNominationListForNotice });
-    // console.log("value...");
-    // console.log(this.traineeNominationListForNotice)
    }
   
    clearList() {
@@ -165,7 +159,6 @@ export class IndividualBulletinComponent implements OnInit {
 
   // onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
   //     this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-  //     console.log(res);
   //     this.selectedCourse=res;
   //   });
   // var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
@@ -181,18 +174,12 @@ export class IndividualBulletinComponent implements OnInit {
   getSelectedCourseName(dropdown){
  
   this.NoticeForm.value['courseNameIds'];
-  console.log("coursenameidss");
-  console.log(dropdown);
   
   var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
   var courseNameArr = dropdown.value.split('_');
   var courseDurationId = courseNameArr[0];
   var courseNameId=courseNameArr[1];
   this.courseName=dropdown.text;
-  console.log("Course Name Id");
-  console.log(courseNameId);
-  console.log("Course Duration Id");
-  console.log(courseDurationId);
 
   this.getIndividualBulletinList(baseSchoolNameId,courseNameId,courseDurationId);
 
@@ -203,8 +190,6 @@ export class IndividualBulletinComponent implements OnInit {
       this.traineeNominationListForNotice[i].isNotify=true;
     }
     
-    //console.log("Trainee Nomination");
-    //console.log(this.traineeNominationListForNotice);
     this.isShown=true;
     this.clearList()
     this.getTraineeListonClick();
@@ -221,7 +206,6 @@ export class IndividualBulletinComponent implements OnInit {
   getIndividualBulletinList(baseSchoolNameId,courseNameId,courseDurationId){
     this.individualBulletinService.getIndividualBulletinByCourse(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.IndividualBulletinByCourse=res; 
-      console.log(res);
     });
   }
   
@@ -235,23 +219,15 @@ export class IndividualBulletinComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
    // this.isShown=true;
-    //console.log(baseSchoolNameId);
     this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-     // console.log(baseSchoolNameId+"hhh");
       this.selectedCourse=res;   
-     // console.log("lof");
-     // console.log(this.selectedCourse)
     });
 //     this.individualNoticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
 //       this.selectedNotice=res
-// console.log("ffff");
-//       console.log(this.selectedNotice);
 //     }); 
 } 
 
 stopNotices(element){
-  //console.log("Number");
-  //console.log(id)
     this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
      this.individualBulletinService.stopNotices(element.noticeId).subscribe(() => {
@@ -259,8 +235,6 @@ stopNotices(element){
 
       this.individualBulletinService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
         this.selectedNotice=res
-  //console.log("ffff");
-       // console.log(this.selectedNotice);
       }); 
 
      // this.getCourseplanCreates();
@@ -318,14 +292,11 @@ stopNotices(element){
 
   onSubmit() {
     const id = this.NoticeForm.get('individualBulletinId').value;
-    console.log(this.NoticeForm.value); 
     //this.NoticeForm.value.filter(x=>x.isNotify==true)
   //  this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
-  //  console.log(this.NoticeForm.value.traineeListForm.filter(x=>x.isNotify == true));  
    // console.lo
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.individualBulletinService.update(+id,this.NoticeForm.value).subscribe(response => {
@@ -363,7 +334,6 @@ stopNotices(element){
   deleteItem(row) {
     const id = row.individualBulletinId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.individualBulletinService.delete(id).subscribe(() => {
           this.getIndividualBulletinList(row.baseSchoolNameId,row.courseNameId,row.courseDurationId);

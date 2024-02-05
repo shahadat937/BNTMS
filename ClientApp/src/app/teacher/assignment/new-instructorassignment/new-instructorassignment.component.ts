@@ -94,8 +94,6 @@ export class NewInstructorAssignmentComponent implements OnInit {
   getInstructorAssignmentListByInstructorId(){
     this.AssignmentService.getInstructorAssignmentListByInstructorId(this.baseSchoolNameId,this.courseDurationId,this.bnaSubjectNameId,this.instructorId).subscribe(res=>{
       this.instructorAssignmentsList=res;
-      console.log("Course Instructor Id");
-      console.log(this.instructorAssignmentsList);
     });
   }
 
@@ -104,7 +102,6 @@ export class NewInstructorAssignmentComponent implements OnInit {
       if (result) {
         this.AssignmentService.stopInstructorAssignments(instructorAssignmentId).subscribe(res => {
           this.getInstructorAssignmentListByInstructorId();
-          console.log("Dropdown value");
 
           this.snackBar.open('Information Stop Successfully ', '', {
             duration: 3000,
@@ -136,7 +133,6 @@ export class NewInstructorAssignmentComponent implements OnInit {
     this.InstructorAssignmentForm.get('courseDurationId').setValue(this.courseDurationId);
     this.InstructorAssignmentForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId); 
 
-    console.log(this.InstructorAssignmentForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
@@ -178,7 +174,6 @@ export class NewInstructorAssignmentComponent implements OnInit {
   deleteItem(row) {
     const id = row.instructorAssignmentId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.AssignmentService.delete(id).subscribe(() => {
           this.getInstructorAssignmentListByInstructorId();

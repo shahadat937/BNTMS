@@ -44,8 +44,6 @@ export class NewUserComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('userId'); 
-   console.log("id");
-   console.log(id);
     if (id) {
       this.pageTitle = 'Edit User';
       this.destination = "Edit";
@@ -54,7 +52,6 @@ export class NewUserComponent implements OnInit {
       this.UserService.find(id).subscribe(
      
         res => {
-          console.log(res);
           this.UserForm.patchValue({          
 
             id: res.id,
@@ -73,7 +70,6 @@ export class NewUserComponent implements OnInit {
             email : res.email,          
           
           });   
-          console.log(this.UserForm.value); 
           // this.getSelectedOrganization();  
           this.onOrganizationSelectionChangeGetCommendingArea();
       
@@ -84,7 +80,6 @@ export class NewUserComponent implements OnInit {
 
       
      
-    // console.log(this.UserForm.value);  
      
 
     } else {
@@ -129,7 +124,6 @@ export class NewUserComponent implements OnInit {
     // .subscribe(value => {
      
     //     this.getSelectedTraineeAutocomplete(value);
-    //    //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     // })
   }
 
@@ -156,42 +150,34 @@ export class NewUserComponent implements OnInit {
   getRoleName(){
     this.RoleService.getselectedrole().subscribe(res=>{
       this.roleValues=res
-      console.log(this.roleValues);
     });
   }
 
   getSelectedOrganization(){
     this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
       this.selectedOrganization=res
-      console.log(this.selectedOrganization);
     });
   }
 
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.UserForm.value['firstLevel'];
-    console.log(this.organizationId)    
     this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
-      console.log(this.selectedCommendingArea);
     });        
   }
   
   onCommendingAreaSelectionChangeGetBaseName(){
     this.commendingAreaId=this.UserForm.value['secondLevel'];
-    console.log(this.commendingAreaId);
     this.BaseSchoolNameService.getSelectedBaseName(this.commendingAreaId).subscribe(res=>{
       this.selectedBaseName=res
-      console.log(this.selectedBaseName);
     });  
     //this.getBaseNameList(this.commendingAreaId);
             
   }
   onBaseNameSelectionChangeGetBaseSchoolName(){
     this.baseNameId=this.UserForm.value['thirdLevel'];
-    console.log(this.baseNameId);
     this.BaseSchoolNameService.getSelectedSchoolName(this.baseNameId).subscribe(res=>{
       this.selectedSchoolName=res
-      console.log(this.selectedBaseName);
     }); 
   }
 
@@ -199,14 +185,11 @@ export class NewUserComponent implements OnInit {
   onSubmit() {
     const id = this.UserForm.get('id').value;  
     //const id = this.route.snapshot.paramMap.get('userId');   
-    console.log(id); 
      
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading=true;
-          console.log(id);
           this.UserService.update(id,this.UserForm.value).subscribe(response => {
             this.router.navigateByUrl('/security/user-list');
             this.snackBar.open('User Updated Successfully ', '', {

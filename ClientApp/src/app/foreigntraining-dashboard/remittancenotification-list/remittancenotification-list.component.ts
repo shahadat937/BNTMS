@@ -55,7 +55,6 @@ export class RemittanceNotificationListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.pageTitle = "Remittance Notification";
     this.destination = "All";
@@ -67,7 +66,6 @@ export class RemittanceNotificationListComponent implements OnInit {
   getRemittanceNotificationList(){
     this.foreignDashboardService.getRemittanceNotificationList().subscribe(res=>{
       this.remittanceNotification=res 
-      console.log(this.remittanceNotification)
      });  
   }
 

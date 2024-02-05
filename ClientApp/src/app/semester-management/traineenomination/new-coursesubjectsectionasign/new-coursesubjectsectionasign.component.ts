@@ -80,7 +80,6 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   ngOnInit(): void {
     // 3136
    // const id = this.route.snapshot.paramMap.get('attendanceId'); 
-    //console.log(id);
     //this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
     
     let  traineeNominationId= this.route.snapshot.paramMap.get('traineeNominationId');  
@@ -114,9 +113,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
 
   getCourseSection(){
     this.CoursesubjectsectionasignService.getselectedcoursedurationForBna().subscribe(res=>{  
-          console.log(res);
         this.courseSectionList=res;
-        console.log(this.courseSectionList);
       
     });
   }
@@ -149,13 +146,10 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
 
   getTraineeListonClick() {
     const control = <FormArray>this.NomeneeSubjectSectionForm.controls["subjectSectionForm"];
-    console.log(this.subjectList)
     for (let i = 0; i < this.subjectList.length; i++) {
       control.push(this.createSubjectListData());
     }
     this.NomeneeSubjectSectionForm.patchValue({ subjectSectionForm: this.subjectList });
-    console.log("value...");
-    console.log(this.subjectList)
   }
 
   clearList() {
@@ -214,11 +208,8 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
 
     //  const id = this.AttendanceForm.get('traineeNominationId').value;
 
-    console.log(this.NomeneeSubjectSectionForm.value);
-    console.log(this.actionStatus+' - ppppppp')
 if (this.actionStatus=='S'){
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.loading = true;
         this.CoursesubjectsectionasignService.submit(this.NomeneeSubjectSectionForm.value).subscribe(response => {
@@ -236,7 +227,6 @@ if (this.actionStatus=='S'){
     })}
     else if(this.actionStatus=='U'){
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.CoursesubjectsectionasignService.update(this.NomeneeSubjectSectionForm.value).subscribe(response => {
@@ -259,7 +249,6 @@ if (this.actionStatus=='S'){
     
     //  const id = this.NomeneeSubjectSectionForm.get('traineeNominationId').value;
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.loading = true;
         this.CoursesubjectsectionasignService.submit(JSON.stringify(this.NomeneeSubjectSectionForm.value) ).subscribe(response => {

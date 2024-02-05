@@ -75,14 +75,12 @@ export class NewRoleFeatureComponent implements OnInit {
   getselectedrole(){
     this.RoleFeatureService.getselectedrole().subscribe(res=>{
       this.selectedrole=res
-      console.log(this.selectedrole);
     });
   }
 
   getselectedfeature(){
     this.RoleFeatureService.getselectedfeature().subscribe(res=>{
       this.selectedfeature=res
-      console.log(this.selectedfeature);
     });
   }
 

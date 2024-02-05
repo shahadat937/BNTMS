@@ -56,10 +56,8 @@ export class NewNationalityComponent implements OnInit {
   
   onSubmit() {
     const id = this.nationalityForm.get('nationalityId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Nationality Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.nationalityService.update(+id,this.nationalityForm.value).subscribe(response => {

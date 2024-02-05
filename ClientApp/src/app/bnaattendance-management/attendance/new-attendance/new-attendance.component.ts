@@ -73,7 +73,6 @@ export class NewAttendanceComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('attendanceId'); 
     if (id) {
@@ -176,8 +175,6 @@ export class NewAttendanceComponent implements OnInit {
 
       // this.classRoutineService.getSelectedRoutineIdFilter(baseSchoolNameId,courseNameId,classPeriodId,this.courseDurationId,formatedDate).subscribe(res=>{
       //   this.classRoutineId=res;
-      //   console.log("Class routine id");
-      //   console.log(this.classRoutineId);
       // })
 
        if(baseSchoolNameId != null && courseNameId != null && this.courseDurationId !=null && classPeriodId !=null){
@@ -203,7 +200,6 @@ export class NewAttendanceComponent implements OnInit {
             if(baseSchoolNameId != null && courseNameId != null  && courseDurationId !=null){
               this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId,courseDurationId,date).subscribe(res=>{
                 this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=res;     
-                console.log( this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId); 
               });
             }  
      }
@@ -264,10 +260,8 @@ export class NewAttendanceComponent implements OnInit {
       this.traineeNominationListForAttendance[i]["classPeriodId"] = classPeriodId;
       this.traineeNominationListForAttendance[i]["classRoutineId"] = this.classRoutineId;
     }
-    console.log(this.AttendanceForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.AttendanceService.update(+id,JSON.stringify(this.traineeNominationListForAttendance)).subscribe(response => {

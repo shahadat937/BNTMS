@@ -51,7 +51,6 @@ export class AbsentlistDashboardComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.schoolDashboardService.getCurrentAttendanceBySchool(currentDateTime,schoolId).subscribe(response => {   
       this.TodayAttendanceList=response;
-      console.log(response)
     })
   }
 }

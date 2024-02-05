@@ -62,7 +62,6 @@ export class CourseBudgetAllocationService {
     return this.http.post<PostResponse>(this.baseUrl + '/course-budget-allocation/save-courseBudgetAllocation', model).pipe(
       map((CourseBudgetAllocation: PostResponse) => {
         if (CourseBudgetAllocation) {
-          console.log(CourseBudgetAllocation);
           return CourseBudgetAllocation;
         }
       })

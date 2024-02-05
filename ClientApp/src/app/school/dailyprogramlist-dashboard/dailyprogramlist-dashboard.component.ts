@@ -48,7 +48,6 @@ export class DailyprogramlistDashboardComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.schoolDashboardService.getCurrentRoutineBySchool(currentDateTime,schoolId).subscribe(response => {   
       this.TodayRoutineList=response;
-      console.log(response)
     })
   }
 }

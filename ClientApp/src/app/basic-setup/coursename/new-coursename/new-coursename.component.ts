@@ -66,7 +66,6 @@ export class NewCourseNameComponent implements OnInit {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log(file);
       this.CourseNameForm.patchValue({
         doc: file,
       });
@@ -77,7 +76,6 @@ export class NewCourseNameComponent implements OnInit {
   getSelectedCourseName(){
     this.CourseNameService.getSelectedCourseName().subscribe(res=>{
       this.selectedCourseType=res
-      console.log(this.selectedCourseType);
     });
   }
 

@@ -65,7 +65,6 @@ export class BaseSchoolNameListComponent implements OnInit {
   deleteItem(row) {
     const id = row.baseSchoolNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BaseSchoolNameService.delete(id).subscribe(() => {
           this.getBaseSchoolNames();

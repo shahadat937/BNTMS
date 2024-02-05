@@ -91,7 +91,6 @@ export class NewCourseGradingEntryComponent implements OnInit {
   getselectedSchools(){
     this.CourseGradingEntryService.getselectedSchools().subscribe(res=>{
       this.selectedSchool=res
-      //console.log(this.selectedSchool);
     });
   }
   // onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
@@ -102,13 +101,11 @@ export class NewCourseGradingEntryComponent implements OnInit {
   getselectedCourseNames(){
     this.CourseGradingEntryService.getselectedCourseNames().subscribe(res=>{
       this.selectedCourseNames=res
-      //console.log(this.selectedCourseNames);
     });
   }
   getselectedAssessment(){
     this.CourseGradingEntryService.getselectedAssessment().subscribe(res=>{
       this.selectedAssessment=res
-      //console.log(this.selectedAssessment);
     });
   }
   onCourseNameSelectionChanged(item) {
@@ -117,8 +114,6 @@ export class NewCourseGradingEntryComponent implements OnInit {
       this.isShown=true;
       this.CourseGradingEntryService.getCourseGradingEntryListBySchoolNameIdAndCourseNameId(this.baseSchoolNameId,this.courseNameId).subscribe(response => {
         this.courseGradingEntryList = response;
-        console.log("ffff")
-        console.log(this.courseGradingEntryList);
       })
      }
   reloadCurrentRoute() {
@@ -132,7 +127,6 @@ export class NewCourseGradingEntryComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.CourseGradingEntryService.update(+id,this.CourseGradingEntryForm.value).subscribe(response => {

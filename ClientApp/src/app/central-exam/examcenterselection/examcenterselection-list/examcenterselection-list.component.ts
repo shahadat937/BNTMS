@@ -68,7 +68,6 @@ export class ExamCenterSelectionListComponent implements OnInit {
   deleteItem(row) {
     const id = row.examCenterSelectionId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ExamCenterSelectionService.delete(id).subscribe(() => {
           this.getExamCenterSelections();

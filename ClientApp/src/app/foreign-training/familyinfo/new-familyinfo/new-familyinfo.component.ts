@@ -138,7 +138,6 @@ export class NewFamilyInfoComponent implements OnInit {
   }
   //autocomplete for pno
   onTraineePnoSelectionChanged(item) {
-    console.log(item.value);
     this.traineeId = item.value;
     this.FamilyInfoForm.get('traineeId').setValue(item.value);
     this.FamilyInfoForm.get('pno').setValue(item.text);
@@ -156,7 +155,6 @@ export class NewFamilyInfoComponent implements OnInit {
     this.traineeId = item.value
     this.FamilyInfoService.getfamilyInfoListByPno(this.traineeId).subscribe(res => {
       this.familyInfoList = res;
-      console.log(this.familyInfoList);
     })
   }
   getDivisions() {
@@ -172,13 +170,11 @@ export class NewFamilyInfoComponent implements OnInit {
   onDivisionSelectionChangeGetDistrict(divisionId) {
     this.FamilyInfoService.getdistrictbydivision(divisionId).subscribe(res => {
       this.selectedDistrict = res
-      console.log(this.selectedDistrict);
     });
   }
   onDistrictSelectionChangeGetThana(districtId) {
     this.FamilyInfoService.getthanaByDistrict(districtId).subscribe(res => {
       this.selectedThana = res
-      console.log(this.selectedThana);
     });
   }
   getreligions() {
@@ -197,7 +193,6 @@ export class NewFamilyInfoComponent implements OnInit {
   getselectedrelationTypes() {
     this.FamilyInfoService.getselectedrelationTypes().subscribe(res => {
       this.selectedRelation = res
-      console.log(this.selectedRelation);
     });
   }
   reloadCurrentRoute() {
@@ -208,10 +203,8 @@ export class NewFamilyInfoComponent implements OnInit {
   }
   onSubmit() {
     const id = this.FamilyInfoForm.get('familyInfoId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.FamilyInfoService.update(+id, this.FamilyInfoForm.value).subscribe(response => {
@@ -247,7 +240,6 @@ export class NewFamilyInfoComponent implements OnInit {
   deleteItem(row) {
     const id = row.familyInfoId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.FamilyInfoService.delete(id).subscribe(() => {
           //this.getFamilyInfos();

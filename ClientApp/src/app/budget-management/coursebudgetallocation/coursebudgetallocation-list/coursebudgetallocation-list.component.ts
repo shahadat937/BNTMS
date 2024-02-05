@@ -69,7 +69,6 @@ export class CourseBudgetAllocationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseBudgetAllocationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseBudgetAllocationService.delete(id).subscribe(() => {
           this.getCourseBudgetAllocations();

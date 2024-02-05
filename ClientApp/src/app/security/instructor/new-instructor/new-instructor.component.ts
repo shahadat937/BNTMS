@@ -40,8 +40,6 @@ export class NewInstructorComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('userId'); 
-   console.log("id");
-   console.log(id);
     if (id) {
       this.pageTitle = 'Edit Instructor';
       this.destination = "Edit";
@@ -49,7 +47,6 @@ export class NewInstructorComponent implements OnInit {
       this.isEdit=true;
       this.UserService.find(id).subscribe(
         res => {
-          console.log(res);
           this.InstructorForm.patchValue({          
 
             id: res.id,
@@ -70,7 +67,6 @@ export class NewInstructorComponent implements OnInit {
             trainee:res.traineeName,       
           
           });   
-          console.log(this.InstructorForm.value); 
           this.getSelectedOrganization();  
           this.onOrganizationSelectionChangeGetCommendingArea();
       
@@ -113,13 +109,11 @@ export class NewInstructorComponent implements OnInit {
     .subscribe(value => {
      
         this.getSelectedTraineeAutocomplete(value);
-       //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     })
   }
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    // console.log(item);
     //this.courseNameId = item.value 
     this.InstructorForm.get('traineeId').setValue(item.value);
     this.InstructorForm.get('trainee').setValue(item.text);
@@ -141,55 +135,45 @@ export class NewInstructorComponent implements OnInit {
   getRoleName(){
     this.RoleService.getselectedrolesForTrainee().subscribe(res=>{
       this.roleValues=res
-      console.log(this.roleValues);
     });
   }
 
   getSelectedOrganization(){
     this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
       this.selectedOrganization=res
-      console.log(this.selectedOrganization);
     });
   }
 
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.InstructorForm.value['firstLevel'];
-    console.log(this.organizationId)    
     this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
-      console.log(this.selectedCommendingArea);
     });        
   }
   
   onCommendingAreaSelectionChangeGetBaseName(){
     this.commendingAreaId=this.InstructorForm.value['secondLevel'];
-    console.log(this.commendingAreaId);
     this.BaseSchoolNameService.getSelectedBaseName(this.commendingAreaId).subscribe(res=>{
       this.selectedBaseName=res
-      console.log(this.selectedBaseName);
     });  
     //this.getBaseNameList(this.commendingAreaId);
             
   }
   onBaseNameSelectionChangeGetBaseSchoolName(){
     this.baseNameId=this.InstructorForm.value['thirdLevel'];
-    console.log(this.baseNameId);
     this.BaseSchoolNameService.getSelectedSchoolName(this.baseNameId).subscribe(res=>{
       this.selectedSchoolName=res
-      console.log(this.selectedBaseName);
     }); 
   }
 
   
   onSubmit() {
     const id = this.InstructorForm.get('id').value;  
-    console.log(this.InstructorForm.value); 
     if (id) {
       this.InstructorForm.get('password').setValue('Admin@123');
       this.InstructorForm.get('confirmPassword').setValue('Admin@123');
 
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading=true;
           this.UserService.update(id,this.InstructorForm.value).subscribe(response => {

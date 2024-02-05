@@ -49,7 +49,6 @@ export class NewForeigncourseComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
      this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
-     console.log(this.courseTypeId);
     if (id) {
       this.pageTitle = 'Edit Foreign Course'; 
       this.destination = "Edit"; 
@@ -115,8 +114,6 @@ export class NewForeigncourseComponent implements OnInit {
     var Time = date2.getTime() - date1.getTime(); 
     var Days = Time / (1000 * 3600 * 24);
     this.dayCount = Days+1;
-    console.log(lastDate.value)
-    console.log(this.dayCount + " Days")
   }
   
   getForeignCoursesByCountryId(){
@@ -124,7 +121,6 @@ export class NewForeigncourseComponent implements OnInit {
     this.countryId = this.CourseDurationForm.value['countryId'];
     this.CourseDurationService.getForeignCoursesByCountryId(this.countryId).subscribe(res=>{
       this.foreignCourseListByCountry=res
-      console.log(this.foreignCourseListByCountry);
 
       // this gives an object with dates as keys
       const groups = this.foreignCourseListByCountry.reduce((groups, courses) => {
@@ -143,19 +139,16 @@ export class NewForeigncourseComponent implements OnInit {
           courses: groups[country]
         };
       });
-      console.log(this.groupArrays);
     });
   }
   getselectedbasesName(){
     this.CourseDurationService.getSelectedBaseName().subscribe(res=>{
       this.selectedBaseName=res
-      console.log(this.selectedBaseName);
     });
   }
   onBaseNameSelectionChangeGetSchool(baseNameId){
     this.CourseDurationService.getSchoolByBaseId(baseNameId).subscribe(res=>{
       this.selectedSchool=res
-      console.log(this.selectedSchool);
     });
    }
 
@@ -185,10 +178,8 @@ export class NewForeigncourseComponent implements OnInit {
 
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
-    console.log(this.CourseDurationForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading=true;
           this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {

@@ -52,7 +52,6 @@ export class TraineeAssessmentMarkService {
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-assessment-mark/save-TraineeAssessmentMark', model).pipe(
       map((TraineeAssessmentMark: PostResponse) => {
         if (TraineeAssessmentMark) {
-          console.log(TraineeAssessmentMark);
           return TraineeAssessmentMark;
         }
       })

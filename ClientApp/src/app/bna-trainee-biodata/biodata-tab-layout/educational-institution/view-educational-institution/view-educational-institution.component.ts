@@ -44,7 +44,6 @@ export class ViewEducationalInstitutionComponent implements OnInit {
   // getDistrict(){    
   //   this.EducationalInstitutionService.getselecteddistrict().subscribe(res=>{
   //     this.districtValues=res
-  //     console.log(this.districtValues);
   //     for(let code of this.districtValues){        
   //       if(this.districtId == code.value ){
   //         this.district = code.text;
@@ -57,7 +56,6 @@ export class ViewEducationalInstitutionComponent implements OnInit {
   // getThana(){    
   //   this.EducationalInstitutionService.getselectedthana().subscribe(res=>{
   //     this.thanaValues=res
-  //     console.log(this.thanaValues);
   //     for(let code of this.thanaValues){        
   //       if(this.thanaId == code.value ){
   //         this.thana = code.text;
@@ -70,7 +68,6 @@ export class ViewEducationalInstitutionComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('educationalInstitutionId'); 
     this.EducationalInstitutionService.find(+id).subscribe( res => {
-      console.log(res);
       this.educationalInstitutionId = res.educationalInstitutionId,
       this.traineeId = res.traineeId,
       this.instituteName = res.instituteName,

@@ -89,28 +89,23 @@ export class NewAllowanceCategoryComponent implements OnInit {
     })
   }
   onToRankSelectionChanged(item) {
-   // console.log(item);
    this.isShown=true;
      this.toRankId = item.value 
      this.fromRankId = this.AllowanceCategoryForm.get('fromRankId').value;
      this.AllowanceCategoryService.getAllowanceCategoryListByFromRankIdAndToRankId(this.fromRankId,this.toRankId).subscribe(response => {
        this.allowanceCategoryList = response;
-       console.log(this.allowanceCategoryList);
      })
     }
   onCountryGroupSelectionChangeGetCountry(countryGroupId){
     this.AllowanceCategoryService.getCountryByCountryGroupId(countryGroupId).subscribe(res=>{
       this.selectedCountryValue=res
-      console.log(this.selectedCountryValue);
     });
    }
    onCountrySelectionChangeGetCurrency(countryId){
-     console.log(countryId);
     this.AllowanceCategoryService.getCurrencyByCountryId(countryId).subscribe(res=>{
       this.selectedCurrencyValue=res      
       this.getcurrencyid = this.selectedCurrencyValue[0].value,
       this.getcurrencyname = this.selectedCurrencyValue[0].text
-      console.log(this.getcurrencyname);
     });
    }
   getselectedCountryGroup(){
@@ -141,10 +136,8 @@ export class NewAllowanceCategoryComponent implements OnInit {
   
   onSubmit() {
     const id = this.AllowanceCategoryForm.get('allowanceCategoryId').value;  
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
             this.AllowanceCategoryService.update(+id,this.AllowanceCategoryForm.value).subscribe(response => {

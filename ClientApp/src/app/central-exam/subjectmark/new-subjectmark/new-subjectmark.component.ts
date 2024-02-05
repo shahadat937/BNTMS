@@ -114,13 +114,11 @@ export class NewSubjectMarkComponent implements OnInit {
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
-       //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     })
   }
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.QExam).subscribe(res => {
-      console.log("courseName");
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
@@ -158,16 +156,12 @@ export class NewSubjectMarkComponent implements OnInit {
     // var baseSchoolNameId=this.SubjectMarkForm.value['baseSchoolNameId'];
     var courseNameId=MasterData.courseName.QExam;
     this.SubjectMarkForm.get('courseNameId').setValue(courseNameId);
-    console.log("course name id");
-    console.log(courseNameId);
     // var courseModuleId=this.SubjectMarkForm.value['courseModuleId'];
     var bnaSubjectNameId=this.SubjectMarkForm.value['bnaSubjectNameId'];
-    console.log(courseNameId+"-"+bnaSubjectNameId);
     this.isShown=true;
     if(courseNameId != null  && bnaSubjectNameId !=null){
       this.SubjectMarkService.getSelectedSubjectMarkByCourseNameIdAndBnaSubjectNameId(courseNameId,bnaSubjectNameId).subscribe(res=>{
         this.selectedSubjectMark=res;  
-        console.log(this.selectedSubjectMark); 
       }); 
     }
   }
@@ -188,7 +182,6 @@ export class NewSubjectMarkComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null && bnaSubjectNameId !=null){
       this.SubjectMarkService.getselectedsubjectmarkbyparameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
         this.selectedSubjectMark=res;  
-        console.log(this.selectedSubjectMark); 
       }); 
     }
   }
@@ -209,7 +202,6 @@ export class NewSubjectMarkComponent implements OnInit {
 
   //autocomplete
   onCourseSelectionChanged(item) {
-    // console.log(item);
     this.courseNameId = item.value 
     // this.SubjectMarkForm.get('courseNameId').setValue(item.value);
     // this.SubjectMarkForm.get('course').setValue(item.text);
@@ -241,7 +233,6 @@ export class NewSubjectMarkComponent implements OnInit {
   
   onSubmit() {
     const id = this.SubjectMarkForm.get('subjectMarkId').value;  
-    console.log(this.SubjectMarkForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
@@ -289,9 +280,7 @@ export class NewSubjectMarkComponent implements OnInit {
     var courseNameId=row.courseNameId;
     var courseModuleId=row.courseModuleId;
     var bnaSubjectNameId=row.bnaSubjectNameId;
-    console.log("deleted - "+baseSchoolNameId,courseModuleId,courseNameId,bnaSubjectNameId)
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SubjectMarkService.delete(id).subscribe(() => {
           this.SubjectMarkListAfterDelete(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId);

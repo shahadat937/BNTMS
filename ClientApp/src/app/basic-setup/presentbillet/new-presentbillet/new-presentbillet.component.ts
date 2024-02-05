@@ -58,7 +58,6 @@ export class NewPresentBilletComponent implements OnInit {
     const id = this.PresentBilletForm.get('presentBilletId').value; 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.PresentBilletService.update(+id,this.PresentBilletForm.value).subscribe(response => {

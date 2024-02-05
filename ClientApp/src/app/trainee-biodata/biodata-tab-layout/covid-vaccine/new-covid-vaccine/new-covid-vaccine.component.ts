@@ -44,8 +44,6 @@ export class NewCovidVaccineComponent implements OnInit {
             menuPosition: res.menuPosition,
             isActive: res.isActive
           });         
-          console.log("res");
-          console.log(res); 
         }
       );
     } else {

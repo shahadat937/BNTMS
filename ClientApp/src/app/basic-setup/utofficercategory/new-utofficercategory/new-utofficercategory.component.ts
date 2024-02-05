@@ -59,7 +59,6 @@ export class NewUTOfficerCategoryComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.UTOfficerCategoryService.update(+id,this.UTOfficerCategoryForm.value).subscribe(response => {

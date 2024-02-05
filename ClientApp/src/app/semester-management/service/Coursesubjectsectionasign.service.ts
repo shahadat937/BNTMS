@@ -25,21 +25,18 @@ export class CoursesubjectsectionasignService {
 
 
   BnaNomeneeSubjectSectionAsignId(traineeNominationId: any) {
-    console.log('hghg'+traineeNominationId)
     return this.http.get<[]>(this.baseUrl + '/course-Nomenee/get-BnaNomeneeSubjectSectionAsign?traineeNominationId='+traineeNominationId);
   }
 
 
   
   BnaNomeneeSubjectSectionAlredyAsignId(traineeNominationId: any) {
-    console.log('hghg'+traineeNominationId)
     return this.http.get<[]>(this.baseUrl + '/course-Nomenee/get-BnaNomeneeSubjectSectionAlredyAsign?traineeNominationId='+traineeNominationId);
   }
 
   //return this.http.get<ClassRoutine[]>
 
   getselectedcoursedurationForBna(){
-   // console.log('hghg'+this.http.get<SelectedModel[]>(this.baseUrl + '/course-section/get-selectedCourseSectionForBna'))
     return this.http.get<SelectedModel[]>(this.baseUrl + '/course-section/get-selectedCourseSectionForBna')
   }
  
@@ -61,14 +58,12 @@ export class CoursesubjectsectionasignService {
 
 /*
   submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/course-Nomenee/save-CourseNomeneelist', model, httpOptions).pipe(
       map((TraineeNomination: PostResponse) => {
         if (TraineeNomination) {
-          console.log(TraineeNomination);
           return TraineeNomination;
         }
       })
@@ -77,7 +72,6 @@ export class CoursesubjectsectionasignService {
 
 
   submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
@@ -85,7 +79,6 @@ export class CoursesubjectsectionasignService {
     return this.http.post<PostResponse>(this.baseUrl + '/attendance/save-attendancelist', model,httpOptions).pipe(
       map((Attendance: PostResponse) => {
         if (Attendance) {
-          console.log(Attendance); 
           return Attendance;
         }
       })
@@ -94,14 +87,12 @@ export class CoursesubjectsectionasignService {
 
  
   submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/course-Nomenee/save-CourseNomeneelist', model, httpOptions).pipe(
       map((TraineeNomination: PostResponse) => {
         if (TraineeNomination) {
-          console.log(TraineeNomination);
           return TraineeNomination;
         }
       })
@@ -114,7 +105,6 @@ submitList(model:any){
   return this.http.post<PostResponse>(this.baseUrl + '/course-Nomenee/save-CourseNomenee', model).pipe(
     map((nomeneeSubjectSection: PostResponse) => {
       if (nomeneeSubjectSection) {
-        console.log(nomeneeSubjectSection);
         return nomeneeSubjectSection;
       } 
     })
@@ -122,7 +112,6 @@ submitList(model:any){
 }
 
 submit(model: any) {
-  console.log(model);
   const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
@@ -132,7 +121,6 @@ submit(model: any) {
  
       if (nomeneeSubjectSection) {
         
-        console.log(nomeneeSubjectSection);
         return nomeneeSubjectSection;
       }
     })
@@ -141,7 +129,6 @@ submit(model: any) {
 
 
 update(model: any) {
-  console.log(model);
   const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
@@ -151,21 +138,18 @@ update(model: any) {
  
       if (nomeneeSubjectSection) {
         
-        console.log(nomeneeSubjectSection);
         return nomeneeSubjectSection;
       }
     })
   );
 } 
  /*submit(model: any) {
-  console.log(model);
   const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
   return this.http.post<PostResponse>(this.baseUrl + '/course-Nomenee/save-CourseNomenee', model,httpOptions).pipe(
     map((NomeneeSubjectSection: PostResponse) => {
       if (NomeneeSubjectSection) {
-       // console.log(NomeneeSubjectSection);
         return NomeneeSubjectSection;
       }
     })
@@ -173,14 +157,12 @@ update(model: any) {
 } 
 
  submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/course-Nomenee/save-CourseNomeneelist', model, httpOptions).pipe(
       map((NomeneeSubjectSection: PostResponse) => {
         if (NomeneeSubjectSection) {
-          console.log(NomeneeSubjectSection);
           return NomeneeSubjectSection;
         }
       })

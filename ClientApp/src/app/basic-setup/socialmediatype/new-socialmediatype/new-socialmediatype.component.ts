@@ -58,7 +58,6 @@ export class NewSocialmediatypeComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This SocialMedia Type Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.socialMediaTypeService.update(+id,this.socialMediaTypeForm.value).subscribe(response => {

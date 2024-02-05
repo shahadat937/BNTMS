@@ -57,7 +57,6 @@ export class ReadingMaterialListComponent implements OnInit {
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     // const branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
     
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     this.documentTypeId = this.route.snapshot.paramMap.get('documentTypeId');
@@ -84,14 +83,12 @@ export class ReadingMaterialListComponent implements OnInit {
   getReadingMaterialList(documentTypeId){
     this.studentDashboardService.getReadingMaterialListByType(documentTypeId).subscribe(res=>{            
       this.ReadingMaterialBySchoolAndCourse=res;     
-      console.log(this.ReadingMaterialBySchoolAndCourse);  
     });
   }
 
   // getCourseModuleByCourseName(courseNameId){
   //   this.studentDashboardService.getSelectedCourseModulesByCourseNameId(courseNameId).subscribe(res=>{
   //     this.CourseModuleByCourseName = res;
-  //     console.log(this.CourseModuleByCourseName)
   //   });
   // }
 
@@ -115,7 +112,6 @@ export class ReadingMaterialListComponent implements OnInit {
           courses: groups[readingMaterialTitle]
         };
       });
-      console.log(this.groupArrays);
 
     });
   }

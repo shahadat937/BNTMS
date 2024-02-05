@@ -65,7 +65,6 @@ export class NewCourseInstructorComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    //console.log(this.role, this.traineeId, this.branchId)
 
 
     const id = this.route.snapshot.paramMap.get('courseInstructorId');
@@ -98,16 +97,12 @@ export class NewCourseInstructorComponent implements OnInit {
            // courseName: res.courseDurationId+'_'+res.courseNameId
           //  traineeName:res.traineePno+'_'+res.
           }); 
-          console.log("Response");
-          console.log(res);
-          //console.log("Response");
           this.traineeId = res.traineeId;
           //this.courseNameId = res.courseNameId;
           //this.baseSchoolId=res.baseSchoolName;    
           this.getselectedcoursedurationbyschoolname();
           this.getselectedbnasubjectname();
           this.getCourseModuleOnEdit(res.baseSchoolNameId,res.courseNameId);
-          //console.log("ccc"+this.CourseInstructorForm.value);
         }
       );
     } else {
@@ -159,9 +154,7 @@ export class NewCourseInstructorComponent implements OnInit {
       this.CourseInstructorForm.get('baseSchoolNameId').setValue(this.branchId);
     }
     var baseSchoolNameId = this.CourseInstructorForm.value['baseSchoolNameId'];
-    console.log(baseSchoolNameId);
     this.CourseInstructorService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
-      console.log(res);
       this.selectedcoursedurationbyschoolname = res;
     });
   }
@@ -176,8 +169,6 @@ export class NewCourseInstructorComponent implements OnInit {
 
   //Stop Course Instructor
   stopCourseInstructor(element) {
-    //console.log("Number");
-    console.log(element)
     this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
         this.CourseInstructorService.stopCourseInstructor(element.courseInstructorId).subscribe(() => {
@@ -201,8 +192,6 @@ export class NewCourseInstructorComponent implements OnInit {
 
             this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
               this.GetInstructorByParameters = res;
-              console.log("after stop");
-              console.log(this.GetInstructorByParameters);
             });
           }
         })
@@ -212,8 +201,6 @@ export class NewCourseInstructorComponent implements OnInit {
 
   //Running Course Instructor
   RunningCourseInstructor(element) {
-    //console.log("Number");
-    console.log(element)
 
     this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
@@ -240,8 +227,6 @@ export class NewCourseInstructorComponent implements OnInit {
 
             this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
               this.GetInstructorByParameters = res;
-              console.log("after running");
-              console.log(this.GetInstructorByParameters);
             });
           }
         })
@@ -253,7 +238,6 @@ export class NewCourseInstructorComponent implements OnInit {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    //console.log(item);
     this.traineeId=item.value;
     this.CourseInstructorForm.get('traineeId').setValue(item.value);
     this.CourseInstructorForm.get('traineeName').setValue(item.text);
@@ -283,14 +267,12 @@ export class NewCourseInstructorComponent implements OnInit {
   getCourseModuleOnEdit(baseSchoolNameId, courseNameId){
     this.CourseInstructorService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
       this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;
-      console.log(this.selectedCourseModuleByBaseSchoolAndCourseNameId)
     });
   }
 
   getSelectedModule() {
     this.CourseInstructorService.getSelectedModule().subscribe(res => {
       this.selectedModule = res
-      console.log(this.selectedModule)
     });
   }
 
@@ -320,8 +302,6 @@ export class NewCourseInstructorComponent implements OnInit {
     
     this.ClassRoutineService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedCourseSection=res;
-      console.log('section');
-      console.log(this.selectedCourseSection);
     });
   }
 
@@ -336,7 +316,6 @@ export class NewCourseInstructorComponent implements OnInit {
     
     this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       this.selectedmarktype=res;
-      console.log(this.selectedmarktype)
     });
 
 
@@ -345,15 +324,12 @@ export class NewCourseInstructorComponent implements OnInit {
 
       this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
         this.GetInstructorByParameters = res;
-        console.log(this.GetInstructorByParameters);
       });
     }
   }
   onSubjectMarkSelectionGetMarkType(){
     var subjectMarkId = this.CourseInstructorForm.value['subjectMarkId'];
-    console.log(subjectMarkId);
     this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
-      console.log(res)
       this.CourseInstructorForm.get('markTypeId').setValue(res.markTypeId);
     });
 
@@ -364,7 +340,6 @@ export class NewCourseInstructorComponent implements OnInit {
 
       this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
         this.GetInstructorByParameters = res;
-        //console.log(this.GetInstructorByParameters);
       });
     }
   }
@@ -382,9 +357,7 @@ export class NewCourseInstructorComponent implements OnInit {
     var courseNameId = row.courseNameId;
     var courseDurationId = row.courseDurationId;
     var courseSectionId = row.courseSectionId;
-    //console.log("deleted - " + baseSchoolNameId + " - " + bnaSubjectNameId + " - " + courseNameId + " - " + courseModuleId);
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      //console.log(result);
       if (result) {
         this.CourseInstructorService.delete(id).subscribe(() => {
           this.GetInstructorListAfterDelete(baseSchoolNameId, bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId);
@@ -411,7 +384,6 @@ export class NewCourseInstructorComponent implements OnInit {
     const id = this.CourseInstructorForm.get('courseInstructorId').value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading = true;
           this.CourseInstructorService.update(+id, this.CourseInstructorForm.value).subscribe(response => {

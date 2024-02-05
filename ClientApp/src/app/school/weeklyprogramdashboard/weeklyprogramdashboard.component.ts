@@ -42,8 +42,6 @@ export class WeeklyProgramDashboardComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     // this.schoolDashboardService.getReadingMetarialByCourse(courseNameId,schoolId).subscribe(response => {         
     //   this.MaterialByCourse=response;
-    //   console.log("school");
-    //   console.log(schoolId);
     // })
     this.getRoutineInfoByCourse(this.schoolId);
   }
@@ -51,7 +49,6 @@ export class WeeklyProgramDashboardComponent implements OnInit {
   getRoutineInfoByCourse(schoolId){
     this.schoolDashboardService.getRoutineByCourse(schoolId).subscribe(response => {         
       this.RoutineByCourse=response;
-      console.log(this.RoutineByCourse)
     })
   }
 }

@@ -80,7 +80,6 @@ export class CourseGradingEntryListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseGradingEntryId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseGradingEntryService.delete(id).subscribe(() => {
           this.getCourseGradingEntry();

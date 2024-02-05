@@ -68,7 +68,6 @@ export class BNAExamScheduleListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaExamScheduleId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAExamScheduleService.delete(id).subscribe(() => {
           this.getBNAExamSchedules();

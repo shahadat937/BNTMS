@@ -61,7 +61,6 @@ export class NewExamPeriodTypeComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ExamPeriodTypeService.update(+id,this.ExamPeriodTypeForm.value).subscribe(response => {

@@ -57,7 +57,6 @@ export class RunningCourseForeignRraineeUpcomingListComponent implements OnInit 
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
      //this.getrunningCourseListForForeingTrainee(1);
      this.getrunningCourseListForForeingTraineeUpcoming();
@@ -67,8 +66,6 @@ export class RunningCourseForeignRraineeUpcomingListComponent implements OnInit 
   //   this.CourseDurationService.getrunningCourseListForForeingTrainee(currentDateTime,viewStatus).subscribe(response => {         
   //     this.foreignCourseCount=response.length;
   //     this.runningCourses=response;
-  //     console.log(response);
-  //     console.log("RunningCourse");
   //   });
   // }
   getrunningCourseListForForeingTraineeUpcoming(){
@@ -76,8 +73,6 @@ export class RunningCourseForeignRraineeUpcomingListComponent implements OnInit 
     this.CourseDurationService.getrunningCourseListForForeingTraineeUpcoming(currentDateTime).subscribe(response => {         
       this.foreignCourseUpcoming=response.length;
       this.upcomingCourses=response;
-      console.log(response);
-      console.log("RunningCourse");
       const groups = this.upcomingCourses.reduce((groups, courses) => {
         const schoolName = courses.course + '_('+ courses.courseTitle+')';
           if (!groups[schoolName]) {
@@ -94,8 +89,6 @@ export class RunningCourseForeignRraineeUpcomingListComponent implements OnInit 
           courses: groups[courseName]
           };
           });
-          console.log(this.groupArrays);
-      console.log(this.upcomingCourses);
     });
   }
 

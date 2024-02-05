@@ -70,7 +70,6 @@ export class NoticeService {
     return this.http.post<PostResponse>(this.baseUrl + '/notice/save-notice', model).pipe(
       map((BnaClassTest: PostResponse) => {
         if (BnaClassTest) {
-          console.log(BnaClassTest);
           return BnaClassTest;
         }
       })

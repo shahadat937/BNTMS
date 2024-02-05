@@ -56,10 +56,8 @@ export class NewReligionComponent implements OnInit {
   
   onSubmit() {
     const id = this.religionForm.get('religionId').value; 
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Religion Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.religionService.update(+id,this.religionForm.value).subscribe(response => {

@@ -105,7 +105,6 @@ export class NewSubjectMarkComponent implements OnInit {
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
-      console.log("courseName");
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
@@ -118,7 +117,6 @@ export class NewSubjectMarkComponent implements OnInit {
   getAllSubjectList(){
     this.SubjectMarkService.getSelectedSubjectMarkByCourseNameIdAndBnaSubjectNameId(this.masterData.courseName.StaffCollage,this.bnaSubjectNameId).subscribe(res=>{
       this.selectedSubjectMark=res;  
-      console.log(this.selectedSubjectMark); 
     }); 
    }
   
@@ -142,7 +140,6 @@ export class NewSubjectMarkComponent implements OnInit {
 
   onSubmit() {
     const id = this.SubjectMarkForm.get('subjectMarkId').value;  
-    console.log(this.SubjectMarkForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         

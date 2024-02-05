@@ -50,12 +50,10 @@ export class CountedOfficersListComponent implements OnInit {
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     // this.branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.schoolId = this.route.snapshot.paramMap.get('schoolId'); 
     this.officerTypeId = this.route.snapshot.paramMap.get('officerTypeId'); 
     var traineeStatusId = this.route.snapshot.paramMap.get('traineeStatusId'); 
-    console.log(traineeStatusId)
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     if(this.role == this.userRole.MasterAdmin ||this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO){
       if(Number(this.officerTypeId) == this.masterData.OfficerType.Foreign){
@@ -80,7 +78,6 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[schoolName]
             };
           });
-          console.log(this.groupCOArrays);   
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.officer){
@@ -105,7 +102,6 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[schoolName]
             };
           });
-          console.log(this.groupCOArrays); 
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.sailor){
@@ -130,7 +126,6 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[schoolName]
             };
           });
-          console.log(this.groupCOArrays); 
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.civil){
@@ -155,7 +150,6 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[schoolName]
             };
           });
-          console.log(this.groupCOArrays); 
         })
       }
       else{
@@ -180,7 +174,6 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[schoolName]
             };
           });
-          console.log(this.groupCOArrays);               
         })
       }
     }else{
@@ -206,9 +199,7 @@ export class CountedOfficersListComponent implements OnInit {
             courses: groups[courseName]
             };
             });
-            console.log(this.groupArrays);
   
-          console.log(this.Countedlist);
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.officer){
@@ -233,11 +224,8 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[courseName]
               };
               });
-              console.log(this.groupArrays);
     
-            console.log(this.Countedlist);
   
-          console.log(this.Countedlist);
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.sailor){
@@ -262,11 +250,8 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[courseName]
               };
               });
-              console.log(this.groupArrays);
     
-            console.log(this.Countedlist);
   
-          console.log(this.Countedlist);
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.civil){
@@ -291,11 +276,8 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[courseName]
               };
               });
-              console.log(this.groupArrays);
     
-            console.log(this.Countedlist);
   
-          console.log(this.Countedlist);
         })
       }
       else{
@@ -320,11 +302,8 @@ export class CountedOfficersListComponent implements OnInit {
               courses: groups[courseName]
               };
               });
-              console.log(this.groupArrays);
     
-            console.log(this.Countedlist);
             
-          console.log(this.Countedlist);
         })
       }
     }

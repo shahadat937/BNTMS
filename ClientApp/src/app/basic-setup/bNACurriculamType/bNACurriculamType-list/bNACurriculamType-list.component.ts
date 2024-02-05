@@ -85,7 +85,6 @@ export class BNACurriculamTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaCurriculumTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.bNACurriculamTypeService.delete(id).subscribe(() => {
           this.getBNACurriculamTypes();

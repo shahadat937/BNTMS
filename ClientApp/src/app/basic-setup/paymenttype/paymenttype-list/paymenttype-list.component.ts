@@ -80,7 +80,6 @@ export class PaymentTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.paymentTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.PaymentTypeService.delete(id).subscribe(() => {
           this.getPaymentType();

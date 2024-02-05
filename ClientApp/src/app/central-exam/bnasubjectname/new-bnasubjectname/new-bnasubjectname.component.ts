@@ -185,7 +185,6 @@ export class NewBNASubjectNameComponent implements OnInit {
       this.branchsId=dropdown.source.value;
       this.BNASubjectNameService.getselectedSubjectNameByBranchId(dropdown.source.value,1252).subscribe(res=>{
         this.subjectNameList=res
-        console.log(this.subjectNameList); 
       });
     }
   }
@@ -201,12 +200,10 @@ export class NewBNASubjectNameComponent implements OnInit {
     })
   }
   // onBranchSelectionChanged(item) {
-  //   // console.log(item);
   //   this.branchId = item.value
   //   this.courseNameId = this.BNASubjectNameForm.get('courseNameId').value;
   //   this.BNASubjectNameService.getSubjectNameByFromCourseNameIdAndBranchId(this.courseNameId, this.branchId).subscribe(response => {
   //     this.subjectNameList = response;
-  //     console.log(this.subjectNameList);
   //   })
   // }
   reloadCurrentRoute() {
@@ -220,7 +217,6 @@ export class NewBNASubjectNameComponent implements OnInit {
     const id = this.BNASubjectNameForm.get('bnaSubjectNameId').value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNASubjectNameService.update(+id, this.BNASubjectNameForm.value).subscribe(response => {
@@ -257,13 +253,11 @@ export class NewBNASubjectNameComponent implements OnInit {
   reloadAfterDelete(){
     this.BNASubjectNameService.getselectedSubjectNameByBranchId(this.branchsId,1252).subscribe(res=>{
       this.subjectNameList=res
-      console.log(this.subjectNameList); 
     });
   }
   deleteItem(row) {
     const id = row.bnaSubjectNameId;
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNASubjectNameService.delete(id).subscribe(() => {
           this.reloadAfterDelete();

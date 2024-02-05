@@ -65,7 +65,6 @@ export class CoCurricularActivityTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.coCurricularActivityTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CoCurricularActivityTypeService.delete(id).subscribe(() => {
           this.getCoCurricularActivityTypes();

@@ -38,7 +38,6 @@ export class NewSwimmingDivingComponent implements OnInit {
 
   ngOnInit(): void {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
-    console.log(this.traineeId);
     // if (id) {
     //   this.pageTitle = 'Edit Swimming Diving';
     //   this.destination = "Edit";
@@ -99,7 +98,6 @@ export class NewSwimmingDivingComponent implements OnInit {
     this.selectedvalues.forEach(item =>{
       if(item.value == value){
           item.isChecked = event.checked
-          console.log(item.isChecked );
       }
     })
     //   const checkArray = <FormArray>this.SwimmingDivingForm.get('checkArray') as FormArray;
@@ -122,12 +120,9 @@ export class NewSwimmingDivingComponent implements OnInit {
         
         });
   
-    console.log(SwimmingDivingFormValue);
     const id = this.SwimmingDivingForm.get('swimmingDivingId').value;   
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This SwimmingDiving Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.SwimmingDivingService.update(+id,SwimmingDivingFormValue).subscribe(response => {

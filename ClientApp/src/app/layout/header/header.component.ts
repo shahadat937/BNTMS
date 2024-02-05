@@ -106,16 +106,12 @@ export class HeaderComponent
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     // this.branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log("from header - "+ this.role, this.traineeId, this.branchId)
 this.userRole.SchoolOIC
     this.config = this.configService.configData;
 
     if(this.role == Role.SuperAdmin || this.role === Role.BNASchool || this.role === Role.JSTISchool || this.role == Role.SchoolOIC || this.role == Role.TC || this.role == Role.CO || this.role == Role.DataEntry){
       this.baseSchoolNameService.find(this.branchId).subscribe(res=>{
-        console.log("school find");
-        console.log(res);
         this.userImg = res.schoolLogo;
-        console.log(this.userImg);
         if(!this.userImg){
           this.userImg = 'assets/images/main.jpg';
         }

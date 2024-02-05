@@ -178,14 +178,12 @@ getSelectedRoutineIdFilter(baseSchoolNameId,courseNameId,classPeriodId,courseDur
   }
 
   weeklyRoutineUpdate(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/class-routine/update-weeklyClassRoutine', model, httpOptions).pipe(
       map((classRoutine: PostResponse) => {
         if (classRoutine) {
-          console.log(classRoutine);
           return classRoutine;
         }
       })
@@ -203,7 +201,6 @@ getSelectedRoutineIdFilter(baseSchoolNameId,courseNameId,classPeriodId,courseDur
     return this.http.post<PostResponse>(this.baseUrl + '/routine-note/save-routineNote', model).pipe(
       map((ClassRoutine: PostResponse) => {
         if (ClassRoutine) {
-          console.log(ClassRoutine);
           return ClassRoutine;
         }
       })

@@ -57,7 +57,6 @@ export class NewReadingmaterialtitleComponent implements OnInit {
     const id = this.ReadingMaterialTitleForm.get('readingMaterialTitleId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.ReadingMaterialTitleService.update(+id,this.ReadingMaterialTitleForm.value).subscribe(response => {
@@ -77,12 +76,10 @@ export class NewReadingmaterialtitleComponent implements OnInit {
 
     else {
       this.loading = true;
-      console.log("previous save")
       this.showSpinner=true;
       this.ReadingMaterialTitleService.submit(this.ReadingMaterialTitleForm.value).subscribe(response => {
     
         if(response.message){
-          console.log("set successfully");
           this.showSpinner=false;
          }
 

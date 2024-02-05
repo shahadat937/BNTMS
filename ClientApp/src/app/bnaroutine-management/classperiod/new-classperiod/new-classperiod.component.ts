@@ -55,7 +55,6 @@ export class NewClassPeriodComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     if (id) {
@@ -110,13 +109,11 @@ export class NewClassPeriodComponent implements OnInit {
     this.ClassPeriodForm.get('course').valueChanges
     .subscribe(value => {
         this.getSelectedCourseAutocomplete(value);
-       //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     })
   }
   
 //autocomplete
 onCourseSelectionChanged(item) {
-  // console.log(item);
   this.courseNameId = item.value 
   this.ClassPeriodForm.get('courseNameId').setValue(item.value);
   this.ClassPeriodForm.get('course').setValue(item.text);
@@ -139,12 +136,10 @@ getSelectedCourseAutocomplete(cName){
   onCourseSelectionChangeGetPeriodList(){
     var baseSchoolNameId=this.ClassPeriodForm.value['baseSchoolNameId'];
     var courseNameId=this.ClassPeriodForm.value['courseNameId'];
-    console.log("after selecting course "+baseSchoolNameId +" -"+courseNameId);
     this.isShown=true;
     if(baseSchoolNameId != null && courseNameId != null){
       this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.GetPeriodListByParameter=res;  
-        console.log(this.GetPeriodListByParameter); 
       }); 
     }
   }
@@ -171,10 +166,8 @@ getSelectedCourseAutocomplete(cName){
 
   onSubmit() {
     const id = this.ClassPeriodForm.get('classPeriodId').value; 
-    console.log(this.ClassPeriodForm.value);  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ClassPeriodService.update(+id,this.ClassPeriodForm.value).subscribe(response => {
@@ -212,7 +205,6 @@ getSelectedCourseAutocomplete(cName){
   deleteItem(row) {
     const id = row.classPeriodId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ClassPeriodService.delete(id).subscribe(() => {
           this.onCourseSelectionChangeGetPeriodList();

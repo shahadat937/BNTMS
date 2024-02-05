@@ -150,8 +150,6 @@ export class NewBnaClassTestComponent implements OnInit {
     var courseDurationId = courseNameArr[0];
     var courseNameId = courseNameArr[1];
 
-    console.log("Course Duration");
-    console.log(courseDurationId);
     
     this.BnaClassTestForm.get('courseName').setValue(courseName);
     this.BnaClassTestForm.get('courseNameId').setValue(courseNameId);
@@ -227,7 +225,6 @@ export class NewBnaClassTestComponent implements OnInit {
     const id = this.BnaClassTestForm.get('bnaClassTestId').value;
     var bnaSubjectNameId = this.BnaClassTestForm.value['bnaSubjectNameId'];
     var bnaClassTestTypeId = this.BnaClassTestForm.value['bnaClassTestTypeId'];
-    console.log(this.BnaClassTestForm);
 
     for (let i = 0; i < this.traineeList.length; i++) {
       this.traineeList[i]["bnaSubjectNameId"] = bnaSubjectNameId;

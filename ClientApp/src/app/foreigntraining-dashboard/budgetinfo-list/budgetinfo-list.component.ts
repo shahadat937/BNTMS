@@ -57,7 +57,6 @@ export class BudgetInfoListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.pageTitle = "Budget Information";
     this.destination = "All";
@@ -69,7 +68,6 @@ export class BudgetInfoListComponent implements OnInit {
   getBudgetCodeList(){
     this.foreignDashboardService.getBudgetCodeList().subscribe(res=>{
       this.budgetCodes=res 
-      console.log(this.budgetCodes)
      });  
   }
 

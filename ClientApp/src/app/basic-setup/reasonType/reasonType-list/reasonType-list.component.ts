@@ -84,7 +84,6 @@ export class ReasonTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.reasonTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Reason Type Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.reasonTypeService.delete(id).subscribe(() => {
           this.getReasonTypes();

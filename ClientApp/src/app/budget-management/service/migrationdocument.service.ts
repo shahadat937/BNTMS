@@ -91,7 +91,6 @@ export class MigrationDocumentService {
     return this.http.post<PostResponse>(this.baseUrl + '/migration-document/save-migrationdocument', model).pipe(
       map((MigrationDocument: PostResponse) => {
         if (MigrationDocument) {
-          console.log(MigrationDocument);
           return MigrationDocument;
         }
       })

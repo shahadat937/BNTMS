@@ -56,7 +56,6 @@ export class CentralExamCourseListComponent implements OnInit {
       this.title = ""
       this.dashboardService.getSpCentralCourseList(courseNameId).subscribe(res=>{
         this.GetInstructorByParameters=res;  
-        console.log(this.GetInstructorByParameters); 
       }); 
     }
     //this.applyFilter(courseNameId)

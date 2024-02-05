@@ -71,7 +71,6 @@ export class NewCodeValueComponent implements OnInit {
   getCodeValueType(){
     this.CodeValueService.getselectedcodevaluetype().subscribe(res=>{
       this.selectedModel=res
-      console.log(this.selectedModel);
     });
   }
   onSubmit() {
@@ -79,7 +78,6 @@ export class NewCodeValueComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.CodeValueService.update(+id,this.CodeValueForm.value).subscribe(response => {

@@ -72,11 +72,9 @@ export class NewInterserviceReportComponent implements OnInit {
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     // const branchId =  this.authService.currentUserValue.branchId.trim();
     const branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(role, this.traineeId, branchId)
 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
-    console.log(this.traineeId, this.courseDurationId,  this.courseNameId)
 
     if (id) {
       this.pageTitle = 'Edit Course Report';
@@ -135,14 +133,12 @@ export class NewInterserviceReportComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(this.dataSource.data);
     })
   }
 
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log(file);
       this.InterserviceReportForm.patchValue({
         docFile: file,
       });
@@ -152,7 +148,6 @@ export class NewInterserviceReportComponent implements OnInit {
   deleteItem(row) {
     const id = row.interServiceCourseReportid; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.interserviceReportService.delete(id).subscribe(() => {
           this.getStudentInterServiceCourseReports();
@@ -179,13 +174,11 @@ export class NewInterserviceReportComponent implements OnInit {
   }
   onSubmit() {
     const id = this.InterserviceReportForm.get('interServiceCourseReportid').value;  
-    console.log(this.InterserviceReportForm.value); 
     const formData = new FormData();
     for (const key of Object.keys(this.InterserviceReportForm.value)) {
       const value = this.InterserviceReportForm.value[key];
       formData.append(key, value);
     } 
-   // console.log(formData)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         

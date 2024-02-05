@@ -69,7 +69,6 @@ export class SubjectnameListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaSubjectNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNASubjectNameService.delete(id).subscribe(() => {
           this.getBNASubjectNames();

@@ -56,12 +56,10 @@ export class NewModuleComponent implements OnInit {
     }
     this.intitializeForm();
     this.getSelectedIcons();
-    console.log(this.masterData.codevaluetype.ModuleIcon);
   }
   getSelectedIcons(){
     this.CodeValueService.getSelectedCodeValueByType(this.masterData.codevaluetype.ModuleIcon).subscribe(res=>{
       this.selectedIcons=res;   
-      console.log(this.selectedIcons);
     })
   }
   intitializeForm() {

@@ -64,14 +64,11 @@ export class ViewCourseDetailsComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.schoolDb = Number(this.route.snapshot.paramMap.get('schoolDb')); 
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
-    console.log(this.schoolDb)
     this.CourseDurationService.find(+id).subscribe( res => {
-      console.log(res)
       this.courseDurationId = res.courseDurationId,
       this.courseNameId = res.courseNameId,
       this.courseName = res.courseName,

@@ -84,7 +84,6 @@ export class FavoritesTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.favoritesTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This favorites Type Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.favoritesTypeService.delete(id).subscribe(() => {
           this.getFavoritesTypes();

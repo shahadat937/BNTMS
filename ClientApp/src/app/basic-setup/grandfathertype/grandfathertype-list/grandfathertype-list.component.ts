@@ -65,7 +65,6 @@ export class GrandFatherTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.grandfatherTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.GrandFatherTypeService.delete(id).subscribe(() => {
           this.getGrandFatherTypes();

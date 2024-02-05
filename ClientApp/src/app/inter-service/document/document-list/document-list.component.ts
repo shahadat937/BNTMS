@@ -44,7 +44,6 @@ export class DocumentListComponent implements OnInit {
   getDocuments() {
     this.isLoading = true;
     this.DocumentService.getDocuments(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-     console.log(response.items)
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -83,7 +82,6 @@ export class DocumentListComponent implements OnInit {
   deleteItem(row) {
     const id = row.documentId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.DocumentService.delete(id).subscribe(() => {
           this.getDocuments();

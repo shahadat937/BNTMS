@@ -35,7 +35,6 @@ export class ViewJoiningReasonComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('joiningReasonId'); 
     this.JoiningReasonService.find(+id).subscribe( res => {
-      console.log(res);
       this.joiningReasonId= res.joiningReasonId,
       this.traineeId= res.traineeId,
       this.reasonTypeId= res.reasonTypeId,

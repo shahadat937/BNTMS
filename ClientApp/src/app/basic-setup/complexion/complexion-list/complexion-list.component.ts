@@ -62,7 +62,6 @@ export class ComplexionListComponent implements OnInit {
   deleteItem(row) {
     const id = row.complexionId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.complexionService.delete(id).subscribe(() => {
           this.getComplexions(); 

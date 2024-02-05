@@ -50,7 +50,6 @@ export class SubjectInstructorListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     this.onModuleSelectionChangeGetsubjectList();
@@ -61,7 +60,6 @@ export class SubjectInstructorListComponent implements OnInit {
   //   this.isLoading = true;
   //   this.CourseInstructorService.getCourseInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
-  //     console.log(response);
   //     this.dataSource.data = response.items; 
   //     this.paging.length = response.totalItemsCount    
   //     this.isLoading = false;
@@ -77,11 +75,8 @@ export class SubjectInstructorListComponent implements OnInit {
     this.mainDb = this.route.snapshot.paramMap.get('mainDb');
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
-    console.log("dd"+this.routingType)
       this.CourseInstructorService.getsubjectInstructorListByCourseDuration(courseDurationId).subscribe(res=>{
         this.GetInstructorByParameters=res;  
-        console.log("GetInstructor By Parameters");
-        console.log(this.GetInstructorByParameters);
               
         if(this.courseNameId == this.masterData.courseName.JCOsTraining){
           // this gives an object with dates as keys
@@ -101,11 +96,9 @@ export class SubjectInstructorListComponent implements OnInit {
               courses: groups[courseModule]
             };
           });
-          console.log(this.groupArrays);
         }else{
           // this gives an object with dates as keys
           const groups = this.GetInstructorByParameters.reduce((groups, courses) => {
-            console.log("ttt");
             const courseModule = courses.courseModule;
             if (!groups[courseModule]) {
               groups[courseModule] = [];
@@ -121,8 +114,6 @@ export class SubjectInstructorListComponent implements OnInit {
               courses: groups[courseModule]
             };
           });
-          console.log("course Module");
-          console.log(this.groupArrays);
         }
       
       }); 

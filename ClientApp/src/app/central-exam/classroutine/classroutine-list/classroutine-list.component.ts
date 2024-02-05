@@ -68,7 +68,6 @@ export class ClassRoutineListComponent implements OnInit {
   deleteItem(row) {
     const id = row.classRoutineId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ClassRoutineService.delete(id).subscribe(() => {
           this.getClassRoutines();

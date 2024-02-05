@@ -94,7 +94,6 @@ export class CombinedBnaRoutineListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     //this.getTraineeNominations();
     
@@ -107,25 +106,18 @@ export class CombinedBnaRoutineListComponent implements OnInit {
 
       // this.classRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,courseNameId,durationId).subscribe(res=>{
       //   this.traineeListByBaseSchoolAndCourse=res;
-      //   console.log(res);
       // })
       // this.classRoutineService.getRoutineNotesForDashboard(currentDateTime,this.schoolId,courseNameId,durationId).subscribe(res=>{
       //   this.routineNotesList=res;
-      //   console.log(this.routineNotesList);
       // })
       // this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,courseNameId).subscribe(res=>{
       //   this.periodListByBaseSchoolAndCourse=res;
-      //   console.log(res);
       // })
       // this.classRoutineService.getselectedCourseSection(this.schoolId,courseNameId).subscribe(res=>{
       //   this.sectionList=res;
-      //   console.log('section');
-      //   console.log(this.sectionList);
       // });
       // this.classRoutineService.getSelectedCourseWeeks(this.schoolId,durationId,courseNameId).subscribe(res=>{
       //   this.selectedWeek=res;
-      //   console.log('weekList');
-      //   console.log(this.selectedWeek);
       // });
 
       
@@ -145,7 +137,6 @@ export class CombinedBnaRoutineListComponent implements OnInit {
   getSelectedcourseNamesBySchool(schoolId){
     this.classRoutineService.getSelectedcourseNamesBySchool(schoolId).subscribe(res=>{
       this.selectedCourses=res;
-      console.log(this.selectedCourses);
     });
   }
 
@@ -156,23 +147,16 @@ export class CombinedBnaRoutineListComponent implements OnInit {
     var courseNameId = this.RoutineBySectionForm.value['courseNameId'];
     var routineDate = this.RoutineBySectionForm.value['routineDate'];
     var currentRoutineDate =this.datepipe.transform((routineDate), 'MM/dd/yyyy');
-    console.log(courseNameId,routineDate, currentRoutineDate)
 
     this.classRoutineService.getCombinedClassByCourseForBNA(this.branchId,courseNameId,currentRoutineDate).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       
-      console.log("Routine by Sp request")
-      console.log(this.selectedRoutineByParametersAndDate)
       for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
-       console.log("Date"+this.selectedRoutineByParametersAndDate[i]);
       }
-      console.log(this.selectedRoutineByParametersAndDate);
 
       this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
-      console.log([...Object.keys(this.selectedRoutineByParametersAndDate[0])]);
       
-      console.log(this.selectedRoutineByParametersAndDate);      
     });
   }
 

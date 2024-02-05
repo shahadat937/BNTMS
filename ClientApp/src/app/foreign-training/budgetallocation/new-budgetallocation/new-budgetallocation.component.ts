@@ -103,7 +103,6 @@ export class NewBudgetAllocationComponent implements OnInit {
     const id = this.BudgetAllocationForm.get('budgetAllocationId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BudgetAllocationService.update(+id,this.BudgetAllocationForm.value).subscribe(response => {

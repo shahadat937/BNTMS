@@ -91,7 +91,6 @@ export class InstallmentPaidDetailService {
     return this.http.post<PostResponse>(this.baseUrl + '/installment-paid-detail/save-installmentpaiddetail', model).pipe(
       map((InstallmentPaidDetail: PostResponse) => {
         if (InstallmentPaidDetail) {
-          console.log(InstallmentPaidDetail);
           return InstallmentPaidDetail;
         }
       })

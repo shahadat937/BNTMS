@@ -64,7 +64,6 @@ export class LanguageListComponent implements OnInit {
   deleteItem(row) {
     const id = row.languageId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Language Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.LanguageService.delete(id).subscribe(() => {
           this.getLanguages();

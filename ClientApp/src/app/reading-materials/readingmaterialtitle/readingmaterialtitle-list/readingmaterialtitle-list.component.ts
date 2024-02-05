@@ -68,7 +68,6 @@ export class ReadingmaterialtitleListComponent implements OnInit {
   deleteItem(row) {
     const id = row.readingMaterialTitleId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ReadingMaterialTitleService.delete(id).subscribe(() => {
           this.getReadingMaterialTitles();

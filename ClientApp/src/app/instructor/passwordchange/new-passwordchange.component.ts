@@ -40,11 +40,8 @@ export class NewPasswordChangeComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.userId=this.authService.currentUserValue.id;
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    console.log(this.role, this.traineeId)
     const id = this.traineeId;
     
-    console.log("Idddd");
-    console.log(this.userId)
     if (id) {
       this.pageTitle = 'Password Change';
       this.destination='Edit';
@@ -52,7 +49,6 @@ export class NewPasswordChangeComponent implements OnInit {
  
       this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
-          console.log(res);
           if (res) {
             this.PasswordUpdateForm.patchValue(res);
           }   
@@ -102,7 +98,6 @@ matchValues(matchTo: string): ValidatorFn {
 
    // const id = this.PasswordUpdateForm.get('traineeId').value; 
    const id = this.userId;
-   console.log(id);
 
   //  const formData = new FormData();
   //  for (const key of Object.keys(this.PasswordUpdateForm.value)) {
@@ -117,12 +112,10 @@ matchValues(matchTo: string): ValidatorFn {
     //   const value = this.PasswordUpdateForm.value[key];
     //   formData.append(key, value);
     // }
-    // console.log(formData)
 
     
   //  if (id) {
     this.PasswordUpdateForm.get('userId').setValue(this.userId)
-    console.log(this.PasswordUpdateForm.value)
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         if (result) {
           this.loading = true;

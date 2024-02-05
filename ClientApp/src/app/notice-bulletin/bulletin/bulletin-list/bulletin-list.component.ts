@@ -68,7 +68,6 @@ export class BulletinListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bulletinId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BulletinService.delete(id).subscribe(() => {
           this.getBulletins();

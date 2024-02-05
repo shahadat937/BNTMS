@@ -43,10 +43,8 @@ export class AssignedSubjectMarkListComponent implements OnInit {
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     var bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId');
-    console.log(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId)
     this.instructorDashboardService.getSpInstructorSubject(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId).subscribe(res=>{ 
       this.courseList = res;
-      console.log(res)
     });  
   }
 }

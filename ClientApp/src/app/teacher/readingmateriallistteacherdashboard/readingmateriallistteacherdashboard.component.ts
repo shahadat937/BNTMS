@@ -44,9 +44,6 @@ export class ReadingMaterialListTeacherDashboardComponent implements OnInit {
   getReadingMetarialByInstructor(id){
     this.instructorDashboardService.getSpReadingMaterialByTraineeId(id).subscribe(res=>{
       this.materialList = res;
-      console.log("material list---");
-      console.log(this.materialList);
-      console.log(res)
     });
   }
 }

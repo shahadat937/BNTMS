@@ -77,7 +77,6 @@ export class TraineePerformanceDetailsListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     
@@ -206,31 +205,23 @@ export class TraineePerformanceDetailsListComponent implements OnInit {
       if(res.rankId){
         this.rankService.find(res.rankId).subscribe(res=>{
           this.trainee =  res.position +" "+ this.trainee;
-          console.log(this.trainee);
         });
       }else if(res.saylorRankId){
         this.saylorRankService.find(res.saylorRankId).subscribe(res=>{
           this.trainee =  res.name +" "+ this.trainee;
-          console.log(this.trainee);
         });
       }      
     });
 
     this.courseDurationService.find(this.courseDurationId).subscribe(res=>{
-      console.log(res)
-      console.log("course");
       this.course =  res.courseName + " - " + res.courseTitle;
       this.schoolName= res.baseSchoolName;
 
-      console.log(this.course);
-      console.log("course");
 
     });
 
     this.BNAExamMarkService.getTraineePerformanceDetailsByParameters(this.baseSchoolNameId,this.courseDurationId,this.traineeId).subscribe(res=>{
       this.getMarkList=res;      
-      console.log("tgg");
-      console.log(this.getMarkList);  
     }); 
 
    

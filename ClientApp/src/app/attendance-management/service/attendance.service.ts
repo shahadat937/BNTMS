@@ -101,14 +101,12 @@ export class AttendanceService {
   }
   
   updateAttendanceList(model: any){
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/attendance/approved-attendancelist', model, httpOptions).pipe(
       map((attendanceUpdate: PostResponse) => {
         if (attendanceUpdate) {
-          console.log(attendanceUpdate);
           return attendanceUpdate;
         }
       })
@@ -122,7 +120,6 @@ export class AttendanceService {
     return this.http.put(this.baseUrl + '/attendance/update-attendance/'+id, model);
   }
   submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
@@ -130,14 +127,12 @@ export class AttendanceService {
     return this.http.post<PostResponse>(this.baseUrl + '/attendance/save-attendancelist', model,httpOptions).pipe(
       map((Attendance: PostResponse) => {
         if (Attendance) {
-          console.log(Attendance); 
           return Attendance;
         }
       })
     );
   } 
   submitAttendance(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
@@ -145,7 +140,6 @@ export class AttendanceService {
     return this.http.post<PostResponse>(this.baseUrl + '/attendance/save-attendancelistnstructor', model,httpOptions).pipe(
       map((Attendance: PostResponse) => {
         if (Attendance) {
-          console.log(Attendance); 
           return Attendance;
         }
       })

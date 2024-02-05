@@ -53,7 +53,6 @@ export class CourseOutlineListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     this.gettraineeAssessmentForStudentSpRequest(this.traineeId);
@@ -69,8 +68,6 @@ export class CourseOutlineListComponent implements OnInit {
     var current = new Date(this.currentDate);
     var date1 = new Date(obj.dateFrom); 
 	  var date2 =  new Date(obj.dateTo);
-    console.log(obj)
-    console.log(current, date1, date2)
 
     if(current > date2){
       this.weekStatus = 1;
@@ -86,7 +83,6 @@ export class CourseOutlineListComponent implements OnInit {
   //   this.isLoading = true;
   //   this.CourseInstructorService.getCourseInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
-  //     console.log(response);
   //     this.dataSource.data = response.items; 
   //     this.paging.length = response.totalItemsCount    
   //     this.isLoading = false;
@@ -115,7 +111,6 @@ export class CourseOutlineListComponent implements OnInit {
           assessments: groups[course]
         };
       });
-      console.log(this.groupArrays);
       }); 
   }
   

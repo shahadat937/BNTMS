@@ -78,7 +78,6 @@ export class NewPaymentDetailComponent implements OnInit {
     const id = this.PaymentDetailForm.get('paymentDetailId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.PaymentDetailService.update(+id,this.PaymentDetailForm.value).subscribe(response => {

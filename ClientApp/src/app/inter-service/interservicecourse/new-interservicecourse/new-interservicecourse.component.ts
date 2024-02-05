@@ -131,7 +131,6 @@ export class NewInterservicecourseComponent implements OnInit {
   }
   
 onCourseSelectionChanged(item) {
-  // console.log(item);
   this.courseNameId = item.value 
   this.CourseDurationForm.get('courseNameId').setValue(item.value);
   this.CourseDurationForm.get('course').setValue(item.text);
@@ -139,7 +138,6 @@ onCourseSelectionChanged(item) {
 
 //autocomplete for OrganizationName
 onOrganizationSelectionChanged(item) {
-  //console.log(item.value);
   this.organizationNameId = item.value
   this.CourseDurationForm.get('organizationNameId').setValue(item.value);
   this.CourseDurationForm.get('name').setValue(item.text);
@@ -168,7 +166,6 @@ stopInterService(element) {
 
           this.CourseDurationService.getInterServiceCourseByParameters(this.courseNameId, this.organizationNameId).subscribe(res => {
             this.interServiceList = res;
-            console.log(this.interServiceList);
           });
         
         this.snackBar.open('Information Stop Successfully ', '', {
@@ -193,7 +190,6 @@ runningInterService(element) {
 
           this.CourseDurationService.getInterServiceCourseByParameters(this.courseNameId,this.organizationNameId).subscribe(res => {
             this.interServiceList = res;
-            console.log(this.interServiceList);
           });
         
         this.snackBar.open('Information Stop Successfully ', '', {
@@ -228,13 +224,9 @@ runningInterService(element) {
       this.organizationNameId=this.CourseDurationForm.get('organizationNameId').value;
       this.organizationNameId = dropdown.source.value.value;
       this.CourseDurationForm.get('organizationNameId').setValue(dropdown.source.value)
-     console.log("courseNameId")
-     console.log(this.organizationNameId)
-     console.log("ddddd")
       
       this.CourseDurationService.getSelectedInterServiceCourseListByCourseNameIdAndOrganizationNameId(this.courseNameId, this.organizationNameId).subscribe(response => {
         this.interServiceList = response;
-        console.log(this.interServiceList);
       })
     }
   }

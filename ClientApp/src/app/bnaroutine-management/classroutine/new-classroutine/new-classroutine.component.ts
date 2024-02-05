@@ -77,7 +77,6 @@ export class NewClassRoutineComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     if (id) {
@@ -159,38 +158,27 @@ export class NewClassRoutineComponent implements OnInit {
     this.courseId=this.ClassRoutineForm.value['courseNameId'];
     this.weekName=dropdown.text;
     this.weekId=dropdown.value;
-    console.log("hwllo week");
-    console.log(this.schoolId,this.durationId,this.courseId,this.weekId);
     this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse(this.schoolId,this.courseId).subscribe(res=>{
       this.selectedsubjectname=res;
-      console.log(this.selectedsubjectname)
     });
     if(this.schoolId != null && this.courseId != null){
       
       this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(this.schoolId,this.courseId,this.weekId).subscribe(res=>{
         this.selectedRoutineByParametersAndDate=res;
-        console.log("Routine by Sp request")
         for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
-         console.log("Date"+this.selectedRoutineByParametersAndDate[i]);
         }
-        console.log(this.selectedRoutineByParametersAndDate);
 
         this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
-        console.log([...Object.keys(this.selectedRoutineByParametersAndDate[0])]);
         
 
-        console.log(this.selectedRoutineByParametersAndDate);
 
-        console.log(this.schoolId+"-"+this.courseId)
         this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,this.courseId,this.durationId).subscribe(res=>{
           this.traineeListByBaseSchoolAndCourse=res;
-          console.log(res);
         })
 
         this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,this.courseId).subscribe(res=>{
           this.periodListByBaseSchoolAndCourse=res;
-          console.log(res);
         })
       });
 
@@ -202,13 +190,11 @@ export class NewClassRoutineComponent implements OnInit {
       });
       this.ClassRoutineService.getSubjectlistBySchoolAndCourse(this.schoolId,this.courseId).subscribe(res=>{
         this.subjectlistBySchoolAndCourse=res;
-        console.log(res)
       });
       this.isShown=true;
     } 
   }
   onSubjectNameSelectionChangeGet(dropdown){
-    console.log("after subject select")
     var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
     var courseName=this.ClassRoutineForm.value['courseName'];
 
@@ -216,10 +202,7 @@ export class NewClassRoutineComponent implements OnInit {
          this.courseDurationId = courseNameArr[0];
          var courseNameId =courseNameArr[1];
 
-         console.log("Course Duration Id");
-         console.log(this.courseDurationId);
     var bnaSubjectNameId = dropdown.value;
-    console.log(bnaSubjectNameId)
     this.ClassRoutineForm.get('subjectName').setValue(dropdown.text);
     this.ClassRoutineForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
     this.onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,this.courseDurationId);  
@@ -232,42 +215,32 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
   var bnaSubjectNameId=this.ClassRoutineForm.value['bnaSubjectNameId'];
 
   var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
-  console.log(baseSchoolNameId,courseNameId,bnaSubjectNameId, courseDurationId)
 
   if(baseSchoolNameId !=null && courseNameId !=null  && bnaSubjectNameId !=null){
 
     this.ClassRoutineService.getCourseModuleIdForRoutine(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       var courseModuleId=res;
-      console.log("courseModuleId"+courseModuleId);
       this.ClassRoutineForm.get('courseModuleId').setValue(courseModuleId);
     });
 
     this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedclassperiod=res;
-      console.log("selected class period");
-      console.log(this.selectedclassperiod);
     });
   
     this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       this.totalPeriod=res;
-      console.log("total period");
-      console.log(this.totalPeriod);
     });
   }
 
   this.ClassRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId).subscribe(res=>{
     this.routineCount=res;
     this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
-    console.log("routine count");
-    console.log(this.routineCount);
   });
 
   this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
     this.totalPeriod=res;
     this.ClassRoutineForm.get('subjectCountPeriod').setValue(this.totalPeriod);
 
-    console.log("subjectcount");
-    console.log(this.totalPeriod);
   });
 
   
@@ -305,7 +278,6 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
   getselectedcoursedurationbyschoolname(){
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
       this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-        console.log(res);
         this.selectedcoursedurationbyschoolname=res;
       });
   } 
@@ -329,7 +301,6 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
     
     this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
-      console.log(this.selectedWeek)
     });    
   } 
 
@@ -364,11 +335,9 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
 
   onSubmit() {
     const id = this.ClassRoutineForm.get('classRoutineId').value;   
-    console.log(this.ClassRoutineForm.value);
     if (id) {
 
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ClassRoutineService.update(+id,this.ClassRoutineForm.value).subscribe(response => {
@@ -399,14 +368,11 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
         this.validationErrors = error;
       })
     }
- console.log("after save");
- console.log(this.ClassRoutineForm.value);
   }
 
   deleteItem(row) {
     const id = row.classRoutineId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ClassRoutineService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();

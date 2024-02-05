@@ -46,16 +46,12 @@ export class RoutineSoftcopyTraineeComponent implements OnInit {
   this.role = this.authService.currentUserValue.role.trim();
   this.traineeId =  this.authService.currentUserValue.traineeId.trim();
   //this.branchId =  this.authService.currentUserValue.branchId.trim();
-  console.log(this.role, this.traineeId, this.branchId)
 
    this.getRoutineSoftCopyByTrainee(this.traineeId);
   }
   getRoutineSoftCopyByTrainee(id){
     this.dashboardService.getRoutineSoftCopyByTrainee(id).subscribe(res=>{
       this.materialList = res;
-      console.log("material list---");
-      console.log(this.materialList);
-      console.log(res)
     });
   }
 }

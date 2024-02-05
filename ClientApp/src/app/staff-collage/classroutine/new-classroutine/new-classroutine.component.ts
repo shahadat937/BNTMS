@@ -194,8 +194,6 @@ getClassRoutineList(){
     this.dataSource.data = response.items; 
     this.paging.length = response.totalItemsCount    
     this.isLoading = false;
-    console.log("Subject name");
-    console.log(this.dataSource.data);
   })
 }
 
@@ -222,10 +220,8 @@ getClassRoutineList(){
 
   onSubmit() {
     const id = this.ClassRoutineForm.get('classRoutineId').value;   
-    console.log(this.ClassRoutineForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ClassRoutineService.update(+id,this.ClassRoutineForm.value).subscribe(response => {
@@ -256,14 +252,11 @@ getClassRoutineList(){
         this.validationErrors = error;
       })
     }
- console.log("after save");
- console.log(this.ClassRoutineForm.value);
   }
 
   deleteItem(row) {
     const id = row.classRoutineId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ClassRoutineService.delete(id).subscribe(() => {
           this.getClassRoutineList();

@@ -128,7 +128,6 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
     const id = this.CourseBudgetAllocationForm.get('courseBudgetAllocationId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.CourseBudgetAllocationService.update(+id,this.CourseBudgetAllocationForm.value).subscribe(response => {

@@ -39,7 +39,6 @@ export class ViewTraineeMembershipComponent implements OnInit {
   // getElected(){    
   //   this.TraineeMembershipService.getselectedelected().subscribe(res=>{
   //     this.electedValues=res
-  //     console.log(this.electedValues);
   //     for(let code of this.electedValues){        
   //       if(this.electedId == code.value ){
   //         this.elected = code.text;
@@ -52,7 +51,6 @@ export class ViewTraineeMembershipComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('traineeMembershipId'); 
     this.TraineeMembershipService.find(+id).subscribe( res => {
-      console.log(res);
       this.traineeMembershipId = res.traineeMembershipId,
       this.traineeId = res.traineeId,
       this.orgName = res.orgName,

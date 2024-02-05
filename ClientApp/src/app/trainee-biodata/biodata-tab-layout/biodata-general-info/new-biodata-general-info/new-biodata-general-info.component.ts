@@ -56,7 +56,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
  
       this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
-          console.log(res);
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
           }   
@@ -155,7 +154,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       // this.labelImport.nativeElement.value = file.name;
-     console.log(file);
     // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
       this.BIODataGeneralInfoForm.patchValue({
         image: file,
@@ -171,21 +169,18 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
-      console.log(this.selectedDistrict);
     });
   }
 
   onDistrictSelectionChangeGetThana(districtId){
     this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
-      console.log(this.selectedThana);
     });
   }
 
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
-      console.log(this.selectedCastes);
     });
   } 
 
@@ -203,7 +198,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   //     });
   //     const file = imgFile.target.files[0].name;
   //     // this.labelImport.nativeElement.innerText = file.name;
-  //     console.log(file);
   //     this.BIODataGeneralInfoForm.patchValue({
   //       image: file,
   //     });
@@ -341,7 +335,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       const value = this.BIODataGeneralInfoForm.value[key];
       formData.append(key, value);
     }
-    console.log(this.BIODataGeneralInfoForm.value)
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {

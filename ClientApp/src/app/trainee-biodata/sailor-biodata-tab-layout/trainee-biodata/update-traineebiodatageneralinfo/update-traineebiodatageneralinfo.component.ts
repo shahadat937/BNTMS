@@ -138,7 +138,6 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   getMaritialStatus(){
     this.BIODataGeneralInfoService.getselectedmaritialstatus().subscribe(res=>{
       this.maritialStatusValues=res
-      console.log(res);
      
     });
   }
@@ -146,7 +145,6 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
-      console.log(this.selectedCastes);
     });
   } 
 

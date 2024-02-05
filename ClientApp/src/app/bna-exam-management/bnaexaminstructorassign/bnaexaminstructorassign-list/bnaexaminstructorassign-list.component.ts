@@ -68,7 +68,6 @@ export class BNAExamInstructorAssignListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaExamInstructorAssignId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAExamInstructorAssignService.delete(id).subscribe(() => {
           this.getBNAExamInstructorAssigns();

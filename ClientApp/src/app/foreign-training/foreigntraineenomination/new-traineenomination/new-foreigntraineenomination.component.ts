@@ -142,7 +142,6 @@ export class NewForeignTraineeNominationComponent implements OnInit {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log(item);
     this.foreigntraineenominationForm.get('traineeId').setValue(item.value);
     this.foreigntraineenominationForm.get('traineeName').setValue(item.text);
     this.getTraineeInfoByTraineeId(item.value);
@@ -191,7 +190,6 @@ getSelectedTraineeByPno(pno){
   getTraineeInfoByTraineeId(traineeId){
     this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
       this.traineeInfoById=res;
-      console.log(this.traineeInfoById);
       this.foreigntraineenominationForm.get('saylorRankId').setValue(res.saylorRankId);
       this.foreigntraineenominationForm.get('rankId').setValue(res.rankId);
       this.foreigntraineenominationForm.get('saylorBranchId').setValue(res.saylorBranchId);

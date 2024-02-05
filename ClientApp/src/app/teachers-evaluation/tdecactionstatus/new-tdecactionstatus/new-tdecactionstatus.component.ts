@@ -56,10 +56,8 @@ export class NewTdecActionStatusComponent implements OnInit {
   
   onSubmit() {
     const id = this.TdecActionStatusForm.get('tdecActionStatusId').value;  
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.TdecActionStatusService.update(+id,this.TdecActionStatusForm.value).subscribe(response => {

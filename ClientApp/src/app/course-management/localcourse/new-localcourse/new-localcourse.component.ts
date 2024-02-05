@@ -41,7 +41,6 @@ export class NewLocalcourseComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
      this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
-     console.log(this.courseTypeId);
     if (id) {
       this.pageTitle = 'Edit Local Course'; 
       this.destination = "Edit"; 
@@ -49,7 +48,6 @@ export class NewLocalcourseComponent implements OnInit {
       this.CourseDurationService.find(+id).subscribe(
 
         res => {
-          console.log(res)
           this.CourseDurationForm.patchValue({          
             courseDurationId:res.courseDurationId,  
             courseNameId: res.courseNameId, 
@@ -120,13 +118,11 @@ export class NewLocalcourseComponent implements OnInit {
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
-       //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     })
   }
 
   //autocomplete
   onCourseSelectionChanged(item) {
-    // console.log(item);
     this.courseNameId = item.value 
     this.CourseDurationForm.get('courseNameId').setValue(item.value);
     this.CourseDurationForm.get('course').setValue(item.text);
@@ -148,13 +144,11 @@ export class NewLocalcourseComponent implements OnInit {
     let branchLevel = 3;
     this.CourseDurationService.getselectedBaseNamesForCourse(branchLevel).subscribe(res=>{
       this.selectedBaseName=res
-      console.log(this.selectedBaseName);
     });
   }
   onBaseNameSelectionChangeGetSchool(baseNameId){
     this.CourseDurationService.getSelectedSchoolsForCourse(baseNameId).subscribe(res=>{
       this.selectedSchool=res
-      console.log(this.selectedSchool);
     });
    }
 
@@ -184,10 +178,8 @@ export class NewLocalcourseComponent implements OnInit {
 
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
-    console.log(this.CourseDurationForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading = true;
           this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {

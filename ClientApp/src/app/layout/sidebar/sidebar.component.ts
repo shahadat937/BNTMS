@@ -139,7 +139,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   getfeaturemodules(){
     this.featureModuleService.getModuleFeatures().subscribe(res=>{
-      console.log("feature module", res);
       this.module=res; 
     });
   }

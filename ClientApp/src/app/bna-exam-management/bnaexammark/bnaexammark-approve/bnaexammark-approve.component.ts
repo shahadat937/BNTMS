@@ -72,7 +72,6 @@ export class BNAExamMarkApproveComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit  Exam Mark'; 
@@ -208,7 +207,6 @@ export class BNAExamMarkApproveComponent implements OnInit {
      this.BNAExamMarkService.getCourseDurationByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
 
       this.selectedCourseDuration=res;   
-      console.log("course duration "+this.selectedCourseDuration);
      });
      
   }
@@ -222,7 +220,6 @@ export class BNAExamMarkApproveComponent implements OnInit {
     
     this.BNAExamMarkService.getexamMarkListByParameters(baseSchoolNameId,courseNameId,bnaSubjectNameId,SubjectMarkId,false).subscribe(res=>{
       var unapprovedlistItemCount = res.length;
-      console.log(unapprovedlistItemCount);
       if(unapprovedlistItemCount > 0){
         this.traineeList=res;  
         this.ApproveMsgScreen=false;
@@ -234,28 +231,22 @@ export class BNAExamMarkApproveComponent implements OnInit {
         this.ApproveMsgScreen=true;
         this.BNAExamMarkService.getexamMarkListByParameters(baseSchoolNameId,courseNameId,bnaSubjectNameId,SubjectMarkId,true).subscribe(response=>{
           var approvedlistItemCount = response.length;
-          console.log(approvedlistItemCount)
           if(approvedlistItemCount > 0){
             this.ApproveMsg = "Records are already Approved!";
-            console.log(this.ApproveMsg)
           }else{
             this.ApproveMsg = "Marks are not isnerted Yet!";
-            console.log(this.ApproveMsg)
           }
         });
         
       }
       
     });   
-    console.log("list check - "+this.traineeList); 
-    console.log("Final id to get traineelist - " + baseSchoolNameId + " - " + courseNameId + " - " + bnaSubjectNameId + " - " + SubjectMarkId)
    
   }
 
   onSubjectNameSelectionChangeGetTotalMarkAndPassMark(dropdown){
 
     if(dropdown.isUserInput) {
-        console.log(dropdown);
         
       this.isShown=false;
       var subjectArr = dropdown.source.value.value.split('_');
@@ -315,10 +306,8 @@ export class BNAExamMarkApproveComponent implements OnInit {
 
   getTraineeListonClick(){ 
     const control = <FormArray>this.BNAExamMarkForm.controls["approveTraineeListForm"];
-    console.log(this.traineeList)   
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData()); 
-      console.log(this.traineeList[i])
     }
     this.BNAExamMarkForm.patchValue({ approveTraineeListForm: this.traineeList });
   }
@@ -334,10 +323,8 @@ export class BNAExamMarkApproveComponent implements OnInit {
   onSubmit() {
     //const id = this.BNAExamMarkForm.get('bnaExamMarkId').value; 
      
-    console.log(this.BNAExamMarkForm.value);
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-    //     console.log(result);
     //     if (result) {
     //       this.BNAExamMarkService.update(+id,JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
     //         this.router.navigateByUrl('/bna-exam-management/bnaexammark-list');
@@ -356,7 +343,6 @@ export class BNAExamMarkApproveComponent implements OnInit {
       
     
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNAExamMarkService.approve(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {

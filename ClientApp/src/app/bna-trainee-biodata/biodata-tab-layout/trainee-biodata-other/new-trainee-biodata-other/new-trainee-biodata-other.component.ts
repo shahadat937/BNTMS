@@ -194,7 +194,6 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
   getBNACurriculamTypeName(){
     this.TraineeBIODataOtherService.getselectedbnacurriculumtype().subscribe(res=>{
       this.bnaCurriculamTypeValues=res
-      console.log(this.bnaCurriculamTypeValues);
     });
   }
   
@@ -217,11 +216,9 @@ getselectedInstructorType(){
 }
 
 changeNationality(e) {
-  //console.log(e.value);
   this.nationalityToggle='no';
   
   this.nationalityToggle=e.value;
-  console.log(this.nationalityToggle);
 }
 getselectedfailureStatus(){
   this.TraineeBIODataOtherService.getselectedFailurestatus().subscribe(res=>{
@@ -338,10 +335,8 @@ getselecteBloodGroup(){
   
   onSubmit() {
     const id = this.TraineeBIODataOtherForm.get('traineeBioDataOtherId').value;   
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.TraineeBIODataOtherService.update(+id,this.TraineeBIODataOtherForm.value).subscribe(response => {

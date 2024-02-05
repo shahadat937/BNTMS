@@ -47,7 +47,6 @@ export class SubjectModuleListComponent implements OnInit {
   getCourseModuleByCourseName(courseNameId){
     this.studentDashboardService.getSelectedCourseModulesByCourseNameId(courseNameId).subscribe(res=>{
       this.CourseModuleByCourseName = res;
-      console.log(this.CourseModuleByCourseName)
     });
   }
 

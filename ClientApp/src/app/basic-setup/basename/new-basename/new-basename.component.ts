@@ -80,34 +80,29 @@ export class NewBaseNameComponent implements OnInit {
   onDivisionSelectionChangeGetDistrict(baseSchoolNameId){
     this.BaseNameService.getSelectedDistrictByDivision(baseSchoolNameId).subscribe(res=>{
       this.districtByDivisionId=res;
-      console.log(this.districtByDivisionId); 
    })
   } 
 
   getSelectedDistrict(){
     this.BaseNameService.getSelectedDistrict().subscribe(res=>{
       this.selectedDistrict=res
-     // console.log(this.selectedDistrict);
     });
   }
   getDivisionName(){
     this.BaseNameService.getselecteddivision().subscribe(res=>{
       this.selectedDivision=res
-     // console.log(this.selectedDivision);
     });
   }
 
   getselectedforcetype(){
     this.BaseNameService.getselectedforcetype().subscribe(res=>{
       this.selectedForceType=res
-    //  console.log(this.selectedForceType);
     });
   }
 
   getAdminAuthorityName(){
     this.AdminAuthorityService.getselectedAdminAuthorities().subscribe(res=>{
       this.selectedAdminAuthority=res
-   //   console.log(this.selectedAdminAuthority);
     });
   }
   

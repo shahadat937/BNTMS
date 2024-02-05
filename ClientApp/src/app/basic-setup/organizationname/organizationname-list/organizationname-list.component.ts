@@ -84,7 +84,6 @@ export class OrganizationNameListComponent implements OnInit {
   deleteItem(row) {
     const id = row.organizationNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.OrganizationNameService.delete(id).subscribe(() => {
           this.getOrganizationNames();

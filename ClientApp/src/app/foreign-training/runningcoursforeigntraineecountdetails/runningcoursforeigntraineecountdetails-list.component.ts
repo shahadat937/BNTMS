@@ -59,7 +59,6 @@ export class RunningCoursForeignRraineecountDetailsListComponent implements OnIn
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
      this.getrunningCourseListForForeingTraineeDetails(1);
   }
@@ -68,20 +67,14 @@ export class RunningCoursForeignRraineecountDetailsListComponent implements OnIn
     this.CourseDurationService.getrunningCourseListForForeingTraineeDetails(currentDateTime,viewStatus).subscribe(response => {         
       this.foreignCourseCount=response.length;
       this.runningCourses=response;
-      console.log(response);
-      console.log("RunningCourse Details");
     });
     this.CourseDurationService.getrunningCourseListForForeingTraineeCountry(currentDateTime,viewStatus).subscribe(response => {         
       this.foreignCourseCountryCount=response.length;
       this.runningCoursesCountry=response;
-      console.log(response);
-      console.log("RunningCourse Country");
     });
     this.CourseDurationService.getrunningCourseListForForeingTraineeDesignation(currentDateTime,viewStatus).subscribe(response => {         
       this.foreignCourseDesignation=response.length;
       this.runningCoursesDesignation=response;
-      console.log(response);
-      console.log("RunningCourse Designation");
     });
   }
 

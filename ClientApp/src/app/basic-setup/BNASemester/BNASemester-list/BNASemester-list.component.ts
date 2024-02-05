@@ -82,7 +82,6 @@ export class BNASemesterListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaSemesterId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNASemesterService.delete(id).subscribe(() => {
           this.getBNASemesters();

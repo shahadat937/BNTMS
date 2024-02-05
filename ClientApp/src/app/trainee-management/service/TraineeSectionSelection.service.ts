@@ -63,7 +63,6 @@ export class TraineeSectionSelectionService {
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-section-selection/save-traineeSectionSelection', model).pipe(
       map((TraineeSectionSelection: PostResponse) => {
         if (TraineeSectionSelection) {
-          console.log(TraineeSectionSelection);
           return TraineeSectionSelection;
         }
       })

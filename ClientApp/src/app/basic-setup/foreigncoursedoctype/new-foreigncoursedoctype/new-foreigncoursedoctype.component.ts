@@ -56,7 +56,6 @@ export class NewForeignCourseDocTypeComponent implements OnInit {
   
   onSubmit() {
     const id = this.ForeignCourseDocTypeForm.get('foreignCourseDocTypeId').value; 
-    console.log(this.ForeignCourseDocTypeForm.value); 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         

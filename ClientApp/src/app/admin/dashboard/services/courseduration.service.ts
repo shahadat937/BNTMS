@@ -89,7 +89,6 @@ getSelectedBaseName(){
     return this.http.post<PostResponse>(this.baseUrl + '/course-duration/save-courseDuration', model).pipe(
       map((CourseDuration: PostResponse) => {
         if (CourseDuration) {
-          console.log(CourseDuration);
           return CourseDuration;
         }
       })

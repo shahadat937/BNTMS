@@ -45,7 +45,6 @@ export class BnaCourseInstructorListComponent implements OnInit {
     this.isLoading = true;
     this.CourseInstructorService.getCourseInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
-      console.log(response);
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -68,7 +67,6 @@ export class BnaCourseInstructorListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseInstructorId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseInstructorService.delete(id).subscribe(() => {
           this.getCourseInstructors();

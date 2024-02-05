@@ -170,7 +170,6 @@ export class TraineeNominationService {
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-nomination/update-traineeNominationList', model).pipe(
       map((TraineeNomination: PostResponse) => {
         if (TraineeNomination) {
-          console.log(TraineeNomination);
           return TraineeNomination;
         } 
       })
@@ -180,7 +179,6 @@ export class TraineeNominationService {
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-nomination/update-traineeNominationList-Forreligation', model).pipe(
       map((TraineeNomination: PostResponse) => {
         if (TraineeNomination) {
-          console.log(TraineeNomination);
           return TraineeNomination;
         }
       })
@@ -191,7 +189,6 @@ export class TraineeNominationService {
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-nomination/save-traineeNomination', model).pipe(
       map((TraineeNomination: PostResponse) => {
         if (TraineeNomination) {
-          console.log(TraineeNomination);
           return TraineeNomination;
         }
       })

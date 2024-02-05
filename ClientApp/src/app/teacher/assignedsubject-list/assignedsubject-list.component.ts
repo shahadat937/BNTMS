@@ -41,7 +41,6 @@ export class AssignedSubjectListComponent implements OnInit {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res=>{ 
       this.courseList = res;
-      console.log(res)
     });  
   }
 }

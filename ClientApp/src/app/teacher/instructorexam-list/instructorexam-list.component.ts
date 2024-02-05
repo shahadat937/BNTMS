@@ -47,14 +47,12 @@ export class InstructorExamComponent implements OnInit {
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
-    console.log("rr"+this.courseDurationId)
     this.getPendingExamEvaluation(this.traineeId,this.courseDurationId);
   }
 
   getPendingExamEvaluation(traineeId,courseDurationId){
     this.instructorDashboardService.getInstructorPendingExamEvaluation(traineeId,courseDurationId).subscribe(response => {         
       this.PendingExamEvaluation=response;
-      console.log(response)
     })
   }
 }

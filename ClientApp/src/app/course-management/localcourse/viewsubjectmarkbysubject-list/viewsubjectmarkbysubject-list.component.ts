@@ -51,10 +51,8 @@ export class ViewSubjectMarkListBySubjectComponent implements OnInit {
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     var bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId'); 
-    //console.log(baseSchoolNameId,courseNameId,bnaSubjectNameId)
     this.SubjectMarkService.getSelectedsubjectMarksBySubject(Number(this.baseSchoolNameId),Number(this.courseNameId),Number(bnaSubjectNameId)).subscribe(res=>{
       this.SelectedsubjectMarksBySubject=res;  
-      console.log(this.SelectedsubjectMarksBySubject); 
     });
   }
 
@@ -74,7 +72,6 @@ export class ViewSubjectMarkListBySubjectComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.SubjectMarkId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This SubjectMark Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.SubjectMarkService.delete(id).subscribe(() => {
   //         this.getSubjectMarks();

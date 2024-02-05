@@ -56,16 +56,13 @@ export class CourseWeekListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.schoolId = this.branchId;
-    //console.log(this.schoolId)
     this.CourseWeekService.find(this.schoolId).subscribe(response => {  
       this.schoolId= response.baseSchoolNameId
           //this.schoolId = response.courseNameId  
       // this.schoolName = response.schoolName;
-      // console.log(this.schoolName);
     })
 
     this.getCourseWeeks(this.branchId,this.courseDurationId);
@@ -78,8 +75,6 @@ export class CourseWeekListComponent implements OnInit {
     var current = new Date(this.currentDate);
     var date1 = new Date(obj.dateFrom); 
 	  var date2 =  new Date(obj.dateTo);
-    console.log(obj)
-    console.log(current, date1, date2)
 
     if(current > date2){
       this.weekStatus = 1;
@@ -95,7 +90,6 @@ export class CourseWeekListComponent implements OnInit {
     this.isLoading = true;
     this.CourseWeekService.getCourseWeeks(this.paging.pageIndex, this.paging.pageSize,this.searchText,baseSchoolNameId,courseDurationId).subscribe(response => {
       this.weekList = response.items; 
-      console.log(this.weekList)
 
       // this gives an object with dates as keys
       const groups = this.dataSource.data.reduce((groups, courses) => {
@@ -114,7 +108,6 @@ export class CourseWeekListComponent implements OnInit {
           courses: groups[courseName]
         };
       });
-      console.log(this.groupArrays);
 
 
       this.paging.length = response.totalItemsCount    

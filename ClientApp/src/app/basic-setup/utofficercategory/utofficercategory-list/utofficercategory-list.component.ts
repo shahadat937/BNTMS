@@ -62,7 +62,6 @@ export class UTOfficerCategoryListComponent implements OnInit {
   deleteItem(row) {
     const id = row.utofficerCategoryId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This gender Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.UTOfficerCategoryService.delete(id).subscribe(() => {
           this.getUTOfficerCategorys();

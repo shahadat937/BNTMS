@@ -52,7 +52,6 @@ export class GuestSpeakerQuationGroupListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
   //  this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit GuestSpeaker Quation Group';
@@ -204,7 +203,6 @@ export class GuestSpeakerQuationGroupListComponent implements OnInit {
     this.GuestSpeakerQuationGroupService.getGuestSpeakerQuationGroupByParamsSp(baseSchoolNameId,this.courseNameId,this.courseDurationId,bnaSubjectNameId).subscribe(res => {
       
       this.questionGroupList = res;
-      console.log(res)
       // this.getinstructorid = this.selectedinstructorname[0].traineeId,
       // this.getinstructorname = this.selectedinstructorname[0].name;
 
@@ -213,8 +211,6 @@ export class GuestSpeakerQuationGroupListComponent implements OnInit {
       // this.GuestSpeakerQuationGroupService.getGuestSpeakerQuestionNameList(this.branchId == '' ? 0 :this.branchId).subscribe(res => {
       //  this.TraineeListFormDtos=res;
 
-      //  console.log("traineeee list");
-      //  console.log(this.TraineeListFormDtos);
       //  this.clearList();
       //  this.getTraineeListonClick();
       // });
@@ -230,7 +226,6 @@ reloadCurrentRoute() {
 }
   getSubjectNameIdToFindInstructor(dropdown){
     var subjectNameId= dropdown.value;
-    console.log(subjectNameId)
   }
     getselectedGuestSpeakerQuestionName(){
       this.GuestSpeakerQuationGroupService.getselectedGuestSpeakerQuestionName().subscribe(res => {

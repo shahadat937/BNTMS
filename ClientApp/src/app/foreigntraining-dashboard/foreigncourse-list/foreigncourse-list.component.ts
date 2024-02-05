@@ -46,7 +46,6 @@ export class ForeigncourseListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
      this.getCourseDurationsByCourseType();
   }
@@ -65,7 +64,6 @@ export class ForeigncourseListComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response);
     })
   }
 

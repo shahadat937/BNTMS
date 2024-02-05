@@ -42,8 +42,6 @@ export class InstallmentPaidDetailListComponent implements OnInit {
   ngOnInit() {
      this.courseDurationId = this.route.snapshot.paramMap.get("courseDurationId");
      this.traineeId = this.route.snapshot.paramMap.get("traineeId");
-     console.log(this.courseDurationId);
-     console.log(this.traineeId);
     this.getInstallmentPaidDetails();
     
   }
@@ -74,7 +72,6 @@ export class InstallmentPaidDetailListComponent implements OnInit {
   deleteItem(row) {
     const id = row.installmentPaidDetailId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.InstallmentPaidDetailService.delete(id).subscribe(() => {
           this.getInstallmentPaidDetails();

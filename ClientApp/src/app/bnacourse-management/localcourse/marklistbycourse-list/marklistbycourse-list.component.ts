@@ -54,13 +54,9 @@ export class MarkListByCourseComponent implements OnInit {
     this.dbType1=this.route.snapshot.paramMap.get('dbType1');
     this.dbType2=this.route.snapshot.paramMap.get('dbType2');
     this.courseType = Number(this.route.snapshot.paramMap.get('courseTypeId')); 
-    console.log("db type"+this.dbType1)
     this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res=>{
       this.marklistbycourse=res;  
-      console.log("1"); 
-      console.log(this.dbType); 
       this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
-      console.log([...Object.keys(this.marklistbycourse[0])]);
   //displayedColumns: string[] = [...Object.keys(this.marklistbycourse[0])];
    
     

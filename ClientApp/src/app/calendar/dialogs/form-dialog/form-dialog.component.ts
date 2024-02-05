@@ -39,8 +39,6 @@ export class FormDialogComponent {
     if (this.action === 'edit') {
       this.dialogTitle = data.calendar.title;
       this.calendar = data.calendar;
-      console.log("check");
-      console.log(this.calendar);
       this.courseTitle = this.calendar.courseTitle;
       this.durationFrom = this.calendar.durationForm;
       this.durationTo = this.calendar.durationTo;

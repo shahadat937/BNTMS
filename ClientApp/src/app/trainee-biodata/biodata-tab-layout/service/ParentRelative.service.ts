@@ -98,7 +98,6 @@ export class ParentRelativeService {
     return this.http.post(this.baseUrl + '/parent-relative/save-parentRelative/', model).pipe(
       map((ParentRelative: PostResponse) => {
         if (ParentRelative) {
-          console.log(ParentRelative);
           return ParentRelative;
         }
       })

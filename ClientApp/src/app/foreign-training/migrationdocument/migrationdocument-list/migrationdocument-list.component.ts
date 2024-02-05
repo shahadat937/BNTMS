@@ -68,7 +68,6 @@ export class MigrationDocumentListComponent implements OnInit {
   deleteItem(row) {
     const id = row.migrationDocumentId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.MigrationDocumentService.delete(id).subscribe(() => {
           this.getMigrationDocuments();

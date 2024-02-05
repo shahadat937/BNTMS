@@ -259,14 +259,12 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   }
 
   weeklyRoutineUpdate(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/class-routine/update-weeklyClassRoutine', model, httpOptions).pipe(
       map((classRoutine: PostResponse) => {
         if (classRoutine) {
-          console.log(classRoutine);
           return classRoutine;
         }
       })
@@ -292,7 +290,6 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
     return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-classRoutine', model).pipe(
       map((ClassRoutine: PostResponse) => {
         if (ClassRoutine) {
-          console.log(ClassRoutine);
           return ClassRoutine;
         }
       })

@@ -57,7 +57,6 @@ export class NewUserListComponent implements OnInit {
     this.isLoading = true;
     this.UserService.getTraineeList(searchPno).subscribe(response => {
       //this.dataSource.data = response; 
-     // console.log(response)
      this.dataSource=new MatTableDataSource(response);
      this.dataSource.sort = this.sort;
      this.dataSource.paginator = this.paginator;
@@ -121,15 +120,11 @@ export class NewUserListComponent implements OnInit {
 
   createUserSelectedRows(){
     this.userList = this.selection.selected;
-    //console.log(this.userList);
-    //console.log(this.userList.length);
-console.log("User",this.userList)
     this.userList.forEach(element => {
       this.UserForm.get('userName').setValue(element.pno);
       this.UserForm.get('traineeId').setValue(element.traineeId);
       this.UserForm.get('email').setValue(element.email);
       this.UserForm.get('phoneNumber').setValue(element.mobile);
-      console.log("User Value",this.UserForm.value)
 
       this.UserService.submit(this.UserForm.value).subscribe(response => {
         

@@ -52,7 +52,6 @@ export class ExamCenterSelectionService {
     return this.http.post<PostResponse>(this.baseUrl + '/exam-center-selection/save-ExamCenterSelection', model).pipe(
       map((ExamCenterSelection: PostResponse) => {
         if (ExamCenterSelection) {
-          console.log(ExamCenterSelection);
           return ExamCenterSelection;
         }
       })

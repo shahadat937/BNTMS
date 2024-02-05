@@ -44,7 +44,6 @@ export class InterserviceReportListComponent implements OnInit {
   getDocuments() {
     this.isLoading = true;
     // this.interserviceReportService.getInterServiceCourseReports(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-    //  console.log(response.items)
     //   this.dataSource.data = response.items; 
     //   this.paging.length = response.totalItemsCount    
     //   this.isLoading = false;
@@ -83,7 +82,6 @@ export class InterserviceReportListComponent implements OnInit {
   deleteItem(row) {
     const id = row.interServiceCourseReportid; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.interserviceReportService.delete(id).subscribe(() => {
           this.getDocuments();

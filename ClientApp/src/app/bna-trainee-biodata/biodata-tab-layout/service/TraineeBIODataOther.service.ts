@@ -127,7 +127,6 @@ export class TraineeBIODataOtherService {
     return this.http.post(this.baseUrl + '/trainee-bio-data-other/save-traineeBiodataOther', model).pipe(
       map((TraineeBIODataOther: PostResponse) => {
         if (TraineeBIODataOther) {
-          console.log(TraineeBIODataOther);
           return TraineeBIODataOther;
         }
       })

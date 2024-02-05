@@ -42,7 +42,6 @@ export class ElectionService {
     return this.http.post(this.baseUrl + '/election/save-election', model).pipe(
       map((election: PostResponse) => {
         if (election) {
-          console.log(election);
           return election;
         }
       })

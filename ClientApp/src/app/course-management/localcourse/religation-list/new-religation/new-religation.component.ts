@@ -55,15 +55,12 @@ export class NewReligationComponent implements OnInit {
       this.courseDurationId =res.courseDurationId;
       this.traineeName =res.traineeName;
       this.traineePno =res.traineePNo
-      console.log("trainee nomination");
-      console.log(this.traineeNomination);
     });
   }
 
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log(file);
       this.TraineeNominationForm.patchValue({
         doc: file,
       });

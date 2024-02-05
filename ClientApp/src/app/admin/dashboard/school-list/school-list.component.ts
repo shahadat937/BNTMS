@@ -47,7 +47,6 @@ export class SchoolListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
     
     this.getBnaClassTests();
     
@@ -77,11 +76,9 @@ export class SchoolListComponent implements OnInit {
         };
       });
 
-      console.log(this.groupArrays)
 
 
       this.isLoading = false;
-      console.log(this.schoolList)
     })
   }
   toggle(){
@@ -164,7 +161,6 @@ export class SchoolListComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.bnaClassTestId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.BnaClassTestService.delete(id).subscribe(() => {
   //         this.getBnaClassTests();

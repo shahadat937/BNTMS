@@ -121,8 +121,6 @@ export class NewTraineeNominationComponent implements OnInit {
             menuPosition: res.menuPosition,
             isActive: res.isActive,
           });   
-          console.log("Response");
-          console.log(res);       
         }
       );
     } else {
@@ -180,15 +178,11 @@ export class NewTraineeNominationComponent implements OnInit {
   //autocomplete
   onTraineeSelectionChanged(item) {
 
-    console.log("Name");
-    console.log(item.value);
 
       this.TraineeNominationService.getPresentBilletByTraineeId(item.value).subscribe(res=>{
         this.presentBillet=res;
         this.presentBilletName=this.presentBillet[0].text;
         //this.presentBilletName=this.presentBillet[0].text
-        console.log("Present");
-        console.log(this.presentBilletName);
         this.TraineeNominationForm.get('presentBillet').setValue(this.presentBilletName);
       });
 
@@ -206,8 +200,6 @@ export class NewTraineeNominationComponent implements OnInit {
 
       this.TraineeNominationService.getTraineeNominationCount(this.traineeId,this.courseNameId).subscribe(res=>{
         this.nominationCount=res
-        console.log("nomination count");
-        console.log(this.nominationCount);
       });    
   }
 
@@ -232,7 +224,6 @@ export class NewTraineeNominationComponent implements OnInit {
   getTraineeInfoByTraineeId(traineeId){
     this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
       this.traineeInfoById=res;
-      console.log(this.traineeInfoById);
       this.TraineeNominationForm.get('saylorRankId').setValue(res.saylorRankId);
       this.TraineeNominationForm.get('rankId').setValue(res.rankId);
       this.TraineeNominationForm.get('saylorBranchId').setValue(res.saylorBranchId);
@@ -428,8 +419,6 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       this.paging.length = response.totalItemsCount    
       this.nominatedList = this.dataSource.data;
       this.isLoading = false;
-      console.log("Data source");
-      console.log(this.nominatedList);
     })
   }
 
@@ -453,7 +442,6 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   }
   onSubmit() {
     const id = this.TraineeNominationForm.get('traineeNominationId').value;   
-    console.log( this.TraineeNominationForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

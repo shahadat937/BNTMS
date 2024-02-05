@@ -94,15 +94,12 @@ export class RoutineByCourseListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     //this.getTraineeNominations();
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var durationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId');
-    console.log("course type");
-    console.log(this.courseTypeId )
 
     this.intitializeForm();
 
@@ -112,25 +109,18 @@ export class RoutineByCourseListComponent implements OnInit {
 
       this.classRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,courseNameId,durationId).subscribe(res=>{
         this.traineeListByBaseSchoolAndCourse=res;
-        console.log(res);
       })
       this.classRoutineService.getRoutineNotesForDashboard(currentDateTime,this.schoolId,courseNameId,durationId).subscribe(res=>{
         this.routineNotesList=res;
-        console.log(this.routineNotesList);
       })
       this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,courseNameId).subscribe(res=>{
         this.periodListByBaseSchoolAndCourse=res;
-        console.log(res);
       })
       this.classRoutineService.getselectedCourseSection(this.schoolId,courseNameId).subscribe(res=>{
         this.sectionList=res;
-        console.log('section');
-        console.log(this.sectionList);
       });
       this.classRoutineService.getSelectedCourseWeeks(this.schoolId,durationId,courseNameId).subscribe(res=>{
         this.selectedWeek=res;
-        console.log('weekList');
-        console.log(this.selectedWeek);
       });
 
       
@@ -148,11 +138,9 @@ export class RoutineByCourseListComponent implements OnInit {
     var schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var durationId = this.route.snapshot.paramMap.get('courseDurationId');
     var weekId=this.RoutineBySectionForm.value['courseWeekId'];
-    // console.log(this.schoolId,this.durationId,this.courseId,this.weekId);    
     
     this.classRoutineService.getRoutineNotesForWeeklyRoutine(schoolId,courseNameId,durationId,weekId).subscribe(res=>{
       this.routineNotesList=res;
-      console.log(this.routineNotesList);
     });
 
     if(this.role == this.userRole.Student){
@@ -171,16 +159,12 @@ export class RoutineByCourseListComponent implements OnInit {
 
     this.classRoutineService.getSubjectlistBySchoolAndCourse(this.schoolId,courseNameId,durationId,courseWeekId,sectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
-      console.log(res)
     });
     this.classRoutineService.getSubjectsByRoutineList(this.schoolId,courseNameId,durationId,courseWeekId,sectionId).subscribe(res=>{
       this.getSubjectsByRoutineList=res;
-      console.log(res)
     });
 
     this.classRoutineService.getClassRoutineHeaderByParams(this.schoolId,courseNameId,durationId,sectionId).subscribe(res=>{
-      console.log("res.schoolName")
-      console.log(res)
       this.courseSection = res[0].sectionName;
       this.schoolName = res[0].schoolName;
       this.courseNameTitle = res[0].courseNameTitle;
@@ -200,19 +184,13 @@ export class RoutineByCourseListComponent implements OnInit {
     this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(this.schoolId,courseNameId,courseWeekId,sectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       
-      console.log("Routine by Sp request")
-      console.log(this.selectedRoutineByParametersAndDate)
       for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
-       console.log("Date"+this.selectedRoutineByParametersAndDate[i]);
       }
-      console.log(this.selectedRoutineByParametersAndDate);
 
       this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
-      console.log([...Object.keys(this.selectedRoutineByParametersAndDate[0])]);
       
 
-      console.log(this.selectedRoutineByParametersAndDate);
 
       
     });

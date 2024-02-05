@@ -43,7 +43,6 @@ export class TdecQuestionNameListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.getTdecQuestionNames();
   //  this.getTdecQuestionNameFilteredResult();
@@ -96,7 +95,6 @@ export class TdecQuestionNameListComponent implements OnInit {
   deleteItem(row) {
     const id = row.tdecQuestionNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TdecQuestionNameService.delete(id).subscribe(() => {
           this.getTdecQuestionNames();

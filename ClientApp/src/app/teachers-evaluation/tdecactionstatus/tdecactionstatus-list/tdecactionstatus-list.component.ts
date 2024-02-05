@@ -84,7 +84,6 @@ export class TdecActionStatusListComponent implements OnInit {
   deleteItem(row) {
     const id = row.tdecActionStatusId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TdecActionStatusService.delete(id).subscribe(() => {
           this.getTdecActionStatuses();

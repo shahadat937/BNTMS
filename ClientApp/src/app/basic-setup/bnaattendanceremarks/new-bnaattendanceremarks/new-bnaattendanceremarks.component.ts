@@ -56,10 +56,8 @@ export class NewBNAAttendanceRemarksComponent implements OnInit {
   
   onSubmit() {
     const id = this.BNAAttendanceRemarksForm.get('bnaAttendanceRemarksId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNAAttendanceRemarksService.update(+id,this.BNAAttendanceRemarksForm.value).subscribe(response => {

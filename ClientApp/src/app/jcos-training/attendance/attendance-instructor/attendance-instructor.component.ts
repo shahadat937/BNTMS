@@ -144,12 +144,10 @@ export class AttendanceInstructorComponent implements OnInit {
   }
   getTraineeListonClick(){
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
-    // console.log(this.dataSource)   
     
   
     for (let i = 0; i < this.traineeNominationListForAttendance.length; i++) {
       control.push(this.createTraineeData()); 
-      //  console.log(this.dataSource[i])
     }
     this.AttendanceForm.patchValue({ traineeListForm: this.traineeNominationListForAttendance });
    }
@@ -157,8 +155,6 @@ export class AttendanceInstructorComponent implements OnInit {
      getselectedclassperiod(traineeId){
       this.AttendanceService.getSelectedClassPeriodForAttendanceInstructorBySpRequest(traineeId).subscribe(res=>{
       this.selectedclassperiod=res
-      console.log("Seleted Class period");
-      console.log(this.selectedclassperiod);
     });
   }
 
@@ -180,8 +176,6 @@ export class AttendanceInstructorComponent implements OnInit {
         this.AttendanceForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
         this.AttendanceForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
 
-        console.log("Class period Id");
-        console.log(baseSchoolNameId);
 
         this.isShown=true;
         this.clearList();
@@ -189,8 +183,6 @@ export class AttendanceInstructorComponent implements OnInit {
         this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
           this.traineeNominationListForAttendance=res; 
           this.getTraineeListonClick();
-          console.log("Trainee Nomination list");
-          console.log(this.traineeNominationListForAttendance);
          });
 
 
@@ -208,14 +200,11 @@ export class AttendanceInstructorComponent implements OnInit {
   onSubmit() {
     const id = this.AttendanceForm.get('attendanceId').value;
     
-    console.log(this.AttendanceForm.value);
     
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
       
-        console.log(result);
         if (result) {
-          console.log("dd");
           this.AttendanceService.updateAttendanceList(JSON.stringify(this.AttendanceForm.value)).subscribe(response => {
             this.router.navigateByUrl('/attendance-management/add-attendance');
             this.snackBar.open('Information Updated Successfully ', '', {

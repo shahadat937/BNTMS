@@ -67,7 +67,6 @@ export class NoticeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.noticeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.NoticeService.delete(id).subscribe(() => {
           this.getNotices();

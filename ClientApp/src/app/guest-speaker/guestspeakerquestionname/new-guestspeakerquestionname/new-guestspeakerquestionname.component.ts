@@ -49,7 +49,6 @@ export class NewGuestSpeakerQuestionNameComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit Guest Speaker Question Name';
@@ -123,7 +122,6 @@ export class NewGuestSpeakerQuestionNameComponent implements OnInit {
   deleteItem(row) {
     const id = row.guestSpeakerQuestionNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.GuestSpeakerQuestionNameService.delete(id).subscribe(() => {
           //this.getTdecActionStatuses();
@@ -147,10 +145,8 @@ export class NewGuestSpeakerQuestionNameComponent implements OnInit {
   }
   onSubmit() {
     const id = this.GuestSpeakerQuestionNameForm.get('guestSpeakerQuestionNameId').value;  
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.GuestSpeakerQuestionNameService.update(+id,this.GuestSpeakerQuestionNameForm.value).subscribe(response => {

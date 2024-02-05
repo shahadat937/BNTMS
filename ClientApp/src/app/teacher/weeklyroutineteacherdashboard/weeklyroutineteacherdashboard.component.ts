@@ -64,10 +64,8 @@ export class WeeklyRoutineTeacherDashboard implements OnInit {
           courses: groups[course]
         };
       });
-      console.log(this.groupArrays);
 
 
-      console.log(res)
     });
   }
   toggle(){

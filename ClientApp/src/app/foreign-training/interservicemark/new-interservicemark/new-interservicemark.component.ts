@@ -136,15 +136,10 @@ export class NewInterServiceMarkComponent implements OnInit {
   }
   getTraineeListonClick() {
     const control = <FormArray>this.InterServiceMarkForm.controls["traineeListForm"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
-      console.log("value...");
-      console.log(this.traineeList)
     }
     this.InterServiceMarkForm.patchValue({ traineeListForm: this.traineeList });
-    console.log("value...");
-    console.log(this.traineeList)
   }
 
   clearList() {
@@ -155,10 +150,8 @@ export class NewInterServiceMarkComponent implements OnInit {
     control.clearValidators();
   }
   onOrganizationNameSelectionChangeGetCourse(countryId) {
-    console.log(countryId)
     this.InterServiceMarkService.getCourseNameByCountryId(countryId).subscribe(res => {
       this.selectedCourseValue = res
-      console.log(this.selectedCourseValue);
 
       
     });
@@ -170,20 +163,14 @@ export class NewInterServiceMarkComponent implements OnInit {
       this.courseDurationId = dropdown.source.value;
 
       this.InterServiceMarkForm.get('courseDurationId').setValue(dropdown.source.value)
-      console.log("courseDurationId")
-      console.log(this.courseDurationId)
-      console.log("ddddd")
 
       this.courseDurationService.find(this.courseDurationId).subscribe(res => {
         this.durateDateForm = res.durationFrom;
         this.durationDateTo = res.durationTo;
-        console.log(this.durateDateForm)
-        console.log(this.durationDateTo)
       });
 
       this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
         this.traineeList = res;
-        console.log(this.traineeList);
         this.clearList()
         this.getTraineeListonClick();
       });
@@ -209,10 +196,8 @@ export class NewInterServiceMarkComponent implements OnInit {
 
   onSubmit() {
     const id = this.InterServiceMarkForm.get('interServiceMarkId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.InterServiceMarkService.update(+id, this.InterServiceMarkForm.value).subscribe(response => {
@@ -231,11 +216,9 @@ export class NewInterServiceMarkComponent implements OnInit {
     }
     else {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.InterServiceMarkService.submit(JSON.stringify(this.InterServiceMarkForm.value)).subscribe(response => {          
-            console.log(response)
             this.reloadCurrentRoute();
             this.isShown = false;
             this.snackBar.open('Information Inserted Successfully ', '', {

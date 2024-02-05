@@ -64,7 +64,6 @@ export class NewBulletinComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    //console.log(this.role, this.traineeId, this.branchId)
 
 
     const id = this.route.snapshot.paramMap.get('bulletinId'); 
@@ -74,7 +73,6 @@ export class NewBulletinComponent implements OnInit {
       this.buttonText= "Update" 
       this.bulletinService.find(+id).subscribe(
         res => {
-          //console.log(res)
           this.BulletinForm.patchValue({          
             bulletinId:res.bulletinId, 
             baseSchoolNameId: res.baseSchoolNameId, 
@@ -86,7 +84,6 @@ export class NewBulletinComponent implements OnInit {
             menuPosition: res.menuPosition,
             isActive: res.isActive,
           }); 
-          //console.log(this.BulletinForm.value)
           //this.onBaseSchoolNameSelectionChangeGetCourse(res.baseSchoolNameId);
         }
       );
@@ -121,7 +118,6 @@ export class NewBulletinComponent implements OnInit {
  if (baseSchoolNameId.length ==1){ 
          // Previus Code
          this.bulletinService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-          //console.log(res);
           this.selectedcoursedurationbyschoolname=res;
         }); 
  }
@@ -143,7 +139,6 @@ else{
 
       var baseSchoolNameId=this.BulletinForm.value['baseSchoolNameId'];
       var courseNameArr = dropdown.value.split('_');
-      //console.log(courseNameArr)
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
       //this.courseName=dropdown.text;
@@ -169,10 +164,8 @@ else{
   onSubmit() {
     const id = this.BulletinForm.get('bulletinId').value;   
     var baseSchoolNameId=this.BulletinForm.value['baseSchoolNameId'];
-    //console.log(this.BulletinForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading = true;
           this.bulletinService.update(+id,this.BulletinForm.value).subscribe(response => {
@@ -192,18 +185,14 @@ else{
     }
     else if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
       this.loading = true;
-      // //console.log("course value " , this.BulletinForm.value.courseName)
       this.selectedcoursedurationbyschoolname.forEach(element => {
-        //console.log(element)
         var courseNameArr = element.value.split('_');
-        //console.log("course after splite  " , courseNameArr)
         var courseDurationId = courseNameArr[0];
         var courseNameId=courseNameArr[1];
         this.BulletinForm.get('courseNameId').patchValue(courseNameId);
         this.BulletinForm.get('courseDurationId').patchValue(courseDurationId);
       });
       // var courseNameArr = this.BulletinForm.value.courseName.split('_');
-      // //console.log("course after splite  " , courseNameArr)
       // var courseDurationId = courseNameArr[0];
       // var courseNameId=courseNameArr[1]; 
       // //this.courseName=dropdown.text;
@@ -214,7 +203,6 @@ else{
       this.BulletinForm.value.courseName.forEach(element => {
         this.BulletinForm.value.courseName=element;
  
-        //console.log('BulletinFormCOurse',this.BulletinForm.value)
         this.bulletinService.submit(this.BulletinForm.value).subscribe(response => {
         this.reloadCurrentRoute();
         // this.getBulletins(baseSchoolNameId);
@@ -275,7 +263,6 @@ else{
               // });
             }, error => {
               this.validationErrors = error;
-              console.log(error)
             })
       
           }
@@ -328,7 +315,6 @@ else{
     var baseSchoolNameId=this.BulletinForm.value['baseSchoolNameId'];
     const id = row.bulletinId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      //console.log(result);
       if (result) {
         this.bulletinService.delete(id).subscribe(() => {
           this.getBulletins(baseSchoolNameId);
@@ -383,9 +369,7 @@ else{
   }
   // getselectedcoursedurationbyschoolname(){
   //   var baseSchoolNameId=this.BulletinForm.value['baseSchoolNameId'];
-  //   //console.log(baseSchoolNameId);
   //   this.bulletinService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-  //     //console.log(res);
   //     this.selectedcoursedurationbyschoolname=res;
   //   });
   //   this.getBulletins(baseSchoolNameId);
@@ -394,7 +378,6 @@ else{
   toggleAllSelection() {
     if (this.allSelected.selected) {
       this.isShowCourseName=true;
-      //console.log('Test Form ',this.BulletinForm.controls.baseSchoolNameId)
       this.BulletinForm.controls.baseSchoolNameId
         .patchValue([...this.selectedbaseschools.map(item => item.value), 0]);
     } else {
@@ -404,8 +387,6 @@ else{
   toggleAllSelectionCourse() {
     if (this.allSelectedCourse.selected) {
       
-      //console.log('Test Form ',this.BulletinForm.controls.courseName)
-      //console.log('Test selectedcoursedurationbyschoolname ',this.selectedcoursedurationbyschoolname)
       this.BulletinForm.controls.courseName
         .patchValue([...this.selectedcoursedurationbyschoolname.map(item => item.value), 0]);
     } else {

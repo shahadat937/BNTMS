@@ -67,7 +67,6 @@ export class BNAServiceTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaServiceTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAServiceTypeService.delete(id).subscribe(() => {
           this.getBNAServiceTypes();

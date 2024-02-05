@@ -65,7 +65,6 @@ export class PresentBilletListComponent implements OnInit {
   deleteItem(row) {
     const id = row.presentBilletId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.PresentBilletService.delete(id).subscribe(() => {
           this.getPresentBillets();

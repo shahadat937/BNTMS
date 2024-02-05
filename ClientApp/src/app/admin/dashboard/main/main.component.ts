@@ -151,21 +151,18 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     //  this.calendarEvents = INITIAL_EVENTS;
-    //  console.log(INITIAL_EVENTS)
   
    // this.calendarEvents=INITIAL_EVENTS;
    this.role = this.authService.currentUserValue.role.trim();
    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
    // this.branchId =  this.authService.currentUserValue.branchId.trim();
    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-   console.log(this.role, this.traineeId, this.branchId)
 
 
   this.dashboardService.getCourseDurationForEventCalendar().subscribe(res=>{
    
   //  this.calendarEvents=INITIAL_EVENTS;
   this.calendarEvents= res;
-  console.log(res)
   this.calendarOptions = {
     headerToolbar: {
       left: 'prev,next today',
@@ -217,7 +214,6 @@ export class MainComponent implements OnInit {
     this.dashboardService.getCourseDurationForEventCalendar().subscribe(res=>{
       //var durationData: EventInput[] = res;
       // const durationData: EventInput[] =res;
-      // console.log(durationData)
       this.calendarEvents=INITIAL_EVENTS;
       // this.calendarEvents= [{
       //   id: "event1",
@@ -243,7 +239,6 @@ export class MainComponent implements OnInit {
     this.isLoading = true;
     this.courseTypeId = id;
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    console.log(currentDateTime);
     if(this.courseTypeId == this.masterData.coursetype.LocalCourse){
       this.dashboardService.getSpCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
         this.upcomingLocalCourses=response;
@@ -265,10 +260,8 @@ export class MainComponent implements OnInit {
           };
         });
 
-        console.log(this.groupArrays)
 
         // this.upcomingLocalCourses=response;
-        // console.log(response)
       })
     }else if(this.courseTypeId === this.masterData.coursetype.ForeignCourse){
       this.dashboardService.getSpForeignCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
@@ -285,7 +278,6 @@ export class MainComponent implements OnInit {
     // let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.dashboardService.getNotificationReminderForDashboard(this.role,this.branchId).subscribe(response => {         
       this.notificationCount=response[0].notificationCount;
-      console.log("notify "+this.notificationCount)
     })
   }
 
@@ -304,7 +296,6 @@ export class MainComponent implements OnInit {
     })
     this.dashboardService.getnominatedForeignTraineeFromSpRequestBySchoolId(currentDateTime, this.masterData.OfficerType.Foreign).subscribe(response => {         
         this.foreignNomineeCount=response.length;
-        console.log(response)
       })
     this.dashboardService.getrunningCourseTotalOfficerListfromprocedureRequest(currentDateTime, this.masterData.TraineeStatus.sailor).subscribe(response => {         
       this.runningSailorCount=response.length;
@@ -336,7 +327,6 @@ export class MainComponent implements OnInit {
   //   let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
   //   this.dashboardService.getSpRunningForeignCourseDurationsByType(this.masterData.coursetype.ForeignCourse,currentDateTime).subscribe(response => {           
   //     this.foreignCourseCount=response.length;
-  //     console.log("foreign count"+this.foreignCourseCount)
   //   })
   // }
   // getIntServiceCount(){

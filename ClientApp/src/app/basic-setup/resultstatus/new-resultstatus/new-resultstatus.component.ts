@@ -61,7 +61,6 @@ export class NewResultStatusComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.ResultStatusService.update(+id,this.ResultStatusForm.value).subscribe(response => {
             this.router.navigateByUrl('/basic-setup/resultstatus-list');

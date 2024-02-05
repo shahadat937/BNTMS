@@ -61,7 +61,6 @@ export class AdminAuthorityListComponent implements OnInit {
   deleteItem(row) {
     const id = row.adminAuthorityId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.AdminAuthorityService.delete(id).subscribe(() => {
           this.getAdminAuthorities();

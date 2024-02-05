@@ -84,7 +84,6 @@ export class ViewParentRelativeComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('parentRelativeId'); 
     this.ParentRelativeService.find(+id).subscribe( res => {
-      console.log(res);
       this.parentRelativeId = res.parentRelativeId,
       this.traineeId = res.traineeId,
       this.relationTypeId = res.relationTypeId,

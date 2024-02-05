@@ -74,7 +74,6 @@ export class ReadingMaterialService {
   //   return this.http.post<PostResponse>(this.baseUrl + '/reading-material/save-readingMaterial', model).pipe(
   //     map((ReadingMaterial: PostResponse) => {
   //       if (ReadingMaterial) {
-  //         console.log(ReadingMaterial);
   //         return ReadingMaterial;
   //       }
   //     })
@@ -89,7 +88,6 @@ export class ReadingMaterialService {
     }).pipe(
       map((ReadingMaterial: any) => {
         if (ReadingMaterial) {
-          console.log(ReadingMaterial);
           return ReadingMaterial;
         }
       })

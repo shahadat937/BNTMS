@@ -45,7 +45,6 @@ export class SwimmingDivingListComponent implements OnInit {
 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.SwimmingDivingService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
-     console.log(this.traineeId);
      this.dataSource.data=response;
     })
   }
@@ -65,7 +64,6 @@ export class SwimmingDivingListComponent implements OnInit {
   deleteItem(row) {
     const id = row.SwimmingDivingId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This SwimmingDiving Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SwimmingDivingService.delete(id).subscribe(() => {
           this.getSwimmingDivings();

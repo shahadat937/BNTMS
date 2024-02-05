@@ -55,7 +55,6 @@ export class CentralExamNominatedListComponent implements OnInit {
     // this.dbType=this.route.snapshot.paramMap.get('dbType'); 
     this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
       this.nominatedList = response.items;
-      console.log(this.nominatedList);
     })
   }
 

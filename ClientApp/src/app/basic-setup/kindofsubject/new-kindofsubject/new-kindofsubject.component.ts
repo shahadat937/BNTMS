@@ -59,7 +59,6 @@ export class NewKindOfSubjectComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Kind Of Subject Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.KindOfSubjectService.update(+id,this.KindOfSubjectForm.value).subscribe(response => {

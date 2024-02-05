@@ -179,21 +179,15 @@ export class DashboardComponent implements OnInit {
     const traineeId =  this.authService.currentUserValue.traineeId.trim();
     // const branchId =  this.authService.currentUserValue.branchId.trim();
     const branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(role, traineeId, branchId)
 
     this.studentDashboardService.getUserManualByRole(role).subscribe(response => {   
-      console.log("user manual");
-      console.log(response);
       this.userManual=response[0].doc;
-      console.log(this.userManual);
     })
 
     //this.intitializeForm();
 
     this.inputId = traineeId;   
-    console.log(this.inputId)
     this.studentDashboardService.getSpStudentInfoByTraineeId(this.inputId).subscribe(res=>{
-      console.log(res)
       if(res){
         let infoList=res
         this.pno=infoList[0].pno,
@@ -223,7 +217,6 @@ export class DashboardComponent implements OnInit {
         this.branchName=infoList[0].branchName;
         this.examCenterName=infoList[0].examCenterName;
         this.completeStatus=infoList[0].isCompletedStatus;
-        console.log(this.courseTypeId,this.courseNameId,this.completeStatus)
         
         if(this.courseTypeId === this.masterData.coursetype.LocalCourse && this.completeStatus === 0){
           this.isShown=true;
@@ -235,7 +228,6 @@ export class DashboardComponent implements OnInit {
         }
         else if(this.courseTypeId === this.masterData.coursetype.ForeignCourse){
           this.isShown=true;
-          console.log("it is foreign block")
           this.getTraineeRemittanceNotification(this.inputId,this.courseDurationId);
           this.getTraineeOtherDocInfo(this.inputId,this.courseDurationId);
           this.getTraineeOtherDocuments(this.inputId,this.courseDurationId);
@@ -243,7 +235,6 @@ export class DashboardComponent implements OnInit {
         }
         else if(this.courseTypeId === this.masterData.coursetype.InterService){
           this.isShown=true;
-          console.log("it is interservice block")
           // this.getTraineeRemittanceNotification(this.inputId,this.courseDurationId);
           // this.getTraineeOtherDocInfo(this.inputId,this.courseDurationId);
           
@@ -271,7 +262,6 @@ export class DashboardComponent implements OnInit {
           this.getCurrentJcoRoutine(this.courseDurationId,infoList[0].saylorBranchId,infoList[0].saylorSubBranchId);
           // this.getTraineeNominationCount(this.inputId,this.courseNameId);
           //this.getNoticeBySchoolId(this.baseSchoolNameId);
-          console.log("jceo")
         }
         
         // this.getReadingMaterialBySchoolAndCourse(infoList[0].baseSchoolNameId,infoList[0].courseNameId);      
@@ -290,7 +280,6 @@ export class DashboardComponent implements OnInit {
   gettraineeAssessmentForStudentSpRequest(traineeId,courseDurationId){ 
     // var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.studentDashboardService.gettraineeAssessmentForStudentSpRequest(courseDurationId,traineeId).subscribe(res=>{
-      console.log("assessment.length"+res.length);
       this.StudentAssessnmentCount = res.length;
     });
   }
@@ -312,27 +301,22 @@ export class DashboardComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.studentDashboardService.getNoticeForTraineeDashboard(schoolId,currentDateTime,durationId,traineeId).subscribe(response => {   
       this.NoticeForStudent=response;
-      console.log(response)
     })
   }
 
   getStuffClgRoutine(courseDurationId){
     this.studentDashboardService.getStuffClgRoutine(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {             
       this.StuffClgRoutineList = response.items; 
-      console.log("Subject name");
-      console.log(this.StuffClgRoutineList);
     })
   }
   getTraineeNominationCount(traineeId,courseNameId){
     this.studentDashboardService.getTraineeNominationCount(traineeId,courseNameId).subscribe(res=>{
       this.attemptCount=res
-      console.log(this.attemptCount);
     });
   }
   getSubjectListBySaylorBranch(courseNameId,saylorBranchId,saylorSubBranchId){
     this.studentDashboardService.getSubjectListBySaylorBranch(courseNameId,saylorBranchId,saylorSubBranchId).subscribe(res=>{
       this.subjectListBySaylorBranch=res
-      console.log(this.subjectListBySaylorBranch);
     });
   }
 
@@ -340,8 +324,6 @@ export class DashboardComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.studentDashboardService.getAssignmentListForStudent(currentDateTime,baseSchoolNameId,courseNameId,courseDurationId).subscribe(response => {   
       this.StudentAssignmentCount=response.length;
-      console.log("assignment count");
-      console.log(this.StudentAssignmentCount)
     });
   }
 
@@ -349,60 +331,49 @@ export class DashboardComponent implements OnInit {
     this.isBulletinShown=true;
     this.studentDashboardService.getActiveBulletinList(baseSchoolNameId).subscribe(res=>{
       this.bulletinList=res;  
-      console.log(this.bulletinList);
     });
   }
 
   getQexamSubjectList(courseNameId,branchId){
     this.studentDashboardService.getQexamSubjectList(branchId,courseNameId).subscribe(res=>{
       this.QexamSubjectList=res;  
-      console.log(this.QexamSubjectList);
     });
   }
 
   getQexamRoutineByBranch(courseDurationId,branchId){
     this.studentDashboardService.getQexamRoutineByBranch(courseDurationId,branchId).subscribe(res=>{
       this.QexamRoutineList=res;  
-      console.log(this.QexamRoutineList);
 
       for(let i=0;i<=this.QexamRoutineList.length;i++){
 
-        console.log("Date"+this.QexamRoutineList[i]);
        }
-       console.log(this.QexamRoutineList);
 
        this.displayedColumns =[...Object.keys(this.QexamRoutineList[0])];
-       console.log([...Object.keys(this.QexamRoutineList[0])]);
        
 
-       console.log(this.QexamRoutineList);
     });
   }
 
   getStuffClgSubjectList(){
     this.studentDashboardService.getStuffClgSubjectList().subscribe(res=>{
       this.StuffClgSubjectList=res;  
-      console.log(this.StuffClgSubjectList);
     });
   }
   getTodayRoutine(courseDurationId,courseSectionId){
     this.studentDashboardService.getCurrentRoutineByTraineeId(courseDurationId,courseSectionId).subscribe(res=>{
       this.todayroutine=res;  
-      console.log(this.todayroutine);
     });
   }
 
   getCurrentJcoRoutine(courseDurationId,saylorBranchId,saylorSubBranchId){
     this.studentDashboardService.getCurrentJcoRoutine(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res=>{
       this.todayroutine=res;  
-      console.log(this.todayroutine);
     });
   }
 
   getTraineeRemittanceNotification(traineeId,courseDurationId){
     this.studentDashboardService.getRemittanceNotificationForStudent(traineeId,courseDurationId).subscribe(res=>{
       this.traineeRemittanceNotification=res;  
-      console.log(this.traineeRemittanceNotification);
     });
   }
   
@@ -410,16 +381,12 @@ export class DashboardComponent implements OnInit {
     this.studentDashboardService.getStudentOtherDocInfo(traineeId,courseDurationId).subscribe(res=>{
       
       var approvedlistItemCount = res.length;
-      console.log("check")
-      console.log(res)
       if(approvedlistItemCount > 0 ){
         this.studentOtherDocInfoList=res; 
       }else{
         this.ApproveMsgScreen=true;
         this.ApproveMsg = "Data Is Processing!";
-        console.log(this.ApproveMsg)
       } 
-      console.log(this.studentOtherDocInfoList);
     });
   }
   
@@ -427,14 +394,12 @@ export class DashboardComponent implements OnInit {
     this.studentDashboardService.getStudentOtherDocuments(traineeId,courseDurationId).subscribe(res=>{
             
       this.studentOtherDocumentList=res;     
-      console.log(this.studentOtherDocumentList);  
     });
   }
   getInterServiceDocuments(courseDurationId){
     this.studentDashboardService.getInterServiceDocuments(courseDurationId).subscribe(res=>{
             
       this.InterServiceDocumentList=res;     
-      console.log(this.InterServiceDocumentList);  
     });
   }
   
@@ -442,12 +407,10 @@ export class DashboardComponent implements OnInit {
     this.studentDashboardService.getStudentGoDocument(courseDurationId).subscribe(res=>{
             
       this.studentGoDocumentList=res;     
-      console.log(this.studentGoDocumentList);  
     });
   }
 
   inActiveItem(row){
-    console.log(row);
     const id = row.courseBudgetAllocationId;    
     //var baseSchoolNameId=this.CourseBudgetAllocationForm.value['baseSchoolNameId'];
     if(row.receivedStatus == 0){
@@ -469,7 +432,6 @@ export class DashboardComponent implements OnInit {
   }
 
   changeDocStatus(row, fieldStatus){
-    console.log(row);
     const id = row.foreignCourseOtherDocId;    
     //var baseSchoolNameId=this.CourseBudgetAllocationForm.value['baseSchoolNameId'];    
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Updating The Status?').subscribe(result => {

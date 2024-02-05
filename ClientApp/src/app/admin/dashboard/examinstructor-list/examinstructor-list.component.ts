@@ -45,7 +45,6 @@ export class ExamInstructorListComponent implements OnInit {
   //   this.isLoading = true;
   //   this.CourseInstructorService.getCourseInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
-  //     console.log(response);
   //     this.dataSource.data = response.items; 
   //     this.paging.length = response.totalItemsCount    
   //     this.isLoading = false;
@@ -58,12 +57,9 @@ export class ExamInstructorListComponent implements OnInit {
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.schooldash=this.route.snapshot.paramMap.get('schooldash');
     this.dbType=this.route.snapshot.paramMap.get('dbType'); 
-    console.log('1111');
-    console.log(this.schooldash)
     if(this.baseSchoolNameId != null && courseNameId !=null){
       this.BNAExamInstructorAssignService.getInstructorBySchoolAndCourse(this.baseSchoolNameId,courseNameId).subscribe(res=>{
         this.GetInstructorByParameters=res;  
-        console.log(this.GetInstructorByParameters); 
       }); 
     }
   }
@@ -84,7 +80,6 @@ export class ExamInstructorListComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.courseInstructorId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.CourseInstructorService.delete(id).subscribe(() => {
   //         this.getCourseInstructors();

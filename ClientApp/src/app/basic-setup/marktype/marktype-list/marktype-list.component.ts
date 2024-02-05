@@ -49,7 +49,6 @@ export class MarkTypeListComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(this.dataSource.data)
     })
   }
 
@@ -69,7 +68,6 @@ export class MarkTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.markTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.MarkTypeService.delete(id).subscribe(() => {
           this.getMarkType();

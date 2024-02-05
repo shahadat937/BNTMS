@@ -58,7 +58,6 @@ export class NewSubjectTypeComponent implements OnInit {
     const id = this.SubjectTypeForm.get('subjectTypeId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Subject Type Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.SubjectTypeService.update(+id,this.SubjectTypeForm.value).subscribe(response => {

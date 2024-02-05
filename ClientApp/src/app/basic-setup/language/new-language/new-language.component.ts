@@ -58,7 +58,6 @@ export class NewLanguageComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Language Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.LanguageService.update(+id,this.LanguageForm.value).subscribe(response => {

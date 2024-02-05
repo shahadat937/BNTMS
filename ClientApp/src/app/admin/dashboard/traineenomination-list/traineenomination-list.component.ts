@@ -68,25 +68,21 @@ export class TraineeNominationListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     //this.getTraineeNominations();
     //var schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
-    console.log("tccc"+this.baseSchoolNameId,courseDurationId)
     this.courseDuration=courseDurationId; 
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     this.dbType1 = this.route.snapshot.paramMap.get('dbType1');
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.courseType3=this.route.snapshot.paramMap.get('courseType3'); 
-    console.log("tttttt"+this.baseSchoolNameId)
     this.masterData.dbType.foreignTrainingDb
     this.TraineeNominationService.findByCourseDuration(+courseDurationId).subscribe(
       res => {
           this.courseDurationId= res.courseDurationId, 
           this.courseNameId = res.courseNameId 
-     //  console.log(res);
       }
     );
     if(this.role === 'Inter Seevice Course'){
@@ -181,7 +177,6 @@ export class TraineeNominationListComponent implements OnInit {
     this.isLoading = true;
     this.TraineeNominationService.gettraineeNominationListByTypeCourseDurationId(courseDurationId).subscribe(response => {
       this.TraineeReportSubmittedList=response;
-      console.log(this.TraineeReportSubmittedList)
     });
   }
 
@@ -190,17 +185,12 @@ export class TraineeNominationListComponent implements OnInit {
     this.isLoading = true;
     this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
       this.nominatedPercentageList=response;
-      console.log("eee");
-      console.log(this.nominatedPercentageList)
     });
     this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
       this.dataSource.data = response.items; 
       this.schoolName=this.dataSource.data[0].schoolName;
       this.getCourse = this.dataSource.data[0].courseName + '_' + this.dataSource.data[0].courseDuration;
       // this gives an object with dates as keys
-      console.log(this.getCourse);
-      console.log(this.schoolName);
-      console.log("tgetCourse data");
       const groups = this.dataSource.data.reduce((groups, courses) => {
         const courseName = courses.courseName + '-' + courses.courseDuration;
         if (!groups[courseName]) {
@@ -217,11 +207,9 @@ export class TraineeNominationListComponent implements OnInit {
           courses: groups[courseName]
         };
       });
-      console.log(this.groupArrays);
 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response);
     })
     
   }
@@ -242,7 +230,6 @@ export class TraineeNominationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.traineeNominationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     // console.log(result);
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
         //  this.getTraineeNominations();

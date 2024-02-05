@@ -78,7 +78,6 @@ export class WithdrawnTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.withdrawnTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.WithdrawnTypeService.delete(id).subscribe(() => {
           this.getWithdrawnTypes();

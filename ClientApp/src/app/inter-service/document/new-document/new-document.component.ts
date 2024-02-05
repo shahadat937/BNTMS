@@ -123,7 +123,6 @@ export class NewDocumentComponent implements OnInit {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log(file);
       this.DocumentForm.patchValue({
         doc: file,
       });
@@ -133,7 +132,6 @@ export class NewDocumentComponent implements OnInit {
 
   onCourseSelectionChangeGetCourseModule(dropdown){
     this.isShown=true
-    console.log(dropdown)
     if (dropdown.isUserInput) {
       var courseNameArr = dropdown.source.value.split('_');
       this.courseDurationId = courseNameArr[0];
@@ -175,13 +173,11 @@ export class NewDocumentComponent implements OnInit {
   }
   onSubmit() {
     const id = this.DocumentForm.get('documentId').value;  
-    console.log(this.DocumentForm.value); 
     const formData = new FormData();
     for (const key of Object.keys(this.DocumentForm.value)) {
       const value = this.DocumentForm.value[key];
       formData.append(key, value);
     } 
-   // console.log(formData)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         

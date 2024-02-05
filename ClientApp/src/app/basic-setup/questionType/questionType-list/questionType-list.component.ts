@@ -84,7 +84,6 @@ export class QuestionTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.questionTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Question Type Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.questionTypeService.delete(id).subscribe(() => {
           this.getQuestionTypes();

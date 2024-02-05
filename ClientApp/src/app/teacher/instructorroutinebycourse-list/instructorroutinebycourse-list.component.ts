@@ -47,7 +47,6 @@ export class InstructorRoutinebyCourseComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     const branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, branchId)
 
     var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
@@ -57,7 +56,6 @@ export class InstructorRoutinebyCourseComponent implements OnInit {
     this.instructorDashboardService.getInstructorRoutineByCourseList(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId,this.traineeId).subscribe(response => {         
       this.RoutineByCourse=response;
       this.courseName=this.RoutineByCourse[0].course + "_" + this.RoutineByCourse[0].courseTitle;
-      console.log(this.courseName);
       const groups = this.RoutineByCourse.reduce((groups, courses) => {
         const courseName = courses.date;
         if (!groups[courseName]) {
@@ -74,8 +72,6 @@ export class InstructorRoutinebyCourseComponent implements OnInit {
           courses: groups[course]
         };
       });
-      console.log(this.groupArrays);
-      console.log(this.RoutineByCourse)
     })
   }
   toggle(){

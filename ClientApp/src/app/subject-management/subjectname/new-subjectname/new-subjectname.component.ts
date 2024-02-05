@@ -64,7 +64,6 @@ export class NewSubjectnameComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('bnaSubjectNameId'); 
     if (id) {
@@ -104,9 +103,6 @@ export class NewSubjectnameComponent implements OnInit {
           this.onBaseNameSelectionChangeGetModule();
           this.courseNameId = res.courseNameId; 
           this.selected=res.subjectGreading;
-          console.log(this.selected);   
-          console.log("Response");
-          console.log(res);     
           //this.onBaseNameSelectionChangeGetModule()
         }
       );
@@ -177,7 +173,6 @@ export class NewSubjectnameComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null){
       this.BNASubjectNameService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;     
-        console.log( this.selectedCourseModuleByBaseSchoolAndCourseNameId); 
       });
     }  
   }
@@ -238,12 +233,10 @@ export class NewSubjectnameComponent implements OnInit {
     var baseSchoolNameId=this.BNASubjectNameForm.value['baseSchoolNameId'];
     var courseNameId=this.BNASubjectNameForm.value['courseNameId'];
     var courseModuleId=this.BNASubjectNameForm.value['courseModuleId'];
-    console.log(baseSchoolNameId +" -"+courseNameId+"- "+courseModuleId);
     this.isShown=true;
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null){
       this.BNASubjectNameService.getSelectedCourseByParameters(baseSchoolNameId,courseNameId,courseModuleId,this.status).subscribe(res=>{
         this.selectedCourseByParameterRequest=res;  
-        console.log(this.selectedCourseByParameterRequest); 
       }); 
     }
   }
@@ -330,7 +323,6 @@ export class NewSubjectnameComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null){
       this.BNASubjectNameService.getSelectedCourseByParameters(baseSchoolNameId,courseNameId,courseModuleId,this.status).subscribe(res=>{
         this.selectedCourseByParameterRequest=res;  
-        console.log(this.selectedCourseByParameterRequest); 
       }); 
     }
   }
@@ -342,7 +334,6 @@ export class NewSubjectnameComponent implements OnInit {
     var courseModuleId=row.courseModuleId;
     
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNASubjectNameService.delete(id).subscribe(() => {
           this.SubjectListonDelete(baseSchoolNameId,courseNameId,courseModuleId);
@@ -369,7 +360,6 @@ export class NewSubjectnameComponent implements OnInit {
     const id = this.BNASubjectNameForm.get('bnaSubjectNameId').value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.BNASubjectNameService.update(+id,this.BNASubjectNameForm.value).subscribe(response => {

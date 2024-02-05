@@ -39,7 +39,6 @@ export class NewCourseWeekComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     const id = this.route.snapshot.paramMap.get('courseWeekId'); 
@@ -63,8 +62,6 @@ export class NewCourseWeekComponent implements OnInit {
             menuPosition: res.menuPosition,
            // isActive: true
           });  
-          console.log("Response");
-          console.log(res);
           this.getselectedcoursedurationbyschoolname();
           var editArr = [res.courseDurationId, res.courseNameId, res.baseSchoolNameId];
           this.getselectedbnasubjectname(editArr)        
@@ -110,7 +107,6 @@ export class NewCourseWeekComponent implements OnInit {
    
      var baseSchoolNameId=this.CourseWeekForm.value['baseSchoolNameId'];
     this.CourseWeekService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-      console.log(res);
       this.selectedcoursedurationbyschoolname=res;
     });
   } 
@@ -129,9 +125,6 @@ export class NewCourseWeekComponent implements OnInit {
       this.CourseWeekForm.get('courseName').setValue(dropdown.text);
       this.CourseWeekForm.get('courseNameId').setValue(courseNameId);
       this.CourseWeekForm.get('courseDurationId').setValue(courseDurationId);
-      console.log("after select course")
-      console.log(courseDurationId)
-      console.log(courseNameId)
     } 
   } 
 
@@ -143,10 +136,8 @@ export class NewCourseWeekComponent implements OnInit {
 
   onSubmit() {
     const id = this.CourseWeekForm.get('courseWeekId').value;   
-    // console.log(this.CourseWeekForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.CourseWeekService.update(+id,this.CourseWeekForm.value).subscribe(response => {
@@ -165,7 +156,6 @@ export class NewCourseWeekComponent implements OnInit {
     }else {
       this.loading = true;
       this.CourseWeekService.submit(this.CourseWeekForm.value).subscribe(response => {
-        console.log(this.CourseWeekForm.value)
         this.router.navigateByUrl('/course-management/courseweek-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

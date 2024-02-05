@@ -79,8 +79,6 @@ export class NewGuestSpeakerActionStatusComponent implements OnInit {
      
 
       this.dataSource.data = response.items; 
-      console.log(this.dataSource.data)
-      console.log("dataSource.data")
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
@@ -114,7 +112,6 @@ export class NewGuestSpeakerActionStatusComponent implements OnInit {
   deleteItem(row) {
     const id = row.guestSpeakerActionStatusId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.GuestSpeakerActionStatusService.delete(id).subscribe(() => {
           //this.getTdecActionStatuses();
@@ -139,10 +136,8 @@ export class NewGuestSpeakerActionStatusComponent implements OnInit {
   
   onSubmit() {
     const id = this.GuestSpeakerActionStatusForm.get('guestSpeakerActionStatusId').value;  
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.GuestSpeakerActionStatusService.update(+id,this.GuestSpeakerActionStatusForm.value).subscribe(response => {

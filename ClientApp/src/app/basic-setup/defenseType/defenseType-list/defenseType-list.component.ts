@@ -84,7 +84,6 @@ export class DefenseTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.defenseTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Defense Type Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.defenseTypeService.delete(id).subscribe(() => {
           this.getDefenseTypes();

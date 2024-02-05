@@ -42,7 +42,6 @@ export class RecordOfServiceService {
     return this.http.post(this.baseUrl + '/record-of-service/save-RecordOfService', model).pipe(
       map((RecordOfService: PostResponse) => {
         if (RecordOfService) {
-          console.log(RecordOfService);
           return RecordOfService;
         }
       })

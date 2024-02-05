@@ -65,7 +65,6 @@ export class BNAInstructorTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaInstructorTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAInstructorTypeService.delete(id).subscribe(() => {
           this.getBNAInstructorTypes();

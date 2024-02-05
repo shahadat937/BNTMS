@@ -48,7 +48,6 @@ export class BnasemesterdurationListComponent implements OnInit {
      
 
       this.dataSource.data = response.items; 
-      console.log( response.items);
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
@@ -68,13 +67,9 @@ export class BnasemesterdurationListComponent implements OnInit {
   } 
 
   courseWeekGenerate(row){
-    console.log(row)
     const id = row.bnaSemesterDurationId; 
-    console.log(row.bnaSemesterDurationId)
-    console.log("SemesterDurationId")
 
     this.confirmService.confirm('Confirm  message', 'Are You Sure? ').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNASemesterDurationService.genarateCourseWeekForBna(id).subscribe(() => {
           //this.getCoursesByViewType(1);
@@ -93,7 +88,6 @@ export class BnasemesterdurationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaSemesterDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASemesterDuration Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNASemesterDurationService.delete(id).subscribe(() => {
           this.getBNASemesterDurations();

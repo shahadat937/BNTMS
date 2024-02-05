@@ -45,7 +45,6 @@ export class RunningCoursesListComponent implements OnInit {
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
-    console.log("rr"+this.schoolId)
     this.getrunningCourseListBySchool(this.schoolId);
   }
 
@@ -55,8 +54,6 @@ export class RunningCoursesListComponent implements OnInit {
       
       this.localCourseCount=response.length;
       this.runningCourses=response;
-      console.log("running course")
-      console.log(response)
     })
   }
 }

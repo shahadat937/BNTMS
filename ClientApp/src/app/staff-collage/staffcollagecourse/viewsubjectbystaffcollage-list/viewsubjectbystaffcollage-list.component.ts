@@ -53,7 +53,6 @@ export class ViewSubjectListByStaffCollageComponent implements OnInit {
     //this.isShown = true;
     this.BNASubjectNameService.getselectedSubjectNameByBranchId().subscribe(res => {
       this.subjectNameList = res
-      console.log(this.subjectNameList);
     });
   }
  
@@ -63,7 +62,6 @@ export class ViewSubjectListByStaffCollageComponent implements OnInit {
   //   var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
   //   this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourse(Number(baseSchoolNameId),Number(courseNameId)).subscribe(res=>{
   //     this.SelectedsubjectsBySchoolAndCourse=res;  
-  //     console.log(this.SelectedsubjectsBySchoolAndCourse); 
   //   });
   // }
 
@@ -83,7 +81,6 @@ export class ViewSubjectListByStaffCollageComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.bnaSubjectNameId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.BNASubjectNameService.delete(id).subscribe(() => {
   //         this.getBNASubjectNames();

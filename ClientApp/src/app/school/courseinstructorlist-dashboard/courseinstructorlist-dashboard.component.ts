@@ -53,7 +53,6 @@ export class CourseInstructorListDashboardComponent implements OnInit {
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     // this.branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId);
 
     //this.getTraineeNominations();
     //var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
@@ -61,7 +60,6 @@ export class CourseInstructorListDashboardComponent implements OnInit {
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
-    console.log("rr"+this.schoolId)
     this.getInstructorByCourse(this.schoolId);
     if (this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice ||  this.role == this.userRole.TC ||  this.role == this.userRole.TCO) {
       this.getInstructorBySchoolForBase(this.branchId);
@@ -73,14 +71,12 @@ export class CourseInstructorListDashboardComponent implements OnInit {
   getInstructorByCourse(schoolId){
     this.schoolDashboardService.getInstructorByCourse(schoolId).subscribe(response => {         
       this.InstructorList=response;
-      console.log(response)
     })
   }
 
   getInstructorBySchoolForBase(baseId){
     this.schoolDashboardService.getInstructorBySchoolForBase(baseId).subscribe((response) => {
       this.InstructorList = response;
-      console.log(this.InstructorList);
       const groups = this.InstructorList.reduce((groups, courses) => {
         const schoolname = courses.schoolName;
         if (!groups[schoolname]) {
@@ -98,7 +94,6 @@ export class CourseInstructorListDashboardComponent implements OnInit {
         };
       });
 
-      console.log(this.groupArrays);
     });
   }
 }

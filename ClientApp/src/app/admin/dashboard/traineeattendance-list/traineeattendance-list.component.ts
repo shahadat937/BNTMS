@@ -62,7 +62,6 @@ export class TraineeAttendanceListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
    
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     //this.getTraineeNominations();
@@ -82,14 +81,11 @@ export class TraineeAttendanceListComponent implements OnInit {
     this.durationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.studentDashboardService.getSpStudentInfoByTraineeId(Number(inputId)).subscribe(res=>{
       var traineeSectionId = res[0].courseSectionId;
-      console.log("res")
-      console.log(res)
 
       this.dashboardService.getTraineeAttendanceList(inputId,this.durationId,traineeSectionId,attendanceStatus).subscribe(res=>{
         this.traineeAttendanceList=res;
         // this.trainee = res[0].traineeRank + " " + res[0].name + " ( P No " + res[0].pno +")";
         // this.courseNameTitle = res[0].course + " - " + res[0].courseTitle;
-        console.log(res)
   
         // this gives an object with dates as keys
         const groups = this.traineeAttendanceList.reduce((groups, courses) => {
@@ -109,11 +105,9 @@ export class TraineeAttendanceListComponent implements OnInit {
           };
         });
   
-        console.log(this.groupArrays)
       });
     });
 
-    console.log(inputId, this.durationId,attendanceStatus)
     
   }
 

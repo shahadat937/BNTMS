@@ -130,7 +130,6 @@ export class NewForeignTraineeNominationComponent implements OnInit {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log(item);
     this.foreigntraineenominationForm.get('traineeId').setValue(item.value);
     this.foreigntraineenominationForm.get('traineeName').setValue(item.text);
   }

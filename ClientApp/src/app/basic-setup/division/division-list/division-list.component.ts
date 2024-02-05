@@ -65,7 +65,6 @@ export class DivisionListComponent implements OnInit {
   deleteItem(row) {
     const id = row.divisionId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.DivisionService.delete(id).subscribe(() => {
           this.getDivisions();

@@ -89,22 +89,18 @@ export class NewBaseNameComponent implements OnInit {
   // getSelectedOrganization(){
   //   this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
   //     this.selectedOrganization=res
-  //     console.log(this.selectedOrganization);
   //   });
   // }
 
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.BaseNameForm.value['firstLevel'];
-    console.log(this.organizationId)    
     this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
-      console.log(this.selectedCommendingArea);
     });        
   }
   
   onCommendingAreaSelectionChangeGetBaseList(){
     this.commendingAreaId=this.BaseNameForm.value['secondLevel'];
-    console.log(this.commendingAreaId);
     this.getBaseNameList(this.commendingAreaId);
             
   }
@@ -113,15 +109,12 @@ export class NewBaseNameComponent implements OnInit {
     this.isShown=true;
     this.BaseSchoolNameService.getBaseNameList(commendingAreaId).subscribe(res=>{
       this.baseNameList=res
-      console.log(this.baseNameList);
     });
   }
 
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log('ImagE')
-     console.log(file);
       this.BaseNameForm.patchValue({
         image: file,
       });
@@ -158,16 +151,13 @@ export class NewBaseNameComponent implements OnInit {
   
   onSubmit() {
     const id = this.BaseNameForm.get('baseSchoolNameId').value;
-    //console.log(id);
     const formData = new FormData();
     for (const key of Object.keys(this.BaseNameForm.value)) {
       const value = this.BaseNameForm.value[key];
       formData.append(key, value);
     }
-    console.log(formData)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
@@ -207,7 +197,6 @@ export class NewBaseNameComponent implements OnInit {
   deleteItem(row) {
     const id = row.baseSchoolNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BaseSchoolNameService.delete(id).subscribe(() => {
           this.getBaseNameList(this.commendingAreaId);

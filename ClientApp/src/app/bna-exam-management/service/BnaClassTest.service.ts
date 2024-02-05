@@ -86,7 +86,6 @@ export class BnaClassTestService {
     return this.http.post<PostResponse>(this.baseUrl + '/bna-class-test/save-bnaClassTest', model).pipe(
       map((BnaClassTest: PostResponse) => {
         if (BnaClassTest) {
-          console.log(BnaClassTest);
           return BnaClassTest;
         }
       })

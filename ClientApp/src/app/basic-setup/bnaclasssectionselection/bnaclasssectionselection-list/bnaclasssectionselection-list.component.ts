@@ -63,7 +63,6 @@ export class BnaclasssectionselectionListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaClassSectionSelectionId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAClassSectionSelectionService.delete(id).subscribe(() => {
           this.getBNAClassSectionSelections();

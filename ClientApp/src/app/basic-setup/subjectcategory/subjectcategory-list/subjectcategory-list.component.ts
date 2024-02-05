@@ -84,7 +84,6 @@ export class SubjectCategoryListComponent implements OnInit {
   deleteItem(row) {
     const id = row.subjectCategoryId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Subject Category Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SubjectCategoryService.delete(id).subscribe(() => {
           this.getSubjectCategorys();

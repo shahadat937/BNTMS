@@ -89,21 +89,18 @@ export class FamilyNominationService {
   //   return this.http.post<PostResponse>(this.baseUrl + '/family-nomination/save-familyNominationList', model).pipe(
   //     map((FamilyNomination: PostResponse) => {
   //       if (FamilyNomination) {
-  //         console.log(FamilyNomination);
   //         return FamilyNomination;
   //       }
   //     })
   //   );
   // } 
   submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
     return this.http.post<PostResponse>(this.baseUrl + '/family-nomination/save-familyNominationList', model, httpOptions).pipe(
       map((InterServiceMark: PostResponse) => {
         if (InterServiceMark) {
-          console.log(InterServiceMark);
           return InterServiceMark;
         }
       })

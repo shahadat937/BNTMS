@@ -44,7 +44,6 @@ export class TraineeNominationListComponent implements OnInit {
       res => {
           this.courseDurationId= res.courseDurationId, 
           this.courseNameId = res.courseNameId 
-     //  console.log(res);
       }
     );
     this.getTraineeNominationsByCourseDurationId(courseDurationId)
@@ -72,7 +71,6 @@ export class TraineeNominationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.traineeNominationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     // console.log(result);
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.snackBar.open('Information Deleted Successfully ', '', {

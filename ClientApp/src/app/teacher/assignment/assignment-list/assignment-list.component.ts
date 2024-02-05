@@ -42,7 +42,6 @@ export class AssignmentListComponent implements OnInit {
     this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res=>{ 
       
       this.courseList = res;
-      console.log(res)
     });  
   }
 }

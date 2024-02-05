@@ -75,7 +75,6 @@ export class NewTraineeAssessmentMarkComponent implements OnInit {
   onSubmit() {
     
     const id = this.TraineeAssessmentMarkForm.get('traineeAssessmentMarkId').value;  
-    console.log(this.TraineeAssessmentMarkForm.value)
     // const formData = new FormData();
     // for (const key of Object.keys(this.TraineeAssessmentMarkForm.value)) {
     //   const value = this.TraineeAssessmentMarkForm.value[key];
@@ -84,7 +83,6 @@ export class NewTraineeAssessmentMarkComponent implements OnInit {
     if (id) {
       
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.TraineeAssessmentMarkService.update(+id,this.TraineeAssessmentMarkForm.value).subscribe(response => {

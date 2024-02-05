@@ -113,22 +113,17 @@ export class DashboardComponent implements OnInit {
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     // const branchId =  this.authService.currentUserValue.branchId.trim();
     const branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, branchId)
     // this.intitializeForm();
     // this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     // this.getSpCurrentRoutineForStudentDashboard(this.traineeId);
     //this.traineeId=this.route.snapshot.paramMap.get('traineeId'); 
-    console.log(this.traineeId+"ggggg")
     this.getSpCurrentRoutineForStudentDashboard(this.traineeId);
     this.getActiveQexam(this.traineeId);
     this.getActiveJcoexam(this.traineeId);
     this.getActiveStuffexam(this.traineeId);
 
     this.studentDashboardService.getUserManualByRole(this.role).subscribe(response => {   
-      console.log("user manual");
-      console.log(response);
       this.userManual=response[0].doc;
-      console.log(this.userManual);
     });
 
     this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res=>{
@@ -145,18 +140,15 @@ export class DashboardComponent implements OnInit {
         this.joiningDate=infoList[0].joiningDate, 
         this.traineeImg=infoList[0].bnaPhotoUrl, 
         
-        this.schoolId=infoList[0].baseSchoolNameId, 
+        this.schoolId=infoList[0].baseSchoolNameId
         
         
         
-        console.log("instructor data"+this.courseDurationId)
-        console.log(res)
       }else{
         this.isShown=false;
       }
       
       if(this.userExists(res,this.masterData.coursetype.LocalCourse)){
-        console.log("local user")
         this.isShown=true;
         this.getActiveBulletins(res[0].baseSchoolNameId)
         this.getNoticeBySchoolId(res[0].baseSchoolNameId)
@@ -166,17 +158,14 @@ export class DashboardComponent implements OnInit {
     
     this.instructorDashboardService.getSpInstructorRoutineByTraineeId(this.traineeId).subscribe(res=>{
       this.routineList = res;
-      console.log(res)
     });
 
     this.instructorDashboardService.getSpReadingMaterialByTraineeId(this.traineeId).subscribe(res=>{
       this.materialList = res;
-      console.log(res)
     });
   }
 
   userExists(dataList,courseTypeId) {
-    console.log(dataList);
     return dataList.some(function(el) {
       return el.courseTypeId === courseTypeId;
     }); 
@@ -218,38 +207,31 @@ export class DashboardComponent implements OnInit {
           courses: groups[course]
         };
       });
-      console.log(this.groupArrays);
 
-      console.log("dddd");
-      console.log(res)
     });
   }
 
   getActiveBulletins(baseSchoolNameId){
     this.studentDashboardService.getIndividualBulletinListByTraineeId(baseSchoolNameId,this.traineeId).subscribe(res=>{
       this.bulletinList=res;  
-      console.log(this.bulletinList);
     });
   }
   
   getActiveQexam(traineeId){
     this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,this.masterData.coursetype.CentralExam,this.masterData.courseName.QExam).subscribe(res=>{
       this.qexamCount=res.length;  
-      console.log("qexam"+this.qexamCount);
     });
   }
 
   getActiveJcoexam(traineeId){
     this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,this.masterData.coursetype.CentralExam,this.masterData.courseName.JCOsTraining).subscribe(res=>{
       this.jcoxmCount=res.length;  
-      console.log("jco"+this.qexamCount);
     });
   }
   
   getActiveStuffexam(traineeId){
     this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,this.masterData.coursetype.CentralExam,this.masterData.courseName.StaffCollage).subscribe(res=>{
       this.stuffxmCount=res.length;  
-      console.log("stuff "+this.stuffxmCount);
     });
   }
 
@@ -257,7 +239,6 @@ export class DashboardComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.studentDashboardService.getNoticeBySchoolId(schoolId,currentDateTime).subscribe(response => {   
       this.NoticeForInstructor=response;
-      console.log(response)
     })
   }
 

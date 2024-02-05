@@ -90,8 +90,6 @@ export class NewStaffCollageCourseComponent implements OnInit {
       this.dataSource.data = response.items.filter(x=>x.isCompletedStatus===0); 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log("Response course");
-      console.log(this.dataSource.data);
     })
   }
 
@@ -145,30 +143,22 @@ export class NewStaffCollageCourseComponent implements OnInit {
   getSelectedCourseByType(){
     this.CourseNameService.getSelectedCourseByType(1021).subscribe(res=>{
       this.selectedCourseByType=res
-      console.log("Selected Course By Type");
-      console.log(this.selectedCourseByType);
     });
   }
 
   stopCentralExam(element){
     if(element.isCompletedStatus ===0){
-      console.log("element id");
-      console.log(element.status);
       this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
         if (result) {
        this.CourseDurationService.stopCentralExam(element.courseDurationId).subscribe(() => {
         this.getCourseDurationsByCourseType();
         // this.getCourseDurationsByCourseType().subscribe(res=>{
         //         this.selectedNotice=res
-        //         console.log("ffff");
-        //         console.log(this.selectedNotice);
         //  });
       //  var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
   
     //     this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
     //       this.selectedNotice=res
-    // console.log("ffff");
-    //       console.log(this.selectedNotice);
     //     }); 
   
        // this.getCourseplanCreates();
@@ -200,7 +190,6 @@ export class NewStaffCollageCourseComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseDurationService.delete(id).subscribe(() => {
           
@@ -218,7 +207,6 @@ export class NewStaffCollageCourseComponent implements OnInit {
 
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;  
-    console.log(this.CourseDurationForm.value); 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

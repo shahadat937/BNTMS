@@ -55,7 +55,6 @@ export class NewBIODataGeneralInfosComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.userId=this.authService.currentUserValue.id;
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    console.log(this.role, this.traineeId)
 
     const id = this.route.snapshot.paramMap.get('traineeId'); 
     if (id) {
@@ -65,7 +64,6 @@ export class NewBIODataGeneralInfosComponent implements OnInit {
  
       this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
-          console.log(res);
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
           }   
@@ -164,7 +162,6 @@ export class NewBIODataGeneralInfosComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       // this.labelImport.nativeElement.value = file.name;
-     console.log(file);
     // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
       this.BIODataGeneralInfoForm.patchValue({
         image: file,
@@ -180,21 +177,18 @@ export class NewBIODataGeneralInfosComponent implements OnInit {
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
-      console.log(this.selectedDistrict);
     });
   }
 
   onDistrictSelectionChangeGetThana(districtId){
     this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
-      console.log(this.selectedThana);
     });
   }
 
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
-      console.log(this.selectedCastes);
     });
   } 
 
@@ -212,7 +206,6 @@ export class NewBIODataGeneralInfosComponent implements OnInit {
   //     });
   //     const file = imgFile.target.files[0].name;
   //     // this.labelImport.nativeElement.innerText = file.name;
-  //     console.log(file);
   //     this.BIODataGeneralInfoForm.patchValue({
   //       image: file,
   //     });
@@ -309,8 +302,6 @@ export class NewBIODataGeneralInfosComponent implements OnInit {
       const value = this.BIODataGeneralInfoForm.value[key];
       formData.append(key, value);
     }
-    console.log(this.BIODataGeneralInfoForm.value)
-    console.log(formData)
 
     // if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {

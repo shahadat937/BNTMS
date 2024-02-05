@@ -100,14 +100,12 @@ export class DashboardComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     const branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, branchId)
     this.chart1();
     this.chart2();
     // this.intitializeForm();
     // this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     // this.getSpCurrentRoutineForStudentDashboard(this.traineeId);
     //this.traineeId=this.route.snapshot.paramMap.get('traineeId'); 
-    console.log(this.traineeId+"ggggg")
     this.getSpCurrentRoutineForStudentDashboard(this.traineeId);
     this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res=>{
       if(res){
@@ -123,7 +121,6 @@ export class DashboardComponent implements OnInit {
         this.getActiveBulletins(infoList[0].baseSchoolNameId)
         this.getNoticeBySchoolId(infoList[0].baseSchoolNameId)
         this.isShown=true;
-        console.log(res)
       }else{
         this.isShown=false;
       }
@@ -132,12 +129,10 @@ export class DashboardComponent implements OnInit {
     
     this.instructorDashboardService.getSpInstructorRoutineByTraineeId(this.traineeId).subscribe(res=>{
       this.routineList = res;
-      console.log(res)
     });
 
     this.instructorDashboardService.getSpReadingMaterialByTraineeId(this.traineeId).subscribe(res=>{
       this.materialList = res;
-      console.log(res)
     });
   }
 
@@ -159,15 +154,12 @@ export class DashboardComponent implements OnInit {
   getSpCurrentRoutineForStudentDashboard(id){
     this.instructorDashboardService.getSpCurrentRoutineForStudentDashboard(id).subscribe(res=>{
       this.upcomingCoursesList = res;
-      console.log("dddd");
-      console.log(res)
     });
   }
 
   getActiveBulletins(baseSchoolNameId){
     this.studentDashboardService.getActiveBulletinList(baseSchoolNameId).subscribe(res=>{
       this.bulletinList=res;  
-      console.log(this.bulletinList);
     });
   }
 
@@ -175,7 +167,6 @@ export class DashboardComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.studentDashboardService.getNoticeBySchoolId(schoolId,currentDateTime).subscribe(response => {   
       this.NoticeForInstructor=response;
-      console.log(response)
     })
   }
 

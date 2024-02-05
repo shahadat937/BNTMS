@@ -47,7 +47,6 @@ export class TraineeMarkSheetComponent implements OnInit {
     this.studentDashboardService.getTraineeMarksheet(traineeId,courseDurationId).subscribe(res=>{
       this.marklistbycourse=res;  
       this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
-      console.log([...Object.keys(this.marklistbycourse[0])]);
   //displayedColumns: string[] = [...Object.keys(this.marklistbycourse[0])];
    
     

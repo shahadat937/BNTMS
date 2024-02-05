@@ -76,7 +76,6 @@ export class NewTraineeLanguageComponent implements OnInit {
   getLanguages(){
        this.TraineeLanguageService.getselectedLanguage().subscribe(res=>{
       this.selectedLanguages=res
-      console.log(this.selectedLanguages);
     });
   }
   

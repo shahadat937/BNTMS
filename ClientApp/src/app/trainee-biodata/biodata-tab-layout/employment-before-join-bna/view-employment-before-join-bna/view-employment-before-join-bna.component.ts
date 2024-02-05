@@ -40,7 +40,6 @@ export class ViewEmploymentBeforeJoinBNAComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('employmentBeforeJoinBnaId'); 
     this.EmploymentBeforeJoinBNAService.find(+id).subscribe( res => {
-      console.log(res);
       this.employmentBeforeJoinBnaId = res.employmentBeforeJoinBnaId,
       this.traineeId = res.traineeId,
       this.name = res.name,

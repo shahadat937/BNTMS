@@ -112,14 +112,12 @@ export class TdecGroupResultService {
   
 
   submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/tdec-group-result/save-tdecGroupResult', model, httpOptions).pipe(
       map((TdecGroupResult: PostResponse) => {
         if (TdecGroupResult) {
-          console.log(TdecGroupResult);
           return TdecGroupResult;
         }
       })
@@ -135,14 +133,12 @@ export class TdecGroupResultService {
   }
   
   approve(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/bna-exam-mark/approve-bnaExamMarklist', model, httpOptions).pipe(
       map((TdecGroupResult: PostResponse) => {
         if (TdecGroupResult) {
-          console.log(TdecGroupResult);
           return TdecGroupResult;
         }
       })

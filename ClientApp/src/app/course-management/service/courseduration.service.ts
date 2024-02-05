@@ -150,7 +150,6 @@ activeCoursePlan(id : number){
     return this.http.post<PostResponse>(this.baseUrl + '/course-duration/save-courseDuration-fornbcd?baseSchoolNameId='+branchId+'', model).pipe(
       map((CourseDuration: PostResponse) => {
         if (CourseDuration) {
-          console.log(CourseDuration);
           return CourseDuration;
         }
       })
@@ -162,7 +161,6 @@ activeCoursePlan(id : number){
     return this.http.post<PostResponse>(this.baseUrl + '/course-duration/save-courseDuration', model).pipe(
       map((CourseDuration: PostResponse) => {
         if (CourseDuration) {
-          console.log(CourseDuration);
           return CourseDuration;
         }
       })

@@ -133,13 +133,10 @@ export class DashboardComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.schoolId = 20;
-    console.log(this.schoolId)
     this.baseSchoolNameService.find(this.schoolId).subscribe(response => {   
       this.schoolName = response.schoolName;
-      console.log(this.schoolName);
     })
     
     //this.getrunningCourseListBySchool();
@@ -175,7 +172,6 @@ export class DashboardComponent implements OnInit {
     this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
       //this.dataSource.data = response.items; 
       this.totalNomineted = response.totalItemsCount;
-      console.log(response);
     })
   }
 
@@ -186,7 +182,6 @@ export class DashboardComponent implements OnInit {
       
   //     this.localCourseCount=response.length;
   //     this.runningCourses=response;
-  //     console.log(response)
   //   })
   // }
   getCoursesByViewType(viewStatus){
@@ -194,14 +189,12 @@ export class DashboardComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.foreignDashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime,viewStatus).subscribe(response => {           
       this.runningCourses=response;
-      console.log(this.runningCourses)
     })
   }
   getSpUpcomingCourseDurationsByTypeForInterService(){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.foreignDashboardService.getSpUpcomingCourseDurationsByTypeForInterService(this.runningCourseType,currentDateTime).subscribe(response => {           
       this.runningCourses=response;
-      console.log(this.runningCourses)
     })
   }
 

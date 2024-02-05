@@ -68,7 +68,6 @@ export class BudgetAllocationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.budgetAllocationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BudgetAllocationService.delete(id).subscribe(() => {
           this.getBudgetAllocations();

@@ -131,7 +131,6 @@ export class DashboardComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     this.runningCourseType=this.masterData.coursetype.InterService;
@@ -221,14 +220,12 @@ export class DashboardComponent implements OnInit {
   onViewStatus(dropdown) {
     if (dropdown.isUserInput) {
       this.status = dropdown.source.value;
-      console.log(this.status);
     }
   }
   getSpUpcomingCourseDurationsByTypeForInterService(){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.interServiceDashboardService.getSpUpcomingCourseDurationsByTypeForInterService(this.runningCourseType,currentDateTime).subscribe(response => {           
       this.interServiceCourses=response;
-      console.log(this.interServiceCourses)
     })
   }
 
@@ -237,7 +234,6 @@ export class DashboardComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.interServiceDashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime,viewStatus).subscribe(response => {           
       this.interServiceCourses=response;
-      console.log(this.interServiceCourses)
     })
   }
 
@@ -246,21 +242,18 @@ export class DashboardComponent implements OnInit {
   //   let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
   //   this.interServiceDashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime).subscribe(response => {           
   //     this.interServiceCourses=response;
-  //     console.log(this.interServiceCourses)
   //   })
   // }
 
   getJcoCourseDurations(){
         this.interServiceDashboardService.getCentralCourseDuration(this.masterData.coursetype.CentralExam,this.masterData.courseName.JCOsTraining).subscribe(response => {           
       this.isJcosOpen=response.length;
-      console.log("jco count"+this.isJcosOpen)
     })
   }
 
   getBudgetCodeList(){
     this.interServiceDashboardService.getBudgetCodeList().subscribe(res=>{
       this.budgetCodes=res 
-      console.log(this.budgetCodes)
      });  
   }
 
@@ -342,7 +335,6 @@ export class DashboardComponent implements OnInit {
     // this.dashboardService.getCourseDurationForEventCalendar().subscribe(res=>{
     //   //var durationData: EventInput[] = res;
     //   // const durationData: EventInput[] =res;
-    //   // console.log(durationData)
     //   this.calendarEvents=INITIAL_EVENTS;
     //   // this.calendarEvents= [{
     //   //   id: "event1",
@@ -368,7 +360,6 @@ export class DashboardComponent implements OnInit {
     this.isLoading = true;
     this.courseTypeId = id;
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    console.log(currentDateTime);
     if(this.courseTypeId == this.masterData.coursetype.LocalCourse){
       // this.dashboardService.getSpCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
       //   this.upcomingLocalCourses=response;
@@ -390,10 +381,8 @@ export class DashboardComponent implements OnInit {
       //     };
       //   });
 
-      //   console.log(this.groupArrays)
 
       //   // this.upcomingLocalCourses=response;
-      //   // console.log(response)
       // })
     }else if(this.courseTypeId === this.masterData.coursetype.ForeignCourse){
       // this.dashboardService.getSpForeignCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   

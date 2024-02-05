@@ -58,7 +58,6 @@ export class NewHeightComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Height Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.heightService.update(+id,this.heightForm.value).subscribe(response => {

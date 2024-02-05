@@ -70,7 +70,6 @@ export class BNAExamAttendanceService {
     return this.http.post<PostResponse>(this.baseUrl + '/bna-exam-attendance/save-bnaExamAttendance', model).pipe(
       map((BNAExamAttendance: PostResponse) => {
         if (BNAExamAttendance) {
-          console.log(BNAExamAttendance);
           return BNAExamAttendance;
         }
       })

@@ -61,7 +61,6 @@ export class SubjectClassificationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.subjectClassificationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This SubjectClassification Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SubjectClassificationService.delete(id).subscribe(() => {
           this.getSubjectClassifications();

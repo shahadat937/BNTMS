@@ -52,7 +52,6 @@ export class JcoExamListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     
     this.getRunningCourseTotalTraineeByCourseType()
@@ -62,7 +61,6 @@ export class JcoExamListComponent implements OnInit {
     this.titleText = "JCO's Exam";
     this.interServiceDashboardService.getCentralCourseDuration(this.masterData.coursetype.CentralExam,this.masterData.courseName.JCOsTraining).subscribe(response => {           
       this.jcoCourseList=response;
-      console.log(this.jcoCourseList);
     })
   }
 

@@ -100,7 +100,6 @@ export class UpdateTraineeNominationComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('traineeNominationId'); 
     
     if (id) {
-      console.log(this.TraineeNominationForm.value)   
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading=true;

@@ -58,7 +58,6 @@ export class NewUserManualComponent implements OnInit {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log(file);
       this.UserManualForm.patchValue({
         docfile: file,
       });
@@ -74,7 +73,6 @@ export class NewUserManualComponent implements OnInit {
   onSubmit() {
     
     const id = this.UserManualForm.get('userManualId').value;  
-    console.log(this.UserManualForm.value)
     const formData = new FormData();
     for (const key of Object.keys(this.UserManualForm.value)) {
       const value = this.UserManualForm.value[key];
@@ -83,7 +81,6 @@ export class NewUserManualComponent implements OnInit {
     if (id) {
       
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.UserManualService.update(+id,formData).subscribe(response => {

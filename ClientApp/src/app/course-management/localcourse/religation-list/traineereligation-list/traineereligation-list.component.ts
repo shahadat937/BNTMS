@@ -72,7 +72,6 @@ export class TraineeReligationListComponent implements OnInit {
   ngOnInit(): void {
     // 3136
     const id = this.route.snapshot.paramMap.get('attendanceId'); 
-    console.log(id);
     this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
     
     this.pageTitle = 'Trainee Religation';
@@ -102,10 +101,8 @@ export class TraineeReligationListComponent implements OnInit {
 
   getCourseSectionByDurationId(courseDurationId){
     this.courseDutartionService.find(courseDurationId).subscribe(res=>{
-      console.log(res);
       this.courseDutartionService.getSelectedCourseSectionsBySchoolIdAndCourseId(res.baseSchoolNameId,res.courseNameId).subscribe(res=>{
         this.courseSectionList=res;
-        console.log(this.courseSectionList);
       });
     });
   }
@@ -152,18 +149,14 @@ export class TraineeReligationListComponent implements OnInit {
   getSelectedWithdrawnType(){
     this.traineeNominationService.getSelectedWithdrawnType().subscribe(res=>{
       this.selectedWithdrawnType=res;
-      console.log(this.courseSectionList);
     });
   }
   getTraineeListonClick() {
     const control = <FormArray>this.AttendanceForm.controls["traineeListForms"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
     }
     this.AttendanceForm.patchValue({ traineeListForms: this.traineeList });
-    console.log("value...");
-    console.log(this.traineeList)
   }
 
   clearList() {
@@ -251,11 +244,8 @@ export class TraineeReligationListComponent implements OnInit {
   }
 
   onCourseSectionForTraineeList(courseDurationId){
-    console.log(courseDurationId);
     this.traineeNominationService.getTestTraineeNominationByCourseDurationId(courseDurationId,0).subscribe(res => {
       this.traineeList = res;
-      console.log("trainee List");
-      console.log(this.traineeList);
       this.clearList();
       this.getTraineeListonClick();
     });
@@ -266,10 +256,8 @@ export class TraineeReligationListComponent implements OnInit {
 
     //  const id = this.AttendanceForm.get('traineeNominationId').value;
 
-    console.log(this.AttendanceForm.value);
     
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.loading = true;
         this.traineeNominationService.updateTraineeNominationListForReligation(this.AttendanceForm.value).subscribe(response => {

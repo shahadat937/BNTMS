@@ -71,24 +71,20 @@ export class NewJoiningReasonComponent implements OnInit {
   getSelectedReasonType(){
     this.JoiningReasonService.getSelectedReasonType().subscribe(res=>{
       this.selectedReasonType=res
-      console.log(this.selectedReasonType);
     });
   }
 
   // getThana(){
   //   this.JoiningReasonService.getselectedthana().subscribe(res=>{
   //     this.thanaValues=res
-  //     console.log(this.thanaValues);
   //   });
   // }
 
   
   onSubmit() {
     const id = this.JoiningReasonForm.get('joiningReasonId').value;   
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.JoiningReasonService.update(+id,this.JoiningReasonForm.value).subscribe(response => {

@@ -46,7 +46,6 @@ export class FavoritesService {
     return this.http.post(this.baseUrl + '/favorites/save-favorites', model).pipe(
       map((Favorites: PostResponse) => {
         if (Favorites) {
-          console.log(Favorites);
           return Favorites;
         }
       })

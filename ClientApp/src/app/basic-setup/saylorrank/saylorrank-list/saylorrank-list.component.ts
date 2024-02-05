@@ -83,7 +83,6 @@ export class SaylorRankListComponent implements OnInit {
   deleteItem(row) {
     const id = row.saylorRankId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SaylorRankService.delete(id).subscribe(() => {
           this.getSaylorRanks();

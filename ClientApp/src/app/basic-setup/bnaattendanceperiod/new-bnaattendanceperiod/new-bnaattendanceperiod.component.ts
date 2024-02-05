@@ -56,10 +56,8 @@ export class NewBnaAttendancePeriodComponent implements OnInit {
   
   onSubmit() {
     const id = this.BnaAttendancePeriodForm.get('bnaAttendancePeriodId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.BnaAttendancePeriodService.update(+id,this.BnaAttendancePeriodForm.value).subscribe(response => {

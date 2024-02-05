@@ -108,7 +108,6 @@ export class NewWithdrawnTypeComponent implements OnInit {
   deleteItem(row) {
     const id = row.withdrawnTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.WithdrawnTypeService.delete(id).subscribe(() => {
           this.getWithdrawnTypes();
@@ -128,7 +127,6 @@ export class NewWithdrawnTypeComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.WithdrawnTypeService.update(+id,this.WithdrawnTypeForm.value).subscribe(response => {

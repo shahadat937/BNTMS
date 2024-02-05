@@ -139,15 +139,10 @@ export class IndividualNoticeComponent implements OnInit {
 
   getTraineeListonClick(){ 
     const control = <FormArray>this.NoticeForm.controls["traineeListForm"];
-    console.log(this.traineeNominationListForNotice)   
     for (let i = 0; i < this.traineeNominationListForNotice.length; i++) {
       control.push(this.createTraineeData()); 
-      // console.log("value...");
-      // console.log(this.traineeNominationListForNotice)
     }
     this.NoticeForm.patchValue({ traineeListForm: this.traineeNominationListForNotice });
-    // console.log("value...");
-    // console.log(this.traineeNominationListForNotice)
    }
   
    clearList() {
@@ -160,7 +155,6 @@ export class IndividualNoticeComponent implements OnInit {
 
   // onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
   //     this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-  //     console.log(res);
   //     this.selectedCourse=res;
   //   });
   // var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
@@ -176,17 +170,11 @@ export class IndividualNoticeComponent implements OnInit {
   getSelectedCourseName(dropdown){
  
   this.NoticeForm.value['courseNameIds'];
-  console.log("coursenameidss");
-  console.log(dropdown);
   var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
   var courseNameArr = dropdown.value.split('_');
   var courseDurationId = courseNameArr[0];
   var courseNameId=courseNameArr[1];
   this.courseName=dropdown.text;
-  console.log("Course Name Id");
-  console.log(courseNameId);
-  console.log("Course Duration Id");
-  console.log(courseDurationId);
 
   this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
     this.traineeNominationListForNotice=res; 
@@ -195,8 +183,6 @@ export class IndividualNoticeComponent implements OnInit {
       this.traineeNominationListForNotice[i].isNotify=true;
     }
     
-    //console.log("Trainee Nomination");
-    //console.log(this.traineeNominationListForNotice);
     this.isShown=true;
     this.clearList()
     this.getTraineeListonClick();
@@ -220,23 +206,15 @@ export class IndividualNoticeComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
    // this.isShown=true;
-    //console.log(baseSchoolNameId);
     this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-     // console.log(baseSchoolNameId+"hhh");
       this.selectedCourse=res;   
-     // console.log("lof");
-     // console.log(this.selectedCourse)
     });
 //     this.individualNoticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
 //       this.selectedNotice=res
-// console.log("ffff");
-//       console.log(this.selectedNotice);
 //     }); 
 } 
 
 stopNotices(element){
-  //console.log("Number");
-  //console.log(id)
     this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
      this.individualNoticeService.stopNotices(element.noticeId).subscribe(() => {
@@ -244,8 +222,6 @@ stopNotices(element){
 
       this.individualNoticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
         this.selectedNotice=res
-  //console.log("ffff");
-       // console.log(this.selectedNotice);
       }); 
 
      // this.getCourseplanCreates();
@@ -303,14 +279,11 @@ stopNotices(element){
 
   onSubmit() {
     const id = this.NoticeForm.get('noticeId').value;
-    console.log(this.NoticeForm.value); 
     //this.NoticeForm.value.filter(x=>x.isNotify==true)
   //  this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
-  //  console.log(this.NoticeForm.value.traineeListForm.filter(x=>x.isNotify == true));  
    // console.lo
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.individualNoticeService.update(+id,this.NoticeForm.value).subscribe(response => {

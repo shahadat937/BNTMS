@@ -49,7 +49,6 @@ export class ExamApproveComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.getQexamApproveList(this.branchId)
     
@@ -62,8 +61,6 @@ export class ExamApproveComponent implements OnInit {
     this.destination="Exam"
     this.BNAExamMarkService.getSchoolExamApproveList(baseSchoolId).subscribe(res=>{
       this.examList=res;  
-      console.log("exam list");
-      console.log(this.examList);
     });
   }
 }

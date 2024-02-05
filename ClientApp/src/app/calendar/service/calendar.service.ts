@@ -28,7 +28,6 @@ export class CalendarService {
     return this.dialogData;
   }
   getAllCalendars(): Observable<Calendar[]> {
-    console.log(this.API_URL)
     return this.httpClient
       .get<Calendar[]>(this.API_URL)
       .pipe(catchError(this.errorHandler));
@@ -51,7 +50,6 @@ export class CalendarService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(errorMessage);
     return throwError(errorMessage);
   }
 }

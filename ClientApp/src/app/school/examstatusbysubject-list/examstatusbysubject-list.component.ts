@@ -57,7 +57,6 @@ export class ExamStatusBySubjectListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     const branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, branchId)
     this.getSubjectNames(); 
     
   }
@@ -144,7 +143,6 @@ export class ExamStatusBySubjectListComponent implements OnInit {
     this.schoolDashboardService.getExamStatusBySubjectList(courseDurationId).subscribe(res=>{
       this.SelectedsubjectsBySchoolAndCourse=res;  
       this.courseTypeId = res[0].coursetypeid;
-      console.log(this.SelectedsubjectsBySchoolAndCourse); 
 
       // this gives an object with dates as keys
       const groups = this.SelectedsubjectsBySchoolAndCourse.reduce((groups, courses) => {
@@ -164,7 +162,6 @@ export class ExamStatusBySubjectListComponent implements OnInit {
         };
       });
 
-      console.log(this.groupArrays)
     });
   }
 
@@ -184,7 +181,6 @@ export class ExamStatusBySubjectListComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.bnaSubjectNameId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.BNASubjectNameService.delete(id).subscribe(() => {
   //         this.getBNASubjectNames();

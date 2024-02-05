@@ -80,7 +80,6 @@ export class NewTraineeNominationComponent implements OnInit {
       this.schoolName = res.baseSchoolName;
       this.courseName = res.courseName;
       this.courseTitle = res.courseTitle;
-      console.log(res)
     });
     this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
@@ -175,7 +174,6 @@ export class NewTraineeNominationComponent implements OnInit {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log(item.value);
     this.traineeId = item.value
     this.TraineeNominationForm.get('traineeId').setValue(item.value);
     this.TraineeNominationForm.get('traineeName').setValue(item.text);
@@ -219,7 +217,6 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   getTraineeInfoByTraineeId(traineeId){
     this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
       this.traineeInfoById=res;
-      console.log(this.traineeInfoById);
       this.TraineeNominationForm.get('saylorRankId').setValue(res.saylorRankId);
       this.TraineeNominationForm.get('rankId').setValue(res.rankId);
       this.TraineeNominationForm.get('saylorBranchId').setValue(res.saylorBranchId);
@@ -289,16 +286,11 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(this.dataSource.data);
     })
 
     this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
       this.nominatedPercentageList=response;
       this.nominatedPercentageListCount=response.length;
-      console.log("Count");
-      console.log(this.nominatedPercentageList)
-      console.log("eee");
-      console.log(this.nominatedPercentageList)
     });
   }
 
@@ -315,10 +307,8 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   } 
 
   deleteItem(row) {
-    console.log(row)
     const id = row.traineeNominationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     // console.log(result);
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.getTraineeNominationsByCourseDurationId(this.courseDurationId)

@@ -50,7 +50,6 @@ export class EducationalInstitutionService {
     return this.http.post(this.baseUrl + '/educational-institution/save-educationalInstitution', model).pipe(
       map((EducationalInstitution: PostResponse) => {
         if (EducationalInstitution) {
-          console.log(EducationalInstitution);
           return EducationalInstitution;
         }
       })

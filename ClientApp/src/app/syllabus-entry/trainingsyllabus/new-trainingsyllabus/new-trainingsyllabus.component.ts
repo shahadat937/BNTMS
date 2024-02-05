@@ -59,7 +59,6 @@ export class NewTrainingSyllabusComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit Training Syllabus';
@@ -85,8 +84,6 @@ export class NewTrainingSyllabusComponent implements OnInit {
           });
           //this.courseNameId = res.courseNameId;
          // this.courseName=res.courseNameId;
-          console.log("Response");
-          console.log(res);
           this.getSelectedSubjectNameBySchoolNameIdAndCourseNameId();
         }
       );
@@ -135,7 +132,6 @@ export class NewTrainingSyllabusComponent implements OnInit {
   }
   //autocomplete for Course
   onCourseSelectionChanged(item) {
-    console.log(item.value);
     this.courseNameId = item.value
     this.TrainingSyllabusForm.get('courseNameId').setValue(item.value);
     this.TrainingSyllabusForm.get('course').setValue(item.text);
@@ -163,8 +159,6 @@ export class NewTrainingSyllabusComponent implements OnInit {
     var baseSchoolNameId = this.TrainingSyllabusForm.value['baseSchoolNameId'];
     var courseNameId = this.TrainingSyllabusForm.value['courseNameId'];
     this.TrainingSyllabusService.getselectedSubjectFromObjectiveBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res => {
-      console.log(res);
-      console.log("subject Id");
       this.selectedSubjectNamebyschoolnameAndCourse = res;
       
 
@@ -180,10 +174,8 @@ export class NewTrainingSyllabusComponent implements OnInit {
       var baseSchoolNameId = this.TrainingSyllabusForm.value['baseSchoolNameId'];
       var courseNameId = this.TrainingSyllabusForm.value['courseNameId'];
       var bnaSubjectNameId = this.TrainingSyllabusForm.value['bnaSubjectNameId'];
-      console.log(baseSchoolNameId + " -" + courseNameId + " -" + bnaSubjectNameId)
       this.TrainingSyllabusService.getSelectedSubjectShowTrainingSyllabuslist(baseSchoolNameId, courseNameId, bnaSubjectNameId).subscribe(response => {
         this.trainingSyllabusList = response;
-        console.log(this.trainingSyllabusList);
       })
     }
   }
@@ -197,10 +189,8 @@ export class NewTrainingSyllabusComponent implements OnInit {
 
   onSubmit() {
     const id = this.TrainingSyllabusForm.get('trainingSyllabusId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.TrainingSyllabusService.update(+id, this.TrainingSyllabusForm.value).subscribe(response => {
@@ -237,7 +227,6 @@ export class NewTrainingSyllabusComponent implements OnInit {
   deleteItem(row) {
     const id = row.trainingSyllabusId;
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TrainingSyllabusService.delete(id).subscribe(() => {
           //this.getCourseTasks();

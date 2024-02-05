@@ -56,7 +56,6 @@ export class ViewSubjectListByJCOsComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     //this.onSelectionChange();
     this.getSelectedBranch();
@@ -94,7 +93,6 @@ export class ViewSubjectListByJCOsComponent implements OnInit {
         };
       });
 
-      console.log(this.groupArrays)
     });
   }
   toggle(){
@@ -179,7 +177,6 @@ export class ViewSubjectListByJCOsComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.bnaSubjectNameId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.BNASubjectNameService.delete(id).subscribe(() => {
   //         this.getBNASubjectNames();

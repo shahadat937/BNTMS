@@ -53,8 +53,6 @@ export class AssignmentListComponent implements OnInit {
     if(this.baseSchoolNameId != null && this.courseDurationId !=null && this.courseNameId !=null){
       this.studentDashboardService.getAssignmentListForStudent(currentDateTime,this.baseSchoolNameId,this.courseNameId,this.courseDurationId).subscribe(response => {   
         this.NoticeForStudent=response;
-        console.log("response");
-        console.log(response)
       })
     }
   }

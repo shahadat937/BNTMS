@@ -40,7 +40,6 @@ export class SocialMediaService {
     return this.http.post(this.baseUrl + '/social-media/save-socialMedia', model).pipe(
       map((SocialMedia: PostResponse) => {
         if (SocialMedia) {
-          console.log(SocialMedia);
           return SocialMedia;
         }
       })

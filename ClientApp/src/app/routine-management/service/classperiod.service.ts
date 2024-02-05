@@ -64,7 +64,6 @@ export class ClassPeriodService {
     return this.http.post<PostResponse>(this.baseUrl + '/class-period/save-classPeriod', model).pipe(
       map((ClassPeriod: PostResponse) => {
         if (ClassPeriod) {
-          console.log(ClassPeriod);
           return ClassPeriod;
         }
       })

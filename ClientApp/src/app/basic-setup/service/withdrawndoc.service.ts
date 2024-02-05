@@ -49,7 +49,6 @@ export class WithdrawnDocService {
     return this.http.post<PostResponse>(this.baseUrl + '/withdrawn-docs/save-withdrawnDoc', model).pipe(
       map((WithdrawnDoc: PostResponse) => {
         if (WithdrawnDoc) {
-          console.log(WithdrawnDoc);
           return WithdrawnDoc;
         }
       })

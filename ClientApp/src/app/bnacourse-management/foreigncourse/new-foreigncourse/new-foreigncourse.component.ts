@@ -35,7 +35,6 @@ export class NewForeigncourseComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
      this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
-     console.log(this.courseTypeId);
     if (id) {
       this.pageTitle = 'Edit Foreign Course'; 
       this.destination = "Edit"; 
@@ -103,13 +102,11 @@ export class NewForeigncourseComponent implements OnInit {
   getselectedbasesName(){
     this.CourseDurationService.getSelectedBaseName().subscribe(res=>{
       this.selectedBaseName=res
-      console.log(this.selectedBaseName);
     });
   }
   onBaseNameSelectionChangeGetSchool(baseNameId){
     this.CourseDurationService.getSchoolByBaseId(baseNameId).subscribe(res=>{
       this.selectedSchool=res
-      console.log(this.selectedSchool);
     });
    }
 
@@ -141,7 +138,6 @@ export class NewForeigncourseComponent implements OnInit {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading=true;
           this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {

@@ -69,7 +69,6 @@ export class AttendanceListComponent implements OnInit {
   deleteItem(row) {
     const id = row.attendanceId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.AttendanceService.delete(id).subscribe(() => {
           this.getAttendances();

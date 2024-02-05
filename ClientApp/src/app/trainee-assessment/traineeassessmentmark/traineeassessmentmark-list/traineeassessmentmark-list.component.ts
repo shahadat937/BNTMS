@@ -49,7 +49,6 @@ export class TraineeAssessmentMarkListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.getTraineeAssessmentMarks();
     
@@ -76,9 +75,7 @@ export class TraineeAssessmentMarkListComponent implements OnInit {
       //     courses: groups[readingMaterialTitle]
       //   };
       // });
-      // console.log(this.groupArrays);
 
-      console.log(this.dataSource.data)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
@@ -105,7 +102,6 @@ export class TraineeAssessmentMarkListComponent implements OnInit {
   deleteItem(row) {
     const id = row.traineeAssessmentMarkId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TraineeAssessmentMarkService.delete(id).subscribe(() => {
           this.getTraineeAssessmentMarks();

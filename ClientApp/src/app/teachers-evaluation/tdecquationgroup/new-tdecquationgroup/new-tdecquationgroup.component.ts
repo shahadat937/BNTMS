@@ -52,7 +52,6 @@ export class NewTdecQuationGroupComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
   //  this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit Tdec Quation Group';
@@ -227,7 +226,6 @@ reloadCurrentRoute() {
 }
   getSubjectNameIdToFindInstructor(dropdown){
     var subjectNameId= dropdown.value;
-    console.log(subjectNameId)
   }
     getselectedTdecQuestionName(){
       this.TdecQuationGroupService.getselectedTdecQuestionName().subscribe(res => {
@@ -238,7 +236,6 @@ reloadCurrentRoute() {
       const id = this.TdecQuationGroupForm.get('tdecQuationGroupId').value;
       if (id) {
         this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-          console.log(result);
           if (result) {
             this.loading=true;
             this.TdecQuationGroupService.update(+id, this.TdecQuationGroupForm.value).subscribe(response => {

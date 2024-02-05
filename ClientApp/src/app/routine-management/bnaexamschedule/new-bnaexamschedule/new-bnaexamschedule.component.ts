@@ -120,7 +120,6 @@ export class NewBNAExamScheduleComponent implements OnInit {
     const id = this.BNAExamScheduleForm.get('bnaExamScheduleId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.BNAExamScheduleService.update(+id,this.BNAExamScheduleForm.value).subscribe(response => {

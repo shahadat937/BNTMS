@@ -46,7 +46,6 @@ export class ReadingMaterialTitleService {
     return this.http.post<PostResponse>(this.baseUrl + '/reading-material-title/save-ReadingMaterialTitle', model).pipe(
       map((ReadingMaterialTitle: PostResponse) => {
         if (ReadingMaterialTitle) {
-          console.log(ReadingMaterialTitle);
           return ReadingMaterialTitle;
         }
       })

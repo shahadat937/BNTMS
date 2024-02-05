@@ -62,7 +62,6 @@ export class NewThanaComponent implements OnInit {
   getDistrictName(){
     this.ThanaService.getselecteddistrict().subscribe(res=>{
       this.selectedModel=res
-      console.log(this.selectedModel);      
     });
   }
   

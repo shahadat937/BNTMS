@@ -53,8 +53,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
  
       this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
-          console.log("update res");
-          console.log(res);
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
           }  
@@ -87,7 +85,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       // this.labelImport.nativeElement.value = file.name;
-     console.log(file);
     // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
       this.BIODataGeneralInfoForm.patchValue({
         image: file,
@@ -158,14 +155,12 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   getselectedSaylorBranch(){
     this.BIODataGeneralInfoService.getselectedSaylorBranch().subscribe(res=>{
       this.selectedSaylorBranch=res
-      console.log(res);
      
     });
   }
   getselectedSaylorRank(){
     this.BIODataGeneralInfoService.getselectedSaylorRank().subscribe(res=>{
       this.selectedSaylorRank=res
-      console.log(res);
      
     });
   }
@@ -173,7 +168,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     var saylorBranchId
     this.BIODataGeneralInfoService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
       this.selectedSaylorSubBranch=res
-      console.log(res);
      
     });
   }
@@ -181,7 +175,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   getMaritialStatus(){
     this.BIODataGeneralInfoService.getselectedmaritialstatus().subscribe(res=>{
       this.maritialStatusValues=res
-      console.log(res);
      
     });
   }
@@ -189,7 +182,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
-      console.log(this.selectedCastes);
     });
   } 
 
@@ -302,7 +294,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
     
     var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId').value; 
-    console.log(traineeStatusId);
     if(traineeStatusId == this.masterData.TraineeStatus.sailor){
       // this.BIODataGeneralInfoForm.get('bnaBatchId').setValue(282);
       // this.BIODataGeneralInfoForm.get('branchId').setValue(17);
@@ -320,7 +311,6 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       const value = this.BIODataGeneralInfoForm.value[key];
       formData.append(key, value);
     }
-    console.log(this.BIODataGeneralInfoForm.value)
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {

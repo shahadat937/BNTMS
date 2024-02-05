@@ -62,7 +62,6 @@ export class NewDistrictComponent implements OnInit {
   // onSelectionChangeGetCourse(divisionId){
   //   this.DistrictService.getSelectedDistrictByDivision(divisionId).subscribe(res=>{
   //     this.districtByDivision=res;
-  //     console.log(this.districtByDivision); 
   //  })
   // } 
   
@@ -70,7 +69,6 @@ export class NewDistrictComponent implements OnInit {
   getDivisionName(){
     this.DistrictService.getselecteddivision().subscribe(res=>{
       this.selectedModel=res
-      console.log(this.selectedModel);
     });
   }
   

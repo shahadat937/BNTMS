@@ -61,7 +61,6 @@ export class TraineeAssessmentGroupService {
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-assessment-group/save-TraineeAssessmentGroup', model).pipe(
       map((TraineeAssessmentGroup: PostResponse) => {
         if (TraineeAssessmentGroup) {
-          console.log(TraineeAssessmentGroup);
           return TraineeAssessmentGroup;
         }
       })
@@ -79,14 +78,12 @@ export class TraineeAssessmentGroupService {
   }
 
   saveTraineeAssessmentGrouplist(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-assissment-group/save-traineeAssessmentGrouplist', model, httpOptions).pipe(
       map((BNAExamMark: PostResponse) => {
         if (BNAExamMark) {
-          console.log(BNAExamMark);
           return BNAExamMark;
         }
       })

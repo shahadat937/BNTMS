@@ -58,7 +58,6 @@ export class NewQuestionTypeComponent implements OnInit {
     const id = this.questionTypeForm.get('questionTypeId').value; 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Question Type Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.questionTypeService.update(+id,this.questionTypeForm.value).subscribe(response => {

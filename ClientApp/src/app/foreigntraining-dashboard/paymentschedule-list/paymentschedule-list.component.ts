@@ -61,7 +61,6 @@ export class PaymentScheduleListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.pageTitle = "Budget Information";
     this.destination = "All";
@@ -76,8 +75,6 @@ export class PaymentScheduleListComponent implements OnInit {
 
       this.courseBudgetAllocationService.getPaymentScheduleListByDurationId(this.courseDurationId).subscribe(response => {
         this.PaymentScheduleList = response; 
-        console.log("data source");
-        console.log(this.PaymentScheduleList);
 
 
            //   this gives an object with dates as keys
@@ -100,8 +97,6 @@ export class PaymentScheduleListComponent implements OnInit {
       
         // this.paging.length = response.totalItemsCount    
         // this.isLoading = false;
-        // console.log("data source");
-        // console.log(this.dataSource.data);
       })
   }
 

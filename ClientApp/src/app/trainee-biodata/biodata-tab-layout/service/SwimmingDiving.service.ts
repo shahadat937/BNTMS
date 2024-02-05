@@ -44,7 +44,6 @@ export class SwimmingDivingService {
     return this.http.post(this.baseUrl + '/swimming-driving/save-SwimmingDriving', model).pipe(
       map((SwimmingDiving: PostResponse) => {
         if (SwimmingDiving) {
-          console.log(SwimmingDiving);
           return SwimmingDiving;
         }
       })
