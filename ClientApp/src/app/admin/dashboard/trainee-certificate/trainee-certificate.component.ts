@@ -84,14 +84,12 @@ export class TraineeCertificateListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
 
     this.baseSchoolNameService.find(this.baseSchoolNameId).subscribe(res=>{
-      console.log(res);
       this.schoolLogo = res.schoolLogo;
       this.schoolName = res.schoolName;
       if(!this.schoolLogo){
@@ -101,8 +99,6 @@ export class TraineeCertificateListComponent implements OnInit {
 
     this.BNAExamMarkService.getTraineeCertificateDetailsByParameters(this.baseSchoolNameId,this.courseDurationId,this.traineeId).subscribe(res=>{
       this.traineeCertificateDetails=res;      
-      console.log("tgg");
-      console.log(this.traineeCertificateDetails);  
       this.traineePosition = res[0].position;
       this.isShown=true;
     }); 

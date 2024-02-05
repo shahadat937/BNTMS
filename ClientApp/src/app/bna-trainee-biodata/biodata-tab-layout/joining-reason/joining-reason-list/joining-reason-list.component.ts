@@ -44,7 +44,6 @@ export class JoiningReasonListComponent implements OnInit {
     this.isLoading = true;
     this.traineeId= this.route.snapshot.paramMap.get('traineeId');
     this.JoiningReasonService.getJoiningReasonByTraineeId(+this.traineeId).subscribe(response => {     
-     console.log(response);
      this.dataSource.data=response;
     })
   }
@@ -65,7 +64,6 @@ export class JoiningReasonListComponent implements OnInit {
   deleteItem(row) {
     const id = row.joiningReasonId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.JoiningReasonService.delete(id).subscribe(() => {
           this.getJoiningReasons();

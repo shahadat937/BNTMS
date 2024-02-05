@@ -43,19 +43,16 @@ export class SyllabusbySubjectListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     const branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, branchId)
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId');
-    console.log(this.traineeId,this.baseSchoolNameId,this.courseNameId,this.bnaSubjectNameId)
     this.getTrainingSyllabusListByParams(this.baseSchoolNameId,this.courseNameId,this.bnaSubjectNameId)
   }
 
   getTrainingSyllabusListByParams(baseSchoolNameId,courseNameId,bnaSubjectNameId){
     this.dashboardService.getTrainingSyllabusListByParams(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       this.TrainingSyllabusList = res;
-      console.log(this.TrainingSyllabusList)
 
       // this gives an object with dates as keys
       const groups = this.TrainingSyllabusList.reduce((groups, syllabus) => {
@@ -74,7 +71,6 @@ export class SyllabusbySubjectListComponent implements OnInit {
           syllabus: groups[taskDetail]
         };
       });
-      console.log(this.groupArrays)
     });
   }
 
@@ -82,7 +78,6 @@ export class SyllabusbySubjectListComponent implements OnInit {
   // getReadingMaterialBySchoolAndCourse(baseSchoolNameId, courseNameId){    
   //   this.studentDashboardService.getReadingMAterialInfoBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res=>{
   //     this.ReadingMaterialBySchoolAndCourse = res;
-  //     console.log(this.ReadingMaterialBySchoolAndCourse)
   //   });
   // }
 

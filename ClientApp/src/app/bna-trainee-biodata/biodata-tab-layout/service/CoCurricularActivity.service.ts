@@ -41,7 +41,6 @@ export class CoCurricularActivityService {
     return this.http.post(this.baseUrl + '/co-curricular-activity/save-coCurricularActivity', model).pipe(
       map((CoCurricularActivity: PostResponse) => {
         if (CoCurricularActivity) {
-          console.log(CoCurricularActivity);
           return CoCurricularActivity;
         }
       })

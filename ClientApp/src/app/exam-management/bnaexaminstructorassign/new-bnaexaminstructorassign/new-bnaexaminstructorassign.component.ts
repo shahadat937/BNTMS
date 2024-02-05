@@ -69,7 +69,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit Exam Instructor Assign'; 
@@ -144,7 +143,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
   }
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log(item.value);
     this.traineeId = item.value
     this.BNAExamInstructorAssignForm.get('traineeId').setValue(item.value);
     this.BNAExamInstructorAssignForm.get('traineeName').setValue(item.text);
@@ -228,7 +226,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null && bnaSubjectNameId !=null){
       this.BNAExamInstructorAssignService.getSelectedInstructorByParameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
         this.selectedInstructorList=res;  
-        console.log(this.selectedInstructorList); 
       }); 
     }
   }
@@ -269,7 +266,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
     
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.BNAExamInstructorAssignService.update(+id,this.BNAExamInstructorAssignForm.value).subscribe(response => {
@@ -307,7 +303,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaExamInstructorAssignId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAExamInstructorAssignService.delete(id).subscribe(() => {
           this.onParametersSelectGeInstructorList();

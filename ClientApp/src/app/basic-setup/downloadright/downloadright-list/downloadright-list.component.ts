@@ -80,7 +80,6 @@ export class DownloadRightListComponent implements OnInit {
   deleteItem(row) {
     const id = row.downloadRightId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.DownloadRightService.delete(id).subscribe(() => {
           this.getDownloadRight();

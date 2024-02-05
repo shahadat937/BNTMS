@@ -62,7 +62,6 @@ export class NewCourseModuleComponent implements OnInit {
             menuPosition:res.menuPosition
           });  
 
-       console.log(res.courseName)
 
           this.courseNameId = res.courseNameId;
           this.baseSchoolNameId = res.baseSchoolNameId;  
@@ -104,7 +103,6 @@ export class NewCourseModuleComponent implements OnInit {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-   // console.log(item);
     this.courseNameId = item.value 
     this.CourseModuleForm.get('courseNameId').setValue(item.value);
     this.CourseModuleForm.get('course').setValue(item.text);
@@ -142,10 +140,7 @@ getSelectedTraineeByPno(pno){
 
   deleteItem(row) {
     const id = row.courseModuleId; 
-    console.log("khjkdfjksdjfkds");
-    console.log(id)
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseModuleService.delete(id).subscribe(() => {
        //   this.getBranchs();
@@ -166,10 +161,8 @@ getSelectedTraineeByPno(pno){
   
   onSubmit() {
     const id = this.CourseModuleForm.get('courseModuleId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Course Module Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.CourseModuleService.update(+id,this.CourseModuleForm.value).subscribe(response => {

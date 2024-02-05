@@ -142,15 +142,10 @@ export class NewForeignCourseOtherDocComponent implements OnInit {
 
   getTraineeListonClick() {
     const control = <FormArray>this.ForeignCourseOtherDocForm.controls["traineeListForm"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
-      // console.log("value...");
-      // console.log(this.traineeList)
     }
     this.ForeignCourseOtherDocForm.patchValue({ traineeListForm: this.traineeList });
-    // console.log("value...");
-    // console.log(this.traineeList)
   }
 
   clearList() {
@@ -165,13 +160,8 @@ export class NewForeignCourseOtherDocComponent implements OnInit {
     this.isShown=true
     if (dropdown.isUserInput) {
       this.courseNameId=dropdown.source.value;
-      // console.log("dropdown");
-      // console.log(this.courseNameId);
     
       this.getselectedCourseName();
-      //console.log(courseNameId);
-      console.log("other doc");
-      console.log(this.foreignCourseOtherDocId);
       // if(this.foreignCourseOtherDocId ===null){
       //   this.buttonText="Save";
       //  }
@@ -190,8 +180,6 @@ onFileChanged(event) {
   if (event.target.files.length > 0) {
     const file = event.target.files[0];
     // this.labelImport.nativeElement.value = file.name;
-    console.log("file");
-   console.log(file);
   // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
     this.ForeignCourseOtherDocForm.patchValue({
       image: file,
@@ -205,8 +193,6 @@ onFileChanged(event) {
       this.selectedCourseName=res
       this.traineeNominationService.getForeignTrainingOtherDocTraineeNominationByCourseDurationId(this.courseNameId).subscribe(res=>{
         this.traineeList=res; 
-        console.log("trainee list");
-        console.log(this.traineeList);
         this.foreignCourseOtherDocId = res[0].foreignCourseOtherDocId;
         this. clearList();
         this.getTraineeListonClick();
@@ -220,7 +206,6 @@ onFileChanged(event) {
   //     this.traineeList=res; 
   //     this. clearList();
   //     this.getTraineeListonClick();
-  //     console.log(this.traineeList);
               
   //    });
   // }
@@ -232,15 +217,10 @@ onFileChanged(event) {
   }
   onSubmit() {
     const id = this.foreignCourseOtherDocId;  
-    console.log(this.ForeignCourseOtherDocForm.value);
     // var foreignCourseOtherDocId=0;
     // const id = this.ForeignCourseOtherDocForm.get('traineeListForm').value.find(x=>x.foreignCourseOtherDocId).foreignCourseOtherDocId;
-    //console.log(this.foreignCourseOtherDocId);
-    // console.log("fff");
-    // console.log(this.ForeignCourseOtherDocForm.get('traineeListForm').value.find(x=>x.foreignCourseOtherDocId));
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-    //     console.log(result);
     //     if (result) {
           
     //         this.ForeignCourseOtherDocService.update(+id,this.ForeignCourseOtherDocForm.value).subscribe(response => {

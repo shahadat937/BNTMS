@@ -121,7 +121,6 @@ export class NewNoticeComponent implements OnInit {
 
   // onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
   //     this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-  //     console.log(res);
   //     this.selectedCourse=res;
   //   });
   // var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
@@ -140,8 +139,6 @@ export class NewNoticeComponent implements OnInit {
   var courseDurationId = courseNameArr[0];
   var courseNameId=courseNameArr[1];
   this.courseName=dropdown.text;
-  console.log("Course Name Id");
-  console.log(courseNameId);
   //this.NoticeForm.get('courseName').setValue(dropdown.text);
   this.NoticeForm.get('courseNameId').setValue(courseNameId);
   this.NoticeForm.get('courseDurationId').setValue(courseDurationId);
@@ -158,7 +155,6 @@ export class NewNoticeComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
     this.isShown=true;
-    //console.log(baseSchoolNameId);
     if (baseSchoolNameId.length ==1){ 
       this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res;   
@@ -179,16 +175,11 @@ export class NewNoticeComponent implements OnInit {
    
     this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
       this.selectedNotice=res
-      console.log(this.selectedNotice);
     }); 
 } 
 
 stopNotices(element){
-  //console.log("Number");
-  //console.log(id)
   if(element.status ===0){
-    console.log("element id");
-    console.log(element.status);
     this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
      this.noticeService.stopNotices(element.noticeId).subscribe(() => {
@@ -196,8 +187,6 @@ stopNotices(element){
 
       this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
         this.selectedNotice=res
-  console.log("ffff");
-        console.log(this.selectedNotice);
       }); 
 
      // this.getCourseplanCreates();
@@ -224,7 +213,6 @@ stopNotices(element){
   deleteItem(row) {
     const id = row.noticeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.noticeService.delete(id).subscribe(() => {
           //this.getNotices();
@@ -242,10 +230,8 @@ stopNotices(element){
   }
   onSubmit() {
     const id = this.NoticeForm.get('noticeId').value; 
-    console.log(this.NoticeForm.value);  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.noticeService.update(+id,this.NoticeForm.value).subscribe(response => {
@@ -333,7 +319,6 @@ stopNotices(element){
               // });
             }, error => {
               this.validationErrors = error;
-              console.log(error)
             })
       debugger
           }
@@ -360,7 +345,6 @@ stopNotices(element){
     if (this.allSelected.selected) {
   this.isShowCourseName=true;
 
-      //console.log('Test Form ',this.BulletinForm.controls.baseSchoolNameId)
       this.NoticeForm.controls.baseSchoolNameId
         .patchValue([...this.selectedbaseschools.map(item => item.value), 0]);
     } else {
@@ -371,8 +355,6 @@ stopNotices(element){
   }
   toggleAllSelectionCourse() {
     if (this.allSelectedCourse.selected) {
-      //console.log('Test Form ',this.BulletinForm.controls.courseName)
-      //console.log('Test selectedcoursedurationbyschoolname ',this.selectedcoursedurationbyschoolname)
       this.NoticeForm.controls.courseName
         .patchValue([...this.selectedCourse.map(item => item.value), 0]);
     } else {

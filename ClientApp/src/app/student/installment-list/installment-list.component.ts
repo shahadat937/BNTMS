@@ -47,7 +47,6 @@ export class InstallmentListComponent implements OnInit {
     const traineeId =  this.authService.currentUserValue.traineeId.trim();
     // const branchId =  this.authService.currentUserValue.branchId.trim();
     const branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(role, traineeId, branchId)
 
 
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
@@ -57,7 +56,6 @@ export class InstallmentListComponent implements OnInit {
   getTraineeRemittanceNotification(traineeId,courseDurationId){
     this.studentDashboardService.getRemittanceNotificationForStudent(traineeId,courseDurationId).subscribe(res=>{
       this.traineeRemittanceNotification=res;  
-      console.log(this.traineeRemittanceNotification);
     });
   }
 
@@ -65,7 +63,6 @@ export class InstallmentListComponent implements OnInit {
     const id = row.courseBudgetAllocationId; 
           this.confirmService.confirm('Confirm Accepted message', 'Are You Sure Accepted This Item').subscribe(result => {
             if (result) {
-              console.log(result)
           this.studentDashboardService.acceptedCourseBudget(id).subscribe(() => {
             //this.getselectedPresentStocks(row.departmentNameId,this.searchText);
             // getselectedPresentStocks(departmentId)

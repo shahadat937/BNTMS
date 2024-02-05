@@ -54,7 +54,6 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('traineeAssessmentCreateId'); 
     if (id) {
@@ -125,7 +124,6 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
     this.TraineeAssessmentCreateService.getTraineeAssessmentCreates(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.branchId,this.courseDuration).subscribe(response => {
      
       this.dataSource.data = response.items; 
-      console.log(this.dataSource.data)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
@@ -134,7 +132,6 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.TraineeAssessmentCreateForm.value['baseSchoolNameId'];
     this.TraineeAssessmentCreateService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-      console.log(res);
       this.selectedcoursedurationbyschoolname=res;
     });
   }  
@@ -147,7 +144,6 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
      this.courseDuration= courseDurationId;
-      console.log(courseNameArrVal,courseDurationId)
       // this.courseName=dropdown.text;
       // this.ClassRoutineForm.get('courseName').setValue(dropdown.text);
       // this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
@@ -200,7 +196,6 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
   deleteItem(row) {
     const id = row.traineeAssessmentCreateId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TraineeAssessmentCreateService.delete(id).subscribe(() => {
           this.getTraineeAssessmentCreates();
@@ -224,7 +219,6 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
   onSubmit() {    
     
     const id = this.TraineeAssessmentCreateForm.get('traineeAssessmentCreateId').value;  
-    console.log(this.TraineeAssessmentCreateForm.value)
     // const formData = new FormData();
     // for (const key of Object.keys(this.TraineeAssessmentCreateForm.value)) {
     //   const value = this.TraineeAssessmentCreateForm.value[key];
@@ -232,7 +226,6 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
     // } 
     if (id) {      
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.TraineeAssessmentCreateService.update(+id,this.TraineeAssessmentCreateForm.value).subscribe(response => {

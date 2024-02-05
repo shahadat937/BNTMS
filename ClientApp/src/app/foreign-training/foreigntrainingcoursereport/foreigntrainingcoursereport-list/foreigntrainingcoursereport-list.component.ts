@@ -45,8 +45,6 @@ export class ForeignTrainingCourseReportListComponent implements OnInit {
     this.isLoading = true;
     this.ForeignTrainingCourseReportService.getForeignTrainingCourseReportsList(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
       this.dataSource.data = response.items; 
-      console.log(this.dataSource.data)
-      console.log("Course Report")
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
@@ -85,7 +83,6 @@ export class ForeignTrainingCourseReportListComponent implements OnInit {
   deleteItem(row) {
     const id = row.foreignTrainingCourseReportid; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ForeignTrainingCourseReportService.delete(id).subscribe(() => {
           this.getForeignTrainingCourseReportsList();

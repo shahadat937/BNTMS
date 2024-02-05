@@ -58,7 +58,6 @@ export class NewGrandFatherTypeComponent implements OnInit {
     const id = this.GrandFatherTypeForm.get('grandfatherTypeId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.GrandFatherTypeService.update(+id,this.GrandFatherTypeForm.value).subscribe(response => {
             this.router.navigateByUrl('/basic-setup/grandfathertype-list');

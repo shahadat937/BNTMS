@@ -157,12 +157,10 @@ export class AttendanceInstructorComponent implements OnInit {
   }
   getTraineeListonClick(){
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
-    // console.log(this.dataSource)   
     
   
     for (let i = 0; i < this.traineeNominationListForAttendance.length; i++) {
       control.push(this.createTraineeData()); 
-      //  console.log(this.dataSource[i])
     }
     this.AttendanceForm.patchValue({ traineeListForm: this.traineeNominationListForAttendance });
    }
@@ -170,8 +168,6 @@ export class AttendanceInstructorComponent implements OnInit {
      getselectedclassperiod(traineeId){
       this.AttendanceService.getSelectedClassPeriodForAttendanceInstructorBySpRequest(traineeId).subscribe(res=>{
       this.selectedclassperiod=res
-      console.log("Seleted Class period");
-      console.log(this.selectedclassperiod);
     });
   }
   // getAttendanceListForUpdate() {
@@ -179,7 +175,6 @@ export class AttendanceInstructorComponent implements OnInit {
   //   this.dataSource = response.items; 
   //   this.paging.length = response.totalItemsCount    
   //   this.getTraineeListonClick();
-  //    console.log(this.dataSource);
   //   })
   // }
 
@@ -216,8 +211,6 @@ export class AttendanceInstructorComponent implements OnInit {
         this.AttendanceForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
         this.AttendanceForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
 
-        console.log("Class period Id");
-        console.log(baseSchoolNameId);
 
         this.isShown=true;
         this.clearList();
@@ -225,8 +218,6 @@ export class AttendanceInstructorComponent implements OnInit {
         this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
           this.traineeNominationListForAttendance=res; 
           this.getTraineeListonClick();
-          console.log("Trainee Nomination list");
-          console.log(this.traineeNominationListForAttendance);
          });
 
 
@@ -262,20 +253,16 @@ export class AttendanceInstructorComponent implements OnInit {
       //   this.dataSource = response.items; 
       //   this.paging.length = response.totalItemsCount    
       //   this.getTraineeListonClick();
-      //    console.log(this.dataSource);
       //   })
      }
     }
     //  onDateSelectionChange(event){
     //   var date=this.datepipe.transform((event.value), 'MM/dd/yyyy');
-    //        console.log(date);
     //        var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
     //        var courseNameId=this.AttendanceForm.value['courseNameId'];
-    //         console.log(baseSchoolNameId +" -"+courseNameId);
     //         if(baseSchoolNameId != null && courseNameId != null){
     //           this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameIdforAttendances(baseSchoolNameId,courseNameId,date).subscribe(res=>{
     //             this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameIdforAttendanceApprove=res;     
-    //             console.log( this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId); 
     //           });
     //         }  
     //  }
@@ -320,8 +307,6 @@ export class AttendanceInstructorComponent implements OnInit {
     // if(this.AttendanceForm.get('attendanceStatus').value === null){
     //   this.AttendanceForm.get('attendanceStatus').setValue(false);
     // }
-    console.log(this.AttendanceForm.value);
-    //console.log(this.AttendanceForm.value);
     // var classLeaderName= this.AttendanceForm.value['classLeaderName'];
     // var attendanceDate= this.AttendanceForm.value['attendanceDate'];
     // var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
@@ -339,9 +324,7 @@ export class AttendanceInstructorComponent implements OnInit {
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
       
-        console.log(result);
         if (result) {
-          console.log("dd");
           this.AttendanceService.updateAttendanceList(JSON.stringify(this.AttendanceForm.value)).subscribe(response => {
             this.router.navigateByUrl('/attendance-management/add-attendance');
             this.snackBar.open('Information Updated Successfully ', '', {

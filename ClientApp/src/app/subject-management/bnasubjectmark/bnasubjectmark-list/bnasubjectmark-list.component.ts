@@ -65,7 +65,6 @@ export class BnaSubjectMarkListComponent implements OnInit {
   deleteItem(row) {
     const id = row.subjectMarkId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SubjectMarkService.delete(id).subscribe(() => {
           this.getSubjectMarks();

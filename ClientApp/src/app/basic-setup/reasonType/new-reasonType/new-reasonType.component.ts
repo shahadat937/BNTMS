@@ -56,10 +56,8 @@ export class NewReasonTypeComponent implements OnInit {
   
   onSubmit() {
     const id = this.reasonTypeForm.get('reasonTypeId').value; 
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Reason Type Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.reasonTypeService.update(+id,this.reasonTypeForm.value).subscribe(response => {

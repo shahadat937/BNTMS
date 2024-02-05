@@ -84,7 +84,6 @@ export class AllowanceCategoryListComponent implements OnInit {
   deleteItem(row) {
     const id = row.allowanceCategoryId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.AllowanceCategoryService.delete(id).subscribe(() => {
           this.getAllowanceCategories();

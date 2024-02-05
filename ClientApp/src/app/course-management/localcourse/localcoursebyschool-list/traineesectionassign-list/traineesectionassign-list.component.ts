@@ -70,7 +70,6 @@ export class TraineeSectionAssignListComponent implements OnInit {
   ngOnInit(): void {
     // 3136
     const id = this.route.snapshot.paramMap.get('attendanceId'); 
-    console.log(id);
     this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
     
     this.pageTitle = 'Assign Course Section';
@@ -99,10 +98,8 @@ export class TraineeSectionAssignListComponent implements OnInit {
 
   getCourseSectionByDurationId(courseDurationId){
     this.courseDutartionService.find(courseDurationId).subscribe(res=>{
-      console.log(res);
       this.courseDutartionService.getSelectedCourseSectionsBySchoolIdAndCourseId(res.baseSchoolNameId,res.courseNameId).subscribe(res=>{
         this.courseSectionList=res;
-        console.log(this.courseSectionList);
       });
     });
   }
@@ -146,13 +143,10 @@ export class TraineeSectionAssignListComponent implements OnInit {
 
   getTraineeListonClick() {
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
     }
     this.AttendanceForm.patchValue({ traineeListForm: this.traineeList });
-    console.log("value...");
-    console.log(this.traineeList)
   }
 
   clearList() {
@@ -164,11 +158,8 @@ export class TraineeSectionAssignListComponent implements OnInit {
   }
 
   onCourseSectionForTraineeList(courseDurationId){
-    console.log(courseDurationId);
     this.traineeNominationService.getTestTraineeNominationByCourseDurationId(courseDurationId,0).subscribe(res => {
       this.traineeList = res.filter(x=>x.withdrawnTypeId === null);
-      console.log("trainee List");
-      console.log(this.traineeList);
       this.clearList();
       this.getTraineeListonClick();
     });
@@ -179,10 +170,8 @@ export class TraineeSectionAssignListComponent implements OnInit {
 
     //  const id = this.AttendanceForm.get('traineeNominationId').value;
 
-    console.log(this.AttendanceForm.value);
     
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.loading = true;
         this.traineeNominationService.updateTraineeNominationList(this.AttendanceForm.value).subscribe(response => {

@@ -43,7 +43,6 @@ export class SchoolEventListComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.schoolDashboardService.getEventBySchoolId(schoolId,currentDateTime).subscribe(response => {   
       this.EventForSchoolDashboard=response;
-      console.log(response)
     })
   }
 }

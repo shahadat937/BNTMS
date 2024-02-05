@@ -67,7 +67,6 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
     this.getSubjectNames(); 
   }
   toggle(){
@@ -160,7 +159,6 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.coursesTypes=this.route.snapshot.paramMap.get('courseTypeId');
     this.courseType3=this.route.snapshot.paramMap.get('courseType3');
-    console.log(this.schoolDb+"fdgfdgdfg")
 
     if(this.courseListStatus == 1){
       this.courseNameService.find(Number(courseNameId)).subscribe(res=>{
@@ -177,8 +175,6 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
       }); 
       this.CourseInstructorService.getInstructorListBySchoolAndCourse(this.baseSchoolNameId,courseNameId,this.courseDurationId).subscribe(res=>{
         this.GetInstructorByParameters=res;   
-        console.log("ee")     
-        console.log(this.GetInstructorByParameters);
       }); 
       
     }
@@ -186,7 +182,6 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
 
     this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourse(Number(this.baseSchoolNameId),Number(courseNameId)).subscribe(res=>{
       this.SelectedsubjectsBySchoolAndCourse=res;  
-      console.log(this.SelectedsubjectsBySchoolAndCourse); 
 
       // this gives an object with dates as keys
       const groups = this.SelectedsubjectsBySchoolAndCourse.reduce((groups, courses) => {
@@ -206,12 +201,10 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
         };
       });
 
-      console.log(this.groupArrays)
     });
 
     this.CourseInstructorService.getSubjectTotalByCourseId(this.baseSchoolNameId,courseNameId).subscribe(res=>{
       this.GetTotalSubjectCalculation=res;     
-      console.log(res)   
     }); 
     
   }

@@ -77,7 +77,6 @@ export class NewAttendanceComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('attendanceId'); 
     if (id) {
@@ -183,25 +182,17 @@ export class NewAttendanceComponent implements OnInit {
 
       this.AttendanceForm.get('classPeriodId').setValue(classPeriodId);
       this.AttendanceForm.get('courseSectionId').setValue(courseSectionId);
-      console.log("sectionId")
-      console.log(classPeriod,this.classRoutineId,classPeriodId,courseSectionId,this.bnaSubjectNameId); 
 
       this.classRoutineService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseSection=res;
-        console.log('section');
-        console.log(this.selectedCourseSection);
       });
 
       this.subjectNameService.find(this.bnaSubjectNameId).subscribe(res=>{
-        console.log('subject by id ',this.bnaSubjectNameId);
-        console.log(res.subjectName);
         this.subjectNamefromClassRoutine = res.subjectName;
       })
 
       this.classRoutineService.getSelectedMarkTypeByRoutineId(this.classRoutineId).subscribe(res=>{
         this.selectedMarkType=res[0].text;
-       console.log('mark type');
-        console.log(this.selectedMarkType);
       });
 
       
@@ -217,16 +208,12 @@ export class NewAttendanceComponent implements OnInit {
 
       // this.classRoutineService.getSelectedRoutineIdFilter(baseSchoolNameId,courseNameId,classPeriodId,this.courseDurationId,formatedDate,courseSectionId).subscribe(res=>{
       //   this.classRoutineId=res;
-      //   console.log("Class routine id");
-      //   console.log(this.classRoutineId);
-      //   console.log(courseNameId);
       // })
 
        if(baseSchoolNameId != null && courseNameId != null && this.courseDurationId !=null && classPeriodId !=null){
         this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId,courseSectionId).subscribe(res=>{
           this.traineeNominationListForAttendance=res.filter(x=>x.withdrawnTypeId === null);
 
-          console.log(this.traineeNominationListForAttendanceFilter);
           for(let i=0;i<=this.traineeNominationListForAttendance.length;i++)
           {
             this.traineeNominationListForAttendance[i].attendanceStatus=true;
@@ -248,7 +235,6 @@ export class NewAttendanceComponent implements OnInit {
             if(baseSchoolNameId != null && courseNameId != null  && courseDurationId !=null){
               this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId,courseDurationId,date).subscribe(res=>{
                 this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=res;     
-                console.log( this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId); 
               });
             }  
      }
@@ -300,7 +286,6 @@ export class NewAttendanceComponent implements OnInit {
   onSubmit() {
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This  Item').subscribe(result => {
       if (result) {
-      console.log(result);
         const id = this.AttendanceForm.get('attendanceId').value;
         this.isShowSubjectName=false;
         var classLeaderName= this.AttendanceForm.value['classLeaderName'];
@@ -316,7 +301,6 @@ export class NewAttendanceComponent implements OnInit {
           this.traineeNominationListForAttendance[i]["classPeriodId"] = classPeriodId;
           this.traineeNominationListForAttendance[i]["classRoutineId"] = this.classRoutineId;
         }
-        console.log(this.AttendanceForm.value)
         
           this.loading=true;
           this.AttendanceService.submit(JSON.stringify(this.traineeNominationListForAttendance) ).subscribe(response => {

@@ -63,7 +63,6 @@ export class SaylorSubBranchListComponent implements OnInit {
           courses: groups[branchName]
         };
       });
-      console.log(this.groupArrays);
 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -102,7 +101,6 @@ export class SaylorSubBranchListComponent implements OnInit {
   deleteItem(row) {
     const id = row.saylorSubBranchId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SaylorSubBranchService.delete(id).subscribe(() => {
           this.getSaylorSubBranchs();

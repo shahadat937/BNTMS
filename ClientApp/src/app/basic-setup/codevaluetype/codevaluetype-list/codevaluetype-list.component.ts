@@ -65,7 +65,6 @@ export class CodeValueTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.codeValueTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CodeValueTypeService.delete(id).subscribe(() => {
           this.getCodeValueTypes();

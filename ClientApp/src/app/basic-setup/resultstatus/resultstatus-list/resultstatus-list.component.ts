@@ -80,7 +80,6 @@ export class ResultStatusListComponent implements OnInit {
   deleteItem(row) {
     const id = row.resultStatusId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ResultStatusService.delete(id).subscribe(() => {
           this.getResultStatus();

@@ -79,7 +79,6 @@ export class BNAExamInstructorAssignService {
     return this.http.post<PostResponse>(this.baseUrl + '/bna-exam-instructor-assign/save-bnaExamInstructorAssign', model).pipe(
       map((BNAExamInstructorAssign: PostResponse) => {
         if (BNAExamInstructorAssign) {
-          console.log(BNAExamInstructorAssign);
           return BNAExamInstructorAssign;
         }
       })

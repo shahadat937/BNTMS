@@ -186,7 +186,6 @@ export class NewParentRelativeComponent implements OnInit {
     if(text == 15){
       this.deadStatusToggle = 'yes';
     }
-    console.log(status);
     
   }
 
@@ -271,21 +270,18 @@ export class NewParentRelativeComponent implements OnInit {
   onReligionSelectionChangeGetCastes(religionId){
     this.ParentRelativeService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
-      console.log(this.selectedCastes);
     });
   }
 
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.ParentRelativeService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
-      console.log(this.selectedDistrict);
     });
   }
 
   onDistrictSelectionChangeGetThana(districtId){
     this.ParentRelativeService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
-      console.log(this.selectedThana);
     });
   }
   

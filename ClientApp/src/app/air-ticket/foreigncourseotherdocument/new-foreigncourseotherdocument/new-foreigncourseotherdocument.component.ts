@@ -128,7 +128,6 @@ export class NewForeignCourseOtherDocumentComponent implements OnInit {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log(file);
       this.ForeignCourseOtherDocumentForm.patchValue({
         doc: file,
       });
@@ -142,8 +141,6 @@ export class NewForeignCourseOtherDocumentComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log("data");
-      console.log(this.dataSource.data);
     })
   }
     pageChanged(event: PageEvent) {
@@ -197,8 +194,6 @@ export class NewForeignCourseOtherDocumentComponent implements OnInit {
 
     this.traineeId = dropdown.source.value;
     this.getForeignCourseOtherDocuments();
-    console.log("fffffffffff");
-    console.log(this.ForeignCourseOtherDocumentForm.value);
    }
   }
 
@@ -217,13 +212,11 @@ export class NewForeignCourseOtherDocumentComponent implements OnInit {
   }
   onSubmit() {
     const id = this.ForeignCourseOtherDocumentForm.get('foreignCourseOthersDocumentId').value;  
-    console.log(this.ForeignCourseOtherDocumentForm.value); 
     const formData = new FormData();
     for (const key of Object.keys(this.ForeignCourseOtherDocumentForm.value)) {
       const value = this.ForeignCourseOtherDocumentForm.value[key];
       formData.append(key, value);
     } 
-   // console.log(formData)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
@@ -263,7 +256,6 @@ export class NewForeignCourseOtherDocumentComponent implements OnInit {
   deleteItem(row) {
     const id = row.foreignCourseOthersDocumentId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ForeignCourseOtherDocumentService.delete(id).subscribe(() => {
          // this.getForeignCourseOtherDocuments();

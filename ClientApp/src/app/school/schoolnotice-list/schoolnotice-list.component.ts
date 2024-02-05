@@ -43,7 +43,6 @@ export class SchoolNoticeListComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.schoolDashboardService.getNoticeBySchoolId(schoolId,currentDateTime).subscribe(response => {   
       this.NoticeForSchoolDashboard=response;
-      console.log(response)
     })
   }
 }

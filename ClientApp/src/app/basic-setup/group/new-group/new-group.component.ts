@@ -58,7 +58,6 @@ export class NewGroupComponent implements OnInit {
     
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Group Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.groupService.update(+id,this.groupForm.value).subscribe(response => {

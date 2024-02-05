@@ -91,42 +91,25 @@ export class NewTraineeNominationComponent implements OnInit {
        this.bnaSemesterDurationId = res.bnaSemesterDurationId;
        //this.courseDurationId = res.courseDurationId;
        this.bnaSemesterId = res.bnaSemesterId;
-       console.log(res.bnaSemesterId)
-       console.log("res.bnaSemesterId")
-       //console.log(res.courseDurationId)
-       console.log(res)
        this.semesterName = res.bnaSemesterName;
-       console.log(res.bnaSemesterName)
-       console.log("res.semester")
        this.startDate = res.startDate;
        this.endDate = res.endDate;
-       console.log(res.endDate)
-       console.log("res.endDate")
        //this.TraineeNominationForm.get('bnaSemesterId').setValue(res.bnaSemesterId);
        this.TraineeNominationForm.get('courseDurationId').setValue(res.courseDurationId);
        this.TraineeNominationForm.get('bnaSemesterDurationId').setValue(res.bnaSemesterDurationId);
        
-      console.log("res")
-      console.log(res)
-      console.log("res")
       this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
         this.courseNameId = res.courseNameId;
         this.TraineeNominationForm.get('courseNameId').setValue(res.courseNameId);
         this.schoolName = res.baseSchoolName;
         this.courseName = res.courseName;
         this.courseTitle = res.courseTitle;
-        console.log("res cd")
-        console.log(res)
-        console.log("res cd")
         // this.BNASemesterDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
         //   this.courseNameId = res.courseNameId;
         //   this.TraineeNominationForm.get('courseNameId').setValue(res.courseNameId);
         //   this.schoolName = res.baseSchoolName;
         //   this.courseName = res.courseName;
         //   this.courseTitle = res.courseTitle;
-        //   console.log("res cd")
-        //   console.log(res)
-        //   console.log("res cd")
         // });
       });
     });
@@ -233,7 +216,6 @@ export class NewTraineeNominationComponent implements OnInit {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log(item.value);
     this.traineeId = item.value
     this.TraineeNominationForm.get('traineeId').setValue(item.value);
     this.TraineeNominationForm.get('traineeName').setValue(item.text);
@@ -283,7 +265,6 @@ getSelectedTraineeByPno(pno){
   getTraineeInfoByTraineeId(traineeId){
     this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
       this.traineeInfoById=res;
-      console.log(this.traineeInfoById);
       this.TraineeNominationForm.get('saylorRankId').setValue(res.saylorRankId);
       this.TraineeNominationForm.get('rankId').setValue(res.rankId);
       this.TraineeNominationForm.get('saylorBranchId').setValue(res.saylorBranchId);
@@ -301,7 +282,6 @@ getSelectedTraineeByPno(pno){
   onStatus(dropdown) {
     if (dropdown.isUserInput) {
       this.department = dropdown.source.value;
-      console.log(this.department);
     }
   }
   getSelectedDepartment(){
@@ -370,16 +350,11 @@ getSelectedTraineeByPno(pno){
   //     this.dataSource.data = response.items; 
   //     this.paging.length = response.totalItemsCount    
   //     this.isLoading = false;
-  //     console.log(this.dataSource.data);
   //   })
 
   //   this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
   //     this.nominatedPercentageList=response;
   //     this.nominatedPercentageListCount=response.length;
-  //     console.log("Count");
-  //     console.log(this.nominatedPercentageList)
-  //     console.log("eee");
-  //     console.log(this.nominatedPercentageList)
   //   });
   // }
   getTraineeNominationsByBnaSemesterDurationId(bnaSemesterDurationId) {
@@ -388,16 +363,11 @@ getSelectedTraineeByPno(pno){
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(this.dataSource.data);
     })
 
     this.TraineeNominationService.gettraineeNominationListByBnaSemesterDurationId(bnaSemesterDurationId).subscribe(response => {
       this.nominatedPercentageList=response;
       this.nominatedPercentageListCount=response.length;
-      console.log("Count");
-      console.log(this.nominatedPercentageList)
-      console.log("eee");
-      console.log(this.nominatedPercentageList)
     });
   }
 
@@ -414,10 +384,8 @@ getSelectedTraineeByPno(pno){
   } 
 
   deleteItem(row) {
-    console.log(row)
     const id = row.traineeNominationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     // console.log(result);
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.getTraineeNominationsByBnaSemesterDurationId(this.bnaSemesterDurationId)

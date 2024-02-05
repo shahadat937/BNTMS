@@ -34,7 +34,6 @@ export class ViewFavoritesComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('favoritesId'); 
     this.FavoritesService.find(+id).subscribe( res => {
-      console.log(res);
       this.favoritesId= res.favoritesId,
       this.favoritesTypeId=res.favoritesTypeId,
       this.favoritesTypeName = res.favoritesTypeName,

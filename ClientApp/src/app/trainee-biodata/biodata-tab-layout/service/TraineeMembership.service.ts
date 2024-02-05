@@ -43,7 +43,6 @@ export class TraineeMembershipService {
     return this.http.post(this.baseUrl + '/trainee-membership/save-traineeMembership', model).pipe(
       map((TraineeMembership: PostResponse) => {
         if (TraineeMembership) {
-          console.log(TraineeMembership);
           return TraineeMembership;
         }
       })

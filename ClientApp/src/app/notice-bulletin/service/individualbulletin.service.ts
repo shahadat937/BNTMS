@@ -85,7 +85,6 @@ export class IndividualBulletinService {
     return this.http.post<PostResponse>(this.baseUrl + '/individual-bulletin/save-IndividualBulletin', model).pipe(
       map((BnaClassTest: PostResponse) => {
         if (BnaClassTest) {
-          console.log(BnaClassTest);
           return BnaClassTest;
         }
       })

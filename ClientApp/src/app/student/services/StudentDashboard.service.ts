@@ -277,14 +277,12 @@ export class StudentDashboardService {
   }
 
   saveTraineeAssessmentMarklist(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-assessment-mark/save-traineeAssessmentMarklist', model, httpOptions).pipe(
       map((BNAExamMark: PostResponse) => {
         if (BNAExamMark) {
-          console.log(BNAExamMark);
           return BNAExamMark;
         }
       })

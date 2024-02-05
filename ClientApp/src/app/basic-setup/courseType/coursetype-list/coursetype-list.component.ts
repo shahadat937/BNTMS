@@ -81,7 +81,6 @@ export class CoursetypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) { 
         this.CourseTypeService.delete(id).subscribe(() => {
           this.getCourseTypes();

@@ -83,7 +83,6 @@ export class JstiTraineeDetailsComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     var traineeId = this.route.snapshot.paramMap.get('traineeId'); 
     this.getJstiTraineeBasicInfoDetails(traineeId); 
@@ -427,7 +426,6 @@ export class JstiTraineeDetailsComponent implements OnInit {
 
   getJstiTraineeBasicInfoDetails(traineeId) {
     this.CourseInstructorService.getJstiTraineeBasicInfoDetails(traineeId).subscribe(res=>{       
-      console.log(res)
       this.jstiTraineeDetails = res;
     }); 
   }
@@ -453,24 +451,18 @@ export class JstiTraineeDetailsComponent implements OnInit {
   getTraineeEducationalQualification(traineeId) {
     this.CourseInstructorService.getTraineeEducationalQualification(traineeId).subscribe(res=>{                   
         this.jstiTraineeEducations=res;
-        console.log("education")
-        console.log(this.jstiTraineeEducations)
       
     }); 
   }
   getTraineeMilitaryTrainings(traineeId) {
     this.CourseInstructorService.getTraineeMilitaryTrainings(traineeId).subscribe(res=>{                   
         this.jstiTraineeMilitaryTrainig=res;
-        console.log("militery");
-        console.log(this.jstiTraineeMilitaryTrainig)
       
     }); 
   }
   getTraineeRecordOfServices(traineeId) {
     this.CourseInstructorService.getTraineeRecordOfServices(traineeId).subscribe(res=>{                   
         this.jstiTraineeRecordOfService=res;
-        console.log("recordservice");
-        console.log(this.jstiTraineeRecordOfService)
       
     }); 
   }

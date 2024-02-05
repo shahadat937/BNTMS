@@ -41,7 +41,6 @@ export class CovidVaccineService {
     return this.http.post(this.baseUrl + '/covid-vaccine/save-CovidVaccine', model).pipe(
       map((CovidVaccine: PostResponse) => {
         if (CovidVaccine) {
-          console.log(CovidVaccine);
           return CovidVaccine;
         }
       })

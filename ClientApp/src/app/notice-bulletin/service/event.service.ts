@@ -70,7 +70,6 @@ export class EventService {
     return this.http.post<PostResponse>(this.baseUrl + '/event/save-event', model).pipe(
       map((BnaClassTest: PostResponse) => {
         if (BnaClassTest) {
-          console.log(BnaClassTest);
           return BnaClassTest;
         }
       })

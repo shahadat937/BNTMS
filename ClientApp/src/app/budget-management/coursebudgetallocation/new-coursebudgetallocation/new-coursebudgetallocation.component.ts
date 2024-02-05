@@ -70,7 +70,6 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('courseBudgetAllocationId'); 
     if (id) {
@@ -182,7 +181,6 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
   }
 
   onCourseNameSelectionChange(dropdown){
-    console.log("Dropdown");
 
     var courseNameArr = dropdown.source.value.split('_');
     var courseDurationId = courseNameArr[0];
@@ -202,8 +200,6 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
         this.dataSource.data = response.items; 
         this.paging.length = response.totalItemsCount    
         this.isLoading = false;
-        console.log("data source");
-        console.log(this.dataSource.data);
       })
   }
 
@@ -258,12 +254,7 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.courseBudgetAllocationId; 
-    console.log("Budget code id");
-    console.log(row.budgetCodeId);
-    console.log("Payment type");
-    console.log(row.paymentTypeId);
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     // console.log(result);
       if (result) {
         this.CourseBudgetAllocationService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();
@@ -289,10 +280,8 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
 
   onSubmit() {
     const id = this.CourseBudgetAllocationForm.get('courseBudgetAllocationId').value; 
-    console.log(this.CourseBudgetAllocationForm.value);  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.CourseBudgetAllocationService.update(+id,this.CourseBudgetAllocationForm.value).subscribe(response => {

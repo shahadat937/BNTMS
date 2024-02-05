@@ -80,7 +80,6 @@ export class WeekNameListComponent implements OnInit {
   deleteItem(row) {
     const id = row.weekNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item?').subscribe(result => {
-      console.log(result);
       if (result) { 
         this.WeekNameService.delete(id).subscribe(() => {
           this.getWeekNames();

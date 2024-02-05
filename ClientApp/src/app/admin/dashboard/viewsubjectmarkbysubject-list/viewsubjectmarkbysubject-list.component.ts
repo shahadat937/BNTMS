@@ -57,7 +57,6 @@ export class ViewSubjectMarkListBySubjectComponent implements OnInit {
   }
  
   getSubjectMarks() {
-    console.log(this.role)
     this.isLoading = true;
     this.traineeDb = 1;
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
@@ -65,7 +64,6 @@ export class ViewSubjectMarkListBySubjectComponent implements OnInit {
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId'); 
     this.courseListStatus = this.route.snapshot.paramMap.get('courseListStatus'); 
-    //console.log(this.baseSchoolNameId,this.courseNameId,bnaSubjectNameId)
     this.SubjectMarkService.getSelectedsubjectMarksBySubject(Number(this.baseSchoolNameId),Number(this.courseNameId),Number(this.bnaSubjectNameId)).subscribe(res=>{
       this.SelectedsubjectMarksBySubject=res;  
     });

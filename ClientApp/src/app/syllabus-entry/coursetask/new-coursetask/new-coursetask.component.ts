@@ -57,7 +57,6 @@ export class NewCourseTaskComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit Course Task';
@@ -117,7 +116,6 @@ export class NewCourseTaskComponent implements OnInit {
   }
   //autocomplete for Course
   onCourseSelectionChanged(item) {
-    console.log(item.value);
     this.courseNameId = item.value
     this.CourseTaskForm.get('courseNameId').setValue(item.value);
     this.CourseTaskForm.get('course').setValue(item.text);
@@ -135,7 +133,6 @@ export class NewCourseTaskComponent implements OnInit {
     var baseSchoolNameId = this.CourseTaskForm.value['baseSchoolNameId'];
     var courseNameId = this.CourseTaskForm.value['courseNameId'];
     this.CourseTaskService.getselectedSubjectBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res => {
-      console.log("Subject name");
       this.selectedSubjectNamebyschoolnameAndCourse = res;
 
     });
@@ -151,10 +148,8 @@ export class NewCourseTaskComponent implements OnInit {
       var baseSchoolNameId = this.CourseTaskForm.value['baseSchoolNameId'];
       var courseNameId = this.CourseTaskForm.value['courseNameId'];
       var bnaSubjectNameId = this.CourseTaskForm.value['bnaSubjectNameId'];
-      console.log(baseSchoolNameId + " -" + courseNameId + " -" + bnaSubjectNameId)
       this.CourseTaskService.getSelectedSubjectShowCourseTasklist(baseSchoolNameId, courseNameId, bnaSubjectNameId).subscribe(response => {
         this.courseTaskList = response;
-        console.log(this.courseTaskList);
       })
     }
   }
@@ -168,10 +163,8 @@ export class NewCourseTaskComponent implements OnInit {
 
   onSubmit() {
     const id = this.CourseTaskForm.get('courseTaskId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.CourseTaskService.update(+id, this.CourseTaskForm.value).subscribe(response => {
@@ -208,7 +201,6 @@ export class NewCourseTaskComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseTaskId;
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseTaskService.delete(id).subscribe(() => {
           //this.getCourseTasks();

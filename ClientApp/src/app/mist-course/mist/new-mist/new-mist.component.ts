@@ -31,7 +31,6 @@ export class NewMistComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
      this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
-     console.log(this.courseTypeId);
     if (id) {
       this.pageTitle = 'Edit MISt Course'; 
       this.destination = "Edit"; 
@@ -94,13 +93,11 @@ export class NewMistComponent implements OnInit {
   getselectedcoursename(){
     this.CourseDurationService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res
-      console.log(this.selectedcoursename)
     });
   }
   getselectedcoursetype(){
     this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
       this.selectedcoursetype=res
-      console.log(this.selectedcoursetype)
     });
   } 
   getselectedbaseschools(){
@@ -112,7 +109,6 @@ export class NewMistComponent implements OnInit {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading=true;
           this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {

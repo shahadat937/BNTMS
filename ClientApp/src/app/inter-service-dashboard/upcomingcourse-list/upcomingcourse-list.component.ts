@@ -49,7 +49,6 @@ export class upcomingcourseListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
     
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.dbType = Number(this.route.snapshot.paramMap.get('dbType'));
@@ -68,7 +67,6 @@ export class upcomingcourseListComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.interServiceDashboardService.getUpcomingCourseListByType(currentDateTime,courseTypeId).subscribe(response => {           
       this.interServiceCourses=response;
-      console.log(this.interServiceCourses);
     })
   }
 

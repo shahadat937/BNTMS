@@ -57,14 +57,11 @@ export class ViewCourseCreateNbcdComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.schoolDb = Number(this.route.snapshot.paramMap.get('schoolDb')); 
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
-    console.log(this.schoolDb)
     this.CourseDurationService.find(+id).subscribe( res => {
-      console.log(res)
       this.courseDurationId = res.courseDurationId,
       this.courseNameId = res.courseNameId,
       this.courseName = res.courseName,
@@ -110,23 +107,18 @@ export class ViewCourseCreateNbcdComponent implements OnInit {
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
-       //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     })
   }
     //autocomplete
     onCourseSelectionChanged(item) {
-       console.log("888888888");
       this.courseNameId = item.value 
       this.CourseDurationForm.get('courseNameId').setValue(item.value);
       this.CourseDurationForm.get('course').setValue(item.text);
     }
     getSelectedCourseAutocomplete(cName){
-      console.log("8888888ww88");
       this.CourseNameService.getSelectedCourseByNameAndType(3,cName).subscribe(response => {
         this.options = response;
         this.filteredOptions = response;
-        console.log("eeeeeee");
-        console.log(this.filteredOptions);
       })
     }
 
@@ -149,6 +141,5 @@ export class ViewCourseCreateNbcdComponent implements OnInit {
     });
   },
   )  
-    console.log(this.CourseDurationForm.value);
   }
 }

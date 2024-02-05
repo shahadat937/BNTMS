@@ -92,25 +92,20 @@ export class NewSchoolNameComponent implements OnInit {
   // getSelectedOrganization(){
   //   this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
   //     this.selectedOrganization=res
-  //     console.log(this.selectedOrganization);
   //   });
   // }
 
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.BaseSchoolForm.value['firstLevel'];
-    console.log(this.organizationId)    
     this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
-      console.log(this.selectedCommendingArea);
     });        
   }
   
   onCommendingAreaSelectionChangeGetBaseName(){
     this.baseNameId=this.BaseSchoolForm.value['secondLevel'];
-    console.log(this.baseNameId);
     this.BaseSchoolNameService.getSelectedBaseName(this.baseNameId).subscribe(res=>{
       this.selectedBaseName=res
-      console.log(this.selectedBaseName);
     });  
     //this.getBaseNameList(this.commendingAreaId);
             
@@ -118,7 +113,6 @@ export class NewSchoolNameComponent implements OnInit {
   
   onBaseNameSelectionChangeGetBaseSchoolList(){
     this.baseNameId=this.BaseSchoolForm.value['thirdLevel'];
-    console.log(this.baseNameId);
     this.getBaseSchoolList(this.baseNameId);
             
   }
@@ -127,14 +121,11 @@ export class NewSchoolNameComponent implements OnInit {
     this.isShown=true;
     this.BaseSchoolNameService.getBaseSchoolList(baseNameId).subscribe(res=>{
       this.baseSchoolList=res
-      console.log(this.baseSchoolList);
     });
   }
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log('ImagE')
-     console.log(file);
       this.BaseSchoolForm.patchValue({
         image: file,
       });
@@ -171,16 +162,13 @@ export class NewSchoolNameComponent implements OnInit {
   
   onSubmit() {
     const id = this.BaseSchoolForm.get('baseSchoolNameId').value;
-    //console.log(id);
     const formData = new FormData();
     for (const key of Object.keys(this.BaseSchoolForm.value)) {
       const value = this.BaseSchoolForm.value[key];
       formData.append(key, value);
     }
-    console.log(formData)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
@@ -220,7 +208,6 @@ export class NewSchoolNameComponent implements OnInit {
   deleteItem(row) {
     const id = row.baseSchoolNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BaseSchoolNameService.delete(id).subscribe(() => {
           this.getBaseSchoolList(this.baseNameId);

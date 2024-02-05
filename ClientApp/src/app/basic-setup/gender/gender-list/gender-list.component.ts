@@ -61,7 +61,6 @@ export class GenderListComponent implements OnInit {
   deleteItem(row) {
     const id = row.genderId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This gender Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.GenderService.delete(id).subscribe(() => {
           this.getGenders();

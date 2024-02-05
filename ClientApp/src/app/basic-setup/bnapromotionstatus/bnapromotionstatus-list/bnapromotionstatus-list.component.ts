@@ -65,7 +65,6 @@ export class BNAPromotionStatusListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaPromotionStatusId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAPromotionStatusService.delete(id).subscribe(() => {
           this.getBNAPromotionStatuss();

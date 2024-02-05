@@ -52,7 +52,6 @@ export class JoiningReasonService {
     return this.http.post(this.baseUrl + '/joining-reason/save-joiningReason', model).pipe(
       map((JoiningReason: PostResponse) => {
         if (JoiningReason) {
-          console.log(JoiningReason);
           return JoiningReason;
         }
       })

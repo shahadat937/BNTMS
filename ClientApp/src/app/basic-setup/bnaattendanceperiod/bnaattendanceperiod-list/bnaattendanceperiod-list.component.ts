@@ -82,7 +82,6 @@ export class BnaAttendancePeriodListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaAttendancePeriodId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BnaAttendancePeriodService.delete(id).subscribe(() => {
           this.getBnaAttendancePeriods();

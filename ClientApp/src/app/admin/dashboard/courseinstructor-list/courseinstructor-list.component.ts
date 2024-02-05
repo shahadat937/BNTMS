@@ -42,7 +42,6 @@ export class CourseInstructorListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     const branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, branchId)
     this.traineeDb=1;
     this.onModuleSelectionChangeGetsubjectList();
     
@@ -52,7 +51,6 @@ export class CourseInstructorListComponent implements OnInit {
   //   this.isLoading = true;
   //   this.CourseInstructorService.getCourseInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
-  //     console.log(response);
   //     this.dataSource.data = response.items; 
   //     this.paging.length = response.totalItemsCount    
   //     this.isLoading = false;
@@ -68,7 +66,6 @@ export class CourseInstructorListComponent implements OnInit {
     if(this.baseSchoolNameId != null && bnaSubjectNameId != null && courseModuleId !=null && this.courseNameId !=null){
       this.CourseInstructorService.getCourseInstructorByCourseDurationIdANdSubjectNameId(bnaSubjectNameId, this.courseDurationId, this.courseNameId).subscribe(res=>{
         this.GetInstructorByParameters=res;  
-        console.log(this.GetInstructorByParameters); 
       }); 
     }
   }
@@ -89,7 +86,6 @@ export class CourseInstructorListComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.courseInstructorId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.CourseInstructorService.delete(id).subscribe(() => {
   //         this.getCourseInstructors();

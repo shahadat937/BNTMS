@@ -42,7 +42,6 @@ export class GameSportService {
     return this.http.post(this.baseUrl + '/game-sport/save-gameSport', model).pipe(
       map((GameSport: PostResponse) => {
         if (GameSport) {
-          console.log(GameSport);
           return GameSport;
         }
       })

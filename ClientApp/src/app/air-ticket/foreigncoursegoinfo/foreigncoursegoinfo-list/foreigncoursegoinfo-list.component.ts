@@ -68,7 +68,6 @@ export class ForeignCourseGOInfoListComponent implements OnInit {
   deleteItem(row) {
     const id = row.foreignCourseGOInfoId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ForeignCourseGOInfoService.delete(id).subscribe(() => {
           this.getForeignCourseGOInfos();

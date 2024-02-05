@@ -63,7 +63,6 @@ export class BnaCurriculumUpdateService {
     return this.http.post<PostResponse>(this.baseUrl + '/bna-curriculum-update/save-bnaCurriculumUpdate', model).pipe(
       map((BnaCurriculumUpdate: PostResponse) => {
         if (BnaCurriculumUpdate) {
-          console.log(BnaCurriculumUpdate);
           return BnaCurriculumUpdate;
         }
       })

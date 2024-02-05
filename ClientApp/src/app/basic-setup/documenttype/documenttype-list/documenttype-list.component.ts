@@ -80,7 +80,6 @@ export class DocumentTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.documentTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.DocumentTypeService.delete(id).subscribe(() => {
           this.getDocumentType();

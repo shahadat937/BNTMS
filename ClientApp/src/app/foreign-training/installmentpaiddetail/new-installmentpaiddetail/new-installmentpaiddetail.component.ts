@@ -39,7 +39,6 @@ export class NewInstallmentPaidDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get("installmentPaidDetailId");
     this.courseDurationId = this.route.snapshot.paramMap.get("courseDurationId");
     this.traineeId = this.route.snapshot.paramMap.get("traineeId");
-    console.log(this.courseDurationId);
     if (id) {
       this.pageTitle = "Edit Installment Paid Detail";
       this.destination = "Edit";
@@ -98,7 +97,6 @@ export class NewInstallmentPaidDetailComponent implements OnInit {
       this.confirmService
         .confirm("Confirm Update message", "Are You Sure Update This  Item?")
         .subscribe((result) => {
-          console.log(result);
           if (result) {
             this.loading=true;
             this.InstallmentPaidDetailService.update(

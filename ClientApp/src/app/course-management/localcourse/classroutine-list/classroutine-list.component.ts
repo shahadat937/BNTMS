@@ -44,7 +44,6 @@ export class ClassRoutineListComponent implements OnInit {
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.ClassRoutineService.classRoutineBySchoolCourseDuration(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.selectedRoutineByParameters=res;  
-      console.log(this.selectedRoutineByParameters); 
     });
   }
 
@@ -64,7 +63,6 @@ export class ClassRoutineListComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.classRoutineId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.ClassRoutineService.delete(id).subscribe(() => {
   //         this.getClassRoutines();

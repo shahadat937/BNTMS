@@ -87,7 +87,6 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.loggedTraineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     if (id) {
@@ -96,7 +95,6 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
       this.buttonText = "Update"
       this.RoutineSoftCopyUploadService.find(+id).subscribe(
         res => {
-          console.log(res);
           this.RoutineSoftCopyUploadForm.patchValue({
            routineSoftCopyUploadId: res.routineSoftCopyUploadId,
            courseDurationId: res.courseDurationId,
@@ -107,8 +105,6 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
            isApproved: res.isApproved,
            isActive: res.isActive
           });
-          console.log("Response");
-          console.log(res);
         //  this.getselectedcoursedurationbyschoolname()
         this.getCourseForRoutine();
         }
@@ -153,7 +149,6 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log(file);
       if(file.size >2147483648){
         let tempDirection;
         if (localStorage.getItem('isRtl') === 'true') {
@@ -166,7 +161,6 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
           direction: tempDirection,
         });
          this.btnShow=false;
-         console.log("file size greater then 1Gb");
       }
 
       else{
@@ -180,8 +174,6 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
 
 
   getselectedbnasubjectname(dropdown){
-    console.log("dripdown");
-    console.log(dropdown);
     this.isShown =true;
       //var courseNameArr = dropdown.value.split('_');
       var courseDurationId = dropdown.value;
@@ -210,20 +202,14 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.RoutineSoftCopyUploadForm.value['baseSchoolNameId'];
     this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-      console.log(res);
       this.selectedcoursedurationbyschoolname=res;
-      console.log("rrrrrrrr");
-      console.log(this.selectedcoursedurationbyschoolname);
     });
 } 
 
 getCourseForRoutine(){
   var baseSchoolNameId=this.RoutineSoftCopyUploadForm.value['baseSchoolNameId'];
   this.ClassRoutineService.getCourseForRoutine(baseSchoolNameId).subscribe(res=>{
-    console.log(res);
     this.selectedCourse=res;
-    console.log("rrrrrrrr");
-    console.log(this.selectedcoursedurationbyschoolname);
   });
 }
 
@@ -253,10 +239,7 @@ getCourseForRoutine(){
 
   deleteItem(row) {
     const id = row.routineSoftCopyUploadId; 
-    console.log("Course Duration id");
-    console.log(id);
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.RoutineSoftCopyUploadService.delete(id).subscribe(() => {
           this.getCourseForRoutine();
@@ -274,7 +257,6 @@ getCourseForRoutine(){
 
   onSubmit() {
     const id = this.RoutineSoftCopyUploadForm.get('routineSoftCopyUploadId').value;
-    console.log(this.RoutineSoftCopyUploadForm.value)
    // this.RoutineSoftCopyUploadForm.get('approvedDate').setValue((new Date(this.RoutineSoftCopyUploadForm.get('approvedDate').value)).toUTCString());
     const formData = new FormData();
     for (const key of Object.keys(this.RoutineSoftCopyUploadForm.value)) {
@@ -284,7 +266,6 @@ getCourseForRoutine(){
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.RoutineSoftCopyUploadService.update(+id, formData).subscribe(response => {
@@ -309,22 +290,17 @@ getCourseForRoutine(){
     } else {
       this.loading = true;
       this.RoutineSoftCopyUploadService.submit(formData).subscribe((event: HttpEvent<any>) => {
-        console.log(this.RoutineSoftCopyUploadForm);
 
         switch (event.type) {
           case HttpEventType.Sent:
-            console.log('Request has been made!');
             break;
           case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
             break;
           case HttpEventType.UploadProgress:
             this.progress = Math.round(event.loaded / event.total * 100);
-            console.log(`Uploaded! ${this.progress}%`);
             this.showSpinner=true;
             break;
           case HttpEventType.Response:
-            console.log('User successfully created!', event.body);
 
             setTimeout(() => {
               this.progress = 0;
@@ -370,7 +346,6 @@ getCourseForRoutine(){
     
     // else {
     //   this.RoutineSoftCopyUploadService.submit(formData).subscribe(response => {
-    //     console.log(this.RoutineSoftCopyUploadForm);
     //     if(this.traineeId){  
     //       const url = '/admin/dashboard/RoutineSoftCopyUploadlistinstructor/'+this.traineeId+'/'+this.schoolId;            
     //       this.router.navigateByUrl(url);

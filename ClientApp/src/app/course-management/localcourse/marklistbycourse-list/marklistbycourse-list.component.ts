@@ -59,11 +59,9 @@ export class MarkListByCourseComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.baseSchoolNameService.find(this.branchId).subscribe(res=>{
       this.schoolName = res.schoolName;
-      console.log(this.schoolName);
     });
 
     this.getTraineeMarkListByDuration();
@@ -170,45 +168,30 @@ export class MarkListByCourseComponent implements OnInit {
     this.courseDurationService.find(Number(courseDurationId)).subscribe(res=>{
       
       this.course = res.courseName+"_"+res.courseTitle;
-      console.log(this.course)
     });
-    console.log("db type"+this.mainDb)
     if(this.courseNameId == this.masterData.courseName.StaffCollage){
       this.title = "Staff Collage Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForStuffClg(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
-        console.log(this.marklistbycourse)
-        console.log("Staff Collage Mark")
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
-        console.log([...Object.keys(this.marklistbycourse[0])]);      
       });
     }else if(this.courseNameId == this.masterData.courseName.JCOsTraining){
       this.title = "JCO's Exam Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForStuffClg(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
-        console.log(this.marklistbycourse)
-        console.log("JCO's Exam Mark")
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
-        console.log([...Object.keys(this.marklistbycourse[0])]);      
       });
     }else if(this.courseNameId == this.masterData.courseName.QExam){
       this.title = " Q-Exam Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForQexam(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
-        console.log(this.marklistbycourse)
-        console.log("Q-Exam Mark")
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
-        console.log([...Object.keys(this.marklistbycourse[0])]);      
       });
     }else{
-      console.log('check')
       this.title = "Course Subject";
       this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;   
-        console.log(this.marklistbycourse);
-        console.log("Course Mark Sheet List");
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
-        console.log([...Object.keys(this.marklistbycourse[0])]);
       });
     }
     

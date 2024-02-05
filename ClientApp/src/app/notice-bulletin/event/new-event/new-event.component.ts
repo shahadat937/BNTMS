@@ -111,7 +111,6 @@ export class NewEventComponent implements OnInit {
 
   // onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
   //     this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-  //     console.log(res);
   //     this.selectedCourse=res;
   //   });
   // var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
@@ -217,8 +216,6 @@ stopevents(element){
 })
   }
 //   else{
-//     console.log("element id");
-//     console.log(element.status);
 //     this.confirmService.confirm('Confirm Running message', 'Are You Sure Running This Item').subscribe(result => {
 //       if (result) {
 //      this.eventService.runningevents(element.eventId).subscribe(() => {
@@ -226,8 +223,6 @@ stopevents(element){
 
 //       this.eventService.geteventBySchool(baseSchoolNameId).subscribe(res=>{
 //         this.selectedevent=res
-//   console.log("ffff");
-//         console.log(this.selectedevent);
 //       }); 
 
 //      // this.getCourseplanCreates();
@@ -342,7 +337,6 @@ stopevents(element){
       this.loading = true;
       this.eventForm.value.baseSchoolNameId.forEach(element => {  
         debugger
-        console.log(element)
         if(element!=0){
           this.eventForm.value.baseSchoolNameId=element;
           if(this.eventForm.value.courseName!=""){
@@ -377,7 +371,6 @@ stopevents(element){
               // });
             }, error => {
               this.validationErrors = error;
-              console.log(error)
             })
       
           }

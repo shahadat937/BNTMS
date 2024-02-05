@@ -80,7 +80,6 @@ export class NewForeignCourseGOInfoComponent implements OnInit {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log(file);
       this.ForeignCourseGOInfoForm.patchValue({
         doc: file,
       });
@@ -110,16 +109,13 @@ export class NewForeignCourseGOInfoComponent implements OnInit {
 
   onSubmit() {
     const id = this.ForeignCourseGOInfoForm.get('foreignCourseGOInfoId').value;   
-    console.log(this.ForeignCourseGOInfoForm.value);
     const formData = new FormData();
     for (const key of Object.keys(this.ForeignCourseGOInfoForm.value)) {
       const value = this.ForeignCourseGOInfoForm.value[key];
       formData.append(key, value);
     } 
-    console.log(formData);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ForeignCourseGOInfoService.update(+id,formData).subscribe(response => {

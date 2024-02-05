@@ -58,7 +58,6 @@ export class NewGenderComponent implements OnInit {
     const id = this.genderForm.get('genderId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Gender Item').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading=true;
           this.genderService.update(+id,this.genderForm.value).subscribe(response => {

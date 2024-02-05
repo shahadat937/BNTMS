@@ -63,7 +63,6 @@ export class BulletinService {
     return this.http.post<PostResponse>(this.baseUrl + '/bulletin/save-bulletin', model).pipe(
       map((BnaClassTest: PostResponse) => {
         if (BnaClassTest) {
-          console.log(BnaClassTest);
           return BnaClassTest;
         }
       })

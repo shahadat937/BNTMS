@@ -74,7 +74,6 @@ export class NewReadingMaterialComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.loggedTraineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-   // console.log(this.role, this.traineeId, this.branchId)
 
 
     if (id) {
@@ -83,7 +82,6 @@ export class NewReadingMaterialComponent implements OnInit {
       this.buttonText = "Update"
       this.ReadingMaterialService.find(+id).subscribe(
         res => {
-         // console.log('update data' , res);
           this.ReadingMaterialForm.patchValue({
             readingMaterialId: res.readingMaterialId,
             readingMaterialTitleId: res.readingMaterialTitleId,
@@ -102,8 +100,6 @@ export class NewReadingMaterialComponent implements OnInit {
             isActive: res.isActive,
             course: res.courseName,
           });
-        //  console.log("Response");
-         // console.log(res);
           this.courseNameId = res.courseNameId;
         }
       );
@@ -154,7 +150,6 @@ export class NewReadingMaterialComponent implements OnInit {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-    //  console.log(file);
       if(file.size >2147483648){
         let tempDirection;
         if (localStorage.getItem('isRtl') === 'true') {
@@ -167,7 +162,6 @@ export class NewReadingMaterialComponent implements OnInit {
           direction: tempDirection,
         });
          this.btnShow=false;
-       //  console.log("file size greater then 1Gb");
       }
 
       else{
@@ -181,7 +175,6 @@ export class NewReadingMaterialComponent implements OnInit {
 
   //autocomplete
   onCourseSelectionChanged(item) {
-    // console.log(item);
     this.courseNameId = item.value
     this.ReadingMaterialForm.get('courseNameId').setValue(item.value);
     this.ReadingMaterialForm.get('course').setValue(item.text);
@@ -206,7 +199,6 @@ export class NewReadingMaterialComponent implements OnInit {
     this.isShown = true;
     if (dropdown.isUserInput) {
       this.readingMaterialTitleId = dropdown.source.value;
-      //console.log(this.readingMaterialTitleId);
     }
   }
 
@@ -220,7 +212,6 @@ export class NewReadingMaterialComponent implements OnInit {
 
       this.ReadingMaterialService.getSelectedReadingMaterialByMaterialTitleIdBaseSchoolIdAndCourseNameId(this.baseSchoolNameId, this.courseNameId, this.readingMaterialTitleId).subscribe(response => {
         this.readingMaterialList = response;
-        //console.log(this.readingMaterialList);
       })
     }
   }
@@ -268,7 +259,6 @@ export class NewReadingMaterialComponent implements OnInit {
   }
   onSubmit() {
     const id = this.ReadingMaterialForm.get('readingMaterialId').value;
-    //console.log(this.ReadingMaterialForm.value)
     this.ReadingMaterialForm.get('approvedDate').setValue((new Date(this.ReadingMaterialForm.get('approvedDate').value)).toUTCString());
     const formData = new FormData();
     for (const key of Object.keys(this.ReadingMaterialForm.value)) {
@@ -278,7 +268,6 @@ export class NewReadingMaterialComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-       // console.log(result);
         if (result) {
           this.loading = true;
           this.ReadingMaterialService.update(+id, formData).subscribe(response => {
@@ -303,22 +292,17 @@ export class NewReadingMaterialComponent implements OnInit {
     } else {
       this.loading = true;
       this.ReadingMaterialService.submit(formData).subscribe((event: HttpEvent<any>) => {
-       // console.log(this.ReadingMaterialForm);
 
         switch (event.type) {
           case HttpEventType.Sent:
-          //  console.log('Request has been made!');
             break;
           case HttpEventType.ResponseHeader:
-          //  console.log('Response header has been received!');
             break;
           case HttpEventType.UploadProgress:
             this.progress = Math.round(event.loaded / event.total * 100);
-           // console.log(`Uploaded! ${this.progress}%`);
             this.showSpinner=true;
             break;
           case HttpEventType.Response:
-            //console.log('User successfully created!', event.body);
 
             setTimeout(() => {
               this.progress = 0;
@@ -363,7 +347,6 @@ export class NewReadingMaterialComponent implements OnInit {
     
     // else {
     //   this.ReadingMaterialService.submit(formData).subscribe(response => {
-    //     console.log(this.ReadingMaterialForm);
     //     if(this.traineeId){  
     //       const url = '/admin/dashboard/readingmateriallistinstructor/'+this.traineeId+'/'+this.schoolId;            
     //       this.router.navigateByUrl(url);

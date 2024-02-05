@@ -65,7 +65,6 @@ export class BudgetAllocationService {
     return this.http.post<PostResponse>(this.baseUrl + '/budget-allocation/save-BudgetAllocation', model).pipe(
       map((BudgetAllocation: PostResponse) => {
         if (BudgetAllocation) {
-          console.log(BudgetAllocation);
           return BudgetAllocation;
         }
       })

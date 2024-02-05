@@ -69,7 +69,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit Exam Instructor Assign'; 
@@ -144,7 +143,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
   }
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log(item.value);
     this.traineeId = item.value
     this.BNAExamInstructorAssignForm.get('traineeId').setValue(item.value);
     this.BNAExamInstructorAssignForm.get('traineeName').setValue(item.text);
@@ -168,7 +166,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null){
       this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;     
-        //console.log("after getting condition"+ this.selectedCourseModuleByBaseSchoolAndCourseNameId); 
       });
       this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedclassperiod=res;
@@ -186,9 +183,7 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
 
   getselectedcoursedurationbyschoolname(){
       var baseSchoolNameId=this.BNAExamInstructorAssignForm.value['baseSchoolNameId'];
-      //console.log(baseSchoolNameId);
       this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-        //console.log(res);
         this.selectedcoursedurationbyschoolname=res;
       });
   } 
@@ -223,7 +218,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null && bnaSubjectNameId !=null){
       this.BNAExamInstructorAssignService.getSelectedInstructorByParameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
         this.selectedInstructorList=res;  
-        console.log(this.selectedInstructorList); 
       }); 
     }
   }
@@ -259,10 +253,8 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
 
   onSubmit() {
     const id = this.BNAExamInstructorAssignForm.get('bnaExamInstructorAssignId').value;   
-    // console.log(this.BNAExamInstructorAssignForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNAExamInstructorAssignService.update(+id,this.BNAExamInstructorAssignForm.value).subscribe(response => {
@@ -300,7 +292,6 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaExamInstructorAssignId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAExamInstructorAssignService.delete(id).subscribe(() => {
           this.onParametersSelectGeInstructorList();

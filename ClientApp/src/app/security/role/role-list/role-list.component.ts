@@ -84,7 +84,6 @@ export class RoleListComponent implements OnInit {
   deleteItem(row) {
     const id = row.roleId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.roleService.delete(id).subscribe(() => {
           this.getRoles();

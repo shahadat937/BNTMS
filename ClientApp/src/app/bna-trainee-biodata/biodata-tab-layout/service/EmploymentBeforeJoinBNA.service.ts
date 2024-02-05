@@ -39,7 +39,6 @@ export class EmploymentBeforeJoinBNAService {
     return this.http.post(this.baseUrl + '/employment-before-join-bna/save-employmentBeforeJoinBna', model).pipe(
       map((EmploymentBeforeJoinBNA: PostResponse) => {
         if (EmploymentBeforeJoinBNA) {
-          console.log(EmploymentBeforeJoinBNA);
           return EmploymentBeforeJoinBNA;
         }
       })

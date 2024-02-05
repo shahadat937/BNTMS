@@ -42,7 +42,6 @@ export class TraineeLanguageService {
     return this.http.post(this.baseUrl + '/trainee-language/save-traineeLanguage', model).pipe(
       map((TraineeLanguage: PostResponse) => {
         if (TraineeLanguage) {
-          console.log(TraineeLanguage);
           return TraineeLanguage;
         }
       })

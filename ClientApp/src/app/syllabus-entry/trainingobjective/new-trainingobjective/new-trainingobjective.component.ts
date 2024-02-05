@@ -57,7 +57,6 @@ export class NewTrainingObjectiveComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     if (id) {
       this.pageTitle = 'Edit Training Objective';
@@ -121,7 +120,6 @@ export class NewTrainingObjectiveComponent implements OnInit {
   }
   //autocomplete for Course
   onCourseSelectionChanged(item) {
-    console.log(item.value);
     this.courseNameId = item.value
     this.TrainingObjectiveForm.get('courseNameId').setValue(item.value);
     this.TrainingObjectiveForm.get('course').setValue(item.text);
@@ -144,8 +142,6 @@ export class NewTrainingObjectiveComponent implements OnInit {
     var baseSchoolNameId = this.TrainingObjectiveForm.value['baseSchoolNameId'];
     var courseNameId = this.TrainingObjectiveForm.value['courseNameId'];
     this.TrainingObjectiveService.getselectedSubjectFromCourseTaskBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res => {
-      console.log(res);
-      console.log("subject Id");
       this.selectedSubjectNamebyschoolnameAndCourse = res;
       
 
@@ -161,10 +157,8 @@ export class NewTrainingObjectiveComponent implements OnInit {
       var baseSchoolNameId = this.TrainingObjectiveForm.value['baseSchoolNameId'];
       var courseNameId = this.TrainingObjectiveForm.value['courseNameId'];
       var bnaSubjectNameId = this.TrainingObjectiveForm.value['bnaSubjectNameId'];
-      console.log(baseSchoolNameId + " -" + courseNameId + " -" + bnaSubjectNameId)
       this.TrainingObjectiveService.getSelectedSubjectShowTrainingObjectivelist(baseSchoolNameId, courseNameId, bnaSubjectNameId).subscribe(response => {
         this.trainingObjectiveList = response;
-        console.log(this.trainingObjectiveList);
       })
     }
   }
@@ -178,10 +172,8 @@ export class NewTrainingObjectiveComponent implements OnInit {
 
   onSubmit() {
     const id = this.TrainingObjectiveForm.get('trainingObjectiveId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.TrainingObjectiveService.update(+id, this.TrainingObjectiveForm.value).subscribe(response => {
@@ -218,7 +210,6 @@ export class NewTrainingObjectiveComponent implements OnInit {
   deleteItem(row) {
     const id = row.trainingObjectiveId;
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TrainingObjectiveService.delete(id).subscribe(() => {
           //this.getCourseTasks();

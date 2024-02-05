@@ -45,7 +45,6 @@ export class CoursebySchoolListComponent implements OnInit {
       this.dashboardService.getSchoolNameById(baseSchoolNameId).subscribe(response => {     
         this.schoolNameTitle="School Name:";
         this.schoolName = response.schoolName; 
-        console.log(this.schoolName);
       });
     }
     
@@ -59,7 +58,6 @@ export class CoursebySchoolListComponent implements OnInit {
     this.dashboardService.getSpCourseListBySchool(baseSchoolNameId,currentDateTime).subscribe(response => {     
       this.courseList = response;   
       this.isLoading = false;
-      console.log(this.courseList)
     });
   }
 
@@ -79,7 +77,6 @@ export class CoursebySchoolListComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.bnaClassTestId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.BnaClassTestService.delete(id).subscribe(() => {
   //         this.getBnaClassTests();

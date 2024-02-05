@@ -151,7 +151,6 @@ export class CourseInstructorService {
     return this.http.post<PostResponse>(this.baseUrl + '/course-instructor/save-courseInstructor', model).pipe(
       map((CourseInstructor: PostResponse) => {
         if (CourseInstructor) {
-          console.log(CourseInstructor);
           return CourseInstructor;
         }
       })

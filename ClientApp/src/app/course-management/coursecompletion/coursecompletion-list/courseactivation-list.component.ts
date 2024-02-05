@@ -62,7 +62,6 @@ export class CourseActivationListComponent implements OnInit {
     }else{
       this.completeStatus = true;
     }
-    // console.log(this.currentDateTime,data.durationTo);
   }
   getCourseDurations() {
     this.isLoading = true;
@@ -85,8 +84,6 @@ export class CourseActivationListComponent implements OnInit {
           courses: groups[baseSchoolName]
         };
       });
-      console.log(this.groupArrays);
-      console.log("Complition List");
 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -94,14 +91,11 @@ export class CourseActivationListComponent implements OnInit {
         
       //   if(val.isActive = true){
       //     this.btnText="De Active"
-      //    // console.log(response.items)
       //   }
       //   else{
       //     this.btnText="Active"
-      //    // console.log(val.isActive)
       //   }
       // }
-    // console.log(response.items);
     })
   }
 

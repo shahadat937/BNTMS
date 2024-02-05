@@ -71,7 +71,6 @@ export class CourseWeekService {
     return this.http.post<PostResponse>(this.baseUrl + '/course-week/save-courseWeek', model).pipe(
       map((CourseWeek: PostResponse) => {
         if (CourseWeek) {
-          console.log(CourseWeek);
           return CourseWeek;
         }
       })

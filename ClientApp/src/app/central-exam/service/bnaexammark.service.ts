@@ -153,42 +153,36 @@ export class BNAExamMarkService {
     return this.http.put(this.baseUrl + '/bna-exam-mark/update-bnaExamMark/'+id, model);
   }
   submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/bna-exam-mark/save-bnaExamMarklist', model, httpOptions).pipe(
       map((BNAExamMark: PostResponse) => {
         if (BNAExamMark) {
-          console.log(BNAExamMark);
           return BNAExamMark;
         }
       })
     );
   }
   approve(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/bna-exam-mark/approve-bnaExamMarklist', model, httpOptions).pipe(
       map((BNAExamMark: PostResponse) => {
         if (BNAExamMark) {
-          console.log(BNAExamMark);
           return BNAExamMark;
         }
       })
     );
   } 
   instructorApprove(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     return this.http.post<PostResponse>(this.baseUrl + '/bna-exam-mark/instructorApprove-bnaExamMarklist', model, httpOptions).pipe(
       map((BNAExamMark: PostResponse) => {
         if (BNAExamMark) {
-          console.log(BNAExamMark);
           return BNAExamMark;
         }
       })

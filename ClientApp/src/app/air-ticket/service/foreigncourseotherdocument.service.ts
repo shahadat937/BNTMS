@@ -70,7 +70,6 @@ getForeignCourseOtherDocumentByCourseDurationIdandTraineId(courseNameId,courseDu
     return this.http.post<PostResponse>(this.baseUrl + '/foreign-course-others-document/save-foreignCourseOthersDocument', model).pipe(
       map((ForeignCourseOtherDocument: PostResponse) => {
         if (ForeignCourseOtherDocument) {
-          console.log(ForeignCourseOtherDocument);
           return ForeignCourseOtherDocument;
         }
       })

@@ -101,7 +101,6 @@ export class NewCourseWeekComponent implements OnInit {
    
      var baseSchoolNameId=this.CourseWeekForm.value['baseSchoolNameId'];
     this.CourseWeekService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-      console.log(res);
       this.selectedcoursedurationbyschoolname=res;
     });
   } 
@@ -120,48 +119,35 @@ export class NewCourseWeekComponent implements OnInit {
       this.CourseWeekForm.get('courseName').setValue(dropdown.text);
       this.CourseWeekForm.get('courseNameId').setValue(courseNameId);
       this.CourseWeekForm.get('courseDurationId').setValue(courseDurationId);
-      console.log("after select course")
-      console.log(courseDurationId)
-      console.log(courseNameId)
     }  
     // this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
     //   this.selectedsubjectname=res;
-    //   console.log(this.selectedsubjectname)
     // });
     // if(baseSchoolNameId != null && courseNameId != null){
       
     //   this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId).subscribe(res=>{
     //     this.selectedRoutineByParametersAndDate=res;
-    //     console.log("Routine by Sp request")
     //     for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
-    //      console.log("Date"+this.selectedRoutineByParametersAndDate[i]);
     //     }
-    //     console.log(this.selectedRoutineByParametersAndDate);
 
     //     this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
-    //     console.log([...Object.keys(this.selectedRoutineByParametersAndDate[0])]);
         
 
-    //     console.log(this.selectedRoutineByParametersAndDate);
 
-    //     console.log(baseSchoolNameId+"-"+courseNameId)
     //     this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(baseSchoolNameId,courseNameId).subscribe(res=>{
     //       this.traineeListByBaseSchoolAndCourse=res;
-    //       console.log(res);
     //     })
     //   });
 
     //   this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
     //     this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;     
-    //     //console.log("after getting condition"+ this.selectedCourseModuleByBaseSchoolAndCourseNameId); 
     //   });
     //   this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
     //     this.selectedclassperiod=res;
     //   });
     //   this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
     //     this.subjectlistBySchoolAndCourse=res;
-    //     console.log(res)
     //   });
     //   this.isShown=true;
     //} 
@@ -175,10 +161,8 @@ export class NewCourseWeekComponent implements OnInit {
 
   onSubmit() {
     const id = this.CourseWeekForm.get('courseWeekId').value;   
-    // console.log(this.CourseWeekForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.CourseWeekService.update(+id,this.CourseWeekForm.value).subscribe(response => {
@@ -197,7 +181,6 @@ export class NewCourseWeekComponent implements OnInit {
     }else {
       this.loading=true;
       this.CourseWeekService.submit(this.CourseWeekForm.value).subscribe(response => {
-        console.log(this.CourseWeekForm.value)
         this.router.navigateByUrl('/course-management/courseweek-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

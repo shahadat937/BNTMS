@@ -55,15 +55,12 @@ export class SchoolHistoryComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
     if(this.role == this.userRole.SchoolOIC){
       this.isUpdateable = true;
     }
 
     if(this.role == this.userRole.Student){
-      console.log("student")
       this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res=>{
-        console.log(res)
         if(res){
           let infoList=res        
           this.baseSchoolNameId=infoList[0].baseSchoolNameId;
@@ -151,17 +148,14 @@ export class SchoolHistoryComponent implements OnInit {
 
   onSubmit(){
     const id = this.BaseSchoolNameForm.get('baseSchoolNameId').value;   
-    console.log(this.BaseSchoolNameForm.value);
 
     const formData = new FormData();
     for (const key of Object.keys(this.BaseSchoolNameForm.value)) {
       const value = this.BaseSchoolNameForm.value[key];
       formData.append(key, value);
     }
-    console.log(formData)
     // if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.baseSchoolNameService.update(+id,formData).subscribe(response => {

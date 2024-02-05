@@ -86,13 +86,11 @@ export class NewCommendingAreaComponent implements OnInit {
   // getSelectedOrganization(){
   //   this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
   //     this.selectedOrganization=res
-  //     console.log(this.selectedOrganization);
   //   });
   // }
 
   onOrganizationSelectionChangeGetCommendingAreaList(){
     this.organizationId=this.CommendingAreaForm.value['firstLevel'];
-    console.log(this.organizationId)    
     this.getCommendingAreaList(this.organizationId);        
   }
 
@@ -100,14 +98,11 @@ export class NewCommendingAreaComponent implements OnInit {
     this.isShown=true;
     this.BaseSchoolNameService.getCommendingAreaList(organizationId).subscribe(res=>{
       this.commendingAreaList=res
-      console.log(this.commendingAreaList);
     });
   }
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log('ImagE')
-     console.log(file);
       this.CommendingAreaForm.patchValue({
         image: file,
       });
@@ -145,16 +140,13 @@ export class NewCommendingAreaComponent implements OnInit {
   
   onSubmit() {
     const id = this.CommendingAreaForm.get('baseSchoolNameId').value;
-    //console.log(id);
     const formData = new FormData();
     for (const key of Object.keys(this.CommendingAreaForm.value)) {
       const value = this.CommendingAreaForm.value[key];
       formData.append(key, value);
     }
-    console.log(formData)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
@@ -194,7 +186,6 @@ export class NewCommendingAreaComponent implements OnInit {
   deleteItem(row) {
     const id = row.baseSchoolNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BaseSchoolNameService.delete(id).subscribe(() => {
           this.getCommendingAreaList(this.organizationId);

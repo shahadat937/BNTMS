@@ -60,12 +60,9 @@ export class NewProfileUpdateComponent implements OnInit {
 
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-   // console.log(this.role, this.traineeId)
     // const id = this.route.snapshot.paramMap.get('traineeId'); 
     const id = this.traineeId;
     
-    console.log("traineeId");
-    console.log(id)
     if (id) {
       this.pageTitle = 'Edit Officer BIO Data';
       this.destination='Edit';
@@ -73,9 +70,7 @@ export class NewProfileUpdateComponent implements OnInit {
  
       this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
-          console.log(res);
           this.traineeStatusId = res.traineeStatusId;
-          console.log(res.traineeStatusId);
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
           }  
@@ -137,14 +132,12 @@ export class NewProfileUpdateComponent implements OnInit {
   getselectedSaylorRank(){
     this.BIODataGeneralInfoService.getselectedSaylorRank().subscribe(res=>{
       this.selectedSaylorRank=res
-      console.log(res);
      
     });
   }
   getselectedSaylorBranch(){
     this.BIODataGeneralInfoService.getselectedSaylorBranch().subscribe(res=>{
       this.selectedSaylorBranch=res
-      console.log(res);
      
     });
   }
@@ -152,7 +145,6 @@ export class NewProfileUpdateComponent implements OnInit {
     var saylorBranchId
     this.BIODataGeneralInfoService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
       this.selectedSaylorSubBranch=res
-      console.log(res);
      
     });
   }
@@ -201,7 +193,6 @@ export class NewProfileUpdateComponent implements OnInit {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-     console.log(file);
       this.BIODataGeneralInfoForm.patchValue({
         image: file,
       });
@@ -216,28 +207,24 @@ export class NewProfileUpdateComponent implements OnInit {
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
-      console.log(this.selectedDistrict);
     });
   }
 
   onDistrictSelectionChangeGetThana(districtId){
     this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
-      console.log(this.selectedThana);
     });
   }
 
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
-      console.log(this.selectedCastes);
     });
   } 
 
 
   intitializeForm() {
     let now = new Date();
-    console.log("trainee type"+this.traineeStatusId);
       this.BIODataGeneralInfoForm = this.fb.group({
         traineeId: [0],
         bnaBatchId: [],
@@ -299,7 +286,6 @@ export class NewProfileUpdateComponent implements OnInit {
   getMaritialStatus(){
     this.BIODataGeneralInfoService.getselectedmaritialstatus().subscribe(res=>{
       this.maritialStatusValues=res
-      console.log(res);
      
     });
   }
@@ -318,7 +304,6 @@ export class NewProfileUpdateComponent implements OnInit {
     this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
 
     var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId').value; 
-    console.log(traineeStatusId);
     if(traineeStatusId == this.masterData.TraineeStatus.sailor){
       this.BIODataGeneralInfoForm.get('bnaBatchId').setValue(282);
       this.BIODataGeneralInfoForm.get('branchId').setValue(17);
@@ -366,7 +351,6 @@ export class NewProfileUpdateComponent implements OnInit {
       const value = this.BIODataGeneralInfoForm.value[key];
       formData.append(key, value);
     }
-    console.log(this.BIODataGeneralInfoForm.value)
 
     if (id) {
       

@@ -35,7 +35,6 @@ export class ViewSocialMediaComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('socialMediaId'); 
     this.SocialMediaService.find(+id).subscribe( res => {
-      console.log(res);
       this.socialMediaId= res.socialMediaId,
       this.traineeId= res.traineeId,
       this.socialMediaTypeId= res.socialMediaTypeId,

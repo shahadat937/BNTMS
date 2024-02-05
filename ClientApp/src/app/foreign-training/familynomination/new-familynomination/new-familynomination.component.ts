@@ -35,7 +35,6 @@ export class NewFamilyNominationComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('familyNominationId');
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
-    console.log(this.courseDurationId)
     if (id) {
       this.pageTitle = 'Edit Family Nomination';
       this.destination = "Edit";
@@ -102,15 +101,10 @@ export class NewFamilyNominationComponent implements OnInit {
   }
   getTraineeListonClick() {
     const control = <FormArray>this.FamilyNominationForm.controls["traineeListForm"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
-      console.log("value...");
-      console.log(this.traineeList)
     }
     this.FamilyNominationForm.patchValue({ traineeListForm: this.traineeList });
-    console.log("value...");
-    console.log(this.traineeList)
   }
 
   clearList() {
@@ -123,13 +117,9 @@ export class NewFamilyNominationComponent implements OnInit {
   getfamilyInfoListByTraineeId() {
     
     this.FamilyNominationForm.get('traineeId').setValue(this.traineeId)
-    console.log(this.traineeId)
-    console.log("TRAINEE ID")
     this.FamilyNominationService.getfamilyInfoListByTraineeId(this.traineeId).subscribe(res => {
       //this.relationTypeValues=res
-      console.log("Trainee list");
       this.traineeList = res;
-      console.log(this.traineeList);
       this.clearList()
       this.getTraineeListonClick();
     });
@@ -147,10 +137,8 @@ export class NewFamilyNominationComponent implements OnInit {
 
   onSubmit() {
     const id = this.FamilyNominationForm.get('familyNominationId').value;
-    console.log(this.FamilyNominationForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.FamilyNominationService.update(+id, this.FamilyNominationForm.value).subscribe(response => {
@@ -169,11 +157,9 @@ export class NewFamilyNominationComponent implements OnInit {
     }
     else {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.FamilyNominationService.submit(JSON.stringify(this.FamilyNominationForm.value)).subscribe(response => {
-            console.log(response)
             this.reloadCurrentRoute();
             //this.router.navigateByUrl("['/foreign-training/foreigntraineenomination-list/']");
             this.snackBar.open('Information Inserted Successfully ', '', {

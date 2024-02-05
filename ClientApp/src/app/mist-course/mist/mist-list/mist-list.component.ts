@@ -43,11 +43,8 @@ export class MistListComponent implements OnInit {
     this.isLoading = true;
     this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
       this.dataSource.data = response.items; 
-      console.log(this.dataSource.data)
-      console.log("Mist List")
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response);
     })
   }
   
@@ -66,7 +63,6 @@ export class MistListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseDurationService.delete(id).subscribe(() => {
          this.getCourseDurationsByCourseType();

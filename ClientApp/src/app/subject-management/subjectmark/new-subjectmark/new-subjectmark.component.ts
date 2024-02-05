@@ -57,7 +57,6 @@ export class NewSubjectMarkComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('subjectMarkId'); 
     if (id) {
@@ -118,7 +117,6 @@ export class NewSubjectMarkComponent implements OnInit {
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
-       //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     })
   }
 
@@ -131,14 +129,11 @@ export class NewSubjectMarkComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null && bnaSubjectNameId !=null){
       this.SubjectMarkService.getselectedsubjectmarkbyparameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
         this.selectedSubjectMark=res;  
-        console.log(this.selectedSubjectMark); 
-        console.log("Subject Mark List"); 
       }); 
       this.bnaSubjectNameService.find(bnaSubjectNameId).subscribe(res=>{
         this.numberShown = true;
         this.subTotalMark = res.totalMark;
         // this.selectedSubjectMark=res;  
-        console.log(this.subTotalMark); 
       }); 
     }
   }
@@ -147,7 +142,6 @@ export class NewSubjectMarkComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null && bnaSubjectNameId !=null){
       this.SubjectMarkService.getselectedsubjectmarkbyparameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
         this.selectedSubjectMark=res;  
-        console.log(this.selectedSubjectMark); 
       }); 
     }
   }
@@ -168,7 +162,6 @@ export class NewSubjectMarkComponent implements OnInit {
 
   //autocomplete
   onCourseSelectionChanged(item) {
-    // console.log(item);
     if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool){
       this.SubjectMarkForm.get('baseSchoolNameId').setValue(this.branchId);
     }
@@ -191,8 +184,6 @@ export class NewSubjectMarkComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null){
       this.SubjectMarkService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;  
-        console.log("dddddddddd");
-        console.log(this.selectedCourseModuleByBaseSchoolAndCourseNameId);   
       });
     }  
   }
@@ -263,9 +254,7 @@ export class NewSubjectMarkComponent implements OnInit {
     var courseNameId=row.courseNameId;
     var courseModuleId=row.courseModuleId;
     var bnaSubjectNameId=row.bnaSubjectNameId;
-    console.log("deleted - "+baseSchoolNameId,courseModuleId,courseNameId,bnaSubjectNameId)
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SubjectMarkService.delete(id).subscribe(() => {
           this.SubjectMarkListAfterDelete(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId);

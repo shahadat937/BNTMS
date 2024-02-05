@@ -55,11 +55,9 @@ export class TraineeAssessmentTraineeListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.traineeAssessmentCreateId = this.route.snapshot.paramMap.get('traineeAssessmentCreateId'); 
-    console.log(this.courseDurationId, this.traineeAssessmentCreateId)
 
     this.getTraineeAssessmentGroupListByAssessment(this.searchText);
     
@@ -70,7 +68,6 @@ export class TraineeAssessmentTraineeListComponent implements OnInit {
     this.isLoading = true;
     this.TraineeAssessmentCreateService.getTraineeAssessmentGroupListByAssessment(this.courseDurationId, this.traineeAssessmentCreateId,search).subscribe(response => {
       this.traineeAssessmentGroupList = response;
-      console.log(response);
     })
   }
   backClicked() {
@@ -137,7 +134,6 @@ export class TraineeAssessmentTraineeListComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.traineeAssessmentCreateId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.TraineeAssessmentCreateService.delete(id).subscribe(() => {
   //         this.getTraineeAssessmentCreates();

@@ -50,7 +50,6 @@ export class BIODataGeneralInfoListComponent implements OnInit {
    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
    // this.branchId =  this.authService.currentUserValue.branchId.trim();
    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-   console.log(this.role, this.traineeId, this.branchId)
 
     this.getBIODataGeneralInfos();
   }
@@ -61,7 +60,6 @@ export class BIODataGeneralInfoListComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(this.dataSource.data)
     })
   }
   isAllSelected() {

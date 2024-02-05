@@ -78,7 +78,6 @@ export class NewAssessmentGroupComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('attendanceId'); 
     
@@ -140,12 +139,10 @@ export class NewAssessmentGroupComponent implements OnInit {
 
   getTraineeListonClick(){
     const control = <FormArray>this.TraineeAssessmentGroupForm.controls["assessmentTraineeGroupListForm"];
-    // console.log(this.dataSource)   
     
   
     for (let i = 0; i < this.traineeNominationListForAttendance.length; i++) {
       control.push(this.createTraineeData()); 
-      // console.log(this.traineeNominationListForAttendance[i])
     }
     this.TraineeAssessmentGroupForm.patchValue({ assessmentTraineeGroupListForm: this.traineeNominationListForAttendance });
    }
@@ -153,12 +150,10 @@ export class NewAssessmentGroupComponent implements OnInit {
   onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
       this.traineeAssessmentGroupService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res;
-        console.log(res);
       });
     }
     onCourseSelectionGetTraineeList(){ 
       var course = this.TraineeAssessmentGroupForm.value['courseName']; 
-      console.log(course);
       this.isShown = true;
       var courseNameArr = course.split('_');
       this.courseDurationId = courseNameArr[0];
@@ -173,7 +168,6 @@ export class NewAssessmentGroupComponent implements OnInit {
       this.traineeNominationService.getTraineeNominationsListForAssessmentGroupByCourseDurationIdAndTraineeId(this.courseDurationId).subscribe(res=>{
         this.traineeNominationListForAttendance=res.filter(x=>x.withdrawnTypeId === null);
 
-        console.log(this.traineeNominationListForAttendance);
 
         this.clearList();
         this.getTraineeListonClick();
@@ -223,10 +217,8 @@ export class NewAssessmentGroupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.TraineeAssessmentGroupForm.value)
     
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.loading=true;
         this.traineeAssessmentGroupService.saveTraineeAssessmentGrouplist(JSON.stringify(this.TraineeAssessmentGroupForm.value)).subscribe(response => {

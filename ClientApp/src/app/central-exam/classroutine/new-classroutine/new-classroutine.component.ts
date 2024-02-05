@@ -186,14 +186,12 @@ export class NewClassRoutineComponent implements OnInit {
 
   onCourseNameSelectionChangeGetSubjectList(dropdown){
     if (dropdown.isUserInput) {
-      // console.log(dropdown);
       var courseNameArr = dropdown.source.value.split('_');
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
       this.durationId = courseDurationId;
       this.courseId = courseNameId;
-      console.log("duration dfghf" + this.courseId)
 
       this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
       this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
@@ -213,15 +211,11 @@ export class NewClassRoutineComponent implements OnInit {
 
         for(let i=0;i<=this.qexamRoutineList.length;i++){
 
-          console.log("Date"+this.qexamRoutineList[i]);
          }
-         console.log(this.qexamRoutineList);
  
          this.displayedColumns =[...Object.keys(this.qexamRoutineList[0])];
-         console.log([...Object.keys(this.qexamRoutineList[0])]);
          
  
-         console.log(this.qexamRoutineList);
       })
     }
   }
@@ -255,7 +249,6 @@ export class NewClassRoutineComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
       this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-        console.log(res);
         this.selectedcoursedurationbyschoolname=res;
       });
   } 
@@ -279,7 +272,6 @@ export class NewClassRoutineComponent implements OnInit {
     
     this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
-      console.log(this.selectedWeek)
     });    
   } 
 
@@ -314,10 +306,8 @@ export class NewClassRoutineComponent implements OnInit {
 
   onSubmit() {
     const id = this.ClassRoutineForm.get('classRoutineId').value;   
-    console.log(this.ClassRoutineForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ClassRoutineService.update(+id,this.ClassRoutineForm.value).subscribe(response => {
@@ -348,14 +338,11 @@ export class NewClassRoutineComponent implements OnInit {
         this.validationErrors = error;
       })
     }
- console.log("after save");
- console.log(this.ClassRoutineForm.value);
   }
 
   deleteItem(row) {
     const id = row.classRoutineId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ClassRoutineService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();

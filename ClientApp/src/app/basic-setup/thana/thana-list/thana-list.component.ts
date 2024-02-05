@@ -65,7 +65,6 @@ export class ThanaListComponent implements OnInit {
   deleteItem(row) {
     const id = row.thanaId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ThanaService.delete(id).subscribe(() => {
           this.getThanas();

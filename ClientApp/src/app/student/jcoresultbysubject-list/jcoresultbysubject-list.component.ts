@@ -55,12 +55,10 @@ export class JcoResultBySubjectListComponent implements OnInit {
     this.courseDurationService.find(this.courseDurationId).subscribe(res=>{
       // this.JcoResultBySubject = res;
       this.course = res.courseName+"_"+res.courseTitle;
-      console.log(this.course)
     });
     this.bNASubjectNameService.find(Number(bnaSubjectNameId)).subscribe(res=>{
       // this.JcoResultBySubject = res;
       // this.course = res.courseName+"_"+res.courseTitle;
-      console.log(res)
       this.subject = res.subjectName;
       this.passMark = res.passMarkBna;
       this.totalMark = res.totalMark;
@@ -70,7 +68,6 @@ export class JcoResultBySubjectListComponent implements OnInit {
   getJcoResultBySubject(courseDurationId,bnaSubjectNameId,resultStatus){
     this.studentDashboardService.getJcoResultBySubject(courseDurationId,bnaSubjectNameId,resultStatus).subscribe(res=>{
       this.JcoResultBySubject = res;
-      console.log(this.JcoResultBySubject)
     });
   }
 

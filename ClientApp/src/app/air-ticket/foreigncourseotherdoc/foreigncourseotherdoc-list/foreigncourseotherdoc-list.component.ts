@@ -84,7 +84,6 @@ export class ForeignCourseOtherDocListComponent implements OnInit {
   deleteItem(row) {
     const id = row.foreignCourseOtherDocId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ForeignCourseOtherDocService.delete(id).subscribe(() => {
           this.getForeignCourseOtherDocs();

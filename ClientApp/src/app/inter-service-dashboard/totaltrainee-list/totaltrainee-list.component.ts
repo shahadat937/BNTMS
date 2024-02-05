@@ -50,7 +50,6 @@ export class totaltraineeListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
     
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.traineeStatusId = Number(this.route.snapshot.paramMap.get('traineeStatusId'));
@@ -72,7 +71,6 @@ export class totaltraineeListComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime,courseTypeId,traineeStatusId).subscribe(response => {           
       this.interServiceTraineeList=response;
-      console.log(this.interServiceTraineeList);
     })
   }
   toggle(){

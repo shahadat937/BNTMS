@@ -86,7 +86,6 @@ export class EditClassRoutineComponent implements OnInit {
     this.courseId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.weekId = this.route.snapshot.paramMap.get('courseWeekId'); 
     this.sectionId = this.route.snapshot.paramMap.get('courseSectionId'); 
-    console.log(this.schoolId,this.durationId,this.courseId,this.weekId);
     
      this.intitializeForm();   
      
@@ -110,7 +109,6 @@ export class EditClassRoutineComponent implements OnInit {
   getSubjectName(schoolName,courseName){
     this.classRoutineService.getselectedSubjectNamesBySchoolAndCourse(schoolName,courseName).subscribe(res=>{
       this.selectedsubjectname=res;
-      // console.log(this.selectedsubjectname)
     });
   }
   getEditedRoutineList(schoolId,durationId,courseId,weekId,sectionId){
@@ -120,7 +118,6 @@ export class EditClassRoutineComponent implements OnInit {
       this.CourseName=this.editedRoutineList[0].courseName;
       this.CourseTitle=this.editedRoutineList[0].courseDuration;
       this.weekName=this.editedRoutineList[0].courseWeek;
-      // console.log(this.editedRoutineList);
       this.clearList();
       this.getEditedRoutineListonClick();
     });
@@ -176,9 +173,6 @@ export class EditClassRoutineComponent implements OnInit {
   onSubjectNameSelectionChangeGet(dropdown,index: number){
  
    
-      console.log('ttt');
-      console.log((this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('bnaSubjectNameId').value);
-      console.log(dropdown.value);
 
 
     var bnaSubjectNameId = dropdown.value;
@@ -197,8 +191,6 @@ export class EditClassRoutineComponent implements OnInit {
     this.classRoutineService.getClassRoutineCountByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId,this.durationId,this.sectionId).subscribe(res=>{
       this.routineCount=res;
       (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
- console.log('wewewe');
- console.log(this.routineCount);
     });
   }
 
@@ -209,8 +201,6 @@ export class EditClassRoutineComponent implements OnInit {
     this.classRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
       this.routineCount=res;
       (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
- console.log('wewewe');
- console.log(this.routineCount);
     });
 
  
@@ -228,9 +218,7 @@ export class EditClassRoutineComponent implements OnInit {
      
     let markId = (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('subjectMarkId').value;
      // var subjectMarkId = this.ClassRoutineForm.value['subjectMarkId'];
-     // console.log(subjectMarkId);
      this.classRoutineService.findSubjectMark(markId).subscribe(res=>{
-      // console.log(res)
        (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('markTypeId').setValue(res.markTypeId);
       // this.ClassRoutineForm.get('markTypeId').setValue(res.markTypeId);
      });
@@ -240,8 +228,6 @@ export class EditClassRoutineComponent implements OnInit {
   getselectedclassperiod(baseSchoolNameId: number,courseNameId: number){
     this.classRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedclassperiod=res;
-      console.log("selected class period");
-      console.log(this.selectedclassperiod);
     });
   }
 
@@ -255,14 +241,11 @@ export class EditClassRoutineComponent implements OnInit {
   getbnasubjectnamechange(bnaSubjectNameId, event: any){
     if (event.isUserInput) {    // ignore on deselection of the previous option
       
-      console.log("subject id "+bnaSubjectNameId)
       var courseSectionId=0;
       this.classRoutineService.getClassRoutineCountByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId,this.durationId,courseSectionId).subscribe(res=>{
         this.routineCount=res;
         //this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
         //this.EditedClassRoutineForm.controls["RoutineList"].get('classCountPeriod').setValue(this.routineCount);
-        console.log("routine count");
-        console.log(this.routineCount);
       });
     
       this.classRoutineService.getTotalPeriodByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId).subscribe(res=>{
@@ -270,21 +253,15 @@ export class EditClassRoutineComponent implements OnInit {
         //this.ClassRoutineForm.get('subjectCountPeriod').setValue(this.totalPeriod);
         //this.EditedClassRoutineForm.controls["RoutineList"].get('subjectCountPeriod').setValue(this.totalPeriod);
     
-        console.log("subjectcount");
-        console.log(this.totalPeriod);
       });
     } 
   
   }
 
 //   onSubjectNameSelectionChangeGet(dropdown){
-//     console.log("after subject select")
-//     console.log(dropdown)
 //     var courseNameArr = dropdown.value.split('_');
 //     var bnaSubjectNameId = courseNameArr[0];
 //     var courseModuleId=courseNameArr[1];
-//     console.log(bnaSubjectNameId)
-//     console.log(courseModuleId)
 //     this.EditedClassRoutineForm.controls["RoutineList"].get('subjectName').setValue(dropdown.text);
 //     this.EditedClassRoutineForm.controls["RoutineList"].get('bnaSubjectNameId').setValue(bnaSubjectNameId);
 //     this.EditedClassRoutineForm.controls["RoutineList"].get('courseModuleId').setValue(courseModuleId);
@@ -294,13 +271,10 @@ export class EditClassRoutineComponent implements OnInit {
 
   getEditedRoutineListonClick(){ 
     const control = <FormArray>this.EditedClassRoutineForm.controls["RoutineList"];
-    console.log(this.editedRoutineList)   
     for (let i = 0; i < this.editedRoutineList.length; i++) {
       control.push(this.createTraineeData()); 
-      console.log(this.editedRoutineList[i])
     }
     this.EditedClassRoutineForm.patchValue({ RoutineList: this.editedRoutineList });
-    console.log(this.EditedClassRoutineForm.patchValue({ RoutineList: this.editedRoutineList }))
   }
 
   clearList() {
@@ -315,18 +289,13 @@ export class EditClassRoutineComponent implements OnInit {
     this.isShown=true;
     this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId,courseWeekId,courseSectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
-      console.log("Routine by Sp request")
       for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
-      //  console.log("Date"+this.selectedRoutineByParametersAndDate[i]);
       }
-      // console.log(this.selectedRoutineByParametersAndDate);
 
       this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
-      console.log([...Object.keys(this.selectedRoutineByParametersAndDate[0])]);
       
 
-      console.log(this.selectedRoutineByParametersAndDate);
 
     });
   }
@@ -340,9 +309,7 @@ export class EditClassRoutineComponent implements OnInit {
 
   deleteItem(index) {
     const id = (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classRoutineId').value;
-    console.log(id);
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.classRoutineService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();
@@ -363,10 +330,8 @@ export class EditClassRoutineComponent implements OnInit {
   onSubmit() {
     //const id = this.EditedClassRoutineForm.get('bnaExamMarkId').value; 
      
-    console.log(this.EditedClassRoutineForm.value);
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-    //     console.log(result);
     //     if (result) {
     //       this.BNAExamMarkService.update(+id,JSON.stringify(this.EditedClassRoutineForm.value)).subscribe(response => {
     //         this.router.navigateByUrl('/exam-management/bnaexammark-list');
@@ -385,7 +350,6 @@ export class EditClassRoutineComponent implements OnInit {
       
     
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.classRoutineService.weeklyRoutineUpdate(JSON.stringify(this.EditedClassRoutineForm.value)).subscribe(response => {                        

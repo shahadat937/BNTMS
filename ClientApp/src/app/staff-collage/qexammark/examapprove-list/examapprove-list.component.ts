@@ -45,7 +45,6 @@ export class ExamApproveComponent implements OnInit {
     this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId'); 
     this.courseNameId = Number(this.route.snapshot.paramMap.get('courseNameId'));
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
-    console.log(this.traineeId,this.courseTypeId,this.courseNameId )
     this.getStuffClgApproveList()
 
     
@@ -57,7 +56,6 @@ export class ExamApproveComponent implements OnInit {
     this.destination="Stuff Collage"
     this.BNAExamMarkService.getCentralExamApproveList(this.masterData.coursetype.CentralExam, this.masterData.courseName.StaffCollage).subscribe(res=>{
       this.examList=res;  
-      console.log(this.examList);
     });
   }
 }

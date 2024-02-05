@@ -45,7 +45,6 @@ export class TraineeNominationListComponent implements OnInit {
       res => {
           this.courseDurationId= res.courseDurationId, 
           this.courseNameId = res.courseNameId 
-     //  console.log(res);
       }
     );
     this.getTraineeNominationsByCourseDurationId(this.courseDurationId)
@@ -68,7 +67,6 @@ export class TraineeNominationListComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      //console.log(this.courseDurationId);
     })
   }
 
@@ -88,7 +86,6 @@ export class TraineeNominationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.traineeNominationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     // console.log(result);
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.getTraineeNominationsByCourseDurationId(this.courseDurationId)

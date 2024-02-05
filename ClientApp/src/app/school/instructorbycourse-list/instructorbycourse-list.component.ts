@@ -38,11 +38,9 @@ export class InstructorByCourseListComponent implements OnInit {
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    console.log(courseDurationId)
     this.schoolDashboardService.getInstructorDetailByCourse(courseNameId,this.schoolId,courseDurationId).subscribe(response => {         
       this.courseName = response[0].course+'-'+response[0].courseTitle;
       this.InstructorByCourse=response;
-      console.log(response)
     })
   }
 }

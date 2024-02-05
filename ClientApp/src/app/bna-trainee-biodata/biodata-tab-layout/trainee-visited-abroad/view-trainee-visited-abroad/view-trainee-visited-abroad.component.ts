@@ -38,7 +38,6 @@ export class ViewTraineeVisitedAboardComponent implements OnInit {
   // getElected(){    
   //   this.TraineeVisitedAboardService.getselectedelected().subscribe(res=>{
   //     this.electedValues=res
-  //     console.log(this.electedValues);
   //     for(let code of this.electedValues){        
   //       if(this.electedId == code.value ){
   //         this.elected = code.text;
@@ -51,7 +50,6 @@ export class ViewTraineeVisitedAboardComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('traineeVisitedAboardId'); 
     this.TraineeVisitedAboardService.find(+id).subscribe( res => {
-      console.log(res);
       this.traineeVisitedAboardId = res.traineeVisitedAboardId,
       this.traineeId = res.traineeId,
       this.countryId = res.countryId,

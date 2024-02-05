@@ -53,8 +53,6 @@ export class NewAllowanceComponent implements OnInit {
           }); 
           var editArr = [res.fromRankId, res.toRankId, ];
           this.getSelectedAllowanceNameByFromRankIdAndToRankId();
-          console.log("Allowance Category Id");     
-          console.log(res);    
         }
       );
     } else {
@@ -110,19 +108,15 @@ export class NewAllowanceComponent implements OnInit {
   getSelectedAllowanceNameByFromRankIdAndToRankId(){
     var fromRankId=this.AllowanceForm.value['fromRankId'];
     var toRankId=this.AllowanceForm.value['toRankId'];
-    //console.log(baseSchoolNameId);
     this.AllowanceService.getSelectedAllowanceNameByFromRankIdAndToRankId(fromRankId,toRankId).subscribe(res=>{
-      //console.log(res);
       this.selectedAllowanceNamebyFromRankIdandToRankId=res;
     });
 } 
   
   onSubmit() {
     const id = this.AllowanceForm.get('allowanceId').value;  
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
             this.AllowanceService.update(+id,this.AllowanceForm.value).subscribe(response => {

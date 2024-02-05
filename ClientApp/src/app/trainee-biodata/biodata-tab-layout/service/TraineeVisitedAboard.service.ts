@@ -44,7 +44,6 @@ export class TraineeVisitedAboardService {
     return this.http.post(this.baseUrl + '/trainee-visited-aboard/save-traineeVisitedAboard', model).pipe(
       map((TraineeVisitedAboard: PostResponse) => {
         if (TraineeVisitedAboard) {
-          console.log(TraineeVisitedAboard);
           return TraineeVisitedAboard;
         }
       })

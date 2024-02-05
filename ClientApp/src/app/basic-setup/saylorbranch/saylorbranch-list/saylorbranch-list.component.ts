@@ -83,7 +83,6 @@ export class SaylorBranchListComponent implements OnInit {
   deleteItem(row) {
     const id = row.saylorBranchId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SaylorBranchService.delete(id).subscribe(() => {
           this.getSaylorBranchs();

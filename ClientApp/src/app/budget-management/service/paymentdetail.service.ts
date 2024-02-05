@@ -89,7 +89,6 @@ export class PaymentDetailService {
     return this.http.post<PostResponse>(this.baseUrl + '/payment-detail/save-paymentdetail', model).pipe(
       map((PaymentDetail: PostResponse) => {
         if (PaymentDetail) {
-          console.log(PaymentDetail);
           return PaymentDetail;
         }
       })

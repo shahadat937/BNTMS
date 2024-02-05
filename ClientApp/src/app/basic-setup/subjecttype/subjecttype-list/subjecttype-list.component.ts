@@ -83,7 +83,6 @@ export class SubjecttypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.subjectTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Subject Type Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.SubjectTypeService.delete(id).subscribe(() => {
           this.getSubjectTypes();

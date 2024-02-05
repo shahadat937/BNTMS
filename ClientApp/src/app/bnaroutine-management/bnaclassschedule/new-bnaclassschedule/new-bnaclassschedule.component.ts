@@ -130,7 +130,6 @@ export class NewBnaClassScheduleComponent implements OnInit {
     const id = this.BnaClassScheduleForm.get('bnaClassScheduleId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BnaClassScheduleService.update(+id,this.BnaClassScheduleForm.value).subscribe(response => {

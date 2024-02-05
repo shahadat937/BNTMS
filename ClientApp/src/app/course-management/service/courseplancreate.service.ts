@@ -67,7 +67,6 @@ export class CourseplanCreateService {
     return this.http.post<PostResponse>(this.baseUrl + '/course-plan/save-coursePlan', model).pipe(
       map((CourseplanCreate: PostResponse) => {
         if (CourseplanCreate) {
-          console.log(CourseplanCreate);
           return CourseplanCreate;
         }
       })

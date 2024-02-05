@@ -46,7 +46,6 @@ export class EducationalInstitutionListComponent implements OnInit {
 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.EducationalInstitutionService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
-     console.log(response);
      this.dataSource.data=response;
     })
   }
@@ -66,7 +65,6 @@ export class EducationalInstitutionListComponent implements OnInit {
   deleteItem(row) {
     const id = row.educationalInstitutionId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This EducationalInstitution Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.EducationalInstitutionService.delete(id).subscribe(() => {
           this.getEducationalInstitutions();

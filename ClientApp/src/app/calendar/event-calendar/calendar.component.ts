@@ -70,11 +70,9 @@ export class CalendarComponent
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     
   //    this.calendarEvents = INITIAL_EVENTS;
-  //    console.log(INITIAL_EVENTS)
   //   // this.tempEvents = this.calendarEvents;
   //    this.calendarOptions.initialEvents = this.calendarEvents;
   //  //this.initializeEvents()
@@ -84,7 +82,6 @@ export class CalendarComponent
    
     //  this.calendarEvents=INITIAL_EVENTS;
     this.calendarEvents= res;
-    console.log(res)
     this.calendarOptions = {
       headerToolbar: {
         left: 'prev,next today',
@@ -111,7 +108,6 @@ export class CalendarComponent
     this.calendarService.getCourseDurationForEventCalendar().subscribe(res=>{
       //var durationData: EventInput[] = res;
       const durationData: EventInput[] =res;
-      console.log(durationData)
       this.calendarEvents=durationData
     //  this.tempEvents = this.calendarEvents;
       this.calendarOptions.initialEvents = this.calendarEvents;
@@ -203,8 +199,6 @@ export class CalendarComponent
   }
 
   eventClick(row) {
-    console.log("check event click")
-    console.log(row)
     const calendarData: any = {
       id: row.event.id,
       title: row.event.title,

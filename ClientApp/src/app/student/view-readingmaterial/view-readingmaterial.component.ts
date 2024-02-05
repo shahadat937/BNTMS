@@ -51,7 +51,6 @@ export class ViewReadingMaterialComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();    
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.getReadingMaterials();
     
@@ -61,22 +60,18 @@ export class ViewReadingMaterialComponent implements OnInit {
     this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.books).subscribe(res=>{            
       this.bookList=res; 
       this.countbooks = this.bookList.length;    
-      console.log(this.bookList);  
     })
     ;this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.videos).subscribe(res=>{            
       this.videoList=res; 
       this.countvideos = this.videoList.length;    
-      console.log(this.videoList);  
     });
     this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.slides).subscribe(res=>{            
       this.slideList=res; 
       this.countslides = this.slideList.length;    
-      console.log(this.countslides);  
     });
     this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.materials).subscribe(res=>{            
       this.materialList=res; 
       this.countmaterial = this.materialList.length;    
-      console.log(this.countmaterial);  
     });
   }
 
@@ -105,7 +100,6 @@ export class ViewReadingMaterialComponent implements OnInit {
   deleteItem(row) {
     const id = row.readingMaterialId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         // this.ReadingMaterialService.delete(id).subscribe(() => {
         //   this.getReadingMaterials();

@@ -56,10 +56,8 @@ export class NewOccupationComponent implements OnInit {
   
   onSubmit() {
     const id = this.occupationForm.get('occupationId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Occupation Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.occupationService.update(+id,this.occupationForm.value).subscribe(response => {

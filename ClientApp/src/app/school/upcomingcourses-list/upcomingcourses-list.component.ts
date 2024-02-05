@@ -56,7 +56,6 @@ export class UpcomingCoursesListComponent implements OnInit {
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     // this.branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     //this.getTraineeNominations();
     //var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
@@ -64,7 +63,6 @@ export class UpcomingCoursesListComponent implements OnInit {
     var schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     this.school=schoolId;
-    console.log(schoolId)
     if(this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC){
       this.getUpcomingCourseListByBase(this.branchId);
     }else{
@@ -151,49 +149,35 @@ export class UpcomingCoursesListComponent implements OnInit {
   getUpcomingCourseListBySchool(schoolId){
       let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
       this.schoolDashboardService.getUpcomingCourseListBySchool(currentDateTime, this.masterData.coursetype.LocalCourse, schoolId).subscribe(response => {         
-        console.log("response")
-        console.log(response);
         this.schoolName = response[0].schoolName;
-        console.log("response")
         this.UpcomingCourseCount=response.length;
         this.upcomingCourses=response;
        
-        console.log("upcomming");
-        console.log(this.upcomingCourses);
       })
   }
 
   checkCourseWeeks(courseDurationId){
     
     
-    // console.log("duration id", courseDurationId);
     this.schoolDashboardService.getCourseWeekListByCourseDuration(courseDurationId).subscribe(response => {     
       this.weekCount=response.length;
-      // console.log("week count");
-      console.log(this.weekCount);
       // if(this.weekCount > 0){
       //   this.isShowAlarmButton=false;
-      //   // console.log("created");
       // }
       // else{
       //   this.isShowAlarmButton=true;
-      //   // console.log("not");
       // }
       return this.weekCount;
     })
   }
 
   courseWeekGenerate(row){
-    console.log(row)
     const id = row.courseDurationId; 
 
     
 
 
-console.log("courseduration");
-console.log(id);
     this.confirmService.confirm('Confirm  message', 'Are You Sure ').subscribe(result => {
-      console.log(result);
       if (result) {
         this.schoolDashboardService.genarateCourseWeek(id).subscribe(() => {
           this.getUpcomingCourseListBySchool(this.school);
@@ -223,7 +207,6 @@ console.log(id);
       
       this.localCourseCount=response.length;
       this.runningCourses=response;
-      console.log(response)
     })
   }
 
@@ -233,13 +216,9 @@ console.log(id);
       this.UpcomingCourseCount=response.length;
       this.upcomingCourses=response;
 
-      console.log("school name");
-      console.log(this.school)
 
       // this.schoolDashboardService.getCourseWeekListByCourseDuration(id).subscribe(response => {     
       //   this.weekCount=response.length;
-      //   console.log("week count");
-      //   console.log(this.weekCount);
       // })
 
       // this gives an object with dates as keys
@@ -259,7 +238,6 @@ console.log(id);
             courses: groups[schoolName]
           };
         });
-        console.log(this.groupArrays);
 
     })
   }

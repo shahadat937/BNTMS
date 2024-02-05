@@ -67,7 +67,6 @@ export class IndividualNoticeService {
     return this.http.post<PostResponse>(this.baseUrl + '/individual-notice/save-individualNotice', model).pipe(
       map((BnaClassTest: PostResponse) => {
         if (BnaClassTest) {
-          console.log(BnaClassTest);
           return BnaClassTest;
         }
       })

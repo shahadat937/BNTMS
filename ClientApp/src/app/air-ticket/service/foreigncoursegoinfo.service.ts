@@ -60,7 +60,6 @@ export class ForeignCourseGOInfoService {
     return this.http.post<PostResponse>(this.baseUrl + '/foreign-course-go-info/save-ForeignCourseGOInfo', model).pipe(
       map((ForeignCourseGOInfo: PostResponse) => {
         if (ForeignCourseGOInfo) {
-          console.log(ForeignCourseGOInfo);
           return ForeignCourseGOInfo;
         }
       })

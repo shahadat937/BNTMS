@@ -63,7 +63,6 @@ export class SocialmediatypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.socialMediaTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This SocialMediaType Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.socialMediaTypeService.delete(id).subscribe(() => {
           this.getSocialMediaTypes();

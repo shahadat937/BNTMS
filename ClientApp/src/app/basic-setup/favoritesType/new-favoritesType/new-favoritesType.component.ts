@@ -56,10 +56,8 @@ export class NewFavoritesTypeComponent implements OnInit {
   
   onSubmit() {
     const id = this.favoritesTypeForm.get('favoritesTypeId').value;  
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Favorites Type Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.favoritesTypeService.update(+id,this.favoritesTypeForm.value).subscribe(response => {

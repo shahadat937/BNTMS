@@ -60,7 +60,6 @@ export class NewNewEntryEvaluationComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
 
     const id = this.route.snapshot.paramMap.get('newEntryEvaluationId');  
@@ -179,11 +178,8 @@ export class NewNewEntryEvaluationComponent implements OnInit {
 
  getTraineeListonClick(){ 
   const control = <FormArray>this.NewEntryEvaluationForm.controls["traineeListForm"];
-console.log('vvvv')
-  console.log(this.traineeList)   
   for (let i = 0; i < this.traineeList.length; i++) {
     control.push(this.createTraineeData()); 
-    //console.log(this.traineeList[i])
   }
   this.NewEntryEvaluationForm.patchValue({ traineeListForm: this.traineeList });
  }
@@ -211,7 +207,6 @@ console.log('vvvv')
   }
   onCourseSelectionChangeGetCourseModule(dropdown){ 
     if (dropdown.isUserInput) {
-      console.log(dropdown);
 
       var baseSchoolNameId = this.NewEntryEvaluationForm.value['baseSchoolNameId'];
       var courseNameArr = dropdown.source.value.split('_');
@@ -222,17 +217,12 @@ console.log('vvvv')
       this.NewEntryEvaluationForm.get('courseNameId').setValue(courseNameId);
       this.NewEntryEvaluationForm.get('courseDurationId').setValue(courseDurationId);
 
-      console.log("course duration" + courseDurationId);
-      console.log("course name" + courseNameId);
 
       this.NewEntryEvaluationService.getselectedCourseModulesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.courseModuleValues=res
-        console.log(this.courseModuleValues)
       });
     }   
     // var baseSchoolNameId=this.NewEntryEvaluationForm.value['baseSchoolNameId'];
-    // console.log('baseSchool')
-    // console.log(baseSchoolNameId)
     
   }
   
@@ -255,13 +245,11 @@ console.log('vvvv')
       this.NewEntryEvaluationService.getCourseDurationByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         
         this.selectedCourseDuration=res;   
-        console.log("course duration "+this.selectedCourseDuration);
         this.NewEntryEvaluationForm.get('courseDurationId').setValue(this.selectedCourseDuration);
         this.traineeNominationService.getNewTraineeNominationByCourseDurationId(this.selectedCourseDuration).subscribe(res=>{
           this.traineeList=res; 
           this. clearList();
           this.getTraineeListonClick();
-          console.log(this.traineeList);
                   
          });
        });
@@ -286,11 +274,8 @@ console.log('vvvv')
     const id = this.NewEntryEvaluationForm.get('newEntryEvaluationId').value; 
     
     
-    console.log(this.NewEntryEvaluationForm.value)
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
             this.NewEntryEvaluationService.update(+id,this.NewEntryEvaluationForm.value).subscribe(response => {

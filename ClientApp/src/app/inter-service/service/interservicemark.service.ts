@@ -70,14 +70,12 @@ export class InterServiceMarkService {
   //   return this.http.post(this.baseUrl + '/inter-service-mark/save-InterServiceMark', model);
   // }
   submit(model: any) {
-    console.log(model);
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
     return this.http.post<PostResponse>(this.baseUrl + '/inter-service-mark/save-interServiceMarklist', model, httpOptions).pipe(
       map((InterServiceMark: PostResponse) => {
         if (InterServiceMark) {
-          console.log(InterServiceMark);
           return InterServiceMark;
         }
       })

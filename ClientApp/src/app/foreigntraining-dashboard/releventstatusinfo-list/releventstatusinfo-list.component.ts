@@ -57,7 +57,6 @@ export class ReleventStatusInfoListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.pageTitle = "Relevent Work Status";
     this.destination = "All";
@@ -69,7 +68,6 @@ export class ReleventStatusInfoListComponent implements OnInit {
   getStudentOtherDocInfoList(courseDurationId){
     this.foreignDashboardService.getStudentOtherDocInfoList(courseDurationId).subscribe(res=>{
       this.StudentOtherDocInfoList=res 
-      console.log(this.StudentOtherDocInfoList)
      });  
   }
 

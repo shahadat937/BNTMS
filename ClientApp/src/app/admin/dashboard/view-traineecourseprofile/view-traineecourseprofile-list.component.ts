@@ -77,7 +77,6 @@ export class ViewTraineeCourseProfileListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
     this.getSubjectNames(); 
     
   }
@@ -162,25 +161,20 @@ export class ViewTraineeCourseProfileListComponent implements OnInit {
       if(res.rankId){
         this.rankService.find(res.rankId).subscribe(res=>{
           this.trainee =  res.position +" "+ this.trainee;
-          console.log(this.trainee);
         });
       }else if(res.saylorRankId){
         this.saylorRankService.find(res.saylorRankId).subscribe(res=>{
           this.trainee =  res.name +" "+ this.trainee;
-          console.log(this.trainee);
         });
       }      
     });
 
     // this.courseDurationService.find(this.courseDurationId).subscribe(res=>{
     //   this.course =  res.courseName + " - " + res.courseTitle;
-    //   console.log(this.course);
     // });
 
     this.biodataService.getCourseDurtationInfoByTrainee(this.traineeId).subscribe(res=>{
       this.getCourseList=res;      
-      console.log("tgg");
-      console.log(this.getCourseList);  
     }); 
 
    // this.schoolDb = this.route.snapshot.paramMap.get('schoolDb'); 
@@ -188,7 +182,6 @@ export class ViewTraineeCourseProfileListComponent implements OnInit {
     // this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     // this.coursesTypes=this.route.snapshot.paramMap.get('courseTypeId');
     // this.courseType3=this.route.snapshot.paramMap.get('courseType3');
-    // console.log(this.schoolDb+"fdgfdgdfg")
 
     // if(this.courseListStatus == 1){
     //   this.courseNameService.find(Number(courseNameId)).subscribe(res=>{
@@ -212,7 +205,6 @@ export class ViewTraineeCourseProfileListComponent implements OnInit {
 
     // this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourse(Number(this.baseSchoolNameId),Number(courseNameId)).subscribe(res=>{
     //   this.SelectedsubjectsBySchoolAndCourse=res;  
-    //   console.log(this.SelectedsubjectsBySchoolAndCourse); 
 
     //   // this gives an object with dates as keys
     //   const groups = this.SelectedsubjectsBySchoolAndCourse.reduce((groups, courses) => {
@@ -232,7 +224,6 @@ export class ViewTraineeCourseProfileListComponent implements OnInit {
     //     };
     //   });
 
-    //   console.log(this.groupArrays)
     // });
 
     // this.CourseInstructorService.getSubjectTotalByCourseId(this.baseSchoolNameId,courseNameId).subscribe(res=>{

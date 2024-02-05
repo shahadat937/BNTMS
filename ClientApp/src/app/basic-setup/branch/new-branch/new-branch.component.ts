@@ -60,7 +60,6 @@ export class NewBranchComponent implements OnInit {
     const id = this.branchForm.get('branchId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.branchService.update(+id,this.branchForm.value).subscribe(response => {

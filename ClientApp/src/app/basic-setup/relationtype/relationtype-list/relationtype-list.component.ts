@@ -65,7 +65,6 @@ export class RelationTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.relationTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.RelationTypeService.delete(id).subscribe(() => {
           this.getRelationTypes();

@@ -68,7 +68,6 @@ export class BranchListComponent implements OnInit {
   deleteItem(row) {
     const id = row.branchId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.branchService.delete(id).subscribe(() => {
           this.getBranchs();

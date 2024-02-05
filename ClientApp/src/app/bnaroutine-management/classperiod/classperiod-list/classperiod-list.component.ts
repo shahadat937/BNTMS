@@ -68,7 +68,6 @@ export class ClassPeriodListComponent implements OnInit {
   deleteItem(row) {
     const id = row.classPeriodId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ClassPeriodService.delete(id).subscribe(() => {
           this.getClassPeriods();

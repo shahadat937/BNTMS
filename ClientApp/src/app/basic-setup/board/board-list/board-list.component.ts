@@ -65,7 +65,6 @@ export class BoardListComponent implements OnInit {
   deleteItem(row) {
     const id = row.boardId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BoardService.delete(id).subscribe(() => {
           this.getBoards();

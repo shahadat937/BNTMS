@@ -62,10 +62,8 @@ export class RunningCourseListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId'); 
-    console.log(this.courseTypeId)
     this.getCoursesByViewType(1);
     
   }
@@ -76,7 +74,6 @@ export class RunningCourseListComponent implements OnInit {
   //   if(baseSchoolNameId != null && courseNameId !=null){
   //     this.BNAExamInstructorAssignService.getInstructorBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
   //       this.GetInstructorByParameters=res;  
-  //       console.log(this.GetInstructorByParameters); 
   //     }); 
   //   }
   // }
@@ -142,7 +139,6 @@ export class RunningCourseListComponent implements OnInit {
         
         this.upcomingCourses=response;
   
-        console.log("school name");  
         // this gives an object with dates as keys
         const groups = this.upcomingCourses.reduce((groups, courses) => {
           const schoolName = courses.schoolName;
@@ -160,7 +156,6 @@ export class RunningCourseListComponent implements OnInit {
               courses: groups[schoolName]
             };
           });
-          console.log(this.groupArrays);
   
       })
     }
@@ -196,7 +191,6 @@ export class RunningCourseListComponent implements OnInit {
           };
         });
 
-        console.log(this.groupArrays)
 
       })
     }else if(this.runningCourseType == this.masterData.coursetype.ForeignCourse){
@@ -210,7 +204,6 @@ export class RunningCourseListComponent implements OnInit {
       this.dashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime).subscribe(response => {   
         
         this.interServiceCourses=response;
-        console.log(this.interServiceCourses)
       })
     }
   }

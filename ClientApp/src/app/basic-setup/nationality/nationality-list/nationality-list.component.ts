@@ -84,7 +84,6 @@ export class NationalityListComponent implements OnInit {
   deleteItem(row) {
     const id = row.nationalityId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Nationality Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.nationalityService.delete(id).subscribe(() => {
           this.getNationalities();

@@ -78,10 +78,7 @@ export class NewIndexNoComponent implements OnInit {
   ngOnInit(): void {
     // 3136
     const id = this.route.snapshot.paramMap.get('attendanceId'); 
-    console.log(id);
     this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
-    console.log("Course duration id");
-    console.log(this.courseDurationId);
     if (id) {
       this.pageTitle = 'Edit Nomination Index'; 
       this.destination = "Edit"; 
@@ -178,13 +175,10 @@ export class NewIndexNoComponent implements OnInit {
 
   getTraineeListonClick() {
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
     }
     this.AttendanceForm.patchValue({ traineeListForm: this.traineeList });
-    console.log("value...");
-    console.log(this.traineeList)
   }
 
   clearList() {
@@ -204,12 +198,8 @@ export class NewIndexNoComponent implements OnInit {
       this.AttendanceForm.get('courseNameId').setValue(this.courseNameId);
       this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
 
-      console.log("Course duration id");
-      console.log(this.courseDurationId);
       this.traineeNominationService.getTestTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res => {
         this.traineeList = res;
-        console.log("trainee List");
-        console.log(this.traineeList);
         this.clearList();
         this.getTraineeListonClick();
       });
@@ -270,10 +260,8 @@ export class NewIndexNoComponent implements OnInit {
 
   //  const id = this.AttendanceForm.get('traineeNominationId').value;
 
-    console.log(this.AttendanceForm.value);
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-    //     console.log(result);
     //     if (result) {
     //       this.traineeNominationService.update(+id, JSON.stringify(this.AttendanceForm.value)).subscribe(response => {
     //         this.router.navigateByUrl('/exam-management/bnaexammark-list');
@@ -290,7 +278,6 @@ export class NewIndexNoComponent implements OnInit {
     //   })
     // } else {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.traineeNominationService.updateTraineeNominationList(this.AttendanceForm.value).subscribe(response => {

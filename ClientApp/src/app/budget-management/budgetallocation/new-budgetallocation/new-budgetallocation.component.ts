@@ -71,8 +71,6 @@ export class NewBudgetAllocationComponent implements OnInit {
             menuPosition: res.menuPosition,
             isActive: res.isActive
           });    
-          console.log("res...");
-          console.log(res);      
         }
       );
     } else {
@@ -153,7 +151,6 @@ export class NewBudgetAllocationComponent implements OnInit {
           this.selectedBudgetCodeName=res
           this.budgetCodeName = res[0].text;
           this.BudgetAllocationForm.get('budgetCodeName').setValue(this.budgetCodeName);
-          console.log(this.budgetCodeName);
         });
       }
     }  
@@ -166,7 +163,6 @@ export class NewBudgetAllocationComponent implements OnInit {
     deleteItem(row) {
       const id = row.budgetAllocationId; 
       this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.BudgetAllocationService.delete(id).subscribe(() => {
           //  this.getBudgetAllocations();
@@ -185,10 +181,8 @@ export class NewBudgetAllocationComponent implements OnInit {
 
   onSubmit() {
     const id = this.BudgetAllocationForm.get('budgetAllocationId').value;   
-    console.log(this.BudgetAllocationForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BudgetAllocationService.update(+id,this.BudgetAllocationForm.value).subscribe(response => {

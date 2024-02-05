@@ -49,11 +49,9 @@ export class WeeklyAttendanceListComponent implements OnInit {
   getAttendanceByTraineeAndCourseDuration(traineeId,courseDurationId){
     this.studentDashboardService.getAttendanceParcentageByTraineeAndCourseDuration(traineeId,courseDurationId).subscribe(res=>{
       this.traineeParcentage=res[0].percentage;
-      console.log(this.traineeParcentage);
     });
     this.studentDashboardService.getAttendanceByTraineeAndCourseDuration(traineeId,courseDurationId).subscribe(res=>{
       this.AttendanceByTraineeAndCourseDuration = res;
-      console.log(this.AttendanceByTraineeAndCourseDuration)
       // this gives an object with dates as keys
       const groups = this.AttendanceByTraineeAndCourseDuration.reduce((groups, attendance) => {
         const attendanceDate = attendance.attendanceDate.split('T')[0];
@@ -71,7 +69,6 @@ export class WeeklyAttendanceListComponent implements OnInit {
           attendance: groups[attendanceDate]
         };
       });
-      console.log(this.groupArrays)
     });
   }
   toggle(){
@@ -142,7 +139,6 @@ export class WeeklyAttendanceListComponent implements OnInit {
   // getReadingMaterialBySchoolAndCourse(baseSchoolNameId, courseNameId){    
   //   this.studentDashboardService.getReadingMAterialInfoBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res=>{
   //     this.ReadingMaterialBySchoolAndCourse = res;
-  //     console.log(this.ReadingMaterialBySchoolAndCourse)
   //   });
   // }
 

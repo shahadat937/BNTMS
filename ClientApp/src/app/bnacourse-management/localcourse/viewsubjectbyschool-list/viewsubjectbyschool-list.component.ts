@@ -48,10 +48,8 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
     var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    console.log(this.courseDurationId)
     this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourse(Number(baseSchoolNameId),Number(courseNameId)).subscribe(res=>{
       this.SelectedsubjectsBySchoolAndCourse=res;  
-      console.log(this.SelectedsubjectsBySchoolAndCourse); 
     });
   }
 
@@ -71,7 +69,6 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.bnaSubjectNameId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.BNASubjectNameService.delete(id).subscribe(() => {
   //         this.getBNASubjectNames();

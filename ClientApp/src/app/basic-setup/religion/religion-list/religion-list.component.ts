@@ -84,7 +84,6 @@ export class ReligionListComponent implements OnInit {
   deleteItem(row) {
     const id = row.religionId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Religion Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.religionService.delete(id).subscribe(() => {
           this.getReligions();

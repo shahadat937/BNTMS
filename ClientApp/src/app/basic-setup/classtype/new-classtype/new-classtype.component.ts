@@ -61,7 +61,6 @@ export class NewClassTypeComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ClassTypeService.update(+id,this.ClassTypeForm.value).subscribe(response => {

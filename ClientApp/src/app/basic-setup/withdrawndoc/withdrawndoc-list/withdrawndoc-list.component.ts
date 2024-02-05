@@ -80,7 +80,6 @@ export class WithdrawnDocListComponent implements OnInit {
   deleteItem(row) {
     const id = row.withdrawnDocId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.WithdrawnDocService.delete(id).subscribe(() => {
           this.getWithdrawnDocs();

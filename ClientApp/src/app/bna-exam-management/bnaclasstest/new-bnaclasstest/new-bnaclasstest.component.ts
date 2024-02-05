@@ -150,8 +150,6 @@ export class NewBnaClassTestComponent implements OnInit {
     var courseDurationId = courseNameArr[0];
     var courseNameId = courseNameArr[1];
 
-    console.log("Course Duration");
-    console.log(courseDurationId);
     
     this.BnaClassTestForm.get('courseName').setValue(courseName);
     this.BnaClassTestForm.get('courseNameId').setValue(courseNameId);
@@ -171,7 +169,6 @@ export class NewBnaClassTestComponent implements OnInit {
       this.selectedCourseDuration=res;   
       this.traineeNominationService.getTraineeNominationByCourseDurationId(this.selectedCourseDuration,0).subscribe(res=>{
         this.traineeList=res; 
-        //console.log(this.traineeList);
        });
      });
   }
@@ -223,7 +220,6 @@ export class NewBnaClassTestComponent implements OnInit {
     const id = this.BnaClassTestForm.get('bnaClassTestId').value;
     var bnaSubjectNameId = this.BnaClassTestForm.value['bnaSubjectNameId'];
     var bnaClassTestTypeId = this.BnaClassTestForm.value['bnaClassTestTypeId'];
-    console.log(this.BnaClassTestForm);
 
     for (let i = 0; i < this.traineeList.length; i++) {
       this.traineeList[i]["bnaSubjectNameId"] = bnaSubjectNameId;
@@ -233,7 +229,6 @@ export class NewBnaClassTestComponent implements OnInit {
     }
     //   if (id) {
     //     this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-    //       console.log(result);
     //       if (result) {
     //         this.BnaClassTestService.update(+id,this.BnaClassTestForm.value).subscribe(response => {
     //           this.router.navigateByUrl('/bna-exam-management/bnaclasstest-list');

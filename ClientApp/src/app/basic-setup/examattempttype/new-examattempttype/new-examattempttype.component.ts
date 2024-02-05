@@ -58,7 +58,6 @@ export class NewExamAttemptTypeComponent implements OnInit {
     const id = this.ExamAttemptTypeForm.get('examAttemptTypeId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ExamAttemptTypeService.update(+id,this.ExamAttemptTypeForm.value).subscribe(response => {

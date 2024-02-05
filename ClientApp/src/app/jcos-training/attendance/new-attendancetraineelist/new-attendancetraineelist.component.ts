@@ -73,8 +73,6 @@ export class NewAttendanceTraineeListComponent implements OnInit {
     this.attendanceDate=this.route.snapshot.paramMap.get('date'); 
     this.classRoutineId=this.route.snapshot.paramMap.get('classRoutineId'); 
 
-    console.log("course duration id")
-    console.log(this.courseDurationId);
     if (id) {
       this.pageTitle = 'Edit Attendance'; 
       this.destination = "Edit"; 
@@ -172,21 +170,16 @@ export class NewAttendanceTraineeListComponent implements OnInit {
       }
     //  this.traineeNominationListForAttendance.find(x=>x.attendanceStatus=true);
       //this.traineeNominationListForAttendance=true
-      console.log("Trainee Nomination")
-      console.log(this.traineeNominationListForAttendance);
     this.clearList();
     this.getTraineeListonClick();
      });
   }
   getTraineeListonClick(){
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
-    // console.log(this.dataSource)   
     
   
     for (let i = 0; i < this.traineeNominationListForAttendance.length; i++) {
       control.push(this.createTraineeData()); 
-      console.log("data source");
-        console.log(this.traineeNominationListForAttendance[i])
     }
     this.AttendanceForm.patchValue({ traineeListForm: this.traineeNominationListForAttendance });
    }
@@ -234,10 +227,8 @@ export class NewAttendanceTraineeListComponent implements OnInit {
    this.AttendanceForm.get('attendanceDate').setValue(this.attendanceDate);
    this.AttendanceForm.get('classRoutineId').setValue(this.classRoutineId);
 
-    console.log(this.AttendanceForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.AttendanceService.update(+id,JSON.stringify(this.AttendanceForm.value)).subscribe(response => {

@@ -166,7 +166,6 @@ export class NewBNAExamAttendanceComponent implements OnInit {
   onCourseNameSelectionChangeGetClassPeriod(){
     var baseSchoolNameId=this.BNAExamAttendanceForm.value['baseSchoolNameId'];
     var courseNameId=this.BNAExamAttendanceForm.value['courseNameId'];
-     console.log(baseSchoolNameId +" -"+courseNameId);
      if(baseSchoolNameId != null && courseNameId != null){
       
      }  
@@ -176,14 +175,12 @@ export class NewBNAExamAttendanceComponent implements OnInit {
     var baseSchoolNameId=this.BNAExamAttendanceForm.value['baseSchoolNameId'];
       var courseNameId=this.BNAExamAttendanceForm.value['courseNameId']; 
       var classPeriodId=this.BNAExamAttendanceForm.value['classPeriodId']; 
-       console.log(baseSchoolNameId +" -"+courseNameId+"- "+classPeriodId);
        if(baseSchoolNameId != null && courseNameId != null && classPeriodId !=null){
         this.attendanceService.getSelectedCourseDurationByParameterRequestFromClassRoutine(baseSchoolNameId,courseNameId,classPeriodId).subscribe(res=>{
           this.selectedCourseDurationByParameterRequest=res;   
          this.traineeNominationService.getTraineeNominationByCourseDurationId(this.selectedCourseDurationByParameterRequest,0).subscribe(res=>{
           this.traineeNominationListForAttendance=res;  
            this.BNAExamAttendanceForm.get('traineeList').setValue(res); 
-          console.log(this.BNAExamAttendanceForm.value);  
          });
         });
       }  
@@ -228,7 +225,6 @@ export class NewBNAExamAttendanceComponent implements OnInit {
     const id = this.BNAExamAttendanceForm.get('bnaExamAttendanceId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.BNAExamAttendanceService.update(+id,this.BNAExamAttendanceForm.value).subscribe(response => {

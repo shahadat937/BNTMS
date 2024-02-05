@@ -74,7 +74,6 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
   getCountry(){
     this.TraineeVisitedAboardService.getselectedcountry().subscribe(res=>{
       this.countryValues=res
-      console.log(this.countryValues);
     });
   }
   
@@ -84,7 +83,6 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.TraineeVisitedAboardService.update(+id,this.TraineeVisitedAboardForm.value).subscribe(response => {

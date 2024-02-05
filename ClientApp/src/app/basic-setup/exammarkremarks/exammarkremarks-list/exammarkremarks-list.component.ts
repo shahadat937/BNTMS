@@ -84,7 +84,6 @@ export class ExamMarkRemarksListComponent implements OnInit {
   deleteItem(row) {
     const id = row.examMarkRemarksId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ExamMarkRemarksService.delete(id).subscribe(() => {
           this.getCountries();

@@ -46,7 +46,6 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     // this.branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
@@ -62,14 +61,12 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
   getReadingMetarialBySchool(schoolId){
     this.schoolDashboardService.getReadingMetarialBySchool(schoolId).subscribe(response => {   
       this.ReadIngMaterialList=response;
-      console.log(response)
     })
   }
 
   getReadingMetarialByBase(schoolId){
     this.schoolDashboardService.getReadingMetarialByBase(schoolId).subscribe(response => {   
       this.ReadIngMaterialList=response;
-      console.log(response)
       const groups = this.ReadIngMaterialList.reduce((groups, courses) => {
         const schoolname = courses.schoolname;
         if (!groups[schoolname]) {
@@ -87,7 +84,6 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
         };
       });
 
-      console.log(this.groupArrays)
     })
   }
 }

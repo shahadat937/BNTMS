@@ -84,31 +84,26 @@ export class NewEducationalInstitutionComponent implements OnInit {
   getDistrict(){
     this.EducationalInstitutionService.getselecteddistrict().subscribe(res=>{
       this.districtValues=res
-      console.log(this.districtValues);
     });
   }
 
   // getThana(){
   //   this.EducationalInstitutionService.getselectedthana().subscribe(res=>{
   //     this.thanaValues=res
-  //     console.log(this.thanaValues);
   //   });
   // }
 
   onDistrictSelectionChangeGetThana(districtId){
     this.EducationalInstitutionService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
-      console.log(this.selectedThana);
     });
   }
 
   
   onSubmit() {
     const id = this.EducationalInstitutionForm.get('educationalInstitutionId').value;   
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This EducationalInstitution Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.EducationalInstitutionService.update(+id,this.EducationalInstitutionForm.value).subscribe(response => {

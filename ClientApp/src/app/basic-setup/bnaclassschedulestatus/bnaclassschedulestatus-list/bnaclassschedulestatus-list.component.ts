@@ -80,7 +80,6 @@ export class BNAClassScheduleStatusListComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaClassScheduleStatusId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNAClassScheduleStatusService.delete(id).subscribe(() => {
           this.getBNAClassScheduleStatus();

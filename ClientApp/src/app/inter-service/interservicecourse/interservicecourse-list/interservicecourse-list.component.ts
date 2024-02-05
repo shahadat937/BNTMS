@@ -48,22 +48,16 @@ export class InterservicecourseListComponent implements OnInit {
     this.isLoading = true;
     this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
       this.dataSource.data = response.items; 
-      console.log("data source");
-      console.log(this.dataSource.data);
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response);
     })
   }
 
   getCourseDurationForInterService(){
     this.CourseDurationService.getCourseDurationForInterServiceByCourseType(this.courseTypeId).subscribe(response => {
       this.dataSource.data = response; 
-      console.log("data source");
-      console.log(this.dataSource.data);
       // this.paging.length = response.totalItemsCount    
       // this.isLoading = false;
-      // console.log(response);
     })
   }
 
@@ -169,7 +163,6 @@ export class InterservicecourseListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseDurationService.delete(id).subscribe(() => {
           this.getCourseDurationForInterService();

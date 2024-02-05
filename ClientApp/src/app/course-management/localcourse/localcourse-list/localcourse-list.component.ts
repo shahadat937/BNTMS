@@ -74,11 +74,9 @@ export class LocalcourseListComponent implements OnInit {
           courses: groups[schoolName]
         };
       });
-      console.log("group"); 
 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response);
     })
   }
 
@@ -96,7 +94,6 @@ export class LocalcourseListComponent implements OnInit {
         
         this.localCourseList=response;
   
-        console.log("school name");  
         // this gives an object with dates as keys
         const groups = this.localCourseList.reduce((groups, courses) => {
           const schoolName = courses.schoolName;
@@ -114,7 +111,6 @@ export class LocalcourseListComponent implements OnInit {
               courses: groups[schoolName]
             };
           });
-          console.log(this.groupArrays);
   
       })
     }
@@ -141,14 +137,10 @@ export class LocalcourseListComponent implements OnInit {
           courses: groups[schoolName]
         };
       });
-      console.log("group");
       
-      console.log('all school ' , this.groupArrays);
-      console.log(this.groupArrays);
 
       // this.paging.length = response.totalItemsCount    
       // this.isLoading = false;
-      console.log(response);
     })
   }
   
@@ -187,19 +179,14 @@ export class LocalcourseListComponent implements OnInit {
   } 
 
   // getTraineeNominationsByCourseDurationId(courseDurationId) {
-  //   console.log(courseDurationId)
   //   this.CourseDurationService.getNominatedTraineeCountByDurationId(courseDurationId).subscribe(res => {
   //     this.candidateCount = res.countedTrainee;
   //   });
-  //   console.log(courseDurationId +"="+this.candidateCount)
   // }
 
   deleteItem(row) {
     const id = row.courseDurationId; 
-    console.log("Course Duration id");
-    console.log(id);
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseDurationService.delete(id).subscribe(() => {
          this.getCourseDurationsByCourseType();

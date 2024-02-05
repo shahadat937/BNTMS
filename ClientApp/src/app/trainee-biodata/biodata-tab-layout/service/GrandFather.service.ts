@@ -50,7 +50,6 @@ export class GrandFatherService {
     return this.http.post(this.baseUrl + '/grand-father/save-grandFather', model).pipe(
       map((GrandFather: PostResponse) => {
         if (GrandFather) {
-          console.log(GrandFather);
           return GrandFather;
         }
       })

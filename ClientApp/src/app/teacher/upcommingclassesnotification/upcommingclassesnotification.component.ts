@@ -44,8 +44,6 @@ export class UpcommingClassesNotification implements OnInit {
   getSpCurrentRoutineForStudentDashboard(id){
     this.instructorDashboardService.getSpCurrentRoutineForStudentDashboard(id).subscribe(res=>{
       this.routineList = res;
-      console.log("dddd");
-      console.log(res)
     });
   }
 }

@@ -84,7 +84,6 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
     this.courseDurations = this.route.snapshot.paramMap.get('courseDurationId');
 
     var bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId'); 
-    console.log(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId);
     this.getTdecQuationGroupByParams(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId);
     this.getSelectedTdecActionStatus();
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId'); 
@@ -151,7 +150,6 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
       this.InstructorPno=res[0].traineePno;
       this.InstructorRank=res[0].traineeRank;
       this.clearList();
-      console.log(this.courseName)
       this.getEvaluationQuestionList(); 
       //this.clearList();
     });
@@ -183,10 +181,8 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
 
   getEvaluationQuestionList(){ 
     const control = <FormArray>this.BNAExamMarkForm.controls["approveTraineeListForm"];
-    console.log(this.questionList)   
     for (let i = 0; i < this.questionList.length; i++) {
       control.push(this.createTraineeData()); 
-      console.log(this.questionList[i])
     }
     this.BNAExamMarkForm.patchValue({ approveTraineeListForm: this.questionList });
   }
@@ -208,10 +204,8 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
    // const id = this.BNAExamMarkForm.get('bnaExamMarkId').value; 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.BNAExamMarkForm.get('traineeId').setValue(this.traineeId);
-    console.log(this.BNAExamMarkForm.value);
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-    //     console.log(result);
     //     if (result) {
     //       this.BNAExamMarkService.update(+id,JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
     //         this.router.navigateByUrl('/exam-management/bnaexammark-list');
@@ -230,7 +224,6 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
       
     
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.tdecGroupResultService.submit(this.BNAExamMarkForm.value).subscribe(response => {

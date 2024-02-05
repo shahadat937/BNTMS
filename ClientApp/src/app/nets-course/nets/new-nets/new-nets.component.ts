@@ -31,7 +31,6 @@ export class NewNETSComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
      this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
-     console.log(this.courseTypeId);
     if (id) {
       this.pageTitle = 'Edit NETS Course'; 
       this.destination = "Edit"; 
@@ -97,13 +96,11 @@ export class NewNETSComponent implements OnInit {
   getselectedcoursename(){
     this.CourseDurationService. getSelectedCourseByType(this.masterData.coursetype.NETS).subscribe(res=>{
       this.selectedcoursename=res
-      console.log(this.selectedcoursename)
     });
   }
   getselectedcoursetype(){
     this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
       this.selectedcoursetype=res
-      console.log(this.selectedcoursetype)
     });
   } 
   // getselectedbaseschools(){
@@ -115,7 +112,6 @@ export class NewNETSComponent implements OnInit {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        //console.log(result);
         if (result) {
           this.loading=true;
           this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {

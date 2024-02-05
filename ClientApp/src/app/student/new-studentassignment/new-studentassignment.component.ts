@@ -56,8 +56,6 @@ export class NewStudentAssignmentComponent implements OnInit {
     this.getTraineeAssignmentSubmitListByParameter();
     // this.getInstructorAssignmentListByInstructorId();
     // this.getCourseInstructorIdForInstructorAssignmentSave();courseInstructorId instructorId
-console.log("traineeId");
-console.log(this.traineeId);
     if (id) {
       this.pageTitle = 'Add Assignment';
       this.destination = "Edit";
@@ -105,7 +103,6 @@ console.log(this.traineeId);
   deleteItem(row) {
     const id = row.traineeAssignmentSubmitId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.AssignmentService.delete(id).subscribe(() => {
           this.getTraineeAssignmentSubmitListByParameter();
@@ -124,15 +121,11 @@ console.log(this.traineeId);
   getTraineeAssignmentSubmitListByParameter(){
     this.AssignmentService.getTraineeAssignmentSubmitListByParameter(this.traineeId,this.instructorId,this.bnaSubjectNameId,this.baseSchoolNameId,this.courseNameId,this.courseDurationId,this.courseInstructorId,this.instructorAssignmentId).subscribe(res=>{
       this.traineeAssignmentList=res;
-      console.log("Instructor Id");
-      console.log(this.traineeAssignmentList);
     });
   }
   // getInstructorAssignmentListByInstructorId(){
   //   this.AssignmentService.getInstructorAssignmentListByInstructorId(this.baseSchoolNameId,this.courseDurationId,this.bnaSubjectNameId,this.instructorId).subscribe(res=>{
   //     this.instructorAssignmentsList=res;
-  //     console.log("Course Instructor Id");
-  //     console.log(this.instructorAssignmentsList);
   //   });
   // }
 
@@ -141,7 +134,6 @@ console.log(this.traineeId);
   //     if (result) {
   //       this.AssignmentService.stopInstructorAssignments(instructorAssignmentId).subscribe(res => {
   //         this.getInstructorAssignmentListByInstructorId();
-  //         console.log("Dropdown value");
 
   //         this.snackBar.open('Information Stop Successfully ', '', {
   //           duration: 3000,
@@ -163,7 +155,6 @@ console.log(this.traineeId);
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       // this.labelImport.nativeElement.value = file.name;
-      console.log(file);
       // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
       this.InstructorAssignmentForm.patchValue({
         doc: file,
@@ -189,8 +180,6 @@ console.log(this.traineeId);
       const value = this.InstructorAssignmentForm.value[key];
       formData.append(key, value);
     }
-    console.log(this.InstructorAssignmentForm.value)
-    console.log(formData);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         

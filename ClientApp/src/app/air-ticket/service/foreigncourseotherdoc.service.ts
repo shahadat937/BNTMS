@@ -59,7 +59,6 @@ export class ForeignCourseOtherDocService {
     return this.http.post<PostResponse>(this.baseUrl + '/foreign-course-other-doc/save-foreignCourseOtherDocList', model).pipe(
       map((ForeignCourseOtherDoc: PostResponse) => {
         if (ForeignCourseOtherDoc) {
-          console.log(ForeignCourseOtherDoc);
           return ForeignCourseOtherDoc;
         }
       })

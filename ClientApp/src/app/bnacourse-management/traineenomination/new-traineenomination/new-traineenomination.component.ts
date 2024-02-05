@@ -118,7 +118,6 @@ export class NewTraineeNominationComponent implements OnInit {
     .subscribe(value => {
      
         this.getSelectedTraineeByPno(value,this.courseDurationId,this.courseNameId);
-       //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     })
 
     // this.TraineeNominationForm.get('traineeId').valueChanges.subscribe(response => {
@@ -128,7 +127,6 @@ export class NewTraineeNominationComponent implements OnInit {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log(item.value);
     this.traineeId = item.value
     this.TraineeNominationForm.get('traineeId').setValue(item.value);
     this.TraineeNominationForm.get('traineeName').setValue(item.text);

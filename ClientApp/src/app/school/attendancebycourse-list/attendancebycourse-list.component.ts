@@ -41,7 +41,6 @@ export class AttendanceByCourseListComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.durationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    console.log(this.schoolId)
     this.schoolDashboardService.getCurrentAttendanceDetailList(currentDateTime,Number(this.courseNameId),this.schoolId,this.durationId).subscribe(response => {         
       this.AttendanceByCourse=response;
 
@@ -63,8 +62,6 @@ export class AttendanceByCourseListComponent implements OnInit {
           };
         });
 
-      console.log("attendance by course");
-      console.log(this.AttendanceByCourse);
     })
   }
 

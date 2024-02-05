@@ -40,10 +40,8 @@ export class AttendanceByRoutineListComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.durationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     var routineId = this.route.snapshot.paramMap.get('classRoutineId'); 
-    console.log(this.schoolId,this.courseNameId,routineId)
     this.schoolDashboardService.getCurrentAttendanceDetailByRoutineList(this.courseNameId,this.schoolId,this.durationId,routineId).subscribe(response => {         
       this.AttendanceByRoutine=response;
-      console.log(this.AttendanceByRoutine)
     })
   }
 }

@@ -52,7 +52,6 @@ export class UserManualService {
     return this.http.post<PostResponse>(this.baseUrl + '/user-manual/save-UserManual', model).pipe(
       map((UserManual: PostResponse) => {
         if (UserManual) {
-          console.log(UserManual);
           return UserManual;
         }
       })

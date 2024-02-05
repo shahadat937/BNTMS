@@ -61,7 +61,6 @@ export class NewSaylorSubBranchComponent implements OnInit {
   getselectedSaylorBranch(){
     this.SaylorSubBranchService.getselectedSaylorBranch().subscribe(res=>{
       this.selectedSaylorBranch=res
-      console.log(this.selectedSaylorBranch);      
     });
   }
   onSubmit() {
@@ -69,7 +68,6 @@ export class NewSaylorSubBranchComponent implements OnInit {
     if (id) {
       this.loading=true;
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.SaylorSubBranchService.update(+id,this.SaylorSubBranchForm.value).subscribe(response => {
             this.router.navigateByUrl('/basic-setup/saylorsubbranch-list');

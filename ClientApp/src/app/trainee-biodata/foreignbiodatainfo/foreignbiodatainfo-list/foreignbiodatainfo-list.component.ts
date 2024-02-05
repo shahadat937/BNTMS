@@ -49,7 +49,6 @@ export class ForeignBIODataInfoListComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(this.dataSource.data)
     })
   }
   isAllSelected() {

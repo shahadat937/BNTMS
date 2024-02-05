@@ -49,7 +49,6 @@ export class WeightService {
     return this.http.post<PostResponse>(this.baseUrl + '/weights/save-weight', model).pipe(
       map((weight: PostResponse) => {
         if (weight) {
-          console.log(weight);
           return weight;
         }
       })

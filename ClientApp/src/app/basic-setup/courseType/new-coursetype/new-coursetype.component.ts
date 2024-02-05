@@ -58,7 +58,6 @@ export class NewCoursetypeComponent implements OnInit {
     const id = this.CourseTypeForm.get('courseTypeId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.CourseTypeService.update(+id,this.CourseTypeForm.value).subscribe(response => {

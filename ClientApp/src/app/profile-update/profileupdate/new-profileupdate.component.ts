@@ -42,11 +42,8 @@ export class NewProfileUpdateComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.userId=this.authService.currentUserValue.id;
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    console.log(this.role, this.traineeId)
     var id = String(this.userId);
     //String(num);
-    console.log("Idddd");
-    console.log(id)
     if (id) {
       this.pageTitle = 'Profile Update';
       this.destination='Edit';
@@ -92,10 +89,8 @@ matchValues(matchTo: string): ValidatorFn {
   }
   onSubmit() {
   //  const id = this.userId;
-  //  console.log(id);
 
     this.ProfileUpdateForm.get('userId').setValue(this.userId)
-    console.log(this.ProfileUpdateForm.value)
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         
         if (result) {

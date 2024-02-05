@@ -85,7 +85,6 @@ export class TraineeCourseStatusListComponent implements OnInit {
   deleteItem(row) {
     const id = row.traineeCourseStatusId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TraineeCourseStatusService.delete(id).subscribe(() => {
           this.getTraineeCourseStatuses();

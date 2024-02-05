@@ -80,7 +80,6 @@ export class NewTraineeNominationNbcdComponent implements OnInit {
    // this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     // this.branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     this.intitializeForm();
    this.getRunningCourseDurationListForNbcdSchool();
@@ -116,7 +115,6 @@ export class NewTraineeNominationNbcdComponent implements OnInit {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log(item.value);
     this.traineeId = item.value
     this.TraineeNominationForm.get('traineeId').setValue(item.value);
     this.TraineeNominationForm.get('traineeName').setValue(item.text);
@@ -128,15 +126,10 @@ export class NewTraineeNominationNbcdComponent implements OnInit {
 
    this.courseDurationService.find(courseDurationId).subscribe(res=>{
     this.courseNameIdForNbcd=res.courseNameId;
-    console.log(this.traineeInfoById);
     this.TraineeNominationForm.get('courseNameId').setValue(this.courseNameIdForNbcd);
   });
-console.log("value courseDurationId");
-console.log(courseDurationId);
   this.TraineeNominationService.getTraineeNominationListByCourseDurationIdForNbcd(courseDurationId).subscribe(response => {
     this.nominatedPercentageListForNbcd=response;
-    console.log("eee");
-    console.log(this.nominatedPercentageList)
   });
   }
 
@@ -151,15 +144,12 @@ getRunningCourseDurationListForNbcdSchool(){
   let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
   this.courseDurationService.getRunningCourseDurationListForNbcdSchool(MasterData.coursetype.LocalCourse,currentDateTime,this.branchId,1).subscribe(res=>{
     this.selectedRunningCourse=res;
-    console.log("this.selectedRunning");
-    console.log(this.selectedRunningCourse);
   });
 } 
 
   getTraineeInfoByTraineeId(traineeId){
     this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
       this.traineeInfoById=res;
-      console.log(this.traineeInfoById);
       this.TraineeNominationForm.get('saylorRankId').setValue(res.saylorRankId);
       this.TraineeNominationForm.get('rankId').setValue(res.rankId);
       this.TraineeNominationForm.get('saylorBranchId').setValue(res.saylorBranchId);
@@ -177,7 +167,6 @@ getRunningCourseDurationListForNbcdSchool(){
 
   onSubmit() {
     //const id = this.TraineeNominationForm.get('traineeNominationId').value;   
-    console.log(this.TraineeNominationForm.value);
    // if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
          if (result) {
@@ -204,13 +193,10 @@ getRunningCourseDurationListForNbcdSchool(){
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(this.dataSource.data);
     })
 
     this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
       this.nominatedPercentageList=response;
-      console.log("eee nomination");
-      console.log(this.nominatedPercentageList)
     });
   }
 
@@ -227,10 +213,8 @@ getRunningCourseDurationListForNbcdSchool(){
   } 
 
   deleteItem(row) {
-    console.log(row)
     const id = row.traineeNominationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     // console.log(result);
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.getTraineeNominationsByCourseDurationId(this.courseDurationId)

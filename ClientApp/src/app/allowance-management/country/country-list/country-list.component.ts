@@ -84,7 +84,6 @@ export class CountryListComponent implements OnInit {
   deleteItem(row) {
     const id = row.countryId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Country Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.countryService.delete(id).subscribe(() => {
           this.getCountries();

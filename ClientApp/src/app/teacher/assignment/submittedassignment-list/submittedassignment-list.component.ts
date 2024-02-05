@@ -52,7 +52,6 @@ export class SubmittedAssignmentComponent implements OnInit {
     this.bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId');
     this.intitializeForm(); 
     this.intitializeMarkForm(); 
-    console.log(this.traineeId,this.instructorAssignmentId,this.baseSchoolNameId,this.courseNameId,this.courseDurationId,this.bnaSubjectNameId)    
     this.getStudentSubmittedAssignmentLists();
   }
   getStudentSubmittedAssignmentLists(){
@@ -60,7 +59,6 @@ export class SubmittedAssignmentComponent implements OnInit {
       this.submittedStudents=response;
       this.clearList();
       this.getTraineeListonClick(); 
-      console.log(response)
     })
   }
 
@@ -108,10 +106,8 @@ export class SubmittedAssignmentComponent implements OnInit {
   }
   submit(index: number){
     var formValues = (this.AssignmentListForm.get('SubmittedAssignmentListForm') as FormArray).at(index).value;
-    console.log(formValues);
     const assignmentMarkEntryId = formValues.assignmentMarkEntryId;
     if(assignmentMarkEntryId){
-      console.log("edited mood");
     }else{
       
       this.instructorDashboardService.find(formValues.traineeAssignmentSubmitId).subscribe(response => {         
@@ -124,20 +120,16 @@ export class SubmittedAssignmentComponent implements OnInit {
         this.assignmentMarkForm.get('baseSchoolNameId').setValue(this.getTraineeAssignmentSubmit.baseSchoolNameId);
         this.assignmentMarkForm.get('bnaSubjectNameId').setValue(this.getTraineeAssignmentSubmit.bnaSubjectNameId);
         this.assignmentMarkForm.get('traineeId').setValue(this.getTraineeAssignmentSubmit.traineeId);
-        console.log(this.getTraineeAssignmentSubmit)
       })
       
       this.assignmentMarkForm.get('assignmentMark').setValue(formValues.assignmentMark);
     }
     
     if(assignmentMarkEntryId){
-      console.log("edited mood");
     }else{
 
       this.confirmService.confirm('Confirm Insertion message', 'Are You Sure Insertion This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
-          console.log(this.assignmentMarkForm.value);
           this.instructorDashboardService.submit(this.assignmentMarkForm.value).subscribe(response => {
             //this.router.navigateByUrl('/teachers-evaluation/tdecactionstatus-list');
             this.getStudentSubmittedAssignmentLists();
@@ -156,10 +148,8 @@ export class SubmittedAssignmentComponent implements OnInit {
   }
   getTraineeListonClick(){ 
     const control = <FormArray>this.AssignmentListForm.controls["SubmittedAssignmentListForm"];
-    console.log(this.submittedStudents)   
     for (let i = 0; i < this.submittedStudents.length; i++) {
       control.push(this.TraineeData()); 
-      console.log(this.submittedStudents[i])
     }
     this.AssignmentListForm.patchValue({ SubmittedAssignmentListForm: this.submittedStudents });
   }

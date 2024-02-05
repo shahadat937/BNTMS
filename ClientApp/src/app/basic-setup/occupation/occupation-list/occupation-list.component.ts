@@ -84,7 +84,6 @@ export class OccupationListComponent implements OnInit {
   deleteItem(row) {
     const id = row.occupationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Occupation Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.occupationService.delete(id).subscribe(() => {
           this.getOccupations();

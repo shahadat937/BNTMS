@@ -65,7 +65,6 @@ export class BNASemesterDurationService {
     return this.http.post<PostResponse>(this.baseUrl + '/bna-semester-duration/save-bnaSemesterDuration', model).pipe(
       map((BNASemesterDuration: PostResponse) => {
         if (BNASemesterDuration) {
-          console.log(BNASemesterDuration);
           return BNASemesterDuration;
         }
       })

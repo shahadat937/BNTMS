@@ -42,7 +42,6 @@ export class MilitaryTrainingService {
     return this.http.post(this.baseUrl + '/military-training/save-MilitaryTraining', model).pipe(
       map((MilitaryTraining: PostResponse) => {
         if (MilitaryTraining) {
-          console.log(MilitaryTraining);
           return MilitaryTraining;
         }
       })

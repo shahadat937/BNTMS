@@ -41,8 +41,6 @@ export class InstructorCourseForClassComponent implements OnInit {
     var traineeId = this.route.snapshot.paramMap.get('traineeId'); 
     // this.schoolDashboardService.getReadingMetarialByCourse(courseNameId,schoolId).subscribe(response => {         
     //   this.MaterialByCourse=response;
-    //   console.log("school");
-    //   console.log(schoolId);
     // })
     this.getRoutineInfoByCourse(traineeId);
   }
@@ -50,7 +48,6 @@ export class InstructorCourseForClassComponent implements OnInit {
   getRoutineInfoByCourse(traineeId){
     this.instructorDashboardService.getInstructorAssignedCourseList(traineeId).subscribe(response => {         
       this.RoutineByCourse=response;
-      console.log(this.RoutineByCourse)
     })
   }
 }

@@ -69,7 +69,6 @@ export class AttendanceApprovedComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     const id = this.route.snapshot.paramMap.get('attendanceId'); 
     if (id) {
@@ -162,12 +161,10 @@ export class AttendanceApprovedComponent implements OnInit {
   }
   getTraineeListonClick(){
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
-    // console.log(this.dataSource)   
     
   
     for (let i = 0; i < this.dataSource.length; i++) {
       control.push(this.createTraineeData()); 
-      //  console.log(this.dataSource[i])
     }
     this.AttendanceForm.patchValue({ traineeListForm: this.dataSource });
    }
@@ -208,25 +205,20 @@ export class AttendanceApprovedComponent implements OnInit {
         this.dataSource = response.items; 
         this.paging.length = response.totalItemsCount    
         this.getTraineeListonClick();
-         console.log(this.dataSource);
         })
      }
 
      onDateSelectionChange(event){
       var date=this.datepipe.transform((event.value), 'MM/dd/yyyy');
-           //console.log(date);
            var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
            var courseName=this.AttendanceForm.value['courseNameId'];
 
            var courseNameArr = courseName.split('_');
            this.courseDurationId = courseNameArr[0];
            this.courseNameId = courseNameArr[1];
-           //console.log(courseNameArr);
-            console.log(baseSchoolNameId +" -- "+this.courseNameId+" -- "+this.courseDurationId);
             if(baseSchoolNameId != null && this.courseNameId != null){
               this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameIdforAttendances(baseSchoolNameId,this.courseNameId,this.courseDurationId,date).subscribe(res=>{
                 this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameIdforAttendanceApprove=res;     
-                console.log( this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId); 
               });
             }  
      }
@@ -275,10 +267,8 @@ export class AttendanceApprovedComponent implements OnInit {
     
    // if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-       // console.log(result);
         if (result) {
           this.loading = true;
-          console.log("dd");
           this.AttendanceService.updateAttendanceList(JSON.stringify(this.AttendanceForm.value)).subscribe(response => {
             this.router.navigateByUrl('/attendance-management/add-attendance');
             this.snackBar.open('Information Updated Successfully ', '', {

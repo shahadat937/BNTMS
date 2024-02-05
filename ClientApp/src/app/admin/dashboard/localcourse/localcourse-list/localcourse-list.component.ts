@@ -46,7 +46,6 @@ export class LocalcourseListComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response);
     })
   }
 
@@ -67,7 +66,6 @@ export class LocalcourseListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseDurationService.delete(id).subscribe(() => {
          this.getCourseDurationsByCourseType();

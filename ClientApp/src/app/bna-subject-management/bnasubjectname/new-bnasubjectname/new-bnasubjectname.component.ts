@@ -147,7 +147,6 @@ export class NewBNASubjectNameComponent implements OnInit {
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
-       //console.log(this.courseDurationId+" "+this.courseNameId +" "+this.traineeId)
     })
   }
   inActiveItem(value){
@@ -161,7 +160,6 @@ export class NewBNASubjectNameComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null){
       this.BNASubjectNameService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;     
-        console.log( this.selectedCourseModuleByBaseSchoolAndCourseNameId); 
       });
     }  
   }
@@ -170,27 +168,22 @@ export class NewBNASubjectNameComponent implements OnInit {
     var baseSchoolNameId=this.BNASubjectNameForm.value['baseSchoolNameId'];
     var courseNameId=this.BNASubjectNameForm.value['courseNameId'];
     var courseModuleId=this.BNASubjectNameForm.value['courseModuleId'];
-    console.log(baseSchoolNameId +" -"+courseNameId+"- "+courseModuleId);
     this.isShown=true;
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null){
       this.BNASubjectNameService.getSelectedCourseByParameters(baseSchoolNameId,courseNameId,courseModuleId,this.status).subscribe(res=>{
         this.selectedCourseByParameterRequest=res;  
-        console.log("6666");
-        console.log(this.selectedCourseByParameterRequest); 
       }); 
     }
   }
   getSelectedCourseModule(){
     this.BNASubjectNameService.getSelectedCourseModule().subscribe(res=>{
       this.selectedCourseModule=res;     
-      //console.log(this.selectedCourseModule); 
     })
   }
 
   getSelectedResultStatus(){
     this.CodeValueService.getSelectedCodeValueByType(this.masterData.codevaluetype.ResultStatus).subscribe(res=>{
       this.selectedResultStatus=res;     
-     // console.log(this.selectedResultStatus); 
     })
   }
   
@@ -206,7 +199,6 @@ export class NewBNASubjectNameComponent implements OnInit {
   }
   //autocomplete
   onCourseSelectionChanged(item) {
-    // console.log(item);
     this.courseNameId = item.value 
     this.BNASubjectNameForm.get('courseNameId').setValue(item.value);
     this.BNASubjectNameForm.get('course').setValue(item.text);
@@ -266,7 +258,6 @@ export class NewBNASubjectNameComponent implements OnInit {
     const id = this.BNASubjectNameForm.get('bnaSubjectNameId').value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNASubjectNameService.update(+id,this.BNASubjectNameForm.value).subscribe(response => {
@@ -304,7 +295,6 @@ export class NewBNASubjectNameComponent implements OnInit {
   deleteItem(row) {
     const id = row.bnaSubjectNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BNASubjectNameService.delete(id).subscribe(() => {
           this.onModuleSelectionChangeGetsubjectList();

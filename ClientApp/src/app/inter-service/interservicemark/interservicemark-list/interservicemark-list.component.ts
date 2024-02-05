@@ -48,7 +48,6 @@ export class InterServiceMarkListComponent implements OnInit {
      this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response)
     })
   }
   isAllSelected() {
@@ -80,7 +79,6 @@ export class InterServiceMarkListComponent implements OnInit {
   deleteItem(row) {
     const id = row.interServiceMarkId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.InterServiceMarkService.delete(id).subscribe(() => {
           this.getInterServiceMarks();

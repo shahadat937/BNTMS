@@ -153,15 +153,10 @@ export class NewBnaExammarkinstructor implements OnInit {
 
  getTraineeListonClick(){ 
   const control = <FormArray>this.BNAExamMarkForm.controls["traineeListForm"];
-  console.log(this.traineeList)   
   for (let i = 0; i < this.traineeList.length; i++) {
     control.push(this.createTraineeData()); 
-    console.log("value...");
-    console.log(this.traineeList)
   }
   this.BNAExamMarkForm.patchValue({ traineeListForm: this.traineeList });
-  console.log("value...");
-  console.log(this.traineeList)
  }
 
  clearList() {
@@ -188,7 +183,6 @@ export class NewBnaExammarkinstructor implements OnInit {
   onCourseNameSelectionChangeGetSubjectAndTraineeList(dropdown){
 
     if(dropdown.isUserInput) {
-     // console.log(dropdown);
     var courseNameArr = dropdown.source.value.value.split('_');
     var courseNameTextArr = dropdown.source.value.text.split('_');
     var courseName = courseNameTextArr[0];
@@ -196,8 +190,6 @@ export class NewBnaExammarkinstructor implements OnInit {
     var courseDurationId=courseNameArr[0];
     var courseNameId=courseNameArr[1];
 
-    console.log("COurseDurationId");
-    console.log(courseDurationId)
     this.BNAExamMarkForm.get('courseName').setValue(courseName);
     this.BNAExamMarkForm.get('courseNameId').setValue(courseNameId);
     this.BNAExamMarkForm.get('courseDurationId').setValue(courseDurationId);
@@ -209,8 +201,6 @@ export class NewBnaExammarkinstructor implements OnInit {
      if(baseSchoolNameId != null && courseNameId != null){
        this.BNAExamMarkService.getSelectedSubjectNameListForInstructorDashBoardByBaseSchoolNameIdAndCourseNameId(this.traineeId,baseSchoolNameId,courseDurationId).subscribe(res=>{
         this.selectedInstructorList=res;   
-        console.log("instructor List");  
-        console.log(this.selectedInstructorList);
        });
      }
      
@@ -219,7 +209,6 @@ export class NewBnaExammarkinstructor implements OnInit {
       this.selectedCourseDuration=res;   
       this.traineeNominationService.getTestTraineeNominationByCourseDurationId(courseDurationId,0).subscribe(res=>{
         this.traineeList=res; 
-        console.log(this.traineeList);
                 
        });
      });
@@ -231,15 +220,11 @@ export class NewBnaExammarkinstructor implements OnInit {
 
     if(dropdown.isUserInput) {
   
-      console.log("dropdown value subject array");
-      console.log(dropdown);
     this.isShown=true;
     
     var baseSchoolNameId=this.BNAExamMarkForm.value['baseSchoolNameId'];  
     var courseNameId=this.BNAExamMarkForm.value['courseNameId'];
     var courseDurationId=this.BNAExamMarkForm.value['courseDurationId'];
-    console.log("Subject array");
-    console.log(courseNameId);
 
 
     this.bnaSubjectNameId = dropdown.source.value.bnaSubjectNameId;
@@ -252,8 +237,6 @@ export class NewBnaExammarkinstructor implements OnInit {
     this.getTraineeListonClick();
     this.BNAExamMarkService.GetSubjectMarkByBaseSchoolNameIdCourseNameAndSubjectNameId(baseSchoolNameId,courseNameId,this.bnaSubjectNameId).subscribe(res=>{
       this.subjectMarkList=res;
-      console.log("ddddddddddddd");
-      console.log(this.subjectMarkList);
     });
 
     this.BNAExamMarkService.GetRoutineIdWithSchoolCourseSubject(baseSchoolNameId,courseNameId,this.bnaSubjectNameId).subscribe(res=>{
@@ -267,7 +250,6 @@ export class NewBnaExammarkinstructor implements OnInit {
       this.selectedmarktype=res
       this.examTypeCount = res.length;
       this.BNAExamMarkForm.get('examTypeCount').setValue(this.examTypeCount);
-      console.log("selectedmarktype count"+this.examTypeCount)
     });
 
    
@@ -290,9 +272,7 @@ export class NewBnaExammarkinstructor implements OnInit {
     var baseSchoolNameId=this.BNAExamMarkForm.value['baseSchoolNameId'];
     this.isShown=false;
     
-    //console.log(baseSchoolNameId);
     this.BNAExamMarkService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-     console.log("check name");
       this.selectedcoursedurationbyschoolname=res;
 
     }); 
@@ -307,10 +287,8 @@ export class NewBnaExammarkinstructor implements OnInit {
   onSubmit() {
     const id = this.BNAExamMarkForm.get('bnaExamMarkId').value; 
      
-    console.log(this.BNAExamMarkForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.BNAExamMarkService.update(+id,JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
@@ -328,7 +306,6 @@ export class NewBnaExammarkinstructor implements OnInit {
       })
     }else {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading = true;
           this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {

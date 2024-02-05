@@ -49,7 +49,6 @@ export class ExamRoutineListComponent implements OnInit {
   getCourseModuleByCourseName(courseDurationId){
     this.studentDashboardService.getExamRoutineForStudentDashboard(courseDurationId).subscribe(res=>{
       this.examrRoutineList = res;
-      console.log(this.examrRoutineList)
 
       // this gives an object with dates as keys
       const groups = this.examrRoutineList.reduce((groups, courses) => {
@@ -68,7 +67,6 @@ export class ExamRoutineListComponent implements OnInit {
         courses: groups[date]
       };
     });
-      console.log(this.groupArrays);
     });
   }
   toggle(){

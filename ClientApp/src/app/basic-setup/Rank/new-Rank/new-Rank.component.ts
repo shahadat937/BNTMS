@@ -60,10 +60,8 @@ export class NewRankComponent implements OnInit {
   
   onSubmit() {
     const id = this.RankForm.get('rankId').value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Rank Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.RankService.update(+id,this.RankForm.value).subscribe(response => {

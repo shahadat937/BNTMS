@@ -57,7 +57,6 @@ export class ViewCourseListBySchoolComponent implements OnInit {
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     // this.branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId);
 
     this.schoolId = this.route.snapshot.paramMap.get("baseSchoolNameId");
     if (this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO) {
@@ -72,7 +71,6 @@ export class ViewCourseListBySchoolComponent implements OnInit {
       .getCourseNamesBySchool(schoolId)
       .subscribe((response) => {
         this.CourseNamesList = response;
-        console.log(this.CourseNamesList);
         const groups = this.CourseNamesList.reduce((groups, courses) => {
           const schoolname = courses.schoolname;
           if (!groups[schoolname]) {
@@ -90,7 +88,6 @@ export class ViewCourseListBySchoolComponent implements OnInit {
           };
         });
 
-        console.log(this.groupArrays);
       });
   }
   toggle(){
@@ -171,7 +168,6 @@ export class ViewCourseListBySchoolComponent implements OnInit {
   getCourseListByBase(schoolId) {
     this.schoolDashboardService.getCourseNamesByBase(schoolId).subscribe((response) => {
         this.CourseNamesList = response;
-        console.log(this.CourseNamesList);
         const groups = this.CourseNamesList.reduce((groups, courses) => {
           const schoolname = courses.schoolname;
           if (!groups[schoolname]) {
@@ -189,7 +185,6 @@ export class ViewCourseListBySchoolComponent implements OnInit {
           };
         });
 
-        console.log(this.groupArrays);
       });
   }
 }

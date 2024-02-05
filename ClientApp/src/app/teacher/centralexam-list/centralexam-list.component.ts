@@ -46,7 +46,6 @@ export class CentralExamComponent implements OnInit {
     this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId'); 
     this.courseNameId = Number(this.route.snapshot.paramMap.get('courseNameId'));
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
-    console.log(this.traineeId,this.courseTypeId,this.courseNameId )
     if(this.courseNameId == this.masterData.courseName.QExam){
       this.destination="Q Exam";
       this.getExamList(this.traineeId,this.courseTypeId,this.courseNameId);
@@ -63,8 +62,6 @@ export class CentralExamComponent implements OnInit {
   getExamList(traineeId,courseTypeId,courseNameId){
     this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,courseTypeId,courseNameId).subscribe(res=>{
       this.examList=res;  
-      console.log(this.examList);
-      console.log("Instructor");
     });
   }
   
@@ -72,7 +69,6 @@ export class CentralExamComponent implements OnInit {
   //   this.destination="JCO Training"
   //   this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,courseTypeId,courseNameId).subscribe(res=>{
   //     this.examList=res;  
-  //     console.log(this.examList);
   //   });
   // }
   
@@ -80,7 +76,6 @@ export class CentralExamComponent implements OnInit {
   //   this.destination="Stuff Collage"
   //   this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,courseTypeId,courseNameId).subscribe(res=>{
   //     this.examList=res;  
-  //     console.log(this.examList);
   //   });
   // }
 }

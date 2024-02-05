@@ -60,7 +60,6 @@ export class TraineeNominationListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
     //this.getTraineeNominations();
     //var schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
@@ -91,9 +90,7 @@ export class TraineeNominationListComponent implements OnInit {
           courses: groups[sailorRank]
         };
       });
-      console.log(this.groupArrays);
 
-      console.log(this.TraineeReportSubmittedList)
     });
   }
 

@@ -103,7 +103,6 @@ export class ViewTraineeBIODataOtherComponent implements OnInit {
   // getExamType(){    
   //   this.TraineeBIODataOtherService.getselectedexamtype().subscribe(res=>{
   //     this.examTypeValues=res
-  //     console.log(this.examTypeValues);
   //     for(let code of this.examTypeValues){        
   //       if(this.examTypeId == code.value ){
   //         this.examType = code.text;
@@ -116,7 +115,6 @@ export class ViewTraineeBIODataOtherComponent implements OnInit {
   // getBoard(){    
   //   this.EducationalQualificationService.getselectedboard().subscribe(res=>{
   //     this.boardValues=res
-  //     console.log(this.boardValues);
   //     for(let code of this.boardValues){        
   //       if(this.boardId == code.value ){
   //         this.board = code.text;
@@ -129,7 +127,6 @@ export class ViewTraineeBIODataOtherComponent implements OnInit {
   // getGroup(){    
   //   this.EducationalQualificationService.getselectedgroup().subscribe(res=>{
   //     this.groupValues=res
-  //     console.log(this.groupValues);
   //     for(let code of this.groupValues){        
   //       if(this.groupId == code.value ){
   //         this.group = code.text;
@@ -142,7 +139,6 @@ export class ViewTraineeBIODataOtherComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('traineeBioDataOtherId'); 
     this.TraineeBIODataOtherService.find(+id).subscribe( res => {
-      console.log(res);
       this.traineeBIODataOtherId = res.traineeBioDataOtherId,
       this.traineeId = res.traineeId,
       this.bnaCurriculumTypeId = res.bnaCurriculumTypeId,

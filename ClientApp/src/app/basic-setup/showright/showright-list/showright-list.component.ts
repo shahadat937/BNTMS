@@ -80,7 +80,6 @@ export class ShowRightListComponent implements OnInit {
   deleteItem(row) {
     const id = row.showRightId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ShowRightService.delete(id).subscribe(() => {
           this.getShowRight();

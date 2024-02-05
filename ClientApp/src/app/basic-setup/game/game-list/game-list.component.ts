@@ -69,7 +69,6 @@ export class GameListComponent implements OnInit {
   deleteItem(row) {
     const id = row.gameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.gameService.delete(id).subscribe(() => {
           this.getGames();

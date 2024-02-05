@@ -65,7 +65,6 @@ export class CourseNameListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item?').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseNameService.delete(id).subscribe(() => {
           this.getCourseNames();

@@ -86,7 +86,6 @@ export class RankListComponent implements OnInit {
   deleteItem(row) {
     const id = row.rankId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Rank Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.RankService.delete(id).subscribe(() => {
           this.getRanks();

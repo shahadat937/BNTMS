@@ -61,7 +61,6 @@ export class NewWeightComponent implements OnInit {
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Weight Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.weightService.update(+id,this.weightForm.value).subscribe(response => {

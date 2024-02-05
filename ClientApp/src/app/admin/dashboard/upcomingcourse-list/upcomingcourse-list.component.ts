@@ -48,7 +48,6 @@ export class UpcomingCourseListComponent implements OnInit {
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
     // var courseTypeId = this.route.snapshot.paramMap.get('courseTypeId'); 
-    // console.log(courseTypeId)
     this.getSpCourseDurations(3);
     
   }
@@ -59,7 +58,6 @@ export class UpcomingCourseListComponent implements OnInit {
   //   if(baseSchoolNameId != null && courseNameId !=null){
   //     this.BNAExamInstructorAssignService.getInstructorBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
   //       this.GetInstructorByParameters=res;  
-  //       console.log(this.GetInstructorByParameters); 
   //     }); 
   //   }
   // }
@@ -73,7 +71,6 @@ export class UpcomingCourseListComponent implements OnInit {
     this.isLoading = true;
     this.courseTypeId = id;
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    console.log(currentDateTime);
     if(this.courseTypeId == this.masterData.coursetype.LocalCourse){
       this.dashboardService.getSpCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
         this.upcomingLocalCourses=response;
@@ -96,10 +93,8 @@ export class UpcomingCourseListComponent implements OnInit {
           };
         });
 
-        console.log(this.groupArrays)
 
         // this.upcomingLocalCourses=response;
-        // console.log(response)
       })
     }else if(this.courseTypeId === this.masterData.coursetype.ForeignCourse){
       this.dashboardService.getSpForeignCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
@@ -138,7 +133,6 @@ export class UpcomingCourseListComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.courseInstructorId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.CourseInstructorService.delete(id).subscribe(() => {
   //         this.getCourseInstructors();

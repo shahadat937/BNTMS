@@ -94,7 +94,6 @@ export class AttendanceInstructorComponent implements OnInit {
     } 
     this.intitializeForm();
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    console.log(currentDateTime);
     this.AttendanceForm.get('attendanceDate').setValue(currentDateTime);
 
     this.getselectedclassperiod(this.traineeId);
@@ -118,7 +117,6 @@ export class AttendanceInstructorComponent implements OnInit {
   }
 
   getControlLabel(index: number,type: string){
-    //console.log("rrr"+(this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value);
     return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
    }
 
@@ -155,12 +153,10 @@ export class AttendanceInstructorComponent implements OnInit {
 
   getTraineeListonClick(){
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
-    // console.log(this.dataSource)   
     
   
     for (let i = 0; i < this.traineeNominationListForAttendance.length; i++) {
       control.push(this.createTraineeData()); 
-      //  console.log(this.dataSource[i])
     }
     this.AttendanceForm.patchValue({ traineeListForm: this.traineeNominationListForAttendance });
    }
@@ -168,8 +164,6 @@ export class AttendanceInstructorComponent implements OnInit {
      getselectedclassperiod(traineeId){
       this.AttendanceService.getSelectedClassPeriodForAttendanceInstructorBySpRequest(traineeId).subscribe(res=>{
       this.selectedclassperiod=res
-      console.log("Seleted Class period");
-      console.log(this.selectedclassperiod);
     });
   }
 
@@ -177,7 +171,6 @@ export class AttendanceInstructorComponent implements OnInit {
 
       if(dropdown.isUserInput) {     
 
-        console.log(dropdown);
         var courseDurationId=dropdown.source.value.courseDurationId;
         var classPeriodId=dropdown.source.value.classPeriodId
         var classRoutineId=dropdown.source.value.classRoutineId;
@@ -195,8 +188,6 @@ export class AttendanceInstructorComponent implements OnInit {
         this.AttendanceForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
         this.AttendanceForm.get('courseSectionId').setValue(courseSectionId);
 
-        console.log("course Section Id");
-        console.log(this.AttendanceForm.value);
 
         this.isShown=true;
         this.clearList();
@@ -209,8 +200,6 @@ export class AttendanceInstructorComponent implements OnInit {
           }
           
           this.getTraineeListonClick();
-          console.log("Trainee Nomination list");
-          console.log(this.traineeNominationListForAttendance);
          });
 
      }
@@ -232,14 +221,11 @@ export class AttendanceInstructorComponent implements OnInit {
 
   onSubmit() {
     const id = this.AttendanceForm.get('attendanceId').value;
-     console.log(this.AttendanceForm.value.traineeListForm);
     var data = this.AttendanceForm.value.traineeListForm.filter((x) => x.attendanceStatus === false && x.bnaAttendanceRemarksId === null );
     if(data.length >0){
       this.popup =true;
-      console.log("Not Saved");
     }    
     else{
-      console.log("Saved");
        this.loading = true;
       this.AttendanceService.submitAttendance(this.AttendanceForm.value).subscribe(response => {
         this.reloadCurrentRoute();

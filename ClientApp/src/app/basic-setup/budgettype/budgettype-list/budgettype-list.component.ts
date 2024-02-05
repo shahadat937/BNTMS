@@ -80,7 +80,6 @@ export class BudgetTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.budgetTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BudgetTypeService.delete(id).subscribe(() => {
           this.getBudgetType();

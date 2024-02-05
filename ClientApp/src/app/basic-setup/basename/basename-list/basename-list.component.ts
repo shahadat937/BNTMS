@@ -65,7 +65,6 @@ export class BaseNameListComponent implements OnInit {
   deleteItem(row) {
     const id = row.baseNameId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.BaseNameService.delete(id).subscribe(() => {
           this.getBaseNames();

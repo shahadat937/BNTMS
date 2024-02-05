@@ -49,7 +49,6 @@ export class TraineeBIODataOtherListComponent implements OnInit {
     this.TraineeBIODataOtherService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      
      this.dataSource.data=response;
-     console.log(this.dataSource.data);
     })
   }
   
@@ -58,7 +57,6 @@ export class TraineeBIODataOtherListComponent implements OnInit {
   deleteItem(row) {
     const id = row.traineeBioDataOtherId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TraineeBIODataOtherService.delete(id).subscribe(() => {
           this.getTraineeBIODataOthers();

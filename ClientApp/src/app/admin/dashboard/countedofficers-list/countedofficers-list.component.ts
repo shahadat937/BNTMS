@@ -44,7 +44,6 @@ export class CountedOfficersListComponent implements OnInit {
     var traineeStatusId = this.route.snapshot.paramMap.get('traineeStatusId'); 
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     
-    console.log(traineeStatusId)
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     if(Number(traineeStatusId) == this.masterData.TraineeStatus.officer){
       this.destination = "Officer";
@@ -67,8 +66,6 @@ export class CountedOfficersListComponent implements OnInit {
             courses: groups[courseName]
             };
             });
-            console.log(this.groupArrays);
-        console.log(this.Countedlist);
       })
     }else if(Number(traineeStatusId) == this.masterData.TraineeStatus.sailor){
       this.destination = "Sailor";
@@ -91,8 +88,6 @@ export class CountedOfficersListComponent implements OnInit {
             courses: groups[courseName]
             };
             });
-            console.log(this.groupArrays);
-        console.log(this.Countedlist);
       })
     }else if(Number(traineeStatusId) == this.masterData.TraineeStatus.civil){
       this.destination = "Civil";
@@ -115,8 +110,6 @@ export class CountedOfficersListComponent implements OnInit {
             courses: groups[courseName]
             };
             });
-            console.log(this.groupArrays);
-        console.log(this.Countedlist);
       })
     }else{
       this.destination = "Trainee";
@@ -141,7 +134,6 @@ export class CountedOfficersListComponent implements OnInit {
             courses: groups[courseName]
             };
             });
-            console.log(this.groupArrays);
 
       })
     }

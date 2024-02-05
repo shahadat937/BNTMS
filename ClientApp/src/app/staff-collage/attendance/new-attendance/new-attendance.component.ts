@@ -76,10 +76,7 @@ export class NewAttendanceComponent implements OnInit {
   ngOnInit(): void {
     // 3136
     const id = this.route.snapshot.paramMap.get('attendanceId'); 
-    console.log(id);
     this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
-    console.log("Course duration id");
-    console.log(this.courseDurationId);
     if (id) {
       this.pageTitle = 'Edit Attendance'; 
       this.destination = "Edit"; 
@@ -136,13 +133,10 @@ export class NewAttendanceComponent implements OnInit {
 
   onCourseNameSelectionChangeGetSubjectList(dropdown){
     if (dropdown.isUserInput) {
-      // console.log(dropdown);
       var courseNameArr = dropdown.source.value.split('_');
       this.courseDurationId = courseNameArr[0];
       this.courseNameId = courseNameArr[1];
 
-      // console.log("courseDurationId");
-      // console.log(this.courseDurationId);
 
       this.AttendanceForm.get('courseNameId').setValue(this.courseNameId);
       this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
@@ -158,8 +152,6 @@ export class NewAttendanceComponent implements OnInit {
           this.dataSource.data = response.items.filter(x=>x.attendanceComplete===0); 
           this.paging.length = response.totalItemsCount    
           this.isLoading = false;
-          console.log("Subject name");
-          console.log(this.dataSource.data);
         })
     }
   }
@@ -251,7 +243,6 @@ export class NewAttendanceComponent implements OnInit {
     //         if(baseSchoolNameId != null && courseNameId != null  && courseDurationId !=null){
     //           this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId,courseDurationId,date).subscribe(res=>{
     //             this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=res;     
-    //             console.log( this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId); 
     //           });
     //         }  
     //  }
@@ -310,10 +301,8 @@ export class NewAttendanceComponent implements OnInit {
       this.traineeNominationListForAttendance[i]["classPeriodId"] = classPeriodId;
       this.traineeNominationListForAttendance[i]["classRoutineId"] = this.classRoutineId;
     }
-    console.log(this.AttendanceForm.value)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.AttendanceService.update(+id,JSON.stringify(this.traineeNominationListForAttendance)).subscribe(response => {

@@ -58,7 +58,6 @@ export class NewSaylorRankComponent implements OnInit {
     const id = this.SaylorRankForm.get('saylorRankId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.SaylorRankService.update(+id,this.SaylorRankForm.value).subscribe(response => {

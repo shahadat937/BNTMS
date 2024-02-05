@@ -55,7 +55,6 @@ showHideDiv= false;
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
 
      this.getCourseDurationListForNbcdSchool();
      //this.getTraineeNominationsByCourseDurationId(3183);
@@ -82,11 +81,9 @@ showHideDiv= false;
           courses: groups[schoolName]
         };
       });
-      console.log(this.groupArrays);
 
      // this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response);
     })
   }
 
@@ -97,16 +94,12 @@ showHideDiv= false;
     var current = new Date(currentDate);
     // var date1 = new Date(obj.durationFrom); 
 	  var date2 =  new Date(obj.durationTo);
-    console.log(obj)
-    console.log(current, date2)
-    console.log(this.passOutStatus);
 
     if(current > date2){
       this.passOutStatus = 1;
     }else{
       this.passOutStatus = 0;
     }
-    console.log(this.passOutStatus);
     // else if(current >= date1 && current <= date2){
     //   this.weekStatus = 2;
     // }else if(current < date1){
@@ -135,10 +128,7 @@ showHideDiv= false;
   }
 
   addCourse(rowValue){
-    console.log("event");
-    console.log(this.branchId);
     this.confirmService.confirm('Confirm Add message', 'Are You Sure Add This Course').subscribe(result => {
-      console.log(result);
       if (result) {
         this.loading = true;
         this.CourseDurationService.saveCourseDurationNbcd(rowValue,this.branchId).subscribe(response => {
@@ -225,10 +215,7 @@ showHideDiv= false;
 }
   deleteItem(row) {
     const id = row.courseDurationId; 
-    console.log("Course Duration id");
-    console.log(id);
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseDurationService.delete(id).subscribe(() => {
          this.getCourseDurationListForNbcdSchool();

@@ -46,7 +46,6 @@ export class QuestionService {
     return this.http.post(this.baseUrl + '/question/save-question', model).pipe(
       map((Question: PostResponse) => {
         if (Question) {
-          console.log(Question);
           return Question;
         }
       })

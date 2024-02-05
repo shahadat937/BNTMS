@@ -103,28 +103,24 @@ export class NewBnasemesterdurationComponent implements OnInit {
   getSelectedBnaSemester(){
     this.BNASemesterDurationService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
-      console.log(this.selectedSemester);
     });
   } 
 
   getSelectedCourseDuration(){
     this.BNASemesterDurationService.getSelectedCourseDuration().subscribe(res=>{
       this.selectedCourseDuration=res
-      console.log(this.selectedCourseDuration);
     });
   } 
 
   getSelectedBnaBatch(){
     this.BNASemesterDurationService.getSelectedBnaBatch().subscribe(res=>{
       this.selectedBatch=res
-      console.log(this.selectedBatch);
     });
   }
 
   getSelectedRank(){
     this.BNASemesterDurationService.getSelectedRank().subscribe(res=>{
       this.selectedRank=res
-      console.log(this.selectedRank);
     });
   }
 
@@ -132,7 +128,6 @@ export class NewBnasemesterdurationComponent implements OnInit {
     const id = this.BNASemesterDurationForm.get('bnaSemesterDurationId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNASemesterDurationService.update(+id,this.BNASemesterDurationForm.value).subscribe(response => {

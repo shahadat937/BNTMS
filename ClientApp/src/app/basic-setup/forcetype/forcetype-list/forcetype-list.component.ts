@@ -61,7 +61,6 @@ export class ForceTypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.forceTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This ForceType Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ForceTypeService.delete(id).subscribe(() => {
           this.getForceTypes();

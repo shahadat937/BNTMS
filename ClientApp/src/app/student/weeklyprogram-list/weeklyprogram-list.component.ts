@@ -75,18 +75,15 @@ export class WeeklyProgramListComponent implements OnInit {
   // getCourseModuleByCourseName(courseNameId){
   //   this.studentDashboardService.getSelectedCourseModulesByCourseNameId(courseNameId).subscribe(res=>{
   //     this.CourseModuleByCourseName = res;
-  //     console.log(this.CourseModuleByCourseName)
   //   });
   // }
 
   getInstructorAndSubject(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId){
     this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.traineeListByBaseSchoolAndCourse=res;
-      console.log(res);
     })
     this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,null,courseSectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
-      console.log(res)
     });
   }
 
@@ -97,7 +94,6 @@ export class WeeklyProgramListComponent implements OnInit {
       this.RoutineByCourseDuration = res;
 
       this.displayedColumns =[...Object.keys(this.RoutineByCourseDuration[0])];
-      console.log([...Object.keys(this.RoutineByCourseDuration[0])]);
       // this gives an object with dates as keys
       const groups = this.RoutineByCourseDuration.reduce((groups, game) => {
         const date = game.date.split('T')[0];
@@ -115,15 +111,12 @@ export class WeeklyProgramListComponent implements OnInit {
           games: groups[date]
         };
       });
-      console.log(this.groupArrays)
     });
     this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.periodListByBaseSchoolAndCourse=res;
-      console.log(res);
     })
     this.studentDashboardService.getRoutineNotesForDashboard(currentDateTime,baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.routineNotesList=res;
-      console.log(this.routineNotesList);
     })
   }
   toggle(){

@@ -47,7 +47,6 @@ export class ReligationListComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
     
     this.getCourseDurationsByCourseType(this.branchId);
   }
@@ -55,7 +54,6 @@ export class ReligationListComponent implements OnInit {
     this.isLoading = true;
     this.CourseDurationService.getCourseListBySchool(schoolId).subscribe(response => {
       this.CourseListBySchool = response; 
-      console.log(this.CourseListBySchool);
     })
   }
 

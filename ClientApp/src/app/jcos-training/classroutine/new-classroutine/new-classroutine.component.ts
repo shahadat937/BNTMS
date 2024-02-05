@@ -108,8 +108,6 @@ export class NewClassRoutineComponent implements OnInit {
             isActive: res.isActive,
             courseName: res.courseDurationId+'_'+res.courseNameId,
           });  
-          console.log("res");
-          console.log(res);
           //var editArr = [res.courseDurationId, res.courseNameId, res.baseSchoolNameId];
           this.getselectedcoursename();
           this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
@@ -171,13 +169,10 @@ export class NewClassRoutineComponent implements OnInit {
   getSubjectNameOnEdit(courseNameId){
     this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
       this.selectedSubjectNameByCourseNameId = res;
-      console.log("subject list");
-      console.log(this.selectedSubjectNameByCourseNameId);
     });
   }
   onCourseNameSelectionChangeGetSubjectList(dropdown){
     if (dropdown.isUserInput) {
-      // console.log(dropdown);
       var courseNameArr = dropdown.source.value.split('_');
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
@@ -194,7 +189,6 @@ export class NewClassRoutineComponent implements OnInit {
          
     
           this.dataSource.data = response.items; 
-          console.log(this.dataSource.data)
           this.paging.length = response.totalItemsCount    
           this.isLoading = false;
         })
@@ -230,7 +224,6 @@ export class NewClassRoutineComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
       this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-        console.log(res);
         this.selectedcoursedurationbyschoolname=res;
       });
   } 
@@ -254,7 +247,6 @@ export class NewClassRoutineComponent implements OnInit {
     
     this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
-      console.log(this.selectedWeek)
     });    
   } 
 
@@ -289,10 +281,8 @@ export class NewClassRoutineComponent implements OnInit {
 
   onSubmit() {
     const id = this.ClassRoutineForm.get('classRoutineId').value;   
-    console.log(this.ClassRoutineForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.ClassRoutineService.update(+id,this.ClassRoutineForm.value).subscribe(response => {
@@ -323,14 +313,11 @@ export class NewClassRoutineComponent implements OnInit {
         this.validationErrors = error;
       })
     }
- console.log("after save");
- console.log(this.ClassRoutineForm.value);
   }
 
   deleteItem(row) {
     const id = row.classRoutineId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.ClassRoutineService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();

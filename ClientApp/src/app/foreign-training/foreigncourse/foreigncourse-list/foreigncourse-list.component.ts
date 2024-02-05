@@ -47,7 +47,6 @@ export class ForeigncourseListComponent implements OnInit {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(response);
     })
   }
 
@@ -67,7 +66,6 @@ export class ForeigncourseListComponent implements OnInit {
     //Date dateTime11 = Convert.ToDateTime(dateFrom);  
     var date1 = new Date(dateFrom); 
 	  var date2 =  new Date(dateTo);
-  console.log(date1,date2)
     var Time = date2.getTime() - date1.getTime(); 
     var Days = Time / (1000 * 3600 * 24);
     this.dayCount = Days+1;
@@ -78,7 +76,6 @@ export class ForeigncourseListComponent implements OnInit {
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.CourseDurationService.delete(id).subscribe(() => {
          this.getCourseDurationsByCourseType();

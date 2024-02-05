@@ -39,15 +39,12 @@ export class TeacherEvaluationListComponent implements OnInit {
     var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
-    console.log(this.traineeId,baseSchoolNameId,courseNameId,courseDurationId)
     this.getTdecQuestionGroupListBySp(baseSchoolNameId,courseNameId,courseDurationId)
   }
 
   getTdecQuestionGroupListBySp(baseSchoolNameId,courseNameId,courseDurationId){
     this.studentDashboardService.getTdecQuestionGroupListBySp(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.CourseModuleByCourseName = res;
-      console.log("Evaluation list");
-      console.log(this.CourseModuleByCourseName)
     });
   }
 

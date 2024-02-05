@@ -105,15 +105,12 @@ export class NewSchoolNoticeComponent implements OnInit {
   getSchoolListByBase(baseNameId){
     this.notificationService.getNotificationReminderForAdmin(baseNameId,this.role).subscribe(res=>{
       this.schoolByBaseList=res;
-      console.log(res)
     });
   }
   
 
   schoolNoticeBox(data){
     
-    console.log("inside click");
-    console.log(data);
     this.getNotificationListBySchool(this.role,this.branchId,data.baseSchoolNameId);
     this.headerSchoolName=data.schoolName;
     this.isShown=true;
@@ -134,18 +131,13 @@ export class NewSchoolNoticeComponent implements OnInit {
 
 
   getNotificationListBySchool(filterRole,baseSchoolNameId,batchId){
-    console.log(filterRole,baseSchoolNameId,batchId);
     this.notificationService.getNotificationsBySchool(filterRole,baseSchoolNameId,batchId).subscribe(res=>{
       this.NotificationListBySchool=res;
-      console.log("notification list");
-      console.log(res);
     });
   }
   getNotificationResponselistForSchool(baseSchoolNameId){
     this.notificationService.getNotificationResponselistForSchool(baseSchoolNameId).subscribe(res=>{
       this.NotificationResponseListBySchool=res;
-      console.log("notification response list");
-      console.log(res);
     });
   }
   
@@ -155,8 +147,6 @@ export class NewSchoolNoticeComponent implements OnInit {
     this.getNotificationListBySchool(data.senderRole,this.branchId,data.sendBaseSchoolNameId)
     this.isShown=true;
     this.FilterRoleFromSchool = data.senderRole;
-    console.log(data);
-    console.log(this.FilterRoleFromSchool);
     this.SchoolNoticeForm.get('receivedBaseSchoolNameId').setValue(data.sendBaseSchoolNameId);
     
     this.SchoolNoticeForm.get('sendBaseSchoolNameId').setValue(this.branchId);
@@ -173,7 +163,6 @@ export class NewSchoolNoticeComponent implements OnInit {
   }
 
   updateSeenStatus(data){
-    console.log(data);
     this.notificationService.ChangeNotificationSeenStatus(data.notificationId,1).subscribe(res=>{
       if(this.role == Role.SuperAdmin || this.role == Role.SchoolOIC){
         this.getNotificationResponselistForSchool(this.branchId);
@@ -190,7 +179,6 @@ export class NewSchoolNoticeComponent implements OnInit {
   
   onSubmit() {
     // const id = this.SchoolNoticeForm.get('noticeId').value; 
-    console.log(this.SchoolNoticeForm.value); 
     if(this.role == Role.SuperAdmin || this.role == Role.SchoolOIC){
       var schoolnameid = this.SchoolNoticeForm.get('receivedBaseSchoolNameId').value; 
     } else{

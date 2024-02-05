@@ -87,7 +87,6 @@ export class NewAssessmentMarkComponent implements OnInit {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.role, this.traineeId, this.branchId)
 
     
       this.pageTitle = 'Submit Assessment Mark';
@@ -113,7 +112,6 @@ export class NewAssessmentMarkComponent implements OnInit {
     var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     var traineeAssessmentCreateId = this.route.snapshot.paramMap.get('traineeAssessmentCreateId');
 
-    console.log(baseSchoolNameId,this.courseDurationId,traineeAssessmentCreateId,traineeId)
 
     this.TraineeAssessmentMarkForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
     this.TraineeAssessmentMarkForm.get('courseDurationId').setValue(this.courseDurationId);
@@ -133,8 +131,6 @@ export class NewAssessmentMarkComponent implements OnInit {
  
     this.studentDashboardService.getTraineeListForAssessmentGroupByCourseDurationIdAndTraineeId(this.courseDurationId,traineeId,traineeAssessmentCreateId).subscribe(res => {
       this.traineeList = res;
-      console.log("Trainee List");
-      console.log(this.traineeList);
       this.clearList()
       this.getTraineeListonClick();
     });
@@ -182,7 +178,6 @@ export class NewAssessmentMarkComponent implements OnInit {
 
   getTraineeListonClick() {
     const control = <FormArray>this.TraineeAssessmentMarkForm.controls["assessmentTraineeListForm"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
       
@@ -201,10 +196,8 @@ export class NewAssessmentMarkComponent implements OnInit {
 
   onSubmit() {
     
-    console.log(this.TraineeAssessmentMarkForm.value);
     
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.studentDashboardService.saveTraineeAssessmentMarklist(JSON.stringify(this.TraineeAssessmentMarkForm.value)).subscribe(response => {

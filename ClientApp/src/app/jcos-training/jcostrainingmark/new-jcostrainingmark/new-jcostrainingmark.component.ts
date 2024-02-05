@@ -158,15 +158,10 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
 
   getTraineeListonClick() {
     const control = <FormArray>this.BNAExamMarkForm.controls["traineeListForm"];
-    console.log(this.traineeList)
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
-      console.log("value...");
-      console.log(this.traineeList)
     }
     this.BNAExamMarkForm.patchValue({ traineeListForm: this.traineeList });
-    console.log("value...");
-    console.log(this.traineeList)
   }
 
   clearList() {
@@ -189,7 +184,6 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
   }
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
-      console.log("courseName");
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
@@ -197,7 +191,6 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
   onCourseNameSelectionChangeGetSubjectAndTraineeList(dropdown) {
 
     if (dropdown.isUserInput) {
-      // console.log(dropdown);
       var courseNameArr = dropdown.source.value.value.split('_');
       var courseNameTextArr = dropdown.source.value.text.split('_');
       var courseName = courseNameTextArr[0];
@@ -205,8 +198,6 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
       this.courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
-   //   console.log(courseDurationId+ ' - '+courseNameId);
-      // console.log("coursename"+courseNameId);
       this.BNAExamMarkForm.get('courseName').setValue(courseName);
       this.BNAExamMarkForm.get('courseNameId').setValue(courseNameId);
       this.BNAExamMarkForm.get('courseDurationId').setValue(this.courseDurationId);
@@ -223,8 +214,6 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
         
         this.traineeNominationService.getTestTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res => {
           this.traineeList = res;
-         console.log("Trainee List");
-          console.log(this.traineeList);
         });
 
     }
@@ -234,27 +223,22 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
   getselectedbaseschools() {
     this.BNAExamMarkService.getselectedbaseschools().subscribe(res => {
       this.selectedbaseschools = res
-      // console.log(this.selectedbaseschools);
     });
   }
 
   getselectedexammarkremark() {
     this.BNAExamMarkService.getselectedexammarkremark().subscribe(res => {
       this.selectedmarkremarks = res
-      // console.log(this.selectedbaseschools);
     });
   }
 
   onSubjectNameSelectionChangeGetTotalMarkAndPassMark(dropdown) {
 
     if (dropdown.isUserInput) {
-      //console.log(dropdown);
 
       this.isShown = true;
       var subjectNameId = dropdown.source.value.value;
       var subjectName = dropdown.source.value.text;
-      console.log("dropdown");
-      console.log(dropdown);
 
       var baseSchoolNameId = this.BNAExamMarkForm.value['baseSchoolNameId'];
       var courseNameId = this.BNAExamMarkForm.value['courseNameId'];
@@ -269,15 +253,12 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
       this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(courseNameId, this.bnaSubjectNameId).subscribe(res => {
        
        this.subjectMarkList = res;
-        console.log(this.subjectMarkList);
         this.BNAExamMarkForm.get('classRoutineId').setValue(3447);
       });
 
 
       this.BNAExamMarkService.getClassRoutineIdForStaffCollege(this.courseDurationId, courseNameId, this.bnaSubjectNameId).subscribe(res => {
         this.classRoutineId = res;
-        console.log("ddddddddddddd");
-        console.log(this.classRoutineId);
         this.BNAExamMarkForm.get('classRoutineId').setValue(this.classRoutineId);
       });
 
@@ -285,7 +266,6 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
         this.selectedmarktype = res
         this.examTypeCount = res.length;
         this.BNAExamMarkForm.get('examTypeCount').setValue(this.examTypeCount);
-        console.log("selectedmarktype count" + this.examTypeCount)
       });
 
       // GetTotalMarkAndPassMarkByCourseNameIdAndSubjectId
@@ -306,9 +286,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
     var baseSchoolNameId = this.BNAExamMarkForm.value['baseSchoolNameId'];
     this.isShown = false;
 
-    //console.log(baseSchoolNameId);
     this.BNAExamMarkService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
-      console.log("check name");
       this.selectedcoursedurationbyschoolname = res;
     });
   }
@@ -329,10 +307,8 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
   onSubmit() {
     const id = this.BNAExamMarkForm.get('bnaExamMarkId').value;
 
-    console.log(this.BNAExamMarkForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNAExamMarkService.update(+id, JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
@@ -350,7 +326,6 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
       })
     } else {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {

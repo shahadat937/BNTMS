@@ -68,7 +68,6 @@ export class UserListComponent implements OnInit {
     this.isLoading = true;
     this.UserService.getUsers(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
     this.dataSource.data = response.items; 
-    console.log(this.dataSource.data)
     this.paging.length = response.totalItemsCount    
     this.isLoading = false;
 
@@ -106,7 +105,6 @@ export class UserListComponent implements OnInit {
   deleteItem(row) {
     const id = row.id; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.UserService.delete(id).subscribe(() => {
           this.getUsers();
@@ -146,11 +144,9 @@ export class UserListComponent implements OnInit {
   PasswordUpdate(row) {
     const id = row.id; 
     this.confirmService.confirm('Confirm Update message', 'Are You Sure Resetting This  User Password?').subscribe(result => {
-      //console.log(result);
       if (id) {
         this.UserService.find(id).subscribe(
           res => {
-            console.log(res);
             this.InstructorForm.patchValue({          
   
               id: res.id,
@@ -163,8 +159,6 @@ export class UserListComponent implements OnInit {
               traineeId:res.traineeId     
             
             });   
-            console.log("form value of ",id); 
-            console.log(this.InstructorForm.value);
             this.UserService.resetPassword(id,this.InstructorForm.value).subscribe(response => {
               // this.router.navigateByUrl('/security/instructor-list');
               //vaiya eta theke ami password nicchi

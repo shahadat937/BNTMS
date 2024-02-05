@@ -63,7 +63,6 @@ export class MembershiptypeListComponent implements OnInit {
   deleteItem(row) {
     const id = row.membershipTypeId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This MembershipType Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.membershipTypeService.delete(id).subscribe(() => {
           this.getMembershipTypes();

@@ -85,8 +85,6 @@ export class SigninComponent
                 horizontalPosition: 'right',
                 panelClass: 'snackbar-success'
               });
-              console.log("signin res");
-              console.log(res);
 
   
              // setTimeout(() => {
@@ -107,8 +105,6 @@ export class SigninComponent
 
               
 
-              console.log(traineeId); 
-              console.log(branchId);
                 if (role === Role.All || role === Role.MasterAdmin) {
                   this.router.navigate(['/admin/dashboard/main']);
                 }else if (role === Role.DDNT) {
@@ -130,10 +126,8 @@ export class SigninComponent
                 } else if (role === Role.InterSeeviceCourse || role === Role.InterSeeviceDesk) {
                   this.router.navigate(['/admin/dashboard/interservice-dashboard']);
                 }else if (role === Role.ForeignTraining) {
-                  console.log("Foreign");
                   this.router.navigate(['/admin/dashboard/foreigntraining-dashboard']);
                 } else if (role === Role.BNA) {
-                  console.log("check");
                   this.router.navigate(['/admin/dashboard/bna-dashboard']);
                 } else {
                   this.router.navigate(['/authentication/signin']);

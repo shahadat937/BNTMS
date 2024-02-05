@@ -45,7 +45,6 @@ export class TraineeVisitedAboardListComponent implements OnInit {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
 
     this.TraineeVisitedAboardService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
-     console.log(response);
      this.dataSource.data=response;
     })
   }
@@ -65,7 +64,6 @@ export class TraineeVisitedAboardListComponent implements OnInit {
   deleteItem(row) {
     const id = row.traineeVisitedAboardId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.TraineeVisitedAboardService.delete(id).subscribe(() => {
           this.getTraineeVisitedAboards();

@@ -53,7 +53,6 @@ export class ViewSubjectListByQExamComponent implements OnInit {
     //this.isShown = true;
     this.BNASubjectNameService.getselectedSubjectName().subscribe(res => {
       this.subjectNameList = res
-      console.log(this.subjectNameList);
     });
   }
   getSelectedBranch() {
@@ -66,7 +65,6 @@ export class ViewSubjectListByQExamComponent implements OnInit {
     if(dropdown.isUserInput) {
       this.BNASubjectNameService.getselectedSubjectNameByBranchId(dropdown.source.value,1252).subscribe(res=>{
         this.subjectNameList=res
-        console.log(this.subjectNameList); 
       });
     }
   }
@@ -75,7 +73,6 @@ export class ViewSubjectListByQExamComponent implements OnInit {
   // deleteItem(row) {
   //   const id = row.bnaSubjectNameId; 
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
-  //     console.log(result);
   //     if (result) {
   //       this.BNASubjectNameService.delete(id).subscribe(() => {
   //         this.getBNASubjectNames();

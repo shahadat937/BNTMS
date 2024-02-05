@@ -77,7 +77,6 @@ export class RoutineSoftCopyUploadService {
   //   return this.http.post<PostResponse>(this.baseUrl + '/reading-material/save-readingMaterial', model).pipe(
   //     map((ReadingMaterial: PostResponse) => {
   //       if (ReadingMaterial) {
-  //         console.log(ReadingMaterial);
   //         return ReadingMaterial;
   //       }
   //     })
@@ -92,7 +91,6 @@ export class RoutineSoftCopyUploadService {
     }).pipe(
       map((RoutineSoftCopyUpload: any) => {
         if (RoutineSoftCopyUpload) {
-          console.log(RoutineSoftCopyUpload);
           return RoutineSoftCopyUpload;
         }
       })

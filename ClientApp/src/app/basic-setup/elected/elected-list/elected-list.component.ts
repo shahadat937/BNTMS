@@ -63,7 +63,6 @@ export class ElectedListComponent implements OnInit {
   deleteItem(row) {
     const id = row.electedId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Elected Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.electedService.delete(id).subscribe(() => {
           this.getElecteds();

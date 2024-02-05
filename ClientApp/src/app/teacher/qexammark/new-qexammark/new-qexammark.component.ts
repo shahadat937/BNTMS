@@ -137,8 +137,6 @@ export class NewQExamMarkComponent implements OnInit {
     var courseSectionId = this.route.snapshot.paramMap.get('courseSectionId');
     var subjectMarkId = this.route.snapshot.paramMap.get('subjectMarkId');
     var markTypeId = this.route.snapshot.paramMap.get('markTypeId');
-    console.log(markTypeId)
-    console.log("markTypeId")
 
     this.BNAExamMarkForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
     this.BNAExamMarkForm.get('courseDurationId').setValue(courseDurationId);
@@ -152,19 +150,13 @@ export class NewQExamMarkComponent implements OnInit {
     this.BNAExamMarkForm.get('courseSectionId').setValue(courseSectionId);
 
     this.markTypeService.find(Number(markTypeId)).subscribe(res => {  
-      console.log("mark TypId")     
-      console.log(markTypeId)
       this.markTypeName = res.typeName;
-      console.log("mark Type Name")
-      console.log(this.markTypeName)
       this.onSubjectMarkSelectionGetPassMark();
     });
  
     if(this.courseNameId == this.masterData.courseName.JCOsTraining){
       this.traineeNominationService.getNewTraineeNominationsForJcoExamByBranch(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res => {
         this.traineeList = res;
-       console.log("Trainee List");
-        console.log(this.traineeList);
         this.clearList()
         this.getTraineeListonClick();
       });
@@ -177,7 +169,6 @@ export class NewQExamMarkComponent implements OnInit {
     this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(this.courseNameId, bnaSubjectNameId).subscribe(res => {
        
       this.subjectMarkList = res;
-       console.log(this.subjectMarkList);
     });
      
 
@@ -188,9 +179,6 @@ export class NewQExamMarkComponent implements OnInit {
   getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId){
     this.traineeNominationService.getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,1,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId).subscribe(res => {
       this.traineeList = res;
-     console.log("Trainee List1");
-      console.log(this.traineeList);
-      console.log("Trainee List1");
       this.clearList()
       this.getTraineeListonClick();
     });
@@ -198,41 +186,31 @@ export class NewQExamMarkComponent implements OnInit {
 
   onSubjectMarkSelectionGetPassMark(){
     var subjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
-    console.log(subjectMarkId)
     this.subjectMarkService.find(subjectMarkId).subscribe(res => {
-      console.log('subject markId');
-      console.log(res);
       this.subjectPassMark = res.passMark;
       var mark = res.mark;
       this.mark =mark;
       this.subjectName=res.bnaSubjectName
       this.courseName=res.courseName
-      console.log(this.subjectPassMark);
 
       this.BNAExamMarkForm.get('totalMark').setValue(mark);
       this.BNAExamMarkForm.get('passMark').setValue(this.subjectPassMark);
-      // console.log(this.selectedbaseschools);
     });
     
   }
 
   OnTextCheck(value,index ){
-    console.log(value);
-    console.log(this.subjectPassMark)
 
     if(value >= this.subjectPassMark){
-      console.log("pass");
       (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatusShow').setValue('Pass');
       (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatus').setValue(1);
     }else{
-      console.log("fail");
       (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatusShow').setValue('Fail');
       (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatus').setValue(0);
     }
   }
 
   onValueChange(value,i){
-    console.log(value);
     var baseSchoolNameId = this.BNAExamMarkForm.value['baseSchoolNameId'];
     var courseNameId = this.BNAExamMarkForm.value['courseNameId'];
     var courseDurationId = this.BNAExamMarkForm.value['courseDurationId'];
@@ -240,12 +218,9 @@ export class NewQExamMarkComponent implements OnInit {
     var bnaSubjectNameId = this.BNAExamMarkForm.value['bnaSubjectNameId'];
     var classRoutineId = this.BNAExamMarkForm.value['classRoutineId'];
     
-   // console.log(this.markType);
 
     //this.BNAExamMarkService.getExamMarkForValidation(baseSchoolNameId,courseDurationId,courseSectionId,bnaSubjectNameId,this.markType).subscribe(res=>{
       //this.mark=res;
-      console.log("mark");
-      console.log(this.mark);
       if( value >this.mark){
           this.isBigger=true;
           (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(i).get('obtaintMark').setValue("");
@@ -253,14 +228,12 @@ export class NewQExamMarkComponent implements OnInit {
       else{
         this.isBigger=false;
     }
-      console.log(this.mark);
    // });
   }
 
   getselectedexammarkremark() {
     this.BNAExamMarkService.getselectedexammarkremark().subscribe(res => {
       this.selectedmarkremarks = res
-      // console.log(this.selectedbaseschools);
     });
   }
 
@@ -325,9 +298,6 @@ export class NewQExamMarkComponent implements OnInit {
 
   getTraineeListonClick() {
     const control = <FormArray>this.BNAExamMarkForm.controls["traineeListForm"];
-    console.log("traineeList")
-    console.log(this.traineeList);
-    console.log("traineeList")
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData());
       
@@ -437,10 +407,8 @@ export class NewQExamMarkComponent implements OnInit {
     
 
 
-    console.log(this.BNAExamMarkForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNAExamMarkService.update(+id, JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
@@ -460,7 +428,6 @@ export class NewQExamMarkComponent implements OnInit {
       var aaa=223;
       var bbb=333;
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        console.log(result);
         if (result) {
           this.loading=true;
           this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {

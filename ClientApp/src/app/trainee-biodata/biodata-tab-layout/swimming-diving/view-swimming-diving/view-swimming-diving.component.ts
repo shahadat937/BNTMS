@@ -36,7 +36,6 @@ export class ViewSwimmingDivingComponent implements OnInit {
   // getDistrict(){    
   //   this.SwimmingDivingService.getselecteddistrict().subscribe(res=>{
   //     this.districtValues=res
-  //     console.log(this.districtValues);
   //     for(let code of this.districtValues){        
   //       if(this.districtId == code.value ){
   //         this.district = code.text;
@@ -49,7 +48,6 @@ export class ViewSwimmingDivingComponent implements OnInit {
   // getThana(){    
   //   this.SwimmingDivingService.getselectedthana().subscribe(res=>{
   //     this.thanaValues=res
-  //     console.log(this.thanaValues);
   //     for(let code of this.thanaValues){        
   //       if(this.thanaId == code.value ){
   //         this.thana = code.text;
@@ -62,7 +60,6 @@ export class ViewSwimmingDivingComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('swimmingDivingId'); 
     this.SwimmingDivingService.find(+id).subscribe( res => {
-      console.log(res);
       this.swimmingDivingId = res.swimmingDivingId,
       this.traineeId = res.traineeId,
       this.swimmingDivingTypeId = res.swimmingDivingTypeId,

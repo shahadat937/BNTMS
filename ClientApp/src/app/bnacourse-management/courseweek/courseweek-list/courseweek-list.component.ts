@@ -52,14 +52,11 @@ export class CourseWeekListComponent implements OnInit {
         
       //   if(val.isActive = true){
       //     this.btnText="De Active"
-      //    // console.log(response.items)
       //   }
       //   else{
       //     this.btnText="Active"
-      //    // console.log(val.isActive)
       //   }
       // }
-    // console.log(response.items);
     })
   }
 

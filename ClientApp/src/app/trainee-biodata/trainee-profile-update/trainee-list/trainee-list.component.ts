@@ -53,9 +53,6 @@ export class TraineeListComponent implements OnInit {
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
 
-    console.log("fffffffss");
-    console.log(this.role, this.traineeId,this.branchId)
-console.log("fffffffffffff");
     this.getBIODataGeneralInfos();
     this.getTraineeListForUpdate();
     
@@ -67,15 +64,12 @@ console.log("fffffffffffff");
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
-      console.log(this.dataSource.data)
     })
   }
 
   getTraineeListForUpdate(){
     this.BIODataGeneralInfoService.getTraineeListForUpdate(this.branchId,this.searchText).subscribe(response => {
       this.traineeList=response;     
-      console.log("Trainee List");
-      console.log(response)
     })
   }
   // getTraineeListForProfileUpdate() {
@@ -84,7 +78,6 @@ console.log("fffffffffffff");
   //     this.dataSource.data = response.items; 
   //     this.paging.length = response.totalItemsCount    
   //     this.isLoading = false;
-  //     console.log(this.dataSource.data)
   //   })
   // }
   isAllSelected() {

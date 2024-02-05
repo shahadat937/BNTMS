@@ -47,14 +47,12 @@ export class PendingExamEvaluationlistDashboardComponent implements OnInit {
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
-    console.log("rr"+this.schoolId)
     this.getPendingExamEvaluation(this.schoolId);
   }
 
   getPendingExamEvaluation(schoolId){
     this.schoolDashboardService.getPendingExamEvaluation(schoolId).subscribe(response => {         
       this.PendingExamEvaluation=response;
-      console.log(response)
     })
   }
 }

@@ -64,7 +64,6 @@ export class HeightListComponent implements OnInit {
   deleteItem(row) {
     const id = row.heightId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Height Item').subscribe(result => {
-      console.log(result);
       if (result) {
         this.heightService.delete(id).subscribe(() => {
           this.getHeights();
