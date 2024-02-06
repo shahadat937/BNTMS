@@ -4,7 +4,8 @@ import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guard/auth.guard';
-import { Role } from './core/models/role'; 
+import { Role } from './core/models/role';
+
 const routes: Routes = [
   {
     path: '',
@@ -458,7 +459,11 @@ const routes: Routes = [
   { path: '**', component: Page404Component },
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, {
+    relativeLinkResolution: 'legacy',
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled'
+  })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

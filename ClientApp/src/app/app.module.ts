@@ -34,6 +34,9 @@ import {
 } from '@angular/common/http';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
 
+import { ScrollService } from 'src/app/course-management/bnalocalcourse/scroll-position.service';
+import { BnaLocalcourseListComponent } from './course-management/bnalocalcourse/bnalocalcourse-list/bnalocalcourse-list.component';
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelPropagation: false,
@@ -53,7 +56,7 @@ export function createTranslateLoader(http: HttpClient): any {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
-    ConfirmDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ export function createTranslateLoader(http: HttpClient): any {
     SharedModule,
   ],
   providers: [
+    ScrollService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,

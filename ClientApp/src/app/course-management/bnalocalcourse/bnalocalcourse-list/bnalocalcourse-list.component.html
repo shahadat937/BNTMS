@@ -74,13 +74,11 @@
                   
                 </div> 
                 
-                <table class="table  tbl-by-group">
+                <table #table class="table  tbl-by-group">
                   <thead>
                     <tr>
-                      <!-- <th class="cl-srl"><h5>Ser</h5></th> -->
                       <th class="cl-srl"><h5>Name of Establishment / School</h5></th>
                       <th class="course-name-col"><h5>Name of Course</h5></th>
-                      <!-- <th class="cl-mrk"><h5>No of Candidates</h5></th> -->
                       <th class="cl-mrk"><h5>Date of Commencement</h5></th>
                       <th class="cl-mrk"><h5>Date of Completion</h5></th>
                       <th class="cl-mrk-rmrk"><h5>Actions</h5></th>
@@ -97,49 +95,18 @@
                           {{number.course}} - {{number.courseTitle}}
                           <span *ngIf="passOutStatus === 1" style="color:red;font-weight:bold;"> (Passing Out)</span>
                         </td>
-                        <!-- <td>
-                          {{number.noOfCandidates}}
-                          <a [routerLink]="['/admin/dashboard/traineenomination-list', number.courseDurationId]" style="color: green;text-decoration: underline; font-weight: bold;">{{getTraineeNominationsByCourseDurationId(number.courseDurationId)}}</a>
-                        </td> -->
-                        <!-- <td>{{number.professional}}</td>
-                        <td>{{number.nbcd}}</td> -->
+                        
                         <td>{{number.durationFrom | date:'mediumDate'}}</td>
                         <td>{{number.durationTo | date:'mediumDate'}}</td>
                          
                         <td>
-                          <!-- <button *ngIf="number.courseSyllabus" mat-icon-button class="btn-tbl-view" title="View Course Syllabus">
-                            <a [href]='this.fileUrl+number.courseSyllabus' target='_blank'><mat-icon aria-label="Edit" class="col-white">picture_as_pdf</mat-icon></a>
-                          </button> -->
                           <button mat-icon-button class="btn-tbl-view" title="View Course Details" [routerLink]="['/admin/dashboard/runningcourse-details',number.courseDurationId,100]"> <!--100 for master admin-->
                             <mat-icon aria-label="Edit" class="col-white">visibility</mat-icon>
                           </button>
-                          <!-- <button mat-icon-button color="accent" title="Trainee Mark List" class="btn-tbl-view" 
-                            [routerLink]="['/course-management/marklistbycourse-list', number.courseDurationId]">
-                            <mat-icon mat-icon aria-label="Edit" class="col-white">toc</mat-icon>
-                          </button>
-                          <button mat-icon-button color="accent" title="Course Routine List" class="btn-tbl-view" 
-                            [routerLink]="['/course-management/routinebycourse-list', number.baseSchoolNameId, number.courseNameId, number.courseDurationId]">
-                            <img src="../../../assets/images/app-icon/routine.png" class="routine-icon"/>
-                          </button> -->
-                          <!-- <button mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/course-management/add-traineenomination', number.courseDurationId]">
-                            <img src="../../../assets/images/app-icon/biodata.png" class="biodata-icon"/>
-                          </button> -->
-                          <!-- <button mat-icon-button color="accent" title="Course Subject List" class="btn-tbl-view" 
-                            [routerLink]="['/course-management/view-subjectbyschoolandcourse', number.baseSchoolNameId, number.courseNameId, number.courseDurationId]">
-                            <mat-icon aria-label="Edit" class="col-white">book</mat-icon>
-                          </button>
-                          
-                          <button mat-icon-button class="btn-tbl-nomination" title="Exam Status" [routerLink]="['/admin/dashboard/view-examstatusbysubjectlist', number.baseSchoolNameId, number.courseNameId, number.courseDurationId]">
-
-                            <img src="../../../assets/images/app-icon/exam.png" class="exam-icon"/>
-                          </button> -->
-
-                            
                           <button mat-icon-button color="accent" title="Edit" class="btn-tbl-edit" 
                             [routerLink]="['/course-management/update-bnalocalcourse', number.courseDurationId, number.courseTypeId]">
                             <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
                           </button>
-
                           <button mat-icon-button color="accent" title="Delete" class="btn-tbl-delete btn-custom" (click)="$event.stopPropagation()"
                             (click)="deleteItem(number)">
                             <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
@@ -150,10 +117,6 @@
                   </tbody>
                 </table>
             
-                 <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
-                [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
-                (page)="pageChanged($event)">
-                </mat-paginator> -->
               </div>
             </div>
           </div>
