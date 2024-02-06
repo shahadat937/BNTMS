@@ -369,5 +369,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       })
     }
   }
-
+  whiteSpaceRemove(value){
+    this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
+   }
 }

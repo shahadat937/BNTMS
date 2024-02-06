@@ -338,7 +338,7 @@
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
-                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline" (input)="whiteSpaceRemove(BIODataGeneralInfoForm.get('email').value)">
                       <mat-label>Email</mat-label>
                       <input matInput formControlName="email" required>
                       <mat-error *ngIf="BIODataGeneralInfoForm.get('email').hasError('required')">

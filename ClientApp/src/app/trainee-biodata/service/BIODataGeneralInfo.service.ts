@@ -28,7 +28,9 @@ export class BIODataGeneralInfoService {
   getTraineeListForUpdate(baseSchoolNameId,searchText){
     return this.http.get<BIODataGeneralInfo[]>(this.baseUrl + '/trainee-nomination/get-nominatedTraineeForProfileUpdatespRequest?baseSchoolNameId='+baseSchoolNameId+'&searchText='+searchText)
   }
-
+  whiteSpaceRemove(value){
+    return value.replace(/\s/g, '')
+   }
   // getTraineeListForUpdate(pageNumber, pageSize,searchText) {
 
   //   let params = new HttpParams();

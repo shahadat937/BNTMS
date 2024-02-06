@@ -16,7 +16,9 @@ export class BIODataGeneralInfoService {
   BIODataGeneralInfos: BIODataGeneralInfo[] = [];
   BIODataGeneralInfoPagination = new BIODataGeneralInfoPagination();
   constructor(private http: HttpClient) { }
-  
+  whiteSpaceRemove(value){
+    return value.replace(/\s/g, '')
+   } 
   postFile(fileToUpload:File){
     const endpoint= '/src/assets/img';
     const formData:FormData=new FormData();

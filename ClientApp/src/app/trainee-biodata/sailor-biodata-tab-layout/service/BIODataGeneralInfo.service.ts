@@ -40,7 +40,9 @@ export class BIODataGeneralInfoService {
       })
     );
   }
-
+  whiteSpaceRemove(value){
+    return value.replace(/\s/g, '')
+   }
   //dropdown data 
 
   getselectedSaylorBranch(){

@@ -322,5 +322,7 @@ export class NewCivilInstructorBioDataInfoComponent implements OnInit {
       })
     }
   }
-
+  whiteSpaceRemove(value){
+    this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
+   }
 }

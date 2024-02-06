@@ -41,7 +41,13 @@ export class NewForeignBIODataInfoComponent implements OnInit {
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
 
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+  constructor(
+    private snackBar: MatSnackBar,
+    private BIODataGeneralInfoService: BIODataGeneralInfoService,
+    private fb: FormBuilder, private router: Router, 
+    private route: ActivatedRoute,private confirmService: ConfirmService,
+    
+    ) { 
     this.files = [];
   }
 
@@ -319,5 +325,7 @@ export class NewForeignBIODataInfoComponent implements OnInit {
       })
     }
   }
-
+  whiteSpaceRemove(value){
+    this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
+   }
 }
