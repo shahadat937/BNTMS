@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,FormArray, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BulletinService } from '../../service/bulletin.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Role } from 'src/app/core/models/role';
 import { MatOption } from '@angular/material/core';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-new-bulletin',
@@ -34,7 +35,9 @@ export class NewBulletinComponent implements OnInit {
   selectedcoursedurationbyschoolname:SelectedModel[];
   selectedbaseschools:SelectedModel[];
   isLoading = false;
-
+  partyTypedropdownList = [];
+  partyTypeselectedItems = [];
+  partyTypedropdownSettings:IDropdownSettings;
   role:any;
   traineeId:any;
   branchId:any;
@@ -60,12 +63,20 @@ export class NewBulletinComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
+   
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
 
-
+    this.partyTypedropdownSettings= {
+      singleSelection: false,
+      idField: 'value',
+      textField: 'text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
     const id = this.route.snapshot.paramMap.get('bulletinId'); 
     if (id) {
       this.pageTitle = 'Edit Bulletin'; 
@@ -393,4 +404,5 @@ else{
       this.BulletinForm.controls.courseName.patchValue([]);
     }
   }
+
 }

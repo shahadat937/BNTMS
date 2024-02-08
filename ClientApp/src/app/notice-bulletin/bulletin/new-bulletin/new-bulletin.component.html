@@ -1,3 +1,7 @@
+
+
+
+
 <section class="content">
     <div class="container-fluid">
       <div class="block-header">
@@ -25,6 +29,8 @@
             </div> 
             <div class="body">
               <form class="form-border-design" [formGroup]="BulletinForm" (ngSubmit)="onSubmit()">
+              
+              
                 <div class="row">              
                   <div *ngIf="role != userRole.SuperAdmin && role != userRole.JSTISchool && role != userRole.BNASchool" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
@@ -75,7 +81,20 @@
                       </mat-error>                    
                     </mat-form-field>
                   </div> 
+                  <div >
+                    <ng-multiselect-dropdown
+                  
+                    name="selectedbaseschools"
+                    [placeholder]="'Party Type'"
+                    [data]="selectedbaseschools"
+                    [(ngModel)]="partyTypeselectedItems"
+                    [settings]="partyTypedropdownSettings"
+                  >
+                  </ng-multiselect-dropdown>
+                  </div> 
+               
 
+                  
                    <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Buletin Details</mat-label>   
@@ -94,6 +113,7 @@
                     <!-- <button type="button" mat-button routerLink="/notice-bulletin/bulletin-list">Cancel</button> -->
                   </div>
                 </div>
+               
               </form>
             </div>
             <div class="body">

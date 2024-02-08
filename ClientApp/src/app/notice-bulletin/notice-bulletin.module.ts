@@ -28,7 +28,7 @@ import { EventListComponent } from './event/event-list/event-list.component';
 import { NewEventComponent } from './event/new-event/new-event.component';
 import { NewSchoolNoticeComponent } from './school-notice/new-notice/new-school-notice.component';
 
-
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 @NgModule({
   declarations: [
     BulletinListComponent,
@@ -59,7 +59,10 @@ import { NewSchoolNoticeComponent } from './school-notice/new-notice/new-school-
     MatSelectModule,
     MatDatepickerModule,
     MaterialFileInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    
   ]
+  
 })
 export class NoticeBulletinModule { }
