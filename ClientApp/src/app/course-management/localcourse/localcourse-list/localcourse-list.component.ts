@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseDuration} from '../../models/courseduration'
@@ -12,12 +12,15 @@ import { environment } from 'src/environments/environment';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { DatePipe } from '@angular/common';
 import { dashboardService } from 'src/app/admin/dashboard/services/dashboard.service';
+import { ScrollService } from 'src/app/course-management/localcourse/scrole-restore/scrole-position.service';
 @Component({
   selector: 'app-localcourse-list',
   templateUrl: './localcourse-list.component.html',
   styleUrls: ['./localcourse-list.component.sass']
 })
-export class LocalcourseListComponent implements OnInit {
+export class LocalcourseListComponent implements OnInit,OnDestroy {
+  scrollPosition: number = 0;
+    oldScrollPosition: number = 0;
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -44,14 +47,51 @@ export class LocalcourseListComponent implements OnInit {
 
    selection = new SelectionModel<CourseDuration>(true, []);
 
-  
-  constructor(private datepipe: DatePipe,private dashboardService:dashboardService,  private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+
+  constructor(private datepipe: DatePipe, private dashboardService: dashboardService, private snackBar: MatSnackBar, private TraineeNominationService: TraineeNominationService, private CourseDurationService: CourseDurationService, private router: Router, private confirmService: ConfirmService, private scrollPositionService: ScrollService) { }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.scrollPosition = window.scrollY || window.pageYOffset;
+  }
 
   ngOnInit() {
-    // this.getCourseDurationsByCourseType(0);
-     //this.getTraineeNominationsByCourseDurationId(3183);
+
+
+    this.oldScrollPosition = this.scrollPositionService.getScrollPosition('test1');
+    setTimeout(() => {
+      window.scrollTo(0, this.oldScrollPosition);
+    }, 500);
+    console.log('Scroll position on ngOnInit:', this.oldScrollPosition);
      this.getCourseDurationFilterList(1);
   }
+
+
+  //***** Scroll Restoration will work after loading all data *****//
+  //ngOnInit() {
+  //  const startTime = performance.now();
+  //  this.oldScrollPosition = this.scrollPositionService.getScrollPosition('test1');
+  //  this.getCourseDurationFilterList(1);
+
+  //  this.loading = true;
+  //  this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.courseTypeId).subscribe(response => {
+  //    this.loading = false;
+  //    const endTime = performance.now();
+  //    const dataLoadingTime = endTime - startTime;
+  //    const waitTime = 500;
+  //    console.log('time : ', dataLoadingTime)
+  //    setTimeout(() => {
+  //      window.scrollTo(0, this.oldScrollPosition);
+  //    }, dataLoadingTime);
+  //  });
+  //  console.log('Get : ', this.oldScrollPosition);
+  //}
+
+  ngOnDestroy() {
+    this.scrollPositionService.setScrollPosition('test1', this.scrollPosition);
+    console.log('Scroll position on ngOnDestroy:', this.scrollPosition);
+  }
+
   getCourseDurationsByCourseType(){
     this.isLoading = true;
     this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
