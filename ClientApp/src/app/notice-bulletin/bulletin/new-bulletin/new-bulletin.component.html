@@ -33,15 +33,29 @@
               
                 <div class="row">              
                   <div *ngIf="role != userRole.SuperAdmin && role != userRole.JSTISchool && role != userRole.BNASchool" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>School Name</mat-label>                        
-                      <mat-select required multiple formControlName="baseSchoolNameId"  (selectionChange)="getselectedcoursedurationbyschoolname()">
+                      <mat-select required multiple formControlName="baseSchoolNameId"  
+                       (selectionChange)="getselectedcoursedurationbyschoolname()">
                         <mat-option #allSelected (click)="toggleAllSelection()" [value]="0">All</mat-option>
                         <mat-option *ngFor="let dropdown of selectedbaseschools" [value]="dropdown.value">
                           {{dropdown.text}} 
                         </mat-option>                          
                       </mat-select>                   
-                    </mat-form-field>
+                    </mat-form-field> -->
+                    <ng-multiselect-dropdown
+                    required
+                    name="selectedbaseschools"
+                    [placeholder]="'School Name'"
+                    [data]="selectedbaseschools"
+                    formControlName="baseSchoolNameId"
+                    [settings]="partyTypedropdownSettings"
+                    (onSelect)="getselectedcoursedurationbyschoolname()" 
+                    (onSelectAll)="onSelectAll($event)"
+                    (onDeSelect)="onDeSelect($event)"
+                    (onDeSelectAll)="onDeSelectAll($event)">
+                  >
+                  </ng-multiselect-dropdown>
                   </div>
 
                   <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
@@ -81,17 +95,7 @@
                       </mat-error>                    
                     </mat-form-field>
                   </div> 
-                  <div >
-                    <ng-multiselect-dropdown
-                  
-                    name="selectedbaseschools"
-                    [placeholder]="'Party Type'"
-                    [data]="selectedbaseschools"
-                    [(ngModel)]="partyTypeselectedItems"
-                    [settings]="partyTypedropdownSettings"
-                  >
-                  </ng-multiselect-dropdown>
-                  </div> 
+                
                
 
                   
