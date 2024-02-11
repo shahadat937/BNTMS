@@ -63,7 +63,6 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
       window.scrollTo(0, this.oldScrollPosition);
     }, 500);
      this.getCourseDurationFilterList(this.selectedFilter);
-     console.log('Filer View Init:', this.selectedFilter);
   }
 
 
@@ -90,7 +89,6 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
   ngOnDestroy() {
     this.scrollPositionService.setScrollPosition('test1', this.scrollPosition);
     this.scrollPositionService.setSelectedFilter('test1', this.selectedFilter);
-    console.log('Filer View Destroy:', this.selectedFilter);
   }
 
   getCourseDurationsByCourseType(){
