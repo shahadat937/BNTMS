@@ -62,7 +62,13 @@ export type pieChartOptions = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.sass'],
 })
+
+
+
 export class DashboardComponent implements OnInit {
+
+  newStatus : string = "";
+
   @ViewChild('chart') chart: ChartComponent;
   public avgLecChartOptions: Partial<avgLecChartOptions>;
   public pieChartOptions: Partial<pieChartOptions>;
@@ -117,7 +123,7 @@ export class DashboardComponent implements OnInit {
   pageTitle:any;
   selectedschool:SelectedModel[];
   groupArrays:{ schoolName: string; courses: any; }[];
-
+  NoticeForSchoolDashboard:any;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -182,6 +188,19 @@ export class DashboardComponent implements OnInit {
 
     this.baseSchoolNameService.getUserManualByRole(this.role).subscribe(response => {   
       this.userManual=response[0].doc;
+    })
+    
+    
+    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+    console.log("School Id : ", this.schoolId);
+    console.log("Current Date : ", currentDateTime);
+    this.schoolDashboardService.getNoticeBySchoolId(this.schoolId, currentDateTime).subscribe(response=> {
+      this.NoticeForSchoolDashboard=response;
+      console.log("Response : ", response)
+      response.forEach(element => {
+        console.log(element.newStatus)
+        this.newStatus = element.newStatus;
+      });
     })
   }
 

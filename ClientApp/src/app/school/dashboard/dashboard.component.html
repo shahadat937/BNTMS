@@ -43,7 +43,9 @@
 
             
               <button [routerLink]="['/admin/dashboard/weeklyprogramdashboard',schoolId]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Weekly Program</button>
-              <button [routerLink]="['/admin/dashboard/view-schoolnotice',schoolId]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Notice Board</button>
+              <button [routerLink]="['/admin/dashboard/view-schoolnotice',schoolId]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">
+                <span class="notification-flicker">{{newStatus}} </span>Notice Board 
+              </button>
               <button [routerLink]="['/admin/dashboard/absentlistdashboard',schoolId]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Attendance</button>
               <button [routerLink]="['/admin/dashboard/courseinstructorlist',schoolId]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Course Instructor</button>
               <button [routerLink]="['/admin/dashboard/pendingexamevaluation-list',schoolId]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary"> Exam Evaluation</button>
