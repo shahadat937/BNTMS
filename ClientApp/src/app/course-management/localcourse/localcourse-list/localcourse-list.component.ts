@@ -46,6 +46,7 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
 
 
    selection = new SelectionModel<CourseDuration>(true, []);
+   
 
 
   constructor(private datepipe: DatePipe, private dashboardService: dashboardService, private snackBar: MatSnackBar, private TraineeNominationService: TraineeNominationService, private CourseDurationService: CourseDurationService, private router: Router, private confirmService: ConfirmService, private scrollPositionService: ScrollService) { }
@@ -54,16 +55,15 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
   onWindowScroll() {
     this.scrollPosition = window.scrollY || window.pageYOffset;
   }
-
+  selectedFilter: number;
   ngOnInit() {
-
-
     this.oldScrollPosition = this.scrollPositionService.getScrollPosition('test1');
+    this.selectedFilter = this.scrollPositionService.getSelectedFilter('test1');
     setTimeout(() => {
       window.scrollTo(0, this.oldScrollPosition);
     }, 500);
-    console.log('Scroll position on ngOnInit:', this.oldScrollPosition);
-     this.getCourseDurationFilterList(1);
+     this.getCourseDurationFilterList(this.selectedFilter);
+     console.log('Filer View Init:', this.selectedFilter);
   }
 
 
@@ -89,7 +89,8 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
 
   ngOnDestroy() {
     this.scrollPositionService.setScrollPosition('test1', this.scrollPosition);
-    console.log('Scroll position on ngOnDestroy:', this.scrollPosition);
+    this.scrollPositionService.setSelectedFilter('test1', this.selectedFilter);
+    console.log('Filer View Destroy:', this.selectedFilter);
   }
 
   getCourseDurationsByCourseType(){
@@ -120,15 +121,52 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
     })
   }
 
+  
   getCoursesByViewType(viewStatus){
 
     if(viewStatus==1){
      this.getCourseDurationFilterList(viewStatus)
+     this.selectedFilter = 1;
     }
     else if(viewStatus==2){
       this.getCourseDurationFilterList(viewStatus)
+      this.selectedFilter = 2;
     }
     else if(viewStatus==3){
+      this.selectedFilter = 3;
+      this.getCourseDurationFilterList(viewStatus)
+    }
+  }
+
+  getCourseDurationFilterList(viewStatus){
+    if(viewStatus == 1 || viewStatus == 2){
+      this.CourseDurationService.getCourseDurationFilter(viewStatus,this.masterData.coursetype.LocalCourse).subscribe(response => {
+        this.localCourseList = response; 
+  
+        // this gives an object with dates as keys
+        const groups = this.localCourseList.reduce((groups, courses) => {
+          const schoolName = courses.schoolName;
+          if (!groups[schoolName]) {
+            groups[schoolName] = [];
+          }
+          groups[schoolName].push(courses);
+          return groups;
+        }, {});
+  
+        // Edit: to add it in the array format instead
+        this.groupArrays = Object.keys(groups).map((schoolName) => {
+          return {
+            schoolName,
+            courses: groups[schoolName]
+          };
+        });
+        
+  
+        // this.paging.length = response.totalItemsCount    
+        // this.isLoading = false;
+      })
+    }
+    else{
       let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
       this.dashboardService.getUpcomingCourseListByBase(currentDateTime,0).subscribe(response => {         
         
@@ -154,34 +192,6 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
   
       })
     }
-  }
-
-  getCourseDurationFilterList(viewStatus){
-    this.CourseDurationService.getCourseDurationFilter(viewStatus,this.masterData.coursetype.LocalCourse).subscribe(response => {
-      this.localCourseList = response; 
-
-      // this gives an object with dates as keys
-      const groups = this.localCourseList.reduce((groups, courses) => {
-        const schoolName = courses.schoolName;
-        if (!groups[schoolName]) {
-          groups[schoolName] = [];
-        }
-        groups[schoolName].push(courses);
-        return groups;
-      }, {});
-
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((schoolName) => {
-        return {
-          schoolName,
-          courses: groups[schoolName]
-        };
-      });
-      
-
-      // this.paging.length = response.totalItemsCount    
-      // this.isLoading = false;
-    })
   }
   
   getDateComparision(obj){
