@@ -15,11 +15,11 @@ export class ScrollService {
     return this.scrollPositions[componentName] || 0;
   }
 
-  //setOldScrollPosition(componentName: string, position: number) {
-  //  this.oldScrollPositions[componentName] = position;
-  //}
+  setSelectedFilter(componentName: string, position: number) {
+   this.oldScrollPositions[componentName] = position;
+  }
 
-  //getOldScrollPosition(componentName: string): number {
-  //  return this.oldScrollPositions[componentName] || 0;
-  //}
+  getSelectedFilter(componentName: string): number {
+   return this.oldScrollPositions[componentName] || 1;
+  }
 }
