@@ -68,6 +68,7 @@ export type pieChartOptions = {
 export class DashboardComponent implements OnInit {
 
   newStatus : string = "";
+  newStatusCount : number = 0;
 
   @ViewChild('chart') chart: ChartComponent;
   public avgLecChartOptions: Partial<avgLecChartOptions>;
@@ -192,14 +193,14 @@ export class DashboardComponent implements OnInit {
     
     
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    console.log("School Id : ", this.schoolId);
-    console.log("Current Date : ", currentDateTime);
+    // let currentDateTime = '02/11/2024';
     this.schoolDashboardService.getNoticeBySchoolId(this.schoolId, currentDateTime).subscribe(response=> {
       this.NoticeForSchoolDashboard=response;
-      console.log("Response : ", response)
       response.forEach(element => {
-        console.log(element.newStatus)
         this.newStatus = element.newStatus;
+        if(element.newStatus == "new"){
+          this.newStatusCount++;
+        }
       });
     })
   }
