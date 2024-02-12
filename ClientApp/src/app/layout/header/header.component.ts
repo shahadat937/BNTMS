@@ -33,6 +33,8 @@ export class HeaderComponent
   role:any;
   traineeId: any;
   branchId: any;
+  schoolId:any;
+  schoolName:any;
   isNavbarCollapsed = true;
   flagvalue;
   countryName;
@@ -101,6 +103,9 @@ export class HeaderComponent
       message: 'kindly help me for code.',
     },
   ];
+
+
+  
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
@@ -119,6 +124,14 @@ this.userRole.SchoolOIC
     }else{
       this.userImg = 'assets/images/main.jpg';
     }
+
+    this.schoolId = this.branchId;
+      this.baseSchoolNameService.find(this.schoolId).subscribe(response => {   
+        this.schoolName = response.schoolName;
+      })
+      if(this.schoolName==null){
+        this.schoolName = "Master Admin";
+      }
 
     // const userRole = this.authService.currentUserValue.role;
     // this.userImg = this.authService.currentUserValue.img;
