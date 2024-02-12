@@ -15,6 +15,7 @@ import { Role } from 'src/app/core/models/role';
 import { LanguageService } from 'src/app/core/service/language.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
+import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
 const document: any = window.document;
 
 @Component({
@@ -33,6 +34,8 @@ export class HeaderComponent
   role:any;
   traineeId: any;
   branchId: any;
+  schoolId:any;
+  profileName:any = "Master Admin";
   isNavbarCollapsed = true;
   flagvalue;
   countryName;
@@ -48,7 +51,8 @@ export class HeaderComponent
     private authService: AuthService,
     private router: Router,
     private baseSchoolNameService: BaseSchoolNameService,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    private instructorDashboardService: InstructorDashboardService
   ) {
     super();
   }
@@ -101,6 +105,9 @@ export class HeaderComponent
       message: 'kindly help me for code.',
     },
   ];
+
+
+  
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
@@ -119,6 +126,20 @@ this.userRole.SchoolOIC
     }else{
       this.userImg = 'assets/images/main.jpg';
     }
+
+
+    this.schoolId = this.branchId;
+    if(this.schoolId != null){
+      this.baseSchoolNameService.find(this.schoolId).subscribe(response => {   
+        this.profileName = response.schoolName;
+      })
+    }
+    this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(response=>{
+      response.forEach(element => {
+        this.profileName = element.name;
+      });
+    })
+    
 
     // const userRole = this.authService.currentUserValue.role;
     // this.userImg = this.authService.currentUserValue.img;
