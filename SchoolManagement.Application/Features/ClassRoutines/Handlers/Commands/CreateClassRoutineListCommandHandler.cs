@@ -81,8 +81,10 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                     ClassTypeId = x.classTypeId,                 
                     ResultSubmissionStatus = 0,
                     FinalApproveStatus = 0,
-                  
-                }).ToList();
+                    ExamMarkComplete = 0,
+
+
+            }).ToList();
                // var ClassRoutines = _mapper.Map<ClassRoutine>(request.ClassRoutineDto);
               
                //ClassRoutines.Date = ClassRoutines.Date.Value.AddDays(1.0);
