@@ -293,4 +293,23 @@ this.userRole.SchoolOIC
       console.log("SchoolId");
     }
   }
+
+  redirectDashboard(){
+    if(this.traineeId != null && this.traineeId != "") {
+      if(this.role == "Instructor"){
+        this.router.navigate(['/admin/dashboard/instructor-dashboard']);
+      }
+      else {
+        this.router.navigate(['/admin/dashboard/trainee-dashboard']);
+      }
+    }
+    else {
+      if(this.role == "Master Admin"){
+        this.router.navigate(['/admin/dashboard/main']);
+      }
+      else {
+        this.router.navigate(['/admin/dashboard/school-dashboard']);
+      }
+    }
+  }
 }

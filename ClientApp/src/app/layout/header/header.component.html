@@ -4,7 +4,7 @@
       <a href="#" onClick="return false;" class="navbar-toggle collapsed"
         (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-expanded="false"></a>
       <a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"></a>
-      <a class="navbar-brand" routerLink={{homePage}}>
+      <a class="navbar-brand" (click)="redirectDashboard()">
         <img src="assets/images/logo.png" alt="" class="main-logo" />
         <!--<span class="logo-name">DNT</span>-->
       </a>
@@ -17,7 +17,7 @@
             <mat-icon>menu</mat-icon>
           </button>
         </li>
-        <li class="head-title-name">BN TRAINING MANAGEMENT SOFTWARE</li>
+        <a  href="javascript:void(0);" (click)="redirectDashboard()"><li class="head-title-name text-light">BN TRAINING MANAGEMENT SOFTWARE</li></a>
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
