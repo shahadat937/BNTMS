@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'password-change',
     component: NewPasswordChangeComponent,
   },
+  {
+    path: 'password/password-change',
+    component: NewPasswordChangeComponent,
+  },
   // {
   //   path: 'passwordupdate-student',
   //   component: NewPasswordChangeComponent,

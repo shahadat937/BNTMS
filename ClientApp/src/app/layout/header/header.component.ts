@@ -32,7 +32,7 @@ export class HeaderComponent
   userImg: string;
   homePage: string;
   role:any;
-  traineeId: any;
+  traineeId: any = null;
   branchId: any;
   schoolId:any;
   profileName:any = "Master Admin";
@@ -164,6 +164,7 @@ this.userRole.SchoolOIC
     } else {
       this.flagvalue = val.map((element) => element.flag);
     }
+
   }
   ngAfterViewInit() {
     // set theme on startup
@@ -282,5 +283,14 @@ this.userRole.SchoolOIC
         this.router.navigate(['/authentication/signin']);
       }
     });
+  }
+  changePassword(){
+    if(this.traineeId != null && this.traineeId != ""){
+      this.router.navigate(['/instructor/password-update']);
+    }
+    else {
+      this.router.navigate(['/password/password-change']);
+      console.log("SchoolId");
+    }
   }
 }
