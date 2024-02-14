@@ -129,16 +129,19 @@ this.userRole.SchoolOIC
 
 
     this.schoolId = this.branchId;
-    if(this.schoolId != null){
+    if(this.schoolId != null && this.traineeId == "" && this.schoolId != "423"){
       this.baseSchoolNameService.find(this.schoolId).subscribe(response => {   
         this.profileName = response.schoolName;
       })
     }
-    this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(response=>{
-      response.forEach(element => {
-        this.profileName = element.name;
-      });
-    })
+    if(this.traineeId != null && this.schoolId == ""){
+      this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(response=>{
+        response.forEach(element => {
+          this.profileName = element.name;
+        });
+      })
+    }
+
     
 
     // const userRole = this.authService.currentUserValue.role;
