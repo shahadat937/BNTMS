@@ -26,10 +26,53 @@
           <div class="body">
             <form class="form-border-design" [formGroup]="ClassRoutineForm">
               <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-4">
+                  <ng-multiselect-dropdown
+                  required
+                  [placeholder]="'BNA Subject Curriculum *'"
+                  [data]="selectedSubjectCurriculum"
+                  [settings]="routinManagementdropdownSettings"
+                  (onSelect)="onStatus($event)"
+                  (onDeSelect)="onDeSelect($event)"
+                  (onSelectAll)="onSelectAll()"
+                  (onDeSelectAll)="onDeSelectAll()"
+                  >
+                </ng-multiselect-dropdown>
+                </div>
 
-               
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-4" [hidden]="department != 1019">
+                  <ng-multiselect-dropdown
+                  required
+                  [placeholder]="'Department'"
+                  [data]="selectedDepartment"
+                  [settings]="routinManagementdropdownSettings">
+                </ng-multiselect-dropdown>
+                </div>
 
-                <div *ngIf="role != userRole.SuperAdmin && role != userRole.BNASchool && role != userRole.JSTISchool" class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
+                
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <ng-multiselect-dropdown
+                  required
+                  [placeholder]="'Course Title *'"
+                  [data]="selectedcoursedurationbyschoolname"
+                  [settings]="routinManagementdropdownSettings">
+                </ng-multiselect-dropdown>
+                    <!-- <mat-label>Course Title</mat-label>                        
+                    <mat-select formControlName=" ">
+                      <mat-option  value="">--Select--</mat-option >
+                        <mat-option *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value" (onSelectionChange)="getselectedbnasubjectname(dropdown)">
+                            {{dropdown.text}}  
+                          </mat-option>                          
+                    </mat-select>
+                    <mat-error *ngIf="ClassRoutineForm.get('courseName').hasError('required')">
+                      Course Title is Required!
+                    </mat-error> -->
+              </div>
+              </div>
+
+
+              <div class="row">
+                <div *ngIf="role != userRole.SuperAdmin && role != userRole.BNASchool && role != userRole.JSTISchool" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>School</mat-label>
                       <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
@@ -44,23 +87,16 @@
                   </mat-form-field>
                 </div>
 
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
-                      <mat-label>Course Title</mat-label>                        
-                      <mat-select formControlName=" ">
-                        <mat-option  value="">--Select--</mat-option >
-                          <mat-option *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value" (onSelectionChange)="getselectedbnasubjectname(dropdown)">
-                              {{dropdown.text}}  
-                            </mat-option>                          
-                      </mat-select>
-                      <mat-error *ngIf="ClassRoutineForm.get('courseName').hasError('required')">
-                        Course Title is Required!
-                      </mat-error>
-                  </mat-form-field>
-                </div>
                 
-                <div *ngIf="role == userRole.BNASchool" class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                <div *ngIf="role == userRole.BNASchool" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+
+                  <ng-multiselect-dropdown
+                    required
+                    [placeholder]="'Semester *'"
+                    [data]="selectedSemester"
+                    [settings]="routinManagementdropdownSettings">
+                  </ng-multiselect-dropdown>
+                  <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Semester</mat-label>                        
                       <mat-select formControlName="bnaSemesterId" required>
                         <mat-option  value="">--Select--</mat-option >
@@ -71,11 +107,17 @@
                       <mat-error *ngIf="ClassRoutineForm.get('bnaSemesterId').hasError('required')">
                         Semester is Required!
                       </mat-error>
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div>
                  
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                  <ng-multiselect-dropdown
+                    required
+                    [placeholder]="'Course Week *'"
+                    [data]="selectedWeek"
+                    [settings]="routinManagementdropdownSettings">
+                  </ng-multiselect-dropdown>
+                  <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Week</mat-label>                        
                       <mat-select formControlName="courseWeekId" required>
                         <mat-option  value="">--Select--</mat-option >
@@ -86,15 +128,20 @@
                       <mat-error *ngIf="ClassRoutineForm.get('courseWeekId').hasError('required')">
                         Course Week is Required!
                       </mat-error>
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div>
         
 
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                  <ng-multiselect-dropdown
+                    required
+                    [placeholder]="'Course Section *'"
+                    [data]="selectedCourseSection"
+                    [settings]="routinManagementdropdownSettings">
+                  </ng-multiselect-dropdown>
+                  <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Section</mat-label>                        
                       <mat-select formControlName="courseSectionId" required (selectionChange)="onSectionSelectionGet()">
-                        <!-- <mat-option  value="0">--Select--</mat-option > -->
                           <mat-option *ngFor="let dropdown of selectedCourseSection" [value]="dropdown.value">
                               {{dropdown.text}} 
                             </mat-option>                          
@@ -102,7 +149,7 @@
                       <mat-error *ngIf="ClassRoutineForm.get('courseSectionId').hasError('required')">
                         Course Section is Required!
                       </mat-error>
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div> 
 
                 <!-- <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
@@ -190,7 +237,7 @@
                   </mat-form-field>
               </div>  -->
                 
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                     <mat-label>Date</mat-label>
                       <input matInput [matDatepicker]="datepicker" formControlName="date" (dateChange)="onDateSelectionChange($event)" required>
@@ -218,8 +265,14 @@
                     <div class="body">
                       <div class="row" *ngFor="let unit of ClassRoutineForm.get('perodListForm')['controls']; let i = index" [formGroup]="unit">
 
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                          <ng-multiselect-dropdown
+                            required
+                            [placeholder]="'Subject Name'"
+                            [data]="selectedsubjectname"
+                            [settings]="routinManagementdropdownSettings">
+                          </ng-multiselect-dropdown>
+                          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Subject Name</mat-label>
                             <mat-select formControlName="subjectId">
                               <mat-option value="">--Select--</mat-option>
@@ -230,11 +283,17 @@
                             <mat-error *ngIf="ClassRoutineForm.get('subjectName').hasError('required')">
                               Subject Name is Required!
                             </mat-error>
-                          </mat-form-field>
+                          </mat-form-field> -->
                         </div>
 
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                          <ng-multiselect-dropdown
+                            required
+                            [placeholder]="'Instructor'"
+                            [data]="unit.controls.subjectId.value != null ? selectedInstructor[unit.controls.subjectId.value]:[]"
+                            [settings]="routinManagementdropdownSettings">
+                          </ng-multiselect-dropdown>
+                          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Instructor</mat-label>
                             <mat-select formControlName="traineeId">
                               <mat-option value="">--Select--</mat-option>
@@ -245,12 +304,12 @@
                             <mat-error *ngIf="ClassRoutineForm.get('traineeId').hasError('required')">
                               Instructor is Required!
                             </mat-error>
-                          </mat-form-field>
+                          </mat-form-field> -->
                         </div>
 
 
 
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                           <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Mark Type</mat-label>
                             <mat-select formControlName="subjectMarkId" (selectionChange)="onSubjectMarkSelectionGetMarkType(i)">
@@ -263,8 +322,14 @@
                         </div>
 
 
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                          <ng-multiselect-dropdown
+                            required
+                            [placeholder]="'Class Period *'"
+                            [data]="selectedclassperiod"
+                            [settings]="routinManagementdropdownSettings">
+                          </ng-multiselect-dropdown>
+                          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Class Period</mat-label>
                             <mat-select formControlName="classPeriodId" required>
                               <mat-option value="">--Select--</mat-option>
@@ -275,10 +340,10 @@
                             <mat-error *ngIf="ClassRoutineForm.get('classPeriodId').hasError('required')">
                               Class Period is Required!
                             </mat-error>
-                          </mat-form-field>
+                          </mat-form-field> -->
                         </div>
 
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                           <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>class Type </mat-label>
                             <mat-select formControlName="classTypeId">
@@ -290,13 +355,13 @@
                           </mat-form-field>
                         </div>
 
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 mb-2">
                           <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Class Room Name</mat-label>
                             <input matInput formControlName="classRoomName">
                           </mat-form-field>
                         </div>
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 mb-2">
                           <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Class Topic</mat-label>
                             <input matInput formControlName="classTopic">

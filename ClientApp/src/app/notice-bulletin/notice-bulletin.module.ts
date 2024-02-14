@@ -60,7 +60,7 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
     MatDatepickerModule,
     MaterialFileInputModule,
     MatCheckboxModule,
-    NgMultiSelectDropDownModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot()
     
   ]
   

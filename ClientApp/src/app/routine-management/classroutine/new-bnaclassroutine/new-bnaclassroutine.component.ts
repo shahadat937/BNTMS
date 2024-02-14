@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { Role } from 'src/app/core/models/role';
 import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-new-bnaclassroutine',
@@ -41,6 +42,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   selectedCourseModule:SelectedModel[];
   selectedModule:SelectedModel[];
   selectedcoursename:SelectedModel[];
+  routinManagementdropdownSettings:IDropdownSettings;
   //selectedmarktype:SelectedModel[];
   //selectedInstructor:{};
   selectedCourseSection:SelectedModel[];
@@ -96,6 +98,10 @@ export class NewBnaClassRoutineComponent implements OnInit {
   displayedRoutineNoteColumns: string[] = ['ser','routineName','routineNote'];
   displayedColumns: string[];
  
+  selectedSubjectCurriculum:SelectedModel[];
+  selectedDepartment:SelectedModel[];
+  department: number = 0;
+
   displayedColumnsexam: string[]; 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -105,16 +111,26 @@ export class NewBnaClassRoutineComponent implements OnInit {
   showHideDiv = false;
   showSpinner = false;
 
-  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.getSelectedSubjectCurriculum()
+    this.getSelectedDepartment()
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
 
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
  
-
+    this.routinManagementdropdownSettings= {
+      singleSelection: false,
+      idField: 'value',
+      textField: 'text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
     if (id) {
       this.pageTitle = 'Edit Weekly Program'; 
       this.destination = "Edit"; 
@@ -495,7 +511,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     //  this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
     });
 
- 
+    
   
     this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       this.totalPeriod=res;
@@ -610,7 +626,20 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedcoursedurationbyschoolname=res;
       });
+      console.log("Routin : ", this.selectedcoursedurationbyschoolname)
   } 
+
+  getSelectedSubjectCurriculum(){
+    this.ClassRoutineService.getSelectedSubjectCurriculum().subscribe(res=>{
+      this.selectedSubjectCurriculum=res
+    });
+  } 
+
+  getSelectedDepartment(){
+    this.ClassRoutineService.getSelectedDepartment().subscribe(res=>{
+      this.selectedDepartment=res;     
+    })
+  }
 
   getselectedbnasubjectname(dropdown){
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
@@ -690,6 +719,23 @@ export class NewBnaClassRoutineComponent implements OnInit {
     });
   } 
 
+  onStatus(dropdown) {
+    if(dropdown.value == 1019){
+      this.department = dropdown.value
+    }
+  }
+  onDeSelect(dropdown) {
+    if(dropdown.value == 1019){
+      this.department = 0;
+    }
+  }
+  onSelectAll() {
+    this.department = 1019;
+    console.log("Department : ", this.department)
+  }
+  onDeSelectAll() {
+    this.department = 0;
+  }
 
   getselectedclasstype(){
     this.ClassRoutineService.getselectedclasstype().subscribe(res=>{

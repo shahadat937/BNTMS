@@ -29,6 +29,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {NewRoutineSoftcopyUploadComponent} from './routinesoftcopyupload/new-routinesoftcopyupload/new-routinesoftcopyupload.component'
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewBnaClassRoutineComponent } from './classroutine/new-bnaclassroutine/new-bnaclassroutine.component'
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [
     ClassRoutineListComponent,
@@ -63,7 +64,8 @@ import { NewBnaClassRoutineComponent } from './classroutine/new-bnaclassroutine/
     MatDatepickerModule,
     MaterialFileInputModule,
     RoutineManagementRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ]
 })
 export class RoutineManagementModule { }
