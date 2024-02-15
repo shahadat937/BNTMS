@@ -105,7 +105,7 @@ export class NewBulletinComponent implements OnInit {
       this.buttonText= "Save"
     } 
     this.intitializeForm();
-    debugger
+    
     if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
       this.BulletinForm.get('baseSchoolNameId').setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
@@ -133,7 +133,7 @@ export class NewBulletinComponent implements OnInit {
          // Previus Code
          this.bulletinService.getselectedcoursedurationbyschoolname(typeof(baseSchoolNameId)=='string'?baseSchoolNameId:baseSchoolNameId[0].value).subscribe(res=>{
           this.selectedcoursedurationbyschoolname=res;
-          console.log(this.selectedcoursedurationbyschoolname)
+          
         }); 
  }
  else { 
@@ -200,7 +200,7 @@ else{
   }
 
   onSubmit() {
-    debugger
+    
     const id = this.BulletinForm.get('bulletinId').value;   
     var baseSchoolNameId=this.BulletinForm.value['baseSchoolNameId'];
     if (id) {
@@ -223,7 +223,7 @@ else{
       })
     }
     else if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
-      debugger
+      
       this.loading = true;
       this.selectedcoursedurationbyschoolname.forEach(element => {
         var courseNameArr = element.value.split('_');
@@ -259,14 +259,14 @@ else{
 
       });
 
-      debugger
+      
      }
      else {
-      //debugger
+      //
       this.loading = true;
       this.BulletinForm.value.baseSchoolNameId.forEach(element => {  
         if(element.value!=0){
-          debugger
+          
           this.BulletinForm.value.baseSchoolNameId=element.value;
           if(this.BulletinForm.value.courseName!=""){
             this.BulletinForm.value.courseName.forEach((courseElement,index) => {
@@ -306,7 +306,7 @@ else{
             }, error => {
               this.validationErrors = error;
             })
-            debugger
+            
           }
         }
        
