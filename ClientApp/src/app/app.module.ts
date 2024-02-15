@@ -74,8 +74,7 @@ export function createTranslateLoader(http: HttpClient): any {
     MatCheckboxModule,
     // core & shared
     CoreModule,
-    SharedModule,
-    NgMultiSelectDropDownModule.forRoot()
+    SharedModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

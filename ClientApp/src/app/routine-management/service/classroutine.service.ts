@@ -19,6 +19,13 @@ export class ClassRoutineService {
   ClassRoutinePagination = new ClassRoutinePagination(); 
   constructor(private http: HttpClient) { }
 
+  getSelectedSubjectCurriculum(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-curriculum/get-selectedBnaSubjectCurriculums')
+  } 
+  getSelectedDepartment(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/eepartment/get-selectedDepartments')
+   }
+
   getCourseInstructorByBaseSchoolNameAndCourseName(baseSchoolNameId,courseNameId,courseDurationId){
     return this.http.get<any[]>(this.baseUrl + '/course-instructor/get-instructorByBaseSchoolAndCourseNameSpRequest?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId+'&courseDurationId='+courseDurationId);
   }
