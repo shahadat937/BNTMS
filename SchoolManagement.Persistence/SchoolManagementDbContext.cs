@@ -849,7 +849,7 @@ namespace SchoolManagement.Persistence
             {
 
             });
-
+            modelBuilder.Entity<CourseWeekAll>().HasNoKey();
             modelBuilder.Entity<CourseBudgetAllocation>(entity =>
             {
                 entity.HasOne(d => d.BudgetCode)
@@ -3564,7 +3564,8 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<Department> Department { get; set; } = null!;
         public virtual DbSet<MarkCategory> MarkCategory { get; set; } = null!;
         public virtual DbSet<ForeignTrainingCourseReport> ForeignTrainingCourseReport { get; set; } = null!;
-        
+        public virtual DbSet<CourseWeekAll> CourseWeekAll { get; set; } = null!;
+
     }
 }
  
