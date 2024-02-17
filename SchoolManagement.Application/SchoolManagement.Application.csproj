@@ -38,8 +38,4 @@
     <ProjectReference Include="..\SchoolManagement.Shared\SchoolManagement.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\CourseWeekAll\Handlers\Queries\" />
-  </ItemGroup>
-
 </Project>
