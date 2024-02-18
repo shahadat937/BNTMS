@@ -5,6 +5,6 @@ namespace SchoolManagement.Application.Features.CourseWeeks.Requests.Commands
 {
     public class UpdateCourseWeekCommand : IRequest<Unit>
     {
-        public CourseWeekDto CourseWeekDto { get; set; }
+        public CourseWeekAllDto CourseWeekDto { get; set; }
     }
 }

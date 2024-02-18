@@ -850,6 +850,8 @@ namespace SchoolManagement.Persistence
 
             });
             modelBuilder.Entity<CourseWeekAll>().HasNoKey();
+        //    modelBuilder.Entity<CourseWeekAll>().HasKey(c => c.BaseSchoolNameId);
+            //modelBuilder.Entity<CourseWeekAll>(entity =>{});
             modelBuilder.Entity<CourseBudgetAllocation>(entity =>
             {
                 entity.HasOne(d => d.BudgetCode)

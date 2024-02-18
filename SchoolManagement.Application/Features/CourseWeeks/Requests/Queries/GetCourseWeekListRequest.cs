@@ -5,7 +5,7 @@ using SchoolManagement.Application.Models;
 
 namespace SchoolManagement.Application.Features.CourseWeeks.Requests.Queries
 {
-    public class GetCourseWeekListRequest : IRequest<PagedResult<CourseWeekDto>>
+    public class GetCourseWeekListRequest : IRequest<PagedResult<CourseWeekAllDto>>
     {
         public QueryParams QueryParams { get; set; }
         public int BaseSchoolNameId { get; set; }

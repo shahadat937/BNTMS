@@ -5,7 +5,7 @@ using System.Text;
  
 namespace SchoolManagement.Application.DTOs.CourseWeeks.Validators
 {
-    public class UpdateCourseWeekDtoValidator : AbstractValidator<CourseWeekDto>
+    public class UpdateCourseWeekDtoValidator : AbstractValidator<CourseWeekAllDto>
     {
         public UpdateCourseWeekDtoValidator()
         {

@@ -20,7 +20,7 @@ public class CourseWeekController : ControllerBase
 
     [HttpGet]
     [Route("get-courseWeeks")]
-    public async Task<ActionResult<List<CourseWeekDto>>> Get([FromQuery] QueryParams queryParams, int baseSchoolNameId, int courseDurationId)
+    public async Task<ActionResult<List<CourseWeekAllDto>>> Get([FromQuery] QueryParams queryParams, int baseSchoolNameId, int courseDurationId)
     {
         var CourseWeeks = await _mediator.Send(new GetCourseWeekListRequest { QueryParams = queryParams, BaseSchoolNameId = baseSchoolNameId, CourseDurationId = courseDurationId });
         return Ok(CourseWeeks);
@@ -30,7 +30,7 @@ public class CourseWeekController : ControllerBase
 
     [HttpGet]
     [Route("get-courseWeekDetail/{id}")]
-    public async Task<ActionResult<CourseWeekDto>> Get(int id)
+    public async Task<ActionResult<CourseWeekAllDto>> Get(int id)
     {
         var CourseWeek = await _mediator.Send(new GetCourseWeekDetailRequest { CourseWeekId = id });
         return Ok(CourseWeek);
@@ -52,7 +52,7 @@ public class CourseWeekController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
     [Route("update-courseWeek/{id}")]
-    public async Task<ActionResult> Put([FromBody] CourseWeekDto CourseWeek)
+    public async Task<ActionResult> Put([FromBody] CourseWeekAllDto CourseWeek)
     {
         var command = new UpdateCourseWeekCommand { CourseWeekDto = CourseWeek };
         await _mediator.Send(command);

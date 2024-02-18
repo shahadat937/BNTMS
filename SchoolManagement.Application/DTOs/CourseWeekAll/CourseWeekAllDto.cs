@@ -1,21 +1,20 @@
-﻿using SchoolManagement.Domain.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolManagement.Domain
+namespace SchoolManagement.Application.DTOs.CourseWeekAll
 {
-    public class CourseWeekAll : BaseDomainEntity
+    public class CourseWeekAllDto: ICourseWeekAllDto
     {
         public int WeekID { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public string? WeekName { get; set; }
         public string? Remark { get; set; }
+
         public int? Status { get; set; }
         public int? MenuPosition { get; set; }
         public bool IsActive { get; set; }
-
     }
 }
