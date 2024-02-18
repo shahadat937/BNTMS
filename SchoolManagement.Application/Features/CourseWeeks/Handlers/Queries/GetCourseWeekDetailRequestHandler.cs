@@ -7,7 +7,7 @@ using SchoolManagement.Domain;
 
 namespace SchoolManagement.Application.Features.CourseWeeks.Handlers.Queries
 {
-    public class GetCourseWeekDetailRequestHandler : IRequestHandler<GetCourseWeekDetailRequest, CourseWeekDto>
+    public class GetCourseWeekDetailRequestHandler : IRequestHandler<GetCourseWeekDetailRequest, CourseWeekAllDto>
     {
         private readonly IMapper _mapper;
         private readonly ISchoolManagementRepository<CourseWeek> _CourseWeekRepository;
@@ -16,10 +16,10 @@ namespace SchoolManagement.Application.Features.CourseWeeks.Handlers.Queries
             _CourseWeekRepository = CourseWeekRepository;
             _mapper = mapper;
         }
-        public async Task<CourseWeekDto> Handle(GetCourseWeekDetailRequest request, CancellationToken cancellationToken)
+        public async Task<CourseWeekAllDto> Handle(GetCourseWeekDetailRequest request, CancellationToken cancellationToken)
         {
             var CourseWeek = _CourseWeekRepository.FinedOneInclude(x=>x.CourseWeekId==request.CourseWeekId, "CourseName", "CourseDuration");
-            return _mapper.Map<CourseWeekDto>(CourseWeek);
+            return _mapper.Map<CourseWeekAllDto>(CourseWeek);
         }
     }
 }

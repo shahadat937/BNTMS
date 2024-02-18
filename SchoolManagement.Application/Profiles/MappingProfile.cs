@@ -200,6 +200,7 @@ namespace SchoolManagement.Application.Profiles
         public MappingProfile()
         {
             //Lattar A
+            CreateMap<CourseWeekAll, CourseWeekAllDto>().ReverseMap();
 
             #region AccountType Mapping    
             CreateMap<AccountType, AccountTypeDto>().ReverseMap();
@@ -494,7 +495,7 @@ namespace SchoolManagement.Application.Profiles
             #endregion
 
 
-            CreateMap<CourseWeekDto, CourseWeek>().ReverseMap()
+            CreateMap<CourseWeekAllDto, CourseWeek>().ReverseMap()
                .ForMember(d => d.CourseDuration, o => o.MapFrom(s => s.CourseDuration.CourseTitle))
                .ForMember(d => d.BaseSchoolName, o => o.MapFrom(s => s.BaseSchoolName.SchoolName))
                .ForMember(d => d.CourseName, o => o.MapFrom(s => s.CourseName.Course));
@@ -660,7 +661,7 @@ namespace SchoolManagement.Application.Profiles
             #endregion
 
             #region CourseWeeks Mapping    
-            CreateMap<CourseWeekDto, CourseWeek>().ReverseMap()
+            CreateMap<CourseWeekAllDto, CourseWeek>().ReverseMap()
                 .ForMember(d => d.CourseDuration, o => o.MapFrom(s => s.CourseDuration.CourseTitle))
                 .ForMember(d => d.BaseSchoolName, o => o.MapFrom(s => s.BaseSchoolName.SchoolName))
                 .ForMember(d => d.CourseName, o => o.MapFrom(s => s.CourseName.Course));

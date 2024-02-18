@@ -70,6 +70,7 @@ namespace SchoolManagement.Application
         public const string CoursePlan = SMSRoutePrefixBase + "course-plan";
         public const string CourseTypes = SMSRoutePrefixBase + "course-type";
         public const string CourseWeeks = SMSRoutePrefixBase + "course-week";
+        public const string CourseWeekAll = SMSRoutePrefixBase + "courseWeekAll";
         public const string Dashboard = SMSRoutePrefixBase + "dashboard";
         public const string DefenseType = SMSRoutePrefixBase + "defense-type";
         public const string District = SMSRoutePrefixBase + "district";

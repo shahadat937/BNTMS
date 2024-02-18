@@ -10,7 +10,7 @@ using SchoolManagement.Domain;
 
 namespace SchoolManagement.Application.Features.CourseWeeks.Handlers.Queries
 {
-    public class GetCourseWeekListRequestHandler : IRequestHandler<GetCourseWeekListRequest, PagedResult<CourseWeekDto>>
+    public class GetCourseWeekListRequestHandler : IRequestHandler<GetCourseWeekListRequest, PagedResult<CourseWeekAllDto>>
     {
 
         private readonly ISchoolManagementRepository<SchoolManagement.Domain.CourseWeek> _CourseWeekRepository;
@@ -23,7 +23,7 @@ namespace SchoolManagement.Application.Features.CourseWeeks.Handlers.Queries
             _mapper = mapper;
         }
 
-        public async Task<PagedResult<CourseWeekDto>> Handle(GetCourseWeekListRequest request, CancellationToken cancellationToken)
+        public async Task<PagedResult<CourseWeekAllDto>> Handle(GetCourseWeekListRequest request, CancellationToken cancellationToken)
         {
             var validator = new QueryParamsValidator();
             var validationResult = await validator.ValidateAsync(request.QueryParams);
@@ -31,12 +31,13 @@ namespace SchoolManagement.Application.Features.CourseWeeks.Handlers.Queries
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            IQueryable<CourseWeek> CourseWeeks = _CourseWeekRepository.FilterWithInclude(x => (x.WeekName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "CourseDuration", "BaseSchoolName", "CourseName").Where(x=>x.BaseSchoolNameId==request.BaseSchoolNameId && x.CourseDurationId==request.CourseDurationId && x.CourseDuration.IsCompletedStatus == 0).OrderBy(x=>x.DateFrom);
+            IQueryable<CourseWeek> CourseWeeks = _CourseWeekRepository.FilterWithInclude(x => (x.WeekName.Contains(request.QueryParams.SearchText) || 
+            String.IsNullOrEmpty(request.QueryParams.SearchText)), "CourseDuration", "BaseSchoolName", "CourseName").Where(x=>x.BaseSchoolNameId==request.BaseSchoolNameId && x.CourseDurationId==request.CourseDurationId && x.CourseDuration.IsCompletedStatus == 0).OrderBy(x=>x.DateFrom);
             var totalCount = CourseWeeks.Count();
             CourseWeeks = CourseWeeks.OrderBy(x => x.DateFrom).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 
-            var CourseWeekDtos = _mapper.Map<List<CourseWeekDto>>(CourseWeeks);
-            var result = new PagedResult<CourseWeekDto>(CourseWeekDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
+            var CourseWeekDtos = _mapper.Map<List<CourseWeekAllDto>>(CourseWeeks);
+            var result = new PagedResult<CourseWeekAllDto>(CourseWeekDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
 
             return result;
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SchoolManagement.Application.DTOs.CourseWeeks
 {
-    public class CourseWeekDto : ICourseWeekDto
+    public class CourseWeekAllDto : ICourseWeekAllDto
     {
         public int CourseWeekId { get; set; }
         public int? CourseDurationId { get; set; }
