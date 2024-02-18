@@ -9,7 +9,7 @@ namespace SchoolManagement.Domain
 {
     public class CourseWeekAll : BaseDomainEntity
     {
-     
+        public int WeekID { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public string? WeekName { get; set; }
         public string? Remarks { get; set; }
