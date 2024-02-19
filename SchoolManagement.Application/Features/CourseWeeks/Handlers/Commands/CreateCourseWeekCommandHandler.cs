@@ -23,7 +23,7 @@ namespace SchoolManagement.Application.Features.CourseWeeks.Handlers.Commands
         {
             var response = new BaseCommandResponse();
             var validator = new CreateCourseWeekDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.CourseWeekDto);
+            var validationResult = await validator.ValidateAsync(request.CourseWeekAllDto);
 
             if (validationResult.IsValid == false)
             {
@@ -33,7 +33,7 @@ namespace SchoolManagement.Application.Features.CourseWeeks.Handlers.Commands
             }
             else
             {
-                var CourseWeek = _mapper.Map<CourseWeek>(request.CourseWeekDto);
+                var CourseWeek = _mapper.Map<CourseWeek>(request.CourseWeekAllDto);
 
                 CourseWeek = await _unitOfWork.Repository<CourseWeek>().Add(CourseWeek);
 

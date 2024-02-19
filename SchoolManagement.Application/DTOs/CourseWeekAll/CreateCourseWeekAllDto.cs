@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.DTOs.CourseWeekAll
 {
-    public interface ICourseWeekAllDto
+    public class CreateCourseWeekAllDto : ICourseWeekAllDto
     {
-       
+     
         public int WeekID { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public string WeekName { get; set; }
         public string? Remark { get; set; }
+
         public bool? Status { get; set; }
         public int? MenuPosition { get; set; }
         public bool IsActive { get; set; }
