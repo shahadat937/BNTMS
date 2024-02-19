@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Features\CourseWeekAll\Handlers\Commands\lm3eslcl.1n1~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.4" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
@@ -36,11 +40,6 @@
     <ProjectReference Include="..\SchoolManagement.Domain\SchoolManagement.Domain.csproj" />
   
     <ProjectReference Include="..\SchoolManagement.Shared\SchoolManagement.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\CourseWeekAll\Handlers\Commands\" />
-    <Folder Include="Features\CourseWeekAll\Requests\Commands\" />
   </ItemGroup>
 
 </Project>

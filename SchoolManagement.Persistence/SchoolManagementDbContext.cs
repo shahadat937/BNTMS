@@ -849,9 +849,14 @@ namespace SchoolManagement.Persistence
             {
 
             });
-            modelBuilder.Entity<CourseWeekAll>().HasNoKey();
-        //    modelBuilder.Entity<CourseWeekAll>().HasKey(c => c.BaseSchoolNameId);
-            //modelBuilder.Entity<CourseWeekAll>(entity =>{});
+         //modelBuilder.Entity<CourseWeekAll>().HasNoKey();
+            //  modelBuilder.Entity<CourseWeekAll>().HasKey(c => c.WeekID);
+            modelBuilder.Entity<CourseWeekAll>(entity =>{
+
+                entity.HasKey(e => e.WeekID)
+                    .HasName("PK__CourseWe__C814A5E12E954D7F");
+
+            });
             modelBuilder.Entity<CourseBudgetAllocation>(entity =>
             {
                 entity.HasOne(d => d.BudgetCode)

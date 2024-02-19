@@ -1,5 +1,6 @@
 ﻿using SchoolManagement.Application;
 using SchoolManagement.Application.DTOs.CourseWeeks;
+using SchoolManagement.Application.Features.CourseWeekAll.Requests.Commands;
 using SchoolManagement.Application.Features.CourseWeeks.Requests.Commands;
 using SchoolManagement.Application.Features.CourseWeeks.Requests.Queries;
 using SchoolManagement.Shared.Models;
@@ -42,7 +43,7 @@ public class CourseWeekController : ControllerBase
     [Route("save-courseWeek")]
     public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateCourseWeekDto CourseWeek)
     {
-        var command = new CreateCourseWeekCommand { CourseWeekDto = CourseWeek };
+        var command = new CreateCourseWeekAllCommand { CourseWeekAllDto = CourseWeekall };
         var response = await _mediator.Send(command);
         return Ok(response);
     }

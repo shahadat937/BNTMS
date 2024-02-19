@@ -200,7 +200,8 @@ namespace SchoolManagement.Application.Profiles
         public MappingProfile()
         {
             //Lattar A
-            CreateMap<CourseWeekAll, CourseWeekAllDto>().ReverseMap();
+            CreateMap<CourseWeekAll, SchoolManagement.Application.DTOs.CourseWeekAll.CourseWeekAllDto>().ReverseMap();
+            CreateMap<CourseWeekAll, SchoolManagement.Application.DTOs.CourseWeekAll.CreateCourseWeekAllDto>().ReverseMap();
 
             #region AccountType Mapping    
             CreateMap<AccountType, AccountTypeDto>().ReverseMap();

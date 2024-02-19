@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application;
 using SchoolManagement.Application.DTOs.CourseWeekAll;
+using SchoolManagement.Application.DTOs.CourseWeeks;
+using SchoolManagement.Application.Features.CourseWeekAll.Requests.Commands;
 using SchoolManagement.Application.Features.CourseWeekAll.Requests.Queries;
+using SchoolManagement.Application.Features.CourseWeeks.Requests.Commands;
 using SchoolManagement.Application.Features.CourseWeeks.Requests.Queries;
 
 namespace SchoolManagement.Api.Controllers
@@ -47,6 +50,16 @@ namespace SchoolManagement.Api.Controllers
                 BaseSchoolNameId = baseSchoolNameId
             });
             return Ok(dataForPrintWeeklyRoutine);
+        }
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [Route("save-courseWeekAll")]
+        public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateCourseWeekAllDto CourseWeekAll)
+        {
+            var command = new CreateCourseWeekAllCommand { CourseWeekAllDto= CourseWeekAll };
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
     }
 }
