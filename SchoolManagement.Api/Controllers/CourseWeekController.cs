@@ -43,7 +43,7 @@ public class CourseWeekController : ControllerBase
     [Route("save-courseWeek")]
     public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateCourseWeekDto CourseWeek)
     {
-        var command = new CreateCourseWeekAllCommand { CourseWeekAllDto = CourseWeekall };
+        var command = new CreateCourseWeekCommand { CourseWeekDto = CourseWeek };
         var response = await _mediator.Send(command);
         return Ok(response);
     }
