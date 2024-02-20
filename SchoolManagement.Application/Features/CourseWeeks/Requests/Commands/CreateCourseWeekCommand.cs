@@ -6,6 +6,6 @@ namespace SchoolManagement.Application.Features.CourseWeeks.Requests.Commands
 {
     public class CreateCourseWeekCommand : IRequest<BaseCommandResponse>
     {
-        public CreateCourseWeekDto CourseWeekAllDto { get; set; }
+        public CreateCourseWeekDto CourseWeekDto { get; set; }
     }
 }
