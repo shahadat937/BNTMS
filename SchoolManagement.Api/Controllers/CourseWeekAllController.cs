@@ -6,6 +6,8 @@ using SchoolManagement.Application.DTOs.CourseWeeks;
 using SchoolManagement.Application.Features.CourseWeekAll.Requests.Commands;
 using SchoolManagement.Application.Features.CourseWeekAll.Requests.Queries;
 using SchoolManagement.Application.Features.CourseWeeks.Requests.Commands;
+using SchoolManagement.Shared.Models;
+using System.Net.Sockets;
 
 
 
@@ -52,6 +54,18 @@ namespace SchoolManagement.Api.Controllers
             });
             return Ok(dataForPrintWeeklyRoutine);
         }
+
+
+        [HttpGet]
+        [Route("get-dropdown-course-week-all")]
+        public async Task<ActionResult<List<SelectedModel>>> GetDropdownCourseWeekAll(int baseSchoolNameId)
+        {
+            var allCourseWeek = await _mediator.Send(new GetDropdownCourseWeekAllListRequest { 
+                BaseSchoolNameId = baseSchoolNameId
+            });
+            return Ok(allCourseWeek);
+        }
+
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

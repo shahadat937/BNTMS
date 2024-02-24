@@ -110,12 +110,15 @@ export class NewBnaClassRoutineComponent implements OnInit {
   }
   showHideDiv = false;
   showSpinner = false;
+  selectedWeekAll: SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
     this.getSelectedSubjectCurriculum()
     this.getSelectedDepartment()
+    this.getCourseWeeksAll()
+    this.getDropdownCourseSection()
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
 
     this.role = this.authService.currentUserValue.role.trim();
@@ -409,9 +412,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.routineNotesList=res;
     });
 
-    this.ClassRoutineService.getselectedCourseSection(this.schoolId,this.courseId).subscribe(res=>{
-      this.selectedCourseSection=res;
-    });
+    // this.ClassRoutineService.getselectedCourseSection(this.schoolId,this.courseId).subscribe(res=>{
+    //   this.selectedCourseSection=res;
+    // });
     
     this.ClassRoutineService.getdataForPrintWeeklyRoutine(this.weekId).subscribe(res=>{
       this.dataForClassRoutine=res;
@@ -606,6 +609,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   getSelectedBnaSemester(){
     this.ClassRoutineService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
+      console.log("Semester : ", res)
     });
   } 
 
@@ -633,7 +637,20 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.ClassRoutineService.getSelectedSubjectCurriculum().subscribe(res=>{
       this.selectedSubjectCurriculum=res
     });
-  } 
+  }
+  getCourseWeeksAll(){
+    this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
+    this.ClassRoutineService.getDropdownSelectedCourseWeeksAll(this.baseSchoolId).subscribe(res=>{
+      this.selectedWeekAll = res
+    });
+  }
+  
+  getDropdownCourseSection(){
+    this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
+    this.ClassRoutineService.getDropdownCourseSection(this.baseSchoolId).subscribe(res=>{
+      this.selectedCourseSection = res
+    });
+  }
 
   getSelectedDepartment(){
     this.ClassRoutineService.getSelectedDepartment().subscribe(res=>{
@@ -659,9 +676,12 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
     } 
     
-   this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
-      this.selectedWeek=res;
-    });    
+  //  this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
+  //     this.selectedWeek=res;
+  //   });    
+
+   
+  
  
     
     this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
@@ -669,19 +689,19 @@ export class NewBnaClassRoutineComponent implements OnInit {
     });
   } 
 
-  onWeekSelectionChangesemisterGet(dropdown){
-    var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
-    var bnaSemesterId=dropdown.value;
+  // onWeekSelectionChangesemisterGet(dropdown){
+  //   var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
+  //   var bnaSemesterId=dropdown.value;
 
-    var courseNameId=this.ClassRoutineForm.value['courseNameId'];
-    //var courseWeekId=this.ClassRoutineForm.value['courseWeekId'];
-    var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
-    this.ClassRoutineService.getSelectedCourseWeeks_sem(baseSchoolNameId,courseDurationId,courseNameId,bnaSemesterId).subscribe(res=>{
-      this.selectedWeek=res;
-    });    
+  //   var courseNameId=this.ClassRoutineForm.value['courseNameId'];
+  //   //var courseWeekId=this.ClassRoutineForm.value['courseWeekId'];
+  //   var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
+  //   this.ClassRoutineService.getSelectedCourseWeeks_sem(baseSchoolNameId,courseDurationId,courseNameId,bnaSemesterId).subscribe(res=>{
+  //     this.selectedWeek=res;
+  //   });    
  
-  //  (onSelectionChange)="onSubjectNameSelectionChangeGet(dropdown,i)"
-  }
+  // //  (onSelectionChange)="onSubjectNameSelectionChangeGet(dropdown,i)"
+  // }
 
   getselectedCourseModules(){
     this.ClassRoutineService.getselectedCourseModules().subscribe(res=>{
