@@ -96,6 +96,17 @@ public class CourseSectionController : ControllerBase
         return Ok(CourseSectionValue);
     }
 
+    [HttpGet]
+    [Route("get-dorpdown-courseSection")]
+    public async Task<ActionResult<List<SelectedModel>>> GetDropdownCourseSection(int baseSchoolNameId)
+    {
+        var CourseSectionValue = await _mediator.Send(new GetDropdownCourseSectionRequest
+        {
+            BaseSchoolNameId = baseSchoolNameId
+        });
+        return Ok(CourseSectionValue);
+    }
+
 
 
     [HttpGet]
