@@ -6,7 +6,8 @@ using SchoolManagement.Application.DTOs.CourseWeeks;
 using SchoolManagement.Application.Features.CourseWeekAll.Requests.Commands;
 using SchoolManagement.Application.Features.CourseWeekAll.Requests.Queries;
 using SchoolManagement.Application.Features.CourseWeeks.Requests.Commands;
-using SchoolManagement.Application.Features.CourseWeeks.Requests.Queries;
+
+
 
 namespace SchoolManagement.Api.Controllers
 {
@@ -34,7 +35,7 @@ namespace SchoolManagement.Api.Controllers
 
         [HttpGet]
         [Route("get-courseWeeks")]
-        public async Task<ActionResult> Get([FromQuery] QueryParams queryParams, int baseSchoolNameId=0)
+        public async Task<ActionResult> Get([FromQuery] QueryParams queryParams, int baseSchoolNameId)
         {
             var CourseWeeks = await _mediator.Send(new GetCourseWeekAllListRequest { QueryParams = queryParams, BaseSchoolNameId = baseSchoolNameId });
             return Ok(CourseWeeks);
@@ -60,6 +61,28 @@ namespace SchoolManagement.Api.Controllers
             var command = new CreateCourseWeekAllCommand { CourseWeekAllDto= CourseWeekAll };
             var response = await _mediator.Send(command);
             return Ok(response);
+        }
+        //[HttpPut]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //[Route("update-courseWeek/{id}")]
+        //public async Task<ActionResult> Put([FromBody] Application.DTOs.CourseWeekAll.CourseWeekAllDto CourseWeek, [FromRoute] int id)
+        //{
+        //    var command = new UpdateCourseWeekAllCommand { CourseWeekAllDto = CourseWeek };
+        //    await _mediator.Send(command);
+        //    return NoContent();
+        //}
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        [Route("update-courseWeek/{id}")]
+        public async Task<ActionResult> Put([FromBody] Application.DTOs.CourseWeeks.CourseWeekAllDto CourseWeek)
+        {
+            var command = new UpdateCourseWeekCommand { CourseWeekDto = CourseWeek };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

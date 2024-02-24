@@ -35,9 +35,10 @@ namespace SchoolManagement.Application.Features.CourseWeekAll.Handlers.Queries
 
 
 
-           IQueryable<SchoolManagement.Domain.CourseWeekAll> CourseWeeks = _CourseWeekRepository.FilterWithInclude(x => x.WeekName.Contains(request.QueryParams.SearchText)).Where(x => x.BaseSchoolNameId == request.BaseSchoolNameId);
+           // IQueryable<SchoolManagement.Domain.CourseWeekAll> CourseWeeks = _CourseWeekRepository.Where(x => x.BaseSchoolNameId == request.BaseSchoolNameId);
+            IQueryable<SchoolManagement.Domain.CourseWeekAll> CourseWeeks = _CourseWeekRepository.Where(x => true);
 
-           // IQueryable<SchoolManagement.Domain.CourseWeekAll> CourseWeeks = _CourseWeekRepository.FilterWithInclude(x => x.WeekName.Contains(request.QueryParams.SearchText)).Where(x => x.BaseSchoolNameId == request.BaseSchoolNameId);
+            // IQueryable<SchoolManagement.Domain.CourseWeekAll> CourseWeeks = _CourseWeekRepository.FilterWithInclude(x => x.WeekName.Contains(request.QueryParams.SearchText)).Where(x => x.BaseSchoolNameId == request.BaseSchoolNameId);
 
             var CourseWeekDtos = _mapper.Map<List<CourseWeekAllDto>>(CourseWeeks);
             var totalCount = CourseWeeks.Count();
