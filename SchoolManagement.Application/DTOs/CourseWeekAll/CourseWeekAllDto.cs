@@ -9,7 +9,7 @@ namespace SchoolManagement.Application.DTOs.CourseWeekAll
 {
     public class CourseWeekAllDto: ICourseWeekAllDto
     {
-     
+
         public int WeekID { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public string WeekName { get; set; }

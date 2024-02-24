@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SchoolManagement.Domain;
+using FluentValidation;
 
 namespace SchoolManagement.Application.Features.CourseWeekAll.Handlers.Commands
 {
@@ -26,11 +27,11 @@ namespace SchoolManagement.Application.Features.CourseWeekAll.Handlers.Commands
         }
         public async Task<Unit> Handle(UpdateCourseWeekAllCommand request, CancellationToken cancellationToken)
         {
-            var validator = new UpdateCourseWeekAllDtoValidator();
+            var validator = new CreateCourseWeekAllDtoValidator();
             var validationResult = await validator.ValidateAsync(request.CourseWeekAllDto);
 
-            if (validationResult.IsValid == false)
-                throw new ValidationException(validationResult);
+          //  if (validationResult.IsValid == false)
+             //   throw new ValidationException(validationResult);
 
             var CourseWeek = await _unitOfWork.Repository<SchoolManagement.Domain.CourseWeekAll>().Get(request.CourseWeekAllDto.WeekID);
 

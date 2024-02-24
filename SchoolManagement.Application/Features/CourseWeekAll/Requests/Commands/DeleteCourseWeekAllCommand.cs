@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SchoolManagement.Application.DTOs.CourseWeekAll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.CourseWeekAll.Requests.Commands
 {
-    public class UpdateCourseWeekAllCommand:IRequest<Unit>
+    public class DeleteCourseWeekAllCommand:IRequest
     {
-        public CreateCourseWeekAllDto CourseWeekAllDto { get; set; }
+        public int WeekID { get; set; }
     }
 }
