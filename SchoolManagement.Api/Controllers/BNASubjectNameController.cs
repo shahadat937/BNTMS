@@ -3,6 +3,7 @@ using SchoolManagement.Application;
 using SchoolManagement.Application.DTOs.BnaSubjectName;
 using SchoolManagement.Application.Features.BnaSubjectNames.Requests.Commands;
 using SchoolManagement.Application.Features.BnaSubjectNames.Requests.Queries;
+using SchoolManagement.Application.Features.BNASubjectNames.Requests.Queries;
 using SchoolManagement.Application.Features.ClassPeriods.Requests.Queries;
 using SchoolManagement.Application.Features.CourseDurations.Requests.Commands;
 using SchoolManagement.Application.Features.CourseDurations.Requests.Queries;
@@ -121,6 +122,17 @@ public class BnaSubjectNameController : ControllerBase
         {
             BaseSchoolNameId = baseSchoolNameId,
             CourseNameId = courseNameId
+        });
+        return Ok(SubjectNameValue);
+    }
+
+    [HttpGet]
+    [Route("get-dropdownSubjectName")]
+    public async Task<ActionResult<List<SelectedModel>>> GetDropdownSubjectNameList(int baseSchoolNameId)
+    {
+        var SubjectNameValue = await _mediator.Send(new GetDropdownSubjectNameRequest
+        {
+            BaseSchoolNameId = baseSchoolNameId
         });
         return Ok(SubjectNameValue);
     }

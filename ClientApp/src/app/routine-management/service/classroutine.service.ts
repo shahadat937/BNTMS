@@ -32,6 +32,11 @@ export class ClassRoutineService {
     return this.http.get<any[]>(this.baseUrl + '/courseWeekAll/get-dropdown-course-week-all?baseSchoolNameId='+baseSchoolNameId)
   } 
 
+  
+  getDropdownSubjectName(baseSchoolNameId){
+    return this.http.get<any[]>(this.baseUrl + '/bna-subject-name/get-dropdownSubjectName?baseSchoolNameId='+baseSchoolNameId)
+  } 
+
   getDropdownCourseSection(baseSchoolNameId){
     return this.http.get<any[]>(this.baseUrl + '/course-section/get-dorpdown-courseSection?baseSchoolNameId='+baseSchoolNameId)
   } 
@@ -144,6 +149,10 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   }
   getselectedInstructor(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId,bnaSubjectNameId){
     return this.http.get<any[]>(this.baseUrl + '/course-instructor/get-selectedInstructorNameByParams?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId+'&courseDurationId='+courseDurationId+'&courseSectionId='+courseSectionId+'&bnaSubjectNameId='+bnaSubjectNameId)
+  }
+
+  getDropdownInstructorInfo(bnaSubjectNameId){
+    return this.http.get<any[]>(this.baseUrl + '/course-instructor/get-dropdownInstructorList?&bnaSubjectNameId='+bnaSubjectNameId)
   }
 
   getselectedCourseSection(baseSchoolNameId,courseNameId){
@@ -321,7 +330,7 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
     return this.http.delete(this.baseUrl + '/class-routine/delete-classRoutine/'+id);
   }
 
-
+  
 
 
 }

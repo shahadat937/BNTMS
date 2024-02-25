@@ -43,9 +43,11 @@ export class NewBnaClassRoutineComponent implements OnInit {
   selectedModule:SelectedModel[];
   selectedcoursename:SelectedModel[];
   routinManagementdropdownSettings:IDropdownSettings;
+  routinManagementdropdownSettingsSingle:IDropdownSettings;
   //selectedmarktype:SelectedModel[];
   //selectedInstructor:{};
   selectedCourseSection:SelectedModel[];
+  selectedInstructorInfo:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   routineCount:number;
   instructorRoutineCount:number;
@@ -64,6 +66,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
   courseId:any;
   weekId:any;
   sectionId:any;
+
+  selectedSubjectId:number;
 
   popup = false;
 
@@ -119,6 +123,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getSelectedDepartment()
     this.getCourseWeeksAll()
     this.getDropdownCourseSection()
+    this.getDropdownSubjectName()
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
 
     this.role = this.authService.currentUserValue.role.trim();
@@ -131,6 +136,14 @@ export class NewBnaClassRoutineComponent implements OnInit {
       textField: 'text',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+    
+    this.routinManagementdropdownSettingsSingle= {
+      singleSelection: true,
+      idField: 'value',
+      textField: 'text',
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
@@ -550,9 +563,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.bnaSemesterId = this.ClassRoutineForm.value['bnaSemesterId'];
 
 
-    this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse_sem(baseSchoolNameId,courseNameId,this.bnaSemesterId).subscribe(res=>{
-      this.selectedsubjectname=res;
-    });
+    // this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse_sem(baseSchoolNameId,courseNameId,this.bnaSemesterId).subscribe(res=>{
+    //   this.selectedsubjectname=res;
+    // });
 
     this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
@@ -609,7 +622,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
   getSelectedBnaSemester(){
     this.ClassRoutineService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
-      console.log("Semester : ", res)
     });
   } 
 
@@ -630,7 +642,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedcoursedurationbyschoolname=res;
       });
-      console.log("Routin : ", this.selectedcoursedurationbyschoolname)
   } 
 
   getSelectedSubjectCurriculum(){
@@ -645,10 +656,23 @@ export class NewBnaClassRoutineComponent implements OnInit {
     });
   }
   
+  getDropdownSubjectName(){
+    this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
+    this.ClassRoutineService.getDropdownSubjectName(this.baseSchoolId).subscribe(res=>{
+      this.selectedsubjectname = res
+    });
+  }
+
   getDropdownCourseSection(){
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
     this.ClassRoutineService.getDropdownCourseSection(this.baseSchoolId).subscribe(res=>{
       this.selectedCourseSection = res
+    });
+  }
+
+  getDropdownInstructorInfo(){
+    this.ClassRoutineService.getDropdownInstructorInfo(this.selectedSubjectId).subscribe(res=>{
+      this.selectedInstructorInfo = res
     });
   }
 
@@ -739,23 +763,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
     });
   } 
 
-  onStatus(dropdown) {
-    if(dropdown.value == 1019){
-      this.department = dropdown.value
-    }
-  }
-  onDeSelect(dropdown) {
-    if(dropdown.value == 1019){
-      this.department = 0;
-    }
-  }
-  onSelectAll() {
-    this.department = 1019;
-    console.log("Department : ", this.department)
-  }
-  onDeSelectAll() {
-    this.department = 0;
-  }
 
   getselectedclasstype(){
     this.ClassRoutineService.getselectedclasstype().subscribe(res=>{
@@ -845,6 +852,29 @@ export class NewBnaClassRoutineComponent implements OnInit {
       }
     })
     
+  }
+
+  
+  onStatus(dropdown) {
+    if(dropdown.value == 1019){
+      this.department = dropdown.value
+    }
+  }
+  onDeSelect(dropdown) {
+    if(dropdown.value == 1019){
+      this.department = 0;
+    }
+  }
+  onSelectAll() {
+    this.department = 1019;
+  }
+  onDeSelectAll() {
+    this.department = 0;
+  }
+
+  onSubjectStatus(dropdown){
+    this.selectedSubjectId = dropdown.value
+    this.getDropdownInstructorInfo();
   }
 
 }
