@@ -1,7 +1,9 @@
 ﻿using SchoolManagement.Application;
 using SchoolManagement.Application.DTOs.CourseInstructors;
+using SchoolManagement.Application.Features.BNASubjectNames.Requests.Queries;
 using SchoolManagement.Application.Features.CourseInstructors.Requests.Commands;
 using SchoolManagement.Application.Features.CourseInstructors.Requests.Queries;
+using SchoolManagement.Shared.Models;
 
 namespace SchoolManagement.Api.Controllers;
 
@@ -23,6 +25,18 @@ public class CourseInstructorController : ControllerBase
     {
         var CourseInstructors = await _mediator.Send(new GetCourseInstructorListRequest { QueryParams = queryParams });
         return Ok(CourseInstructors);
+    }
+
+
+    [HttpGet]
+    [Route("get-dropdownInstructorList")]
+    public async Task<ActionResult<List<SelectedModel>>> GetDropdownInstructorList(int bnaSubjectNameId)
+    {
+        var instructorInfo = await _mediator.Send(new GetDropdownSelectedCourseInstructorRequest
+        {
+            BnaSubjectNameId = bnaSubjectNameId
+        });
+        return Ok(instructorInfo);
     }
 
     [HttpGet]
@@ -238,5 +252,7 @@ public class CourseInstructorController : ControllerBase
         });
         return Ok(CourseInstructorByParameters);
     }
+
+
 }
 

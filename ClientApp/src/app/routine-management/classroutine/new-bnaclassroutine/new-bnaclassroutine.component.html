@@ -270,7 +270,8 @@
                             required
                             [placeholder]="'Subject Name'"
                             [data]="selectedsubjectname"
-                            [settings]="routinManagementdropdownSettings">
+                            [settings]="routinManagementdropdownSettingsSingle"
+                            (onSelect)="onSubjectStatus($event)">
                           </ng-multiselect-dropdown>
                           <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Subject Name</mat-label>
@@ -290,8 +291,8 @@
                           <ng-multiselect-dropdown
                             required
                             [placeholder]="'Instructor'"
-                            [data]="unit.controls.subjectId.value != null ? selectedInstructor[unit.controls.subjectId.value]:[]"
-                            [settings]="routinManagementdropdownSettings">
+                            [data]="selectedInstructorInfo"
+                            [settings]="routinManagementdropdownSettingsSingle">
                           </ng-multiselect-dropdown>
                           <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Instructor</mat-label>
