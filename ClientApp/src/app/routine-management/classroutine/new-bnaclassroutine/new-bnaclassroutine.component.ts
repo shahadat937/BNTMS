@@ -198,8 +198,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getselectedclasstype();
     this.getselectedCourseModules();
     this.getselectedcoursename();
-    this.getSelectedBnaSemester()
-    
+    this.getSelectedBnaSemester();
+    this.getSelectedClassPeriod()
   }
   intitializeForm() {
     this.ClassRoutineForm = this.fb.group({
@@ -449,9 +449,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
           this.periodListByBaseSchoolAndCourse=res;
         })
 
-      this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(this.schoolId,this.courseId).subscribe(res=>{
-        this.selectedclassperiod=res;
-      });
+      // this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(this.schoolId,this.courseId).subscribe(res=>{
+      //   this.selectedclassperiod=res;
+      // });
       
       this.isShown=true;
     } 
@@ -543,9 +543,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
       //   this.ClassRoutineForm.get('courseModuleId').setValue(courseModuleId);
       // });
 
-      this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
-        this.selectedclassperiod=res;
-      });
+      // this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
+      //   this.selectedclassperiod=res;
+      // });
     
     }  
   }
@@ -673,6 +673,19 @@ export class NewBnaClassRoutineComponent implements OnInit {
   getDropdownInstructorInfo(){
     this.ClassRoutineService.getDropdownInstructorInfo(this.selectedSubjectId).subscribe(res=>{
       this.selectedInstructorInfo = res
+    });
+  }
+
+  getSelectedMarkType(){
+    this.ClassRoutineService.getDropdownMarkType(this.selectedSubjectId).subscribe(res=>{
+      this.selectedmarktype=res;
+    });
+  }
+  
+  getSelectedClassPeriod(){
+    this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
+    this.ClassRoutineService.getDropdownClassPeriod(this.baseSchoolId).subscribe(res=>{
+      this.selectedclassperiod=res;
     });
   }
 
@@ -875,6 +888,11 @@ export class NewBnaClassRoutineComponent implements OnInit {
   onSubjectStatus(dropdown){
     this.selectedSubjectId = dropdown.value
     this.getDropdownInstructorInfo();
+    this.getSelectedMarkType()
   }
-
+  onSubjectDeSelect(dropdown){
+    this.selectedSubjectId = 0;
+    this.getDropdownInstructorInfo();
+    this.getSelectedMarkType()
+  }
 }
