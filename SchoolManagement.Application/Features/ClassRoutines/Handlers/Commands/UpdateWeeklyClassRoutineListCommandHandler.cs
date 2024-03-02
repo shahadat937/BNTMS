@@ -34,7 +34,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
          
             int? BaseSchoolNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.baseSchoolNameId).FirstOrDefault();
             int? CourseDurationId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseDurationId).FirstOrDefault();
-            int? CourseNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseNameId).FirstOrDefault();
+            int? CourseNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseTitleId).FirstOrDefault();
             int? CourseWeekId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseWeekId).FirstOrDefault();
             int? BnaSubjectNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseWeekId).FirstOrDefault();
 
@@ -80,7 +80,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                     CourseSectionId = x.CourseSectionId,
                     ClassCountPeriod = x.classCountPeriod,
                     SubjectCountPeriod = x.subjectCountPeriod,
-                    CourseNameId = x.courseNameId,
+                    CourseNameId = x.courseTitleId,
                     CourseWeekId = x.courseWeekId,
                     BranchId = x.BranchId,
                     CourseDurationId = x.courseDurationId,
@@ -114,7 +114,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                     BaseSchoolNameId = x.baseSchoolNameId,
                     ClassCountPeriod = query.Where(y => y.classRoutineId == x.classRoutineId && y.CourseSectionId == x.CourseSectionId).Select(y => y.countPeriod).FirstOrDefault(),
                     SubjectCountPeriod = subjectTotalPeriod.Where(y => y.BnaSubjectNameId == x.bnaSubjectNameId).Select(y => int.Parse(y.TotalPeriod)).FirstOrDefault(),
-                    CourseNameId = x.courseNameId,
+                    CourseNameId = x.courseTitleId,
                     CourseWeekId = x.courseWeekId,
                     CourseDurationId = x.courseDurationId,
                     BnaSubjectNameId = x.bnaSubjectNameId,

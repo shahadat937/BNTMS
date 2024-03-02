@@ -82,6 +82,19 @@ public class ClassRoutineController : ControllerBase
        // return Ok();
     }
 
+    [HttpPost]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [Route("save-bnaclassRoutine")]
+    public async Task<ActionResult<BaseCommandResponse>> BnaClassRoutine(ClassRoutineListDto ClassRoutine)
+    {
+        //    var json = Newtonsoft.Json.JsonConvert.SerializeObject(ClassRoutine);
+        var command = new CreateClassRoutineListCommand { ClassRoutineDto = ClassRoutine };
+        var response = await _mediator.Send(command);
+        return Ok(response);
+        // return Ok();
+    }
+
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

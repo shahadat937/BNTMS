@@ -3572,6 +3572,7 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<MarkCategory> MarkCategory { get; set; } = null!;
         public virtual DbSet<ForeignTrainingCourseReport> ForeignTrainingCourseReport { get; set; } = null!;
         public virtual DbSet<CourseWeekAll> CourseWeekAll { get; set; } = null!;
+        public virtual DbSet<BnaClassRoutine> BnaClassRoutine { get; set; } = null!;
 
     }
 }

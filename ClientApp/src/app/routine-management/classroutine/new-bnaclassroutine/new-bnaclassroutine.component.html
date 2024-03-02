@@ -29,6 +29,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-4">
                   <ng-multiselect-dropdown
                   required
+                  formControlName="bnaSubjectCurriculumId"
                   [placeholder]="'BNA Subject Curriculum *'"
                   [data]="selectedSubjectCurriculum"
                   [settings]="routinManagementdropdownSettings"
@@ -43,6 +44,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-4" [hidden]="department != 1019">
                   <ng-multiselect-dropdown
                   required
+                  formControlName="departmentId"
                   [placeholder]="'Department'"
                   [data]="selectedDepartment"
                   [settings]="routinManagementdropdownSettings">
@@ -53,6 +55,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                   <ng-multiselect-dropdown
                   required
+                  formControlName="courseTitleId"
                   [placeholder]="'Course Title *'"
                   [data]="selectedcoursedurationbyschoolname"
                   [settings]="routinManagementdropdownSettings">
@@ -92,6 +95,7 @@
 
                   <ng-multiselect-dropdown
                     required
+                    formControlName="bnaSemesterId"
                     [placeholder]="'Semester *'"
                     [data]="selectedSemester"
                     [settings]="routinManagementdropdownSettings">
@@ -113,6 +117,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                   <ng-multiselect-dropdown
                     required
+                    formControlName="courseWeekId"
                     [placeholder]="'Course Week *'"
                     [data]="selectedWeekAll"
                     [settings]="routinManagementdropdownSettings">
@@ -135,6 +140,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                   <ng-multiselect-dropdown
                     required
+                    formControlName="courseSectionId"
                     [placeholder]="'Course Section *'"
                     [data]="selectedCourseSection"
                     [settings]="routinManagementdropdownSettings">
@@ -268,6 +274,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                           <ng-multiselect-dropdown
                             required
+                            formControlName="subjectId"
                             [placeholder]="'Subject Name'"
                             [data]="selectedsubjectname"
                             [settings]="routinManagementdropdownSettingsSingle"
@@ -291,6 +298,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                           <ng-multiselect-dropdown
                             required
+                            formControlName="traineeId"
                             [placeholder]="'Instructor'"
                             [data]="selectedInstructorInfo"
                             [settings]="routinManagementdropdownSettingsSingle">
@@ -315,6 +323,7 @@
 
                           <ng-multiselect-dropdown
                             required
+                            formControlName="subjectMarkId"
                             [placeholder]="'Mark Type'"
                             [data]="selectedmarktype"
                             [settings]="routinManagementdropdownSettingsSingle">
@@ -335,6 +344,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                           <ng-multiselect-dropdown
                             required
+                            formControlName="classPeriodId"
                             [placeholder]="'Class Period *'"
                             [data]="selectedclassperiod"
                             [settings]="routinManagementdropdownSettingsSingle">
@@ -357,6 +367,7 @@
 
                           <ng-multiselect-dropdown
                             required
+                            formControlName="classTypeId"
                             [placeholder]="'Class Type'"
                             [data]="selectedclasstype"
                             [settings]="routinManagementdropdownSettingsSingle">
