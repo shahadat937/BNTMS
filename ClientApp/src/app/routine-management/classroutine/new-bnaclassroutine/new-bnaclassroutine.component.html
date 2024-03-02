@@ -29,6 +29,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-4">
                   <ng-multiselect-dropdown
                   required
+                  formControlName="bnaSubjectCurriculumId"
                   [placeholder]="'BNA Subject Curriculum *'"
                   [data]="selectedSubjectCurriculum"
                   [settings]="routinManagementdropdownSettings"
@@ -43,6 +44,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-4" [hidden]="department != 1019">
                   <ng-multiselect-dropdown
                   required
+                  formControlName="departmentId"
                   [placeholder]="'Department'"
                   [data]="selectedDepartment"
                   [settings]="routinManagementdropdownSettings">
@@ -53,6 +55,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                   <ng-multiselect-dropdown
                   required
+                  formControlName="courseTitleId"
                   [placeholder]="'Course Title *'"
                   [data]="selectedcoursedurationbyschoolname"
                   [settings]="routinManagementdropdownSettings">
@@ -92,6 +95,7 @@
 
                   <ng-multiselect-dropdown
                     required
+                    formControlName="bnaSemesterId"
                     [placeholder]="'Semester *'"
                     [data]="selectedSemester"
                     [settings]="routinManagementdropdownSettings">
@@ -113,6 +117,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                   <ng-multiselect-dropdown
                     required
+                    formControlName="courseWeekId"
                     [placeholder]="'Course Week *'"
                     [data]="selectedWeekAll"
                     [settings]="routinManagementdropdownSettings">
@@ -135,6 +140,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                   <ng-multiselect-dropdown
                     required
+                    formControlName="courseSectionId"
                     [placeholder]="'Course Section *'"
                     [data]="selectedCourseSection"
                     [settings]="routinManagementdropdownSettings">
@@ -268,10 +274,12 @@
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                           <ng-multiselect-dropdown
                             required
+                            formControlName="subjectId"
                             [placeholder]="'Subject Name'"
                             [data]="selectedsubjectname"
                             [settings]="routinManagementdropdownSettingsSingle"
-                            (onSelect)="onSubjectStatus($event)">
+                            (onSelect)="onSubjectStatus($event)"
+                            (onDeSelect)="onSubjectDeSelect($event)">
                           </ng-multiselect-dropdown>
                           <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Subject Name</mat-label>
@@ -290,6 +298,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                           <ng-multiselect-dropdown
                             required
+                            formControlName="traineeId"
                             [placeholder]="'Instructor'"
                             [data]="selectedInstructorInfo"
                             [settings]="routinManagementdropdownSettingsSingle">
@@ -311,7 +320,16 @@
 
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+
+                          <ng-multiselect-dropdown
+                            required
+                            formControlName="subjectMarkId"
+                            [placeholder]="'Mark Type'"
+                            [data]="selectedmarktype"
+                            [settings]="routinManagementdropdownSettingsSingle">
+                          </ng-multiselect-dropdown>
+
+                          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Mark Type</mat-label>
                             <mat-select formControlName="subjectMarkId" (selectionChange)="onSubjectMarkSelectionGetMarkType(i)">
                               <mat-option value="">--Select--</mat-option>
@@ -319,16 +337,17 @@
                                 {{dropdown.text}}
                               </mat-option>
                             </mat-select>
-                          </mat-form-field>
+                          </mat-form-field> -->
                         </div>
 
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                           <ng-multiselect-dropdown
                             required
+                            formControlName="classPeriodId"
                             [placeholder]="'Class Period *'"
                             [data]="selectedclassperiod"
-                            [settings]="routinManagementdropdownSettings">
+                            [settings]="routinManagementdropdownSettingsSingle">
                           </ng-multiselect-dropdown>
                           <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Class Period</mat-label>
@@ -345,7 +364,16 @@
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+
+                          <ng-multiselect-dropdown
+                            required
+                            formControlName="classTypeId"
+                            [placeholder]="'Class Type'"
+                            [data]="selectedclasstype"
+                            [settings]="routinManagementdropdownSettingsSingle">
+                          </ng-multiselect-dropdown>
+
+                          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>class Type </mat-label>
                             <mat-select formControlName="classTypeId">
                               <mat-option value="">--Select--</mat-option>
@@ -353,7 +381,7 @@
                                 {{dropdown.text}}
                               </mat-option>
                             </mat-select>
-                          </mat-form-field>
+                          </mat-form-field> -->
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 mb-2">

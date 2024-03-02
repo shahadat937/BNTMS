@@ -1,8 +1,10 @@
 ﻿using SchoolManagement.Application;
 using SchoolManagement.Application.DTOs.ClassPeriod;
 using SchoolManagement.Application.Features.BnaSubjectNames.Requests.Queries;
+using SchoolManagement.Application.Features.BNASubjectNames.Requests.Queries;
 using SchoolManagement.Application.Features.ClassPeriods.Requests.Commands;
 using SchoolManagement.Application.Features.ClassPeriods.Requests.Queries;
+using SchoolManagement.Application.Features.SubjectMarks.Requests.Queries;
 using SchoolManagement.Shared.Models;
 
 namespace SchoolManagement.Api.Controllers;
@@ -29,6 +31,17 @@ public class ClassPeriodController : ControllerBase
     }
 
 
+
+    [HttpGet]
+    [Route("get-selectedDropdownClassPeriod")]
+    public async Task<ActionResult<List<SelectedModel>>> GetSelectedDropdownClassPeriod(int baseSchoolNameId)
+    {
+        var ClassPeriod = await _mediator.Send(new GetDropdownClassPeriodRequest
+        {
+            BaseSchoolNameId = baseSchoolNameId
+        });
+        return Ok(ClassPeriod);
+    }
 
     [HttpGet]
     [Route("get-classPeriodDetail/{id}")]
@@ -134,7 +147,10 @@ public class ClassPeriodController : ControllerBase
         });
         return Ok(bnaSubjectNames); 
     }
-     
+
+
+
+
     [HttpGet]
     [Route("get-selectedClassPeriodForAttendanceInstructorSpRequest")]
     public async Task<ActionResult> GetSelectedClassPeriodForAttendanceInstructorSpRequest(int traineeId)

@@ -9,13 +9,15 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
     public class ClassRoutineListDto : IClassRoutineDto
     {
         public int ClassRoutineId { get; set; }
+        public int? BnaSubjectCurriculumId { get; set; }
+        public int? DepartmentId { get; set; }
         public int? CourseModuleId { get; set; }
         public int? BnaSemesterId { get; set; }
         public int? ClassPeriodId { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
-        public int? CourseNameId { get; set; }
+        public int? CourseTitleId { get; set; }
         public int? BranchId { get; set; }
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }

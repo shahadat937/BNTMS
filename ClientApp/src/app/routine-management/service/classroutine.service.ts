@@ -155,6 +155,15 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
     return this.http.get<any[]>(this.baseUrl + '/course-instructor/get-dropdownInstructorList?&bnaSubjectNameId='+bnaSubjectNameId)
   }
 
+  
+  getDropdownMarkType(bnaSubjectNameId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/subject-mark/get-dorpdownselectedMarkType?&bnaSubjectNameId='+bnaSubjectNameId)
+  }
+  
+  getDropdownClassPeriod(baseSchoolNameId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/class-period/get-selectedDropdownClassPeriod?&baseSchoolNameId='+baseSchoolNameId)
+  } 
+
   getselectedCourseSection(baseSchoolNameId,courseNameId){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/course-section/get-selectedCourseSectionsByBaseSchoolNameIdAndCourseNameId?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId)
   }
@@ -198,6 +207,7 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/course-week/get-selectedCourseWeeks?baseSchoolNameId='+baseSchoolNameId+'&courseDurationId='+courseDurationId+'&courseNameId='+courseNameId)
   }
+  
 
   
   /*getSelectedCourseWeeks_sem(baseSchoolNameId,courseDurationId,courseNameId,bnaSemesterId){
@@ -318,7 +328,7 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   }
   submit(model: any) {
     
-    return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-classRoutine', model).pipe(
+    return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-bnaclassRoutine', model).pipe(
       map((ClassRoutine: PostResponse) => {
         if (ClassRoutine) {
           return ClassRoutine;

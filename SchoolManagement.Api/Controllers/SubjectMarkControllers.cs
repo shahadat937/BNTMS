@@ -205,6 +205,18 @@ public class SubjectMarkController : ControllerBase
         return Ok(SubjectMarkValue);
     }
 
+
+    [HttpGet]
+    [Route("get-dorpdownselectedMarkType")]
+    public async Task<ActionResult<List<SelectedModel>>> GetDropdownSelectedMarkType(int bnaSubjectNameId)
+    {
+        var SubjectMarkValue = await _mediator.Send(new GetDropdownMarkTypeRequest
+        {
+            BnaSubjectNameId = bnaSubjectNameId,
+        });
+        return Ok(SubjectMarkValue);
+    }
+
     [HttpGet]
     [Route("get-selectedSubjectMarkForassignmens")]
     public async Task<ActionResult> GetSelectedSubjectMarkForAssignments(int courseNameId,int baseSchoolNameId, int bnaSubjectNameId)
