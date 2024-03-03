@@ -19,21 +19,21 @@ namespace SchoolManagement.Domain
         //}
 
         public int BnaClassRoutineId { get; set; }
-        public int? BnaSubjectCurriculumId { get; set; }
-        public int? DepartmentId { get; set; }
+        public string? BnaSubjectCurriculumId { get; set; }
+        public string? DepartmentId { get; set; }
         public int? CourseModuleId { get; set; }
 
-        public int? BnaSemesterId { get; set; }
+        public string? BnaSemesterId { get; set; }
         public int? ClassPeriodId { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
-        public int? CourseTitleId { get; set; }
-        public int? WeekID { get; set; }
+        public string? CourseTitleId { get; set; }
+        public string? WeekID { get; set; }
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }
-        public int? CourseSectionId { get; set; }
+        public string? CourseSectionId { get; set; }
         public int? CourseDurationId { get; set; }
         public int? BranchId { get; set; }
         public int? BnaSubjectNameId { get; set; }

@@ -33,10 +33,10 @@
                   [placeholder]="'BNA Subject Curriculum *'"
                   [data]="selectedSubjectCurriculum"
                   [settings]="routinManagementdropdownSettings"
-                  (onSelect)="onStatus($event)"
-                  (onDeSelect)="onDeSelect($event)"
-                  (onSelectAll)="onSelectAll()"
-                  (onDeSelectAll)="onDeSelectAll()"
+                  (onSelect)="onStatusbnaSubjectCurriculum($event)"
+                  (onDeSelect)="onDeSelectbnaSubjectCurriculum($event)"
+                  (onSelectAll)="onSelectAllbnaSubjectCurriculum()"
+                  (onDeSelectAll)="onDeSelectAllbnaSubjectCurriculum()"
                   >
                 </ng-multiselect-dropdown>
                 </div>
@@ -47,7 +47,11 @@
                   formControlName="departmentId"
                   [placeholder]="'Department'"
                   [data]="selectedDepartment"
-                  [settings]="routinManagementdropdownSettings">
+                  [settings]="routinManagementdropdownSettings"
+                  (onSelect)="onStatusDepartment($event)"
+                  (onDeSelect)="onDeSelectDepartment($event)"
+                  (onSelectAll)="onSelectAllDepartment()"
+                  (onDeSelectAll)="onDeSelectAllDepartment()">
                 </ng-multiselect-dropdown>
                 </div>
 
@@ -58,7 +62,12 @@
                   formControlName="courseTitleId"
                   [placeholder]="'Course Title *'"
                   [data]="selectedcoursedurationbyschoolname"
-                  [settings]="routinManagementdropdownSettings">
+                  [settings]="routinManagementdropdownSettings"
+                  (onSelect)="onStatusCourseTitle($event)"
+                  (onDeSelect)="onDeSelectCourseTitle($event)"
+                  (onSelectAll)="onSelectAllCourseTitle()"
+                  (onDeSelectAll)="onDeSelectAllCourseTitle()">
+                  
                 </ng-multiselect-dropdown>
                     <!-- <mat-label>Course Title</mat-label>                        
                     <mat-select formControlName=" ">
@@ -98,7 +107,11 @@
                     formControlName="bnaSemesterId"
                     [placeholder]="'Semester *'"
                     [data]="selectedSemester"
-                    [settings]="routinManagementdropdownSettings">
+                    [settings]="routinManagementdropdownSettings"
+                    (onSelect)="onStatusSemester($event)"
+                    (onDeSelect)="onDeSelectSemester($event)"
+                    (onSelectAll)="onSelectAllSemester()"
+                    (onDeSelectAll)="onDeSelectAllSemester()">
                   </ng-multiselect-dropdown>
                   <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Semester</mat-label>                        
@@ -120,7 +133,11 @@
                     formControlName="courseWeekId"
                     [placeholder]="'Course Week *'"
                     [data]="selectedWeekAll"
-                    [settings]="routinManagementdropdownSettings">
+                    [settings]="routinManagementdropdownSettings"
+                    (onSelect)="onStatusCourseWeek($event)"
+                    (onDeSelect)="onDeSelectCourseWeek($event)"
+                    (onSelectAll)="onSelectAllCourseWeek()"
+                    (onDeSelectAll)="onDeSelectAllCourseWeek()">
                   </ng-multiselect-dropdown>
                   <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Week</mat-label>                        
@@ -143,7 +160,11 @@
                     formControlName="courseSectionId"
                     [placeholder]="'Course Section *'"
                     [data]="selectedCourseSection"
-                    [settings]="routinManagementdropdownSettings">
+                    [settings]="routinManagementdropdownSettings"
+                    (onSelect)="onStatusCourseSection($event)"
+                    (onDeSelect)="onDeSelectCourseSection($event)"
+                    (onSelectAll)="onSelectAllCourseSection()"
+                    (onDeSelectAll)="onDeSelectAllCourseSection()">
                   </ng-multiselect-dropdown>
                   <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Section</mat-label>                        
