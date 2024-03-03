@@ -8,22 +8,22 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
     public class UpdateClassRoutineDto
     {
         public int classRoutineId { get; set; }
-        public int? BnaSubjectCurriculumId { get; set; }
-        public int? DepartmentId { get; set; }
+        public string? BnaSubjectCurriculumId { get; set; }
+        public string? DepartmentId { get; set; }
         public int? courseModuleId { get; set; }
-        public int? BnaSemesterId { get; set; }
-        public int? courseTitleId { get; set; }
+        public string? BnaSemesterId { get; set; }
+        public string? courseTitleId { get; set; }
         public int? classPeriodId { get; set; }
         public int? baseSchoolNameId { get; set; }
         public int? courseDurationId { get; set; }
         public int? BranchId { get; set; }
         public string? subjectName { get; set; }
         public int? bnaSubjectNameId { get; set; }
-        public int? courseWeekId { get; set; }
+        public string? courseWeekId { get; set; }
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }
-        public int? CourseSectionId { get; set; }
+        public string? CourseSectionId { get; set; }
         public int? AttendanceComplete { get; set; }
         public string? TimeDuration { get; set; }
         public int? examMarkComplete { get; set; }

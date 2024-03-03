@@ -56,6 +56,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
   weekName:any;
   courseDurationId:any;
   
+  bnaSelectedSubjectCurriculumId : any;
+  selectedDepartmentId : any;
+  selectedCourseTitleId : any;
+  selectedBnaSemesterId : any;
+  selectedCourseWeekId : any;
+  selectedCourseSectionId : any;
+
   role:any;
   traineeId:any;
   branchId:any;
@@ -803,36 +810,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
   onSubmit() {
     const id = this.ClassRoutineForm.get('classRoutineId').value; 
 
-    if(this.ClassRoutineForm.value.bnaSubjectCurriculumId != undefined){
-      this.ClassRoutineForm.value.bnaSubjectCurriculumId.forEach(element => {
-        this.ClassRoutineForm.value.bnaSubjectCurriculumId = element.value
-        if (element.value == 1019){
-          this.ClassRoutineForm.value.departmentId.forEach(x => {
-            this.ClassRoutineForm.value.departmentId = x.value
-          });
-        }
-      });
-    }
-    if(this.ClassRoutineForm.value.bnaSemesterId != undefined){
-      this.ClassRoutineForm.value.bnaSemesterId.forEach(element => {
-        this.ClassRoutineForm.value.bnaSemesterId = element.value
-      });
-    }
-    if(this.ClassRoutineForm.value.courseWeekId != undefined){
-      this.ClassRoutineForm.value.courseWeekId.forEach(element => {
-        this.ClassRoutineForm.value.courseWeekId = element.value
-      });
-    }
-    if(this.ClassRoutineForm.value.courseSectionId != undefined){
-      this.ClassRoutineForm.value.courseSectionId.forEach(element => {
-        this.ClassRoutineForm.value.courseSectionId = element.value
-      });
-    }
-    if(this.ClassRoutineForm.value.courseTitleId != undefined){
-      this.ClassRoutineForm.value.courseTitleId.forEach(element => {
-        this.ClassRoutineForm.value.courseTitleId = element.value
-      });
-    }
+    this.ClassRoutineForm.value.bnaSubjectCurriculumId = this.bnaSelectedSubjectCurriculumId;
+    this.ClassRoutineForm.value.departmentId = this.selectedDepartmentId;
+    this.ClassRoutineForm.value.courseTitleId = this.selectedCourseTitleId;
+    this.ClassRoutineForm.value.bnaSemesterId = this.selectedBnaSemesterId;
+    this.ClassRoutineForm.value.courseWeekId = this.selectedCourseWeekId;
+    this.ClassRoutineForm.value.courseSectionId = this.selectedCourseSectionId;
+
     
     
     if(this.ClassRoutineForm.get('perodListForm').value != undefined){
@@ -856,7 +840,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     }
     
     //his.loadSpinner();
-    // this.loading = true;
+    this.loading = true;
 
     console.log("Form Values : ", this.ClassRoutineForm.value)
     this.ClassRoutineService.submit(this.ClassRoutineForm.value).subscribe(response => {
@@ -930,22 +914,210 @@ export class NewBnaClassRoutineComponent implements OnInit {
   }
 
 
-  onStatus(dropdown) {
+  onStatusbnaSubjectCurriculum(dropdown) {
     if(dropdown.value == 1019){
       this.department = dropdown.value
     }
+    if(this.bnaSelectedSubjectCurriculumId == null){
+      this.bnaSelectedSubjectCurriculumId = dropdown.value;
+    }
+    else {
+      this.bnaSelectedSubjectCurriculumId = this.bnaSelectedSubjectCurriculumId + ", "+ dropdown.value;
+    }
   }
-  onDeSelect(dropdown) {
+  onDeSelectbnaSubjectCurriculum(dropdown) {
     if(dropdown.value == 1019){
       this.department = 0;
     }
+    let bnaSelectedSubjectCurriculumIdsArray: string[] = this.bnaSelectedSubjectCurriculumId.split(',');
+    let bnaSelectedSubjectCurriculumIdsNumberArray : number[] = bnaSelectedSubjectCurriculumIdsArray.map(Number);
+    let indexToRemove : number = bnaSelectedSubjectCurriculumIdsNumberArray.indexOf(dropdown.value);
+    if(indexToRemove !== -1){
+      bnaSelectedSubjectCurriculumIdsNumberArray.splice(indexToRemove, 1);
+    }
+    this.bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumIdsNumberArray.join(', ');
   }
-  onSelectAll() {
+  onSelectAllbnaSubjectCurriculum() {
     this.department = 1019;
+    this.bnaSelectedSubjectCurriculumId = null;
+    this.selectedSubjectCurriculum.forEach(element => {
+      if(this.bnaSelectedSubjectCurriculumId == null){
+        this.bnaSelectedSubjectCurriculumId = element.value;
+      }
+      else {
+        this.bnaSelectedSubjectCurriculumId = this.bnaSelectedSubjectCurriculumId + ", "+ element.value;
+      }
+    });
   }
-  onDeSelectAll() {
+  onDeSelectAllbnaSubjectCurriculum() {
     this.department = 0;
+    this.bnaSelectedSubjectCurriculumId = null;
   }
+
+  onStatusDepartment(dropdown) {
+    if(this.selectedDepartmentId == null){
+      this.selectedDepartmentId = dropdown.value;
+    }
+    else {
+      this.selectedDepartmentId = this.selectedDepartmentId + ", "+ dropdown.value;
+    }
+  }
+  onDeSelectDepartment(dropdown) {
+    let selectedDepartmentIdsArray: string[] = this.selectedDepartmentId.split(',');
+    let selectedDepartmentIdsNumberArray : number[] = selectedDepartmentIdsArray.map(Number);
+    let indexToRemove : number = selectedDepartmentIdsNumberArray.indexOf(dropdown.value);
+    if(indexToRemove !== -1){
+      selectedDepartmentIdsNumberArray.splice(indexToRemove, 1);
+    }
+    this.selectedDepartmentId = selectedDepartmentIdsNumberArray.join(', ');
+  }
+  onSelectAllDepartment() {
+    this.selectedDepartmentId = null;
+    this.selectedDepartment.forEach(element => {
+      if(this.selectedDepartmentId == null){
+        this.selectedDepartmentId = element.value;
+      }
+      else {
+        this.selectedDepartmentId = this.selectedDepartmentId + ", "+ element.value;
+      }
+    });
+  }
+  onDeSelectAllDepartment() {
+    this.selectedDepartmentId = null;
+  }
+
+
+  onStatusCourseTitle(dropdown) {
+    if(this.selectedCourseTitleId == null){
+      this.selectedCourseTitleId = dropdown.value;
+    }
+    else {
+      this.selectedCourseTitleId = this.selectedCourseTitleId + ", "+ dropdown.value;
+    }
+  }
+  onDeSelectCourseTitle(dropdown) {
+    let selectedCourseTitleIdsArray: string[] = this.selectedCourseTitleId.split(',');
+    let selectedCourseTitleIdsNumberArray : number[] = selectedCourseTitleIdsArray.map(Number);
+    let indexToRemove : number = selectedCourseTitleIdsNumberArray.indexOf(dropdown.value);
+    if(indexToRemove !== -1){
+      selectedCourseTitleIdsNumberArray.splice(indexToRemove, 1);
+    }
+    this.selectedCourseTitleId = selectedCourseTitleIdsNumberArray.join(', ');
+  }
+  onSelectAllCourseTitle() {
+    this.selectedCourseTitleId = null;
+    this.selectedcoursedurationbyschoolname.forEach(element => {
+      if(this.selectedCourseTitleId == null){
+        this.selectedCourseTitleId = element.value;
+      }
+      else {
+        this.selectedCourseTitleId = this.selectedCourseTitleId + ", "+ element.value;
+      }
+    });
+  }
+  onDeSelectAllCourseTitle() {
+    this.selectedCourseTitleId = null;
+  }
+
+  
+  onStatusSemester(dropdown) {
+    if(this.selectedBnaSemesterId == null){
+      this.selectedBnaSemesterId = dropdown.value;
+    }
+    else {
+      this.selectedBnaSemesterId = this.selectedBnaSemesterId + ", "+ dropdown.value;
+    }
+  }
+  onDeSelectSemester(dropdown) {
+    let selectedBnaSemesterIdsArray: string[] = this.selectedBnaSemesterId.split(',');
+    let selectedBnaSemesterIdsNumberArray : number[] = selectedBnaSemesterIdsArray.map(Number);
+    let indexToRemove : number = selectedBnaSemesterIdsNumberArray.indexOf(dropdown.value);
+    if(indexToRemove !== -1){
+      selectedBnaSemesterIdsNumberArray.splice(indexToRemove, 1);
+    }
+    this.selectedBnaSemesterId = selectedBnaSemesterIdsNumberArray.join(', ');
+  }
+  onSelectAllSemester() {
+    this.selectedBnaSemesterId = null;
+    this.selectedSemester.forEach(element => {
+      if(this.selectedBnaSemesterId == null){
+        this.selectedBnaSemesterId = element.value;
+      }
+      else {
+        this.selectedBnaSemesterId = this.selectedBnaSemesterId + ", "+ element.value;
+      }
+    });
+  }
+  onDeSelectAllSemester() {
+    this.selectedBnaSemesterId = null;
+  }
+
+  
+  onStatusCourseWeek(dropdown) {
+    if(this.selectedCourseWeekId == null){
+      this.selectedCourseWeekId = dropdown.value;
+    }
+    else {
+      this.selectedCourseWeekId = this.selectedCourseWeekId + ", "+ dropdown.value;
+    }
+  }
+  onDeSelectCourseWeek(dropdown) {
+    let selectedCourseWeekIdsArray: string[] = this.selectedCourseWeekId.split(',');
+    let selectedCourseWeekIdsNumberArray : number[] = selectedCourseWeekIdsArray.map(Number);
+    let indexToRemove : number = selectedCourseWeekIdsNumberArray.indexOf(dropdown.value);
+    if(indexToRemove !== -1){
+      selectedCourseWeekIdsNumberArray.splice(indexToRemove, 1);
+    }
+    this.selectedCourseWeekId = selectedCourseWeekIdsNumberArray.join(', ');
+  }
+  onSelectAllCourseWeek() {
+    this.selectedCourseWeekId = null;
+    this.selectedWeekAll.forEach(element => {
+      if(this.selectedCourseWeekId == null){
+        this.selectedCourseWeekId = element.value;
+      }
+      else {
+        this.selectedCourseWeekId = this.selectedCourseWeekId + ", "+ element.value;
+      }
+    });
+  }
+  onDeSelectAllCourseWeek() {
+    this.selectedCourseWeekId = null;
+  }
+
+  
+  onStatusCourseSection(dropdown) {
+    if(this.selectedCourseSectionId == null){
+      this.selectedCourseSectionId = dropdown.value;
+    }
+    else {
+      this.selectedCourseSectionId = this.selectedCourseSectionId + ", "+ dropdown.value;
+    }
+  }
+  onDeSelectCourseSection(dropdown) {
+    let selectedCourseSectionIdsArray: string[] = this.selectedCourseSectionId.split(',');
+    let selectedCourseSectionIdsNumberArray : number[] = selectedCourseSectionIdsArray.map(Number);
+    let indexToRemove : number = selectedCourseSectionIdsNumberArray.indexOf(dropdown.value);
+    if(indexToRemove !== -1){
+      selectedCourseSectionIdsNumberArray.splice(indexToRemove, 1);
+    }
+    this.selectedCourseSectionId = selectedCourseSectionIdsNumberArray.join(', ');
+  }
+  onSelectAllCourseSection() {
+    this.selectedCourseSectionId = null;
+    this.selectedCourseSection.forEach(element => {
+      if(this.selectedCourseSectionId == null){
+        this.selectedCourseSectionId = element.value;
+      }
+      else {
+        this.selectedCourseSectionId = this.selectedCourseSectionId + ", "+ element.value;
+      }
+    });
+  }
+  onDeSelectAllCourseSection() {
+    this.selectedCourseSectionId = null;
+  }
+
 
   onSubjectStatus(dropdown){
     this.selectedSubjectId = dropdown.value
