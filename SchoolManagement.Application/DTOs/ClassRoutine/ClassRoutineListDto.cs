@@ -25,7 +25,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public string? CourseSectionId { get; set; }
         public int? CourseDurationId { get; set; }
         public int? BnaSubjectNameId { get; set; }
-        public string? CourseWeekId { get; set; }
+        public int? CourseWeekId { get; set; }
         public int? AttendanceComplete { get; set; }
         public int? ResultSubmissionStatus { get; set; }
         public int? FinalApproveStatus { get; set; }

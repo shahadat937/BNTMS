@@ -29,7 +29,7 @@ namespace SchoolManagement.Domain
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
         public string? CourseTitleId { get; set; }
-        public string? WeekID { get; set; }
+        public int? WeekID { get; set; }
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }

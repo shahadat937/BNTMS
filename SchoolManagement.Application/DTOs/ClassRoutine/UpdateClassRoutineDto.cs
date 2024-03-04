@@ -19,7 +19,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? BranchId { get; set; }
         public string? subjectName { get; set; }
         public int? bnaSubjectNameId { get; set; }
-        public string? courseWeekId { get; set; }
+        public int? courseWeekId { get; set; }
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }

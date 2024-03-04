@@ -133,11 +133,7 @@
                     formControlName="courseWeekId"
                     [placeholder]="'Course Week *'"
                     [data]="selectedWeekAll"
-                    [settings]="routinManagementdropdownSettings"
-                    (onSelect)="onStatusCourseWeek($event)"
-                    (onDeSelect)="onDeSelectCourseWeek($event)"
-                    (onSelectAll)="onSelectAllCourseWeek()"
-                    (onDeSelectAll)="onDeSelectAllCourseWeek()">
+                    [settings]="routinManagementdropdownSettingsSingle">
                   </ng-multiselect-dropdown>
                   <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Week</mat-label>                        
@@ -452,6 +448,47 @@
               
             </form> 
             
+            <div class="row bnaClassRoutine mt-3">
+              <table class="table table-info" *ngFor="let routineValue of bnaClassRoutineAll">
+                <thead>
+                  <tr>
+                    <th>DAY & DATE</th>
+                    <th>Group</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>SUNDAY</td>
+                    <td>{{routineValue.Date}}</td>
+                  </tr>
+                  <tr>
+                    <td>MONDAY</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>TUESDAY</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>WEDNESDAY</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>THURSDAY</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>FRIDAY</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>SATURDAY</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
               <!-- <form>
               <div class="row under">
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">

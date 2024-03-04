@@ -25,7 +25,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }
         public string? CourseSectionId { get; set; }
-        public string? CourseWeekId { get; set; }
+        public int? CourseWeekId { get; set; }
         public string? Remarks { get; set; }
         public string? TimeDuration { get; set; }
         public DateTime? Date { get; set; }

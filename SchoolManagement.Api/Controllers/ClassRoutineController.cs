@@ -28,6 +28,8 @@ public class ClassRoutineController : ControllerBase
         return Ok(ClassRoutines);
     }
 
+
+
     [HttpGet]
     [Route("get-classRoutinesByCourseDurationId")]
     public async Task<ActionResult<List<ClassRoutineDto>>> GetClassRoutinesByCourseDurationId([FromQuery] QueryParams queryParams, int courseDurationId)
@@ -39,6 +41,17 @@ public class ClassRoutineController : ControllerBase
         });
         return Ok(ClassRoutines);
     }
+
+    [HttpGet]
+    [Route("get-bnaClassRoutineAll")]
+    public async Task<ActionResult> GetClassRoutine([FromQuery] QueryParams queryParams, int baseSchoolNameId,int bnaSemesterId, int weekID)
+    {
+        var BnaClassRoutine = await _mediator.Send(new GetBnaClassRoutineListRequest { QueryParams = queryParams, BaseSchoolNameId = baseSchoolNameId, 
+            BnaSemesterId = bnaSemesterId, 
+            WeekID = weekID });
+        return Ok(BnaClassRoutine);
+    }
+
 
 
     [HttpGet]

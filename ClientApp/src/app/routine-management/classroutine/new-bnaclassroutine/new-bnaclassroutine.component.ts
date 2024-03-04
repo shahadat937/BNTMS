@@ -122,6 +122,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   showHideDiv = false;
   showSpinner = false;
   selectedWeekAll: SelectedModel[];
+  bnaClassRoutineAll: any[];
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,) { }
 
@@ -131,6 +132,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getCourseWeeksAll()
     this.getDropdownCourseSection()
     this.getDropdownSubjectName()
+    this.getBnaClassRoutineAll();
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
 
     this.role = this.authService.currentUserValue.role.trim();
@@ -703,6 +705,14 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.selectedclassperiod=res;
     });
   }
+  
+  
+  getBnaClassRoutineAll(){
+    this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
+    this.ClassRoutineService.getBnaClassRoutineAll(this.baseSchoolId).subscribe(res=>{
+      this.bnaClassRoutineAll=res.items;
+    });
+  }
 
   getSelectedDepartment(){
     this.ClassRoutineService.getSelectedDepartment().subscribe(res=>{
@@ -814,8 +824,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.ClassRoutineForm.value.departmentId = this.selectedDepartmentId;
     this.ClassRoutineForm.value.courseTitleId = this.selectedCourseTitleId;
     this.ClassRoutineForm.value.bnaSemesterId = this.selectedBnaSemesterId;
-    this.ClassRoutineForm.value.courseWeekId = this.selectedCourseWeekId;
     this.ClassRoutineForm.value.courseSectionId = this.selectedCourseSectionId;
+
+    if(this.ClassRoutineForm.value.courseWeekId != undefined){
+      this.ClassRoutineForm.value.courseWeekId.forEach(element => {
+        this.ClassRoutineForm.value.courseWeekId = element.value
+      });
+    }
 
     
     
@@ -1050,39 +1065,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
   }
   onDeSelectAllSemester() {
     this.selectedBnaSemesterId = null;
-  }
-
-  
-  onStatusCourseWeek(dropdown) {
-    if(this.selectedCourseWeekId == null){
-      this.selectedCourseWeekId = dropdown.value;
-    }
-    else {
-      this.selectedCourseWeekId = this.selectedCourseWeekId + ", "+ dropdown.value;
-    }
-  }
-  onDeSelectCourseWeek(dropdown) {
-    let selectedCourseWeekIdsArray: string[] = this.selectedCourseWeekId.split(',');
-    let selectedCourseWeekIdsNumberArray : number[] = selectedCourseWeekIdsArray.map(Number);
-    let indexToRemove : number = selectedCourseWeekIdsNumberArray.indexOf(dropdown.value);
-    if(indexToRemove !== -1){
-      selectedCourseWeekIdsNumberArray.splice(indexToRemove, 1);
-    }
-    this.selectedCourseWeekId = selectedCourseWeekIdsNumberArray.join(', ');
-  }
-  onSelectAllCourseWeek() {
-    this.selectedCourseWeekId = null;
-    this.selectedWeekAll.forEach(element => {
-      if(this.selectedCourseWeekId == null){
-        this.selectedCourseWeekId = element.value;
-      }
-      else {
-        this.selectedCourseWeekId = this.selectedCourseWeekId + ", "+ element.value;
-      }
-    });
-  }
-  onDeSelectAllCourseWeek() {
-    this.selectedCourseWeekId = null;
   }
 
   
