@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.DTOs.ClassRoutine;
@@ -8,6 +9,7 @@ using SchoolManagement.Application.Features.ClassRoutines.Requests.Queries;
 using SchoolManagement.Application.Models;
 using SchoolManagement.Domain;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
 {
-    public class GetBnaClassRoutineListRequestHandler : IRequestHandler<GetBnaClassRoutineListRequest, PagedResult<ClassRoutineDto>>
+    public class GetBnaClassRoutineListRequestHandler : IRequestHandler<GetBnaClassRoutineListRequestNew, object>
     {
         private readonly ISchoolManagementRepository<BnaClassRoutine> _BnaClassRoutineRepository;
         private readonly IMapper _mapper;
@@ -25,36 +27,53 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
             _mapper = mapper;
         }
 
-        public async Task<PagedResult<ClassRoutineDto>> Handle(GetBnaClassRoutineListRequest request, CancellationToken cancellationToken)
+        public async Task<object> Handle(GetBnaClassRoutineListRequestNew request, CancellationToken cancellationToken)
         {
-            List<int> bnaClassRoutineIds = new List<int>();
-            var validator = new QueryParamsValidator();
-            var validationResult = await validator.ValidateAsync(request.QueryParams);
+            List<int> bnaSemesterWeekClassRoutineIds = new List<int>();
 
+            ArrayList bnaQueryBnaClassResult = new ArrayList();
+
+
+
+            //var validator = new QueryParamsValidator();
+            //var validationResult = await validator.ValidateAsync(request.QueryParams);
+            
             IQueryable<BnaClassRoutine> bnaClassRoutines = _BnaClassRoutineRepository.Where(x => true);
 
             foreach (var item in bnaClassRoutines)
             {
-                string[] semesterIdsString = item.BnaSemesterId.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
+                string[] semesterIdsString = item.BnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 int[] bnaSemesterIds = semesterIdsString.Select(int.Parse).ToArray();
                 foreach (var semesterId in bnaSemesterIds)
                 {
                     if (semesterId == request.BnaSemesterId)
                     {
-                        bnaClassRoutineIds.Add(item.BnaClassRoutineId);
+                        if (item.WeekID == request.WeekID)
+                        {
+                            bnaSemesterWeekClassRoutineIds.Add(item.BnaClassRoutineId);
+                            bnaQueryBnaClassResult.Add(item);
+                        }
                     }
                 }
             }
 
 
+            //foreach (var item in bnaSemesterWeekClassRoutineIds)
+            //{
+            //    IQueryable<BnaClassRoutine> getBnaClassRoutines = _BnaClassRoutineRepository.Where(x => x.BnaClassRoutineId == item);
+            //    var bnaClassRoutineDtos = _mapper.Map<List<ClassRoutineDto>>(getBnaClassRoutines);
+            //    var totalCount = bnaClassRoutineDtos.Count();
+            //    var result = new PagedResult<ClassRoutineDto>(bnaClassRoutineDtos, totalCount,
+            //        request.QueryParams.PageNumber,
+            //        request.QueryParams.PageSize);
 
-            var bnaClassRoutineDtos = _mapper.Map<List<ClassRoutineDto>>(bnaClassRoutines);
-            var totalCount = bnaClassRoutines.Count();
-            var result = new PagedResult<ClassRoutineDto>(bnaClassRoutineDtos, totalCount,
-                request.QueryParams.PageNumber,
-                request.QueryParams.PageSize);
+            //    return result;
+            //}
+            return bnaQueryBnaClassResult;
 
-            return result;
+
         }
+
     }
+
 }

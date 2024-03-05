@@ -46,7 +46,8 @@ public class ClassRoutineController : ControllerBase
     [Route("get-bnaClassRoutineAll")]
     public async Task<ActionResult> GetClassRoutine([FromQuery] QueryParams queryParams, int baseSchoolNameId,int bnaSemesterId, int weekID)
     {
-        var BnaClassRoutine = await _mediator.Send(new GetBnaClassRoutineListRequest { QueryParams = queryParams, BaseSchoolNameId = baseSchoolNameId, 
+        var BnaClassRoutine = await _mediator.Send(new GetBnaClassRoutineListRequestNew
+        { BaseSchoolNameId = baseSchoolNameId, 
             BnaSemesterId = bnaSemesterId, 
             WeekID = weekID });
         return Ok(BnaClassRoutine);
