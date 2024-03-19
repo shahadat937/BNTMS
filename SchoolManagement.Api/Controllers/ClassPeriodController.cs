@@ -34,11 +34,12 @@ public class ClassPeriodController : ControllerBase
 
     [HttpGet]
     [Route("get-selectedDropdownClassPeriod")]
-    public async Task<ActionResult<List<SelectedModel>>> GetSelectedDropdownClassPeriod(int baseSchoolNameId)
+    public async Task<ActionResult<List<SelectedModel>>> GetSelectedDropdownClassPeriod(int baseSchoolNameId, int selectedClassTypeId)
     {
         var ClassPeriod = await _mediator.Send(new GetDropdownClassPeriodRequest
         {
-            BaseSchoolNameId = baseSchoolNameId
+            BaseSchoolNameId = baseSchoolNameId,
+            ClassTypeId = selectedClassTypeId
         });
         return Ok(ClassPeriod);
     }

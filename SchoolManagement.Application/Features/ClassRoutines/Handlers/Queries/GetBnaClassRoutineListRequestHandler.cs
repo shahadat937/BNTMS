@@ -33,10 +33,6 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
 
             ArrayList bnaQueryBnaClassResult = new ArrayList();
 
-
-
-            //var validator = new QueryParamsValidator();
-            //var validationResult = await validator.ValidateAsync(request.QueryParams);
             
             IQueryable<BnaClassRoutine> bnaClassRoutines = _BnaClassRoutineRepository.Where(x => true);
 
@@ -58,20 +54,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
             }
 
 
-            //foreach (var item in bnaSemesterWeekClassRoutineIds)
-            //{
-            //    IQueryable<BnaClassRoutine> getBnaClassRoutines = _BnaClassRoutineRepository.Where(x => x.BnaClassRoutineId == item);
-            //    var bnaClassRoutineDtos = _mapper.Map<List<ClassRoutineDto>>(getBnaClassRoutines);
-            //    var totalCount = bnaClassRoutineDtos.Count();
-            //    var result = new PagedResult<ClassRoutineDto>(bnaClassRoutineDtos, totalCount,
-            //        request.QueryParams.PageNumber,
-            //        request.QueryParams.PageSize);
-
-            //    return result;
-            //}
             return bnaQueryBnaClassResult;
-
-
         }
 
     }

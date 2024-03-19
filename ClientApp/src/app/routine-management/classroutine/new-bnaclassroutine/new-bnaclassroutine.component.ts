@@ -73,6 +73,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   courseId:any;
   weekId:any;
   sectionId:any;
+  selectedClassTypeId:any;
 
   selectedSubjectId:number;
 
@@ -208,7 +209,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getselectedCourseModules();
     this.getselectedcoursename();
     this.getSelectedBnaSemester();
-    this.getSelectedClassPeriod()
   }
   intitializeForm() {
     this.ClassRoutineForm = this.fb.group({
@@ -701,7 +701,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   
   getSelectedClassPeriod(){
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
-    this.ClassRoutineService.getDropdownClassPeriod(this.baseSchoolId).subscribe(res=>{
+    this.ClassRoutineService.getDropdownClassPeriod(this.baseSchoolId, this.selectedClassTypeId).subscribe(res=>{
       this.selectedclassperiod=res;
     });
   }
@@ -1111,4 +1111,15 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getDropdownInstructorInfo();
     this.getSelectedMarkType()
   }
+
+  onClassType(dropdown){
+    this.selectedClassTypeId = dropdown.value;
+    this.getSelectedClassPeriod()
+  }
+
+  onClassTypeDeSelect(dropdown){
+    this.selectedClassTypeId = null;
+    this.getSelectedClassPeriod()
+  }
+
 }
