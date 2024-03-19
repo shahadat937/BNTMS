@@ -136,6 +136,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getDropdownCourseSection()
     this.getDropdownSubjectName()
     this.getBnaClassRoutineAll();
+    this.getSelectedClassPeriod();
+
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
 
     this.role = this.authService.currentUserValue.role.trim();
@@ -703,7 +705,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   
   getSelectedClassPeriod(){
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
-    this.ClassRoutineService.getDropdownClassPeriod(this.baseSchoolId, this.selectedClassTypeId).subscribe(res=>{
+    this.ClassRoutineService.getDropdownClassPeriod(this.baseSchoolId).subscribe(res=>{
       this.selectedclassperiod=res;
     });
   }
@@ -1127,15 +1129,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getSelectedMarkType()
   }
 
-  onStatusClassType(dropdown){
-    this.selectedClassTypeId = dropdown.value;
-    this.getSelectedClassPeriod()
-  }
-
-  onClassTypeDeSelect(dropdown){
-    this.selectedClassTypeId = null;
-    this.getSelectedClassPeriod()
-  }
 
   onStatusCourseWeek(dropdown){
     this.selectedCourseWeekId = dropdown.value;

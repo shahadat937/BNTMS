@@ -27,9 +27,7 @@ namespace SchoolManagement.Application.Features.ClassPeriods.Handlers.Queries
         {
             ICollection<ClassPeriod> BnaSubjectNames = _ClassPeriodRepository.Where(x => x.BaseSchoolNameId == request.BaseSchoolNameId).ToList();
 
-            ICollection<ClassPeriod> BnaSubjectNameByClassType = BnaSubjectNames.Where(x => x.BnaClassScheduleStatusId == request.ClassTypeId).ToList();
-
-            List<SelectedModel> selectModels = BnaSubjectNameByClassType.Select(x => new SelectedModel
+            List<SelectedModel> selectModels = BnaSubjectNames.Select(x => new SelectedModel
             {
                 Text = x.PeriodName,
                 Value = x.ClassPeriodId
