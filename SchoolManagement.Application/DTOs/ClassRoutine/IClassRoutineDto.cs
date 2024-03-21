@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace SchoolManagement.Application.DTOs.ClassRoutine
@@ -13,6 +14,10 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? CourseModuleId { get; set; }
         public string? BnaSemesterId { get; set; }
         public int? ClassPeriodId { get; set; }
+        [DataType(DataType.Time)]
+        public TimeSpan? PeriodFrom { get; set; }
+        [DataType(DataType.Time)]
+        public TimeSpan? PeriodTo { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
@@ -25,7 +30,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }
         public string? CourseSectionId { get; set; }
-        public string? CourseWeekId { get; set; }
+        public int? CourseWeekId { get; set; }
         public string? Remarks { get; set; }
         public string? TimeDuration { get; set; }
         public DateTime? Date { get; set; }

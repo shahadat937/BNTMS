@@ -241,6 +241,10 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   getselectedSubjectNamesBySchoolAndCourse(baseSchoolNameId:number,courseNameId:number){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-name/get-selectedSubjectNamesBySchoolAndCourse?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId)
   }
+  
+  getBnaClassRoutineAll(baseSchoolNameId:number){
+    return this.http.get<any>(this.baseUrl + '/class-routine/get-bnaClassRoutineAll?baseSchoolNameId='+baseSchoolNameId)
+  }
 
   getselectedSubjectNamesBySchoolAndCourse_sem(baseSchoolNameId:number,courseNameId:number,bnaSemesterId:number){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-name/get-selectedSubjectNamesBySchoolAndCourse?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId)
@@ -311,6 +315,8 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
       })
     );
   } 
+  
+
   
   find(id: number) {
     return this.http.get<ClassRoutine>(this.baseUrl + '/class-routine/get-classRoutineDetail/' + id);

@@ -63,6 +63,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
   selectedCourseWeekId : any;
   selectedCourseSectionId : any;
 
+  routineStatus = 0 ;
+
   role:any;
   traineeId:any;
   branchId:any;
@@ -73,8 +75,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
   courseId:any;
   weekId:any;
   sectionId:any;
-
+  selectedClassTypeId:any;
   selectedSubjectId:number;
+
 
   popup = false;
 
@@ -122,6 +125,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   showHideDiv = false;
   showSpinner = false;
   selectedWeekAll: SelectedModel[];
+  bnaClassRoutineAll: any[];
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,) { }
 
@@ -131,6 +135,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getCourseWeeksAll()
     this.getDropdownCourseSection()
     this.getDropdownSubjectName()
+    this.getBnaClassRoutineAll();
+    this.getSelectedClassPeriod();
+
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
 
     this.role = this.authService.currentUserValue.role.trim();
@@ -206,7 +213,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getselectedCourseModules();
     this.getselectedcoursename();
     this.getSelectedBnaSemester();
-    this.getSelectedClassPeriod()
   }
   intitializeForm() {
     this.ClassRoutineForm = this.fb.group({
@@ -218,6 +224,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
       courseName:[''],
       courseTitleId:[],
       classPeriodId:['',Validators.required],
+      periodFrom:[],
+      periodTo:[],
       baseSchoolNameId:['',Validators.required],
       courseDurationId:[],
       subjectName:[''],
@@ -261,6 +269,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
       markTypeId:[],
       classCountPeriod:[],
       subjectCountPeriod:[],
+      periodFrom:[],
+      periodTo:[],
       //isApproved:[true],
     });
   }
@@ -703,6 +713,14 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.selectedclassperiod=res;
     });
   }
+  
+  
+  getBnaClassRoutineAll(){
+    this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
+    this.ClassRoutineService.getBnaClassRoutineAll(this.baseSchoolId).subscribe(res=>{
+      this.bnaClassRoutineAll=res.items;
+    });
+  }
 
   getSelectedDepartment(){
     this.ClassRoutineService.getSelectedDepartment().subscribe(res=>{
@@ -814,8 +832,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.ClassRoutineForm.value.departmentId = this.selectedDepartmentId;
     this.ClassRoutineForm.value.courseTitleId = this.selectedCourseTitleId;
     this.ClassRoutineForm.value.bnaSemesterId = this.selectedBnaSemesterId;
-    this.ClassRoutineForm.value.courseWeekId = this.selectedCourseWeekId;
     this.ClassRoutineForm.value.courseSectionId = this.selectedCourseSectionId;
+    this.ClassRoutineForm.value.courseWeekId = this.selectedCourseWeekId;
+    
 
     
     
@@ -839,7 +858,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
       });
     }
     
-    //his.loadSpinner();
     this.loading = true;
 
     console.log("Form Values : ", this.ClassRoutineForm.value)
@@ -855,6 +873,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
     }, error => {
       this.validationErrors = error;
     })
+
+    console.log("Form Value : ", this.ClassRoutineForm.value)
 
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
@@ -924,6 +944,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     else {
       this.bnaSelectedSubjectCurriculumId = this.bnaSelectedSubjectCurriculumId + ", "+ dropdown.value;
     }
+    this.showBnaClassRoutine();
   }
   onDeSelectbnaSubjectCurriculum(dropdown) {
     if(dropdown.value == 1019){
@@ -936,6 +957,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
       bnaSelectedSubjectCurriculumIdsNumberArray.splice(indexToRemove, 1);
     }
     this.bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumIdsNumberArray.join(', ');
+    this.showBnaClassRoutine();
   }
   onSelectAllbnaSubjectCurriculum() {
     this.department = 1019;
@@ -948,10 +970,12 @@ export class NewBnaClassRoutineComponent implements OnInit {
         this.bnaSelectedSubjectCurriculumId = this.bnaSelectedSubjectCurriculumId + ", "+ element.value;
       }
     });
+    this.showBnaClassRoutine();
   }
   onDeSelectAllbnaSubjectCurriculum() {
     this.department = 0;
     this.bnaSelectedSubjectCurriculumId = null;
+    this.showBnaClassRoutine();
   }
 
   onStatusDepartment(dropdown) {
@@ -994,6 +1018,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     else {
       this.selectedCourseTitleId = this.selectedCourseTitleId + ", "+ dropdown.value;
     }
+    this.showBnaClassRoutine();
   }
   onDeSelectCourseTitle(dropdown) {
     let selectedCourseTitleIdsArray: string[] = this.selectedCourseTitleId.split(',');
@@ -1003,6 +1028,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
       selectedCourseTitleIdsNumberArray.splice(indexToRemove, 1);
     }
     this.selectedCourseTitleId = selectedCourseTitleIdsNumberArray.join(', ');
+    this.showBnaClassRoutine();
   }
   onSelectAllCourseTitle() {
     this.selectedCourseTitleId = null;
@@ -1014,9 +1040,11 @@ export class NewBnaClassRoutineComponent implements OnInit {
         this.selectedCourseTitleId = this.selectedCourseTitleId + ", "+ element.value;
       }
     });
+    this.showBnaClassRoutine();
   }
   onDeSelectAllCourseTitle() {
     this.selectedCourseTitleId = null;
+    this.showBnaClassRoutine();
   }
 
   
@@ -1027,6 +1055,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     else {
       this.selectedBnaSemesterId = this.selectedBnaSemesterId + ", "+ dropdown.value;
     }
+    this.showBnaClassRoutine();
   }
   onDeSelectSemester(dropdown) {
     let selectedBnaSemesterIdsArray: string[] = this.selectedBnaSemesterId.split(',');
@@ -1036,6 +1065,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
       selectedBnaSemesterIdsNumberArray.splice(indexToRemove, 1);
     }
     this.selectedBnaSemesterId = selectedBnaSemesterIdsNumberArray.join(', ');
+    this.showBnaClassRoutine();
   }
   onSelectAllSemester() {
     this.selectedBnaSemesterId = null;
@@ -1047,42 +1077,11 @@ export class NewBnaClassRoutineComponent implements OnInit {
         this.selectedBnaSemesterId = this.selectedBnaSemesterId + ", "+ element.value;
       }
     });
+    this.showBnaClassRoutine();
   }
   onDeSelectAllSemester() {
     this.selectedBnaSemesterId = null;
-  }
-
-  
-  onStatusCourseWeek(dropdown) {
-    if(this.selectedCourseWeekId == null){
-      this.selectedCourseWeekId = dropdown.value;
-    }
-    else {
-      this.selectedCourseWeekId = this.selectedCourseWeekId + ", "+ dropdown.value;
-    }
-  }
-  onDeSelectCourseWeek(dropdown) {
-    let selectedCourseWeekIdsArray: string[] = this.selectedCourseWeekId.split(',');
-    let selectedCourseWeekIdsNumberArray : number[] = selectedCourseWeekIdsArray.map(Number);
-    let indexToRemove : number = selectedCourseWeekIdsNumberArray.indexOf(dropdown.value);
-    if(indexToRemove !== -1){
-      selectedCourseWeekIdsNumberArray.splice(indexToRemove, 1);
-    }
-    this.selectedCourseWeekId = selectedCourseWeekIdsNumberArray.join(', ');
-  }
-  onSelectAllCourseWeek() {
-    this.selectedCourseWeekId = null;
-    this.selectedWeekAll.forEach(element => {
-      if(this.selectedCourseWeekId == null){
-        this.selectedCourseWeekId = element.value;
-      }
-      else {
-        this.selectedCourseWeekId = this.selectedCourseWeekId + ", "+ element.value;
-      }
-    });
-  }
-  onDeSelectAllCourseWeek() {
-    this.selectedCourseWeekId = null;
+    this.showBnaClassRoutine();
   }
 
   
@@ -1093,6 +1092,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     else {
       this.selectedCourseSectionId = this.selectedCourseSectionId + ", "+ dropdown.value;
     }
+    this.showBnaClassRoutine();
   }
   onDeSelectCourseSection(dropdown) {
     let selectedCourseSectionIdsArray: string[] = this.selectedCourseSectionId.split(',');
@@ -1102,6 +1102,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
       selectedCourseSectionIdsNumberArray.splice(indexToRemove, 1);
     }
     this.selectedCourseSectionId = selectedCourseSectionIdsNumberArray.join(', ');
+    this.showBnaClassRoutine();
   }
   onSelectAllCourseSection() {
     this.selectedCourseSectionId = null;
@@ -1113,9 +1114,11 @@ export class NewBnaClassRoutineComponent implements OnInit {
         this.selectedCourseSectionId = this.selectedCourseSectionId + ", "+ element.value;
       }
     });
+    this.showBnaClassRoutine();
   }
   onDeSelectAllCourseSection() {
     this.selectedCourseSectionId = null;
+    this.showBnaClassRoutine();
   }
 
 
@@ -1125,8 +1128,29 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getSelectedMarkType()
   }
   onSubjectDeSelect(dropdown){
-    this.selectedSubjectId = 0;
+    this.selectedSubjectId = null;
     this.getDropdownInstructorInfo();
     this.getSelectedMarkType()
+  }
+
+
+  onStatusCourseWeek(dropdown){
+    this.selectedCourseWeekId = dropdown.value;
+    this.showBnaClassRoutine();
+  }
+
+  onDeSelectCourseWeek(dropdown){
+    this.selectedCourseWeekId = null;
+    this.showBnaClassRoutine();
+  }
+
+
+  showBnaClassRoutine(){
+    if((this.bnaSelectedSubjectCurriculumId != null && this.selectedCourseTitleId != null && this.selectedBnaSemesterId != null && this.selectedCourseSectionId != null && this.selectedCourseWeekId != null)){
+      this.routineStatus = 1;
+    }
+    else{
+      this.routineStatus = 0;
+    }
   }
 }

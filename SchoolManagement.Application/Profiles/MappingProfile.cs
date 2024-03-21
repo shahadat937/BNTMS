@@ -200,6 +200,8 @@ namespace SchoolManagement.Application.Profiles
         public MappingProfile()
         {
             //Lattar A
+            CreateMap<BnaClassRoutine, SchoolManagement.Application.DTOs.ClassRoutine.ClassRoutineDto>().ReverseMap();
+
             CreateMap<CourseWeekAll, SchoolManagement.Application.DTOs.CourseWeekAll.CourseWeekAllDto>().ReverseMap();
             CreateMap<CourseWeekAll, SchoolManagement.Application.DTOs.CourseWeekAll.CreateCourseWeekAllDto>().ReverseMap();
 

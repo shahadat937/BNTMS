@@ -35,8 +35,8 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
             int? BaseSchoolNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.baseSchoolNameId).FirstOrDefault();
             int? CourseDurationId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseDurationId).FirstOrDefault();
             string? CourseNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseTitleId).FirstOrDefault();
-            string? CourseWeekId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseWeekId).FirstOrDefault();
-            string? BnaSubjectNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseWeekId).FirstOrDefault();
+            int? CourseWeekId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseWeekId).FirstOrDefault();
+            int? BnaSubjectNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseWeekId).FirstOrDefault();
 
             if(CourseNameId == "1252")
             {
@@ -48,7 +48,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
             {
                 try
                 {
-                    IQueryable<BnaClassRoutine> ClassRoutineListForDelete = _ClassRoutineRepository.FilterWithInclude(x => (x.BaseSchoolNameId == BaseSchoolNameId && x.CourseDurationId == CourseDurationId && x.CourseTitleId == CourseNameId && x.CourseTitleId == CourseWeekId && x.AttendanceComplete == 0));
+                    IQueryable<BnaClassRoutine> ClassRoutineListForDelete = _ClassRoutineRepository.FilterWithInclude(x => (x.BaseSchoolNameId == BaseSchoolNameId && x.CourseDurationId == CourseDurationId && x.CourseTitleId == CourseNameId && x.CourseTitleId == CourseWeekId.ToString() && x.AttendanceComplete == 0));
                     await _unitOfWork.Repository<BnaClassRoutine>().RemoveRangeAsync(ClassRoutineListForDelete);
                     await _unitOfWork.Save();
                 }

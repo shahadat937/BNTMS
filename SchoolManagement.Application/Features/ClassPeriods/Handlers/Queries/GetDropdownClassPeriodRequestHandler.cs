@@ -26,6 +26,7 @@ namespace SchoolManagement.Application.Features.ClassPeriods.Handlers.Queries
         public async Task<List<SelectedModel>> Handle(GetDropdownClassPeriodRequest request, CancellationToken cancellationToken)
         {
             ICollection<ClassPeriod> BnaSubjectNames = _ClassPeriodRepository.Where(x => x.BaseSchoolNameId == request.BaseSchoolNameId).ToList();
+
             List<SelectedModel> selectModels = BnaSubjectNames.Select(x => new SelectedModel
             {
                 Text = x.PeriodName,

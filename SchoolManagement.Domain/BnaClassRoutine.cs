@@ -1,6 +1,7 @@
 ﻿using SchoolManagement.Domain.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,15 @@ namespace SchoolManagement.Domain
 
         public string? BnaSemesterId { get; set; }
         public int? ClassPeriodId { get; set; }
+        [DataType(DataType.Time)]
+        public TimeSpan? PeriodFrom { get; set; }
+        [DataType(DataType.Time)]
+        public TimeSpan? PeriodTo { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
         public string? CourseTitleId { get; set; }
-        public string? WeekID { get; set; }
+        public int? WeekID { get; set; }
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }

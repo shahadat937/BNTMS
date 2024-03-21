@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using SchoolManagement.Application.DTOs.Common;
 using SchoolManagement.Application.DTOs.InterServiceMark.converter;
@@ -14,6 +15,10 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? CourseModuleId { get; set; }
         public string? BnaSemesterId { get; set; }
         public int? ClassPeriodId { get; set; }
+        [DataType(DataType.Time)]
+        public TimeSpan? PeriodFrom { get; set; }
+        [DataType(DataType.Time)]
+        public TimeSpan? PeriodTo { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
@@ -25,7 +30,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public string? CourseSectionId { get; set; }
         public int? CourseDurationId { get; set; }
         public int? BnaSubjectNameId { get; set; }
-        public string? CourseWeekId { get; set; }
+        public int? CourseWeekId { get; set; }
         public int? AttendanceComplete { get; set; }
         public int? ResultSubmissionStatus { get; set; }
         public int? FinalApproveStatus { get; set; }
@@ -75,6 +80,10 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? subjectCountPeriod { get; set; }
       
         public int? classPeriodId { get; set; }
+        [DataType(DataType.Time)]
+        public TimeSpan? PeriodFrom { get; set; }
+        [DataType(DataType.Time)]
+        public TimeSpan? PeriodTo { get; set; }
         public int? classTypeId { get; set; }
         public string? classRoomName { get; set; }
         public string? classTopic { get; set; }
