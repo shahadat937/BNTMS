@@ -161,7 +161,7 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   }
   
   getDropdownClassPeriod(baseSchoolNameId){
-    return this.http.get<SelectedModel[]>(this.baseUrl + '/class-period/get-selectedDropdownClassPeriod?&baseSchoolNameId='+baseSchoolNameId)
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bnaClass-period/get-bnaClassPeriod?&baseSchoolNameId='+baseSchoolNameId)
   } 
 
   getselectedCourseSection(baseSchoolNameId,courseNameId){

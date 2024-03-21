@@ -13,7 +13,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public string? DepartmentId { get; set; }
         public int? CourseModuleId { get; set; }
         public string? BnaSemesterId { get; set; }
-        public int? ClassPeriodId { get; set; }
+        public string? ClassPeriodId { get; set; }
         [DataType(DataType.Time)]
         public TimeSpan? PeriodFrom { get; set; }
         [DataType(DataType.Time)]

@@ -857,6 +857,12 @@ namespace SchoolManagement.Persistence
                     .HasName("PK__CourseWe__C814A5E12E954D7F");
 
             });
+
+            modelBuilder.Entity<BnaClassPeriod>(entity =>
+            {
+
+            });
+
             modelBuilder.Entity<CourseBudgetAllocation>(entity =>
             {
                 entity.HasOne(d => d.BudgetCode)
@@ -3573,6 +3579,7 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<ForeignTrainingCourseReport> ForeignTrainingCourseReport { get; set; } = null!;
         public virtual DbSet<CourseWeekAll> CourseWeekAll { get; set; } = null!;
         public virtual DbSet<BnaClassRoutine> BnaClassRoutine { get; set; } = null!;
+        public virtual DbSet<BnaClassPeriod> BnaClassPeriod { get; set; } = null!;
 
     }
 }

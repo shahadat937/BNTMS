@@ -198,5 +198,7 @@ namespace SchoolManagement.Application
         public const string ForeignTrainingCourseReport = SMSRoutePrefixBase + "foreign-training-course-report"; 
         public const string Department = SMSRoutePrefixBase + "eepartment"; 
         public const string MarkCategory = SMSRoutePrefixBase + "mark-category"; 
+
+        public const string BnaClassPeriod = SMSRoutePrefixBase + "bnaClass-period"; 
     }
 } 
