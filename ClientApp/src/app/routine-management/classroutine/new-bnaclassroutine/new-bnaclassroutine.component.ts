@@ -62,6 +62,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   selectedBnaSemesterId : any;
   selectedCourseWeekId : any;
   selectedCourseSectionId : any;
+  selectedClassPeriod : any;
 
   routineStatus = 0 ;
 
@@ -849,9 +850,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
         element.subjectMarkId.forEach(x => {
           element.subjectMarkId = x.value
         });
-        element.classPeriodId.forEach(x => {
-          element.classPeriodId = x.value
-        });
+
+        element.classPeriodId = this.selectedClassPeriod;
+
         element.classTypeId.forEach(x => {
           element.classTypeId = x.value
         });
@@ -1152,5 +1153,37 @@ export class NewBnaClassRoutineComponent implements OnInit {
     else{
       this.routineStatus = 0;
     }
+  }
+
+  onStatusClassPeriod(dropdown) {
+    if(this.selectedClassPeriod == null){
+      this.selectedClassPeriod = dropdown.value;
+    }
+    else {
+      this.selectedClassPeriod = this.selectedClassPeriod + ", "+ dropdown.value;
+    }
+  }
+  onDeSelectClassPeriod(dropdown) {
+    let selectedClassPeriodIdsArray: string[] = this.selectedClassPeriod.split(',');
+    let selectedClassPeriodIdsNumberArray : number[] = selectedClassPeriodIdsArray.map(Number);
+    let indexToRemove : number = selectedClassPeriodIdsNumberArray.indexOf(dropdown.value);
+    if(indexToRemove !== -1){
+      selectedClassPeriodIdsNumberArray.splice(indexToRemove, 1);
+    }
+    this.selectedClassPeriod = selectedClassPeriodIdsNumberArray.join(', ');
+  }
+  onSelectAllClassPeriod() {
+    this.selectedClassPeriod = null;
+    this.selectedclassperiod.forEach(element => {
+      if(this.selectedClassPeriod == null){
+        this.selectedClassPeriod = element.value;
+      }
+      else {
+        this.selectedClassPeriod = this.selectedClassPeriod + ", "+ element.value;
+      }
+    });
+  }
+  onDeSelectAllClassPeriod() {
+    this.selectedClassPeriod = null;
   }
 }

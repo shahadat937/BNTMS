@@ -192,6 +192,7 @@ using SchoolManagement.Application.DTOs.ForeignTrainingCourseReport;
 using SchoolManagement.Application.DTOs.FinancialSanction;
 using SchoolManagement.Application.DTOs.Department;
 using SchoolManagement.Application.DTOs.MarkCategory;
+using SchoolManagement.Application.DTOs.BnaClassPeriod;
 
 namespace SchoolManagement.Application.Profiles
 {
@@ -1685,6 +1686,11 @@ namespace SchoolManagement.Application.Profiles
             #region MarkCategory Mappings
             CreateMap<MarkCategory, MarkCategoryDto>().ReverseMap();
             CreateMap<MarkCategory, CreateMarkCategoryDto>().ReverseMap();
+            #endregion
+
+            #region BnaClassPeriod Mappings
+            CreateMap<BnaClassPeriod, BnaClassPeriodDto>().ReverseMap();
+            CreateMap<BnaClassPeriod, CreateBnaClassPeriodDto>().ReverseMap();
             #endregion
         }
     }
