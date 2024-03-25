@@ -47,7 +47,10 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
 
             List<int> bnaQueryWeekId = new List<int>();
             ArrayList bnaQueryDateResult = new ArrayList();
+
             List<BnaRoutineModel> selectModels = new List<BnaRoutineModel>();
+
+            List<BnaRoutineModel> selectMergeModels = new List<BnaRoutineModel>();
 
             IQueryable<BnaClassRoutine> bnaClassRoutiness = _BnaClassRoutineRepository.Where(x => true);
 
@@ -74,6 +77,10 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
             List<DateTime> filteredAndSortedDates = dateList.OrderBy(date => date).ToList();
 
 
+
+            string[] selectedcourseSectionIdsString = request.selectedCourseSectionId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            int[] selectedcourseSectionIds = selectedcourseSectionIdsString.Select(int.Parse).ToArray();
+
             foreach (var item in bnaClassRoutiness)
             {
                 foreach (var date in filteredAndSortedDates)
@@ -96,9 +103,6 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
 
                         string[] courseSectionIdsString = item.CourseSectionId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                         int[] courseSectionIds = courseSectionIdsString.Select(int.Parse).ToArray();
-
-                        string[] selectedcourseSectionIdsString = request.selectedCourseSectionId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                        int[] selectedcourseSectionIds = selectedcourseSectionIdsString.Select(int.Parse).ToArray();
 
 
                         foreach (var courseSectionId in courseSectionIds)
@@ -218,6 +222,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                         Date = date,
                                         WeekName = weekName,
                                         CourseSectionName = courseSectionName,
+                                        CourseSectionId = selectedcourseSectionId,
                                         Period1 = period_1,
                                         Period2 = period_2,
                                         Period3 = period_3,
@@ -241,6 +246,107 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
             }
 
 
+            foreach (var dates in filteredAndSortedDates)
+            {
+                foreach (var selectedcourseSectionId in selectedcourseSectionIds)
+                {
+                    string mergeWeekName = null;
+                    string mergecourseSectionName = null;
+                    string mergeExtraCurriculamPeriod = null;
+                    string mergeperiod_1 = null;
+                    string mergeperiod_2 = null;
+                    string mergeperiod_3 = null;
+                    string mergeperiod_4 = null;
+                    string mergeperiod_5 = null;
+                    string mergeperiod_6 = null;
+                    string mergeStandEasyPeriod = null;
+                    string mergeLunchPeriod = null;
+                    string mergeCorrectivePeriod = null;
+                    string mergeAfternoonActivitiesGamePeriod = null;
+                    string mergeSelfStudyPeriod = null;
+                    foreach (var item in selectModels)
+                    {
+                        if (dates.ToString() == item.Date.ToString())
+                        {
+                            if (selectedcourseSectionId.ToString() == item.CourseSectionId.ToString())
+                            {
+                                if (item.CourseSectionName != null)
+                                {
+                                    mergecourseSectionName = item.CourseSectionName.ToString();
+                                }
+                                if (item.ExtraCurriculamPeriod != null)
+                                {
+                                    mergeExtraCurriculamPeriod = item.ExtraCurriculamPeriod.ToString();
+                                }
+                                if (item.Period1 != null)
+                                {
+                                    mergeperiod_1 = item.Period1.ToString();
+                                }
+                                if (item.Period2 != null)
+                                {
+                                    mergeperiod_2 = item.Period2.ToString();
+                                }
+                                if (item.Period3 != null)
+                                {
+                                    mergeperiod_3 = item.Period3.ToString();
+                                }
+                                if (item.Period4 != null)
+                                {
+                                    mergeperiod_4 = item.Period4.ToString();
+                                }
+                                if (item.Period5 != null)
+                                {
+                                    mergeperiod_5 = item.Period5.ToString();
+                                }
+                                if (item.Period6 != null)
+                                {
+                                    mergeperiod_6 = item.Period6.ToString();
+                                }
+                                if (item.StandEasyPeriod != null)
+                                {
+                                    mergeStandEasyPeriod = item.StandEasyPeriod.ToString();
+                                }
+                                if (item.LunchPeriod != null)
+                                {
+                                    mergeLunchPeriod = item.LunchPeriod.ToString();
+                                }
+                                if (item.CorrectivePeriod != null)
+                                {
+                                    mergeCorrectivePeriod = item.CorrectivePeriod.ToString();
+                                }
+                                if (item.AfternoonActivitiesGamePeriod != null)
+                                {
+                                    mergeAfternoonActivitiesGamePeriod = item.AfternoonActivitiesGamePeriod.ToString();
+                                }
+                                if (item.SelfStudyPeriod != null)
+                                {
+                                    mergeSelfStudyPeriod = item.SelfStudyPeriod.ToString();
+                                }
+                                mergeWeekName = item.WeekName.ToString();
+                            }
+                        }
+                    }
+                    BnaRoutineModel mergeRoutineModel = new BnaRoutineModel
+                    {
+                        WeekName = mergeWeekName,
+                        Date = dates,
+                        CourseSectionName = mergecourseSectionName,
+                        ExtraCurriculamPeriod = mergeExtraCurriculamPeriod,
+                        Period1 = mergeperiod_1,
+                        Period2 = mergeperiod_2,
+                        Period3 = mergeperiod_3,
+                        Period4 = mergeperiod_4,
+                        Period5 = mergeperiod_5,
+                        Period6 = mergeperiod_6,
+                        StandEasyPeriod = mergeStandEasyPeriod,
+                        LunchPeriod = mergeLunchPeriod,
+                        CorrectivePeriod = mergeCorrectivePeriod,
+                        AfternoonActivitiesGamePeriod = mergeAfternoonActivitiesGamePeriod,
+                        SelfStudyPeriod = mergeSelfStudyPeriod
+                    };
+                    selectMergeModels.Add(mergeRoutineModel);
+                }
+            }
 
 
             //List<BnaRoutineModel> selectModels = bnaClassRoutiness.Select(x => new BnaRoutineModel
@@ -249,7 +355,8 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
             //    WeekName = request.selectedCourseWeekId,
             //    SemesterName = x.BnaSemesterId
             //}).ToList();
-            return selectModels;
+            return selectMergeModels;
+            //return selectModels;
 
             //List<int> bnaSemesterWeekClassRoutineIds = new List<int>();
 

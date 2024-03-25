@@ -9,6 +9,7 @@ namespace SchoolManagement.Shared.Models
     public class BnaRoutineModel
     {
         public object CourseSectionName { set; get; }
+        public object CourseSectionId { set; get; }
         public object SemesterName { set; get; }
         public object RoomNo { set; get; }
         public object Date { set; get; }
