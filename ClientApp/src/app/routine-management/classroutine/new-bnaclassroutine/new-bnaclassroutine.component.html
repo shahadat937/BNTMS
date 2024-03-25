@@ -817,30 +817,50 @@
       </div>
     </div>
 
-    <table class="table table-bordered" [hidden]="routineStatus == 0">
-      <thead>
-        <tr>
-          <th>DAY & DATE</th>
-          <th>GROUP</th>
-          <th>1<sup>st</sup> INSTR PD</th>
-          <th>2<sup>nd</sup> INSTR PD</th>
-          <th>3<sup>rd</sup> INSTR PD</th>
-          <th>4<sup>th</sup> INSTR PD</th>
-          <th>5<sup>th</sup> INSTR PD</th>
-          <th>6<sup>th</sup> INSTR PD</th>
-          <th>7<sup>th</sup> INSTR PD</th>
-          <th>9<sup>th</sup> INSTR PD</th>
-          <th>10<sup>th</sup> INSTR PD</th>
-          <th>11<sup>th</sup> INSTR PD</th>
-          <th>12<sup>th</sup> INSTR PD</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let routine of bnaClassRoutineAll">
-          <td>{{routine.date | date: 'dd-MM-yyyy'}}</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="col-md-12" style="overflow-x: scroll">
+      <div class="smart-table-container" style="width: 2200px">
+        <table class="table table-bordered" [hidden]="routineStatus == 0">
+          <thead>
+            <tr>
+              <th>DAY & DATE</th>
+              <th>GROUP</th>
+              <th>Curricular Activities</th>
+              <th>1<sup>st</sup> INSTR PD</th>
+              <th>2<sup>nd</sup> INSTR PD</th>
+              <th>3<sup>rd</sup> INSTR PD</th>
+              <th>Stand Easy</th>
+              <th>4<sup>th</sup> INSTR PD</th>
+              <th>5<sup>th</sup> INSTR PD</th>
+              <th>6<sup>th</sup> INSTR PD</th>
+              <th>Corrective TRG</th>
+              <th>Afternoon Activities and Games</th>
+              <th>Self Study</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let routine of bnaClassRoutineAll">
+              <td>{{routine.date | date: 'dd-MM-yyyy'}}</td>
+              <td>{{routine.courseSectionName}}</td>
+              <td>{{routine.extraCurriculamPeriod}}</td>
+              <td>{{routine.period1}}</td>
+              <td>{{routine.period2}}</td>
+              <td>{{routine.period3}}</td>
+              <td>{{routine.standEasyPeriod}}</td>
+              <td>{{routine.period4}}</td>
+              <td>{{routine.period5}}</td>
+              <td>{{routine.period6}}</td>
+              <td>{{routine.lunchPeriod}}</td>
+              <td>{{routine.correctivePeriod}}</td>
+              <td>{{routine.afternoonActivitiesGamePeriod}}</td>
+              <td>{{routine.selfStudyPeriod}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    
     
   </div>
 </section>

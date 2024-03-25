@@ -26,31 +26,28 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
         private readonly ISchoolManagementRepository<BnaClassRoutine> _BnaClassRoutineRepository;
         private readonly ISchoolManagementRepository<BnaSubjectName> _BnaSubjectNameRepository;
         private readonly ISchoolManagementRepository<TraineeBioDataGeneralInfo> _TraineeBioDataGeneralInfoRepository;
+        private readonly ISchoolManagementRepository<Domain.CourseWeekAll> _CourseWeekAllRepository;
+        private readonly ISchoolManagementRepository<CourseSection> _CourseSectionRepository;
+        private readonly ISchoolManagementRepository<BnaClassPeriod> _BnaClassPeriodRepository;
         
-        public GetBnaClassRoutineListRequestNewHandler(ISchoolManagementRepository<BnaClassRoutine> BnaClassRoutineRepository, ISchoolManagementRepository<BnaSubjectName> BnaSubjectNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfoRepository)
+        public GetBnaClassRoutineListRequestNewHandler(ISchoolManagementRepository<BnaClassRoutine> BnaClassRoutineRepository, ISchoolManagementRepository<BnaSubjectName> BnaSubjectNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfoRepository, ISchoolManagementRepository<Domain.CourseWeekAll> CourseWeekAllRepository, ISchoolManagementRepository<CourseSection> CourseSectionRepository, ISchoolManagementRepository<BnaClassPeriod> BnaClassPeriodRepository)
         {
             _BnaClassRoutineRepository = BnaClassRoutineRepository;
             _BnaSubjectNameRepository = BnaSubjectNameRepository;
             _TraineeBioDataGeneralInfoRepository = TraineeBioDataGeneralInfoRepository;
+            _CourseWeekAllRepository = CourseWeekAllRepository;
+            _CourseSectionRepository = CourseSectionRepository;
+            _BnaClassPeriodRepository = BnaClassPeriodRepository;
         }
 
         public async Task<List<BnaRoutineModel>> Handle(GetBnaClassRoutineListRequestNew request, CancellationToken cancellationToken)
         {
-            string ExtraCurriculamPeriod;
-            string period_1;
-            string period_2;
-            string period_3;
-            string period_4;
-            string period_5;
-            string period_6;
-            string StandEasyPeriod;
-            string LunchPeriod;
-            string CorrectivePeriod;
-            string AfternoonActivitiesGamePeriod;
-            string SelfStudyPeriod;
+            string weekName;
+            
 
             List<int> bnaQueryWeekId = new List<int>();
             ArrayList bnaQueryDateResult = new ArrayList();
+            List<BnaRoutineModel> selectModels = new List<BnaRoutineModel>();
 
             IQueryable<BnaClassRoutine> bnaClassRoutiness = _BnaClassRoutineRepository.Where(x => true);
 
@@ -61,7 +58,18 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                     bnaQueryDateResult.Add(item.Date);
                 }
             }
-            List<DateTime> dateList = bnaQueryDateResult.Cast<DateTime>().ToList();
+
+            HashSet<DateTime> uniqueDatesSet = new HashSet<DateTime>(bnaQueryDateResult.Cast<DateTime>());
+
+            ArrayList uniqueDatesArrayList = new ArrayList();
+            foreach (DateTime date in uniqueDatesSet)
+            {
+                uniqueDatesArrayList.Add(date);
+            }
+
+            weekName = _CourseWeekAllRepository.Where(x => x.WeekID == request.selectedCourseWeekId).Select(x => x.WeekName).FirstOrDefault();
+
+            List<DateTime> dateList = uniqueDatesArrayList.Cast<DateTime>().ToList();
 
             List<DateTime> filteredAndSortedDates = dateList.OrderBy(date => date).ToList();
 
@@ -72,23 +80,40 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                 {
                     if (item.Date == date)
                     {
-                        string[] subjectCurriculumIdsString = item.BnaSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                        int[] subjectCurriculumIds = subjectCurriculumIdsString.Select(int.Parse).ToArray();
+                        string courseSectionName = null;
+                        string ExtraCurriculamPeriod = null;
+                        string period_1 = null;
+                        string period_2 = null;
+                        string period_3 = null;
+                        string period_4 = null;
+                        string period_5 = null;
+                        string period_6 = null;
+                        string StandEasyPeriod = null;
+                        string LunchPeriod = null;
+                        string CorrectivePeriod = null;
+                        string AfternoonActivitiesGamePeriod = null;
+                        string SelfStudyPeriod = null;
 
-                        string[] selectedSubjectCurriculumIdsString = request.bnaSelectedSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                        int[] selectedSubjectCurriculumIds = selectedSubjectCurriculumIdsString.Select(int.Parse).ToArray();
+                        string[] courseSectionIdsString = item.CourseSectionId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        int[] courseSectionIds = courseSectionIdsString.Select(int.Parse).ToArray();
 
-                        foreach (var subjectCurriculumId in subjectCurriculumIds)
+                        string[] selectedcourseSectionIdsString = request.selectedCourseSectionId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        int[] selectedcourseSectionIds = selectedcourseSectionIdsString.Select(int.Parse).ToArray();
+
+
+                        foreach (var courseSectionId in courseSectionIds)
                         {
-                            foreach (var selectedSubjectCurriculumId in selectedSubjectCurriculumIds)
+                            foreach (var selectedcourseSectionId in selectedcourseSectionIds)
                             {
-                                if (subjectCurriculumId == selectedSubjectCurriculumId)
+                                if (courseSectionId == selectedcourseSectionId)
                                 {
                                     string[] courseTitleIdsString = item.CourseTitleId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                     int[] courseTitleIds = courseTitleIdsString.Select(int.Parse).ToArray();
 
                                     string[] selectedcourseTitleIdsString = request.selectedCourseTitleId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                     int[] selectedcourseTitleIds = selectedcourseTitleIdsString.Select(int.Parse).ToArray();
+
+                                    courseSectionName = _CourseSectionRepository.Where(x => x.CourseSectionId == courseSectionId).Select(x => x.SectionName).FirstOrDefault();
 
                                     foreach (var courseTitleId in courseTitleIds)
                                     {
@@ -108,17 +133,18 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                                     {
                                                         if (semesterId == selectedsemesterId)
                                                         {
-                                                            string[] courseSectionIdsString = item.CourseSectionId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                            int[] courseSectionIds = courseSectionIdsString.Select(int.Parse).ToArray();
+                                                            string[] subjectCurriculumIdsString = item.BnaSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                            int[] subjectCurriculumIds = subjectCurriculumIdsString.Select(int.Parse).ToArray();
 
-                                                            string[] selectedcourseSectionIdsString = request.selectedCourseSectionId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                            int[] selectedcourseSectionIds = selectedcourseSectionIdsString.Select(int.Parse).ToArray();
+                                                            string[] selectedSubjectCurriculumIdsString = request.bnaSelectedSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                            int[] selectedSubjectCurriculumIds = selectedSubjectCurriculumIdsString.Select(int.Parse).ToArray();
+                                                            
 
-                                                            foreach (var courseSectionId in courseSectionIds)
+                                                            foreach (var subjectCurriculumId in subjectCurriculumIds)
                                                             {
-                                                                foreach (var selectedcourseSectionId in selectedcourseSectionIds)
+                                                                foreach (var selectedSubjectCurriculumId in selectedSubjectCurriculumIds)
                                                                 {
-                                                                    if (courseSectionId == selectedcourseSectionId)
+                                                                    if (subjectCurriculumId == selectedSubjectCurriculumId)
                                                                     {
                                                                         string[] classPeriodIdsString = item.ClassPeriodId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                                                         int[] classPeriodIds = classPeriodIdsString.Select(int.Parse).ToArray();
@@ -127,29 +153,54 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                                                         {
                                                                             var subjectName = _BnaSubjectNameRepository.Where(x=>x.BnaSubjectNameId == item.BnaSubjectNameId).Select(x=>x.SubjectName).FirstOrDefault();
                                                                             var instructorName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == item.TraineeId).Select(x => x.Name).FirstOrDefault();
+                                                                            var periodName = _BnaClassPeriodRepository.Where(x => x.BnaClassPeriodId == classPeriodId).Select(x => x.BnaClassPeriodName).FirstOrDefault();
                                                                             if (classPeriodId == 1)
                                                                             {
                                                                                 period_1 = subjectName + "-" + instructorName;
                                                                             }
-                                                                            if (classPeriodId == 2)
+                                                                            else if (classPeriodId == 2)
                                                                             {
                                                                                 period_2 = subjectName + "-" + instructorName;
                                                                             }
-                                                                            if (classPeriodId == 3)
+                                                                            else if (classPeriodId == 3)
                                                                             {
                                                                                 period_3 = subjectName + "-" + instructorName;
                                                                             }
-                                                                            if (classPeriodId == 4)
+                                                                            else if (classPeriodId == 4)
                                                                             {
                                                                                 period_4 = subjectName + "-" + instructorName;
                                                                             }
-                                                                            if (classPeriodId == 5)
+                                                                            else if (classPeriodId == 5)
                                                                             {
                                                                                 period_5 = subjectName + "-" + instructorName;
                                                                             }
-                                                                            if (classPeriodId == 6)
+                                                                            else if (classPeriodId == 6)
                                                                             {
                                                                                 period_6 = subjectName + "-" + instructorName;
+                                                                            }
+                                                                            else if (classPeriodId == 7)
+                                                                            {
+                                                                                ExtraCurriculamPeriod = periodName;
+                                                                            }
+                                                                            else if (classPeriodId == 8)
+                                                                            {
+                                                                                StandEasyPeriod = periodName;
+                                                                            }
+                                                                            else if (classPeriodId == 9)
+                                                                            {
+                                                                                LunchPeriod = periodName;
+                                                                            }
+                                                                            else if (classPeriodId == 10)
+                                                                            {
+                                                                                CorrectivePeriod = periodName;
+                                                                            }
+                                                                            else if (classPeriodId == 6)
+                                                                            {
+                                                                                AfternoonActivitiesGamePeriod = periodName;
+                                                                            }
+                                                                            else if (classPeriodId == 6)
+                                                                            {
+                                                                                SelfStudyPeriod = periodName;
                                                                             }
                                                                         }
                                                                     }
@@ -161,9 +212,30 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                             }
                                         }
                                     }
+
+                                    BnaRoutineModel routineModel = new BnaRoutineModel
+                                    {
+                                        Date = date,
+                                        WeekName = weekName,
+                                        CourseSectionName = courseSectionName,
+                                        Period1 = period_1,
+                                        Period2 = period_2,
+                                        Period3 = period_3,
+                                        Period4 = period_4,
+                                        Period5 = period_5,
+                                        Period6 = period_6,
+                                        ExtraCurriculamPeriod = ExtraCurriculamPeriod,
+                                        StandEasyPeriod = StandEasyPeriod,
+                                        LunchPeriod = LunchPeriod,
+                                        CorrectivePeriod = CorrectivePeriod,
+                                        AfternoonActivitiesGamePeriod = AfternoonActivitiesGamePeriod,
+                                        SelfStudyPeriod = SelfStudyPeriod
+                                    };
+                                    selectModels.Add(routineModel);
                                 }
                             }
                         }
+                        
                     }
                 }
             }
@@ -171,12 +243,12 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
 
 
 
-            List<BnaRoutineModel> selectModels = bnaClassRoutiness.Select(x => new BnaRoutineModel
-            {
-                Date = x.Date,
-                WeekName = request.selectedCourseWeekId,
-                SemesterName = x.BnaSemesterId
-            }).ToList();
+            //List<BnaRoutineModel> selectModels = bnaClassRoutiness.Select(x => new BnaRoutineModel
+            //{
+            //    Date = x.Date,
+            //    WeekName = request.selectedCourseWeekId,
+            //    SemesterName = x.BnaSemesterId
+            //}).ToList();
             return selectModels;
 
             //List<int> bnaSemesterWeekClassRoutineIds = new List<int>();

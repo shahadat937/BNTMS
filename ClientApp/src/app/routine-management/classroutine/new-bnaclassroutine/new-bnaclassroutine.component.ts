@@ -1193,7 +1193,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.viewFilteredBnaClassRoutine();
     }
     else{
-      this.routineStatus = 1;
+      this.routineStatus = 0;
     }
   }
   viewFilteredBnaClassRoutine(){
