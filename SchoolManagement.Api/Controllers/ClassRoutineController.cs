@@ -10,7 +10,7 @@ namespace SchoolManagement.Api.Controllers;
 
 [Route(SMSRoutePrefix.ClassRoutine)]
 [ApiController]
-[Authorize]
+//[Authorize]
 public class ClassRoutineController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -44,12 +44,16 @@ public class ClassRoutineController : ControllerBase
 
     [HttpGet]
     [Route("get-bnaClassRoutineAll")]
-    public async Task<ActionResult> GetClassRoutine([FromQuery] QueryParams queryParams, int baseSchoolNameId,int bnaSemesterId, int weekID)
+    public async Task<ActionResult> GetClassRoutine(string bnaSelectedSubjectCurriculumId, string selectedCourseTitleId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
     {
         var BnaClassRoutine = await _mediator.Send(new GetBnaClassRoutineListRequestNew
-        { BaseSchoolNameId = baseSchoolNameId, 
-            BnaSemesterId = bnaSemesterId, 
-            WeekID = weekID });
+        {
+            bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
+            selectedCourseTitleId = selectedCourseTitleId,
+            selectedBnaSemesterId = selectedBnaSemesterId,
+            selectedCourseSectionId = selectedCourseSectionId,
+            selectedCourseWeekId = selectedCourseWeekId
+        });
         return Ok(BnaClassRoutine);
     }
 

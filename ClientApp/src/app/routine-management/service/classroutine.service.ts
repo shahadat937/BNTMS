@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { IClassRoutinePagination,ClassRoutinePagination } from '../models/classroutinePagination';
 import { ClassRoutine } from '../models/classroutine';
+import { BnaClassRoutineModel } from '../models/bnaclassroutinemodel';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { map } from 'rxjs';
 import { PostResponse } from 'src/app/core/models/PostResponse';
@@ -242,9 +243,9 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
     return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-name/get-selectedSubjectNamesBySchoolAndCourse?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId)
   }
   
-  getBnaClassRoutineAll(baseSchoolNameId:number){
-    return this.http.get<any>(this.baseUrl + '/class-routine/get-bnaClassRoutineAll?baseSchoolNameId='+baseSchoolNameId)
-  }
+  // getBnaClassRoutineAll(baseSchoolNameId:number){
+  //   return this.http.get<any>(this.baseUrl + '/class-routine/get-bnaClassRoutineAll?baseSchoolNameId='+baseSchoolNameId)
+  // }
 
   getselectedSubjectNamesBySchoolAndCourse_sem(baseSchoolNameId:number,courseNameId:number,bnaSemesterId:number){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-name/get-selectedSubjectNamesBySchoolAndCourse?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId)
@@ -346,7 +347,7 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
     return this.http.delete(this.baseUrl + '/class-routine/delete-classRoutine/'+id);
   }
 
-  
-
-
+  viewFilteredBnaClassRoutine(bnaSelectedSubjectCurriculumId, selectedCourseTitleId, selectedBnaSemesterId, selectedCourseSectionId, selectedCourseWeekId){
+    return this.http.get<BnaClassRoutineModel[]>(this.baseUrl + '/class-routine/get-bnaClassRoutineAll?bnaSelectedSubjectCurriculumId='+bnaSelectedSubjectCurriculumId+'&selectedCourseTitleId='+selectedCourseTitleId+'&selectedBnaSemesterId='+selectedBnaSemesterId+'&selectedCourseSectionId='+selectedCourseSectionId+'&selectedCourseWeekId='+selectedCourseWeekId)
+  }
 }

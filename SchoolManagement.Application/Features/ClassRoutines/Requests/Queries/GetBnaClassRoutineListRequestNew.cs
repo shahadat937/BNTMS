@@ -2,6 +2,7 @@
 using SchoolManagement.Application.DTOs.ClassRoutine;
 using SchoolManagement.Application.DTOs.Common;
 using SchoolManagement.Application.Models;
+using SchoolManagement.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,13 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.ClassRoutines.Requests.Queries
 {
-    public class GetBnaClassRoutineListRequestNew : IRequest<object>
+    public class GetBnaClassRoutineListRequestNew : IRequest<List<BnaRoutineModel>>
     {
-        public int BaseSchoolNameId { get; set; }
-        public int BnaSemesterId { get; set; }
-        public int WeekID { get; set; }
+        public string bnaSelectedSubjectCurriculumId { get; set; }
+        public string selectedCourseTitleId { get; set; }
+        public string selectedBnaSemesterId { get; set; }
+        public string selectedCourseSectionId { get; set; }
+        public int selectedCourseWeekId { get; set; }
     }
 }
 
