@@ -60,7 +60,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
   selectedDepartmentId : any;
   selectedCourseTitleId : any;
   selectedBnaSemesterId : any;
+  selectedBnaSemesterName : any;
   selectedCourseWeekId : any;
+  selectedCourseWeekName : any;
   selectedCourseSectionId : any;
   selectedClassPeriod : string;
   clasPeriodCount : number;
@@ -1081,9 +1083,11 @@ export class NewBnaClassRoutineComponent implements OnInit {
   onStatusSemester(dropdown) {
     if(this.selectedBnaSemesterId == null){
       this.selectedBnaSemesterId = dropdown.value.toString();
+      this.selectedBnaSemesterName = dropdown.text;
     }
     else {
       this.selectedBnaSemesterId = this.selectedBnaSemesterId + ", "+ dropdown.value;
+      this.selectedBnaSemesterName = this.selectedBnaSemesterName + ", "+ dropdown.text;
     }
     this.showBnaClassRoutine();
   }
@@ -1095,22 +1099,34 @@ export class NewBnaClassRoutineComponent implements OnInit {
       selectedBnaSemesterIdsNumberArray.splice(indexToRemove, 1);
     }
     this.selectedBnaSemesterId = selectedBnaSemesterIdsNumberArray.join(', ');
+
+    let selectedBnaSemesterNamesArray: string[] = this.selectedBnaSemesterName.split(',').map(item => item.trim());
+    let indexNameToRemove: number = selectedBnaSemesterNamesArray.indexOf(dropdown.text.trim());
+    if (indexNameToRemove !== -1) {
+      selectedBnaSemesterNamesArray.splice(indexNameToRemove, 1);
+    }
+    this.selectedBnaSemesterName = selectedBnaSemesterNamesArray.join(', ');
+
     this.showBnaClassRoutine();
   }
   onSelectAllSemester() {
     this.selectedBnaSemesterId = null;
+    this.selectedBnaSemesterName = null;
     this.selectedSemester.forEach(element => {
       if(this.selectedBnaSemesterId == null){
         this.selectedBnaSemesterId = element.value;
+        this.selectedBnaSemesterName = element.text;
       }
       else {
         this.selectedBnaSemesterId = this.selectedBnaSemesterId + ", "+ element.value;
+        this.selectedBnaSemesterName = this.selectedBnaSemesterName + ", " + element.text;
       }
     });
     this.showBnaClassRoutine();
   }
   onDeSelectAllSemester() {
     this.selectedBnaSemesterId = null;
+    this.selectedBnaSemesterName = null;
     this.showBnaClassRoutine();
   }
 
@@ -1166,11 +1182,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
   onStatusCourseWeek(dropdown){
     this.selectedCourseWeekId = dropdown.value;
+    this.selectedCourseWeekName = dropdown.text;
     this.showBnaClassRoutine();
   }
 
   onDeSelectCourseWeek(dropdown){
     this.selectedCourseWeekId = null;
+    this.selectedCourseWeekName = null;
     this.showBnaClassRoutine();
   }
 
@@ -1190,9 +1208,5 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.ClassRoutineService.viewFilteredBnaClassRoutine(this.bnaSelectedSubjectCurriculumId, this.selectedCourseTitleId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
       this.bnaClassRoutineAll = res;
     });
-    this.viewResult();
-  }
-  viewResult(){
-    console.log("Routine Response : ", this.bnaClassRoutineAll)
   }
 }
