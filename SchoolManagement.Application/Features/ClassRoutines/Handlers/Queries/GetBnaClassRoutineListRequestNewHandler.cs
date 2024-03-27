@@ -160,51 +160,51 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                                                             var periodName = _BnaClassPeriodRepository.Where(x => x.BnaClassPeriodId == classPeriodId).Select(x => x.BnaClassPeriodName).FirstOrDefault();
                                                                             if (classPeriodId == 1)
                                                                             {
-                                                                                period_1 = subjectName + "-" + instructorName;
+                                                                                period_1 = subjectName + "-" + instructorName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm")+"-"+ item.PeriodTo.ToString(@"hh\:mm") + ") " + "(R-" + item.ClassRoomName +")";
                                                                             }
                                                                             else if (classPeriodId == 2)
                                                                             {
-                                                                                period_2 = subjectName + "-" + instructorName;
+                                                                                period_2 = subjectName + "-" + instructorName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") " + "(R-" + item.ClassRoomName + ")";
                                                                             }
                                                                             else if (classPeriodId == 3)
                                                                             {
-                                                                                period_3 = subjectName + "-" + instructorName;
+                                                                                period_3 = subjectName + "-" + instructorName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") " + "(R-" + item.ClassRoomName + ")";
                                                                             }
                                                                             else if (classPeriodId == 4)
                                                                             {
-                                                                                period_4 = subjectName + "-" + instructorName;
+                                                                                period_4 = subjectName + "-" + instructorName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") " + "(R-" + item.ClassRoomName + ")";
                                                                             }
                                                                             else if (classPeriodId == 5)
                                                                             {
-                                                                                period_5 = subjectName + "-" + instructorName;
+                                                                                period_5 = subjectName + "-" + instructorName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") " + "(R-" + item.ClassRoomName + ")";
                                                                             }
                                                                             else if (classPeriodId == 6)
                                                                             {
-                                                                                period_6 = subjectName + "-" + instructorName;
+                                                                                period_6 = subjectName + "-" + instructorName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") " + "(R-" + item.ClassRoomName + ")";
                                                                             }
                                                                             else if (classPeriodId == 7)
                                                                             {
-                                                                                ExtraCurriculamPeriod = periodName;
+                                                                                ExtraCurriculamPeriod = periodName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") ";
                                                                             }
                                                                             else if (classPeriodId == 8)
                                                                             {
-                                                                                StandEasyPeriod = periodName;
+                                                                                StandEasyPeriod = periodName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") ";
                                                                             }
                                                                             else if (classPeriodId == 9)
                                                                             {
-                                                                                LunchPeriod = periodName;
+                                                                                LunchPeriod = periodName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") ";
                                                                             }
                                                                             else if (classPeriodId == 10)
                                                                             {
-                                                                                CorrectivePeriod = periodName;
+                                                                                CorrectivePeriod = periodName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") ";
                                                                             }
                                                                             else if (classPeriodId == 6)
                                                                             {
-                                                                                AfternoonActivitiesGamePeriod = periodName;
+                                                                                AfternoonActivitiesGamePeriod = periodName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") ";
                                                                             }
                                                                             else if (classPeriodId == 6)
                                                                             {
-                                                                                SelfStudyPeriod = periodName;
+                                                                                SelfStudyPeriod = periodName + " (T=" + item.PeriodFrom.ToString(@"hh\:mm") + "-" + item.PeriodTo.ToString(@"hh\:mm") + ") ";
                                                                             }
                                                                         }
                                                                     }

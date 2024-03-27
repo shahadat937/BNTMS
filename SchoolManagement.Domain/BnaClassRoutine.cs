@@ -27,9 +27,9 @@ namespace SchoolManagement.Domain
         public string? BnaSemesterId { get; set; }
         public string? ClassPeriodId { get; set; }
         [DataType(DataType.Time)]
-        public TimeSpan? PeriodFrom { get; set; }
+        public TimeSpan PeriodFrom { get; set; }
         [DataType(DataType.Time)]
-        public TimeSpan? PeriodTo { get; set; }
+        public TimeSpan PeriodTo { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }

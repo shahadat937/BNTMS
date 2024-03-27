@@ -370,11 +370,7 @@
                             formControlName="classPeriodId"
                             [placeholder]="'Class Period *'"
                             [data]="selectedclassperiod"
-                            [settings]="routinManagementdropdownSettings"
-                            (onSelect)="onStatusClassPeriod($event)"
-                            (onDeSelect)="onDeSelectClassPeriod($event)"
-                            (onSelectAll)="onSelectAllClassPeriod()"
-                            (onDeSelectAll)="onDeSelectAllClassPeriod()">
+                            [settings]="routinManagementdropdownSettings">
                           </ng-multiselect-dropdown>
                             
                             
@@ -833,6 +829,7 @@
               <th>4<sup>th</sup> INSTR PD</th>
               <th>5<sup>th</sup> INSTR PD</th>
               <th>6<sup>th</sup> INSTR PD</th>
+              <th>Lunch</th>
               <th>Corrective TRG</th>
               <th>Afternoon Activities and Games</th>
               <th>Self Study</th>

@@ -62,7 +62,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
   selectedBnaSemesterId : any;
   selectedCourseWeekId : any;
   selectedCourseSectionId : any;
-  selectedClassPeriod : any;
+  selectedClassPeriod : string;
+  clasPeriodCount : number;
+  selectedClassPeriodArray: any;
 
   routineStatus = 0 ;
 
@@ -276,6 +278,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
   }
 
   addSinglePeriod(){
+    this.getDropdownSubjectName()
+    this.getSelectedClassPeriod();
+    this.getselectedclasstype();
     const control = <FormArray>this.ClassRoutineForm.controls["perodListForm"];
     control.push(this.createPeriodData());
    // this.ClassRoutineForm.patchValue({ perodListForm: this.traineeList });
@@ -856,7 +861,24 @@ export class NewBnaClassRoutineComponent implements OnInit {
           });
         }
         
-        element.classPeriodId = this.selectedClassPeriod;
+        if(element.classPeriodId != undefined){
+          this.clasPeriodCount = element.classPeriodId.length;
+          element.classPeriodId.forEach(x => {
+            if(this.clasPeriodCount == 1){
+              this.selectedClassPeriodArray = x.value;
+            }
+            else {
+              if(this.selectedClassPeriodArray == null) {
+                this.selectedClassPeriodArray = x.value;
+              }
+              else{
+                this.selectedClassPeriodArray = this.selectedClassPeriodArray + ", "+ x.value;
+              }
+            }
+          });
+          element.classPeriodId = this.selectedClassPeriodArray;
+        }
+
 
         if(element.classTypeId != undefined){
           element.classTypeId.forEach(x => {
@@ -882,7 +904,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.validationErrors = error;
     })
 
-    console.log("Form Value : ", this.ClassRoutineForm.value)
+    // console.log("Form Value : ", this.ClassRoutineForm.value)
 
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
@@ -1152,38 +1174,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.showBnaClassRoutine();
   }
 
-
-  onStatusClassPeriod(dropdown) {
-    if(this.selectedClassPeriod == null){
-      this.selectedClassPeriod = dropdown.value;
-    }
-    else {
-      this.selectedClassPeriod = this.selectedClassPeriod + ", "+ dropdown.value;
-    }
-  }
-  onDeSelectClassPeriod(dropdown) {
-    let selectedClassPeriodIdsArray: string[] = this.selectedClassPeriod.split(',');
-    let selectedClassPeriodIdsNumberArray : number[] = selectedClassPeriodIdsArray.map(Number);
-    let indexToRemove : number = selectedClassPeriodIdsNumberArray.indexOf(dropdown.value);
-    if(indexToRemove !== -1){
-      selectedClassPeriodIdsNumberArray.splice(indexToRemove, 1);
-    }
-    this.selectedClassPeriod = selectedClassPeriodIdsNumberArray.join(', ');
-  }
-  onSelectAllClassPeriod() {
-    this.selectedClassPeriod = null;
-    this.selectedclassperiod.forEach(element => {
-      if(this.selectedClassPeriod == null){
-        this.selectedClassPeriod = element.value;
-      }
-      else {
-        this.selectedClassPeriod = this.selectedClassPeriod + ", "+ element.value;
-      }
-    });
-  }
-  onDeSelectAllClassPeriod() {
-    this.selectedClassPeriod = null;
-  }
 
 
 
