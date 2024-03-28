@@ -350,4 +350,8 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   viewFilteredBnaClassRoutine(bnaSelectedSubjectCurriculumId, selectedCourseTitleId, selectedBnaSemesterId, selectedCourseSectionId, selectedCourseWeekId){
     return this.http.get<BnaClassRoutineModel[]>(this.baseUrl + '/class-routine/get-bnaClassRoutineAll?bnaSelectedSubjectCurriculumId='+bnaSelectedSubjectCurriculumId+'&selectedCourseTitleId='+selectedCourseTitleId+'&selectedBnaSemesterId='+selectedBnaSemesterId+'&selectedCourseSectionId='+selectedCourseSectionId+'&selectedCourseWeekId='+selectedCourseWeekId)
   }
+  
+  viewFilteredInstructorInfo(bnaSelectedSubjectCurriculumId, selectedCourseTitleId, selectedBnaSemesterId, selectedCourseSectionId, selectedCourseWeekId){
+    return this.http.get<BnaClassRoutineModel[]>(this.baseUrl + '/class-routine/get-bnaInstructorInfo?bnaSelectedSubjectCurriculumId='+bnaSelectedSubjectCurriculumId+'&selectedCourseTitleId='+selectedCourseTitleId+'&selectedBnaSemesterId='+selectedBnaSemesterId+'&selectedCourseSectionId='+selectedCourseSectionId+'&selectedCourseWeekId='+selectedCourseWeekId)
+  }
 }

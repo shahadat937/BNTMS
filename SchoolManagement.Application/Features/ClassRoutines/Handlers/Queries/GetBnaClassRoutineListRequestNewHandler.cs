@@ -156,7 +156,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                                                         foreach (var classPeriodId in classPeriodIds)
                                                                         {
                                                                             var subjectName = _BnaSubjectNameRepository.Where(x=>x.BnaSubjectNameId == item.BnaSubjectNameId).Select(x=>x.SubjectName).FirstOrDefault();
-                                                                            var instructorName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == item.TraineeId).Select(x => x.Name).FirstOrDefault();
+                                                                            var instructorName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == item.TraineeId).Select(x => x.ShortCode).FirstOrDefault();
                                                                             var periodName = _BnaClassPeriodRepository.Where(x => x.BnaClassPeriodId == classPeriodId).Select(x => x.BnaClassPeriodName).FirstOrDefault();
                                                                             TimeSpan? periodFrom = item.PeriodFrom;
                                                                             TimeSpan? periodTo = item.PeriodTo;

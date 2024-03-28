@@ -819,9 +819,11 @@
       </div>
       <div class="body">
         <div class="d-flex justify-content-between">
-          <div><p><b>Week : {{selectedCourseWeekName}}</b></p></div>
-          <div><p><b>Semester : {{selectedBnaSemesterName}}</b></p></div>
+          <div><p><b>Week : </b>{{selectedCourseWeekName}}</p></div>
+          <div><p><b>Subject Curriculum : </b>{{selectedBnaSubjectCurriculumName}}</p></div>
         </div>
+        <div><p><b>Semester : </b>{{selectedBnaSemesterName}}</p></div>
+
         <div class="col-md-12" style="overflow-x: scroll; overflow-y: scroll">
           <div class="smart-table-container" style="width: 2200px; max-height: 300px;">
             <table class="table table-secondary table-hover table-bordered">
@@ -863,6 +865,25 @@
               </tbody>
             </table>
           </div>
+        </div>
+        <div>
+          <h5><u><b>Instr Code : </b></u></h5>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-light table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>RANK AND NAME</th>
+                <th>CODES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let intr of bnaInstructorInfo">
+                <td>{{intr.instructorName}}, {{intr.instructorRank}}</td>
+                <td>{{intr.instructorCode}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
