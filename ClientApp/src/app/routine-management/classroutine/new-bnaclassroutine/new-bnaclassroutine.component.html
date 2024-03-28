@@ -814,46 +814,77 @@
     </div>
 
 
-    <div class="col-md-12" style="overflow-x: scroll">
-      <div class="smart-table-container" style="width: 2200px">
-        <table class="table table-bordered" [hidden]="routineStatus == 0">
-          <thead>
-            <tr>
-              <th>DAY & DATE</th>
-              <th>GROUP</th>
-              <th>Curricular Activities</th>
-              <th>1<sup>st</sup> INSTR PD</th>
-              <th>2<sup>nd</sup> INSTR PD</th>
-              <th>3<sup>rd</sup> INSTR PD</th>
-              <th>Stand Easy</th>
-              <th>4<sup>th</sup> INSTR PD</th>
-              <th>5<sup>th</sup> INSTR PD</th>
-              <th>6<sup>th</sup> INSTR PD</th>
-              <th>Lunch</th>
-              <th>Corrective TRG</th>
-              <th>Afternoon Activities and Games</th>
-              <th>Self Study</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let routine of bnaClassRoutineAll">
-              <td>{{routine.date | date: 'dd-MM-yyyy'}}</td>
-              <td>{{routine.courseSectionName}}</td>
-              <td>{{routine.extraCurriculamPeriod}}</td>
-              <td>{{routine.period1}}</td>
-              <td>{{routine.period2}}</td>
-              <td>{{routine.period3}}</td>
-              <td>{{routine.standEasyPeriod}}</td>
-              <td>{{routine.period4}}</td>
-              <td>{{routine.period5}}</td>
-              <td>{{routine.period6}}</td>
-              <td>{{routine.lunchPeriod}}</td>
-              <td>{{routine.correctivePeriod}}</td>
-              <td>{{routine.afternoonActivitiesGamePeriod}}</td>
-              <td>{{routine.selfStudyPeriod}}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="card mt-2" [hidden]="routineStatus == 0">
+      <div class="header">
+      </div>
+      <div class="body">
+        <div class="d-flex justify-content-between">
+          <div><p><b>Week : </b>{{selectedCourseWeekName}}</p></div>
+          <div><p><b>Subject Curriculum : </b>{{selectedBnaSubjectCurriculumName}}</p></div>
+        </div>
+        <div><p><b>Semester : </b>{{selectedBnaSemesterName}}</p></div>
+
+        <div class="col-md-12" style="overflow-x: scroll; overflow-y: scroll">
+          <div class="smart-table-container" style="width: 2200px; max-height: 300px;">
+            <table class="table table-secondary table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>DAY & DATE</th>
+                  <th>GROUP</th>
+                  <th>Curricular Activities</th>
+                  <th>1<sup>st</sup> INSTR PD</th>
+                  <th>2<sup>nd</sup> INSTR PD</th>
+                  <th>3<sup>rd</sup> INSTR PD</th>
+                  <th>Stand Easy</th>
+                  <th>4<sup>th</sup> INSTR PD</th>
+                  <th>5<sup>th</sup> INSTR PD</th>
+                  <th>6<sup>th</sup> INSTR PD</th>
+                  <th>Lunch</th>
+                  <th>Corrective TRG</th>
+                  <th>Afternoon Activities and Games</th>
+                  <th>Self Study</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let routine of bnaClassRoutineAll">
+                  <td>{{routine.date | date: 'dd-MM-yyyy'}}</td>
+                  <td>{{routine.courseSectionName}}</td>
+                  <td>{{routine.extraCurriculamPeriod}}</td>
+                  <td>{{routine.period1}}</td>
+                  <td>{{routine.period2}}</td>
+                  <td>{{routine.period3}}</td>
+                  <td>{{routine.standEasyPeriod}}</td>
+                  <td>{{routine.period4}}</td>
+                  <td>{{routine.period5}}</td>
+                  <td>{{routine.period6}}</td>
+                  <td>{{routine.lunchPeriod}}</td>
+                  <td>{{routine.correctivePeriod}}</td>
+                  <td>{{routine.afternoonActivitiesGamePeriod}}</td>
+                  <td>{{routine.selfStudyPeriod}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h5><u><b>Instr Code : </b></u></h5>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-light table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>RANK AND NAME</th>
+                <th>CODES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let intr of bnaInstructorInfo">
+                <td>{{intr.instructorName}}, {{intr.instructorRank}}</td>
+                <td>{{intr.instructorCode}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

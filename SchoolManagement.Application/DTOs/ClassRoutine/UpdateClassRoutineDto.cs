@@ -16,9 +16,9 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public string? courseTitleId { get; set; }
         public string? classPeriodId { get; set; }
         [DataType(DataType.Time)]
-        public TimeSpan PeriodFrom { get; set; }
+        public TimeSpan? PeriodFrom { get; set; }
         [DataType(DataType.Time)]
-        public TimeSpan PeriodTo { get; set; }
+        public TimeSpan? PeriodTo { get; set; }
         public int? baseSchoolNameId { get; set; }
         public int? courseDurationId { get; set; }
         public int? BranchId { get; set; }

@@ -57,6 +57,21 @@ public class ClassRoutineController : ControllerBase
         return Ok(BnaClassRoutine);
     }
 
+    [HttpGet]
+    [Route("get-bnaInstructorInfo")]
+    public async Task<ActionResult> GetInstructorInfo(string bnaSelectedSubjectCurriculumId, string selectedCourseTitleId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
+    {
+        var BnaClassRoutine = await _mediator.Send(new GetBnaInstructorInfoRequest
+        {
+            bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
+            selectedCourseTitleId = selectedCourseTitleId,
+            selectedBnaSemesterId = selectedBnaSemesterId,
+            selectedCourseSectionId = selectedCourseSectionId,
+            selectedCourseWeekId = selectedCourseWeekId
+        });
+        return Ok(BnaClassRoutine);
+    }
+
 
 
     [HttpGet]
