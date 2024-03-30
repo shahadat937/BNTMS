@@ -17,6 +17,15 @@ export class BNASemesterDurationService {
   BNASemesterDurationPagination = new BNASemesterDurationPagination(); 
   constructor(private http: HttpClient) { }
 
+
+  getSelectedBnaSubjectCurriculam(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-curriculum/get-selectedBnaSubjectCurriculums')
+  }
+  
+  getSelectedDepartment(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/eepartment/get-selectedDepartments')
+  }
+
   getSelectedCourseDuration(){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/course-duration/get-selectedCourseDurationForBna')
   }
