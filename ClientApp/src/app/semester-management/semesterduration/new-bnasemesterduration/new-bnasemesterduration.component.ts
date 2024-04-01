@@ -21,6 +21,8 @@ export class NewBnasemesterdurationComponent implements OnInit {
   destination:string;
   BNASemesterDurationForm: FormGroup;
   validationErrors: string[] = [];
+  bnaSubjectCurriculam:SelectedModel[];
+  department:SelectedModel[];
   selectedSemester:SelectedModel[];
   selectedCourseDuration:SelectedModel[];
   selectedBatch:SelectedModel[];
@@ -37,10 +39,13 @@ export class NewBnasemesterdurationComponent implements OnInit {
       this.buttonText= "Update" 
       this.BNASemesterDurationService.find(+id).subscribe(
         res => {
-          this.BNASemesterDurationForm.patchValue({          
+          this.BNASemesterDurationForm.patchValue({  
+                    
             bnaSemesterDurationId:res.bnaSemesterDurationId, 
             courseDurationId:res.courseDurationId,
             bnaSemesterId: res.bnaSemesterId, 
+            bnaSubjectCurriculamId: res.bnaSubjectCurriculamId,
+            // departmentId: res.departmentId,
             bnaBatchId:res.bnaBatchId, 
             startDate:res.startDate, 
             endDate:res.endDate, 
@@ -66,6 +71,8 @@ export class NewBnasemesterdurationComponent implements OnInit {
       this.buttonText= "Save"
     } 
     this.intitializeForm();
+    this.getSelectedBnaSubjectCurriculam();
+    this.getSelectedDepartment();
     this.getSelectedBnaSemester();
     this.getSelectedBnaBatch();
     this.getSelectedRank();
@@ -78,6 +85,8 @@ export class NewBnasemesterdurationComponent implements OnInit {
       courseDurationId:[],
       bnaSemesterId:[''],
       bnaBatchId:[''],
+      bnaSubjectCurriculamId:[''],
+      // departmentId:[''],
       //codeValueId:[''],
      // nextSemesterId:[''],
       semesterLocationType:[''],
@@ -99,6 +108,19 @@ export class NewBnasemesterdurationComponent implements OnInit {
       this.selectedLocationType=res;      
     })
   }
+
+
+  getSelectedBnaSubjectCurriculam(){
+    this.BNASemesterDurationService.getSelectedBnaSubjectCurriculam().subscribe(res=>{
+      this.bnaSubjectCurriculam=res
+    });
+  } 
+  
+  getSelectedDepartment(){
+    this.BNASemesterDurationService.getSelectedDepartment().subscribe(res=>{
+      this.department=res
+    });
+  } 
 
   getSelectedBnaSemester(){
     this.BNASemesterDurationService.getSelectedBnaSemester().subscribe(res=>{

@@ -1,7 +1,9 @@
 export interface BNASemesterDuration {
       bnaSemesterDurationId: number;
+      bnaSubjectCurriculamId:number;
       courseDurationId:number;
       bnaSemesterId: number,
+      departmentId : string,
       bnaSemesterName:string,
       bnaBatchId:number,
       startDate: Date,

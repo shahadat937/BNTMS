@@ -18,6 +18,8 @@ namespace SchoolManagement.Domain
         }
 
         public int BnaSemesterDurationId { get; set; }
+        public int? BnaSubjectCurriculamId { get; set; }
+        public int? DepartmentId { get; set; }
         public int? CourseDurationId { get; set; }
         public int? BnaSemesterId { get; set; }
         public int? BnaBatchId { get; set; }

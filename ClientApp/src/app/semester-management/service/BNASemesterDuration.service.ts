@@ -17,6 +17,15 @@ export class BNASemesterDurationService {
   BNASemesterDurationPagination = new BNASemesterDurationPagination(); 
   constructor(private http: HttpClient) { }
 
+
+  getSelectedBnaSubjectCurriculam(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-curriculum/get-selectedBnaSubjectCurriculums')
+  }
+  
+  getSelectedDepartment(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/eepartment/get-selectedDepartments')
+  }
+
   getSelectedCourseDuration(){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/course-duration/get-selectedCourseDurationForBna')
   }
@@ -57,6 +66,11 @@ export class BNASemesterDurationService {
   find(id: number) {
     return this.http.get<BNASemesterDuration>(this.baseUrl + '/bna-semester-duration/get-bnaSemesterDurationDetail/' + id);
   }
+
+  bnaSubjectCurriculamName(id: number){
+    return this.http.get<any>(this.baseUrl + '/bna-subject-curriculum/get-bnaSubjectCurriculumDetail/'+id);
+  }
+
   update(id: number,model: any) {
     return this.http.put(this.baseUrl + '/bna-semester-duration/update-bnaSemesterDuration/'+id, model);
   }
