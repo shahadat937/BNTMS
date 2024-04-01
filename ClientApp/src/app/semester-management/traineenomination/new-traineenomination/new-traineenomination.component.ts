@@ -379,6 +379,7 @@ getSelectedTraineeByPno(pno){
     this.TraineeNominationService.gettraineeNominationListByBnaSemesterDurationId(bnaSemesterDurationId).subscribe(response => {
       this.nominatedPercentageList=response;
       this.nominatedPercentageListCount=response.length;
+      console.log("List : ", response);
     });
   }
 
