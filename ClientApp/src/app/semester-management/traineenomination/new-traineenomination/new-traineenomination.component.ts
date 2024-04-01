@@ -57,6 +57,8 @@ export class NewTraineeNominationComponent implements OnInit {
   searchText="";
 
   schoolName:any;
+  bnaSubjectCurriculumId: any;
+  subjectCurriculamName : any;
   courseName:any;
   courseTitle:any;
   runningWeek:any;
@@ -89,6 +91,7 @@ export class NewTraineeNominationComponent implements OnInit {
     this.BNASemesterDurationService.find(Number(this.bnaSemesterDurationId)).subscribe(res=>{
        this.courseDurationId = res.courseDurationId;
        this.bnaSemesterDurationId = res.bnaSemesterDurationId;
+       this.bnaSubjectCurriculumId = res.bnaSubjectCurriculamId;
        //this.courseDurationId = res.courseDurationId;
        this.bnaSemesterId = res.bnaSemesterId;
        this.semesterName = res.bnaSemesterName;
@@ -96,7 +99,13 @@ export class NewTraineeNominationComponent implements OnInit {
        this.endDate = res.endDate;
        //this.TraineeNominationForm.get('bnaSemesterId').setValue(res.bnaSemesterId);
        this.TraineeNominationForm.get('courseDurationId').setValue(res.courseDurationId);
+       this.TraineeNominationForm.get('bnaSubjectCurriculumId').setValue(res.bnaSubjectCurriculamId);
        this.TraineeNominationForm.get('bnaSemesterDurationId').setValue(res.bnaSemesterDurationId);
+       
+    
+        this.BNASemesterDurationService.bnaSubjectCurriculamName(Number(this.bnaSubjectCurriculumId)).subscribe(res=>{
+          this.subjectCurriculamName = res.subjectCurriculumName;
+        });
        
       this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
         this.courseNameId = res.courseNameId;
@@ -137,6 +146,7 @@ export class NewTraineeNominationComponent implements OnInit {
         });   
       }
     );
+
 
     if (id) {
       this.pageTitle = 'Edit Trainee Nomination'; 
@@ -188,6 +198,7 @@ export class NewTraineeNominationComponent implements OnInit {
       courseDurationId:[''],
       bnaSemesterDurationId:[''],
       courseNameId:[''],
+      bnaSubjectCurriculumId:[],
       traineeId:[''],
       traineeName:[''],
       traineeCourseStatusId:[],
@@ -202,7 +213,6 @@ export class NewTraineeNominationComponent implements OnInit {
       withdrawnDate:[], 
       
       departmentId:[],
-      bnaSubjectCurriculumId:[],
       status:[1],
       isActive: [true],    
     })
@@ -303,6 +313,7 @@ getSelectedTraineeByPno(pno){
   }
 
   onSubmit() {
+    console.log("Form Value : ", this.TraineeNominationForm.value);
     const id = this.TraineeNominationForm.get('traineeNominationId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
@@ -341,7 +352,7 @@ getSelectedTraineeByPno(pno){
         this.validationErrors = error;
       })
     }
- 
+    
   }
 
   // getTraineeNominationsByCourseDurationId(courseDurationId) {

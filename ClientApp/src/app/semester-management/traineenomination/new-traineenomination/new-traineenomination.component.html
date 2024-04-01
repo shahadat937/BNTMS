@@ -67,7 +67,7 @@
                     </mat-form-field>
                   </div>
                  
-                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>BNA Subject Curriculum</mat-label>
                       <mat-select formControlName="bnaSubjectCurriculumId">
@@ -77,7 +77,7 @@
                         </mat-option>                          
                       </mat-select>
                     </mat-form-field>
-                  </div>
+                  </div> -->
                   <div *ngIf="department == 1019" class="col-xl-3 col-lg-3 col-md-2 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Department</mat-label>
@@ -116,6 +116,7 @@
                     <div class="heading">
                       <p style="margin-bottom: 10px;">School:- {{schoolName}}</p>
                       <p style="margin-bottom: 10px;">Course:- {{courseName}} - {{courseTitle}}</p>
+                      <p style="margin-bottom: 10px;">Subject Curriculum Name :- {{subjectCurriculamName}}</p>
                       <p style="margin-bottom: 10px;">Semester:- {{semesterName}}</p>
                       <p style="margin-bottom: 10px;">Semester Duration:- {{startDate | date:'mediumDate'}} - {{endDate | date:'mediumDate'}}</p>
                     </div>
