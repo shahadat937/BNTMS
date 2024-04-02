@@ -13,78 +13,54 @@ namespace SchoolManagement.Application.Features.CourseNomenees.Handlers.Commands
 {
     public class CreateCourseNomeneeListCommandHandler : IRequestHandler<CreateCourseNomeneeListCommand, BaseCommandResponse>
    {
+        private readonly ISchoolManagementRepository<TraineeNomination> _TraineeNominationRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CreateCourseNomeneeListCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateCourseNomeneeListCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ISchoolManagementRepository<TraineeNomination> TraineeNominationRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _TraineeNominationRepository = TraineeNominationRepository;
         }
 
         public async Task<BaseCommandResponse> Handle(CreateCourseNomeneeListCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
 
-            var trainee = request.CourseListNomeneeDto;
-
-            var traineeList = trainee.SubjectSectionForm.Select(x => new CourseNomenee()
+            List<CourseNomenee> CourseNomenees = new List<CourseNomenee>();
+            int? traineeId = _TraineeNominationRepository.Where(x => x.TraineeNominationId == request.CourseListNomeneeDto.TraineeNominationId).Select(x => x.TraineeId).FirstOrDefault();
+            int? courseDurationId = _TraineeNominationRepository.Where(x => x.TraineeNominationId == request.CourseListNomeneeDto.TraineeNominationId).Select(x => x.CourseDurationId).FirstOrDefault();
+            CourseNomenees = request.CourseListNomeneeDto.SubjectSectionForm.Select(x => new CourseNomenee()
             {
-                TraineeNominationId = x.TraineeNominationId,
-                BnaSemesterId = x.BnaSemesterId,
-                BnaSubjectCurriculumId = x.BnaSubjectCurriculumId,
+                CourseNomeneeId = request.CourseListNomeneeDto.CourseNomeneeId,
+                TraineeNominationId = request.CourseListNomeneeDto.TraineeNominationId,
+                CourseDurationId = courseDurationId,
+                CourseNameId = request.CourseListNomeneeDto.CourseNameId,
+                BaseSchoolNameId = request.CourseListNomeneeDto.BaseSchoolNameId,
+                CourseModuleId = request.CourseListNomeneeDto.CourseModuleId,
+                BnaSemesterId = request.CourseListNomeneeDto.BnaSemesterId,
+                DepartmentId = request.CourseListNomeneeDto.DepartmentId,
+                BnaSubjectCurriculumId = request.CourseListNomeneeDto.BnaSubjectCurriculumId,
                 BnaSubjectNameId = x.BnaSubjectNameId,
-                CourseDurationId = x.CourseDurationId,
-                CourseNameId = x.CourseNameId,
                 CourseSectionId = x.CourseSectionId,
-                DepartmentId = x.DepartmentId,
-                TraineeId = x.TraineeId, 
-                
-            });
+                TraineeId = traineeId,
+                SubjectMarkId = request.CourseListNomeneeDto.SubjectMarkId,
+                MarkTypeId = request.CourseListNomeneeDto.MarkTypeId,
+                ExamMarkEntry = request.CourseListNomeneeDto.ExamMarkEntry,
+            }).ToList();
+
+            await _unitOfWork.Repository<CourseNomenee>().AddRangeAsync(CourseNomenees);
+
             try
             {
-                foreach (var item in traineeList)
-                {
-                    await _unitOfWork.Repository<CourseNomenee>().Add(item);
-                    await _unitOfWork.Save();
+                await _unitOfWork.Save();
 
-                    //await _unitOfWork.Repository<CourseNomenee>().Add(item);
-                    //await _unitOfWork.Save();
-                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            //await _unitOfWork.Repository<Attendance>().AddRangeAsync(attendanceList);
-
-            // await _unitOfWork.Save();
-
-            //var attendances = _mapper.Map<List<Attendance>>(request.ApprovedAttendanceDto);
-
-            //foreach (var item in attendances)
-            //{
-            //if (item.AttendanceStatus == null)
-            //{
-            //    item.AttendanceStatus = false;
-
-            //await _unitOfWork.Repository<Attendance>().Update(item);
-            //await _unitOfWork.Save();
-            //}
-
-            //else
-            //{
-            //    await _unitOfWork.Repository<Attendance>().Add(item);
-            //    await _unitOfWork.Save();
-            //}
-            //}
-
-            //var routines = await _unitOfWork.Repository<ClassRoutine>().Get(request.AttendanceListDto.Select(x => x.ClassRoutineId.Value).FirstOrDefault());
-
-            //routines.AttendanceComplete = CompleteStatus.Completed;
-
-            //await _unitOfWork.Repository<ClassRoutine>().Update(routines);
-            //await _unitOfWork.Save();
 
             response.Success = true;
             response.Message = "Creation Successful";

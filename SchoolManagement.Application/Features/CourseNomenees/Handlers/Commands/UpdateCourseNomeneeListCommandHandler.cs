@@ -11,89 +11,89 @@ using SchoolManagement.Application.Features.TraineeNominations.Requests.Commands
 
 namespace SchoolManagement.Application.Features.CourseNomenees.Handlers.Commands
 {
-    public class UpdateCourseNomeneeListCommandHandler : IRequestHandler<UpdateCourseNomeneeListCommand, BaseCommandResponse>
-   {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+   // public class UpdateCourseNomeneeListCommandHandler : IRequestHandler<UpdateCourseNomeneeListCommand, BaseCommandResponse>
+   //{
+   //     private readonly IUnitOfWork _unitOfWork;
+   //     private readonly IMapper _mapper;
 
-        public UpdateCourseNomeneeListCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+   //     public UpdateCourseNomeneeListCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+   //     {
+   //         _unitOfWork = unitOfWork;
+   //         _mapper = mapper;
+   //     }
 
-        public async Task<BaseCommandResponse> Handle(UpdateCourseNomeneeListCommand request, CancellationToken cancellationToken)
-        {
-            var response = new BaseCommandResponse();
+   //     public async Task<BaseCommandResponse> Handle(UpdateCourseNomeneeListCommand request, CancellationToken cancellationToken)
+   //     {
+   //         var response = new BaseCommandResponse();
 
-            var trainee = request.CourseListNomeneeDto;
+   //         var trainee = request.CourseListNomeneeDto;
 
-            var traineeList = trainee.SubjectSectionForm.Select(x => new CourseNomenee()
-            {
-               // CourseNomeneeId = x.CourseNomeneeId,
-                TraineeNominationId = x.TraineeNominationId,
-                BnaSemesterId = x.BnaSemesterId,
-                BnaSubjectCurriculumId = x.BnaSubjectCurriculumId,
-                BnaSubjectNameId = x.BnaSubjectNameId,
-                CourseDurationId = x.CourseDurationId,
-                CourseNameId = x.CourseNameId,
-                CourseSectionId = x.CourseSectionId,
-                DepartmentId = x.DepartmentId,
-                TraineeId = x.TraineeId
+   //         var traineeList = trainee.SubjectSectionForm.Select(x => new CourseNomenee()
+   //         {
+   //            // CourseNomeneeId = x.CourseNomeneeId,
+   //             TraineeNominationId = x.TraineeNominationId,
+   //             BnaSemesterId = x.BnaSemesterId,
+   //             BnaSubjectCurriculumId = x.BnaSubjectCurriculumId,
+   //             BnaSubjectNameId = x.BnaSubjectNameId,
+   //             CourseDurationId = x.CourseDurationId,
+   //             CourseNameId = x.CourseNameId,
+   //             CourseSectionId = x.CourseSectionId,
+   //             DepartmentId = x.DepartmentId,
+   //             TraineeId = x.TraineeId
 
-            });
-            try
-            {
-                foreach (var item in traineeList)
-                {
+   //         });
+   //         try
+   //         {
+   //             foreach (var item in traineeList)
+   //             {
 
-                    await _unitOfWork.Repository<CourseNomenee>().Update(item);
-                    await _unitOfWork.Save();
+   //                 await _unitOfWork.Repository<CourseNomenee>().Update(item);
+   //                 await _unitOfWork.Save();
 
-                    //await _unitOfWork.Repository<CourseNomenee>().Add(item);
-                    //await _unitOfWork.Save();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            //await _unitOfWork.Repository<Attendance>().AddRangeAsync(attendanceList);
+   //                 //await _unitOfWork.Repository<CourseNomenee>().Add(item);
+   //                 //await _unitOfWork.Save();
+   //             }
+   //         }
+   //         catch (Exception ex)
+   //         {
+   //             Console.WriteLine(ex.ToString());
+   //         }
+   //         //await _unitOfWork.Repository<Attendance>().AddRangeAsync(attendanceList);
 
-            // await _unitOfWork.Save();
+   //         // await _unitOfWork.Save();
 
-            //var attendances = _mapper.Map<List<Attendance>>(request.ApprovedAttendanceDto);
+   //         //var attendances = _mapper.Map<List<Attendance>>(request.ApprovedAttendanceDto);
 
-            //foreach (var item in attendances)
-            //{
-            //if (item.AttendanceStatus == null)
-            //{
-            //    item.AttendanceStatus = false;
+   //         //foreach (var item in attendances)
+   //         //{
+   //         //if (item.AttendanceStatus == null)
+   //         //{
+   //         //    item.AttendanceStatus = false;
 
-            //await _unitOfWork.Repository<Attendance>().Update(item);
-            //await _unitOfWork.Save();
-            //}
+   //         //await _unitOfWork.Repository<Attendance>().Update(item);
+   //         //await _unitOfWork.Save();
+   //         //}
 
-            //else
-            //{
-            //    await _unitOfWork.Repository<Attendance>().Add(item);
-            //    await _unitOfWork.Save();
-            //}
-            //}
+   //         //else
+   //         //{
+   //         //    await _unitOfWork.Repository<Attendance>().Add(item);
+   //         //    await _unitOfWork.Save();
+   //         //}
+   //         //}
 
-            //var routines = await _unitOfWork.Repository<ClassRoutine>().Get(request.AttendanceListDto.Select(x => x.ClassRoutineId.Value).FirstOrDefault());
+   //         //var routines = await _unitOfWork.Repository<ClassRoutine>().Get(request.AttendanceListDto.Select(x => x.ClassRoutineId.Value).FirstOrDefault());
 
-            //routines.AttendanceComplete = CompleteStatus.Completed;
+   //         //routines.AttendanceComplete = CompleteStatus.Completed;
 
-            //await _unitOfWork.Repository<ClassRoutine>().Update(routines);
-            //await _unitOfWork.Save();
+   //         //await _unitOfWork.Repository<ClassRoutine>().Update(routines);
+   //         //await _unitOfWork.Save();
 
-            response.Success = true;
-            response.Message = "Creation Successful";
+   //         response.Success = true;
+   //         response.Message = "Creation Successful";
 
-            return response;
-        }
-    }
+   //         return response;
+   //     }
+   // }
 }
 
 

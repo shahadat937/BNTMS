@@ -48,36 +48,17 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <!-- <tr *ngFor="let unit of NomeneeSubjectSectionForm.get('subjectSectionForm')['controls']; let i = index" [formGroup]="unit"> -->
                               <tr *ngFor="let sub of subjectList; let i = index">
-                                <th class="" >{{i+1}}</th>
+                                <th class="cl-srl" scope="row">{{i+1}}</th>
   
-                                <!-- <td  class="cl-nm-rnk"> 
-                                  {{getControlLabel(i,'saylorRank')}}{{getControlLabel(i,'rankPosition')}} - {{getControlLabel(i,'traineeName')}} -  <span class="t-n-pno-d">(P No {{getControlLabel(i,'traineePNo')}})</span>
-                                </td> -->
-                                <td  class=""> 
-                             
-                                 <!-- <input matInput formControlName="bnaSubjectNameId" value="{{getControlLabel(i,'bnaSubjectNameId')}}" readonly hidden="True">
-                                 <input matInput formControlName="courseNomeneeId" value="{{getControlLabel(i,'courseNomeneeId')}}" readonly hidden="True">
-                                 <input matInput formControlName="traineeNominationId" value="{{getControlLabel(i,'traineeNominationId')}}" readonly hidden="True">
-                                 <input matInput formControlName="courseDurationId" value="{{getControlLabel(i,'courseDurationId')}}" readonly hidden="True">
-                                 <input matInput formControlName="courseNameId" value="{{getControlLabel(i,'courseNameId')}}" readonly hidden="True">
-                                 <input matInput formControlName="baseSchoolNameId" value="{{getControlLabel(i,'baseSchoolNameId')}}" readonly hidden="True">
-                                 <input matInput formControlName="courseModuleId" value="{{getControlLabel(i,'courseModuleId')}}" readonly hidden="True">
-                                 <input matInput formControlName="bnaSemesterId" value="{{getControlLabel(i,'bnaSemesterId')}}" readonly hidden="True">
-                                 <input matInput formControlName="departmentId" value="{{getControlLabel(i,'departmentId')}}" readonly hidden="True">
-                                 <input matInput formControlName="bnaSubjectCurriculumId" value="{{getControlLabel(i,'bnaSubjectCurriculumId')}}" readonly hidden="True">
-                                 <input matInput formControlName="traineeId" value="{{getControlLabel(i,'traineeId')}}" readonly hidden="True">
-                                 <input matInput formControlName="subjectMarkId" value="{{getControlLabel(i,'subjectMarkId')}}" readonly hidden="True">
-                                 <input matInput formControlName="markTypeId" value="{{getControlLabel(i,'markTypeId')}}" readonly  hidden="True">
-                                 
-                                 <input matInput   value="{{getControlLabel(i,'value')}}" readonly > -->
+                                <td  class="cl-nm-rnk"> 
+                                 <input matInput  value="{{sub.value}}" readonly  hidden="True">
                                   {{sub.text}}
                                 </td>
                                 
                                 <td class="cl-mrk">
                                   <mat-form-field class="example-full-width mb-3" appearance="outline">
-                                    <mat-select formControlName="courseSectionId">
+                                    <mat-select (selectionChange)="onCourseSectionChange($event.value, i)">
                                       <mat-option  value="">--Select--</mat-option >
                                       <mat-option *ngFor="let dropdown of courseSectionList" [value]="dropdown.value">
                                         {{dropdown.text}} 
@@ -99,7 +80,7 @@
                   <div class="row mt-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                       <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!NomeneeSubjectSectionForm.valid " mat-raised-button
-                          color="primary">{{buttonText}}</button>
+                          color="primary" (click)="storeValues()">{{buttonText}}</button>
                           
                       <!-- <button type="button" mat-button routerLink="/exam-management/bnaexammark-list">Cancel</button> -->
                     </div>
