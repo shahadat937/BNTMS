@@ -24,6 +24,11 @@
           <div class="header">
           </div>
           <div class="body">
+            <div class="d-flex justify-content-end">
+              <button class="btn-space"  mat-raised-button color="warn" (click)="goBack()"> 
+                <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+              </button>
+            </div>
             <form class="m-4" [formGroup]="NomeneeSubjectSectionForm" (ngSubmit)="onSubmit()">
               <div class="row">
                 </div>
@@ -43,15 +48,16 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let unit of NomeneeSubjectSectionForm.get('subjectSectionForm')['controls']; let i = index" [formGroup]="unit">
-                                <th class="cl-srl" scope="row">{{i+1}}</th>
+                              <!-- <tr *ngFor="let unit of NomeneeSubjectSectionForm.get('subjectSectionForm')['controls']; let i = index" [formGroup]="unit"> -->
+                              <tr *ngFor="let sub of subjectList; let i = index">
+                                <th class="" >{{i+1}}</th>
   
                                 <!-- <td  class="cl-nm-rnk"> 
                                   {{getControlLabel(i,'saylorRank')}}{{getControlLabel(i,'rankPosition')}} - {{getControlLabel(i,'traineeName')}} -  <span class="t-n-pno-d">(P No {{getControlLabel(i,'traineePNo')}})</span>
                                 </td> -->
-                                <td  class="cl-nm-rnk"> 
+                                <td  class=""> 
                              
-                                 <input matInput formControlName="bnaSubjectNameId" value="{{getControlLabel(i,'bnaSubjectNameId')}}" readonly hidden="True">
+                                 <!-- <input matInput formControlName="bnaSubjectNameId" value="{{getControlLabel(i,'bnaSubjectNameId')}}" readonly hidden="True">
                                  <input matInput formControlName="courseNomeneeId" value="{{getControlLabel(i,'courseNomeneeId')}}" readonly hidden="True">
                                  <input matInput formControlName="traineeNominationId" value="{{getControlLabel(i,'traineeNominationId')}}" readonly hidden="True">
                                  <input matInput formControlName="courseDurationId" value="{{getControlLabel(i,'courseDurationId')}}" readonly hidden="True">
@@ -65,8 +71,8 @@
                                  <input matInput formControlName="subjectMarkId" value="{{getControlLabel(i,'subjectMarkId')}}" readonly hidden="True">
                                  <input matInput formControlName="markTypeId" value="{{getControlLabel(i,'markTypeId')}}" readonly  hidden="True">
                                  
-                                 <input matInput   value="{{getControlLabel(i,'subjectName')}}" readonly >
-
+                                 <input matInput   value="{{getControlLabel(i,'value')}}" readonly > -->
+                                  {{sub.text}}
                                 </td>
                                 
                                 <td class="cl-mrk">
@@ -94,6 +100,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                       <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!NomeneeSubjectSectionForm.valid " mat-raised-button
                           color="primary">{{buttonText}}</button>
+                          
                       <!-- <button type="button" mat-button routerLink="/exam-management/bnaexammark-list">Cancel</button> -->
                     </div>
                   </div>

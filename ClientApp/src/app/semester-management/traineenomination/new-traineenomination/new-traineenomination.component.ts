@@ -57,6 +57,7 @@ export class NewTraineeNominationComponent implements OnInit {
   searchText="";
 
   schoolName:any;
+  schollNameId : any;
   bnaSubjectCurriculumId: any;
   subjectCurriculamName : any;
   courseName:any;
@@ -111,6 +112,7 @@ export class NewTraineeNominationComponent implements OnInit {
         this.courseNameId = res.courseNameId;
         this.TraineeNominationForm.get('courseNameId').setValue(res.courseNameId);
         this.schoolName = res.baseSchoolName;
+        this.schollNameId = res.baseSchoolNameId;
         this.courseName = res.courseName;
         this.courseTitle = res.courseTitle;
         // this.BNASemesterDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
@@ -313,7 +315,6 @@ getSelectedTraineeByPno(pno){
   }
 
   onSubmit() {
-    console.log("Form Value : ", this.TraineeNominationForm.value);
     const id = this.TraineeNominationForm.get('traineeNominationId').value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
@@ -379,7 +380,6 @@ getSelectedTraineeByPno(pno){
     this.TraineeNominationService.gettraineeNominationListByBnaSemesterDurationId(bnaSemesterDurationId).subscribe(response => {
       this.nominatedPercentageList=response;
       this.nominatedPercentageListCount=response.length;
-      console.log("List : ", response);
     });
   }
 
