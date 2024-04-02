@@ -155,11 +155,15 @@ public class CourseNomeneeController : ControllerBase
 
     [HttpGet]
     [Route("get-BnaNomeneeSubjectSectionAsign")]
-    public async Task<ActionResult> GetBnaNomeneeSubjectSectionAsign(int traineeNominationId)
+    public async Task<ActionResult> GetBnaNomeneeSubjectSectionAsign(int traineeNominationId, int schollNameId, int courseNameId, int bnaSubjectCurriculumId, int bnaSemesterId)
     {
         var CourseNomenees = await _mediator.Send(new GetBnaNomeneeSubjectSectionAsignRequest
         {
-            traineeNominationId = traineeNominationId
+            traineeNominationId = traineeNominationId,
+            schollNameId = schollNameId,
+            courseNameId = courseNameId,
+            bnaSubjectCurriculumId = bnaSubjectCurriculumId,
+            bnaSemesterId = bnaSemesterId
         });
         return Ok(CourseNomenees);
     }

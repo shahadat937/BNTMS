@@ -24,8 +24,8 @@ export class CoursesubjectsectionasignService {
 
 
 
-  BnaNomeneeSubjectSectionAsignId(traineeNominationId: any) {
-    return this.http.get<[]>(this.baseUrl + '/course-Nomenee/get-BnaNomeneeSubjectSectionAsign?traineeNominationId='+traineeNominationId);
+  BnaNomeneeSubjectSectionAsignId(schollNameId,courseNameId,bnaSubjectCurriculumId,bnaSemesterId) {
+    return this.http.get<[]>(this.baseUrl + '/course-Nomenee/get-BnaNomeneeSubjectSectionAsign?schollNameId='+schollNameId+'&courseNameId='+courseNameId+'&bnaSubjectCurriculumId='+bnaSubjectCurriculumId+'&bnaSemesterId='+bnaSemesterId);
   }
 
 

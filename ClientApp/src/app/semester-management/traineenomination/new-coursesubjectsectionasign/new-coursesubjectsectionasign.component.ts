@@ -20,6 +20,7 @@ import { Role } from '../../../core/models/role';
 import { TraineeListForExamMark } from '../../../exam-management/models/traineeListforexammark';
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
 import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-new-coursesubjectsectionasign',
@@ -56,12 +57,17 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   courseNameId:any;
   isLoading = false;
   displayedColumnsList: string[];
-  subjectList:TraineeNomination[];
+  // subjectList:TraineeNomination[];
+  subjectList:SelectedModel[];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
+
+  schollNameId:any;
+  bnaSubjectCurriculumId:any;
+  bnaSemesterId:any;
 
   actionStatus : any;
 
@@ -75,21 +81,27 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   isShownForTraineeList:boolean=false;
   // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   // dataSource ;
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private subjectNameService: BNASubjectNameService,private CoursesubjectsectionasignService:CoursesubjectsectionasignService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private subjectNameService: BNASubjectNameService,private CoursesubjectsectionasignService:CoursesubjectsectionasignService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, private location: Location) { }
+
+  goBack() {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     // 3136
    // const id = this.route.snapshot.paramMap.get('attendanceId'); 
     //this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
     
-    let  traineeNominationId= this.route.snapshot.paramMap.get('traineeNominationId');  
+    let  traineeNominationId= this.route.snapshot.paramMap.get('traineeNominationId');
+    this.schollNameId= this.route.snapshot.paramMap.get('schollNameId');
+    this.courseNameId= this.route.snapshot.paramMap.get('courseNameId');
+    this.bnaSubjectCurriculumId= this.route.snapshot.paramMap.get('bnaSubjectCurriculumId');
+    this.bnaSemesterId= this.route.snapshot.paramMap.get('bnaSemesterId');
 
 
     
     this.intitializeForm();
-    if(traineeNominationId!=null){
       this.getTraineeNominationIdList(traineeNominationId);
-    }
 
     this.getCourseSection();
   }
@@ -164,13 +176,12 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
 
   getTraineeNominationIdList(traineeNominationId){
 
-    this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAsignId(traineeNominationId).subscribe(res=>{
+    this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAsignId(this.schollNameId,this.courseNameId,this.bnaSubjectCurriculumId,this.bnaSemesterId).subscribe(res=>{
       this.subjectList=res;
-
+      console.log("Subject List : ", this.subjectList);
       if (res.length==0){
  
       this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAlredyAsignId(traineeNominationId).subscribe(res=>{
-        this.subjectList=res;
         this.pageTitle = 'Assign Course Section';
         this.destination = "Assign"; 
         //this.buttonText= "Update"; 

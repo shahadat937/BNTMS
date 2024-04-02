@@ -39,7 +39,7 @@ const routes: Routes = [
   },
   
   {
-    path: 'add-bnacoursesubjectsectionasign/:traineeNominationId',
+    path: 'add-bnacoursesubjectsectionasign/:traineeNominationId/:schollNameId/:courseNameId/:bnaSubjectCurriculumId/:bnaSemesterId',
     component: NewcoursesubjectsectionasignComponent,
   },
 
