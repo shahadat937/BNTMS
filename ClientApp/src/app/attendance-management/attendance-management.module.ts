@@ -22,6 +22,7 @@ import { AttendanceListComponent } from './attendance/attendance-list/attendance
 import { NewAttendanceComponent } from './attendance/new-attendance/new-attendance.component';
 import {AttendanceApprovedComponent} from './attendance/attendance-approved/attendance-approved.component';
 import {AttendanceInstructorComponent} from './attendance/attendance-instructor/attendance-instructor.component';
+import { AddBnaClassattendanceComponent } from './bna-classattendance/add-bna-classattendance/add-bna-classattendance.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {AttendanceInstructorComponent} from './attendance/attendance-instructor/
     AttendanceListComponent,
     NewAttendanceComponent,
     AttendanceApprovedComponent,
-    AttendanceInstructorComponent
+    AttendanceInstructorComponent,
+    AddBnaClassattendanceComponent
   ],
   imports: [
     CommonModule,
