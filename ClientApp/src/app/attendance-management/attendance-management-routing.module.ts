@@ -7,6 +7,7 @@ import { NewAttendanceComponent } from './attendance/new-attendance/new-attendan
 import { BNAExamAttendanceListComponent } from './bnaexamattendance/bnaexamattendance-list/bnaexamattendance-list.component';
 import { NewBNAExamAttendanceComponent } from './bnaexamattendance/new-bnaexamattendance/new-bnaexamattendance.component';
 import {AttendanceInstructorComponent} from './attendance/attendance-instructor/attendance-instructor.component';
+import { AddBnaClassattendanceComponent } from './bna-classattendance/add-bna-classattendance/add-bna-classattendance.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,11 @@ const routes: Routes = [
   {
     path: 'attendance-approved', 
     component: AttendanceApprovedComponent,
+  },
+
+  {
+    path: 'add-bnaattendance', 
+    component: AddBnaClassattendanceComponent,
   },
 
   {

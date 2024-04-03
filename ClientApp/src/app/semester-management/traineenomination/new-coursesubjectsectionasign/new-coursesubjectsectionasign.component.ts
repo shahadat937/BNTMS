@@ -49,11 +49,13 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   selectedvalues:CheckboxSelectedModel[];
   traineeForm: FormGroup;
   courseSectionList:SelectedModel[];
+  assignedSubjectCourseList:any[''];
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
   subjectName:string;
   bnaSubjectNameId:number;
   classRoutineId:number;
   courseDurationId:any;
+  traineeNominationId:any;
   courseNameId:any;
   isLoading = false;
   displayedColumnsList: string[];
@@ -92,62 +94,52 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
    // const id = this.route.snapshot.paramMap.get('attendanceId'); 
     //this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
     
-    let  traineeNominationId= this.route.snapshot.paramMap.get('traineeNominationId');
-    this.schollNameId= this.route.snapshot.paramMap.get('schollNameId');
-    this.courseNameId= this.route.snapshot.paramMap.get('courseNameId');
-    this.bnaSubjectCurriculumId= this.route.snapshot.paramMap.get('bnaSubjectCurriculumId');
-    this.bnaSemesterId= this.route.snapshot.paramMap.get('bnaSemesterId');
-
+    this.traineeNominationId= parseInt(this.route.snapshot.paramMap.get('traineeNominationId'));
+    this.schollNameId= parseInt(this.route.snapshot.paramMap.get('schollNameId'));
+    this.courseNameId= parseInt(this.route.snapshot.paramMap.get('courseNameId'));
+    this.bnaSubjectCurriculumId= parseInt(this.route.snapshot.paramMap.get('bnaSubjectCurriculumId'));
+    this.bnaSemesterId= parseInt(this.route.snapshot.paramMap.get('bnaSemesterId'));
 
     
     this.intitializeForm();
-      this.getTraineeNominationIdList(traineeNominationId);
-
+      this.getTraineeNominationIdList();
+    this.getExistingTraineeNominationList();
     this.getCourseSection();
   }
 
 
   intitializeForm() {
     this.NomeneeSubjectSectionForm = this.fb.group({
-      attendanceId: [0],
-      baseSchoolNameId:[''],
-      courseNameId:[''],
-      courseNameIds:[''],
-      courseDurationId:[''],
-      classPeriodId:[''], 
-      attendanceDate:[], 
-      classLeaderName:[''],
-      indexNo:[''],
-      attendanceStatus:[true],
-     subjectSectionForm: this.fb.array([this.createSubjectListData()]),
+      
+      courseNomeneeId: [0],   
+      traineeNominationId  :[this.traineeNominationId],
+      courseDurationId  :[''],
+      courseNameId  :[this.courseNameId],
+      baseSchoolNameId  :[this.schollNameId],
+      courseModuleId  :[''],
+      bnaSemesterId  :[this.bnaSemesterId],
+      departmentId  :[''],
+      bnaSubjectCurriculumId  :[this.bnaSubjectCurriculumId],
+      traineeId  :[''],
+      subjectMarkId  :[''],
+      markTypeId  :[''],
+      subjectName:[''],
+      
+      subjectSectionForm: this.fb.array([this.createSubjectListData()]),
     })
   }
 
   getCourseSection(){
     this.CoursesubjectsectionasignService.getselectedcoursedurationForBna().subscribe(res=>{  
         this.courseSectionList=res;
-      
     });
   }
 
   private createSubjectListData() {
 
     return this.fb.group({
-      courseNomeneeId: [0],   
-      traineeNominationId  :[''],
-      courseDurationId  :[''],
-      courseNameId  :[''],
-     baseSchoolNameId  :[''],
-     courseModuleId  :[''],
-     bnaSubjectNameId  :[''],
-     bnaSemesterId  :[''],
-     departmentId  :[''],
-     bnaSubjectCurriculumId  :[''],
-     courseSectionId  :[''],
-     traineeId  :[''],
-      subjectMarkId  :[''],
-      markTypeId  :[''],
-      subjectName:[''],
+      bnaSubjectNameId  :[''],
+      courseSectionId  :[''],
     });
   }
 
@@ -172,40 +164,67 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
     control.clearValidators();
   }
 
+  getExistingTraineeNominationList(){
+    this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAlredyAsignId(this.traineeNominationId).subscribe(res=>{
+      this.assignedSubjectCourseList = res;
+      
+    if(this.assignedSubjectCourseList.length != 0){
+      this.pageTitle = 'Assign Course Section';
+      this.destination = "Assign"; 
+      this.buttonText= "Update"; 
+      this.actionStatus='U';
+      this.clearList();
+      this.getTraineeListonClick();
+    }
+    else{
+      this.pageTitle = 'Assign Course Section';
+      this.destination = "Assign"; 
+      this.buttonText= "SAVE"; 
+      this.actionStatus='S';
+      this.clearList();
+      this.getTraineeListonClick();
+    }
+    });
+    
+  }
  
 
-  getTraineeNominationIdList(traineeNominationId){
+  getTraineeNominationIdList(){
 
     this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAsignId(this.schollNameId,this.courseNameId,this.bnaSubjectCurriculumId,this.bnaSemesterId).subscribe(res=>{
       this.subjectList=res;
-      console.log("Subject List : ", this.subjectList);
-      if (res.length==0){
- 
-      this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAlredyAsignId(traineeNominationId).subscribe(res=>{
-        this.pageTitle = 'Assign Course Section';
-        this.destination = "Assign"; 
-        //this.buttonText= "Update"; 
-        this.actionStatus='U';
-        this.clearList();
-        this.getTraineeListonClick();
-      });
-      }
-      else
-      {
-        this.pageTitle = 'Assign Course Section';
-        this.destination = "Assign"; 
-        this.buttonText= "SAVE"; 
-        this.actionStatus='S';
-        this.clearList();
-        this.getTraineeListonClick();
-      }
-
     });
 
 
     
   }
   
+  selectedCourseSections: any[] = []; 
+
+  onCourseSectionChange(value: any, index: number) {
+    const existingIndex = this.selectedCourseSections.findIndex(item => item.index === index);
+  
+    if (existingIndex !== -1) {
+      this.selectedCourseSections[existingIndex].courseSectionId = value;
+    } else {
+      this.selectedCourseSections.push({ index: index, courseSectionId: value });
+    }
+  }
+
+storeValues() {
+  const control = this.NomeneeSubjectSectionForm.get('subjectSectionForm') as FormArray;
+
+  for (let i = 0; i < this.subjectList.length; i++) {
+    const sub = this.subjectList[i];
+    const bnaSubjectNameId = sub.value; 
+
+    const selectedCourseSection = this.selectedCourseSections.find(item => item.index === i);
+    const courseSectionId = selectedCourseSection ? selectedCourseSection.courseSectionId : '';
+
+    control.at(i).get('bnaSubjectNameId').setValue(bnaSubjectNameId);
+    control.at(i).get('courseSectionId').setValue(courseSectionId);
+  }
+}
 
 
   reloadCurrentRoute() {
@@ -217,7 +236,9 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
 
   onSubmit() {
 
+    
     //  const id = this.AttendanceForm.get('traineeNominationId').value;
+    this.loading = true;
 
 if (this.actionStatus=='S'){
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
@@ -225,6 +246,7 @@ if (this.actionStatus=='S'){
         this.loading = true;
         this.CoursesubjectsectionasignService.submit(this.NomeneeSubjectSectionForm.value).subscribe(response => {
        //   this.router.navigateByUrl('/semester-management/add-traineenomination='+);
+          this.reloadCurrentRoute();
           this.snackBar.open('Information Inserted Successfully ', '', {
             duration: 2000,
             verticalPosition: 'bottom',
@@ -240,8 +262,10 @@ if (this.actionStatus=='S'){
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
         if (result) {
           this.loading = true;
+          console.log("Form Value : ", this.NomeneeSubjectSectionForm.value);
           this.CoursesubjectsectionasignService.update(this.NomeneeSubjectSectionForm.value).subscribe(response => {
             //this.router.navigateByUrl('/course-management/schoolcourse-list');
+            this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
               verticalPosition: 'bottom',

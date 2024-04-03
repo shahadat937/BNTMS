@@ -31,7 +31,7 @@ export class CoursesubjectsectionasignService {
 
   
   BnaNomeneeSubjectSectionAlredyAsignId(traineeNominationId: any) {
-    return this.http.get<[]>(this.baseUrl + '/course-Nomenee/get-BnaNomeneeSubjectSectionAlredyAsign?traineeNominationId='+traineeNominationId);
+    return this.http.get<any[]>(this.baseUrl + '/course-Nomenee/get-BnaNomeneeSubjectSectionAlredyAsign?traineeNominationId='+traineeNominationId);
   }
 
   //return this.http.get<ClassRoutine[]>
@@ -133,7 +133,7 @@ update(model: any) {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
    
-  return this.http.put<PostResponse>(this.baseUrl + '/course-Nomenee/update-CourseNomenees', model,httpOptions).pipe(
+  return this.http.put<PostResponse>(this.baseUrl + '/course-Nomenee/update-CourseNomenee', model,httpOptions).pipe(
     map((nomeneeSubjectSection: PostResponse) => {
  
       if (nomeneeSubjectSection) {
