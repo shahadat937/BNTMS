@@ -114,10 +114,10 @@ public class CourseNomeneeController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("update-CourseNomenee/{id}")]
-    public async Task<ActionResult> Put([FromBody] CourseNomeneeDto CourseNomenee)
+    [Route("update-CourseNomenee")]
+    public async Task<ActionResult> Put([FromBody] CreateCourseListNomeneeDto CourseNomenee)
     {
-        var command = new UpdateCourseNomeneeCommand { CourseNomeneeDto = CourseNomenee };
+        var command = new UpdateCourseNomeneeListCommand { CourseListNomeneeDto = CourseNomenee };
         await _mediator.Send(command);
         return NoContent();
     }

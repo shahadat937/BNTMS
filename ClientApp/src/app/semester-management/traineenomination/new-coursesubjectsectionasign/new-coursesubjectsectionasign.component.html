@@ -60,7 +60,7 @@
                                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                                     <mat-select (selectionChange)="onCourseSectionChange($event.value, i)">
                                       <mat-option  value="">--Select--</mat-option >
-                                      <mat-option *ngFor="let dropdown of courseSectionList" [value]="dropdown.value">
+                                      <mat-option *ngFor="let dropdown of courseSectionList" [value]="dropdown.value" >
                                         {{dropdown.text}} 
                                       </mat-option>                          
                                     </mat-select>
@@ -87,6 +87,22 @@
                   </div>
             </form>
           </div>
+          <table class="table table-secondary table-hover table-bordered" [hidden]="actionStatus == 'S'">
+            <thead>
+              <tr>
+                <th>Ser</th>
+                <th>Subject Name</th>
+                <th>Course Section</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let assignedSubjectList of assignedSubjectCourseList; let i = index">
+                <th>{{i+1}}</th>
+                <td>{{assignedSubjectList.subjectName}}</td>
+                <td>{{assignedSubjectList.courseSectionName}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

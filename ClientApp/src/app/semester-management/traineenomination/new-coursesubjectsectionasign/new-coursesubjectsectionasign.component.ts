@@ -49,6 +49,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   selectedvalues:CheckboxSelectedModel[];
   traineeForm: FormGroup;
   courseSectionList:SelectedModel[];
+  assignedSubjectCourseList:any[''];
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
   subjectName:string;
   bnaSubjectNameId:number;
@@ -101,8 +102,8 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
 
     
     this.intitializeForm();
-      this.getTraineeNominationIdList(this.traineeNominationId);
-
+      this.getTraineeNominationIdList();
+    this.getExistingTraineeNominationList();
     this.getCourseSection();
   }
 
@@ -131,7 +132,6 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   getCourseSection(){
     this.CoursesubjectsectionasignService.getselectedcoursedurationForBna().subscribe(res=>{  
         this.courseSectionList=res;
-      
     });
   }
 
@@ -164,33 +164,35 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
     control.clearValidators();
   }
 
+  getExistingTraineeNominationList(){
+    this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAlredyAsignId(this.traineeNominationId).subscribe(res=>{
+      this.assignedSubjectCourseList = res;
+      
+    if(this.assignedSubjectCourseList.length != 0){
+      this.pageTitle = 'Assign Course Section';
+      this.destination = "Assign"; 
+      this.buttonText= "Update"; 
+      this.actionStatus='U';
+      this.clearList();
+      this.getTraineeListonClick();
+    }
+    else{
+      this.pageTitle = 'Assign Course Section';
+      this.destination = "Assign"; 
+      this.buttonText= "SAVE"; 
+      this.actionStatus='S';
+      this.clearList();
+      this.getTraineeListonClick();
+    }
+    });
+    
+  }
  
 
-  getTraineeNominationIdList(traineeNominationId){
+  getTraineeNominationIdList(){
 
     this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAsignId(this.schollNameId,this.courseNameId,this.bnaSubjectCurriculumId,this.bnaSemesterId).subscribe(res=>{
       this.subjectList=res;
-      if (res.length==0){
- 
-      this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAlredyAsignId(traineeNominationId).subscribe(res=>{
-        this.pageTitle = 'Assign Course Section';
-        this.destination = "Assign"; 
-        //this.buttonText= "Update"; 
-        this.actionStatus='U';
-        this.clearList();
-        this.getTraineeListonClick();
-      });
-      }
-      else
-      {
-        this.pageTitle = 'Assign Course Section';
-        this.destination = "Assign"; 
-        this.buttonText= "SAVE"; 
-        this.actionStatus='S';
-        this.clearList();
-        this.getTraineeListonClick();
-      }
-
     });
 
 
@@ -225,7 +227,6 @@ storeValues() {
 }
 
 
-
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
@@ -238,13 +239,14 @@ storeValues() {
     
     //  const id = this.AttendanceForm.get('traineeNominationId').value;
     this.loading = true;
-    
+
 if (this.actionStatus=='S'){
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
       if (result) {
         this.loading = true;
         this.CoursesubjectsectionasignService.submit(this.NomeneeSubjectSectionForm.value).subscribe(response => {
        //   this.router.navigateByUrl('/semester-management/add-traineenomination='+);
+          this.reloadCurrentRoute();
           this.snackBar.open('Information Inserted Successfully ', '', {
             duration: 2000,
             verticalPosition: 'bottom',
@@ -260,8 +262,10 @@ if (this.actionStatus=='S'){
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
         if (result) {
           this.loading = true;
+          console.log("Form Value : ", this.NomeneeSubjectSectionForm.value);
           this.CoursesubjectsectionasignService.update(this.NomeneeSubjectSectionForm.value).subscribe(response => {
             //this.router.navigateByUrl('/course-management/schoolcourse-list');
+            this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
               verticalPosition: 'bottom',
