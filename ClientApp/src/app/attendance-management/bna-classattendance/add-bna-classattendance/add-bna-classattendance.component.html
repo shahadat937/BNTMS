@@ -1,49 +1,201 @@
 <section class="content">
-    <div class="container-fluid">
-      <div class="block-header">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <ul class="breadcrumb breadcrumb-style ">
-              <li class="breadcrumb-item">
-                <h4 class="page-title">{{pageTitle}}</h4>
-              </li>
-              <li class="breadcrumb-item bcrumb-1">
-                <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
-              </li>
-              <li class="breadcrumb-item bcrumb-2">
-                <a href="#" onClick="return false;"> Bna Attendance</a>
-              </li>
-              <li class="breadcrumb-item active">{{destination}}</li>
-            </ul>
-          </div>
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{pageTitle}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;"> Bna Attendance</a>
+            </li>
+            <li class="breadcrumb-item active">{{destination}}</li>
+          </ul>
         </div>
       </div>
-      <div class="row clearfix">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-          <div class="card">
-            <div class="header">
-            </div>
-            <div class="body">
-                <form class="m-4" [formGroup]="BnaAttendanceForm">
-                    <div class="row">
-                      <div class="form-border-design col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                        
-                      </div>
-                    </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+          </div>
+          <div class="body">
+            <form class="m-4" [formGroup]="BnaAttendanceForm">
+              <div class="form-border-design mb-2">
+                <div class="row">
 
-                    <div class="row mt-2">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                          <!-- <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!AttendanceForm.valid " mat-raised-button
+                  
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+                    <ng-multiselect-dropdown
+                      required
+                      [placeholder]="'BNA Subject Curriculam'"
+                      [data]="bnaSubjectCurriculam"
+                      [settings]="routinManagementdropdownSettingsSingle"
+                      (onSelect)="onBnaSubjectCurriculamStatus($event)"
+                      (onDeSelect)="onBnaSubjectCurriculamDeSelect($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+                  
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+                    <ng-multiselect-dropdown
+                      required
+                      [placeholder]="'Course Title'"
+                      [data]="courseTitle"
+                      [settings]="routinManagementdropdownSettingsSingle"
+                      (onSelect)="onCourseTitleStatus($event)"
+                      (onDeSelect)="onCourseTitleDeSelect($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+                    <ng-multiselect-dropdown
+                      required
+                      [placeholder]="'Semester'"
+                      [data]="bnaSemester"
+                      [settings]="routinManagementdropdownSettingsSingle"
+                      (onSelect)="onBnaSemesterStatus($event)"
+                      (onDeSelect)="onBnaSemesterDeSelect($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+                  
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+                    <ng-multiselect-dropdown
+                      required
+                      [placeholder]="'Course Section'"
+                      [data]="courseSection"
+                      [settings]="routinManagementdropdownSettingsSingle"
+                      (onSelect)="onCourseSectionStatus($event)"
+                      (onDeSelect)="onCourseSectionDeSelect($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+
+                  
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+                    <ng-multiselect-dropdown
+                      required
+                      [placeholder]="'Class Period'"
+                      [data]="classPeriod"
+                      [settings]="routinManagementdropdownSettingsSingle"
+                      (onSelect)="onClassPeriodStatus($event)"
+                      (onDeSelect)="onClassPeriodDeSelect($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+                  <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>BNA Subject Curriculam</mat-label>
+                      <mat-select formControlName="bnaSubjectCurriculamId" required>
+                        <mat-option value="0">--Select--</mat-option>
+                        <mat-option *ngFor="let semester of bnaSubjectCurriculam" [value]="semester.value" (onSelectionChange)="onBnaSubjectCurriculamChangeGet(semester)">
+                          {{semester.text}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="BNASemesterDurationForm.get('bnaSubjectCurriculamId').hasError('required')">
+                                BNA Subject Curriculam Is Required!
+                              </mat-error>
+                    </mat-form-field>
+                  </div>
+
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Course Title</mat-label>
+                      <mat-select formControlName="bnaSubjectCurriculamId" required>
+                        <mat-option value="0">--Select--</mat-option>
+                        <mat-option *ngFor="let semester of courseTitle" [value]="semester.value">
+                          {{semester.text}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="BNASemesterDurationForm.get('bnaSubjectCurriculamId').hasError('required')">
+                                BNA Subject Curriculam Is Required!
+                              </mat-error>
+                    </mat-form-field>
+                  </div>
+
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Semester</mat-label>
+                      <mat-select formControlName="bnaSubjectCurriculamId" required>
+                        <mat-option value="0">--Select--</mat-option>
+                        <mat-option *ngFor="let semester of bnaSemester" [value]="semester.value">
+                          {{semester.text}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="BNASemesterDurationForm.get('bnaSubjectCurriculamId').hasError('required')">
+                                BNA Subject Curriculam Is Required!
+                              </mat-error>
+                    </mat-form-field>
+                  </div>
+
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Course Section</mat-label>
+                      <mat-select formControlName="bnaSubjectCurriculamId" required>
+                        <mat-option value="0">--Select--</mat-option>
+                        <mat-option *ngFor="let semester of courseSection" [value]="semester.value">
+                          {{semester.text}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="BNASemesterDurationForm.get('bnaSubjectCurriculamId').hasError('required')">
+                                BNA Subject Curriculam Is Required!
+                              </mat-error>
+                    </mat-form-field>
+                  </div>
+
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Class Period</mat-label>
+                      <mat-select formControlName="bnaSubjectCurriculamId" required>
+                        <mat-option value="0">--Select--</mat-option>
+                        <mat-option *ngFor="let semester of classPeriod" [value]="semester.value">
+                          {{semester.text}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="BNASemesterDurationForm.get('bnaSubjectCurriculamId').hasError('required')">
+                                BNA Subject Curriculam Is Required!
+                              </mat-error>
+                    </mat-form-field>
+                  </div> -->
+
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="datepicker" required (dateChange)="onDateSelectionChange($event)">
+                        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                       <mat-datepicker #datepicker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+
+
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <!-- <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!AttendanceForm.valid " mat-raised-button
                             color="primary">{{buttonText}}</button> -->
-                            <button class="btn-space"  mat-raised-button color="warn" routerLink="/admin/dashboard/school-dashboard"> 
-                        <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
-                        </button>
-                        </div>
-                      </div>
-                </form>
-            </div>
+                  <button class="btn-space" mat-raised-button color="warn"
+                    routerLink="/admin/dashboard/school-dashboard">
+                    <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

@@ -42,4 +42,9 @@
     <ProjectReference Include="..\SchoolManagement.Shared\SchoolManagement.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\BnaClassAttendance\Handler\Commands\" />
+    <Folder Include="Features\BnaClassAttendance\Request\Commands\" />
+  </ItemGroup>
+
 </Project>

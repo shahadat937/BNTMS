@@ -23,6 +23,7 @@ import { NewAttendanceComponent } from './attendance/new-attendance/new-attendan
 import {AttendanceApprovedComponent} from './attendance/attendance-approved/attendance-approved.component';
 import {AttendanceInstructorComponent} from './attendance/attendance-instructor/attendance-instructor.component';
 import { AddBnaClassattendanceComponent } from './bna-classattendance/add-bna-classattendance/add-bna-classattendance.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { AddBnaClassattendanceComponent } from './bna-classattendance/add-bna-cl
     MatSelectModule,
     MatDatepickerModule,
     MaterialFileInputModule,
-    MatCheckboxModule  
+    MatCheckboxModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ]
 })
 export class AttendanceManagementModule { }
