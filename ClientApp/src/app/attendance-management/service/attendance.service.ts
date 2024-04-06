@@ -148,4 +148,34 @@ export class AttendanceService {
   delete(id:number){
     return this.http.delete(this.baseUrl + '/attendance/delete-attendance/'+id);
   }
+
+
+
+  //BNA Attendance Service
+
+
+  getSelectedSubjectCurriculum(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-curriculum/get-selectedBnaSubjectCurriculums')
+  } 
+
+  getselectedcourseTitle(baseSchoolNameId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/course-duration/get-selectedCourseDurationBySchoolName?baseSchoolNameId='+baseSchoolNameId)
+  }
+
+  getSelectedBnaSemester(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-semester/get-selectedBnaSemesters')
+  }
+
+  getDropdownCourseSection(baseSchoolNameId){
+    return this.http.get<any[]>(this.baseUrl + '/course-section/get-dorpdown-courseSection?baseSchoolNameId='+baseSchoolNameId)
+  } 
+
+  getDropdownClassPeriod(baseSchoolNameId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bnaClass-period/get-bnaClassPeriod?&baseSchoolNameId='+baseSchoolNameId)
+  } 
+
+  getAttendanceTraineeList(baseSchoolNameId, selectedbnaSubjectCurriculam, selectedcourseTitle, selectedbnaSemester, selectedcourseSection, selectedclassPeriod, selectedDate){
+    return this.http.get<any[]>(this.baseUrl + '/bnaClass-attendance/get-BnaClassAttendance?&baseSchoolNameId='+baseSchoolNameId+'&bnaSubjectCurriculamId='+selectedbnaSubjectCurriculam+'&courseTitleId='+selectedcourseTitle+'&semesterId='+selectedbnaSemester+'&courseSectionId='+selectedcourseSection+'&classPeriodId='+selectedclassPeriod+'&date='+selectedDate)
+  }
+
 }
