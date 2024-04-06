@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.BnaClassAttendance.Request.Queries
 {
-    public class GetBnaAttendanceQueryListRequest : IRequest<List<SelectedModel>>
+    public class GetBnaAttendanceQueryListRequest : IRequest<List<BnaAttendanceModel>>
     {
         public int BnaSubjectCurriculamId { get; set; }
         public int BaseSchoolNameId { get; set; }

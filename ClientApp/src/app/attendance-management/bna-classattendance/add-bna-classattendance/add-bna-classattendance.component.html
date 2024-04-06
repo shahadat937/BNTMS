@@ -32,11 +32,11 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
                     <ng-multiselect-dropdown
                       required
-                      [placeholder]="'BNA Subject Curriculam'"
-                      [data]="bnaSubjectCurriculam"
+                      [placeholder]="'BNA Subject Curriculum'"
+                      [data]="bnaSubjectCurriculum"
                       [settings]="routinManagementdropdownSettingsSingle"
-                      (onSelect)="onBnaSubjectCurriculamStatus($event)"
-                      (onDeSelect)="onBnaSubjectCurriculamDeSelect($event)">
+                      (onSelect)="onBnaSubjectCurriculumStatus($event)"
+                      (onDeSelect)="onBnaSubjectCurriculumDeSelect($event)">
                     </ng-multiselect-dropdown>
                   </div>
 
@@ -179,6 +179,45 @@
                   </div>
 
 
+                </div>
+              </div>
+
+              <div class="card mt-2" [hidden]="isShownForTraineeList == false">
+                <div class="header">
+                </div>
+                <div class="body">
+                  <div class="col-md-12">
+                    <div class="d-flex justify-content-between mb-3">
+                      <div>
+                        <b>Subject Name : </b>{{subjectName}}
+                      </div>
+                      <div>
+                        <b>Instructor Name : </b>{{instructorName}}
+                      </div>
+                    </div>
+                    <div class="smart-table-container">
+                      <table class="table table-secondary table-hover table-bordered">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Trainee Name</th>
+                            <th>Attendance</th>
+                            <th>Remark</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let attendance of attendanceTraineeList; let i = index">
+                            <th>{{i+1}}</th>
+                            <td>
+                              <input type="text" value="{{attendance.traineeId}}" hidden>
+                              {{attendance.traineeName}}</td>
+                            <td><input type="checkbox"></td>
+                            <td><input type="text"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
 

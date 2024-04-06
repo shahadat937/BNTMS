@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Role } from 'src/app/core/models/role';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { AuthService } from 'src/app/core/service/auth.service';
@@ -7,6 +7,10 @@ import { MasterData } from 'src/assets/data/master-data';
 import { AttendanceService } from '../../service/attendance.service';
 import { DatePipe } from '@angular/common';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-bna-classattendance',
@@ -21,34 +25,58 @@ export class AddBnaClassattendanceComponent implements OnInit {
   buttonText: string;
   pageTitle: string;
   destination: string;
-  BnaAttendanceForm: FormGroup;
   role: any;
   traineeId: any;
   branchId: any;
   baseSchoolId: any;
-  bnaSubjectCurriculam: SelectedModel[];
+  bnaSubjectCurriculum: SelectedModel[];
   courseSection: SelectedModel[];
   courseTitle: SelectedModel[];
   bnaSemester: SelectedModel[];
   classPeriod: SelectedModel[];
-
-  selectedbnaSubjectCurriculam: any;
+  
+  selectedbnaSubjectCurriculum: any;
   selectedcourseSection: any;
   selectedcourseTitle: any;
   selectedbnaSemester: any;
   selectedclassPeriod: any;
   selectedDate: any;
 
-  attendanceTraineeList : SelectedModel[];
+  BnaAttendanceForm: FormGroup;
+  validationErrors: string[] = [];
+
+  paging = {
+    pageIndex: this.masterData.paging.pageIndex,
+    pageSize: this.masterData.paging.pageSize,
+    length: 1
+  }
+  actionStatus : any;
+  searchText="";
+  checked = false;
+  isShown: boolean = false ;
+  isShownForTraineeList:boolean=false;
+
+  attendanceTraineeList : any[];
+  subjectName : any;
+  instructorName : any;
 
 
   routinManagementdropdownSettingsSingle: IDropdownSettings;
 
 
 
-  constructor(private authService: AuthService, private AttendanceService: AttendanceService, private datepipe: DatePipe,) { }
+  constructor(private authService: AuthService, private AttendanceService: AttendanceService, private datepipe: DatePipe,private fb: FormBuilder,) { }
 
   ngOnInit(): void {
+    
+    this.routinManagementdropdownSettingsSingle = {
+      singleSelection: true,
+      idField: 'value',
+      textField: 'text',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+
     this.pageTitle = 'Create Attendance';
     this.destination = "Add";
     this.buttonText = "Save";
@@ -61,21 +89,60 @@ export class AddBnaClassattendanceComponent implements OnInit {
     this.getSelectedBnaSemester();
     this.getDropdownCourseSection();
     this.getSelectedClassPeriod();
+    
+    this.intitializeForm();
 
-
-    this.routinManagementdropdownSettingsSingle = {
-      singleSelection: true,
-      idField: 'value',
-      textField: 'text',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
+    
+    
   }
+
+  intitializeForm(){
+    this.BnaAttendanceForm = this.fb.group({
+      bnaAttendanceId:[0],
+      bnaSubjectCurriculumId : [''],
+      courseTitleId : [''],
+      bnaSemesterId : [''],
+      courseSectionId : [''],
+      classPeriodId : [''],
+      date : [''],
+      subjectId : [''],
+      instructorId : [''],
+      studentAttendanceForm: this.fb.array([this.createTraineeListData()]),
+    });
+  }
+
+  private createTraineeListData(){
+    return this.fb.group({
+      traineeId : [''],
+      attendance : [''],
+      remark : ['']
+    });
+  }
+  
+
+  getControlLabel(index: number, type: string) {
+    return (this.BnaAttendanceForm.get('studentAttendanceForm') as FormArray).at(index).get(type).value;
+  }
+  getTraineeListonClick() {
+    const control = <FormArray>this.BnaAttendanceForm.controls["studentAttendanceForm"];
+    for (let i = 0; i < this.attendanceTraineeList.length; i++) {
+      control.push(this.createTraineeListData());
+    }
+    this.BnaAttendanceForm.patchValue({ studentAttendanceForm : this.attendanceTraineeList });
+  }
+  clearList() {
+    const control = <FormArray>this.BnaAttendanceForm.controls["subjectSectionForm"];
+    while (control.length) {
+      control.removeAt(control.length - 1);
+    }
+    control.clearValidators();
+  }
+
 
 
   getSelectedSubjectCurriculum() {
     this.AttendanceService.getSelectedSubjectCurriculum().subscribe(res => {
-      this.bnaSubjectCurriculam = res
+      this.bnaSubjectCurriculum = res
     });
   }
 
@@ -106,12 +173,12 @@ export class AddBnaClassattendanceComponent implements OnInit {
   }
 
 
-  onBnaSubjectCurriculamStatus(dropdown) {
-    this.selectedbnaSubjectCurriculam = dropdown.value;
+  onBnaSubjectCurriculumStatus(dropdown) {
+    this.selectedbnaSubjectCurriculum = dropdown.value;
     this.ViewTraineeListForAttendance();
   }
-  onBnaSubjectCurriculamDeSelect(dropdown) {
-    this.selectedbnaSubjectCurriculam = null;
+  onBnaSubjectCurriculumDeSelect(dropdown) {
+    this.selectedbnaSubjectCurriculum = null;
     this.ViewTraineeListForAttendance();
   }
 
@@ -157,11 +224,21 @@ export class AddBnaClassattendanceComponent implements OnInit {
   }
 
   ViewTraineeListForAttendance() {
-    if (this.selectedbnaSubjectCurriculam != null && this.selectedcourseTitle != null && this.selectedbnaSemester != null && this.selectedcourseSection != null && this.selectedclassPeriod != null && this.selectedDate != null) {
-      this.AttendanceService.getAttendanceTraineeList(this.baseSchoolId, this.selectedbnaSubjectCurriculam, this.selectedcourseTitle, this.selectedbnaSemester, this.selectedcourseSection, this.selectedclassPeriod, this.selectedDate).subscribe(res => {
+    if (this.selectedbnaSubjectCurriculum != null && this.selectedcourseTitle != null && this.selectedbnaSemester != null && this.selectedcourseSection != null && this.selectedclassPeriod != null && this.selectedDate != null) {
+      this.AttendanceService.getAttendanceTraineeList(this.baseSchoolId, this.selectedbnaSubjectCurriculum, this.selectedcourseTitle, this.selectedbnaSemester, this.selectedcourseSection, this.selectedclassPeriod, this.selectedDate).subscribe(res => {
         this.attendanceTraineeList = res;
+        res.forEach(element => {
+          this.subjectName = element.subjectName;
+          this.instructorName = element.instructorName;
+        });
         console.log("Response : ", this.attendanceTraineeList);
+        if(res.length !=0){
+          this.isShownForTraineeList = true
+        }
       });
+      
+    this.clearList();
+    this.getTraineeListonClick();
     }
   }
 }
