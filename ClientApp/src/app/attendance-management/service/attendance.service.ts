@@ -7,6 +7,7 @@ import { Attendance } from '../models/attendance';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { map } from 'rxjs';
 import { PostResponse } from 'src/app/core/models/PostResponse';
+import { bnaAttendanceList } from '../models/bnaAttendanceList';
 
 @Injectable({
   providedIn: 'root'
@@ -175,7 +176,7 @@ export class AttendanceService {
   } 
 
   getAttendanceTraineeList(baseSchoolNameId, selectedbnaSubjectCurriculam, selectedcourseTitle, selectedbnaSemester, selectedcourseSection, selectedclassPeriod, selectedDate){
-    return this.http.get<any[]>(this.baseUrl + '/bnaClass-attendance/get-BnaClassAttendance?&baseSchoolNameId='+baseSchoolNameId+'&bnaSubjectCurriculamId='+selectedbnaSubjectCurriculam+'&courseTitleId='+selectedcourseTitle+'&semesterId='+selectedbnaSemester+'&courseSectionId='+selectedcourseSection+'&classPeriodId='+selectedclassPeriod+'&date='+selectedDate)
+    return this.http.get<bnaAttendanceList[]>(this.baseUrl + '/bnaClass-attendance/get-BnaClassAttendance?&baseSchoolNameId='+baseSchoolNameId+'&bnaSubjectCurriculamId='+selectedbnaSubjectCurriculam+'&courseTitleId='+selectedcourseTitle+'&semesterId='+selectedbnaSemester+'&courseSectionId='+selectedcourseSection+'&classPeriodId='+selectedclassPeriod+'&date='+selectedDate)
   }
 
 }

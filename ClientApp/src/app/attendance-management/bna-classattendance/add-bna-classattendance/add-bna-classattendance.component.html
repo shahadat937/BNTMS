@@ -24,7 +24,7 @@
           <div class="header">
           </div>
           <div class="body">
-            <form class="m-4" [formGroup]="BnaAttendanceForm">
+            <form class="m-4" [formGroup]="BnaAttendanceForm" (ngSubmit)="onSubmit()">
               <div class="form-border-design mb-2">
                 <div class="row">
 
@@ -32,6 +32,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
                     <ng-multiselect-dropdown
                       required
+                      formControlName="bnaSubjectCurriculumId"
                       [placeholder]="'BNA Subject Curriculum'"
                       [data]="bnaSubjectCurriculum"
                       [settings]="routinManagementdropdownSettingsSingle"
@@ -44,6 +45,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
                     <ng-multiselect-dropdown
                       required
+                      formControlName="courseTitleId"
                       [placeholder]="'Course Title'"
                       [data]="courseTitle"
                       [settings]="routinManagementdropdownSettingsSingle"
@@ -56,6 +58,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
                     <ng-multiselect-dropdown
                       required
+                      formControlName="bnaSemesterId"
                       [placeholder]="'Semester'"
                       [data]="bnaSemester"
                       [settings]="routinManagementdropdownSettingsSingle"
@@ -68,6 +71,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
                     <ng-multiselect-dropdown
                       required
+                      formControlName="courseSectionId"
                       [placeholder]="'Course Section'"
                       [data]="courseSection"
                       [settings]="routinManagementdropdownSettingsSingle"
@@ -81,6 +85,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
                     <ng-multiselect-dropdown
                       required
+                      formControlName="classPeriodId"
                       [placeholder]="'Class Period'"
                       [data]="classPeriod"
                       [settings]="routinManagementdropdownSettingsSingle"
@@ -172,7 +177,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Date</mat-label>
-                        <input matInput [matDatepicker]="datepicker" required (dateChange)="onDateSelectionChange($event)">
+                        <input matInput [matDatepicker]="datepicker" required formControlName="date" (dateChange)="onDateSelectionChange($event)">
                         <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
                        <mat-datepicker #datepicker></mat-datepicker>
                     </mat-form-field>
@@ -206,13 +211,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let attendance of attendanceTraineeList; let i = index">
+                          <tr *ngFor="let unit of BnaAttendanceForm.get('studentAttendanceForm')['controls']; let i = index" [formGroup]="unit">
                             <th>{{i+1}}</th>
-                            <td>
-                              <input type="text" value="{{attendance.traineeId}}" hidden>
-                              {{attendance.traineeName}}</td>
-                            <td><input type="checkbox"></td>
-                            <td><input type="text"></td>
+                            <td>{{getControlLabel(i,'traineeName')}}</td>
+                            <td><input type="checkbox" formControlName="attendance"></td>
+                            <td><input type="text" formControlName="remark"></td>
                           </tr>
                         </tbody>
                       </table>
@@ -223,8 +226,8 @@
 
               <div class="row mt-2">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <!-- <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!AttendanceForm.valid " mat-raised-button
-                            color="primary">{{buttonText}}</button> -->
+                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading"  mat-raised-button
+                            color="primary">{{buttonText}}</button>
                   <button class="btn-space" mat-raised-button color="warn"
                     routerLink="/admin/dashboard/school-dashboard">
                     <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
