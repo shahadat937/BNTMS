@@ -14,5 +14,8 @@ namespace SchoolManagement.Shared.Models
         public object SubjectName { get; set; }
         public object InstructorId { get; set; }
         public object InstructorName { get; set; }
+        public bool Attendance { get; set; }
+        public object Remark { get; set; }
+        public bool UpdateStatus { get; set; }
     }
 }

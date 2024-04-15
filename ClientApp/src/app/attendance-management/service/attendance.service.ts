@@ -193,4 +193,18 @@ export class AttendanceService {
     );
   } 
 
+  bnaAttendanceUpdate(model: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    
+    return this.http.put<PostResponse>(this.baseUrl + '/bnaClass-attendance/update-bnaClassAttendance', model,httpOptions).pipe(
+      map((Attendance: PostResponse) => {
+        if (Attendance) {
+          return Attendance;
+        }
+      })
+    );
+  } 
+
 }

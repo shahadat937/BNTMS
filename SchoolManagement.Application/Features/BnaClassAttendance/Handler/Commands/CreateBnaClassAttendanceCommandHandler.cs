@@ -18,13 +18,13 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Comma
     public class CreateBnaClassAttendanceCommandHandler : IRequestHandler<CreateBnaClassAttendanceCommand, BaseCommandResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
 
-    public CreateBnaClassAttendanceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
+        public CreateBnaClassAttendanceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
 
         public async Task<BaseCommandResponse> Handle(CreateBnaClassAttendanceCommand request, CancellationToken cancellationToken)
         {

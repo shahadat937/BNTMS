@@ -42,9 +42,18 @@ namespace SchoolManagement.Api.Controllers
 
         [HttpPost]
         [Route("save-bnaClassAttendance")]
-        public async Task<ActionResult<BaseCommandResponse>> BnaClassAttendance(CreateBnaClassAttendanceDto createBnaClassAttendanceDto)
+        public async Task<ActionResult<BaseCommandResponse>> SaveBnaClassAttendance(CreateBnaClassAttendanceDto createBnaClassAttendanceDto)
         {
             var command = new CreateBnaClassAttendanceCommand { BnaClassAttendanceDto = createBnaClassAttendanceDto };
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("update-bnaClassAttendance")]
+        public async Task<ActionResult<BaseCommandResponse>> UpdateBnaClassAttendance(CreateBnaClassAttendanceDto createBnaClassAttendanceDto)
+        {
+            var command = new UpdateBnaClassAttendanceCommand { BnaClassAttendanceDto = createBnaClassAttendanceDto };
             var response = await _mediator.Send(command);
             return Ok(response);
         }
