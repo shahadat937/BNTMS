@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application;
+using SchoolManagement.Application.DTOs.BnaClassAttrendance;
+using SchoolManagement.Application.DTOs.ClassRoutine;
+using SchoolManagement.Application.Features.BnaClassAttendance.Request.Commands;
 using SchoolManagement.Application.Features.BnaClassAttendance.Request.Queries;
 using SchoolManagement.Application.Features.ClassPeriods.Requests.Queries;
+using SchoolManagement.Application.Features.ClassRoutines.Requests.Commands;
 using SchoolManagement.Shared.Models;
 
 namespace SchoolManagement.Api.Controllers
@@ -34,6 +38,15 @@ namespace SchoolManagement.Api.Controllers
                 Date = date
             });
             return Ok(ClassAttendanceTrainee);
+        }
+
+        [HttpPost]
+        [Route("save-bnaClassAttendance")]
+        public async Task<ActionResult<BaseCommandResponse>> BnaClassAttendance(CreateBnaClassAttendanceDto createBnaClassAttendanceDto)
+        {
+            var command = new CreateBnaClassAttendanceCommand { BnaClassAttendanceDto = createBnaClassAttendanceDto };
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
     }
 }

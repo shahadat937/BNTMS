@@ -43,8 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\BnaClassAttendance\Handler\Commands\" />
-    <Folder Include="Features\BnaClassAttendance\Request\Commands\" />
+    <Folder Include="DTOs\BnaClassAttrendance\Validators\" />
   </ItemGroup>
 
 </Project>

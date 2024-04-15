@@ -193,6 +193,7 @@ using SchoolManagement.Application.DTOs.FinancialSanction;
 using SchoolManagement.Application.DTOs.Department;
 using SchoolManagement.Application.DTOs.MarkCategory;
 using SchoolManagement.Application.DTOs.BnaClassPeriod;
+using SchoolManagement.Application.DTOs.BnaClassAttrendance;
 
 namespace SchoolManagement.Application.Profiles
 {
@@ -1691,6 +1692,12 @@ namespace SchoolManagement.Application.Profiles
             #region BnaClassPeriod Mappings
             CreateMap<BnaClassPeriod, BnaClassPeriodDto>().ReverseMap();
             CreateMap<BnaClassPeriod, CreateBnaClassPeriodDto>().ReverseMap();
+            #endregion
+
+
+            #region BnaClassAttendance Mappings
+            CreateMap<Domain.BnaClassAttendance, BnaClassAttendanceDto>().ReverseMap();
+            CreateMap<Domain.BnaClassAttendance, CreateBnaClassAttendanceDto>().ReverseMap();
             #endregion
         }
     }

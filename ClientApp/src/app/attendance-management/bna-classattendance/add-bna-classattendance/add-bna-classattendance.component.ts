@@ -81,6 +81,7 @@ export class AddBnaClassattendanceComponent implements OnInit {
     this.pageTitle = 'Create Attendance';
     this.destination = "Add";
     this.buttonText = "Save";
+    this.actionStatus ='S';
 
     this.role = this.authService.currentUserValue.role.trim();
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
@@ -99,10 +100,11 @@ export class AddBnaClassattendanceComponent implements OnInit {
 
   intitializeForm() {
     this.BnaAttendanceForm = this.fb.group({
-      bnaAttendanceId: [0],
+      bnaClassAttendanceId: [0],
       bnaSubjectCurriculumId: [''],
       courseTitleId: [''],
       bnaSemesterId: [''],
+      baseSchoolNameId: this.baseSchoolId,
       courseSectionId: [''],
       classPeriodId: [''],
       date: [''],
@@ -247,6 +249,13 @@ export class AddBnaClassattendanceComponent implements OnInit {
     this.ViewTraineeListForAttendance();
   }
 
+  
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
 
   onSubmit() {
 
@@ -256,5 +265,23 @@ export class AddBnaClassattendanceComponent implements OnInit {
     this.BnaAttendanceForm.value.courseSectionId = this.selectedcourseSection;
     this.BnaAttendanceForm.value.classPeriodId = this.selectedclassPeriod;
     console.log("Response Value : ", this.BnaAttendanceForm.value);
+    if (this.actionStatus=='S'){
+      this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
+        if (result) {
+          this.loading = true;
+          this.AttendanceService.bnaAttendanceSubmit(this.BnaAttendanceForm.value).subscribe(response => {
+         
+            this.reloadCurrentRoute();
+            this.snackBar.open('Information Inserted Successfully ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-success'
+            });
+          }, error => {
+            this.validationErrors = error;
+          })
+        }
+      })}
   }
 }
