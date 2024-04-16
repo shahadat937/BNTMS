@@ -42,7 +42,7 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Queri
 
             
 
-            IQueryable<Domain.BnaClassAttendance> bnaClassAttendances = _BnaClassAttendanceRepository.Where(x => x.AttendanceDate == date.Date && x.BnaSubjectCurriculumId == request.BnaSubjectCurriculamId && x.CourseTitleId == request.CourseTitleId && x.BnaSemesterId == request.SemesterId && x.CourseSectionId == request.CourseSectionId && x.ClassPeriodId == request.ClassPeriodId);
+            IQueryable<Domain.BnaClassAttendance> bnaClassAttendances = _BnaClassAttendanceRepository.Where(x => x.AttendanceDate == date && x.BnaSubjectCurriculumId == request.BnaSubjectCurriculamId && x.CourseTitleId == request.CourseTitleId && x.BnaSemesterId == request.SemesterId && x.CourseSectionId == request.CourseSectionId && x.ClassPeriodId == request.ClassPeriodId);
 
             if (bnaClassAttendances.Any())
             {

@@ -272,6 +272,7 @@ export class AddBnaClassattendanceComponent implements OnInit {
     this.BnaAttendanceForm.value.bnaSemesterId = this.selectedbnaSemester;
     this.BnaAttendanceForm.value.courseSectionId = this.selectedcourseSection;
     this.BnaAttendanceForm.value.classPeriodId = this.selectedclassPeriod;
+    this.BnaAttendanceForm.value.date = this.selectedDate;
     if (this.actionStatus == 'S') {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
         if (result) {
