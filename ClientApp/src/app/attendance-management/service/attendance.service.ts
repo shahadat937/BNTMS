@@ -179,4 +179,32 @@ export class AttendanceService {
     return this.http.get<bnaAttendanceList[]>(this.baseUrl + '/bnaClass-attendance/get-BnaClassAttendance?&baseSchoolNameId='+baseSchoolNameId+'&bnaSubjectCurriculamId='+selectedbnaSubjectCurriculam+'&courseTitleId='+selectedcourseTitle+'&semesterId='+selectedbnaSemester+'&courseSectionId='+selectedcourseSection+'&classPeriodId='+selectedclassPeriod+'&date='+selectedDate)
   }
 
+  bnaAttendanceSubmit(model: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    
+    return this.http.post<PostResponse>(this.baseUrl + '/bnaClass-attendance/save-bnaClassAttendance', model,httpOptions).pipe(
+      map((Attendance: PostResponse) => {
+        if (Attendance) {
+          return Attendance;
+        }
+      })
+    );
+  } 
+
+  bnaAttendanceUpdate(model: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    
+    return this.http.put<PostResponse>(this.baseUrl + '/bnaClass-attendance/update-bnaClassAttendance', model,httpOptions).pipe(
+      map((Attendance: PostResponse) => {
+        if (Attendance) {
+          return Attendance;
+        }
+      })
+    );
+  } 
+
 }

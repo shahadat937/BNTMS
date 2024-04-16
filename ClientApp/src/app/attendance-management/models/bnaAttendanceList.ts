@@ -5,4 +5,7 @@ export interface bnaAttendanceList {
     subjectName : string,
     instructorId : number,
     instructorName : string,
+    attendance:boolean,
+    remark:string,
+    updateStatus:boolean
 }

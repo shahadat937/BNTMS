@@ -25,7 +25,7 @@ export class AddBnaClassattendanceComponent implements OnInit {
   userRole = Role;
   buttonText: string;
   pageTitle: string;
-  destination: string;
+  destination = "Attendance";
   role: any;
   traineeId: any;
   branchId: any;
@@ -56,6 +56,7 @@ export class AddBnaClassattendanceComponent implements OnInit {
   checked = false;
   isShown: boolean = false;
   isShownForTraineeList: boolean = false;
+  updateStatus: boolean;
 
   attendanceTraineeList: bnaAttendanceList[];
   subjectName: any;
@@ -79,8 +80,6 @@ export class AddBnaClassattendanceComponent implements OnInit {
     };
 
     this.pageTitle = 'Create Attendance';
-    this.destination = "Add";
-    this.buttonText = "Save";
 
     this.role = this.authService.currentUserValue.role.trim();
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
@@ -99,10 +98,11 @@ export class AddBnaClassattendanceComponent implements OnInit {
 
   intitializeForm() {
     this.BnaAttendanceForm = this.fb.group({
-      bnaAttendanceId: [0],
+      bnaClassAttendanceId: [0],
       bnaSubjectCurriculumId: [''],
       courseTitleId: [''],
       bnaSemesterId: [''],
+      baseSchoolNameId: this.baseSchoolId,
       courseSectionId: [''],
       classPeriodId: [''],
       date: [''],
@@ -148,19 +148,29 @@ export class AddBnaClassattendanceComponent implements OnInit {
       // this.intitializeForm();
       this.subjectName = null;
       this.instructorName = null;
+      this.updateStatus = false;
       this.AttendanceService.getAttendanceTraineeList(this.baseSchoolId, this.selectedbnaSubjectCurriculum, this.selectedcourseTitle, this.selectedbnaSemester, this.selectedcourseSection, this.selectedclassPeriod, this.selectedDate).subscribe(res => {
         this.attendanceTraineeList = res;
         res.forEach(element => {
           this.subjectName = element.subjectName;
           this.instructorName = element.instructorName;
+          this.updateStatus = element.updateStatus;
         });
-
+        if (this.updateStatus == false) {
+          this.destination = "Add";
+          this.buttonText = "Save";
+          this.actionStatus = 'S';
+        }
+        else {
+          this.destination = "Update";
+          this.buttonText = "Update";
+          this.actionStatus = 'U';
+        }
         this.isShownForTraineeList = true
-
         this.clearList();
         this.getTraineeListonClick();
       });
-
+      
     }
   }
 
@@ -248,6 +258,13 @@ export class AddBnaClassattendanceComponent implements OnInit {
   }
 
 
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
+
   onSubmit() {
 
     this.BnaAttendanceForm.value.bnaSubjectCurriculumId = this.selectedbnaSubjectCurriculum;
@@ -255,6 +272,44 @@ export class AddBnaClassattendanceComponent implements OnInit {
     this.BnaAttendanceForm.value.bnaSemesterId = this.selectedbnaSemester;
     this.BnaAttendanceForm.value.courseSectionId = this.selectedcourseSection;
     this.BnaAttendanceForm.value.classPeriodId = this.selectedclassPeriod;
-    console.log("Response Value : ", this.BnaAttendanceForm.value);
+    this.BnaAttendanceForm.value.date = this.selectedDate;
+    if (this.actionStatus == 'S') {
+      this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
+        if (result) {
+          this.loading = true;
+          this.AttendanceService.bnaAttendanceSubmit(this.BnaAttendanceForm.value).subscribe(response => {
+
+            this.reloadCurrentRoute();
+            this.snackBar.open('Information Inserted Successfully ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-success'
+            });
+          }, error => {
+            this.validationErrors = error;
+          })
+        }
+      })
+    }
+    else if (this.actionStatus == 'U'){
+      this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
+        if (result) {
+          this.loading = true;
+          this.AttendanceService.bnaAttendanceUpdate(this.BnaAttendanceForm.value).subscribe(response => {
+
+            this.reloadCurrentRoute();
+            this.snackBar.open('Information Updated Successfully ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-success'
+            });
+          }, error => {
+            this.validationErrors = error;
+          })
+        }
+      })
+    }
   }
 }
