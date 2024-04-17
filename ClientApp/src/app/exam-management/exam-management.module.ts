@@ -29,6 +29,11 @@ import { ExamApproveComponent } from './bnaexammark/examapprove-list/examapprove
 import {NewReExamMarkComponent} from './bnaexammark/new-reexammark/new-reexammark.component';
 import { NewReExamComponent } from './bnaexammark/new-reexam/new-reexam.component';
 import {NewAssignmentMarkComponent} from './bnaexammark/new-assignmentmark/new-assignmentmark.component';
+import { AddBnaexammarkentryComponent } from './bna-exam-management/add-bnaexammarkentry/add-bnaexammarkentry.component';
+import { AddBnaassignmentmarkComponent } from './bna-exam-management/add-bnaassignmentmark/add-bnaassignmentmark.component';
+import { BnaexammarkapproveListComponent } from './bna-exam-management/bnaexammarkapprove-list/bnaexammarkapprove-list.component';
+import { AddBnaabsentreexammarkComponent } from './bna-exam-management/add-bnaabsentreexammark/add-bnaabsentreexammark.component';
+import { AddBnareexamComponent } from './bna-exam-management/add-bnareexam/add-bnareexam.component';
 
 
 @NgModule({
@@ -44,7 +49,12 @@ import {NewAssignmentMarkComponent} from './bnaexammark/new-assignmentmark/new-a
     ExamApproveComponent,
     NewReExamMarkComponent,
     NewReExamComponent,
-    NewAssignmentMarkComponent
+    NewAssignmentMarkComponent,
+    AddBnaexammarkentryComponent,
+    AddBnaassignmentmarkComponent,
+    BnaexammarkapproveListComponent,
+    AddBnaabsentreexammarkComponent,
+    AddBnareexamComponent
   ],
   imports: [
     CommonModule,
