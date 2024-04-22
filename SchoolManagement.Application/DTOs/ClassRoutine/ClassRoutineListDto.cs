@@ -22,13 +22,13 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
-        public string? CourseTitleId { get; set; }
+        public string? CourseNameId { get; set; }
         public int? BranchId { get; set; }
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }
         public string? CourseSectionId { get; set; }
-        public int? CourseDurationId { get; set; }
+        public string? CourseDurationId { get; set; }
         public int? BnaSubjectNameId { get; set; }
         public int? CourseWeekId { get; set; }
         public int? AttendanceComplete { get; set; }

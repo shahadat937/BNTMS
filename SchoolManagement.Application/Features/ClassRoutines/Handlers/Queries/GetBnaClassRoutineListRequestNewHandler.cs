@@ -111,104 +111,118 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                             {
                                 if (courseSectionId == selectedcourseSectionId)
                                 {
-                                    string[] courseTitleIdsString = item.CourseTitleId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                    int[] courseTitleIds = courseTitleIdsString.Select(int.Parse).ToArray();
+                                    string[] courseNameIdsString = item.CourseNameId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                    int[] courseNameIds = courseNameIdsString.Select(int.Parse).ToArray();
 
-                                    string[] selectedcourseTitleIdsString = request.selectedCourseTitleId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                    int[] selectedcourseTitleIds = selectedcourseTitleIdsString.Select(int.Parse).ToArray();
+                                    string[] selectedcourseNameIdsString = request.selectedCourseNameId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                    int[] selectedcourseNameIds = selectedcourseNameIdsString.Select(int.Parse).ToArray();
 
                                     courseSectionName = _CourseSectionRepository.Where(x => x.CourseSectionId == courseSectionId).Select(x => x.SectionName).FirstOrDefault();
 
-                                    foreach (var courseTitleId in courseTitleIds)
+                                    foreach (var courseNameId in courseNameIds)
                                     {
-                                        foreach (var selectedcourseTitleId in selectedcourseTitleIds)
+                                        foreach (var selectedcourseNameId in selectedcourseNameIds)
                                         {
-                                            if (courseTitleId == selectedcourseTitleId)
+                                            if (courseNameId == selectedcourseNameId)
                                             {
-                                                string[] semesterIdsString = item.BnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                int[] semesterIds = semesterIdsString.Select(int.Parse).ToArray();
+                                                string[] courseDurationIdsString = item.BnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                int[] courseDurationIds = courseDurationIdsString.Select(int.Parse).ToArray();
 
-                                                string[] selectedsemesterIdsString = request.selectedBnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                int[] selectedsemesterIds = selectedsemesterIdsString.Select(int.Parse).ToArray();
-
-                                                foreach (var semesterId in semesterIds)
+                                                string[] selectedcourseDurationIdsString = request.selectedCourseDurationId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                int[] selectedcourseDurationIds = selectedcourseDurationIdsString.Select(int.Parse).ToArray();
+                                                foreach (var courseDurationId in courseDurationIds)
                                                 {
-                                                    foreach (var selectedsemesterId in selectedsemesterIds)
+                                                    foreach (var selectedcourseDurationId in selectedcourseDurationIds)
                                                     {
-                                                        if (semesterId == selectedsemesterId)
+                                                        if (courseDurationId == selectedcourseDurationId)
                                                         {
-                                                            string[] subjectCurriculumIdsString = item.BnaSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                            int[] subjectCurriculumIds = subjectCurriculumIdsString.Select(int.Parse).ToArray();
+                                                            string[] semesterIdsString = item.BnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                            int[] semesterIds = semesterIdsString.Select(int.Parse).ToArray();
 
-                                                            string[] selectedSubjectCurriculumIdsString = request.bnaSelectedSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                            int[] selectedSubjectCurriculumIds = selectedSubjectCurriculumIdsString.Select(int.Parse).ToArray();
-                                                            
+                                                            string[] selectedsemesterIdsString = request.selectedBnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                            int[] selectedsemesterIds = selectedsemesterIdsString.Select(int.Parse).ToArray();
 
-                                                            foreach (var subjectCurriculumId in subjectCurriculumIds)
+                                                            foreach (var semesterId in semesterIds)
                                                             {
-                                                                foreach (var selectedSubjectCurriculumId in selectedSubjectCurriculumIds)
+                                                                foreach (var selectedsemesterId in selectedsemesterIds)
                                                                 {
-                                                                    if (subjectCurriculumId == selectedSubjectCurriculumId)
+                                                                    if (semesterId == selectedsemesterId)
                                                                     {
-                                                                        string[] classPeriodIdsString = item.ClassPeriodId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                                                        int[] classPeriodIds = classPeriodIdsString.Select(int.Parse).ToArray();
+                                                                        string[] subjectCurriculumIdsString = item.BnaSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                                        int[] subjectCurriculumIds = subjectCurriculumIdsString.Select(int.Parse).ToArray();
 
-                                                                        foreach (var classPeriodId in classPeriodIds)
+                                                                        string[] selectedSubjectCurriculumIdsString = request.bnaSelectedSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                                        int[] selectedSubjectCurriculumIds = selectedSubjectCurriculumIdsString.Select(int.Parse).ToArray();
+
+
+                                                                        foreach (var subjectCurriculumId in subjectCurriculumIds)
                                                                         {
-                                                                            var subjectName = _BnaSubjectNameRepository.Where(x=>x.BnaSubjectNameId == item.BnaSubjectNameId).Select(x=>x.SubjectName).FirstOrDefault();
-                                                                            var instructorName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == item.TraineeId).Select(x => x.ShortCode).FirstOrDefault();
-                                                                            var periodName = _BnaClassPeriodRepository.Where(x => x.BnaClassPeriodId == classPeriodId).Select(x => x.BnaClassPeriodName).FirstOrDefault();
-                                                                            TimeSpan? periodFrom = item.PeriodFrom;
-                                                                            TimeSpan? periodTo = item.PeriodTo;
-                                                                            string formattedPeriodFrom = periodFrom?.ToString(@"hh\:mm") ?? "00:00";
-                                                                            string formattedPeriodTo = periodTo?.ToString(@"hh\:mm") ?? "00:00";
-                                                                            if (classPeriodId == 1)
+                                                                            foreach (var selectedSubjectCurriculumId in selectedSubjectCurriculumIds)
                                                                             {
-                                                                                period_1 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
-                                                                            }
-                                                                            else if (classPeriodId == 2)
-                                                                            {
-                                                                                period_2 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
-                                                                            }
-                                                                            else if (classPeriodId == 3)
-                                                                            {
-                                                                                period_3 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
-                                                                            }
-                                                                            else if (classPeriodId == 4)
-                                                                            {
-                                                                                period_4 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
-                                                                            }
-                                                                            else if (classPeriodId == 5)
-                                                                            {
-                                                                                period_5 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
-                                                                            }
-                                                                            else if (classPeriodId == 6)
-                                                                            {
-                                                                                period_6 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
-                                                                            }
-                                                                            else if (classPeriodId == 7)
-                                                                            {
-                                                                                ExtraCurriculamPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
-                                                                            }
-                                                                            else if (classPeriodId == 8)
-                                                                            {
-                                                                                StandEasyPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
-                                                                            }
-                                                                            else if (classPeriodId == 9)
-                                                                            {
-                                                                                LunchPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
-                                                                            }
-                                                                            else if (classPeriodId == 10)
-                                                                            {
-                                                                                CorrectivePeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
-                                                                            }
-                                                                            else if (classPeriodId == 6)
-                                                                            {
-                                                                                AfternoonActivitiesGamePeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
-                                                                            }
-                                                                            else if (classPeriodId == 6)
-                                                                            {
-                                                                                SelfStudyPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
+                                                                                if (subjectCurriculumId == selectedSubjectCurriculumId)
+                                                                                {
+                                                                                    string[] classPeriodIdsString = item.ClassPeriodId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                                                    int[] classPeriodIds = classPeriodIdsString.Select(int.Parse).ToArray();
+
+                                                                                    foreach (var classPeriodId in classPeriodIds)
+                                                                                    {
+                                                                                        var subjectName = _BnaSubjectNameRepository.Where(x => x.BnaSubjectNameId == item.BnaSubjectNameId).Select(x => x.SubjectName).FirstOrDefault();
+                                                                                        var instructorName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == item.TraineeId).Select(x => x.ShortCode).FirstOrDefault();
+                                                                                        var periodName = _BnaClassPeriodRepository.Where(x => x.BnaClassPeriodId == classPeriodId).Select(x => x.BnaClassPeriodName).FirstOrDefault();
+                                                                                        TimeSpan? periodFrom = item.PeriodFrom;
+                                                                                        TimeSpan? periodTo = item.PeriodTo;
+                                                                                        string formattedPeriodFrom = periodFrom?.ToString(@"hh\:mm") ?? "00:00";
+                                                                                        string formattedPeriodTo = periodTo?.ToString(@"hh\:mm") ?? "00:00";
+                                                                                        if (classPeriodId == 1)
+                                                                                        {
+                                                                                            period_1 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
+                                                                                        }
+                                                                                        else if (classPeriodId == 2)
+                                                                                        {
+                                                                                            period_2 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
+                                                                                        }
+                                                                                        else if (classPeriodId == 3)
+                                                                                        {
+                                                                                            period_3 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
+                                                                                        }
+                                                                                        else if (classPeriodId == 4)
+                                                                                        {
+                                                                                            period_4 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
+                                                                                        }
+                                                                                        else if (classPeriodId == 5)
+                                                                                        {
+                                                                                            period_5 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
+                                                                                        }
+                                                                                        else if (classPeriodId == 6)
+                                                                                        {
+                                                                                            period_6 = subjectName + "-" + instructorName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") " + "(R-" + item.ClassRoomName + ")";
+                                                                                        }
+                                                                                        else if (classPeriodId == 7)
+                                                                                        {
+                                                                                            ExtraCurriculamPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
+                                                                                        }
+                                                                                        else if (classPeriodId == 8)
+                                                                                        {
+                                                                                            StandEasyPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
+                                                                                        }
+                                                                                        else if (classPeriodId == 9)
+                                                                                        {
+                                                                                            LunchPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
+                                                                                        }
+                                                                                        else if (classPeriodId == 10)
+                                                                                        {
+                                                                                            CorrectivePeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
+                                                                                        }
+                                                                                        else if (classPeriodId == 6)
+                                                                                        {
+                                                                                            AfternoonActivitiesGamePeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
+                                                                                        }
+                                                                                        else if (classPeriodId == 6)
+                                                                                        {
+                                                                                            SelfStudyPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
+                                                                                        }
+                                                                                    }
+                                                                                }
                                                                             }
                                                                         }
                                                                     }

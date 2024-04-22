@@ -32,7 +32,7 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Comma
 
 
 
-            IQueryable<Domain.BnaClassAttendance> bnaClassAttendances = _BnaClassAttendanceRepository.Where(x => x.AttendanceDate == request.BnaClassAttendanceDto.Date && x.BnaSubjectCurriculumId == request.BnaClassAttendanceDto.BnaSubjectCurriculumId && x.CourseTitleId == request.BnaClassAttendanceDto.CourseTitleId && x.BnaSemesterId == request.BnaClassAttendanceDto.BnaSemesterId && x.CourseSectionId == request.BnaClassAttendanceDto.CourseSectionId && x.ClassPeriodId == request.BnaClassAttendanceDto.ClassPeriodId);
+            IQueryable<Domain.BnaClassAttendance> bnaClassAttendances = _BnaClassAttendanceRepository.Where(x => x.AttendanceDate == request.BnaClassAttendanceDto.Date && x.BnaSubjectCurriculumId == request.BnaClassAttendanceDto.BnaSubjectCurriculumId && x.CourseNameId == request.BnaClassAttendanceDto.CourseNameId && x.CourseDurationId == request.BnaClassAttendanceDto.CourseDurationId && x.BnaSemesterId == request.BnaClassAttendanceDto.BnaSemesterId && x.CourseSectionId == request.BnaClassAttendanceDto.CourseSectionId && x.ClassPeriodId == request.BnaClassAttendanceDto.ClassPeriodId);
 
             foreach (var item in request.BnaClassAttendanceDto.studentAttendanceForm)
             {
@@ -44,7 +44,8 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Comma
                         {
                             BnaClassAttendanceId = bnaClassAttendance.BnaClassAttendanceId,
                             BnaSubjectCurriculumId = request.BnaClassAttendanceDto.BnaSubjectCurriculumId,
-                            CourseTitleId = request.BnaClassAttendanceDto.CourseTitleId,
+                            CourseNameId = request.BnaClassAttendanceDto.CourseNameId,
+                            CourseDurationId = request.BnaClassAttendanceDto.CourseDurationId,
                             BnaSemesterId = request.BnaClassAttendanceDto.BnaSemesterId,
                             BaseSchoolNameId = request.BnaClassAttendanceDto.BaseSchoolNameId,
                             CourseSectionId = request.BnaClassAttendanceDto.CourseSectionId,

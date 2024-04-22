@@ -13,14 +13,14 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public string? DepartmentId { get; set; }
         public int? courseModuleId { get; set; }
         public string? BnaSemesterId { get; set; }
-        public string? courseTitleId { get; set; }
+        public string? CourseNameId { get; set; }
         public string? classPeriodId { get; set; }
         [DataType(DataType.Time)]
         public TimeSpan? PeriodFrom { get; set; }
         [DataType(DataType.Time)]
         public TimeSpan? PeriodTo { get; set; }
         public int? baseSchoolNameId { get; set; }
-        public int? courseDurationId { get; set; }
+        public string? CourseDurationId { get; set; }
         public int? BranchId { get; set; }
         public string? subjectName { get; set; }
         public int? bnaSubjectNameId { get; set; }

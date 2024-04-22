@@ -58,7 +58,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
   
   bnaSelectedSubjectCurriculumId : any;
   selectedDepartmentId : any;
-  selectedCourseTitleId : any;
+  selectedCourseNameId : any;
+  selectedCourseDurationId : any;
   selectedBnaSemesterId : any;
   selectedBnaSemesterName : any;
   selectedBnaSubjectCurriculumName : any;
@@ -228,7 +229,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
       courseModuleId:[],
       bnaSemesterId:[],
       courseName:[''],
-      courseTitleId:[],
+      courseNameId:[],
       classPeriodId:['',Validators.required],
       periodFrom:[],
       periodTo:[],
@@ -839,7 +840,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
     this.ClassRoutineForm.value.bnaSubjectCurriculumId = this.bnaSelectedSubjectCurriculumId;
     this.ClassRoutineForm.value.departmentId = this.selectedDepartmentId;
-    this.ClassRoutineForm.value.courseTitleId = this.selectedCourseTitleId;
+    this.ClassRoutineForm.value.courseDurationId = this.selectedCourseDurationId;
+    this.ClassRoutineForm.value.courseNameId = this.selectedCourseNameId;
     this.ClassRoutineForm.value.bnaSemesterId = this.selectedBnaSemesterId;
     this.ClassRoutineForm.value.courseSectionId = this.selectedCourseSectionId;
     this.ClassRoutineForm.value.courseWeekId = this.selectedCourseWeekId;
@@ -1061,38 +1063,56 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
 
   onStatusCourseTitle(dropdown) {
-    if(this.selectedCourseTitleId == null){
-      this.selectedCourseTitleId = dropdown.value.toString();
+    var courseNameArr = dropdown.value.split('_');
+    if(this.selectedCourseNameId == null && this.selectedCourseDurationId == null){
+      this.selectedCourseNameId = courseNameArr[0].toString();
+      this.selectedCourseDurationId = courseNameArr[1].toString();
     }
     else {
-      this.selectedCourseTitleId = this.selectedCourseTitleId + ", "+ dropdown.value;
+      this.selectedCourseNameId = this.selectedCourseNameId + ", "+ courseNameArr[0];
+      this.selectedCourseDurationId = this.selectedCourseDurationId + ", "+ courseNameArr[1];
     }
     this.showBnaClassRoutine();
   }
   onDeSelectCourseTitle(dropdown) {
-    let selectedCourseTitleIdsArray: string[] = this.selectedCourseTitleId.split(',');
-    let selectedCourseTitleIdsNumberArray : number[] = selectedCourseTitleIdsArray.map(Number);
-    let indexToRemove : number = selectedCourseTitleIdsNumberArray.indexOf(dropdown.value);
-    if(indexToRemove !== -1){
-      selectedCourseTitleIdsNumberArray.splice(indexToRemove, 1);
+    var courseNameArr = dropdown.value.split('_');
+    let selectedCourseNameIdsArray: string[] = this.selectedCourseNameId.split(', ');
+    let selectedCourseDurationIdsArray: string[] = this.selectedCourseDurationId.split(', ');
+
+    // Find and remove the deselected course name
+    let indexCourseNameToRemove: number = selectedCourseNameIdsArray.indexOf(courseNameArr[0]);
+    if (indexCourseNameToRemove !== -1) {
+      selectedCourseNameIdsArray.splice(indexCourseNameToRemove, 1);
     }
-    this.selectedCourseTitleId = selectedCourseTitleIdsNumberArray.join(', ');
+    this.selectedCourseNameId = selectedCourseNameIdsArray.join(', ');
+
+    // Find and remove the deselected course duration
+    let indexCourseDurationToRemove: number = selectedCourseDurationIdsArray.indexOf(courseNameArr[1]);
+    if (indexCourseDurationToRemove !== -1) {
+      selectedCourseDurationIdsArray.splice(indexCourseDurationToRemove, 1);
+    }
+    this.selectedCourseDurationId = selectedCourseDurationIdsArray.join(', ');
     this.showBnaClassRoutine();
-  }
+}
   onSelectAllCourseTitle() {
-    this.selectedCourseTitleId = null;
+    this.selectedCourseNameId = null;
+    this.selectedCourseDurationId = null;
     this.selectedcoursedurationbyschoolname.forEach(element => {
-      if(this.selectedCourseTitleId == null){
-        this.selectedCourseTitleId = element.value;
+      var courseNameArr = element.value.split('_');
+      if(this.selectedCourseNameId == null && this.selectedCourseDurationId == null){
+        this.selectedCourseNameId = courseNameArr[0].toString();
+        this.selectedCourseDurationId = courseNameArr[1].toString();
       }
       else {
-        this.selectedCourseTitleId = this.selectedCourseTitleId + ", "+ element.value;
+        this.selectedCourseNameId = this.selectedCourseNameId + ", "+ courseNameArr[0];
+        this.selectedCourseDurationId = this.selectedCourseDurationId + ", "+ courseNameArr[1];
       }
     });
     this.showBnaClassRoutine();
   }
   onDeSelectAllCourseTitle() {
-    this.selectedCourseTitleId = null;
+    this.selectedCourseNameId = null;
+    this.selectedCourseDurationId = null;
     this.showBnaClassRoutine();
   }
 
@@ -1213,7 +1233,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
 
   showBnaClassRoutine(){
-    if((this.bnaSelectedSubjectCurriculumId != null && this.selectedCourseTitleId != null && this.selectedBnaSemesterId != null && this.selectedCourseSectionId != null && this.selectedCourseWeekId != null)){
+    if((this.bnaSelectedSubjectCurriculumId != null && this.selectedCourseNameId != null && this.selectedCourseDurationId != null && this.selectedBnaSemesterId != null && this.selectedCourseSectionId != null && this.selectedCourseWeekId != null)){
       this.routineStatus = 1;
       this.viewFilteredBnaClassRoutine();
       this.viewFilteredInstructorInfo();
@@ -1223,13 +1243,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
     }
   }
   viewFilteredBnaClassRoutine(){
-    this.ClassRoutineService.viewFilteredBnaClassRoutine(this.bnaSelectedSubjectCurriculumId, this.selectedCourseTitleId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
+    this.ClassRoutineService.viewFilteredBnaClassRoutine(this.bnaSelectedSubjectCurriculumId, this.selectedCourseNameId, this.selectedCourseDurationId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
       this.bnaClassRoutineAll = res;
     });
   }
   
   viewFilteredInstructorInfo(){
-    this.ClassRoutineService.viewFilteredInstructorInfo(this.bnaSelectedSubjectCurriculumId, this.selectedCourseTitleId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
+    this.ClassRoutineService.viewFilteredInstructorInfo(this.bnaSelectedSubjectCurriculumId, this.selectedCourseNameId, this.selectedCourseDurationId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
       this.bnaInstructorInfo = res;
     });
   }

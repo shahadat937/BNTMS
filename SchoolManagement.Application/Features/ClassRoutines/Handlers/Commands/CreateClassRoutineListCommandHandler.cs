@@ -67,7 +67,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                 BaseSchoolNameId = request.ClassRoutineDto.BaseSchoolNameId,
                 ClassCountPeriod = x.classCountPeriod,
                 SubjectCountPeriod = x.subjectCountPeriod,
-                CourseTitleId = request.ClassRoutineDto.CourseTitleId,
+                CourseNameId = request.ClassRoutineDto.CourseNameId,
                 WeekID = request.ClassRoutineDto.CourseWeekId,
                 SubjectMarkId = x.subjectMarkId,
                 MarkTypeId = x.markTypeId,

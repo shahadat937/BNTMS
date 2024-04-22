@@ -347,11 +347,11 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
     return this.http.delete(this.baseUrl + '/class-routine/delete-classRoutine/'+id);
   }
 
-  viewFilteredBnaClassRoutine(bnaSelectedSubjectCurriculumId, selectedCourseTitleId, selectedBnaSemesterId, selectedCourseSectionId, selectedCourseWeekId){
-    return this.http.get<BnaClassRoutineModel[]>(this.baseUrl + '/class-routine/get-bnaClassRoutineAll?bnaSelectedSubjectCurriculumId='+bnaSelectedSubjectCurriculumId+'&selectedCourseTitleId='+selectedCourseTitleId+'&selectedBnaSemesterId='+selectedBnaSemesterId+'&selectedCourseSectionId='+selectedCourseSectionId+'&selectedCourseWeekId='+selectedCourseWeekId)
+  viewFilteredBnaClassRoutine(bnaSelectedSubjectCurriculumId, selectedCourseNameId, selectedCourseDurationId, selectedBnaSemesterId, selectedCourseSectionId, selectedCourseWeekId){
+    return this.http.get<BnaClassRoutineModel[]>(this.baseUrl + '/class-routine/get-bnaClassRoutineAll?bnaSelectedSubjectCurriculumId='+bnaSelectedSubjectCurriculumId+'&selectedCourseNameId='+selectedCourseNameId+'&selectedCourseDurationId='+selectedCourseDurationId+'&selectedBnaSemesterId='+selectedBnaSemesterId+'&selectedCourseSectionId='+selectedCourseSectionId+'&selectedCourseWeekId='+selectedCourseWeekId)
   }
   
-  viewFilteredInstructorInfo(bnaSelectedSubjectCurriculumId, selectedCourseTitleId, selectedBnaSemesterId, selectedCourseSectionId, selectedCourseWeekId){
-    return this.http.get<BnaClassRoutineModel[]>(this.baseUrl + '/class-routine/get-bnaInstructorInfo?bnaSelectedSubjectCurriculumId='+bnaSelectedSubjectCurriculumId+'&selectedCourseTitleId='+selectedCourseTitleId+'&selectedBnaSemesterId='+selectedBnaSemesterId+'&selectedCourseSectionId='+selectedCourseSectionId+'&selectedCourseWeekId='+selectedCourseWeekId)
+  viewFilteredInstructorInfo(bnaSelectedSubjectCurriculumId, selectedCourseNameId,selectedCourseDurationId, selectedBnaSemesterId, selectedCourseSectionId, selectedCourseWeekId){
+    return this.http.get<BnaClassRoutineModel[]>(this.baseUrl + '/class-routine/get-bnaInstructorInfo?bnaSelectedSubjectCurriculumId='+bnaSelectedSubjectCurriculumId+'&selectedCourseNameId='+selectedCourseNameId+'&selectedCourseDurationId='+selectedCourseDurationId+'&selectedBnaSemesterId='+selectedBnaSemesterId+'&selectedCourseSectionId='+selectedCourseSectionId+'&selectedCourseWeekId='+selectedCourseWeekId)
   }
 }

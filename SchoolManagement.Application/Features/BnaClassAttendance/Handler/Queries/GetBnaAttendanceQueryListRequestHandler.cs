@@ -42,7 +42,7 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Queri
 
             
 
-            IQueryable<Domain.BnaClassAttendance> bnaClassAttendances = _BnaClassAttendanceRepository.Where(x => x.AttendanceDate == date && x.BnaSubjectCurriculumId == request.BnaSubjectCurriculamId && x.CourseTitleId == request.CourseTitleId && x.BnaSemesterId == request.SemesterId && x.CourseSectionId == request.CourseSectionId && x.ClassPeriodId == request.ClassPeriodId);
+            IQueryable<Domain.BnaClassAttendance> bnaClassAttendances = _BnaClassAttendanceRepository.Where(x => x.AttendanceDate == date && x.BnaSubjectCurriculumId == request.BnaSubjectCurriculamId && x.CourseNameId == request.CourseNameId && x.CourseDurationId == request.CourseDurationId && x.BnaSemesterId == request.SemesterId && x.CourseSectionId == request.CourseSectionId && x.ClassPeriodId == request.ClassPeriodId);
 
             if (bnaClassAttendances.Any())
             {
@@ -70,8 +70,11 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Queri
                     string[] subjectCurriculumIdsString = item.BnaSubjectCurriculumId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     int[] subjectCurriculumIds = subjectCurriculumIdsString.Select(int.Parse).ToArray();
 
-                    string[] courseTitleIdsString = item.CourseTitleId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    int[] courseTitleIds = courseTitleIdsString.Select(int.Parse).ToArray();
+                    string[] courseNameIdsString = item.CourseNameId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    int[] courseNameIds = courseNameIdsString.Select(int.Parse).ToArray();
+
+                    string[] courseDurationIdsString = item.CourseDurationId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    int[] courseDurationIds = courseDurationIdsString.Select(int.Parse).ToArray();
 
                     string[] bnaSemesterIdsString = item.BnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     int[] bnaSemesterIds = bnaSemesterIdsString.Select(int.Parse).ToArray();
@@ -86,39 +89,45 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Queri
                     {
                         if (subjectCurriculumId == request.BnaSubjectCurriculamId)
                         {
-                            foreach (var courseTitleId in courseTitleIds)
+                            foreach (var courseNameId in courseNameIds)
                             {
-                                if (courseTitleId == request.CourseTitleId)
+                                if (courseNameId == request.CourseNameId)
                                 {
-                                    foreach (var bnaSemesterId in bnaSemesterIds)
+                                    foreach (var courseDurationId in courseDurationIds)
                                     {
-                                        if (bnaSemesterId == request.SemesterId)
+                                        if (courseDurationId == request.CourseDurationId)
                                         {
-                                            foreach (var courseSectionId in courseSectionIds)
+                                            foreach (var bnaSemesterId in bnaSemesterIds)
                                             {
-                                                if (courseSectionId == request.CourseSectionId)
+                                                if (bnaSemesterId == request.SemesterId)
                                                 {
-                                                    foreach (var classPeriodId in classPeriodIds)
+                                                    foreach (var courseSectionId in courseSectionIds)
                                                     {
-                                                        if (classPeriodId == request.ClassPeriodId)
+                                                        if (courseSectionId == request.CourseSectionId)
                                                         {
-                                                            IQueryable<CourseNomenee> courseNomenees = _CourseNomeneeRepository.Where(x => x.BnaSubjectNameId == item.BnaSubjectNameId && x.BnaSubjectCurriculumId == subjectCurriculumId && x.BnaSemesterId == bnaSemesterId && x.CourseSectionId == courseSectionId);
-                                                            foreach (var courseNomenee in courseNomenees)
+                                                            foreach (var classPeriodId in classPeriodIds)
                                                             {
-                                                                var traineeName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == courseNomenee.TraineeId).Select(x => x.Name).FirstOrDefault();
-                                                                var subjectName = _BnaSubjectNameRepository.Where(x => x.BnaSubjectNameId == item.BnaSubjectNameId).Select(x => x.SubjectName).FirstOrDefault();
-                                                                var instructorName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == item.TraineeId).Select(x => x.Name).FirstOrDefault();
-
-                                                                BnaAttendanceModel attendanceModel = new BnaAttendanceModel
+                                                                if (classPeriodId == request.ClassPeriodId)
                                                                 {
-                                                                    TraineeId = courseNomenee.TraineeId,
-                                                                    TraineeName = traineeName,
-                                                                    SubjectId = item.BnaSubjectNameId,
-                                                                    SubjectName = subjectName,
-                                                                    InstructorId = item.TraineeId,
-                                                                    InstructorName = instructorName
-                                                                };
-                                                                selectModels.Add(attendanceModel);
+                                                                    IQueryable<CourseNomenee> courseNomenees = _CourseNomeneeRepository.Where(x => x.BnaSubjectNameId == item.BnaSubjectNameId && x.BnaSubjectCurriculumId == subjectCurriculumId && x.BnaSemesterId == bnaSemesterId && x.CourseSectionId == courseSectionId);
+                                                                    foreach (var courseNomenee in courseNomenees)
+                                                                    {
+                                                                        var traineeName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == courseNomenee.TraineeId).Select(x => x.Name).FirstOrDefault();
+                                                                        var subjectName = _BnaSubjectNameRepository.Where(x => x.BnaSubjectNameId == item.BnaSubjectNameId).Select(x => x.SubjectName).FirstOrDefault();
+                                                                        var instructorName = _TraineeBioDataGeneralInfoRepository.Where(x => x.TraineeId == item.TraineeId).Select(x => x.Name).FirstOrDefault();
+
+                                                                        BnaAttendanceModel attendanceModel = new BnaAttendanceModel
+                                                                        {
+                                                                            TraineeId = courseNomenee.TraineeId,
+                                                                            TraineeName = traineeName,
+                                                                            SubjectId = item.BnaSubjectNameId,
+                                                                            SubjectName = subjectName,
+                                                                            InstructorId = item.TraineeId,
+                                                                            InstructorName = instructorName
+                                                                        };
+                                                                        selectModels.Add(attendanceModel);
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     }

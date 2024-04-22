@@ -21,8 +21,8 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
-        public string? CourseTitleId { get; set; }
-        public int? CourseDurationId { get; set; }
+        public string? CourseNameId { get; set; }
+        public string? CourseDurationId { get; set; }
         public int? BranchId { get; set; }
         public int? BnaSubjectNameId { get; set; }
         public int? CourseWeekId { get; set; }

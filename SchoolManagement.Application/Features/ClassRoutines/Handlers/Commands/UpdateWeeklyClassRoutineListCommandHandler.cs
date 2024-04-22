@@ -33,8 +33,8 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
 
          
             int? BaseSchoolNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.baseSchoolNameId).FirstOrDefault();
-            int? CourseDurationId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseDurationId).FirstOrDefault();
-            string? CourseNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseTitleId).FirstOrDefault();
+            string? CourseDurationId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.CourseDurationId).FirstOrDefault();
+            string? CourseNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.CourseNameId).FirstOrDefault();
             int? CourseWeekId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseWeekId).FirstOrDefault();
             int? BnaSubjectNameId = request.UpdateClassRoutineDtoList.RoutineList.Select(x => x.courseWeekId).FirstOrDefault();
 
@@ -48,7 +48,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
             {
                 try
                 {
-                    IQueryable<BnaClassRoutine> ClassRoutineListForDelete = _ClassRoutineRepository.FilterWithInclude(x => (x.BaseSchoolNameId == BaseSchoolNameId && x.CourseDurationId == CourseDurationId && x.CourseTitleId == CourseNameId && x.CourseTitleId == CourseWeekId.ToString() && x.AttendanceComplete == 0));
+                    IQueryable<BnaClassRoutine> ClassRoutineListForDelete = _ClassRoutineRepository.FilterWithInclude(x => (x.BaseSchoolNameId == BaseSchoolNameId && x.CourseDurationId == CourseDurationId && x.CourseNameId == CourseNameId && x.CourseNameId == CourseWeekId.ToString() && x.AttendanceComplete == 0));
                     await _unitOfWork.Repository<BnaClassRoutine>().RemoveRangeAsync(ClassRoutineListForDelete);
                     await _unitOfWork.Save();
                 }
@@ -80,10 +80,10 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                     CourseSectionId = x.CourseSectionId,
                     ClassCountPeriod = x.classCountPeriod,
                     SubjectCountPeriod = x.subjectCountPeriod,
-                    CourseTitleId = x.courseTitleId,
+                    CourseNameId = x.CourseNameId,
                     WeekID = x.courseWeekId,
                     BranchId = x.BranchId,
-                    CourseDurationId = x.courseDurationId,
+                    CourseDurationId = x.CourseDurationId,
                     BnaSubjectNameId = x.bnaSubjectNameId,
                     AttendanceComplete = x.AttendanceComplete,
                     ExamMarkComplete = x.examMarkComplete,
@@ -114,9 +114,9 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                     BaseSchoolNameId = x.baseSchoolNameId,
                     ClassCountPeriod = query.Where(y => y.classRoutineId == x.classRoutineId && y.CourseSectionId == x.CourseSectionId).Select(y => y.countPeriod).FirstOrDefault(),
                     SubjectCountPeriod = subjectTotalPeriod.Where(y => y.BnaSubjectNameId == x.bnaSubjectNameId).Select(y => int.Parse(y.TotalPeriod)).FirstOrDefault(),
-                    CourseTitleId = x.courseTitleId,
+                    CourseNameId = x.CourseNameId,
                     WeekID = x.courseWeekId,
-                    CourseDurationId = x.courseDurationId,
+                    CourseDurationId = x.CourseDurationId,
                     BnaSubjectNameId = x.bnaSubjectNameId,
                     AttendanceComplete = x.AttendanceComplete,
                     ExamMarkComplete = x.examMarkComplete,

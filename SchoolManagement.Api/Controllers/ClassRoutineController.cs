@@ -44,12 +44,13 @@ public class ClassRoutineController : ControllerBase
 
     [HttpGet]
     [Route("get-bnaClassRoutineAll")]
-    public async Task<ActionResult> GetClassRoutine(string bnaSelectedSubjectCurriculumId, string selectedCourseTitleId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
+    public async Task<ActionResult> GetClassRoutine(string bnaSelectedSubjectCurriculumId, string selectedCourseNameId, string selectedCourseDurationId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
     {
         var BnaClassRoutine = await _mediator.Send(new GetBnaClassRoutineListRequestNew
         {
             bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
-            selectedCourseTitleId = selectedCourseTitleId,
+            selectedCourseNameId = selectedCourseNameId,
+            selectedCourseDurationId = selectedCourseDurationId,
             selectedBnaSemesterId = selectedBnaSemesterId,
             selectedCourseSectionId = selectedCourseSectionId,
             selectedCourseWeekId = selectedCourseWeekId
@@ -59,12 +60,13 @@ public class ClassRoutineController : ControllerBase
 
     [HttpGet]
     [Route("get-bnaInstructorInfo")]
-    public async Task<ActionResult> GetInstructorInfo(string bnaSelectedSubjectCurriculumId, string selectedCourseTitleId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
+    public async Task<ActionResult> GetInstructorInfo(string bnaSelectedSubjectCurriculumId, string selectedCourseNameId, string selectedCourseDurationId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
     {
         var BnaClassRoutine = await _mediator.Send(new GetBnaInstructorInfoRequest
         {
             bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
-            selectedCourseTitleId = selectedCourseTitleId,
+            selectedCourseNameId = selectedCourseNameId,
+            selectedCourseDurationId = selectedCourseDurationId,
             selectedBnaSemesterId = selectedBnaSemesterId,
             selectedCourseSectionId = selectedCourseSectionId,
             selectedCourseWeekId = selectedCourseWeekId
