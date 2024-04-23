@@ -12,6 +12,7 @@ import { NewBnaClassScheduleComponent } from './bnaclassschedule/new-bnaclasssch
 import { NewRoutineNoteComponent } from './routinenote/new-routinenote/new-routinenote.component';
 import {NewRoutineSoftcopyUploadComponent} from './routinesoftcopyupload/new-routinesoftcopyupload/new-routinesoftcopyupload.component'
 import { NewBnaClassRoutineComponent } from './classroutine/new-bnaclassroutine/new-bnaclassroutine.component';
+import { NewBnaclassroutinesecondpartComponent } from './classroutine/new-bnaclassroutinesecondpart/new-bnaclassroutinesecondpart.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
   {
     path: 'add-bnaclassroutine',
     component: NewBnaClassRoutineComponent,
+  },
+  
+  {
+    path: 'add-bnaclassroutinesecondpart',
+    component: NewBnaclassroutinesecondpartComponent,
   },
 
   {

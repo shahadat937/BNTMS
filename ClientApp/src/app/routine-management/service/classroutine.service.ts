@@ -333,7 +333,20 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   update(id: number,model: any) {
     return this.http.put(this.baseUrl + '/class-routine/update-classRoutine/'+id, model);
   }
+
   submit(model: any) {
+    
+    return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-classRoutine', model).pipe(
+      map((ClassRoutine: PostResponse) => {
+        if (ClassRoutine) {
+          console.log(ClassRoutine);
+          return ClassRoutine;
+        }
+      })
+    );
+  } 
+
+  bnasubmit(model: any) {
     
     return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-bnaclassRoutine', model).pipe(
       map((ClassRoutine: PostResponse) => {

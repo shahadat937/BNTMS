@@ -38,7 +38,8 @@ export class AddBnaClassattendanceComponent implements OnInit {
 
   selectedbnaSubjectCurriculum: any;
   selectedcourseSection: any;
-  selectedcourseTitle: any;
+  selectedcourseName: any;
+  selectedcourseDuration: any;
   selectedbnaSemester: any;
   selectedclassPeriod: any;
   selectedDate: any;
@@ -100,7 +101,8 @@ export class AddBnaClassattendanceComponent implements OnInit {
     this.BnaAttendanceForm = this.fb.group({
       bnaClassAttendanceId: [0],
       bnaSubjectCurriculumId: [''],
-      courseTitleId: [''],
+      courseNameId: [''],
+      courseDurationId: [''],
       bnaSemesterId: [''],
       baseSchoolNameId: this.baseSchoolId,
       courseSectionId: [''],
@@ -144,12 +146,12 @@ export class AddBnaClassattendanceComponent implements OnInit {
 
 
   ViewTraineeListForAttendance() {
-    if (this.selectedbnaSubjectCurriculum != null && this.selectedcourseTitle != null && this.selectedbnaSemester != null && this.selectedcourseSection != null && this.selectedclassPeriod != null && this.selectedDate != null) {
+    if (this.selectedbnaSubjectCurriculum != null && this.selectedcourseName != null && this.selectedcourseDuration != null && this.selectedbnaSemester != null && this.selectedcourseSection != null && this.selectedclassPeriod != null && this.selectedDate != null) {
       // this.intitializeForm();
       this.subjectName = null;
       this.instructorName = null;
       this.updateStatus = false;
-      this.AttendanceService.getAttendanceTraineeList(this.baseSchoolId, this.selectedbnaSubjectCurriculum, this.selectedcourseTitle, this.selectedbnaSemester, this.selectedcourseSection, this.selectedclassPeriod, this.selectedDate).subscribe(res => {
+      this.AttendanceService.getAttendanceTraineeList(this.baseSchoolId, this.selectedbnaSubjectCurriculum, this.selectedcourseName, this.selectedcourseDuration, this.selectedbnaSemester, this.selectedcourseSection, this.selectedclassPeriod, this.selectedDate).subscribe(res => {
         this.attendanceTraineeList = res;
         res.forEach(element => {
           this.subjectName = element.subjectName;
@@ -217,11 +219,14 @@ export class AddBnaClassattendanceComponent implements OnInit {
   }
 
   onCourseTitleStatus(dropdown) {
-    this.selectedcourseTitle = dropdown.value;
+    var courseNameArr = dropdown.value.split('_');
+    this.selectedcourseName = courseNameArr[0].toString();
+      this.selectedcourseDuration = courseNameArr[1].toString();
     this.ViewTraineeListForAttendance();
   }
   onCourseTitleDeSelect(dropdown) {
-    this.selectedcourseTitle = null;
+    this.selectedcourseName = null;
+    this.selectedcourseDuration = null;
     this.ViewTraineeListForAttendance();
   }
 
@@ -268,7 +273,8 @@ export class AddBnaClassattendanceComponent implements OnInit {
   onSubmit() {
 
     this.BnaAttendanceForm.value.bnaSubjectCurriculumId = this.selectedbnaSubjectCurriculum;
-    this.BnaAttendanceForm.value.courseTitleId = this.selectedcourseTitle;
+    this.BnaAttendanceForm.value.courseNameId = this.selectedcourseName;
+    this.BnaAttendanceForm.value.courseDurationId = this.selectedcourseDuration;
     this.BnaAttendanceForm.value.bnaSemesterId = this.selectedbnaSemester;
     this.BnaAttendanceForm.value.courseSectionId = this.selectedcourseSection;
     this.BnaAttendanceForm.value.classPeriodId = this.selectedclassPeriod;

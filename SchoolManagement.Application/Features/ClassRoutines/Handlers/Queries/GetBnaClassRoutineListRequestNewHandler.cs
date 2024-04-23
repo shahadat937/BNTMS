@@ -125,7 +125,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                         {
                                             if (courseNameId == selectedcourseNameId)
                                             {
-                                                string[] courseDurationIdsString = item.BnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                string[] courseDurationIdsString = item.CourseDurationId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                                 int[] courseDurationIds = courseDurationIdsString.Select(int.Parse).ToArray();
 
                                                 string[] selectedcourseDurationIdsString = request.selectedCourseDurationId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -221,6 +221,27 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                                                                         {
                                                                                             SelfStudyPeriod = periodName + " (T=" + formattedPeriodFrom + "-" + formattedPeriodTo + ") ";
                                                                                         }
+
+                                                                                        BnaRoutineModel routineModel = new BnaRoutineModel
+                                                                                        {
+                                                                                            Date = date,
+                                                                                            WeekName = weekName,
+                                                                                            CourseSectionName = courseSectionName,
+                                                                                            CourseSectionId = selectedcourseSectionId,
+                                                                                            Period1 = period_1,
+                                                                                            Period2 = period_2,
+                                                                                            Period3 = period_3,
+                                                                                            Period4 = period_4,
+                                                                                            Period5 = period_5,
+                                                                                            Period6 = period_6,
+                                                                                            ExtraCurriculamPeriod = ExtraCurriculamPeriod,
+                                                                                            StandEasyPeriod = StandEasyPeriod,
+                                                                                            LunchPeriod = LunchPeriod,
+                                                                                            CorrectivePeriod = CorrectivePeriod,
+                                                                                            AfternoonActivitiesGamePeriod = AfternoonActivitiesGamePeriod,
+                                                                                            SelfStudyPeriod = SelfStudyPeriod
+                                                                                        };
+                                                                                        selectModels.Add(routineModel);
                                                                                     }
                                                                                 }
                                                                             }
@@ -235,26 +256,6 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                         }
                                     }
 
-                                    BnaRoutineModel routineModel = new BnaRoutineModel
-                                    {
-                                        Date = date,
-                                        WeekName = weekName,
-                                        CourseSectionName = courseSectionName,
-                                        CourseSectionId = selectedcourseSectionId,
-                                        Period1 = period_1,
-                                        Period2 = period_2,
-                                        Period3 = period_3,
-                                        Period4 = period_4,
-                                        Period5 = period_5,
-                                        Period6 = period_6,
-                                        ExtraCurriculamPeriod = ExtraCurriculamPeriod,
-                                        StandEasyPeriod = StandEasyPeriod,
-                                        LunchPeriod = LunchPeriod,
-                                        CorrectivePeriod = CorrectivePeriod,
-                                        AfternoonActivitiesGamePeriod = AfternoonActivitiesGamePeriod,
-                                        SelfStudyPeriod = SelfStudyPeriod
-                                    };
-                                    selectModels.Add(routineModel);
                                 }
                             }
                         }
@@ -289,7 +290,10 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                         {
                             if (selectedcourseSectionId.ToString() == item.CourseSectionId.ToString())
                             {
-                                CourseSectionStatus = true;
+                                if (item.Period1 != null || item.Period2 != null || item.Period3 != null || item.Period4 != null || item.Period5 != null || item.Period6 != null || item.StandEasyPeriod != null || item.LunchPeriod != null || item.CorrectivePeriod != null || item.AfternoonActivitiesGamePeriod != null || item.SelfStudyPeriod != null || item.ExtraCurriculamPeriod != null)
+                                {
+                                    CourseSectionStatus = true;
+                                }
 
                                 if (item.CourseSectionName != null)
                                 {

@@ -96,7 +96,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                         {
                                             if (courseNameId == selectedcourseNameId)
                                             {
-                                                string[] courseDurationIdsString = item.BnaSemesterId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                string[] courseDurationIdsString = item.CourseDurationId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                                 int[] courseDurationIds = courseDurationIdsString.Select(int.Parse).ToArray();
 
                                                 string[] selectedcourseDurationIdsString = request.selectedCourseDurationId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

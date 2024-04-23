@@ -30,6 +30,7 @@ import {NewRoutineSoftcopyUploadComponent} from './routinesoftcopyupload/new-rou
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewBnaClassRoutineComponent } from './classroutine/new-bnaclassroutine/new-bnaclassroutine.component'
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NewBnaclassroutinesecondpartComponent } from './classroutine/new-bnaclassroutinesecondpart/new-bnaclassroutinesecondpart.component';
 @NgModule({
   declarations: [
     ClassRoutineListComponent,
@@ -43,7 +44,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     EditClassRoutineComponent,
     NewRoutineNoteComponent,
     NewRoutineSoftcopyUploadComponent,
-    NewBnaClassRoutineComponent
+    NewBnaClassRoutineComponent,
+    NewBnaclassroutinesecondpartComponent
   ],
   imports: [
     CommonModule,

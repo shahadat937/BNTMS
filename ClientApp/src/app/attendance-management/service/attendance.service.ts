@@ -175,8 +175,8 @@ export class AttendanceService {
     return this.http.get<SelectedModel[]>(this.baseUrl + '/bnaClass-period/get-bnaClassPeriod?&baseSchoolNameId='+baseSchoolNameId)
   } 
 
-  getAttendanceTraineeList(baseSchoolNameId, selectedbnaSubjectCurriculam, selectedcourseTitle, selectedbnaSemester, selectedcourseSection, selectedclassPeriod, selectedDate){
-    return this.http.get<bnaAttendanceList[]>(this.baseUrl + '/bnaClass-attendance/get-BnaClassAttendance?&baseSchoolNameId='+baseSchoolNameId+'&bnaSubjectCurriculamId='+selectedbnaSubjectCurriculam+'&courseTitleId='+selectedcourseTitle+'&semesterId='+selectedbnaSemester+'&courseSectionId='+selectedcourseSection+'&classPeriodId='+selectedclassPeriod+'&date='+selectedDate)
+  getAttendanceTraineeList(baseSchoolNameId, selectedbnaSubjectCurriculam, selectedcourseName, selectedcourseDuration,selectedbnaSemester, selectedcourseSection, selectedclassPeriod, selectedDate){
+    return this.http.get<bnaAttendanceList[]>(this.baseUrl + '/bnaClass-attendance/get-BnaClassAttendance?&baseSchoolNameId='+baseSchoolNameId+'&bnaSubjectCurriculamId='+selectedbnaSubjectCurriculam+'&courseDurationId='+selectedcourseDuration+'&courseNameId='+selectedcourseName+'&semesterId='+selectedbnaSemester+'&courseSectionId='+selectedcourseSection+'&classPeriodId='+selectedclassPeriod+'&date='+selectedDate)
   }
 
   bnaAttendanceSubmit(model: any) {
