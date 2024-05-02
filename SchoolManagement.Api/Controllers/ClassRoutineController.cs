@@ -10,7 +10,7 @@ namespace SchoolManagement.Api.Controllers;
 
 [Route(SMSRoutePrefix.ClassRoutine)]
 [ApiController]
-//[Authorize]
+[Authorize]
 public class ClassRoutineController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -42,37 +42,37 @@ public class ClassRoutineController : ControllerBase
         return Ok(ClassRoutines);
     }
 
-    [HttpGet]
-    [Route("get-bnaClassRoutineAll")]
-    public async Task<ActionResult> GetClassRoutine(string bnaSelectedSubjectCurriculumId, string selectedCourseNameId, string selectedCourseDurationId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
-    {
-        var BnaClassRoutine = await _mediator.Send(new GetBnaClassRoutineListRequestNew
-        {
-            bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
-            selectedCourseNameId = selectedCourseNameId,
-            selectedCourseDurationId = selectedCourseDurationId,
-            selectedBnaSemesterId = selectedBnaSemesterId,
-            selectedCourseSectionId = selectedCourseSectionId,
-            selectedCourseWeekId = selectedCourseWeekId
-        });
-        return Ok(BnaClassRoutine);
-    }
+    //[HttpGet]
+    //[Route("get-bnaClassRoutineAll")]
+    //public async Task<ActionResult> GetClassRoutine(string bnaSelectedSubjectCurriculumId, string selectedCourseNameId, string selectedCourseDurationId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
+    //{
+    //    var BnaClassRoutine = await _mediator.Send(new GetBnaClassRoutineListRequestNew
+    //    {
+    //        bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
+    //        selectedCourseNameId = selectedCourseNameId,
+    //        selectedCourseDurationId = selectedCourseDurationId,
+    //        selectedBnaSemesterId = selectedBnaSemesterId,
+    //        selectedCourseSectionId = selectedCourseSectionId,
+    //        selectedCourseWeekId = selectedCourseWeekId
+    //    });
+    //    return Ok(BnaClassRoutine);
+    //}
 
-    [HttpGet]
-    [Route("get-bnaInstructorInfo")]
-    public async Task<ActionResult> GetInstructorInfo(string bnaSelectedSubjectCurriculumId, string selectedCourseNameId, string selectedCourseDurationId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
-    {
-        var BnaClassRoutine = await _mediator.Send(new GetBnaInstructorInfoRequest
-        {
-            bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
-            selectedCourseNameId = selectedCourseNameId,
-            selectedCourseDurationId = selectedCourseDurationId,
-            selectedBnaSemesterId = selectedBnaSemesterId,
-            selectedCourseSectionId = selectedCourseSectionId,
-            selectedCourseWeekId = selectedCourseWeekId
-        });
-        return Ok(BnaClassRoutine);
-    }
+    //[HttpGet]
+    //[Route("get-bnaInstructorInfo")]
+    //public async Task<ActionResult> GetInstructorInfo(string bnaSelectedSubjectCurriculumId, string selectedCourseNameId, string selectedCourseDurationId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
+    //{
+    //    var BnaClassRoutine = await _mediator.Send(new GetBnaInstructorInfoRequest
+    //    {
+    //        bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
+    //        selectedCourseNameId = selectedCourseNameId,
+    //        selectedCourseDurationId = selectedCourseDurationId,
+    //        selectedBnaSemesterId = selectedBnaSemesterId,
+    //        selectedCourseSectionId = selectedCourseSectionId,
+    //        selectedCourseWeekId = selectedCourseWeekId
+    //    });
+    //    return Ok(BnaClassRoutine);
+    //}
 
 
 
@@ -118,8 +118,6 @@ public class ClassRoutineController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
     [Route("save-bnaclassRoutine")]
     public async Task<ActionResult<BaseCommandResponse>> BnaClassRoutine(ClassRoutineListDto ClassRoutine)
     {

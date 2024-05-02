@@ -51,8 +51,8 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
             //    //    item.AttendanceStatus = false;
             //    //}
             //}
-            List<BnaClassRoutine> ClassRoutine = new List<BnaClassRoutine>();
-            ClassRoutine = request.ClassRoutineDto.perodListForm.Select(x => new BnaClassRoutine()
+            List<Domain.BnaClassRoutine> ClassRoutine = new List<Domain.BnaClassRoutine>();
+            ClassRoutine = request.ClassRoutineDto.perodListForm.Select(x => new Domain.BnaClassRoutine()
 
             //IList ClassRoutines = request.ClassRoutineDto.perodListForm.Select(x => new ClassRoutine()
             {
@@ -98,7 +98,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
             //ClassRoutines.ResultSubmissionStatus = 0;
             //ClassRoutines.FinalApproveStatus = 0;
 
-            await _unitOfWork.Repository<BnaClassRoutine>().AddRangeAsync(ClassRoutine);
+            await _unitOfWork.Repository<Domain.BnaClassRoutine>().AddRangeAsync(ClassRoutine);
 
             try
             {

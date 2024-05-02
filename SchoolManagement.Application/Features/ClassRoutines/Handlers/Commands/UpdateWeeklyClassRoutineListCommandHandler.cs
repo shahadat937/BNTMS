@@ -9,12 +9,12 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
 {
     public class UpdateWeeklyClassRoutineListCommandHandler : IRequestHandler<UpdateWeeklyClassRoutineListCommand, BaseCommandResponse>
     {
-        private readonly ISchoolManagementRepository<BnaClassRoutine> _ClassRoutineRepository;
+        private readonly ISchoolManagementRepository<Domain.BnaClassRoutine> _ClassRoutineRepository;
         private readonly ISchoolManagementRepository<BnaSubjectName> _BnaSubjectNameRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UpdateWeeklyClassRoutineListCommandHandler(ISchoolManagementRepository<BnaClassRoutine> ClassRoutineRepository, ISchoolManagementRepository<BnaSubjectName> BnaSubjectNameRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public UpdateWeeklyClassRoutineListCommandHandler(ISchoolManagementRepository<Domain.BnaClassRoutine> ClassRoutineRepository, ISchoolManagementRepository<BnaSubjectName> BnaSubjectNameRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _ClassRoutineRepository = ClassRoutineRepository;
             _BnaSubjectNameRepository = BnaSubjectNameRepository;
@@ -40,16 +40,16 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
 
             if(CourseNameId == "1252")
             {
-                IQueryable<BnaClassRoutine> ClassRoutineListForDelete = _ClassRoutineRepository.FilterWithInclude(x => (x.CourseDurationId == CourseDurationId && x.AttendanceComplete == 0));
-                await _unitOfWork.Repository<BnaClassRoutine>().RemoveRangeAsync(ClassRoutineListForDelete);
+                IQueryable<Domain.BnaClassRoutine> ClassRoutineListForDelete = _ClassRoutineRepository.FilterWithInclude(x => (x.CourseDurationId == CourseDurationId && x.AttendanceComplete == 0));
+                await _unitOfWork.Repository<Domain.BnaClassRoutine>().RemoveRangeAsync(ClassRoutineListForDelete);
                 await _unitOfWork.Save();
             }
             else
             {
                 try
                 {
-                    IQueryable<BnaClassRoutine> ClassRoutineListForDelete = _ClassRoutineRepository.FilterWithInclude(x => (x.BaseSchoolNameId == BaseSchoolNameId && x.CourseDurationId == CourseDurationId && x.CourseNameId == CourseNameId && x.CourseNameId == CourseWeekId.ToString() && x.AttendanceComplete == 0));
-                    await _unitOfWork.Repository<BnaClassRoutine>().RemoveRangeAsync(ClassRoutineListForDelete);
+                    IQueryable<Domain.BnaClassRoutine> ClassRoutineListForDelete = _ClassRoutineRepository.FilterWithInclude(x => (x.BaseSchoolNameId == BaseSchoolNameId && x.CourseDurationId == CourseDurationId && x.CourseNameId == CourseNameId && x.CourseNameId == CourseWeekId.ToString() && x.AttendanceComplete == 0));
+                    await _unitOfWork.Repository<Domain.BnaClassRoutine>().RemoveRangeAsync(ClassRoutineListForDelete);
                     await _unitOfWork.Save();
                 }
                 catch(Exception ex)
@@ -68,7 +68,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
 
             if (CourseNameId == "1252")
             {
-                var ClassRoutineList = ClassRoutines.RoutineList.OrderBy(x => x.date).Select(x => new BnaClassRoutine()
+                var ClassRoutineList = ClassRoutines.RoutineList.OrderBy(x => x.date).Select(x => new Domain.BnaClassRoutine()
                 {
                     // ClassRoutineId = x.classRoutineId,
                     CourseModuleId = x.courseModuleId,
@@ -97,12 +97,12 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                     MenuPosition = x.MenuPosition,
                     IsActive = x.isActive,
                 });
-                await _unitOfWork.Repository<BnaClassRoutine>().AddRangeAsync(ClassRoutineList);
+                await _unitOfWork.Repository<Domain.BnaClassRoutine>().AddRangeAsync(ClassRoutineList);
                 await _unitOfWork.Save();
             }
             else
             {
-                var ClassRoutineList = ClassRoutines.RoutineList.OrderBy(x => x.date).Select(x => new BnaClassRoutine()
+                var ClassRoutineList = ClassRoutines.RoutineList.OrderBy(x => x.date).Select(x => new Domain.BnaClassRoutine()
                 {
                     // ClassRoutineId = x.classRoutineId,
                     CourseModuleId = x.courseModuleId,
@@ -130,7 +130,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                     MenuPosition = x.MenuPosition,
                     IsActive = x.isActive,
                 });
-                await _unitOfWork.Repository<BnaClassRoutine>().AddRangeAsync(ClassRoutineList);
+                await _unitOfWork.Repository<Domain.BnaClassRoutine>().AddRangeAsync(ClassRoutineList);
                 await _unitOfWork.Save();
             }
 

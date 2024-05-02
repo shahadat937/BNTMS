@@ -49,6 +49,7 @@ namespace SchoolManagement.Application
         public const string Caste = SMSRoutePrefixBase + "Caste";
         public const string ClassPeriod = SMSRoutePrefixBase + "class-period";
         public const string ClassRoutine = SMSRoutePrefixBase + "class-routine";
+        public const string BnaClassRoutine = SMSRoutePrefixBase + "bna-class-routine";
         public const string ClassType = SMSRoutePrefixBase + "class-type";
         public const string CoCurricularActivity = SMSRoutePrefixBase + "co-curricular-activity";
         public const string CoCurricularActivityType = SMSRoutePrefixBase + "co-curricular-activity-type";

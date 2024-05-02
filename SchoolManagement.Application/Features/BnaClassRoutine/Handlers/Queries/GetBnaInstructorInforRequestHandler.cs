@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using SchoolManagement.Application.Contracts.Persistence;
-using SchoolManagement.Application.Features.ClassRoutines.Requests.Queries;
+using SchoolManagement.Application.Features.BnaClassRoutine.Requests.Queries;
 using SchoolManagement.Domain;
 using SchoolManagement.Shared.Models;
 using System;
@@ -10,18 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
+namespace SchoolManagement.Application.Features.BnaClassRoutine.Handlers.Queries
 {
-    public class GetBnaInstructorInfoRequestHandler : IRequestHandler<GetBnaInstructorInfoRequest, List<BnaInstructorModel>>
+    public class GetBnaInstructorInforRequestHandler : IRequestHandler<GetBnaInstructorInfoRequest, List<BnaInstructorModel>>
     {
-        private readonly ISchoolManagementRepository<BnaClassRoutine> _BnaClassRoutineRepository;
+        private readonly ISchoolManagementRepository<Domain.BnaClassRoutine> _BnaClassRoutineRepository;
         private readonly ISchoolManagementRepository<BnaSubjectName> _BnaSubjectNameRepository;
         private readonly ISchoolManagementRepository<TraineeBioDataGeneralInfo> _TraineeBioDataGeneralInfoRepository;
         private readonly ISchoolManagementRepository<Domain.CourseWeekAll> _CourseWeekAllRepository;
         private readonly ISchoolManagementRepository<CourseSection> _CourseSectionRepository;
         private readonly ISchoolManagementRepository<Rank> _BnaRankRepository;
 
-        public GetBnaInstructorInfoRequestHandler(ISchoolManagementRepository<BnaClassRoutine> BnaClassRoutineRepository, ISchoolManagementRepository<BnaSubjectName> BnaSubjectNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfoRepository, ISchoolManagementRepository<Domain.CourseWeekAll> CourseWeekAllRepository, ISchoolManagementRepository<CourseSection> CourseSectionRepository, ISchoolManagementRepository<Rank> BnaRankRepository)
+        public GetBnaInstructorInforRequestHandler(ISchoolManagementRepository<Domain.BnaClassRoutine> BnaClassRoutineRepository, ISchoolManagementRepository<BnaSubjectName> BnaSubjectNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfoRepository, ISchoolManagementRepository<Domain.CourseWeekAll> CourseWeekAllRepository, ISchoolManagementRepository<CourseSection> CourseSectionRepository, ISchoolManagementRepository<Rank> BnaRankRepository)
         {
             _BnaClassRoutineRepository = BnaClassRoutineRepository;
             _BnaSubjectNameRepository = BnaSubjectNameRepository;
@@ -40,7 +40,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
 
             List<BnaInstructorModel> selectModels = new List<BnaInstructorModel>();
 
-            IQueryable<BnaClassRoutine> bnaClassRoutiness = _BnaClassRoutineRepository.Where(x => true);
+            IQueryable<Domain.BnaClassRoutine> bnaClassRoutiness = _BnaClassRoutineRepository.Where(x => true);
 
             foreach (var item in bnaClassRoutiness)
             {
@@ -182,5 +182,5 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
         }
 
 
-        }
+    }
 }

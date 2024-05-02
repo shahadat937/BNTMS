@@ -1,36 +1,28 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
+﻿using MediatR;
 using SchoolManagement.Application.Contracts.Persistence;
-using SchoolManagement.Application.DTOs.ClassRoutine;
-using SchoolManagement.Application.DTOs.Common.Validators;
+using SchoolManagement.Application.Features.BnaClassRoutine.Requests.Queries;
 using SchoolManagement.Application.Features.ClassRoutines.Requests.Queries;
-using SchoolManagement.Application.Models;
-using SchoolManagement.Application.Responses;
 using SchoolManagement.Domain;
 using SchoolManagement.Shared.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
+namespace SchoolManagement.Application.Features.BnaClassRoutine.Handlers.Queries
 {
-    public class GetBnaClassRoutineListRequestNewHandler : IRequestHandler<GetBnaClassRoutineListRequestNew, List<BnaRoutineModel>>
+    public class GetBnaClassRoutineListRequestHandler : IRequestHandler<GetNewBnaClassRoutineListRequest, List<BnaRoutineModel>>
     {
-        private readonly ISchoolManagementRepository<BnaClassRoutine> _BnaClassRoutineRepository;
+        private readonly ISchoolManagementRepository<Domain.BnaClassRoutine> _BnaClassRoutineRepository;
         private readonly ISchoolManagementRepository<BnaSubjectName> _BnaSubjectNameRepository;
         private readonly ISchoolManagementRepository<TraineeBioDataGeneralInfo> _TraineeBioDataGeneralInfoRepository;
         private readonly ISchoolManagementRepository<Domain.CourseWeekAll> _CourseWeekAllRepository;
         private readonly ISchoolManagementRepository<CourseSection> _CourseSectionRepository;
         private readonly ISchoolManagementRepository<BnaClassPeriod> _BnaClassPeriodRepository;
-        
-        public GetBnaClassRoutineListRequestNewHandler(ISchoolManagementRepository<BnaClassRoutine> BnaClassRoutineRepository, ISchoolManagementRepository<BnaSubjectName> BnaSubjectNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfoRepository, ISchoolManagementRepository<Domain.CourseWeekAll> CourseWeekAllRepository, ISchoolManagementRepository<CourseSection> CourseSectionRepository, ISchoolManagementRepository<BnaClassPeriod> BnaClassPeriodRepository)
+
+        public GetBnaClassRoutineListRequestHandler(ISchoolManagementRepository<Domain.BnaClassRoutine> BnaClassRoutineRepository, ISchoolManagementRepository<BnaSubjectName> BnaSubjectNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfoRepository, ISchoolManagementRepository<Domain.CourseWeekAll> CourseWeekAllRepository, ISchoolManagementRepository<CourseSection> CourseSectionRepository, ISchoolManagementRepository<BnaClassPeriod> BnaClassPeriodRepository)
         {
             _BnaClassRoutineRepository = BnaClassRoutineRepository;
             _BnaSubjectNameRepository = BnaSubjectNameRepository;
@@ -40,10 +32,10 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
             _BnaClassPeriodRepository = BnaClassPeriodRepository;
         }
 
-        public async Task<List<BnaRoutineModel>> Handle(GetBnaClassRoutineListRequestNew request, CancellationToken cancellationToken)
+        public async Task<List<BnaRoutineModel>> Handle(GetNewBnaClassRoutineListRequest request, CancellationToken cancellationToken)
         {
             string weekName;
-            
+
 
             List<int> bnaQueryWeekId = new List<int>();
             ArrayList bnaQueryDateResult = new ArrayList();
@@ -52,7 +44,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
 
             List<BnaRoutineModel> selectMergeModels = new List<BnaRoutineModel>();
 
-            IQueryable<BnaClassRoutine> bnaClassRoutiness = _BnaClassRoutineRepository.Where(x => true);
+            IQueryable<Domain.BnaClassRoutine> bnaClassRoutiness = _BnaClassRoutineRepository.Where(x => true);
 
             foreach (var item in bnaClassRoutiness)
             {
@@ -259,7 +251,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
                                 }
                             }
                         }
-                        
+
                     }
                 }
             }

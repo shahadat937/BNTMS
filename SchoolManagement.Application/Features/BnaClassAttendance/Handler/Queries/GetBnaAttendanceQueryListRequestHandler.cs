@@ -16,12 +16,12 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Queri
     public class GetBnaAttendanceQueryListRequestHandler : IRequestHandler<GetBnaAttendanceQueryListRequest, List<BnaAttendanceModel>>
     {
         private readonly ISchoolManagementRepository<CourseNomenee> _CourseNomeneeRepository;
-        private readonly ISchoolManagementRepository<BnaClassRoutine> _BnaClassRoutineRepository;
+        private readonly ISchoolManagementRepository<Domain.BnaClassRoutine> _BnaClassRoutineRepository;
         private readonly ISchoolManagementRepository<TraineeBioDataGeneralInfo> _TraineeBioDataGeneralInfoRepository;
         private readonly ISchoolManagementRepository<BnaSubjectName> _BnaSubjectNameRepository;
         private readonly ISchoolManagementRepository<Domain.BnaClassAttendance> _BnaClassAttendanceRepository;
 
-        public GetBnaAttendanceQueryListRequestHandler(ISchoolManagementRepository<CourseNomenee> CourseNomeneeRepository, ISchoolManagementRepository<BnaClassRoutine> BnaClassRoutineRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfoRepository, ISchoolManagementRepository<BnaSubjectName> bnaSubjectNameRepository, ISchoolManagementRepository<Domain.BnaClassAttendance> bnaClassAttendanceRepository)
+        public GetBnaAttendanceQueryListRequestHandler(ISchoolManagementRepository<CourseNomenee> CourseNomeneeRepository, ISchoolManagementRepository<Domain.BnaClassRoutine> BnaClassRoutineRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfoRepository, ISchoolManagementRepository<BnaSubjectName> bnaSubjectNameRepository, ISchoolManagementRepository<Domain.BnaClassAttendance> bnaClassAttendanceRepository)
         {
             _CourseNomeneeRepository = CourseNomeneeRepository;
             _BnaClassRoutineRepository = BnaClassRoutineRepository;
@@ -38,7 +38,7 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Queri
             DateTime date = DateTime.ParseExact(request.Date, "yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
             //DateTime dateFormate = DateTime.ParseExact(request.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-            IQueryable<BnaClassRoutine> bnaClassRoutines = _BnaClassRoutineRepository.Where(x => x.Date == date);
+            IQueryable<Domain.BnaClassRoutine> bnaClassRoutines = _BnaClassRoutineRepository.Where(x => x.Date == date);
 
             
 
