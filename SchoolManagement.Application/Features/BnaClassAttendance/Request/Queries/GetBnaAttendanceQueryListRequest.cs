@@ -12,7 +12,8 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Request.Queri
     {
         public int BnaSubjectCurriculamId { get; set; }
         public int BaseSchoolNameId { get; set; }
-        public int CourseTitleId { get; set; }
+        public int CourseDurationId { get; set; }
+        public int CourseNameId { get; set; }
         public int SemesterId { get; set; }
         public int CourseSectionId { get; set; }
         public int ClassPeriodId { get; set; }

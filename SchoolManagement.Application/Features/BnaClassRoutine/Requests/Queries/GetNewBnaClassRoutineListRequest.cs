@@ -6,14 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolManagement.Application.Features.ClassRoutines.Requests.Queries
+namespace SchoolManagement.Application.Features.BnaClassRoutine.Requests.Queries
 {
-    public class GetBnaInstructorInfoRequest : IRequest<List<BnaInstructorModel>>
+    public class GetNewBnaClassRoutineListRequest : IRequest<List<BnaRoutineModel>>
     {
         public string bnaSelectedSubjectCurriculumId { get; set; }
-        public string selectedCourseTitleId { get; set; }
+        public string selectedCourseNameId { get; set; }
+        public string selectedCourseDurationId { get; set; }
         public string selectedBnaSemesterId { get; set; }
         public string selectedCourseSectionId { get; set; }
         public int selectedCourseWeekId { get; set; }
     }
 }
+

@@ -10,7 +10,7 @@ namespace SchoolManagement.Api.Controllers;
 
 [Route(SMSRoutePrefix.ClassRoutine)]
 [ApiController]
-//[Authorize]
+[Authorize]
 public class ClassRoutineController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -28,8 +28,6 @@ public class ClassRoutineController : ControllerBase
         return Ok(ClassRoutines);
     }
 
-
-
     [HttpGet]
     [Route("get-classRoutinesByCourseDurationId")]
     public async Task<ActionResult<List<ClassRoutineDto>>> GetClassRoutinesByCourseDurationId([FromQuery] QueryParams queryParams, int courseDurationId)
@@ -41,37 +39,6 @@ public class ClassRoutineController : ControllerBase
         });
         return Ok(ClassRoutines);
     }
-
-    [HttpGet]
-    [Route("get-bnaClassRoutineAll")]
-    public async Task<ActionResult> GetClassRoutine(string bnaSelectedSubjectCurriculumId, string selectedCourseTitleId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
-    {
-        var BnaClassRoutine = await _mediator.Send(new GetBnaClassRoutineListRequestNew
-        {
-            bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
-            selectedCourseTitleId = selectedCourseTitleId,
-            selectedBnaSemesterId = selectedBnaSemesterId,
-            selectedCourseSectionId = selectedCourseSectionId,
-            selectedCourseWeekId = selectedCourseWeekId
-        });
-        return Ok(BnaClassRoutine);
-    }
-
-    [HttpGet]
-    [Route("get-bnaInstructorInfo")]
-    public async Task<ActionResult> GetInstructorInfo(string bnaSelectedSubjectCurriculumId, string selectedCourseTitleId, string selectedBnaSemesterId, string selectedCourseSectionId, int selectedCourseWeekId)
-    {
-        var BnaClassRoutine = await _mediator.Send(new GetBnaInstructorInfoRequest
-        {
-            bnaSelectedSubjectCurriculumId = bnaSelectedSubjectCurriculumId,
-            selectedCourseTitleId = selectedCourseTitleId,
-            selectedBnaSemesterId = selectedBnaSemesterId,
-            selectedCourseSectionId = selectedCourseSectionId,
-            selectedCourseWeekId = selectedCourseWeekId
-        });
-        return Ok(BnaClassRoutine);
-    }
-
 
 
     [HttpGet]
@@ -107,19 +74,6 @@ public class ClassRoutineController : ControllerBase
     [ProducesResponseType(400)]
     [Route("save-classRoutine")]
     public async Task<ActionResult<BaseCommandResponse>> Post(ClassRoutineListDto ClassRoutine)
-    {
-        //    var json = Newtonsoft.Json.JsonConvert.SerializeObject(ClassRoutine);
-        var command = new CreateClassRoutineListCommand { ClassRoutineDto = ClassRoutine };
-        var response = await _mediator.Send(command);
-        return Ok(response);
-       // return Ok();
-    }
-
-    [HttpPost]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
-    [Route("save-bnaclassRoutine")]
-    public async Task<ActionResult<BaseCommandResponse>> BnaClassRoutine(ClassRoutineListDto ClassRoutine)
     {
         //    var json = Newtonsoft.Json.JsonConvert.SerializeObject(ClassRoutine);
         var command = new CreateClassRoutineListCommand { ClassRoutineDto = ClassRoutine };
@@ -311,7 +265,7 @@ public class ClassRoutineController : ControllerBase
         return Ok(routineList);
     }
 
- 
+
 
     [HttpGet]
     [Route("get-subjectsByRoutineListBNAClass")]
@@ -342,7 +296,7 @@ public class ClassRoutineController : ControllerBase
     }
 
 
-     
+
     [HttpGet]
     [Route("get-classRoutineForSchoolDashboard")]
 

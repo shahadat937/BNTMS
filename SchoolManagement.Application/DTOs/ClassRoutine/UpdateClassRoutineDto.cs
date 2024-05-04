@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using SchoolManagement.Application.DTOs.Common;
 
@@ -9,16 +8,10 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
     public class UpdateClassRoutineDto
     {
         public int classRoutineId { get; set; }
-        public string? BnaSubjectCurriculumId { get; set; }
-        public string? DepartmentId { get; set; }
         public int? courseModuleId { get; set; }
-        public string? BnaSemesterId { get; set; }
-        public string? courseTitleId { get; set; }
-        public string? classPeriodId { get; set; }
-        [DataType(DataType.Time)]
-        public TimeSpan? PeriodFrom { get; set; }
-        [DataType(DataType.Time)]
-        public TimeSpan? PeriodTo { get; set; }
+        public int? BnaSemesterId { get; set; }
+        public int? courseNameId { get; set; }
+        public int? classPeriodId { get; set; }
         public int? baseSchoolNameId { get; set; }
         public int? courseDurationId { get; set; }
         public int? BranchId { get; set; }
@@ -28,7 +21,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }
-        public string? CourseSectionId { get; set; }
+        public int? CourseSectionId { get; set; }
         public int? AttendanceComplete { get; set; }
         public string? TimeDuration { get; set; }
         public int? examMarkComplete { get; set; }

@@ -35,7 +35,8 @@ namespace SchoolManagement.Application.Features.BnaClassAttendance.Handler.Comma
             {
                 BnaClassAttendanceId = request.BnaClassAttendanceDto.BnaClassAttendanceId,
                 BnaSubjectCurriculumId = request.BnaClassAttendanceDto.BnaSubjectCurriculumId,
-                CourseTitleId = request.BnaClassAttendanceDto.CourseTitleId,
+                CourseNameId = request.BnaClassAttendanceDto.CourseNameId,
+                CourseDurationId = request.BnaClassAttendanceDto.CourseDurationId,
                 BnaSemesterId = request.BnaClassAttendanceDto.BnaSemesterId,
                 BaseSchoolNameId = request.BnaClassAttendanceDto.BaseSchoolNameId,
                 CourseSectionId = request.BnaClassAttendanceDto.CourseSectionId,

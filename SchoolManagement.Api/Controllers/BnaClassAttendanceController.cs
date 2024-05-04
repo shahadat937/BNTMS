@@ -25,13 +25,14 @@ namespace SchoolManagement.Api.Controllers
 
         [HttpGet]
         [Route("get-BnaClassAttendance")]
-        public async Task<ActionResult<List<SelectedModel>>> GetBnaClassAttendanceTrainee(int baseSchoolNameId, int bnaSubjectCurriculamId, int courseTitleId, int semesterId, int courseSectionId, int classPeriodId, string date)
+        public async Task<ActionResult<List<SelectedModel>>> GetBnaClassAttendanceTrainee(int baseSchoolNameId, int bnaSubjectCurriculamId, int courseDurationId, int courseNameId, int semesterId, int courseSectionId, int classPeriodId, string date)
         {
             var ClassAttendanceTrainee = await _mediator.Send(new GetBnaAttendanceQueryListRequest
             {
                 BaseSchoolNameId = baseSchoolNameId,
                 BnaSubjectCurriculamId = bnaSubjectCurriculamId,
-                CourseTitleId = courseTitleId,
+                CourseNameId = courseNameId,
+                CourseDurationId = courseDurationId,
                 SemesterId = semesterId,
                 CourseSectionId = courseSectionId,
                 ClassPeriodId = classPeriodId,

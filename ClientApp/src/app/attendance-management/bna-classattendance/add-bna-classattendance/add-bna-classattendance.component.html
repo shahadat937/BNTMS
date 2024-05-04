@@ -40,7 +40,7 @@
 
 
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
-                    <ng-multiselect-dropdown required formControlName="courseTitleId" [placeholder]="'Course Title'"
+                    <ng-multiselect-dropdown required [placeholder]="'Course Title'"
                       [data]="courseTitle" [settings]="routinManagementdropdownSettingsSingle"
                       (onSelect)="onCourseTitleStatus($event)" (onDeSelect)="onCourseTitleDeSelect($event)">
                     </ng-multiselect-dropdown>

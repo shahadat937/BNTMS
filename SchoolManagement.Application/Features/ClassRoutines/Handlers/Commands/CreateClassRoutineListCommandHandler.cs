@@ -51,71 +51,64 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
             //    //    item.AttendanceStatus = false;
             //    //}
             //}
-            List<BnaClassRoutine> ClassRoutine = new List<BnaClassRoutine>();
-            ClassRoutine = request.ClassRoutineDto.perodListForm.Select(x => new BnaClassRoutine()
+            List<ClassRoutine> ClassRoutine = new List<ClassRoutine>();
+            ClassRoutine = request.ClassRoutineDto.perodListForm.Select(x => new ClassRoutine()
 
-            //IList ClassRoutines = request.ClassRoutineDto.perodListForm.Select(x => new ClassRoutine()
-            {
-                BnaClassRoutineId = request.ClassRoutineDto.ClassRoutineId,
-                BnaSubjectCurriculumId = request.ClassRoutineDto.BnaSubjectCurriculumId,
-                DepartmentId = request.ClassRoutineDto.DepartmentId,
-                CourseModuleId = request.ClassRoutineDto.CourseModuleId,
-                BnaSemesterId = request.ClassRoutineDto.BnaSemesterId,
-                ClassPeriodId = x.classPeriodId,
-                PeriodFrom = x.PeriodFrom,
-                PeriodTo = x.PeriodTo,
-                BaseSchoolNameId = request.ClassRoutineDto.BaseSchoolNameId,
-                ClassCountPeriod = x.classCountPeriod,
-                SubjectCountPeriod = x.subjectCountPeriod,
-                CourseTitleId = request.ClassRoutineDto.CourseTitleId,
-                WeekID = request.ClassRoutineDto.CourseWeekId,
-                SubjectMarkId = x.subjectMarkId,
-                MarkTypeId = x.markTypeId,
-                TraineeId = x.traineeId,
-                CourseSectionId = request.ClassRoutineDto.CourseSectionId,
-                CourseDurationId = request.ClassRoutineDto.CourseDurationId,
-                BranchId = request.ClassRoutineDto.BranchId,
-                BnaSubjectNameId = x.subjectId,
-                AttendanceComplete = CompleteStatus.NotCompleted,
-                ClassLocation = request.ClassRoutineDto.ClassLocation,
-                TimeDuration = request.ClassRoutineDto.TimeDuration,
-                ClassRoomName = x.classRoomName,
-                ClassTopic = x.classTopic,
-                Remarks = request.ClassRoutineDto.Remarks,
-                Date = request.ClassRoutineDto.Date.Value.AddDays(1.0),
-                ClassTypeId = x.classTypeId,
-                ResultSubmissionStatus = 0,
-                FinalApproveStatus = 0,
-                ExamMarkComplete = 0,
+           //IList ClassRoutines = request.ClassRoutineDto.perodListForm.Select(x => new ClassRoutine()
+                {
+                    ClassRoutineId = request.ClassRoutineDto.ClassRoutineId,
+                    CourseModuleId = request.ClassRoutineDto.CourseModuleId,
+                    ClassPeriodId = x.classPeriodId,
+                    BaseSchoolNameId = request.ClassRoutineDto.BaseSchoolNameId,
+                    ClassCountPeriod = x.classCountPeriod,
+                    SubjectCountPeriod = x.subjectCountPeriod,
+                    CourseNameId = request.ClassRoutineDto.CourseNameId,
+                    CourseWeekId = request.ClassRoutineDto.CourseWeekId,
+                    SubjectMarkId = x.subjectMarkId,
+                    MarkTypeId = x.markTypeId,
+                    TraineeId = x.traineeId,
+                    CourseSectionId = request.ClassRoutineDto.CourseSectionId,
+                    CourseDurationId = request.ClassRoutineDto.CourseDurationId,
+                    BranchId = request.ClassRoutineDto.BranchId,
+                    BnaSubjectNameId = x.subjectId,
+                    AttendanceComplete = CompleteStatus.NotCompleted,
+                    ClassLocation = request.ClassRoutineDto.ClassLocation,
+                    TimeDuration = request.ClassRoutineDto.TimeDuration,
+                    ClassRoomName = x.classRoomName,
+                    ClassTopic = x.classTopic,
+                    Remarks = request.ClassRoutineDto.Remarks,
+                    Date = request.ClassRoutineDto.Date.Value.AddDays(1.0),
+                    ClassTypeId = x.classTypeId,                 
+                    ResultSubmissionStatus = 0,
+                    FinalApproveStatus = 0,
+                  
+                }).ToList();
+               // var ClassRoutines = _mapper.Map<ClassRoutine>(request.ClassRoutineDto);
+              
+               //ClassRoutines.Date = ClassRoutines.Date.Value.AddDays(1.0);
 
+               //ClassRoutines.AttendanceComplete = CompleteStatus.NotCompleted;
+               //ClassRoutines.ResultSubmissionStatus = 0;
+               //ClassRoutines.FinalApproveStatus = 0;
+                
+                await _unitOfWork.Repository<ClassRoutine>().AddRangeAsync(ClassRoutine);
 
-            }).ToList();
-            // var ClassRoutines = _mapper.Map<ClassRoutine>(request.ClassRoutineDto);
+                try
+                {
+                    await _unitOfWork.Save();
 
-            //ClassRoutines.Date = ClassRoutines.Date.Value.AddDays(1.0);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
 
-            //ClassRoutines.AttendanceComplete = CompleteStatus.NotCompleted;
-            //ClassRoutines.ResultSubmissionStatus = 0;
-            //ClassRoutines.FinalApproveStatus = 0;
+                
 
-            await _unitOfWork.Repository<BnaClassRoutine>().AddRangeAsync(ClassRoutine);
-
-            try
-            {
-                await _unitOfWork.Save();
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-
-
-            response.Success = true;
-            response.Message = "Creation Successful";
-            // response.Id = ClassRoutines.ClassRoutineId;
-            //  }
+                response.Success = true;
+                response.Message = "Creation Successful";
+               // response.Id = ClassRoutines.ClassRoutineId;
+          //  }
 
             return response;
         }

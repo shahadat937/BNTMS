@@ -22,7 +22,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
             List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
             {
                 Text = x.CourseName.Course+"_"+x.CourseTitle,
-                Value = x.CourseDurationId
+                Value = x.CourseDurationId + "_" + x.CourseNameId
             }).ToList();
             return selectModels;
         }

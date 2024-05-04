@@ -23,7 +23,7 @@ namespace SchoolManagement.Application.Features.CourseWeekAll.Handlers.Queries
 
         public async Task<List<SelectedModel>> Handle(GetDropdownCourseWeekAllListRequest request, CancellationToken cancellationToken)
         {
-            ICollection<SchoolManagement.Domain.CourseWeekAll> courseWeekAll = await _courseWeekRepository.FilterAsync(x => x.IsActive && x.BaseSchoolNameId == request.BaseSchoolNameId);
+            IQueryable<SchoolManagement.Domain.CourseWeekAll> courseWeekAll = _courseWeekRepository.Where(x => x.IsActive && x.BaseSchoolNameId == request.BaseSchoolNameId);
 
             List<SelectedModel> selectedModels = courseWeekAll.Select(x=> new SelectedModel
             {

@@ -10,7 +10,8 @@ namespace SchoolManagement.Application.DTOs.BnaClassAttrendance
     {
         public int BnaClassAttendanceId { get; set; }
         public int? BnaSubjectCurriculumId { get; set; }
-        public int? CourseTitleId { get; set; }
+        public int? CourseNameId { get; set; }
+        public int? CourseDurationId { get; set; }
         public int? BnaSemesterId { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? CourseSectionId { get; set; }
