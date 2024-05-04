@@ -31,18 +31,6 @@ public class ClassPeriodController : ControllerBase
     }
 
 
-
-    [HttpGet]
-    [Route("get-selectedDropdownClassPeriod")]
-    public async Task<ActionResult<List<SelectedModel>>> GetSelectedDropdownClassPeriod(int baseSchoolNameId)
-    {
-        var ClassPeriod = await _mediator.Send(new GetDropdownClassPeriodRequest
-        {
-            BaseSchoolNameId = baseSchoolNameId
-        });
-        return Ok(ClassPeriod);
-    }
-
     [HttpGet]
     [Route("get-classPeriodDetail/{id}")]
     public async Task<ActionResult<ClassPeriodDto>> Get(int id)

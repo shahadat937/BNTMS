@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using SchoolManagement.Application.DTOs.Common;
 using SchoolManagement.Application.DTOs.InterServiceMark.converter;
@@ -10,25 +9,19 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
     public class ClassRoutineListDto : IClassRoutineDto
     {
         public int ClassRoutineId { get; set; }
-        public string? BnaSubjectCurriculumId { get; set; }
-        public string? DepartmentId { get; set; }
         public int? CourseModuleId { get; set; }
-        public string? BnaSemesterId { get; set; }
-        public string? ClassPeriodId { get; set; }
-        [DataType(DataType.Time)]
-        public TimeSpan? PeriodFrom { get; set; }
-        [DataType(DataType.Time)]
-        public TimeSpan? PeriodTo { get; set; }
+        public int? BnaSemesterId { get; set; }
+        public int? ClassPeriodId { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
-        public string? CourseNameId { get; set; }
+        public int? CourseNameId { get; set; }
         public int? BranchId { get; set; }
         public int? SubjectMarkId { get; set; }
         public int? MarkTypeId { get; set; }
         public int? TraineeId { get; set; }
-        public string? CourseSectionId { get; set; }
-        public string? CourseDurationId { get; set; }
+        public int? CourseSectionId { get; set; }
+        public int? CourseDurationId { get; set; }
         public int? BnaSubjectNameId { get; set; }
         public int? CourseWeekId { get; set; }
         public int? AttendanceComplete { get; set; }
@@ -78,12 +71,8 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? markTypeId { get; set; }
         public int? classCountPeriod { get; set; }
         public int? subjectCountPeriod { get; set; }
-      
-        public string? classPeriodId { get; set; }
-        [DataType(DataType.Time)]
-        public TimeSpan? PeriodFrom { get; set; }
-        [DataType(DataType.Time)]
-        public TimeSpan? PeriodTo { get; set; }
+
+        public int? classPeriodId { get; set; }
         public int? classTypeId { get; set; }
         public string? classRoomName { get; set; }
         public string? classTopic { get; set; }
