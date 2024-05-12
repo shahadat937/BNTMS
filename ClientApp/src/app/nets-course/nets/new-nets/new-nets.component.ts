@@ -86,7 +86,7 @@ export class NewNETSComponent implements OnInit {
       professional:[''],
       nbcd:[''], 
       remark:[''],
-      courseTypeId:[this.masterData.coursetype.NETS], //nets Mean Course Type Graduation
+      courseTypeId:[this.courseTypeId], //nets Mean Course Type Graduation
       organizationNameId:[],
       isCompletedStatus:[0],
       status:[3],
@@ -94,7 +94,7 @@ export class NewNETSComponent implements OnInit {
     })
   }
   getselectedcoursename(){
-    this.CourseDurationService. getSelectedCourseByType(this.masterData.coursetype.NETS).subscribe(res=>{
+    this.CourseDurationService. getSelectedCourseByType(this.courseTypeId).subscribe(res=>{
       this.selectedcoursename=res
     });
   }
