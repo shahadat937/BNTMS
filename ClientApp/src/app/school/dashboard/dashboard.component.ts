@@ -430,7 +430,7 @@ export class DashboardComponent implements OnInit {
   getrunningCourseListBySchool(viewStatus){
     
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    if (this.branchId==this.masterData.schoolName.NETS ){
+    /*if (this.branchId==this.masterData.schoolName.NETS ){
       this.schoolDashboardService.getrunningCourseListBySchool(currentDateTime, this.masterData.coursetype.NETS, this.schoolId,viewStatus).subscribe(response => {         
         this.localCourseCount=response.length; 
         this.runningCourses=response;
@@ -444,7 +444,15 @@ export class DashboardComponent implements OnInit {
     
 
     });
-  }
+  }*/
+
+  this.schoolDashboardService.getrunningCourseListBySchool(currentDateTime, this.masterData.coursetype.LocalCourse, this.schoolId,viewStatus).subscribe(response => {         
+    this.localCourseCount=response.length;
+    this.runningCourses=response;  
+  
+
+  });
+  
   }
 
   getDateComparision(obj){

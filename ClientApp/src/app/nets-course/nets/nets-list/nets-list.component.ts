@@ -64,10 +64,12 @@ export class NetsListComponent implements OnInit {
      // this gives an object with dates as keys
      const groups = this.dataSource.data.reduce((groups, courses) => {
        const schoolName = courses.baseSchoolName;
-       if (!groups[schoolName]) {
+        if(courses.baseSchoolNameId==this.masterData.coursetype.NETS){ if (!groups[schoolName]) {
          groups[schoolName] = [];
        }
-       groups[schoolName].push(courses);
+     
+        groups[schoolName].push(courses);
+        }
        return groups;
      }, {});
 
@@ -101,10 +103,12 @@ export class NetsListComponent implements OnInit {
        // this gives an object with dates as keys
        const groups = this.localCourseList.reduce((groups, courses) => {
          const schoolName = courses.schoolName;
-         if (!groups[schoolName]) {
+         if(courses.baseSchoolNameId==this.masterData.coursetype.NETS){   if (!groups[schoolName]) {
            groups[schoolName] = [];
          }
-         groups[schoolName].push(courses);
+      
+          groups[schoolName].push(courses);
+          }
            return groups;
          }, {});
    
@@ -121,16 +125,18 @@ export class NetsListComponent implements OnInit {
  }
 
  getCourseDurationFilterList(viewStatus){
-   this.CourseDurationService.getCourseDurationFilter(viewStatus,this.masterData.coursetype.NETS).subscribe(response => {
+   this.CourseDurationService.getCourseDurationFilter(viewStatus,this.courseTypeId).subscribe(response => {
      this.localCourseList = response; 
 
      // this gives an object with dates as keys
      const groups = this.localCourseList.reduce((groups, courses) => {
        const schoolName = courses.schoolName;
-       if (!groups[schoolName]) {
+    if(courses.baseSchoolNameId==this.masterData.coursetype.NETS){   if (!groups[schoolName]) {
          groups[schoolName] = [];
        }
+       
        groups[schoolName].push(courses);
+       }
        return groups;
      }, {});
 
