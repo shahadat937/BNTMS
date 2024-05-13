@@ -31,7 +31,7 @@
               <form class="form-border-design" [formGroup]="BulletinForm" (ngSubmit)="onSubmit()">
               
               
-                <div class="row">              
+                <div class="row">       
                   <div *ngIf="role != userRole.SuperAdmin && role != userRole.JSTISchool && role != userRole.BNASchool" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                     <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>School Name</mat-label>                        
@@ -191,9 +191,13 @@
                   <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                      <!-- <button mat-icon-button color="accent" class="btn-tbl-edit" 
+                      <button mat-icon-button color="accent" class="btn-tbl-edit" 
                       [routerLink]="['/notice-bulletin/update-bulletin', row.bulletinId]">
                         <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                      </button>
+                      <!-- <button mat-icon-button color="accent" title="Edit" class="btn-tbl-edit" (click)="$event.stopPropagation()"
+                        (click)="editItem(row)">
+                        <mat-icon aria-label="Edit" class="col-white">edit</mat-icon> 
                       </button> -->
                       <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
                         (click)="deleteItem(row)">
