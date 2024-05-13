@@ -165,7 +165,7 @@
                     
                   </div> 
                   <!-- Running CourseList -->
-                  <mat-table *ngIf="(role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.SchoolOIC || role == userRole.OICNBCDSchool || role == userRole.OICNETSchool) && viewStatus != 3" #table [dataSource]="runningCourses" matSort class="mat-cell notice-list db-tbl scl-db">               
+                  <mat-table *ngIf="(role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.SchoolOIC || role == userRole.OICNBCDSchool ) && viewStatus != 3" #table [dataSource]="runningCourses" matSort class="mat-cell notice-list db-tbl scl-db">               
 
                       <ng-container matColumnDef="ser">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
@@ -260,7 +260,7 @@
                       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                   </mat-table>
-                  <mat-table *ngIf="(role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.SchoolOIC || role == userRole.OICNBCDSchool || role == userRole.OICNETSchool)&& viewStatus == 3 && this.schoolId != this.masterData.schoolName.NBCDSchool" #table [dataSource]="upcomingCourses" matSort class="mat-cell db-tbl upcoming-course-tbl">               
+                  <mat-table *ngIf="(role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.SchoolOIC || role == userRole.OICNBCDSchool  )&& viewStatus == 3 && this.schoolId != this.masterData.schoolName.NBCDSchool" #table [dataSource]="upcomingCourses" matSort class="mat-cell db-tbl upcoming-course-tbl">               
                     <ng-container matColumnDef="ser">
                       <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                       <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
@@ -352,7 +352,7 @@
 
 
                   <!-- NBCD School -->
-                  <mat-table *ngIf="(role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.SchoolOIC || role == userRole.OICNBCDSchool || role == userRole.OICNETSchool)&& viewStatus == 3 && this.schoolId == this.masterData.schoolName.NBCDSchool" #table [dataSource]="upcomingCourses" matSort class="mat-cell db-tbl upcoming-course-tbl">
+                  <mat-table *ngIf="(role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.SchoolOIC || role == userRole.OICNBCDSchool  )&& viewStatus == 3 && this.schoolId == this.masterData.schoolName.NBCDSchool" #table [dataSource]="upcomingCourses" matSort class="mat-cell db-tbl upcoming-course-tbl">
                     <ng-container matColumnDef="ser">
                       <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                       <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>

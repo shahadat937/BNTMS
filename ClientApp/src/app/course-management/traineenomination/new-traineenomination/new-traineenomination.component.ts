@@ -15,6 +15,7 @@ import { CourseDurationService } from '../../service/courseduration.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TraineeNomination } from '../../models/traineenomination';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-new-traineenomination',
@@ -66,7 +67,7 @@ export class NewTraineeNominationComponent implements OnInit {
 
   
 
-  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private courseDurationService: CourseDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private location: Location,private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private courseDurationService: CourseDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
  
   ngOnInit(): void {
    
@@ -225,7 +226,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     });
   }
   
-
+  goBack() {
+    this.location.back(); // This will navigate back to the previous route
+  }
   getselectedTraineeCourseStatus(){
     this.TraineeNominationService.getselectedTraineeCourseStatus().subscribe(res=>{
       this.selectedcoursestatus=res
