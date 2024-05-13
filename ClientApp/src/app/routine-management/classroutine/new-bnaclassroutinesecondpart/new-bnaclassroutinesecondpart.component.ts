@@ -1065,12 +1065,12 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
   onStatusCourseTitle(dropdown) {
     var courseNameArr = dropdown.value.split('_');
     if(this.selectedCourseNameId == null && this.selectedCourseDurationId == null){
-      this.selectedCourseNameId = courseNameArr[0].toString();
-      this.selectedCourseDurationId = courseNameArr[1].toString();
+      this.selectedCourseDurationId = courseNameArr[0].toString();
+      this.selectedCourseNameId = courseNameArr[1].toString();
     }
     else {
-      this.selectedCourseNameId = this.selectedCourseNameId + ", "+ courseNameArr[0];
-      this.selectedCourseDurationId = this.selectedCourseDurationId + ", "+ courseNameArr[1];
+      this.selectedCourseDurationId = this.selectedCourseDurationId + ", "+ courseNameArr[0];
+      this.selectedCourseNameId = this.selectedCourseNameId + ", "+ courseNameArr[1];
     }
     this.showBnaClassRoutine();
   }
@@ -1080,14 +1080,14 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     let selectedCourseDurationIdsArray: string[] = this.selectedCourseDurationId.split(', ');
 
     // Find and remove the deselected course name
-    let indexCourseNameToRemove: number = selectedCourseNameIdsArray.indexOf(courseNameArr[0]);
+    let indexCourseNameToRemove: number = selectedCourseNameIdsArray.indexOf(courseNameArr[1]);
     if (indexCourseNameToRemove !== -1) {
       selectedCourseNameIdsArray.splice(indexCourseNameToRemove, 1);
     }
     this.selectedCourseNameId = selectedCourseNameIdsArray.join(', ');
 
     // Find and remove the deselected course duration
-    let indexCourseDurationToRemove: number = selectedCourseDurationIdsArray.indexOf(courseNameArr[1]);
+    let indexCourseDurationToRemove: number = selectedCourseDurationIdsArray.indexOf(courseNameArr[0]);
     if (indexCourseDurationToRemove !== -1) {
       selectedCourseDurationIdsArray.splice(indexCourseDurationToRemove, 1);
     }
@@ -1100,12 +1100,12 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     this.selectedcoursedurationbyschoolname.forEach(element => {
       var courseNameArr = element.value.split('_');
       if(this.selectedCourseNameId == null && this.selectedCourseDurationId == null){
-        this.selectedCourseNameId = courseNameArr[0].toString();
-        this.selectedCourseDurationId = courseNameArr[1].toString();
+        this.selectedCourseDurationId = courseNameArr[0].toString();
+        this.selectedCourseNameId = courseNameArr[1].toString();
       }
       else {
-        this.selectedCourseNameId = this.selectedCourseNameId + ", "+ courseNameArr[0];
-        this.selectedCourseDurationId = this.selectedCourseDurationId + ", "+ courseNameArr[1];
+        this.selectedCourseDurationId = this.selectedCourseDurationId + ", "+ courseNameArr[0];
+        this.selectedCourseNameId = this.selectedCourseNameId + ", "+ courseNameArr[1];
       }
     });
     this.showBnaClassRoutine();

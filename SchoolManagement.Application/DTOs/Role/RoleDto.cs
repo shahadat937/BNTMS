@@ -9,7 +9,7 @@ namespace SchoolManagement.Application.DTOs.Role
     {
 
 
-        public int RoleId { get; set; }
+        public string RoleId { get; set; } = null!;
         public string RoleName { get; set; } = null!;
         public string LoweredRoleName { get; set; } = null!;
         public string? Description { get; set; }

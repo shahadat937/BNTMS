@@ -220,8 +220,8 @@ export class AddBnaClassattendanceComponent implements OnInit {
 
   onCourseTitleStatus(dropdown) {
     var courseNameArr = dropdown.value.split('_');
-    this.selectedcourseName = courseNameArr[0].toString();
-      this.selectedcourseDuration = courseNameArr[1].toString();
+    this.selectedcourseName = courseNameArr[1].toString();
+      this.selectedcourseDuration = courseNameArr[0].toString();
     this.ViewTraineeListForAttendance();
   }
   onCourseTitleDeSelect(dropdown) {
@@ -272,13 +272,15 @@ export class AddBnaClassattendanceComponent implements OnInit {
 
   onSubmit() {
 
+    console.log(this.BnaAttendanceForm.value);
+
     this.BnaAttendanceForm.value.bnaSubjectCurriculumId = this.selectedbnaSubjectCurriculum;
     this.BnaAttendanceForm.value.courseNameId = this.selectedcourseName;
     this.BnaAttendanceForm.value.courseDurationId = this.selectedcourseDuration;
     this.BnaAttendanceForm.value.bnaSemesterId = this.selectedbnaSemester;
     this.BnaAttendanceForm.value.courseSectionId = this.selectedcourseSection;
     this.BnaAttendanceForm.value.classPeriodId = this.selectedclassPeriod;
-    this.BnaAttendanceForm.value.date = this.selectedDate;
+    // this.BnaAttendanceForm.value.date = this.selectedDate;
     if (this.actionStatus == 'S') {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
         if (result) {
