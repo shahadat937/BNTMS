@@ -6,13 +6,13 @@ namespace SchoolManagement.Application.DTOs.RoleFeature
 {
     public interface IRoleFeatureDto
     {
-        public int RoleId { get; set; }
-        public int FeatureId { get; set; }
+        public string RoleId { get; set; }
+        public int FeatureKey { get; set; }
         public bool Add { get; set; }
         public bool Update { get; set; }
         public bool Delete { get; set; }
         public bool Report { get; set; }
-        public bool IsActive { get; set; }
+        //public bool IsActive { get; set; }
     }
 }
  
