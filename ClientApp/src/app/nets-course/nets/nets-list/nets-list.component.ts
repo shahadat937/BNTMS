@@ -64,7 +64,7 @@ export class NetsListComponent implements OnInit {
      // this gives an object with dates as keys
      const groups = this.dataSource.data.reduce((groups, courses) => {
        const schoolName = courses.baseSchoolName;
-        if(courses.baseSchoolNameId==this.masterData.coursetype.NETS){ if (!groups[schoolName]) {
+        if(courses.baseSchoolNameId==this.masterData.schoolName.NETS){ if (!groups[schoolName]) {
          groups[schoolName] = [];
        }
      
@@ -103,7 +103,7 @@ export class NetsListComponent implements OnInit {
        // this gives an object with dates as keys
        const groups = this.localCourseList.reduce((groups, courses) => {
          const schoolName = courses.schoolName;
-         if(courses.baseSchoolNameId==this.masterData.coursetype.NETS){   if (!groups[schoolName]) {
+         if(courses.baseSchoolNameId==this.masterData.schoolName.NETS){   if (!groups[schoolName]) {
            groups[schoolName] = [];
          }
       
@@ -131,7 +131,7 @@ export class NetsListComponent implements OnInit {
      // this gives an object with dates as keys
      const groups = this.localCourseList.reduce((groups, courses) => {
        const schoolName = courses.schoolName;
-    if(courses.baseSchoolNameId==this.masterData.coursetype.NETS){   if (!groups[schoolName]) {
+    if(courses.baseSchoolNameId==this.masterData.schoolName.NETS){   if (!groups[schoolName]) {
          groups[schoolName] = [];
        }
        

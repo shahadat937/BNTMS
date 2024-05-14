@@ -57,7 +57,11 @@
                             color="warn" [routerLink]="['/admin/dashboard/school-dashboard']"> 
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                           </button> -->
-
+                          <button class="btn-space"  mat-raised-button 
+                          color="primary"  *ngIf=" masterData.schoolName.NETS == branchId"   title="List of Trainee" [routerLink]="['/course-management/add-traineenomination', courseDurationId]">
+                            <!-- <mat-icon aria-label="Edit" class="col-white">supervisor_account</mat-icon> -->
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
                             <button *ngIf="role === 'Inter Seevice Course'" class="btn-space"  mat-raised-button
                               color="warn" [routerLink]="['/admin/dashboard/interservice-dashboard']"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
