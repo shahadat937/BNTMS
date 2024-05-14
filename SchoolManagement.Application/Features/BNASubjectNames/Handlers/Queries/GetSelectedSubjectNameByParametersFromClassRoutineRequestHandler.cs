@@ -25,7 +25,7 @@ namespace SchoolManagement.Application.Features.ClassPeriods.Handlers.Queries
 
         public async Task<List<SelectedModel>> Handle(GetSelectedSubjectNameByParametersFromClassRoutineRequest request, CancellationToken cancellationToken)
         {
-            IQueryable<ClassRoutine> classRoutines = _classRoutineRepository.FilterWithInclude(x => x.BaseSchoolNameId == request.BaseSchoolNameId && x.CourseNameId == request.CourseNameId && x.CourseDurationId == request.CourseDurationId && x.CourseSectionId == request.CourseSectionId && x.AttendanceComplete ==1 && x.ExamMarkComplete == 0, "BnaSubjectName", "ClassPeriod", "CourseModule", "MarkType").Where(x=>x.ClassTypeId==4); 
+            IQueryable<ClassRoutine> classRoutines = _classRoutineRepository.FilterWithInclude(x => x.BaseSchoolNameId == request.BaseSchoolNameId && x.CourseNameId == request.CourseNameId && x.CourseDurationId == request.CourseDurationId && x.CourseSectionId == request.CourseSectionId && x.AttendanceComplete ==1 && x.ClassTypeId == 4 && (x.ExamMarkComplete == 0 || x.ExamMarkComplete ==null), "BnaSubjectName", "ClassPeriod", "CourseModule", "MarkType").Where(x=>x.ClassTypeId==4); 
             List<SelectedModel> selectModels = classRoutines.Select(x => new SelectedModel 
             {
                 Text = x.BnaSubjectName.SubjectName+"("+x.MarkType.ShortName+")_"+"Period -"+x.ClassPeriod.PeriodName, 
