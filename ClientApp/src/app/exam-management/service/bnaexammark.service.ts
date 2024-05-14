@@ -175,4 +175,9 @@ export class BNAExamMarkService {
   delete(id:number){
     return this.http.delete(this.baseUrl + '/bna-exam-mark/delete-bnaExamMark/'+id);
   }
+
+
+  getBnaSelectedCourseSection(baseSchoolNameId:number, courseNameId: number){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bnaexam-management/get-bnaSelectedCourseSectionsByBaseSchoolNameIdAndCourseNameId?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId)
+  }
 }

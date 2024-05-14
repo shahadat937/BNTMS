@@ -202,5 +202,6 @@ namespace SchoolManagement.Application
 
         public const string BnaClassPeriod = SMSRoutePrefixBase + "bnaClass-period"; 
         public const string BnaClassAttendanceNew = SMSRoutePrefixBase + "bnaClass-attendance"; 
+        public const string BnaExamManagement = SMSRoutePrefixBase + "bnaexam-management"; 
     }
 } 
