@@ -26,17 +26,19 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Quer
             {
                 var traineeNominations = _traineeNominationRepository.FilterWithInclude(x => x.CourseDurationId == request.CourseDurationId , "WithdrawnType", "CourseDuration", "CourseName", "Trainee.Rank", "Trainee.SaylorRank", "ExamCenter").OrderBy(x => x.Trainee.Pno);
 
-                var traineeNominationDtos = _mapper.Map<List<TraineeNominationDto>>(traineeNominations);
-
+                var traineeNominationDtos = _mapper.Map<List<TraineeNominationDto>>(traineeNominations).OrderBy(x => x.TraineeNominationId)
+        .ToList(); // To materialize the query;
+            //    var traineeNominationDtos = _mapper.Map<List<TraineeNominationDto>>(traineeNominations)
                 return traineeNominationDtos;
             }
             else
             {
                 var traineeNominations = _traineeNominationRepository.FilterWithInclude(x => x.CourseDurationId == request.CourseDurationId && x.CourseSectionId == request.CourseSectionId , "WithdrawnType", "CourseDuration", "CourseName", "Trainee.Rank", "Trainee.SaylorRank", "ExamCenter").OrderBy(x => x.Trainee.Pno);
 
-                var traineeNominationDtos = _mapper.Map<List<TraineeNominationDto>>(traineeNominations);
+                var traineeNominationDtos = _mapper.Map<List<TraineeNominationDto>>(traineeNominations).OrderBy(x => x.TraineeNominationId);
 
-                return traineeNominationDtos;
+                return traineeNominationDtos.OrderBy(x => x.TraineeNominationId)
+        .ToList(); ;
             }
             
         }
