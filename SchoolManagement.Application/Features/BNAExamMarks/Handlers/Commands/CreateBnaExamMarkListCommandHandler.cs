@@ -50,7 +50,8 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                     Remarks = BnaExamMarks.Remarks,
                     Status = BnaExamMarks.Status,
                     SubmissionStatus = 1,
-                    IsActive = BnaExamMarks.IsActive,
+                    //IsActive = BnaExamMarks.IsActive,
+                    IsActive = true,
                     CourseSectionId = BnaExamMarks.CourseSectionId,
                     ReExamStatus = BnaExamMarks.ReExamStatus,
                     ObtaintMark = x.ObtaintMark,
@@ -107,7 +108,8 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                     Remarks = BnaExamMarks.Remarks,
                     Status = BnaExamMarks.Status,
                     SubmissionStatus = 1,
-                    IsActive = BnaExamMarks.IsActive,
+                    //IsActive = BnaExamMarks.IsActive,
+                    IsActive=true,
                     CourseSectionId = BnaExamMarks.CourseSectionId,
                     ReExamStatus = BnaExamMarks.ReExamStatus,
                     ObtaintMark = x.ObtaintMark,
@@ -145,7 +147,8 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                     Remarks = BnaExamMarks.Remarks,
                     Status = BnaExamMarks.Status,
                     SubmissionStatus = 0,
-                    IsActive = BnaExamMarks.IsActive,
+                  //  IsActive = BnaExamMarks.IsActive,
+                    IsActive = true,
                     ObtaintMark = x.ObtaintMark,
                     ResultStatus = x.ResultStatus,
                     TraineeId = x.TraineeId,
@@ -177,11 +180,18 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
             //Attendance For Sick
             if (BnaExamMarks.IsAbsent == true)
             {
-                var attendanceStatus = BnaExamMarks.traineeListForm.Select(x => new Attendance()
-                {
-                    AttendanceStatus = x.AttendanceStatus,
-                    AttendanceId = x.AttendanceId.Value
-                }).Where(x => x.AttendanceStatus == false && BnaExamMarks.ReExamStatus == 0);
+                //var attendanceStatus = BnaExamMarks.traineeListForm.Select(x => new Attendance()
+                //{
+                //    AttendanceStatus = x.AttendanceStatus,
+                //    AttendanceId = x.AttendanceId.Value
+                //}).Where(x => x.AttendanceStatus == false && BnaExamMarks.ReExamStatus == 0);
+                var attendanceStatus = BnaExamMarks.traineeListForm
+    .Where(x => x.AttendanceStatus == false && x.AttendanceId != null && BnaExamMarks.ReExamStatus == 0)
+    .Select(x => new Attendance()
+    {
+        AttendanceStatus = x.AttendanceStatus,
+        AttendanceId = x.AttendanceId.Value
+    });
 
                 if (attendanceStatus.Any(x => x.AttendanceStatus == false))
                 {
