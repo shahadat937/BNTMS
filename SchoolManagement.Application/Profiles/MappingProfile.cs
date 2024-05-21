@@ -194,6 +194,8 @@ using SchoolManagement.Application.DTOs.Department;
 using SchoolManagement.Application.DTOs.MarkCategory;
 using SchoolManagement.Application.DTOs.BnaClassPeriod;
 using SchoolManagement.Application.DTOs.BnaClassAttrendance;
+using SchoolManagement.Application.DTOs.CourseLevel;
+using SchoolManagement.Application.DTOs.CourseTerm;
 
 namespace SchoolManagement.Application.Profiles
 {
@@ -1698,6 +1700,17 @@ namespace SchoolManagement.Application.Profiles
             #region BnaClassAttendance Mappings
             CreateMap<Domain.BnaClassAttendance, BnaClassAttendanceDto>().ReverseMap();
             CreateMap<Domain.BnaClassAttendance, CreateBnaClassAttendanceDto>().ReverseMap();
+            #endregion
+
+
+            #region CourseTerm Mappings
+            CreateMap<Domain.CourseTerm, CourseTermDto>().ReverseMap();
+            CreateMap<Domain.CourseTerm, CreateCourseTermDto>().ReverseMap();
+            #endregion
+
+            #region CourseLevel Mappings
+            CreateMap<Domain.CourseLevel, CourseLevelDto>().ReverseMap();
+            CreateMap<Domain.CourseLevel, CreateCourseLevelDto>().ReverseMap();
             #endregion
         }
     }

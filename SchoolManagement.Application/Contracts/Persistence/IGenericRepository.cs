@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolManagement.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -41,5 +43,6 @@ namespace SchoolManagement.Application.Contracts.Persistence
         Task<ICollection<T>> FilterAsync(Expression<Func<T, bool>> predicate);
         Task AddRangeAsync(IEnumerable<T> entities);
         Task RemoveRangeAsync(IEnumerable<T> entities);
+        
     }
 }

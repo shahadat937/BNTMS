@@ -179,6 +179,10 @@ import { NewSaylorBranchComponent } from './saylorbranch/new-saylorbranch/new-sa
 import { WithdrawnTypeListComponent } from './withdrawntype/withdrawntype-list/withdrawntype-list.component';
 import { NewWithdrawnTypeComponent } from './withdrawntype/new-withdrawntype/new-withdrawntype.component';
 
+import { CourseTermComponent } from './course-term/course-term.component';
+import { CourseLevelComponent } from './course-level/course-level.component';
+ 
+
 const routes: Routes = [
   {
     path: '',
@@ -1233,6 +1237,22 @@ const routes: Routes = [
   },
   { path: 'update-coursesection/:courseSectionId', 
   component: NewCourseSectionComponent, 
+  },
+
+  {
+    path: 'add-courseTerm',
+    component: CourseTermComponent,
+  },
+  { path: 'update-courseTerm/:courseTermId', 
+  component: CourseTermComponent, 
+  },
+
+  {
+    path: 'add-courseLevel',
+    component: CourseLevelComponent,
+  },
+  { path: 'update-courseLevel/:courseLevelId', 
+  component: CourseLevelComponent, 
   },
   
   { path: '**', component: Page404Component },

@@ -4,7 +4,7 @@ import { MistListComponent } from './mist/mist-list/mist-list.component';
 import { NewMistComponent } from './mist/new-mist/new-mist.component';
 import { TraineeNominationListComponent } from './traineenomination/traineenomination-list/traineenomination-list.component';
 import { NewTraineeNominationComponent } from './traineenomination/new-traineenomination/new-traineenomination.component';
-
+import { ExamResultComponent } from './exam-result/exam-result.component';
 
 
 
@@ -39,6 +39,14 @@ const routes: Routes = [
   },
   { path: 'add-traineenomination/:courseDurationId',   
   component: NewTraineeNominationComponent, 
+  },
+
+
+  { path: 'update-ExamResult/:traineeNominationId',  
+  component: ExamResultComponent, 
+  },
+  { path: 'add-ExamResult',   
+  component: ExamResultComponent, 
   },
 
   // {

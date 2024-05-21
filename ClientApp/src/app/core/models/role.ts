@@ -20,6 +20,7 @@ export enum Role {
   AreaCommander = 'Area Commander',
   Director ='Director',
   TCO ='TCO',
+  MIST ='MIST',
   OICNBCDSchool='OIC NBCD School',
   OICNETSchool='OIC NET School'
 }

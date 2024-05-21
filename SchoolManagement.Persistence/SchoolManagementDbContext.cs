@@ -3581,6 +3581,8 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<BnaClassRoutine> BnaClassRoutine { get; set; } = null!;
         public virtual DbSet<BnaClassPeriod> BnaClassPeriod { get; set; } = null!;
         public virtual DbSet<BnaClassAttendance> BnaClassAttendance { get; set; } = null!;
+        public virtual DbSet<CourseLevel> CourseLevel { get; set; } = null!;
+        public virtual DbSet<CourseTerm> CourseTerm { get; set; } = null!;
 
     }
 }
