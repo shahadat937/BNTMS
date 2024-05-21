@@ -207,7 +207,7 @@ const routes: Routes = [
         path: 'mist-course',
         canActivate: [AuthGuard],
         data: {
-          role: [Role.MasterAdmin,Role.DDNT],
+          role: [Role.MasterAdmin,Role.DDNT,Role.MIST],
         },
         loadChildren: () =>
           import('./mist-course/mist-course.module').then((m) => m.MISTCourseModule),
@@ -312,7 +312,7 @@ const routes: Routes = [
         path: 'routine-management',
         canActivate: [AuthGuard],
         data: {
-          role: [Role.MasterAdmin,Role.SuperAdmin,Role.BNASchool, Role.JSTISchool,Role.SchoolOIC,Role.TrainingOffice,Role.DataEntry, Role.BNA,Role.DDNT],
+          role: [Role.MIST,Role.MasterAdmin,Role.SuperAdmin,Role.BNASchool, Role.JSTISchool,Role.SchoolOIC,Role.TrainingOffice,Role.DataEntry, Role.BNA,Role.DDNT],
         },
         loadChildren: () =>
           import('./routine-management/routine-management.module').then((m) => m.RoutineManagementModule),
@@ -335,7 +335,7 @@ const routes: Routes = [
         path: 'admin',
         canActivate: [AuthGuard],
         data: {
-          role: [Role.Director,Role.MasterAdmin, Role.DDNT, Role.SuperAdmin,Role.BNASchool, Role.JSTISchool, Role.DataEntry, Role.TrainingOffice,Role.SchoolOIC, Role.Instructor, Role.Student, Role.InterSeeviceCourse, Role.InterSeeviceDesk, Role.BNA,Role.ForeignTraining,Role.TC,Role.CO,Role.AreaCommander,Role.TCO,Role.OICNBCDSchool,Role.OICNETSchool,Role.BnaDataEntry]
+          role: [Role.MIST, Role.Director,Role.MasterAdmin, Role.DDNT, Role.SuperAdmin,Role.BNASchool, Role.JSTISchool, Role.DataEntry, Role.TrainingOffice,Role.SchoolOIC, Role.Instructor, Role.Student, Role.InterSeeviceCourse, Role.InterSeeviceDesk, Role.BNA,Role.ForeignTraining,Role.TC,Role.CO,Role.AreaCommander,Role.TCO,Role.OICNBCDSchool,Role.OICNETSchool,Role.BnaDataEntry]
         },
         loadChildren: () =>
           import('./admin/admin.module').then((m) => m.AdminModule),
@@ -382,7 +382,7 @@ const routes: Routes = [
         path: 'password',
         canActivate: [AuthGuard],
         data: {
-          role: [Role.Director,Role.MasterAdmin, Role.SuperAdmin,Role.BNASchool, Role.JSTISchool, Role.SchoolOIC,Role.OICNBCDSchool,Role.OICNETSchool,Role.TrainingOffice,Role.DDNT,Role.CO,Role.TC,Role.AreaCommander,Role.TCO],
+          role: [Role.MIST,Role.Director,Role.MasterAdmin, Role.SuperAdmin,Role.BNASchool, Role.JSTISchool, Role.SchoolOIC,Role.OICNBCDSchool,Role.OICNETSchool,Role.TrainingOffice,Role.DDNT,Role.CO,Role.TC,Role.AreaCommander,Role.TCO],
         },
         loadChildren: () =>
           import('./password/password.module').then((m) => m.PasswordModule),

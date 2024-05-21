@@ -46,7 +46,11 @@ export class BaseSchoolNameService {
     return this.http.get<SelectedModel[]>(this.baseUrl + '/base-name/get-selectedBases')
   }
 
-  
+  getselectedSchools(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/base-School-name/get-selectedSchools')
+  }
+
+ 
    
 
   update(id: number,model: any) {

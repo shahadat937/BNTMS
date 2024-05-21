@@ -19,6 +19,7 @@ import { MistListComponent } from './mist/mist-list/mist-list.component';
 import { NewMistComponent } from './mist/new-mist/new-mist.component';
 import { TraineeNominationListComponent } from './traineenomination/traineenomination-list/traineenomination-list.component';
 import { NewTraineeNominationComponent } from './traineenomination/new-traineenomination/new-traineenomination.component';
+import { ExamResultComponent } from './exam-result/exam-result.component';
 
 // import { BnaClassTestListComponent } from './bnaclasstest/bnaclasstest-list/bnaclasstest-list.component';
 // import { NewBnaClassTestComponent } from './bnaclasstest/new-bnaclasstest/new-bnaclasstest.component';
@@ -29,6 +30,7 @@ import { NewTraineeNominationComponent } from './traineenomination/new-traineeno
     NewMistComponent,
     TraineeNominationListComponent,
     NewTraineeNominationComponent,
+    ExamResultComponent,
   ],
   imports: [
     CommonModule,

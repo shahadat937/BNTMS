@@ -195,7 +195,9 @@ import { SaylorBranchListComponent } from './saylorbranch/saylorbranch-list/sayl
 import { NewSaylorBranchComponent } from './saylorbranch/new-saylorbranch/new-saylorbranch.component';
 import { WithdrawnTypeListComponent } from './withdrawntype/withdrawntype-list/withdrawntype-list.component';
 import { NewWithdrawnTypeComponent } from './withdrawntype/new-withdrawntype/new-withdrawntype.component';
-
+import { CourseTermComponent } from './course-term/course-term.component';
+import { CourseLevelComponent } from './course-level/course-level.component';
+ 
 
 @NgModule({
   declarations: [
@@ -375,6 +377,8 @@ import { NewWithdrawnTypeComponent } from './withdrawntype/new-withdrawntype/new
     NewSaylorRankComponent,
     SaylorBranchListComponent,
     NewSaylorBranchComponent,
+    CourseTermComponent,
+    CourseLevelComponent, 
 
 
   ],

@@ -103,7 +103,7 @@ export class SigninComponent
               const traineeId =  this.authService.currentUserValue.traineeId.trim();
               const branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
 
-              
+
 
                 if (role === Role.All || role === Role.MasterAdmin) {
                   this.router.navigate(['/admin/dashboard/main']);
@@ -116,9 +116,14 @@ export class SigninComponent
                 } else if (role === Role.DataEntry) {
                   this.router.navigate(['/admin/dashboard/school-dashboard']);
                 }
+                else if (role === Role.MIST  ) {
+                  
+                  this.router.navigate(['/admin/dashboard/school-dashboard']);
+                }  
                 else if (role === Role.BnaDataEntry) {
                   this.router.navigate(['/admin/dashboard/school-dashboard']);
                 }  
+
                 else if (role === Role.Instructor) {
                   this.router.navigate(['/admin/dashboard/instructor-dashboard']);
                 } else if (role === Role.Student) {
