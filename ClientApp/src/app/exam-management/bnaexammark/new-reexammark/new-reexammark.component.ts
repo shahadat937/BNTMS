@@ -416,7 +416,9 @@ export class NewReExamMarkComponent implements OnInit {
       })
     } else {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+     //   console.log(result)
         if (result) {
+          console.log('ban form value',this.BNAExamMarkForm.value)
           this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
             //this.router.navigateByUrl('/exam-management/bnaexammark-list');
             this.reloadCurrentRoute();

@@ -85,6 +85,7 @@ export class NewReExamComponent implements OnInit {
       this.buttonText = "Update"
       this.BNAExamMarkService.find(+id).subscribe(
         res => {
+          console.log(res)
           this.BNAExamMarkForm.patchValue({
             bnaExamMarkId: res.bnaExamMarkId,
             bnaExamScheduleId: res.bnaExamScheduleId,
