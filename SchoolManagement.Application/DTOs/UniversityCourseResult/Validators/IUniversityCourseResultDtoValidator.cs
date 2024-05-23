@@ -9,8 +9,8 @@ namespace SchoolManagement.Application.DTOs.UniversityCourseResult.Validators
     {
         public IUniversityCourseResultDtoValidator()
         { 
-            RuleFor(p => p.AchievedTotalCredit)
-                .NotEmpty().WithMessage("{PropertyName} is required.");
+            //RuleFor(p => p.AchievedTotalCredit)
+            //    .NotEmpty().WithMessage("{PropertyName} is required.");
 
             
         }

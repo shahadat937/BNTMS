@@ -1,3 +1,4 @@
+import { TraineeListForMIST } from './../../attendance-management/models/trainee-list-for-mist';
 import { Component, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -36,8 +37,8 @@ export class ExamResultComponent implements OnInit {
   SelectedCourseTerm:SelectedModel[];
   selectedCourseduration:SelectedModel[];
   TraineeNominations: TraineeNomination[] = [];
-
-
+  traineeNominationListForMIST:TraineeNomination[];
+  isShown: boolean = false ;
 
   masterData = MasterData;
   isLoading = false;
@@ -53,7 +54,16 @@ export class ExamResultComponent implements OnInit {
   dataSource: MatTableDataSource<ExamResult> = new MatTableDataSource();
 
 
-  constructor(private TraineeNominationService:TraineeNominationService, private examResultService : ExamResultService, private baseSchoolNameService: BaseSchoolNameService , private CourseLevelService: CourseLevelService,private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseTermService: CourseTermService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(
+      private TraineeNominationService:TraineeNominationService, 
+      private examResultService : ExamResultService,
+      private baseSchoolNameService: BaseSchoolNameService ,
+      private CourseLevelService: CourseLevelService,
+      private snackBar: MatSnackBar,
+      private confirmService: ConfirmService,
+      private CourseTermService: CourseTermService,
+      private fb: FormBuilder, private router: Router, 
+      private route: ActivatedRoute) { }
 
   ngOnInit(): void {
    
@@ -80,12 +90,45 @@ export class ExamResultComponent implements OnInit {
       achievedTotalCredit: [],
       achievedGPA :[],
       remark:[],
+      traineeListForm: this.fb.array([
+        this.createTraineeData()
+      ]),
       //menuPosition: ['', Validators.required],
       isActive: [true]
     })
   }
   
-
+  private createTraineeData() {
+ 
+    return this.fb.group({
+    //   courseNameId: [],
+    //   status: [],
+    //  traineePNo:[],
+    //   traineeId: [],
+    //  traineeName:[],
+    //  rankPosition:[],
+    //  isNotify:[''],
+    //   noticeDetails: [],
+    //  examMarkRemarksId:[]
+    baseSchoolNameId: [],
+    completeClass: [],
+    course:[],
+    courseDurationId:[],
+    courseTitle:[],
+    name:[],
+    percentage:[],
+    pno:[],
+    position:[],
+    totalClass:[],
+    traineeAttendance:[],
+    traineeId:[],
+    traineeNominationId:[],
+    achievedTotalCredit:[],
+    totalCredit:[],
+    achievedGPA:[],
+    remark:[]
+    });
+  }
   getSelectedCourseduration(id){
     console.log('Course Duration ' + id);
     this.examResultService.GetCourseDuration(id).subscribe(res=>{
@@ -105,9 +148,12 @@ export class ExamResultComponent implements OnInit {
       var courseNameArr = dropdown.source.value.value.split('_');
       var courseDurationId = courseNameArr[0]; 
       var courseNameId = courseNameArr[1];
-      this.TraineeNominationService.findByCourseDuration(+courseDurationId).subscribe(response => {
-      this.traineeList=response;
-      console.log(this.traineeList)
+      this.TraineeNominationService.findByCourseDurationForMIST(+courseDurationId).subscribe(response => {
+      this.traineeNominationListForMIST=response;
+      console.log(this.traineeNominationListForMIST);
+      this.isShown=true;
+      this.clearList()
+      this.getTraineeListonClick()
        });
 
       //this.CourseInstructorForm.get('courseName').setValue(dropdown.text);
@@ -120,7 +166,23 @@ export class ExamResultComponent implements OnInit {
   }
 
 
-
+  getTraineeListonClick(){ 
+    const control = <FormArray>this.ExamResultForm.controls["traineeListForm"];
+    for (let i = 0; i < this.traineeNominationListForMIST.length; i++) {
+      control.push(this.createTraineeData()); 
+    }
+    this.ExamResultForm.patchValue({ traineeListForm: this.traineeNominationListForMIST });
+   }
+   getControlLabel(index: number,type: string){
+    return  (this.ExamResultForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+   }
+   clearList() {
+    const control = <FormArray>this.ExamResultForm.controls["traineeListForm"];
+    while (control.length) {
+      control.removeAt(control.length - 1);
+    }
+    control.clearValidators();
+  }
   getSelectedCourseTerm (){
     this.CourseTermService.getselectedCourseTerm().subscribe(res=>{
       this.SelectedCourseTerm=res
@@ -166,7 +228,7 @@ export class ExamResultComponent implements OnInit {
   onSubmit() {
     const id = this.ExamResultForm.get('courseTermId').value;   
 
-    if (id) {
+   /* if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
@@ -185,8 +247,9 @@ export class ExamResultComponent implements OnInit {
       })
     } 
 
- else {
+ else {*/
   this.loading=true;
+console.log('Submit Value',this.ExamResultForm.value)
       this.examResultService.submit(this.ExamResultForm.value).subscribe(response => {
         this.router.navigateByUrl('/basic-setup/add-courseTerm');
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -198,7 +261,7 @@ export class ExamResultComponent implements OnInit {
       }, error => {
         this.validationErrors = error;
       })
-    }
+    
  
   }
 

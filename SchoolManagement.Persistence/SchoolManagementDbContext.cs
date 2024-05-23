@@ -3584,6 +3584,8 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<CourseLevel> CourseLevel { get; set; } = null!;
         public virtual DbSet<CourseTerm> CourseTerm { get; set; } = null!;
 
+        public DbSet<UniversityCourseResult> UniversityCourseResult { get; set; } = null!;
+
     }
 }
  

@@ -18,14 +18,7 @@ namespace SchoolManagement.Application.DTOs.UniversityCourseResult
         public int? CourseLevelId { get; set; }
 
         public int? BaseSchoolNameId { get; set; }
-        public int? TotalCredit { get; set; }
-        public int? TotalMark { get; set; }
-        public int? GPA { get; set; }
-        public int? AchievedTotalCredit { get; set; }
-        public int? AchievedTotalMark { get; set; }
-        public int? AchievedGPA { get; set; }
-
-        public string Remark { get; set; }
+     
 
         public int? Status { get; set; }
 

@@ -196,6 +196,7 @@ using SchoolManagement.Application.DTOs.BnaClassPeriod;
 using SchoolManagement.Application.DTOs.BnaClassAttrendance;
 using SchoolManagement.Application.DTOs.CourseLevel;
 using SchoolManagement.Application.DTOs.CourseTerm;
+using SchoolManagement.Application.DTOs.UniversityCourseResult;
 
 namespace SchoolManagement.Application.Profiles
 {
@@ -1712,6 +1713,12 @@ namespace SchoolManagement.Application.Profiles
             CreateMap<Domain.CourseLevel, CourseLevelDto>().ReverseMap();
             CreateMap<Domain.CourseLevel, CreateCourseLevelDto>().ReverseMap();
             #endregion
+
+
+            CreateMap<UniversityCourseResult, UniversityCourseResultDto>().ReverseMap();
+
+            CreateMap<UniversityCourseResult, CreateUniversityCourseResultDto>().ReverseMap();
+
         }
     }
 

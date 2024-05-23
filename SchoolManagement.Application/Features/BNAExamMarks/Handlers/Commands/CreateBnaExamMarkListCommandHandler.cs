@@ -50,15 +50,17 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                     Remarks = BnaExamMarks.Remarks,
                     Status = BnaExamMarks.Status,
                     SubmissionStatus = 1,
-                    //IsActive = BnaExamMarks.IsActive,
-                    IsActive = true,
+                    IsActive = BnaExamMarks.IsActive,                   
                     CourseSectionId = BnaExamMarks.CourseSectionId,
                     ReExamStatus = BnaExamMarks.ReExamStatus,
                     ObtaintMark = x.ObtaintMark,
                     ResultStatus = x.ResultStatus,
                     TraineeId = x.TraineeId,
                     ExamMarkRemarksId = x.ExamMarkRemarksId,
+
+
                 });
+
 
                 await _unitOfWork.Repository<BnaExamMark>().AddRangeAsync(bnaExamMarkList);
                 await _unitOfWork.Save();
@@ -108,8 +110,7 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                     Remarks = BnaExamMarks.Remarks,
                     Status = BnaExamMarks.Status,
                     SubmissionStatus = 1,
-                    //IsActive = BnaExamMarks.IsActive,
-                    IsActive=true,
+                    IsActive = BnaExamMarks.IsActive,
                     CourseSectionId = BnaExamMarks.CourseSectionId,
                     ReExamStatus = BnaExamMarks.ReExamStatus,
                     ObtaintMark = x.ObtaintMark,
@@ -147,8 +148,7 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                     Remarks = BnaExamMarks.Remarks,
                     Status = BnaExamMarks.Status,
                     SubmissionStatus = 0,
-                  //  IsActive = BnaExamMarks.IsActive,
-                    IsActive = true,
+                   IsActive = BnaExamMarks.IsActive,
                     ObtaintMark = x.ObtaintMark,
                     ResultStatus = x.ResultStatus,
                     TraineeId = x.TraineeId,
@@ -186,7 +186,7 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                 //    AttendanceId = x.AttendanceId.Value
                 //}).Where(x => x.AttendanceStatus == false && BnaExamMarks.ReExamStatus == 0);
                 var attendanceStatus = BnaExamMarks.traineeListForm
-    .Where(x => x.AttendanceStatus == false && x.AttendanceId != null && BnaExamMarks.ReExamStatus == 0)
+    .Where(x => x.AttendanceStatus == false && x.AttendanceId != null && BnaExamMarks.ReExamStatus == 0 && (BnaExamMarks.ObtaintMark == 0 || BnaExamMarks.ObtaintMark == null))
     .Select(x => new Attendance()
     {
         AttendanceStatus = x.AttendanceStatus,
@@ -204,6 +204,7 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                         await _unitOfWork.Repository<Attendance>().Update(attendance);
                         await _unitOfWork.Save();
                     }
+                  
                 }
             }
             //routines.ExamMarkComplete = 1;

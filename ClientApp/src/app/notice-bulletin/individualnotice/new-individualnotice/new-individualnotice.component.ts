@@ -177,6 +177,7 @@ export class IndividualNoticeComponent implements OnInit {
   this.courseName=dropdown.text;
 
   this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
+    console.log(res)
     this.traineeNominationListForNotice=res; 
 
     for(let i=0;i < this.traineeNominationListForNotice.length;i++ ){
@@ -279,9 +280,10 @@ stopNotices(element){
 
   onSubmit() {
     const id = this.NoticeForm.get('noticeId').value;
-    //this.NoticeForm.value.filter(x=>x.isNotify==true)
-  //  this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
-   // console.lo
+   // console.log('this.NoticeForm.value',this.NoticeForm.value)
+    this.NoticeForm.value.filter(x=>x.isNotify==true)
+   this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
+
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
