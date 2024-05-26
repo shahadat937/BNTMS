@@ -62,15 +62,13 @@ namespace SchoolManagement.Application.Features.UniversityCourseResults.Handlers
                 var examResultList = request.UniversityCourseResultDto;
                 var examResult = examResultList.TraineeListForm.Select(x => new UniversityCourseResult()
                 {
-                    CourseDurationId = examResultList.CourseDurationId,
-                    BaseSchoolNameId = examResultList.BaseSchoolNameId,
-                    CourseNomineeId = examResultList.CourseNomineeId,
-                    TraineeNominationId = examResultList.TraineeNominationId,
-                    TraineeId = examResultList.TraineeId,
-                    AchievedGPA = x.AchievedGPA,
-                    TotalCredit = x.TotalCredit,
-                    TotalMark = x.TotalMark,
-                    AchievedTotalCredit = x.AchievedTotalCredit,
+                    CourseDurationId = x.CourseDurationId,
+                    BaseSchoolNameId = x.BaseSchoolNameId,
+                    TraineeId = x.TraineeId,
+                    CourseInstructorId=0
+                    
+                //    CourseNomineeId = examResultList.CourseNomineeId,
+                  
                 }).ToList();
 
                 await _unitOfWork.Repository<UniversityCourseResult>().AddRangeAsync(examResult);
