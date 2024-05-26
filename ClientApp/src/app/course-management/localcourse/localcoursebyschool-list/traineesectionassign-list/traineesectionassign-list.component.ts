@@ -160,7 +160,7 @@ export class TraineeSectionAssignListComponent implements OnInit {
   onCourseSectionForTraineeList(courseDurationId){
     this.traineeNominationService.getTestTraineeNominationByCourseDurationId(courseDurationId,0).subscribe(res => {
       this.traineeList = res.filter(x=>x.withdrawnTypeId === null);
-      this.clearList();
+
       this.getTraineeListonClick();
     });
   }
@@ -169,7 +169,7 @@ export class TraineeSectionAssignListComponent implements OnInit {
   onSubmit() {
 
     //  const id = this.AttendanceForm.get('traineeNominationId').value;
-
+console.log(this.AttendanceForm.value)
     
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
       if (result) {

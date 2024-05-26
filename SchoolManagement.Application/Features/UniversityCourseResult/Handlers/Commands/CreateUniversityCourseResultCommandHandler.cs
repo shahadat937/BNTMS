@@ -65,7 +65,7 @@ namespace SchoolManagement.Application.Features.UniversityCourseResults.Handlers
                     CourseDurationId = x.CourseDurationId,
                     BaseSchoolNameId = x.BaseSchoolNameId,
                     TraineeId = x.TraineeId,
-                    CourseInstructorId=0
+                   // CourseInstructorId=0
                     
                 //    CourseNomineeId = examResultList.CourseNomineeId,
                   

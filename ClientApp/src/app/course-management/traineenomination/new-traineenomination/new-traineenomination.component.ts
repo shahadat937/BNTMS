@@ -74,7 +74,7 @@ export class NewTraineeNominationComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('traineeNominationId');  
     // this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');  
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-
+    console.log( 'this.courseDurationId ',this.courseDurationId);
     this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
       this.courseNameId = res.courseNameId;
       this.schoolName = res.baseSchoolName;
@@ -183,6 +183,7 @@ export class NewTraineeNominationComponent implements OnInit {
 //autocomplete
 getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   this.TraineeNominationService.getSelectedTraineeByparameterRequest(pno,courseDurationId,courseNameId).subscribe(response => {
+
     this.options = response;
     this.filteredOptions = response;
   })
@@ -222,6 +223,8 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       this.TraineeNominationForm.get('saylorBranchId').setValue(res.saylorBranchId);
       this.TraineeNominationForm.get('saylorSubBranchId').setValue(res.saylorSubBranchId);
       this.TraineeNominationForm.get('branchId').setValue(res.branchId);
+      this.TraineeNominationForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.TraineeNominationForm.get('courseNameId').setValue(this.courseNameId);
       
     });
   }
@@ -243,6 +246,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
   onSubmit() {
     const id = this.TraineeNominationForm.get('traineeNominationId').value;   
+    console.log('traineeNominationId',id)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
@@ -264,8 +268,10 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
           })
         }
       })
-    }else {
+    }
+    else {
       this.loading = true;
+      console.log('TraineeNominationForm value',this.TraineeNominationForm.value)
       this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         // this.router.navigateByUrl('/course-management/traineenomination-list/'+this.courseDurationId);
         this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
@@ -291,8 +297,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       this.isLoading = false;
     })
 
-    this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
+    this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {    
       this.nominatedPercentageList=response;
+      console.log(this.nominatedPercentageList)
     });
   }
 
