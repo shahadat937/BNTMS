@@ -18,17 +18,17 @@
         </div>
       </div>
     </div>
-    <div class="row clearfix">
+    <div  class="row clearfix">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
           </div>
-          <div class="body">
+          <div  class="body">
             <form class="m-4" [formGroup]="AttendanceForm" (ngSubmit)="onSubmit()">
               <div class="row">
                 </div>
                    <!-- Basic Table -->
-                   <div class="row clearfix">
+                   <div  class="row clearfix">
                     <!-- <h3 class="text-center table-title">Trainee List</h3> -->
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0 ex-mrk-entry-li">
                       <div class="card">
@@ -45,7 +45,7 @@
                                 <th class="cl-mrk"><h5>Certificate Serial No</h5></th>
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody >
                               <tr *ngFor="let unit of AttendanceForm.get('traineeListForm')['controls']; let i = index" [formGroup]="unit">
                                 <th class="cl-srl" scope="row">{{i+1}}</th>
   
@@ -64,7 +64,7 @@
                                 
                                 <td class="cl-mrk">
                                   <mat-form-field class="example-full-width mb-3" appearance="outline">
-                                    <mat-select formControlName="courseSectionId">
+                                    <mat-select formControlName="courseSectionId"   (selectionChange)="onChangeourseSection(unit.value.courseSectionId)">
                                       <mat-option  value="">--Select--</mat-option >
                                       <mat-option *ngFor="let dropdown of courseSectionList" [value]="dropdown.value">
                                         {{dropdown.text}} 
@@ -74,7 +74,8 @@
                                 </td>
                                 <td class="cl-mrk">
                                   <mat-form-field class="example-full-width mb-3" appearance="outline">
-                                    <input matInput formControlName="certificateSerialNo" >                                              
+                                    <input matInput formControlName="certificateSerialNo" 
+                                    (change)="onChangeCertificateSerialNo(unit.value.certificateSerialNo)" >                                              
                                   </mat-form-field>
                                 </td>
                                 
