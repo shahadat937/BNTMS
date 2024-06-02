@@ -74,8 +74,17 @@ public class CourseTermController : ControllerBase
     [Route("get-selectedCourseTerms")]
     public async Task<ActionResult<List<SelectedModel>>> GetSelectedCourseTerm()
     {
-        var bloodgroup = await _mediator.Send(new GetSelectedCourseTermRequest { });
-        return Ok(bloodgroup);
+        var courseTerm = await _mediator.Send(new GetSelectedCourseTermRequest { });
+        return Ok(courseTerm);
+    }
+
+    [HttpGet]
+    [Route("get-selectedCourseTermsByCourseLevel/{id}")]
+    public async Task<ActionResult<List<SelectedModel>>> GetSelectedCourseTermByCourseLevel(int id)
+    {
+        var courseTerm = await _mediator.Send(new GetSelectedCourseTermByLevelRequest { CourseLevelId=id });
+        return Ok(courseTerm);
     }
 }
+
 

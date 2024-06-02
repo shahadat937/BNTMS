@@ -56,9 +56,21 @@ const routes: Routes = [
         path: 'notice-bulletin',
         canActivate: [AuthGuard],
         data: {
-          // role: [Role.Director,Role.MasterAdmin,Role.SuperAdmin,Role.DataEntry,Role.DDNT, Role.InterSeeviceCourse,Role.InterSeeviceDesk],
-
-          role: [Role.Director,Role.MasterAdmin,Role.SuperAdmin, Role.BNASchool, Role.JSTISchool, Role.CO,Role.SchoolOIC,Role.TC,Role.TCO,Role.DataEntry,Role.DDNT, Role.InterSeeviceCourse,Role.InterSeeviceDesk],
+          role: [
+            Role.Director,
+            Role.MasterAdmin,
+            Role.SuperAdmin, 
+            Role.BNASchool, 
+            Role.JSTISchool,
+            Role.CO,
+            Role.SchoolOIC,
+            Role.TC,
+            Role.TCO,
+            Role.DataEntry,
+            Role.DDNT,
+            Role.InterSeeviceCourse,
+            Role.InterSeeviceDesk
+          ],
 
         },
         loadChildren: () =>

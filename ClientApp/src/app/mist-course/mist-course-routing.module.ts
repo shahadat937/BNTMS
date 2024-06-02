@@ -5,6 +5,8 @@ import { NewMistComponent } from './mist/new-mist/new-mist.component';
 import { TraineeNominationListComponent } from './traineenomination/traineenomination-list/traineenomination-list.component';
 import { NewTraineeNominationComponent } from './traineenomination/new-traineenomination/new-traineenomination.component';
 import { ExamResultComponent } from './exam-result/exam-result.component';
+import { ExamResultNomeneeListComponent } from './exam-result-nomenee-list/exam-result-nomenee-list.component';
+
 
 
 
@@ -48,6 +50,11 @@ const routes: Routes = [
   { path: 'add-ExamResult',   
   component: ExamResultComponent, 
   },
+
+  { path: 'exam-result-nomenee-list',  
+  component: ExamResultNomeneeListComponent, 
+  },
+  
 
   // {
   //   path: 'bnaclasstest-list', 

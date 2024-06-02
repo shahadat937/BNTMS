@@ -23,10 +23,13 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Queries
         public async Task<object> Handle(GetTraineeMarkListByDurationSpRequest request, CancellationToken cancellationToken)
         {
 
+
             var spQuery = String.Format("exec [spGetTraineeMarkListFull] {0}", request.CourseDurationId);
 
             DataTable dataTable = _BnaExamMarkRepository.ExecWithSqlQuery(spQuery);
             return dataTable;
+
+         
         }
     }
 }

@@ -53,7 +53,15 @@ export class MarkListByCourseComponent implements OnInit {
    selection = new SelectionModel<BNASubjectName>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private baseSchoolNameService: BaseSchoolNameService,private authService: AuthService,private courseDurationService: CourseDurationService,private BNAExamMarkService: BNAExamMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private baseSchoolNameService: BaseSchoolNameService,
+    private authService: AuthService,
+    private courseDurationService: CourseDurationService,
+    private BNAExamMarkService: BNAExamMarkService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
@@ -61,6 +69,7 @@ export class MarkListByCourseComponent implements OnInit {
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
 
     this.baseSchoolNameService.find(this.branchId).subscribe(res=>{
+      console.log(res)
       this.schoolName = res.schoolName;
     });
 
@@ -190,6 +199,7 @@ export class MarkListByCourseComponent implements OnInit {
     }else{
       this.title = "Course Subject";
       this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res=>{
+        console.log('marklistbycourse',res)
         this.marklistbycourse=res;   
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
       });

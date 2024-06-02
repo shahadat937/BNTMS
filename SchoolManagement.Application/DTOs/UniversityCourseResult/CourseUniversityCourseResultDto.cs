@@ -8,7 +8,7 @@
 
         public int TraineeId { get; set; }
 
-        public int? CourseNomineeId { get; set; }
+        public int? CourseNomeneeId { get; set; }
 
         public int? TraineeNominationId { get; set; }
 

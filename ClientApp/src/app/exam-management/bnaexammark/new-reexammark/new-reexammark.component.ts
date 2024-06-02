@@ -70,7 +70,22 @@ export class NewReExamMarkComponent implements OnInit {
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
 
-  constructor(private snackBar: MatSnackBar, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private subjectMarkService: SubjectMarkService,
+    private authService: AuthService, 
+    private markTypeService: MarkTypeService, 
+    private traineeNominationService: TraineeNominationService,
+    private confirmService: ConfirmService, 
+    private CodeValueService: CodeValueService,
+    private BNAExamMarkService: BNAExamMarkService, 
+    private fb: FormBuilder,
+    private router: Router, 
+    private route: ActivatedRoute
+  )
+  { 
+
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();
@@ -163,6 +178,7 @@ export class NewReExamMarkComponent implements OnInit {
     })
   }
   getControlLabel(index: number, type: string) {
+   // console.log((this.BNAExamMarkForm.get('traineeListForm')as FormArray).at(index).get(type).value )
     return (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get(type).value;
   }
   private createTraineeData() {
@@ -282,18 +298,12 @@ export class NewReExamMarkComponent implements OnInit {
   }
 
   onSubjectNameSelectionChangeGetTotalMarkAndPassMark(dropdown) {
-
     if (dropdown.isUserInput) {
-
       this.isShown = true;
       var subjectArr = dropdown.source.value.value.split('_');
-      
-      
-
       var baseSchoolNameId = this.BNAExamMarkForm.value['baseSchoolNameId'];
       var courseNameId = this.BNAExamMarkForm.value['courseNameId'];
-      var courseDurationId = this.BNAExamMarkForm.value['courseDurationId'];
-      
+      var courseDurationId = this.BNAExamMarkForm.value['courseDurationId']; 
       this.bnaSubjectNameId = subjectArr[0];
       var courseModuleId = subjectArr[1];
       var classRoutineId = subjectArr[2];
@@ -301,16 +311,18 @@ export class NewReExamMarkComponent implements OnInit {
       var SubjectMarkId = subjectArr[4];
       var markTypeId = subjectArr[5];
       this.markType=markTypeId
-      
       this.BNAExamMarkForm.get('bnaSubjectName').setValue(dropdown.text);
       this.BNAExamMarkForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId);
       this.BNAExamMarkForm.get('classRoutineId').setValue(classRoutineId);
       this.BNAExamMarkForm.get('SubjectMarkId').setValue(SubjectMarkId);
       this.BNAExamMarkForm.get('examTypeCount').setValue(1);
       
-      this.getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,courseNameId,this.bnaSubjectNameId,classRoutineId);
-      this.BNAExamMarkService.GetSubjectMarkByBaseSchoolNameIdCourseNameAndSubjectNameId(baseSchoolNameId, courseNameId, this.bnaSubjectNameId).subscribe(res => {
+      this.getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,
+        courseNameId,this.bnaSubjectNameId,classRoutineId);
+      this.BNAExamMarkService.GetSubjectMarkByBaseSchoolNameIdCourseNameAndSubjectNameId(baseSchoolNameId, courseNameId, 
+        this.bnaSubjectNameId).subscribe(res => {
         this.subjectMarkList = res;
+        console.log(this.subjectMarkList)
       });
 
       this.markTypeService.find(markTypeId).subscribe(res => {
@@ -335,7 +347,7 @@ export class NewReExamMarkComponent implements OnInit {
 
 
       this.BNAExamMarkService.GetTotalMarkAndPassMarkByBaseSchoolIdCourseIdAndSubjectId(baseSchoolNameId, courseNameId, this.bnaSubjectNameId).subscribe(res => {
-
+   console.log()
         this.getTotalMarkAndPassMark = res;
         this.totalMark = res[0].totalMark;
         this.passMarkBna = res[0].passMarkBNA;
@@ -365,6 +377,7 @@ export class NewReExamMarkComponent implements OnInit {
 
   getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,courseNameId,subjectNameId,classRoutineId){
     this.traineeNominationService.getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,0,baseSchoolNameId,courseNameId,subjectNameId,classRoutineId).subscribe(res => {
+      console.log(res)
       this.traineeList = res.filter(x=>x.withdrawnTypeId == null);
       this.clearList()
       this.getTraineeListonClick();

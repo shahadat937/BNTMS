@@ -9,7 +9,7 @@ namespace SchoolManagement.Application.DTOs.UniversityCourseResult
 
         public int TraineeId { get; set; }
 
-        public int? CourseNomineeId { get; set; }
+        public int? CourseNomeneeId { get; set; }
 
         public int? TraineeNominationId { get; set; }
 
@@ -26,6 +26,7 @@ namespace SchoolManagement.Application.DTOs.UniversityCourseResult
         public double? AchievedGPA { get; set; }
 
         public string Remark { get; set; }
+     
 
         public int? Status { get; set; }
 

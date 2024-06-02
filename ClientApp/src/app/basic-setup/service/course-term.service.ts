@@ -41,6 +41,11 @@ export class CourseTermService {
   }
    
    
+  getselectedCourseTermByCourseLevel(id: number){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/CourseTerm/get-selectedCourseTermsByCourseLevel/' + id)
+  }
+   
+   
 
   find(id: number) {
     return this.http.get<CourseTerm>(this.baseUrl + '/CourseTerm/get-courseTermDetail/' + id);

@@ -1,4 +1,5 @@
-﻿using SchoolManagement.Application.DTOs.UniversityCourseResult;
+﻿using SchoolManagement.Application.DTOs.IndividualNotices;
+using SchoolManagement.Application.DTOs.UniversityCourseResult;
 using System;
 
 namespace SchoolManagement.Application.DTOs.UniversityCourseResult
@@ -13,7 +14,7 @@ namespace SchoolManagement.Application.DTOs.UniversityCourseResult
 
         public int TraineeId { get; set; }
 
-        public int? CourseNomineeId { get; set; }
+        public int? CourseNomeneeId { get; set; }
 
         public int? TraineeNominationId { get; set; }
 
@@ -31,10 +32,14 @@ namespace SchoolManagement.Application.DTOs.UniversityCourseResult
 
         public string Remark { get; set; }
 
+     
+  
         public int? Status { get; set; }
 
         public int? MenuPosition { get; set; }
 
         public bool IsActive { get; set; }
+
+        public List<UniversityCourseResultDto>? TraineeListForm { get; set; }
     }
 }

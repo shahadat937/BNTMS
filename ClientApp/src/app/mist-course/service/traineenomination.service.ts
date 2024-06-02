@@ -156,7 +156,9 @@ export class TraineeNominationService {
   findByCourseDuration(courseDurationId: number){
     return this.http.get<TraineeNomination>(this.baseUrl + '/trainee-nomination/get-traineeNominationListByCourseDurationIdspRequest?courseDurationId=' + courseDurationId);
   }
-
+  findByCourseDurationForMIST(courseDurationId: number){
+    return this.http.get<TraineeNomination[]>(this.baseUrl + '/trainee-nomination/get-traineeNominationListByCourseDurationIdspRequest?courseDurationId=' + courseDurationId);
+  }
   find(id: any) {
     return this.http.get<TraineeNomination>(this.baseUrl + '/trainee-nomination/get-traineeNominationDetail/' + id);
   }
