@@ -1,3 +1,4 @@
+import { number } from 'echarts';
 import { Component, HostListener, OnDestroy, OnInit, ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,6 +22,8 @@ import { ScrollService } from 'src/app/course-management/localcourse/scrole-rest
 export class LocalcourseListComponent implements OnInit,OnDestroy {
   scrollPosition: number = 0;
     oldScrollPosition: number = 0;
+  index:number;
+
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -57,17 +60,33 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
   }
   selectedFilter: number;
   ngOnInit() {
-    this.oldScrollPosition = this.scrollPositionService.getScrollPosition('test1');
-    this.selectedFilter = this.scrollPositionService.getSelectedFilter('test1');
-    setTimeout(() => {
-      window.scrollTo(0, this.oldScrollPosition);
-    }, 500);
+     const startTime = performance.now();
+    this.oldScrollPosition = this.scrollPositionService.getScrollPosition('localCourse');
+    this.selectedFilter = this.scrollPositionService.getSelectedFilter('localCourse');
+
+    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.courseTypeId).subscribe(response => {
+        const endTime = performance.now();
+
+        const dataLoadingTime = endTime - startTime;
+        setTimeout(()=>{
+          this.restoreScroll(dataLoadingTime);
+        },0)
+    })
+
      this.getCourseDurationFilterList(this.selectedFilter);
+     this.index = this.scrollPositionService.getSelectedIndex('localCourse');
+  }
+  
+  callback(){
+    window.scrollTo(0, this.oldScrollPosition);
+  }
+  restoreScroll(callback){
+    this.callback();
   }
 
 
   //***** Scroll Restoration will work after loading all data *****//
-  //ngOnInit() {
+  // ngOnInit() {
   //  const startTime = performance.now();
   //  this.oldScrollPosition = this.scrollPositionService.getScrollPosition('test1');
   //  this.getCourseDurationFilterList(1);
@@ -78,17 +97,19 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
   //    const endTime = performance.now();
   //    const dataLoadingTime = endTime - startTime;
   //    const waitTime = 500;
-  //    console.log('time : ', dataLoadingTime)
   //    setTimeout(() => {
   //      window.scrollTo(0, this.oldScrollPosition);
   //    }, dataLoadingTime);
   //  });
-  //  console.log('Get : ', this.oldScrollPosition);
-  //}
+  // }
 
   ngOnDestroy() {
-    this.scrollPositionService.setScrollPosition('test1', this.scrollPosition);
-    this.scrollPositionService.setSelectedFilter('test1', this.selectedFilter);
+    this.scrollPositionService.setScrollPosition('localCourse', this.scrollPosition);
+    this.scrollPositionService.setSelectedFilter('localCourse', this.selectedFilter);
+  }
+  
+  GetIndexValue(number: number){
+    this.scrollPositionService.setSelectedIndex('localCourse', number);
   }
 
   getCourseDurationsByCourseType(){

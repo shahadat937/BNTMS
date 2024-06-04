@@ -347,7 +347,7 @@ export class NewReExamMarkComponent implements OnInit {
 
 
       this.BNAExamMarkService.GetTotalMarkAndPassMarkByBaseSchoolIdCourseIdAndSubjectId(baseSchoolNameId, courseNameId, this.bnaSubjectNameId).subscribe(res => {
-   console.log()
+
         this.getTotalMarkAndPassMark = res;
         this.totalMark = res[0].totalMark;
         this.passMarkBna = res[0].passMarkBNA;

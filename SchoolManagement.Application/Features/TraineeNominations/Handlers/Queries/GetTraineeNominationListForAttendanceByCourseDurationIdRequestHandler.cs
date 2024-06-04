@@ -33,9 +33,9 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Quer
             }
             else
             {
-                var traineeNominations = _traineeNominationRepository.FilterWithInclude(x => x.CourseDurationId == request.CourseDurationId && x.CourseSectionId == request.CourseSectionId , "WithdrawnType", "CourseDuration", "CourseName", "Trainee.Rank", "Trainee.SaylorRank", "ExamCenter").OrderBy(x => x.Trainee.Pno);
+                var traineeNominations = _traineeNominationRepository.FilterWithInclude(x => x.CourseDurationId == request.CourseDurationId && x.CourseSectionId == request.CourseSectionId  , "WithdrawnType", "CourseDuration", "CourseName", "Trainee.Rank", "Trainee.SaylorRank", "ExamCenter").OrderBy(x => x.Trainee.Pno);
 
-                var traineeNominationDtos = _mapper.Map<List<TraineeNominationDto>>(traineeNominations).OrderBy(x => x.TraineeNominationId);
+                var traineeNominationDtos = _mapper.Map<List<TraineeNominationDto>>(traineeNominations);
 
                 return traineeNominationDtos.OrderBy(x => x.TraineeNominationId)
         .ToList(); ;
