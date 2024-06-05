@@ -46,7 +46,14 @@ export class NewUserListComponent implements OnInit {
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private RoleService: RoleService,private confirmService: ConfirmService,private UserService: UserService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private RoleService: RoleService,
+    private confirmService: ConfirmService,
+    private UserService: UserService,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {      
     this.intitializeForm();
@@ -57,6 +64,7 @@ export class NewUserListComponent implements OnInit {
     this.isLoading = true;
     this.UserService.getTraineeList(searchPno).subscribe(response => {
       //this.dataSource.data = response; 
+      console.log(response)
      this.dataSource=new MatTableDataSource(response);
      this.dataSource.sort = this.sort;
      this.dataSource.paginator = this.paginator;

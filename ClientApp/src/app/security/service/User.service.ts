@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { IUserPagination,UserPagination } from '../models/UserPagination';
 import { User } from '../models/User';
-import { map } from 'rxjs';
+import { Observable, map, shareReplay } from 'rxjs';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { BIODataGeneralInfoPagination, IBIODataGeneralInfoPagination } from 'src/app/trainee-biodata/models/BIODataGeneralInfoPagination';
 import { BIODataGeneralInfo } from 'src/app/trainee-biodata/models/BIODataGeneralInfo';
@@ -12,6 +12,7 @@ import { BIODataGeneralInfo } from 'src/app/trainee-biodata/models/BIODataGenera
   providedIn: 'root'
 })
 export class UserService {
+  private cache = new Map<string, Observable<any[]>>();
   baseUrl = environment.securityUrl;
   dropDownUrl = environment.apiUrl;
   Users: User[] = [];
@@ -40,17 +41,34 @@ export class UserService {
   }
 
   
-  getTraineeList(pno) {
+  // getTraineeList(pno) {
 
-    return this.http.get<any[]>(this.dropDownUrl + '/trainee-bio-data-general-info/get-traineeListForUserCreate?pno='+pno)
-    .pipe(
-      map(response => {
+  //   return this.http.get<any[]>(this.dropDownUrl + '/trainee-bio-data-general-info/get-traineeListForUserCreate?pno='+pno)
+  //   .pipe(
+  //     map(response => {
         
-        return response;
-      })
-    ); 
+  //       return response;
+  //     })
+  //   ); 
    
+  // }
+  getTraineeList(pno: string): Observable<any[]> {
+    const cacheKey = `traineeList_${pno}`;
+
+    if (this.cache.has(cacheKey)) {
+      return this.cache.get(cacheKey)!;
+    }
+
+    const request$ = this.http.get<any[]>(`${this.dropDownUrl}/trainee-bio-data-general-info/get-traineeListForUserCreate?pno=${pno}`)
+      .pipe(
+        map(response => response),
+        shareReplay(1)
+      );
+
+    this.cache.set(cacheKey, request$);
+    return request$;
   }
+
 
   getInstructors(pageNumber, pageSize,searchText) {
 
