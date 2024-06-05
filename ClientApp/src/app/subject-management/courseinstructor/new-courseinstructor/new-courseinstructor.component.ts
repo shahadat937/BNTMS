@@ -18,6 +18,7 @@ import { Role } from 'src/app/core/models/role';
   styleUrls: ['./new-courseinstructor.component.sass']
 })
 export class NewCourseInstructorComponent implements OnInit {
+
    masterData = MasterData;
   loading = false;
   userRole = Role;

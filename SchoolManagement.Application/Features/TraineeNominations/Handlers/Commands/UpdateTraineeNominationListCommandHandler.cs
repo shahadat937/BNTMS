@@ -49,7 +49,8 @@ namespace SchoolManagement.Application.Features.Attendances.Handlers.Commands
                  WithdrawnDate=x.WithdrawnDate,
                  Status=x.Status,
                  MenuPosition=x.MenuPosition,
-                 IsActive=x.IsActive
+                 IsActive=x.IsActive,
+                 BranchId=x.BranchId
             });
             try
             {

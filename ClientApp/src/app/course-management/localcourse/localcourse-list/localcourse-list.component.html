@@ -119,12 +119,12 @@
                                                         [routerLink]="['/course-management/marklistbycourse-list', number.courseDurationId]">
                                                     <mat-icon mat-icon aria-label="Edit" class="col-white">toc</mat-icon>
                                                 </button>
-                                                <button mat-icon-button color="accent" title="Course Routine List" class="btn-tbl-view"
+                                                <button  mat-icon-button color="accent" title="Course Routine List" class="btn-tbl-view"
                                                         [routerLink]="['/course-management/routinebycourse-list', number.baseSchoolNameId, number.courseNameId, number.courseDurationId]">
                                                     <!-- <mat-icon aria-label="Edit" class="col-white">book</mat-icon> -->
                                                     <img src="../../../assets/images/app-icon/routine.png" class="routine-icon" />
                                                 </button>
-                                                <button mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/course-management/add-traineenomination', number.courseDurationId]">
+                                                <button  mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/course-management/add-traineenomination', number.courseDurationId]">
                                                     <!-- <mat-icon aria-label="Edit" class="col-white">supervisor_account</mat-icon> -->
                                                     <img src="../../../assets/images/app-icon/biodata.png" class="biodata-icon" />
                                                 </button>
@@ -141,7 +141,7 @@
 
                                                 <button mat-icon-button color="accent" title="Edit" class="btn-tbl-edit"
                                                         [routerLink]="['/course-management/update-localcourse', number.courseDurationId, number.courseTypeId]">
-                                                    <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                                                    <mat-icon  aria-label="Edit" class="col-white">edit</mat-icon>
                                                 </button>
 
                                                 <button mat-icon-button color="accent" title="Delete" class="btn-tbl-delete btn-custom" (click)="$event.stopPropagation()"

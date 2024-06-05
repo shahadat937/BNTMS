@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../../routine-management/models/classroutine';
 import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
 import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
+import { number } from 'echarts';
 
 @Component({
   selector: 'app-traineesectionassign-list',
@@ -19,6 +20,7 @@ import { CourseDurationService } from 'src/app/course-management/service/coursed
   styleUrls: ['./traineesectionassign-list.component.sass']
 }) 
 export class TraineeSectionAssignListComponent implements OnInit {
+  findLastCharacter;
   masterData = MasterData;
   loading = false;
   myModel = true;
@@ -65,7 +67,14 @@ export class TraineeSectionAssignListComponent implements OnInit {
   isShownForTraineeList:boolean=false;
   // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   // dataSource ;
-  constructor(private snackBar: MatSnackBar,private courseDutartionService: CourseDurationService, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private courseDutartionService: CourseDurationService, 
+    private confirmService: ConfirmService,
+    private traineeNominationService:TraineeNominationService,
+    private fb: FormBuilder, private router: Router,  
+    private route: ActivatedRoute,
+   ) { }
 
   ngOnInit(): void {
     // 3136
@@ -80,6 +89,7 @@ export class TraineeSectionAssignListComponent implements OnInit {
     this.onCourseSectionForTraineeList(this.courseDurationId);
     this.getCourseSectionByDurationId(this.courseDurationId);
   }
+
   intitializeForm() {
     this.AttendanceForm = this.fb.group({
       attendanceId: [0],
@@ -100,6 +110,7 @@ export class TraineeSectionAssignListComponent implements OnInit {
     this.courseDutartionService.find(courseDurationId).subscribe(res=>{
       this.courseDutartionService.getSelectedCourseSectionsBySchoolIdAndCourseId(res.baseSchoolNameId,res.courseNameId).subscribe(res=>{
         this.courseSectionList=res;
+
       });
     });
   }
@@ -140,7 +151,30 @@ export class TraineeSectionAssignListComponent implements OnInit {
   getControlLabel(index: number, type: string) {
     return (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
   }
-
+  onChangeCertificateSerialNo(newCertificateSerialNo:string){
+    const control = this.AttendanceForm.get('traineeListForm') as FormArray;
+    for (let i = 0; i < control.length; i++) {
+      if(i!=0){
+        if(i>=9){
+          const traineeFormGroup = control.at(i) as FormGroup;
+          traineeFormGroup.get('certificateSerialNo').setValue(newCertificateSerialNo.slice(0, -2) + (i+1));
+        }else{
+          const traineeFormGroup = control.at(i) as FormGroup;
+          traineeFormGroup.get('certificateSerialNo').setValue(newCertificateSerialNo.slice(0, -1) + (i+1));
+        }
+       
+      }
+      
+    }
+  }
+  onChangeourseSection(courseSectionId:number){
+    const control = this.AttendanceForm.get('traineeListForm') as FormArray;
+    for (let i = 0; i < control.length; i++) {
+      const traineeFormGroup = control.at(i) as FormGroup;
+          traineeFormGroup.get('courseSectionId').setValue(courseSectionId);
+    }
+  }
+      
   getTraineeListonClick() {
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
     for (let i = 0; i < this.traineeList.length; i++) {
@@ -159,18 +193,17 @@ export class TraineeSectionAssignListComponent implements OnInit {
 
   onCourseSectionForTraineeList(courseDurationId){
     this.traineeNominationService.getTestTraineeNominationByCourseDurationId(courseDurationId,0).subscribe(res => {
+      this.clearList()
       this.traineeList = res.filter(x=>x.withdrawnTypeId === null);
-      this.clearList();
+
       this.getTraineeListonClick();
+    
     });
   }
-
+ 
 
   onSubmit() {
-
     //  const id = this.AttendanceForm.get('traineeNominationId').value;
-
-    
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
       if (result) {
         this.loading = true;

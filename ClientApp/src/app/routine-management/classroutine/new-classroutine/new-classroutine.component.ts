@@ -375,6 +375,7 @@ export class NewClassRoutineComponent implements OnInit {
 
 
   onWeekSelectionChangeGet(dropdown){
+    console.log('course week dropdown',dropdown)
     this.schoolId=this.ClassRoutineForm.value['baseSchoolNameId'];
     this.durationId=this.ClassRoutineForm.value['courseDurationId'];
     this.courseId=this.ClassRoutineForm.value['courseNameId'];
@@ -610,6 +611,7 @@ export class NewClassRoutineComponent implements OnInit {
       var courseNameId=dropdown[1];
       var baseSchoolNameId=dropdown[2];
     }else{
+     
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
       var courseNameArr = dropdown.value.split('_');
       var courseDurationId = courseNameArr[0];

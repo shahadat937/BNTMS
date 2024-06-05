@@ -43,7 +43,8 @@
 
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
-                        <mat-label>Course Title</mat-label>                        
+                        <mat-label>Course Title</mat-label>
+                                               
                         <mat-select formControlName="courseName">
                           <mat-option  value="0">--Select--</mat-option>
                             <mat-option (onSelectionChange)="onBaseNameSelectionChangeGetModule($event)"  *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value">
