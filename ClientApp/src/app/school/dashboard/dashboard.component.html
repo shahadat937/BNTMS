@@ -209,56 +209,53 @@
                       <ng-container matColumnDef="actions">
                         <mat-header-cell ngClass="custom-action local" *matHeaderCellDef class="pr-0"></mat-header-cell>
                         <mat-cell ngClass="custom-action local" *matCellDef="let row; let i=index;" class="pr-0">
-                          <!-- <button *ngIf="row.courseSyllabus" mat-icon-button class="btn-tbl-view" title="View Course Syllabus">
-                            <a [href]='this.fileUrl+row.courseSyllabus' target='_blank'><mat-icon aria-label="Edit" class="col-white">picture_as_pdf</mat-icon></a>
-                          </button> *ngIf="row.countWeek == 0" -->
-                   
+
                           <button *ngIf="row.countWeek == 0" mat-icon-button color="accent" title="Course Week Generate" class="btn-tbl-nomination" (click)="$event.stopPropagation()"
-                            (click)="courseWeekGenerate(row)">
+                            (click)="courseWeekGenerate(row)" (click)="GetIndexValue(i)">
                             <mat-icon aria-label="Delete" class="col-white">alarm</mat-icon>
                           </button>
-                          <button *ngIf="role == userRole.SchoolOIC && row.nbcd>0 && row.nbcdStatus !=1"  mat-icon-button class="btn-tbl-view" title="Course Details" [routerLink]="['/admin/dashboard/update-nbcdcourseduration',row.courseDurationId]">
+
+                          <button *ngIf="role == userRole.SchoolOIC && row.nbcd>0 && row.nbcdStatus !=1"  mat-icon-button class="btn-tbl-view" title="Course Details" [routerLink]="['/admin/dashboard/update-nbcdcourseduration',row.courseDurationId]" (click)="GetIndexValue(i)">
                             <mat-icon aria-label="Edit" class="col-white">school</mat-icon>
                           </button>
-                          <button mat-icon-button class="btn-tbl-view" title="Course Details" [routerLink]="['/admin/dashboard/course-details',row.courseDurationId,schoolDb]">
+
+                          <button mat-icon-button class="btn-tbl-view" title="Course Details" [routerLink]="['/admin/dashboard/course-details',row.courseDurationId,schoolDb]" (click)="GetIndexValue(i)">
                             <mat-icon aria-label="Edit" class="col-white">visibility</mat-icon>
                           </button>
+
                           <button *ngIf="role != dataEnty" mat-icon-button color="accent" title="Trainee Mark List" class="btn-tbl-view" 
-                            [routerLink]="['/course-management/marklistbycourse-list', row.courseDurationId, dbType]">
+                            [routerLink]="['/course-management/marklistbycourse-list', row.courseDurationId, dbType]" (click)="GetIndexValue(i)">
                             <mat-icon mat-icon aria-label="Edit" class="col-white">toc</mat-icon>
                           </button>
-                          <!-- <button mat-icon-button class="btn-tbl-view" title="Exam Instructor List" [routerLink]="['/admin/dashboard/view-examinstructor',row.baseSchoolNameId, row.courseNameId]">
-                            <mat-icon aria-label="Edit" class="col-white">person</mat-icon>
-                          </button> -->
-                          <button mat-icon-button class="btn-tbl-nomination" title="Subject Instructor List" [routerLink]="['/admin/dashboard/view-subjectinstructors',row.baseSchoolNameId ,row.courseDurationId, row.courseNameId]">
-                            <!-- <mat-icon aria-label="Edit" class="col-white">wc</mat-icon> -->
+
+                          <button mat-icon-button class="btn-tbl-nomination" title="Subject Instructor List" [routerLink]="['/admin/dashboard/view-subjectinstructors',row.baseSchoolNameId ,row.courseDurationId, row.courseNameId]" (click)="GetIndexValue(i)">
                             <img src="assets/images/main.jpg" class="instructor-icon"/>
                           </button>
+
                           <button mat-icon-button color="accent" title="Weekly Training Program" class="btn-tbl-view" 
-                            [routerLink]="['/admin/dashboard/view-routinebycourse', row.baseSchoolNameId, row.courseNameId, row.courseDurationId]">
-                            <!-- <mat-icon aria-label="Edit" class="col-white">hourglass_empty</mat-icon> -->
+                            [routerLink]="['/admin/dashboard/view-routinebycourse', row.baseSchoolNameId, row.courseNameId, row.courseDurationId]" (click)="GetIndexValue(i)">
                             <img src="../../../assets/images/app-icon/routine.png" class="routine-icon"/>
                           </button>
-                          <button mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/admin/dashboard/traineenomination-list', row.courseDurationId,1,2,3,4]">
-                            <!-- <mat-icon aria-label="Edit" class="col-white">supervisor_account</mat-icon> -->
-                            <!-- <img src="../../../assets/images/app-icon/biodata.png" class="biodata-icon"/> -->
+
+                          <button mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/admin/dashboard/traineenomination-list', row.courseDurationId,1,2,3,4]" (click)="GetIndexValue(i)">
                             <mat-icon aria-label="Edit" class="col-white">wc</mat-icon>
                           </button>
+
                           <button mat-icon-button color="accent" title="Syllabus" class="btn-tbl-view" 
-                          [routerLink]="['/admin/dashboard/view-syllabusfromschool', row.baseSchoolNameId, row.courseNameId, row.courseDurationId,schoolDb]">
-                            <!-- <mat-icon aria-label="Edit" class="col-white">book</mat-icon> -->
-                            <img src="../../../assets/images/app-icon/material.png" class="syllabus-icon"/>
+                          [routerLink]="['/admin/dashboard/view-syllabusfromschool', row.baseSchoolNameId, row.courseNameId, row.courseDurationId,schoolDb]" (click)="GetIndexValue(i)">
+                            <img src="../../../assets/images/app-icon/material.png" class="syllabus-icon"/>BDTHAI
                           </button>
-                          <button mat-icon-button class="btn-tbl-nomination" title="Exam Status" [routerLink]="['/admin/dashboard/view-examstatusbysubjectlist', row.baseSchoolNameId, row.courseNameId, row.courseDurationId]">
-                            <!-- <mat-icon aria-label="Edit" class="col-white">assessment</mat-icon> -->
+
+                          <button mat-icon-button class="btn-tbl-nomination" title="Exam Status" [routerLink]="['/admin/dashboard/view-examstatusbysubjectlist', row.baseSchoolNameId, row.courseNameId, row.courseDurationId]" (click)="GetIndexValue(i)">
                             <img src="../../../assets/images/app-icon/exam.png" class="exam-icon"/>
                           </button>
+
                         </mat-cell>
                       </ng-container>              
                       
     
                       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"  [ngStyle]="{'background-color': i == index ? 'rgb(172 235 155)' : ''}"></mat-row>
                   </mat-table>
                   <mat-table *ngIf="(role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.SchoolOIC || role == userRole.OICNBCDSchool  )&& viewStatus == 3 && this.schoolId != this.masterData.schoolName.NBCDSchool" #table [dataSource]="upcomingCourses" matSort class="mat-cell db-tbl upcoming-course-tbl">               
                     <ng-container matColumnDef="ser">

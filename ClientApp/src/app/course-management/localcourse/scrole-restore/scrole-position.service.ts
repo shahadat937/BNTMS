@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class ScrollService {
   private scrollPositions: { [key: string]: number } = {};
-  private oldScrollPositions: { [key: string]: number } = {};
+  private filters: { [key: string]: number } = {};
+  private index: { [key: string]: number } = {'':0};
 
   setScrollPosition(componentName: string, position: number) {
     this.scrollPositions[componentName] = position;
@@ -16,10 +17,18 @@ export class ScrollService {
   }
 
   setSelectedFilter(componentName: string, position: number) {
-   this.oldScrollPositions[componentName] = position;
+   this.filters[componentName] = position;
   }
 
   getSelectedFilter(componentName: string): number {
-   return this.oldScrollPositions[componentName] || 1;
+   return this.filters[componentName] || 1;
   }
+  
+  setSelectedIndex(componentName: string, position: number) {
+    this.index[componentName] = position;
+   }
+ 
+   getSelectedIndex(componentName: string): number {
+    return this.index[componentName];
+   }
 }
