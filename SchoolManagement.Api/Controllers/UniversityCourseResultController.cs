@@ -1,7 +1,9 @@
 ﻿using SchoolManagement.Application;
 using SchoolManagement.Application.DTOs.UniversityCourseResult;
+using SchoolManagement.Application.Features.CourseDurations.Requests.Queries;
 using SchoolManagement.Application.Features.UniversityCourseResults.Requests.Commands;
 using SchoolManagement.Application.Features.UniversityCourseResults.Requests.Queries;
+using SchoolManagement.Domain;
 using SchoolManagement.Shared.Models;
 
 namespace SchoolManagement.Api.Controllers;
@@ -79,6 +81,19 @@ public class UniversityCourseResultController : ControllerBase
     }
 
 
- 
+
+    [HttpGet]
+    [Route("get-GetUniversityCourseResultListBySchoolIdAndDurationId")]
+    public async Task<ActionResult> GetUniversityCourseResultList(int baseSchoolNameId, int courseDurationId)
+    {
+        var proceduredCourses = await _mediator.Send(new GetUniversityCourseResultListRequest
+        {
+            BaseSchoolNameId = baseSchoolNameId,
+            CourseDurationId = courseDurationId
+        });
+        return Ok(proceduredCourses);
+    }
+
+
 }
 

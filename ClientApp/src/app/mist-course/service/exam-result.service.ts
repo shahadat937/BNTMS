@@ -14,21 +14,29 @@ export class ExamResultService {
   baseUrl = environment.apiUrl;
   ExamResults: ExamResult[] = []; 
   constructor(private http: HttpClient) { }
+
+
   GetCourseDuration(id: number) {
     return this.http.get<SelectedModel[]>(this.baseUrl + '/course-duration/get-selectedCourseDurationBySchoolName/?baseSchoolNameId='+id);
   }
+
+  FindCourseResultDurationID(id: number,courseDurationId :number)
+{ 
+     return this.http.get<any>(this.baseUrl +'/UniversityCourseResult/get-GetUniversityCourseResultListBySchoolIdAndDurationId/?baseSchoolNameId='+id+'&courseDurationId='+courseDurationId)
+}
+
   update(id: number,model: any) {
     return this.http.put(this.baseUrl + '/UniversityCourseResult/update-UniversityCourseResult/'+id, model);
   }
   submit(model: any) {
     console.log('model from servece',model)
-    return this.http.post(this.baseUrl + '/UniversityCourseResult/save-universityCourseResult', model).pipe(
+    return this.http.post<PostResponse>(this.baseUrl + '/UniversityCourseResult/save-universityCourseResult', model).pipe(
       map((BnaClassTest: PostResponse) => {
         if (BnaClassTest) {
           return BnaClassTest;
         }
       })
-    );;
+    );
   } 
   delete(id:number){
     return this.http.delete(this.baseUrl + '/UniversityCourseResult/delete-UniversityCourseResult/'+id);
