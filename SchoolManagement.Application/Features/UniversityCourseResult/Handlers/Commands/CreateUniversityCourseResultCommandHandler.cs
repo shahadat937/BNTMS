@@ -65,11 +65,28 @@ namespace SchoolManagement.Application.Features.UniversityCourseResults.Handlers
                     CourseDurationId = x.CourseDurationId,
                     BaseSchoolNameId = x.BaseSchoolNameId,
                     TraineeId = x.TraineeId,
-                   // CourseInstructorId=0
-                    
-                //    CourseNomineeId = examResultList.CourseNomineeId,
-                  
+                    CourseNomeneeId = x.CourseNomeneeId,
+                    TraineeNominationId = x.TraineeNominationId,
+                    CourseTermId = examResultList.CourseTermId,
+                    CourseLevelId = examResultList.CourseLevelId,
+                    TotalCredit = x.TotalCredit,
+                    TotalMark = x.TotalMark,
+                    GPA = x.GPA,
+                    AchievedTotalCredit = x.AchievedTotalCredit,
+                    AchievedTotalMark = x.AchievedTotalMark,
+                    AchievedGPA = x.AchievedGPA,
+
+                    Remark = x.Remark,
+                    Status = x.Status,
+
+                    MenuPosition = 1,
+
+                    IsActive = true,
+
+
+
                 }).ToList();
+
 
                 await _unitOfWork.Repository<UniversityCourseResult>().AddRangeAsync(examResult);
                 await _unitOfWork.Save();

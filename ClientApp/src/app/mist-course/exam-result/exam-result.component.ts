@@ -16,6 +16,9 @@ import { ExamResult } from '../models/exam-result';
 import { CourseDurationService } from '../service/courseduration.service';
 import {TraineeNominationService} from '../service/traineenomination.service'
 import { TraineeNomination } from '../models/traineenomination';
+import { AuthService } from 'src/app/core/service/auth.service';
+
+import { Role } from 'src/app/core/models/role';
 
 
 
@@ -39,9 +42,13 @@ export class ExamResultComponent implements OnInit {
   TraineeNominations: TraineeNomination[] = [];
   traineeNominationListForMIST:TraineeNomination[];
   isShown: boolean = false ;
+  userRole = Role;
+
+  role:any;
 
   masterData = MasterData;
   isLoading = false;
+   branchId:any ;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -55,6 +62,7 @@ export class ExamResultComponent implements OnInit {
 
 
   constructor(
+    private authService: AuthService,
       private TraineeNominationService:TraineeNominationService, 
       private examResultService : ExamResultService,
       private baseSchoolNameService: BaseSchoolNameService ,
@@ -67,16 +75,18 @@ export class ExamResultComponent implements OnInit {
 
   ngOnInit(): void {
    
-      this.pageTitle = 'Create Course Term ';
+      this.pageTitle = 'Create Course Result ';
       this.destination = "Add";
       this.btnText = 'Save';
-    
+      this.branchId =  this.authService.currentUserValue.branchId.trim();
+      this.role = this.authService.currentUserValue.role.trim();
     this.intitializeForm();
 
     
     this.getSelectedbaseSchoolName();
     this.getSelectedCourseLevel();
-    this.getSelectedCourseTerm();
+
+   // this.getSelectedCourseTermByLevel(id);
   }
   intitializeForm() {
     this.ExamResultForm = this.fb.group({
@@ -89,13 +99,15 @@ export class ExamResultComponent implements OnInit {
       totalCredit: [],
       achievedTotalCredit: [],
       achievedGPA :[],
-      remark:[],
+      remark:[''],
       traineeListForm: this.fb.array([
         this.createTraineeData()
       ]),
       //menuPosition: ['', Validators.required],
       isActive: [true]
-    })
+    }) 
+    this.ExamResultForm.get('baseSchoolNameId').setValue(this.branchId);
+    this.getSelectedCourseduration(this.branchId);
   }
   
   private createTraineeData() {
@@ -110,11 +122,13 @@ export class ExamResultComponent implements OnInit {
     //  isNotify:[''],
     //   noticeDetails: [],
     //  examMarkRemarksId:[]
+    
     baseSchoolNameId: [],
     completeClass: [],
     course:[],
     courseDurationId:[],
     courseTitle:[],
+    courseNomeneeId:[],
     name:[],
     percentage:[],
     pno:[],
@@ -126,7 +140,9 @@ export class ExamResultComponent implements OnInit {
     achievedTotalCredit:[],
     totalCredit:[],
     achievedGPA:[],
-    remark:[]
+    remark:[],
+    courseTermId:[], 
+    courseLevelId: [],
     });
   }
   getSelectedCourseduration(id){
@@ -183,8 +199,9 @@ export class ExamResultComponent implements OnInit {
     }
     control.clearValidators();
   }
-  getSelectedCourseTerm (){
-    this.CourseTermService.getselectedCourseTerm().subscribe(res=>{
+
+  getSelectedCourseTermByLevel (CourseLevelId){
+    this.CourseTermService.getselectedCourseTermByCourseLevel(CourseLevelId).subscribe(res=>{
       this.SelectedCourseTerm=res
     });
    }
@@ -223,6 +240,12 @@ export class ExamResultComponent implements OnInit {
    }
 
 
+reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
 
   
   onSubmit() {
@@ -250,10 +273,14 @@ export class ExamResultComponent implements OnInit {
  else {*/
   this.loading=true;
 console.log('Submit Value',this.ExamResultForm.value)
+
+//</FormArray></FormArray>this.ExamResultForm.traineeListForm.get('courseTermId').setValue(id);
+ 
       this.examResultService.submit(this.ExamResultForm.value).subscribe(response => {
-        this.router.navigateByUrl('/basic-setup/add-courseTerm');
+        //this.router.navigateByUrl('/basic-setup/add-courseTerm');
+        this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
-          duration: 2000,
+          duration: 20000,
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'

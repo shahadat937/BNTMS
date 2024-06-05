@@ -2,7 +2,7 @@ export interface ExamResult {
     universityCourseResultId: number;
     courseDurationId?: number;
     traineeId: number;
-    courseNomineeId?: number;
+    courseNomeneeId?: number;
     traineeNominationId?: number;
     courseTermId?: number;
     courseLevelId?: number;
