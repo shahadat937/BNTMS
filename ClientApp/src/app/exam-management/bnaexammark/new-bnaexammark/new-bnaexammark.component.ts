@@ -93,8 +93,11 @@ export class NewBNAExamMarkComponent implements OnInit {
       this.destination = "Edit";
       this.buttonText = "Update"
       this.BNAExamMarkService.find(+id).subscribe(
+       
         res => {
+         
           this.BNAExamMarkForm.patchValue({
+           
             bnaExamMarkId: res.bnaExamMarkId,
             bnaExamScheduleId: res.bnaExamScheduleId,
             bnaSemesterId: res.bnaSemesterId,
@@ -117,6 +120,7 @@ export class NewBNAExamMarkComponent implements OnInit {
             reExamStatus:res.reExamStatus
           });
         }
+       
       );
     } else {
       this.pageTitle = 'Create  Exam Mark';
@@ -179,6 +183,7 @@ export class NewBNAExamMarkComponent implements OnInit {
       status: [],
       pno: [],
       traineeId: [],
+      traineeNominationId: [],
       name: [],
       position: [],
       obtaintMark: [],
@@ -195,6 +200,7 @@ export class NewBNAExamMarkComponent implements OnInit {
       control.push(this.createTraineeData());
       
     }
+    console.log('this.traineeList',this.traineeList)
     this.BNAExamMarkForm.patchValue({ traineeListForm: this.traineeList });
     
   }
