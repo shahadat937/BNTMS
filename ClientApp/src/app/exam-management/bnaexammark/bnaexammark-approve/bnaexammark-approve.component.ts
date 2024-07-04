@@ -73,7 +73,7 @@ export class BNAExamMarkApproveComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId'); 
-
+console.log('id',id)
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
@@ -245,6 +245,7 @@ export class BNAExamMarkApproveComponent implements OnInit {
       if( value >this.mark){
           this.isBigger=true;
           (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(i).get('obtaintMark').setValue("");
+
       }
       else{
         this.isBigger=false;
@@ -256,6 +257,7 @@ export class BNAExamMarkApproveComponent implements OnInit {
   onSubjectMarkSelectionGetPassMark(){
     var subjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
     this.subjectMarkService.find(subjectMarkId).subscribe(res => {
+      console.log('SubjectMarkId',res)
       this.subjectPassMark = res.passMark;
       var mark = res.mark;
       this.mark=mark;
@@ -304,12 +306,14 @@ export class BNAExamMarkApproveComponent implements OnInit {
 
   getselectedbaseschools(){
     this.BNAExamMarkService.getselectedbaseschools().subscribe(res=>{
+
       this.selectedbaseschools=res
     });
   }
 
   getselectedexammarkremark(){
     this.BNAExamMarkService.getselectedexammarkremark().subscribe(res=>{
+
       this.selectedmarkremarks=res
     });
   }
@@ -332,13 +336,13 @@ export class BNAExamMarkApproveComponent implements OnInit {
     
      if(baseSchoolNameId != null && courseNameId != null){
        this.BNAExamMarkService.getApprovedSubjectNameByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
-         
+     
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId=res;      
        });
      }
      
      this.BNAExamMarkService.getCourseDurationByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
-
+      // console.log('SubjectMarkId',res)
       this.selectedCourseDuration=res;   
      });
      
@@ -356,6 +360,7 @@ export class BNAExamMarkApproveComponent implements OnInit {
 
     
     this.BNAExamMarkService.getexamMarkFilterListByParameters(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,SubjectMarkId,false,courseSectionId,classRoutineId).subscribe(res=>{
+      console.log('SubjectMarkId',res)
       var unapprovedlistItemCount = res.length;
       if(unapprovedlistItemCount > 0){
         this.traineeList=res;  
@@ -416,7 +421,7 @@ export class BNAExamMarkApproveComponent implements OnInit {
 
 
       this.BNAExamMarkService.GetTotalMarkAndPassMarkByBaseSchoolIdCourseIdAndSubjectId(baseSchoolNameId,courseNameId,this.bnaSubjectNameId).subscribe(res=>{
-          
+        console.log('data',res)
         this.getTotalMarkAndPassMark=res; 
         this.totalMark=res[0].totalMark;
         this.passMarkBna=res[0].passMarkBNA
@@ -433,13 +438,14 @@ export class BNAExamMarkApproveComponent implements OnInit {
     this.isShown=false;
     
     this.BNAExamMarkService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-    
+    console.log('data',res)
       this.selectedcoursedurationbyschoolname=res;
     }); 
   }
   
   getselectedcoursename(){
     this.BNAExamMarkService.getselectedcoursename().subscribe(res=>{
+      console.log('data',res)
       this.selectedcoursename=res
     });
   }
