@@ -506,10 +506,11 @@ export class NewClassRoutineComponent implements OnInit {
 
     if(baseSchoolNameId !=null && courseNameId !=null  && bnaSubjectNameId !=null){
 
-      // this.ClassRoutineService.getCourseModuleIdForRoutine(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
-      //   var courseModuleId=res;
-      //   this.ClassRoutineForm.get('courseModuleId').setValue(courseModuleId);
-      // });
+      this.ClassRoutineService.getCourseModuleIdForRoutine(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
+        var courseModuleId=res;
+        this.ClassRoutineForm.get('courseModuleId').setValue(courseModuleId);
+        console.log("Course Module Id : ", courseModuleId);
+      });
 
       this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedclassperiod=res;
