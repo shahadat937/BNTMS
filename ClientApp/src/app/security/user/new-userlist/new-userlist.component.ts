@@ -146,7 +146,7 @@ export class NewUserListComponent implements OnInit {
         this.validationErrors = error;
       })
     });
-    this.router.navigateByUrl('/security/add-user');
+    this.router.navigateByUrl('/security/instructor-list');
   }
 
   
