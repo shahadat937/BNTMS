@@ -107,10 +107,9 @@ public class UsersController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [Route("save-user")]
-    public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateUserDto User)
+    public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] List<CreateUserDto> User)
     {
-       
-        return Ok(await _userService.Save("",User));
+        return Ok(await _userService.Save("", User));
     }
 
     [HttpPut]
@@ -131,7 +130,7 @@ public class UsersController : ControllerBase
     [Route("update-user")]
     public async Task<ActionResult> Put(string userId,[FromBody] CreateUserDto User)
     {
-        await _userService.Save(userId,User);
+        await _userService.Update(userId,User);
         return NoContent();
     }
 
