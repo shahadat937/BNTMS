@@ -36,15 +36,15 @@ namespace SchoolManagement.Application.DTOs.User
 
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Email is required")]
+        //[Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [RegularExpression(@"(\S)+", ErrorMessage = "White space is not allowed.")]
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
-        [Phone(ErrorMessage = "Invalid Phone Number")]
-        [RegularExpression(@"(^([+]{1}[8]{2}|0088)?(01){1}[5-9]{1}\d{8})$", ErrorMessage = "Please enter valid phone number")]
-        public string PhoneNumber { get; set; }
+        //[Phone(ErrorMessage = "Invalid Phone Number")]
+        //[RegularExpression(@"(^([+]{1}[8]{2}|0088)?(01){1}[5-9]{1}\d{8})$", ErrorMessage = "Please enter valid phone number")]
+        public string? PhoneNumber { get; set; }
 
 
         public string? FirstLevel { get; set; }

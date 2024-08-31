@@ -123,27 +123,57 @@ namespace SchoolManagement.Identity.Services
                 roleClaims.Add(new Claim(ClaimTypes.Role, roles[i]));
             }
 
-            var claims = new[]
+
+
+            if (user.Email != null)
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(CustomClaimTypes.Uid, user.Id),
-                new Claim(CustomClaimTypes.Rid, roleid)
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(CustomClaimTypes.Uid, user.Id),
+                    new Claim(CustomClaimTypes.Rid, roleid)
+                }
+                .Union(userClaims)
+                .Union(roleClaims);
+
+                var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+                var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+                var jwtSecurityToken = new JwtSecurityToken(
+                    issuer: _jwtSettings.Issuer,
+                    audience: _jwtSettings.Audience,
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+                    signingCredentials: signingCredentials);
+                return jwtSecurityToken;
             }
-            .Union(userClaims)
-            .Union(roleClaims);
+            else
+            {
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    //new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(CustomClaimTypes.Uid, user.Id),
+                    new Claim(CustomClaimTypes.Rid, roleid)
+                }
+                .Union(userClaims)
+                .Union(roleClaims);
 
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
-            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+                var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+                var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
-            var jwtSecurityToken = new JwtSecurityToken(
-                issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Audience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
-                signingCredentials: signingCredentials);
-            return jwtSecurityToken;
+                var jwtSecurityToken = new JwtSecurityToken(
+                    issuer: _jwtSettings.Issuer,
+                    audience: _jwtSettings.Audience,
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+                    signingCredentials: signingCredentials);
+                return jwtSecurityToken;
+            }
+
         }
     }
 }

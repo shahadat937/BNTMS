@@ -127,26 +127,60 @@ export class NewUserListComponent implements OnInit {
   }
 
   createUserSelectedRows(){
+    const userFormList: any[] = [];
+
     this.userList = this.selection.selected;
     this.userList.forEach(element => {
-      this.UserForm.get('userName').setValue(element.pno);
-      this.UserForm.get('traineeId').setValue(element.traineeId);
-      this.UserForm.get('email').setValue(element.email);
-      this.UserForm.get('phoneNumber').setValue(element.mobile);
-
-      this.UserService.submit(this.UserForm.value).subscribe(response => {
-        
-        this.snackBar.open('Information Inserted Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
-        });
-      }, error => {
-        this.validationErrors = error;
-      })
+      const userInfo = {
+        userName: element.pno,
+        traineeId: element.traineeId,
+        email: element.email,
+        phoneNumber: element.mobile,
+        id: 0,
+        roleName: this.userRole.Student,
+        password: 'Admin@123',
+        confirmPassword: 'Admin@123',
+        firstName: 'na',
+        lastName:'na',
+      };
+      userFormList.push(userInfo);
     });
-    this.router.navigateByUrl('/security/instructor-list');
+    this.UserService.submit(userFormList).subscribe((response : any) => {
+          if(response.success){
+            this.UserService.Users = [];
+            this.snackBar.open(response.message, '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-success'
+            });
+            this.router.navigateByUrl('/security/instructor-list');
+          }
+        }, error => {
+          this.validationErrors = error;
+    });
+
+    // this.userList = this.selection.selected;
+    // this.userList.forEach(element => {
+    //   this.UserForm.get('userName').setValue(element.pno);
+    //   this.UserForm.get('traineeId').setValue(element.traineeId);
+    //   this.UserForm.get('email').setValue(element.email);
+    //   this.UserForm.get('phoneNumber').setValue(element.mobile);
+    //   console.log("User Value : ",this.UserForm.value)
+    //   this.UserService.submit(this.UserForm.value).subscribe((response : any) => {
+    //     if(response.success){
+    //       this.snackBar.open('Information Inserted Successfully ', '', {
+    //         duration: 2000,
+    //         verticalPosition: 'bottom',
+    //         horizontalPosition: 'right',
+    //         panelClass: 'snackbar-success'
+    //       });
+    //       this.router.navigateByUrl('/security/instructor-list');
+    //     }
+    //   }, error => {
+    //     this.validationErrors = error;
+    //   })
+    // });
   }
 
   
