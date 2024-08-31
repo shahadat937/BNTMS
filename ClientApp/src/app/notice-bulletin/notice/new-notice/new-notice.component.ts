@@ -45,6 +45,7 @@ export class NewNoticeComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['ser','noticeHeading','noticeDetails','courseName','status','actions'];
+  filteredbaseschools: SelectedModel[];
   constructor(
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
@@ -144,6 +145,10 @@ export class NewNoticeComponent implements OnInit {
   this.NoticeForm.get('courseDurationId').setValue(courseDurationId);
   }
 
+  filterBaseSchools(value:string) {
+    this.filteredbaseschools=this.selectedbaseschools.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()));
+  }
+
   
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
@@ -207,6 +212,7 @@ stopNotices(element){
   getselectedbaseschools(){
     this.noticeService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschools=res
+      this.filteredbaseschools = res;
     }); 
   } 
 
@@ -346,9 +352,9 @@ stopNotices(element){
   this.isShowCourseName=true;
 
       this.NoticeForm.controls.baseSchoolNameId
-        .patchValue([...this.selectedbaseschools.map(item => item.value), 0]);
+        .patchValue([...this.filteredbaseschools.map(item => item.value), 0]);
     } else {
-      //this.isShowCourseName=true;
+      this.isShowCourseName=false;
       this.NoticeForm.controls.baseSchoolNameId.patchValue([]);
     }
     
