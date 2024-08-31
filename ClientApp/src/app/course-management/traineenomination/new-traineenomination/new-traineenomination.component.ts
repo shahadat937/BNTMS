@@ -9,7 +9,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { Observable, of, Subscription } from 'rxjs';
-import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
+import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map, delay } from 'rxjs/operators';
 import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/service/BIODataGeneralInfo.service';
 import { CourseDurationService } from '../../service/courseduration.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,6 +23,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./new-traineenomination.component.sass']
 }) 
 export class NewTraineeNominationComponent implements OnInit {
+  subscription: Subscription = new Subscription();
   masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -182,10 +183,26 @@ export class NewTraineeNominationComponent implements OnInit {
   
 //autocomplete
 getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
-  this.TraineeNominationService.getSelectedTraineeByparameterRequest(pno,courseDurationId,courseNameId).subscribe(response => {
+  const source$ = of (pno);
+  const delay$ = source$.pipe (
+    delay(700)
+  );
 
-    this.options = response;
-    this.filteredOptions = response;
+  if(this.subscription) {
+    this.subscription.unsubscribe();
+  }
+
+  if(pno.trim()=="") {
+    this.options = [];
+    this.filteredOptions = [];
+    return;
+  }
+
+  this.subscription = delay$.subscribe(data => {
+    this.TraineeNominationService.getSelectedTraineeByparameterRequest(data,courseDurationId,courseNameId).subscribe(response => {
+      this.options = response;
+      this.filteredOptions = response;
+    })
   })
 }
 
@@ -255,7 +272,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
             // this.router.navigateByUrl('/course-management/traineenomination-list/'+this.courseDurationId);
             this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
-            this.reloadCurrentRoute();
+            //this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
               
               duration: 2000,
@@ -263,8 +280,10 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
               horizontalPosition: 'right',
               panelClass: 'snackbar-success'
             });
+            this.loading = false;
           }, error => {
             this.validationErrors = error;
+            this.loading = false;
           })
         }
       })
@@ -275,15 +294,17 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         // this.router.navigateByUrl('/course-management/traineenomination-list/'+this.courseDurationId);
         this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
-        this.reloadCurrentRoute();
+        //this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
         });
+        this.loading = false;
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
     }
  

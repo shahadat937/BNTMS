@@ -8,6 +8,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
+import { delay, of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-new-localcourse',
@@ -15,6 +16,7 @@ import { CourseNameService } from '../../../basic-setup/service/CourseName.servi
   styleUrls: ['./new-localcourse.component.sass']
 })
 export class NewLocalcourseComponent implements OnInit {
+  subscription: Subscription = new Subscription();
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -29,12 +31,15 @@ export class NewLocalcourseComponent implements OnInit {
   selectedcoursetype:SelectedModel[];
   courseTypeId:string;
   selectedSchool:SelectedModel[];
+  filteredSelectedSchool: SelectedModel[];
   selectedBaseName:SelectedModel[];
+  filteredSelectedBaseName: SelectedModel[];
   selectedbaseschoolfornbcd:SelectedModel[];
   courseNameId:number;
 
   options = [];
   filteredOptions;
+  filteredbaseSchoolFornbcd: SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -121,6 +126,18 @@ export class NewLocalcourseComponent implements OnInit {
     })
   }
 
+  filterBaseName(value:any) {
+    console.log(value);
+    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  filterSchoolName(value:any) {
+    this.filteredSelectedSchool = this.selectedSchool.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  filterNbcd(value: any) {
+    this.filteredbaseSchoolFornbcd = this.selectedbaseschoolfornbcd.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
+  }
   //autocomplete
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value 
@@ -128,15 +145,34 @@ export class NewLocalcourseComponent implements OnInit {
     this.CourseDurationForm.get('course').setValue(item.text);
   }
   getSelectedCourseAutocomplete(cName){
-    this.CourseNameService.getSelectedCourseByNameAndType(this.courseTypeId,cName).subscribe(response => {
-      this.options = response;
-      this.filteredOptions = response;
+    if(cName.trim()=="") {
+      this.options = [];
+      this.filteredOptions = [];
+      return;
+    }
+
+    const $source = (of (cName)).pipe(
+      delay(700)
+    );
+
+    if(this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    this.subscription = $source.subscribe(data=> {
+      this.CourseNameService.getSelectedCourseByNameAndType(this.courseTypeId,cName).subscribe(response => {
+        this.options = response;
+        this.filteredOptions = response;
+      })
+
     })
+
   }
   
   getselectedbaseschoolsfornbcd(){
     this.CourseDurationService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschoolfornbcd=res
+      this.filteredbaseSchoolFornbcd = res;
     });
   }
 
@@ -144,11 +180,13 @@ export class NewLocalcourseComponent implements OnInit {
     let branchLevel = 3;
     this.CourseDurationService.getselectedBaseNamesForCourse(branchLevel).subscribe(res=>{
       this.selectedBaseName=res
+      this.filteredSelectedBaseName = this.selectedBaseName;
     });
   }
   onBaseNameSelectionChangeGetSchool(baseNameId){
     this.CourseDurationService.getSelectedSchoolsForCourse(baseNameId).subscribe(res=>{
       this.selectedSchool=res
+      this.filteredSelectedSchool = this.selectedSchool;
     });
    }
 

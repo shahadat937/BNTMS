@@ -11,6 +11,7 @@ import { CourseInstructor } from '../../models/courseinstructor';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { ClassRoutineService } from '../../../routine-management/service/classroutine.service';
 import { Role } from 'src/app/core/models/role';
+import { delay, of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-new-courseinstructor',
@@ -19,6 +20,7 @@ import { Role } from 'src/app/core/models/role';
 })
 export class NewCourseInstructorComponent implements OnInit {
 
+  subscription: Subscription = new Subscription();
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -162,10 +164,29 @@ export class NewCourseInstructorComponent implements OnInit {
 
   //autocomplete
   getSelectedTraineeByPno(pno) {
-    this.CourseInstructorService.getSelectedTraineeByPno(pno).subscribe(response => {
-      this.options = response;
-      this.filteredOptions = response;
+    const source$ = of (pno);
+    const delay$ = source$.pipe (
+      delay(700)
+    );
+
+    if(this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    if(pno.trim()=="") {
+      this.options = [];
+      this.filteredOptions = [];
+      return;
+    }
+
+    this.subscription = delay$.subscribe(data => {
+
+      this.CourseInstructorService.getSelectedTraineeByPno(data).subscribe(response => {
+        this.options = response;
+        this.filteredOptions = response;
+      })
     })
+
   }
 
   //Stop Course Instructor
