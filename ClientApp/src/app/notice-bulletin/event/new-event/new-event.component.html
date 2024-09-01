@@ -31,8 +31,14 @@
                         <mat-label>School</mat-label>
                         <mat-select required multiple formControlName="baseSchoolNameId"  (selectionChange)="getselectedcoursedurationbyschoolname()">
                           <!-- <input matInput (input)="filterOptions($event.target.value)" placeholder="Search options"> -->
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectSearch" 
+                          (input)="filterBaseSchools($event.target.value)"
+                          [disabled]="allSelected.selected"
+                          placeholder="Search">
                           <mat-option #allSelected (click)="toggleAllSelection()" [value]="0">All</mat-option>
-                          <mat-option *ngFor="let school of selectedbaseschools" [value]="school.value">
+                          <mat-option *ngFor="let school of filteredbaseschools" [value]="school.value">
                             {{school.text}} 
                           </mat-option>                          
                         </mat-select>    
@@ -65,12 +71,17 @@
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Name</mat-label>  
-                      
                       <mat-select multiple formControlName="courseName" [disabled]="isShowCourseName">
                         <!-- <mat-option  value="0">--Select--</mat-option > -->
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectSearch" 
+                          (input)="filterCourse($event.target.value)"
+                          [disabled]="allSelectedCourse.selected"
+                          placeholder="Search">
                           <mat-option #allSelectedCourse (click)="toggleAllSelectionCourse()" [value]="0">All</mat-option>
                           <!-- (onSelectionChange)="getselectedbnasubjectname(dropdown)" -->
-                          <mat-option *ngFor="let dropdown of selectedCourse" [value]="dropdown.value"  >
+                          <mat-option *ngFor="let dropdown of filteredCourse" [value]="dropdown.value"  >
                               {{dropdown.text}}  
                             </mat-option>                          
                       </mat-select>  
