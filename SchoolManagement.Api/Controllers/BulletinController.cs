@@ -47,6 +47,17 @@ public class BulletinController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPost]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [Route("save-bulletinBulk")]
+    public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateBulletinBulkDto bulletins)
+    {
+        var command = new CreateBulletinBulkCommand { bulletinBulkDto = bulletins };
+        var response = await _mediator.Send(command);
+        return Ok(response);
+    }
+
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
