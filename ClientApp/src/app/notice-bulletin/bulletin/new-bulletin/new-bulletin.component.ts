@@ -247,6 +247,7 @@ export class NewBulletinComponent implements OnInit {
       this.BulletinForm.value.courseName.forEach(element => {
         this.BulletinForm.value.courseName = element;
 
+
         this.bulletinService.submit(this.BulletinForm.value).subscribe(response => {
           this.reloadCurrentRoute();
           // this.getBulletins(baseSchoolNameId);
@@ -267,6 +268,7 @@ export class NewBulletinComponent implements OnInit {
     else {
       //
       this.loading = true;
+      console.log(this.BulletinForm.value);
       this.BulletinForm.value.baseSchoolNameId.forEach(element => {
         if (element.value != 0) {
 

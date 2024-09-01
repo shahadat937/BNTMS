@@ -29,7 +29,9 @@ export class IndividualNoticeComponent implements OnInit {
   NoticeForm: FormGroup;
   validationErrors: string[] = [];
   selectedCourse:SelectedModel[];
+  filteredCourse: SelectedModel[];
   selectedbaseschools:SelectedModel[];
+  filteredbaseschools: SelectedModel[];
   selectedNotice:Notice[];
   isShown: boolean = false ;
   traineeNominationListForNotice:TraineeList[];
@@ -208,12 +210,14 @@ export class IndividualNoticeComponent implements OnInit {
     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
    // this.isShown=true;
     this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-      this.selectedCourse=res;   
+      this.selectedCourse=res;
+      this.filteredCourse = res;   
     });
 //     this.individualNoticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
 //       this.selectedNotice=res
 //     }); 
-} 
+}
+
 
 stopNotices(element){
     this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
@@ -275,8 +279,20 @@ stopNotices(element){
   getselectedbaseschools(){
     this.individualNoticeService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschools=res
+      this.filteredbaseschools = res;
     }); 
   } 
+
+  filterBaseSchools(value:string) {
+    this.filteredbaseschools = this.selectedbaseschools.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  filterCourse(value:string) {
+    if(this.selectedCourse==undefined||this.selectedCourse.length<=0) {
+      return;
+    }
+    this.filteredCourse = this.selectedCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()));
+  }
 
   onSubmit() {
     const id = this.NoticeForm.get('noticeId').value;

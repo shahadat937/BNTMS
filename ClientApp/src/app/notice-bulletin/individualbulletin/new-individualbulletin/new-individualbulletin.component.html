@@ -30,8 +30,13 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>School</mat-label>
                         <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectSearch" 
+                          (input)="filterBaseSchools($event.target.value)"
+                          placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
-                            <mat-option *ngFor="let school of selectedbaseschools" [value]="school.value">
+                            <mat-option *ngFor="let school of filteredbaseschools" [value]="school.value">
                                 {{school.text}} 
                               </mat-option>                          
                         </mat-select>
@@ -59,8 +64,13 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Name</mat-label>                        
                       <mat-select formControlName="courseNameIds">
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectSearch" 
+                        (input)="filterCourse($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
-                        <mat-option *ngFor="let dropdown of selectedCourse" [value]="dropdown" (onSelectionChange)="getSelectedCourseName(dropdown)">
+                        <mat-option *ngFor="let dropdown of filteredCourse" [value]="dropdown" (onSelectionChange)="getSelectedCourseName(dropdown)">
                           {{dropdown.text}} 
                         </mat-option>                          
                       </mat-select>
