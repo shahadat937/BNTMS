@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-examapprove-list',
@@ -28,6 +29,11 @@ export class ExamApproveComponent implements OnInit {
   courseNameId:any;
   courseTypeId:any;
 
+  dataSource = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort)
+  matSort!: MatSort;
 
   role:any;
   traineeId:any;
@@ -61,6 +67,16 @@ export class ExamApproveComponent implements OnInit {
     this.destination="Exam"
     this.BNAExamMarkService.getSchoolExamApproveList(baseSchoolId).subscribe(res=>{
       this.examList=res;  
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.matSort;
     });
+  }
+
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 }
