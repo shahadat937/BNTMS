@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-religation-list',
@@ -33,8 +34,15 @@ export class ReligationListComponent implements OnInit {
   searchText="";
   candidateCount:any;
 
+  
+  dataSource = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort)
+  matSort!: MatSort;
 
-  displayedColumns: string[] = ['ser', 'baseSchoolName', 'courseName', 'professional', 'noOfCandidates', 'nbcd', 'durationFrom', 'durationTo', 'remark', 'actions'];
+
+  displayedColumns: string[] = ['ser', 'name', 'duration', 'action'];
 
   branchId:any;
   traineeId:any;
@@ -54,8 +62,16 @@ export class ReligationListComponent implements OnInit {
     this.isLoading = true;
     this.CourseDurationService.getCourseListBySchool(schoolId).subscribe(response => {
       this.CourseListBySchool = response; 
+      this.dataSource = new MatTableDataSource(response);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.matSort;
     })
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
   
 }
