@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { IBulletinPagination,BulletinPagination } from '../models/bulletinPagination';
 import { Bulletin } from '../models/bulletin';
 import { SelectedModel } from '../../core/models/selectedModel';
-import { map } from 'rxjs';
+import { map, Observable, Observer } from 'rxjs';
 import { PostResponse } from 'src/app/core/models/PostResponse';
 
 @Injectable({
@@ -76,6 +76,10 @@ export class BulletinService {
 
   ChangeBulletinStatus(bulletinId,status){
     return this.http.get(this.baseUrl + '/bulletin/change-bulletinStatus?bulletinId='+bulletinId+'&status='+status);
+  }
+
+  submitBulletinBulk(model:any) :Observable<any> {
+    return this.http.post<any>(this.baseUrl+'/bulletin/save-bulletinBulk', model);
   }
   
 }
