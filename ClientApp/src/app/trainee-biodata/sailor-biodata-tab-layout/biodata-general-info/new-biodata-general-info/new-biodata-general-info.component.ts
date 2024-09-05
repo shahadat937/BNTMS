@@ -24,6 +24,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   validationErrors: string[] = [];
   rankValues:SelectedModel[]; 
   selectedSaylorBranch:SelectedModel[]; 
+  sailorBranch:SelectedModel[];
   selectedSaylorRank:SelectedModel[];
   selectedSaylorSubBranch:SelectedModel[];
   genderValues:SelectedModel[];
@@ -109,7 +110,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   getreligions(){
     this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
-    
+      this.selectedReligion=res
     });
   }
   gethaircolors(){
@@ -138,31 +139,31 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   getselectedweight(){
     this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
       this.weightValues=res
-    
+      this.selectedWeight=res
     });
   }
   filterSaylorRank(value:any) {
-    this.filterSailorRank = this.selectedSaylorRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
+    this.rankValues = this.selectedSaylorRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
   }
 
   filterSaylorBranch(value:any){
-    this.filterSailorBranch = this.selectedSaylorBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+    this.sailorBranch = this.selectedSaylorBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
-  filterWeight(value:any){
-    this.filterweight = this.selectedWeight.filter(x=>x.value)
-  }
+  // filterWeight(value:any){
+  //   this.weightValues = this.selectedWeight.filter(x=>x.value)
+  // }
   
-  filterHeight(value:any){
-    this.filterheight = this.selectedWeight.filter(x=>x.value)
-  }
+  // filterHeight(value:any){
+  //   this.filterheight = this.selectedWeight.filter(x=>x.value)
+  // }
   
   filterBloodgroup(value:any){
-    this.filterbloodgroup = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   filterbyReligion(value:any){
-    this.filterByReligion = this.selectedReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.religionValues = this.selectedReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedcolorofeye(){
@@ -175,7 +176,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   getselectedbloodgroup(){
     this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
-    
+      this.selectBloodGroup=res
     });
   }
 
@@ -183,7 +184,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   getRanks(){
     this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
-    
+      this.selectedSaylorRank=res 
     });
   }
 
@@ -195,6 +196,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
   getselectedSaylorBranch(){
     this.BIODataGeneralInfoService.getselectedSaylorBranch().subscribe(res=>{
+      this.sailorBranch=res
       this.selectedSaylorBranch=res
      
     });
