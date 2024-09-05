@@ -36,7 +36,11 @@ export class NewForeignBIODataInfoComponent implements OnInit {
   hairColorValues:SelectedModel[];
   selectedCastes:SelectedModel[];
   selectedDistrict:SelectedModel[];
+  selectBranch:SelectedModel[];
+  selectRank:SelectedModel[];
   selectedThana:SelectedModel[];
+  selectBatchValue: SelectedModel[];
+  selectCountry:SelectedModel[];
   fileAttr = 'Choose File';
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
@@ -96,11 +100,17 @@ export class NewForeignBIODataInfoComponent implements OnInit {
   getBatchs(){
     this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
       this.batchValues=res
+      this.selectBatchValue=res
     });
   }
+filterBna(value:any){
+  this.batchValues= this.selectBatchValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
+
   getreligions(){
     this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
+   
     });
   }
   gethaircolors(){
@@ -139,21 +149,38 @@ export class NewForeignBIODataInfoComponent implements OnInit {
     });
   }
 
+filterCountry(value:any){
+  this.cuntryValues = this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
+
   getselectedCountry(){
     this.BIODataGeneralInfoService.getselectedCountry().subscribe(res=>{
       this.cuntryValues=res
+      this.selectCountry= res
     });
   }
 
+  filterBranch(value:any){
+    this.branchValues= this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getBranch(){
     this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
       this.branchValues=res
+      this.selectBranch=res
     });
   }
+
+
+  rankFilter(value:any){
+  this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
+
+
 
   getRanks(){
     this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
+      this.selectRank=res
     });
   }
 

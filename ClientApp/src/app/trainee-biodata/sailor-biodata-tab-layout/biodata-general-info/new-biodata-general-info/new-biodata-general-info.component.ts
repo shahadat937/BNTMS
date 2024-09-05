@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,6 +36,19 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   hairColorValues:SelectedModel[];
   maritialStatusValues:SelectedModel[];
   selectedCastes:SelectedModel[];
+  selectedBaseName:SelectedModel[];
+  filteredSelectedBaseName: SelectedModel[];
+  filterSailorRank: SelectedModel[];
+  filterSailorBranch: SelectedModel[];
+  selectedWeight: SelectedModel[];
+  filterweight: SelectedModel[];
+  selectheight: SelectedModel[];
+  filterheight: SelectedModel[];
+  selectBloodGroup: SelectedModel[];
+  filterbloodgroup: SelectedModel[];
+  filterByReligion: SelectedModel[];
+  selectedReligion: SelectedModel[];
+
 
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
@@ -110,6 +124,10 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     
     });
   }
+  filterBaseName(value:any) {
+    console.log(value);
+    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase()));
+  }
   getselectedheight(){
     this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
       this.heightValues=res
@@ -122,6 +140,29 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       this.weightValues=res
     
     });
+  }
+  filterSaylorRank(value:any) {
+    this.filterSailorRank = this.selectedSaylorRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  filterSaylorBranch(value:any){
+    this.filterSailorBranch = this.selectedSaylorBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+
+  filterWeight(value:any){
+    this.filterweight = this.selectedWeight.filter(x=>x.value)
+  }
+  
+  filterHeight(value:any){
+    this.filterheight = this.selectedWeight.filter(x=>x.value)
+  }
+  
+  filterBloodgroup(value:any){
+    this.filterbloodgroup = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+
+  filterbyReligion(value:any){
+    this.filterByReligion = this.selectedReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedcolorofeye(){

@@ -168,7 +168,7 @@ export class NewLocalcourseComponent implements OnInit {
     })
 
   }
-  
+    
   getselectedbaseschoolsfornbcd(){
     this.CourseDurationService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschoolfornbcd=res
