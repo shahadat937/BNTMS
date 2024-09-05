@@ -59,9 +59,15 @@
                   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Sailor Rank</mat-label>
+                      
                       <mat-select formControlName="saylorRankId" required >
+                        <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          (input)="filterSaylorRank($event.target.value)"
+                          id="selectSearch" 
+                         placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
-                        <mat-option *ngFor="let code of selectedSaylorRank" [value]="code.value">
+                        <mat-option *ngFor="let code of rankValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
                       </mat-select>
@@ -74,8 +80,13 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Sailor Branch</mat-label>
                       <mat-select formControlName="saylorBranchId" required (selectionChange)="onBranchSelectionChangegetSubBranch($event.value)">
+                        <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          (input)="filterSaylorBranch($event.target.value)"
+                          id="selectSearch" 
+                         placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
-                        <mat-option *ngFor="let code of selectedSaylorBranch" [value]="code.value">
+                        <mat-option *ngFor="let code of sailorBranch" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
                       </mat-select>
@@ -89,6 +100,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Sailor Sub Branch</mat-label>
                       <mat-select formControlName="saylorSubBranchId" required>
+                        <input type="text" 
+                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+	                            id="selectRank" 
+
+                              placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of selectedSaylorSubBranch" [value]="code.value">
                             {{code.text}}
@@ -164,6 +180,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Weight</mat-label>
                       <mat-select formControlName="weightId" required>
+                        <!-- <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectedWeight" 
+                        
+                        placeholder="Search"> -->
                         <mat-option *ngFor="let code of weightValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -178,6 +199,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Height</mat-label>
                       <mat-select formControlName="heightId" required>
+                        <!-- <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectSearch" 
+                        
+                        placeholder="Search"> -->
                         <mat-option *ngFor="let code of heightValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -224,6 +250,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Blood Group</mat-label>
                       <mat-select formControlName="bloodGroupId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectBloodGroup" 
+                        (input)="filterBloodgroup($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let code of bloodValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -258,6 +289,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Religion</mat-label>
                       <mat-select formControlName="religionId" required (selectionChange)="onReligionSelectionChangeGetCastes($event.value)">
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectSearch"
+                        (input)="filterbyReligion($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of religionValues" [value]="code.value">
                             {{code.text}}
@@ -272,6 +308,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Caste</mat-label>
                       <mat-select formControlName="casteId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+	                      id="selectRank" 
+        
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of selectedCastes" [value]="code.value">
                             {{code.text}}

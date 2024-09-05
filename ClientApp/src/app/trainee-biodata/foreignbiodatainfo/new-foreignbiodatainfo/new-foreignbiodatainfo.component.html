@@ -202,6 +202,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Rank</mat-label>
                       <mat-select formControlName="rankId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="rankFilter($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of rankValues" [value]="code.value">
                             {{code.text}}
@@ -215,7 +220,13 @@
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Branch</mat-label>
+                      
                       <mat-select formControlName="branchId" >
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterBranch($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of branchValues" [value]="code.value">
                             {{code.text}}
@@ -226,7 +237,13 @@
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>BNA Batch</mat-label>
+                     
                       <mat-select formControlName="bnaBatchId" >
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterBna($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of batchValues" [value]="code.value">
                             {{code.text}}
@@ -304,6 +321,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Country</mat-label>
                       <mat-select formControlName="countryId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+	                        id="selectRank" 
+                          (input)="filterCountry($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of cuntryValues" [value]="code.value">
                             {{code.text}}
