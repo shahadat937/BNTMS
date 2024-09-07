@@ -37,6 +37,15 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   selectedCastes:SelectedModel[];
   selectedDistrict:SelectedModel[];
   selectedThana:SelectedModel[];
+  selectrank: SelectedModel[];
+  selectDivision: SelectedModel[];
+  selectBranch: SelectedModel[];
+  selectBatch: SelectedModel[];
+  selectDistric:SelectedModel[];
+  selectThana: SelectedModel[];
+  selectReligion: SelectedModel[];
+  selectcaste: SelectedModel[];
+  selectBloodGroup:SelectedModel[];
   fileAttr = 'Choose File';
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
@@ -86,14 +95,23 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     
   }
 
+
+  filterByBatch(value:any){
+    this.batchValues = this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getBatchs(){
     this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
       this.batchValues=res
+      this.selectBatch=res
     });
+  }
+  filterByReligion(value:any){
+    this.religionValues = this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getreligions(){
     this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
+      this.selectReligion=res
     });
   }
   gethaircolors(){
@@ -119,10 +137,13 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       this.colorOfEyeValues=res
     });
   }
-
+  filterBloodGroup(value:any){
+    this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedbloodgroup(){
     this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
+      this.selectBloodGroup=res
     });
   }
 
@@ -131,16 +152,23 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       this.nationalityValues=res
     });
   }
-
+  filterByBranch(value:any){
+    this.branchValues = this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getBranch(){
     this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
       this.branchValues=res
+      this.selectBranch=res
     });
   }
 
+  filterByRank(value:any){
+    this.rankValues=this.selectrank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getRanks(){
     this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
+      this.selectrank=res
     });
   }
 
@@ -160,27 +188,43 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       });
     }
   }
+
+  filterDivision(value:any){
+      this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getDivisions(){
     this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
       this.divisionValues=res
+      this.selectDivision=res
     });
   }
 
+  filterByDistric(value:any){
+    this.selectedDistrict=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
+      this.selectDistric=res
     });
   }
 
+  filterByThana(value:any){
+    this.selectedThana = this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   onDistrictSelectionChangeGetThana(districtId){
     this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
+      this.selectThana=res
     });
   }
-
+filterByCaste(value:any){
+  this.selectedCastes = this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
+      this.selectcaste=res
     });
   } 
 
