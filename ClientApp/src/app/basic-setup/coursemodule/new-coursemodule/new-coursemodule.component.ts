@@ -21,6 +21,7 @@ export class NewCourseModuleComponent implements OnInit {
   CourseModuleForm: FormGroup;
   validationErrors: string[] = [];
   selectedbaseschools:SelectedModel[];
+  selectSchool:SelectedModel[];
   selectedcoursename:SelectedModel[];
   courseNameId:number;
   baseSchoolNameId:number;
@@ -124,8 +125,12 @@ getSelectedTraineeByPno(pno){
   getselectedbaseschools(){
     this.CourseModuleService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschools=res
+      this.selectSchool=res
     });
   }  
+  filterBySchoolName(value:any){
+    this.selectedbaseschools=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedcoursename(){
     this.CourseModuleService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res

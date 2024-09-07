@@ -26,7 +26,11 @@ export class NewTraineeSectionSelectionComponent implements OnInit {
   selectedBnaBatch:SelectedModel[];
   selectedBnaSemester:SelectedModel[];
   selectedbnaclasssectionselection:SelectedModel[];
+  selectPreview:SelectedModel[];
+  selectClassSelection: SelectedModel[];
   selectedbnacurriculamtype:SelectedModel[];
+  selectBNAbatch: SelectedModel[];
+  selectSemesterId:SelectedModel[]
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeSectionSelectionService: TraineeSectionSelectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -84,21 +88,37 @@ export class NewTraineeSectionSelectionComponent implements OnInit {
   getBnaBatch(){
     this.TraineeSectionSelectionService.getselectedbnabatch().subscribe(res=>{
       this.selectedBnaBatch=res;
+      this.selectBNAbatch=res;
     });
+  }
+  filterBnaBatch(value:any){
+    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getBnaSemester(){
     this.TraineeSectionSelectionService.getselectedbnasemester().subscribe(res=>{
-      this.selectedBnaSemester=res      
+      this.selectedBnaSemester=res
+      this.selectSemesterId=res      
     });
+  }
+
+  filterSemesterId(value:any){
+    this.selectedBnaSemester=this.selectSemesterId.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getbnaclasssectionselection(){
     this.TraineeSectionSelectionService.getselectedbnaclasssectionselection().subscribe(res=>{
-      this.selectedbnaclasssectionselection=res      
+      this.selectedbnaclasssectionselection=res
+      this.selectClassSelection=res  
+      this.selectPreview=res    
     });
   }
-
+ filterClassSelection(value:any){
+  this.selectedbnaclasssectionselection=this.selectClassSelection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+ }
+filterPreviewSection(value:any){
+  this.selectedbnaclasssectionselection=this.selectPreview.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   getbnacurriculamtype(){
     this.TraineeSectionSelectionService.getselectedbnacurriculamtype().subscribe(res=>{
       this.selectedbnacurriculamtype=res      

@@ -19,6 +19,7 @@ export class NewSaylorSubBranchComponent implements OnInit {
   SaylorSubBranchForm: FormGroup;
   validationErrors: string[] = [];
   selectedSaylorBranch:SelectedModel[]; 
+  selectBranch:SelectedModel[]
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private SaylorSubBranchService: SaylorSubBranchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -61,7 +62,11 @@ export class NewSaylorSubBranchComponent implements OnInit {
   getselectedSaylorBranch(){
     this.SaylorSubBranchService.getselectedSaylorBranch().subscribe(res=>{
       this.selectedSaylorBranch=res
+      this.selectBranch=res
     });
+  }
+  filterByBranch(value:any){
+    this.selectedSaylorBranch=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   onSubmit() {
     const id = this.SaylorSubBranchForm.get('saylorSubBranchId').value;   

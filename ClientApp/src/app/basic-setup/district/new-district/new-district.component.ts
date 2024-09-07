@@ -19,6 +19,7 @@ export class NewDistrictComponent implements OnInit {
   DistrictForm: FormGroup;
   validationErrors: string[] = [];
   selectedModel:SelectedModel[]; 
+  selectDivision:SelectedModel[];
   districtByDivision:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private DistrictService: DistrictService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
@@ -69,7 +70,11 @@ export class NewDistrictComponent implements OnInit {
   getDivisionName(){
     this.DistrictService.getselecteddivision().subscribe(res=>{
       this.selectedModel=res
+      this.selectDivision=res
     });
+  }
+  filterDivision(value:any){
+    this.selectedModel=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {

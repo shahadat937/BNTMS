@@ -29,8 +29,11 @@ export class NewBudgetAllocationComponent implements OnInit {
   selectedcoursename:SelectedModel[];
   selectedcoursedurationbyschoolname:SelectedModel[];
   selectedBudgetCode:SelectedModel[];
+  selectBudget:SelectedModel[];
   selectedBudgetType:SelectedModel[];
+  selectBudgetType:SelectedModel[];
   selectedFiscalYear:SelectedModel[];
+  selectYear:SelectedModel[];
   selectedBudgetCodeName:SelectedModel[];
   budgetCodeName:string;
   budgetCodeId:any;
@@ -102,17 +105,29 @@ export class NewBudgetAllocationComponent implements OnInit {
   getselectedBudgetCode(){
     this.BudgetAllocationService.getselectedBudgetCode().subscribe(res=>{
       this.selectedBudgetCode=res
+      this.selectBudget=res
     });
   } 
+  filterBudgetCode(value:any){
+    this.selectedBudgetCode=this.selectBudget.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedBudgetType(){
     this.BudgetAllocationService.getselectedBudgetType().subscribe(res=>{
       this.selectedBudgetType=res
+      this.selectBudgetType=res
     });
   } 
+  filterByType(value:any){
+    this.selectedBudgetType=this.selectBudgetType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterByYear(value:any){
+    this.selectedFiscalYear=this.selectYear.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedFiscalYear(){
     this.BudgetAllocationService.getselectedFiscalYear().subscribe(res=>{
       this.selectedFiscalYear=res
+      this.selectYear=res
     });
   } 
 

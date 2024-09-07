@@ -33,11 +33,15 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
   selectedcoursename:SelectedModel[];
   selectedcoursedurationbyschoolname:SelectedModel[];
   selectedBudgetCode:SelectedModel[];
+  selectBUdgetCode:SelectedModel[];
   selectedBudgetType:SelectedModel[];
   selectedFiscalYear:SelectedModel[];
   selectedPaymentType:SelectedModel[];
+  selectPayment:SelectedModel[];
   selectedCourseDuration:SelectedModel[];
+  selectCourseName:SelectedModel[];
   selectedTrainee:SelectedModel[];
+  selectTrainee:SelectedModel[];
   totalBudget:any;
   availableAmount:any;
   traineeId:any;
@@ -188,7 +192,9 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
 
     this.CourseBudgetAllocationService.getSelectedTraineeByCourseDurationId(courseDurationId).subscribe(res=>{
     this.selectedTrainee=res 
+    this.selectTrainee=res
    });
+   
 
     this.CourseBudgetAllocationForm.get('courseNameId').setValue(courseNameId);
     this.CourseBudgetAllocationForm.get('courseDurationId').setValue(courseDurationId);
@@ -216,7 +222,14 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
   getTotalBudgetByBudgetCodeIdRequest(){
     this.CourseBudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(MasterData.coursetype.ForeignCourse).subscribe(res=>{
       this.selectedCourseDuration=res
+      this.selectCourseName=res
     });
+  }
+  filterByCourseName(value:any){
+    this.selectedCourseDuration=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterByTrainee(value:any){
+    this.selectedTrainee=this.selectTrainee.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectedCourseDuration(CourseTypeId){
@@ -233,12 +246,20 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
   getselectedBudgetCode(){
     this.CourseBudgetAllocationService.getselectedBudgetCode().subscribe(res=>{
       this.selectedBudgetCode=res
+      this.selectBUdgetCode=res
     });
   } 
+  filterByBudget(value:any){
+    this.selectedBudgetCode=this.selectBUdgetCode.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedPaymentType(){
     this.CourseBudgetAllocationService.getselectedPaymentType().subscribe(res=>{
       this.selectedPaymentType=res
+      this.selectPayment=res
     });
+  }
+  filterByPayment(value:any){
+    this.selectedPaymentType=this.selectPayment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedBudgetType(){

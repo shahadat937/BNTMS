@@ -25,6 +25,7 @@ export class CourseLevelComponent implements OnInit {
   CourseLevelForm: FormGroup;
   validationErrors: string[] = [];
   selectedSchool:SelectedModel[];
+  selectSchool:SelectedModel[];
 
 
   
@@ -132,7 +133,11 @@ deleteItem(row) {
   getSelectedbaseSchoolName(){
     this.baseSchoolNameService.getselectedSchools().subscribe(res=>{
       this.selectedSchool=res
+      this.selectSchool=res
     });
+   }
+   filterBySchool(value:any){
+    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
    }
 
 

@@ -24,7 +24,9 @@ export class NewMistComponent implements OnInit {
   selectedcoursetype:SelectedModel[];
   courseTypeId:string;
   selectedcoursename:SelectedModel[];
+  selectCourseName:SelectedModel[];
   selectedschoolname:SelectedModel[];
+  selecSchoolName: SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -93,16 +95,24 @@ export class NewMistComponent implements OnInit {
   getselectedcoursename(){
     this.CourseDurationService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res
+      this.selectCourseName=res
     });
+  }
+  filterByCourseName(value:any){
+    this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedcoursetype(){
     this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
       this.selectedcoursetype=res
     });
   } 
+  filterSchoolName(value:any){
+    this.selectedschoolname=this.selecSchoolName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedbaseschools(){
     this.CourseDurationService.getselectedbaseschools().subscribe(res=>{
       this.selectedschoolname=res
+      this.selecSchoolName=res
     });
   }
   onSubmit() {
