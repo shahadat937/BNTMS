@@ -24,6 +24,7 @@ export class NewBaseNameComponent implements OnInit {
   validationErrors: string[] = [];
   selectedOrganization:SelectedModel[];
   selectedCommendingArea:SelectedModel[];
+  selectCommendingArea:SelectedModel[];
   organizationId:any;
   commendingAreaId:any;
   isShown:boolean=false;
@@ -92,10 +93,14 @@ export class NewBaseNameComponent implements OnInit {
   //   });
   // }
 
+  filterByCommendingArea(value:any){
+    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.BaseNameForm.value['firstLevel'];
     this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
+      this.selectCommendingArea=res
     });        
   }
   
