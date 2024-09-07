@@ -35,6 +35,7 @@ export class NewReadingMaterialComponent implements OnInit {
   selectedLocationType: SelectedModel[];
   selecteddownload: SelectedModel[];
   selectedReadingMaterialTitle: SelectedModel[];
+  selectSchool: SelectedModel[];
   isShown: boolean = false;
   options = [];
   courseNameId: number;
@@ -233,10 +234,13 @@ export class NewReadingMaterialComponent implements OnInit {
       this.selectedcourse = res;
     });
   }
-
+  filterSchool(value:any){
+    this.selectedschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedschools() {
     this.ReadingMaterialService.getselectedschools().subscribe(res => {
       this.selectedschool = res;
+      this.selectSchool=res;
     });
   }
 

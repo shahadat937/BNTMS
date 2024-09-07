@@ -124,6 +124,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Show Right</mat-label>                        
                         <mat-select formControlName="showRightId" >
+                          <input type="text" 
+                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+	                              id="selectRank" 
+                                (input)="filterSchool($event.target.value)"
+                                placeholder="Search">
                           <mat-option  value="0">All School</mat-option >
                             <mat-option (onSelectionChange)="onShowRightSelectionChange($event)" *ngFor="let semester of selectedschool" [value]="semester.value">
                                 {{semester.text}} 
