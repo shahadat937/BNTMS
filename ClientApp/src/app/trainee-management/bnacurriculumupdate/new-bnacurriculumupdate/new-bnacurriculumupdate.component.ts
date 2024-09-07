@@ -24,9 +24,13 @@ export class NewBnaCurriculumUpdateComponent implements OnInit {
   selectedcourse:SelectedModel[];
   selectedschool:SelectedModel[];
   selectedBnaBatch:SelectedModel[];
+  selectBNAbatch:SelectedModel[];
   selectedBnaSemester:SelectedModel[];
+  selectSemesterId:SelectedModel[];
   selectedBnaSemesterDurations:SelectedModel[];
+  selectSemesterDuration:SelectedModel[];
   selectedbnacurriculamtype:SelectedModel[];
+  selectCurriculumType:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BnaCurriculumUpdateService: BnaCurriculumUpdateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -74,28 +78,41 @@ export class NewBnaCurriculumUpdateComponent implements OnInit {
   }
   
   
-
+  filterBnaBatch(value:any){
+    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getBnaBatch(){
     this.BnaCurriculumUpdateService.getselectedbnabatch().subscribe(res=>{
       this.selectedBnaBatch=res;
+      this.selectBNAbatch=res;
     });
   }
-
+filterSemesterId(value:any){
+  this.selectedBnaSemester=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   getBnaSemester(){
     this.BnaCurriculumUpdateService.getselectedbnasemester().subscribe(res=>{
-      this.selectedBnaSemester=res      
+      this.selectedBnaSemester=res
+      this.selectBNAbatch=res      
     });
   }
 
+  filterSemesterDuration(value:any){
+    this.selectedBnaSemesterDurations=this.selectSemesterDuration.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getBnaSemesterDurations(){
     this.BnaCurriculumUpdateService.getselectedbnasemesterdurations().subscribe(res=>{
-      this.selectedBnaSemesterDurations=res      
+      this.selectedBnaSemesterDurations=res
+      this.selectSemesterDuration=res      
     });
   }
-
+filterByType(value:any){
+  this.selectedbnacurriculamtype=this.selectCurriculumType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   getbnacurriculamtype(){
     this.BnaCurriculumUpdateService.getselectedbnacurriculamtype().subscribe(res=>{
-      this.selectedbnacurriculamtype=res      
+      this.selectedbnacurriculamtype=res 
+      this.selectCurriculumType=res     
     });
   }
 
