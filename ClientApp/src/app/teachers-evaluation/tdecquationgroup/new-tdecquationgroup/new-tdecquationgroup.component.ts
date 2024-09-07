@@ -23,10 +23,13 @@ export class NewTdecQuationGroupComponent implements OnInit {
   validationErrors: string[] = [];
   selectScoolName: SelectedModel[];
   selectedcoursedurationbyschoolname: SelectedModel[];
+  selectCourseName:SelectedModel[];
   selectedSubjectNamebyschoolnameAndCourse: SelectedModel[];
+  selectSubject:SelectedModel[];
   selectTraineePno: SelectedModel[];
   selectTdecQuestionName: SelectedModel[];
   selectedinstructorname: any[];
+  selectSchool:SelectedModel[];
   courseNameId: any;
   courseDurationId:any;
   getinstructorid:number;
@@ -164,13 +167,24 @@ export class NewTdecQuationGroupComponent implements OnInit {
   getselectedBaseScoolName() {
     this.TdecQuationGroupService.getselectedBaseScoolName().subscribe(res => {
       this.selectScoolName = res
+      this.selectSchool=res
     });
+  }
+  filterSchoolName(value:any){
+    this.selectScoolName=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedcoursedurationbyschoolname() {
     var baseSchoolNameId = this.TdecQuationGroupForm.value['baseSchoolNameId'];
     this.TdecQuationGroupService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
+      this.selectCourseName=res
     });
+  }
+  filterByCourse(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterBySubject(value:any){
+    this.selectedSubjectNamebyschoolnameAndCourse=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getSelectedSubjectNameBySchoolNameIdAndCourseNameId(dropdown) {
     
@@ -182,6 +196,7 @@ export class NewTdecQuationGroupComponent implements OnInit {
     var baseSchoolNameId=this.TdecQuationGroupForm.value['baseSchoolNameId'];
       this.TdecQuationGroupService.getSelectedSubjectNameBySchoolNameIdAndCourseNameId(baseSchoolNameId,this.courseNameId).subscribe(res=>{
         this.selectedSubjectNamebyschoolnameAndCourse=res;
+        this.selectSubject=res
 
       }); 
     }

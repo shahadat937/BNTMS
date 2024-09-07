@@ -46,6 +46,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Course Name</mat-label>                        
                         <mat-select formControlName="courseNamesId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectCourseName"
+                            (input)="filterByCourseName($event.target.value)"
+                            placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option  (onSelectionChange)="onCourseNameSelectionChange($event)"  *ngFor="let dropdown of selectedCourseDuration" [value]="dropdown.value">
                                 {{dropdown.text}} 
@@ -83,6 +88,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Trainee</mat-label>                        
                         <mat-select formControlName="traineeId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectTrainee"
+                            (input)="filterByTrainee($event.target.value)"
+                            placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option (onSelectionChange)="onTraineeSelectionChange($event)" *ngFor="let dropdown of selectedTrainee" [value]="dropdown.value">
                                 {{dropdown.text}} 
@@ -96,6 +106,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Budget Code</mat-label>                        
                         <mat-select formControlName="budgetCodesId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectBudgetCode"
+                            (input)="filterByBudget($event.target.value)"
+                            placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option (onSelectionChange)="onBudgetCodeSelectionChange($event)" *ngFor="let dropdown of selectedBudgetCode" [value]="dropdown">
                                 {{dropdown.text}} 
@@ -108,6 +123,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Payment Type</mat-label>                        
                         <mat-select formControlName="paymentTypeId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectPayType"
+                            (input)="filterByPayment($event.target.value)"
+                            placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedPaymentType" [value]="dropdown.value">
                                 {{dropdown.text}} 
