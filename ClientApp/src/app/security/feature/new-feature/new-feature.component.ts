@@ -20,6 +20,7 @@ export class NewFeatureComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
   selectedModel:SelectedModel[];
+  selectModel:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private FeatureService: FeatureService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -78,10 +79,13 @@ export class NewFeatureComponent implements OnInit {
     
     })
   }
-
+filterByModel(value:any){
+  this.selectedModel = this.selectModel.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   getModule(){
     this.FeatureService.getselectedmodule().subscribe(res=>{
       this.selectedModel=res
+      this.selectModel=res
     });
   }
 

@@ -31,6 +31,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>BNA Subject Curriculam</mat-label>
                         <mat-select formControlName="bnaSubjectCurriculamId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectCurriculumn"
+                           (input)="filterSubjectCurriculam($event.target.value)"
+                            placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let semester of bnaSubjectCurriculam" [value]="semester.value">
                                 {{semester.text}} 
@@ -61,6 +66,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Course</mat-label>
                         <mat-select formControlName="courseDurationId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectSearch"
+                           (input)="filterByCourse($event.target.value)"
+                            placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let semester of selectedCourseDuration" [value]="semester.value">
                                 {{semester.text}} 
@@ -75,6 +85,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Semester</mat-label>
                         <mat-select formControlName="bnaSemesterId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectSemester"
+                           (input)="filterBySemester($event.target.value)"
+                            placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let semester of selectedSemester" [value]="semester.value">
                                 {{semester.text}} 
@@ -89,7 +104,12 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Batch Name</mat-label>
-                        <mat-select formControlName="bnaBatchId" required> 
+                        <mat-select formControlName="bnaBatchId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectBatch"
+                           (input)="filterByBatch($event.target.value)"
+                            placeholder="Search"> 
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let batch of selectedBatch" [value]="batch.value">
                                 {{batch.text}}  
@@ -146,6 +166,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Promoted To</mat-label>
                         <mat-select formControlName="rankId" required> 
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectPromotion"
+                           (input)="filterPromotion($event.target.value)"
+                            placeholder="Search"> 
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let rank of selectedRank" [value]="rank.value">
                                 {{rank.text}}   

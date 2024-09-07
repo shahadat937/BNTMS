@@ -25,6 +25,8 @@ export class NewSchoolNameComponent implements OnInit {
   selectedOrganization:SelectedModel[];
   selectedCommendingArea:SelectedModel[];
   selectedBaseName:SelectedModel[];
+  selectCommendingArea:SelectedModel[];
+  selectBaseName:SelectedModel[];
   organizationId:any;
   commendingAreaId:any;
   baseNameId:any;
@@ -99,13 +101,21 @@ export class NewSchoolNameComponent implements OnInit {
     this.organizationId=this.BaseSchoolForm.value['firstLevel'];
     this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
+      this.selectCommendingArea=res
     });        
   }
-  
+  filterByCommendingArea(value:any){
+    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterByBaseName(value:any){
+    this.selectedBaseName=this.selectBaseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   onCommendingAreaSelectionChangeGetBaseName(){
     this.baseNameId=this.BaseSchoolForm.value['secondLevel'];
     this.BaseSchoolNameService.getSelectedBaseName(this.baseNameId).subscribe(res=>{
       this.selectedBaseName=res
+      this.selectBaseName=res
+      
     });  
     //this.getBaseNameList(this.commendingAreaId);
             

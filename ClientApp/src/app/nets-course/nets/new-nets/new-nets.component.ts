@@ -24,6 +24,7 @@ export class NewNETSComponent implements OnInit {
   selectedcoursetype:SelectedModel[];
   courseTypeId:string;
   selectedcoursename:SelectedModel[];
+  selectCourse: SelectedModel[];
   selectedschoolname:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
@@ -93,9 +94,13 @@ export class NewNETSComponent implements OnInit {
       isActive: [true],    
     })
   }
+  filterCourseName(value:any){
+    this.selectedcoursename = this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedcoursename(){
     this.CourseDurationService. getSelectedCourseByType(this.courseTypeId).subscribe(res=>{
       this.selectedcoursename=res
+      this.selectCourse=res
     });
   }
   getselectedcoursetype(){

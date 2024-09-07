@@ -29,8 +29,12 @@ export class NewUserComponent implements OnInit {
   branchValues:SelectedModel[]; 
   selectedOrganization:SelectedModel[];
   selectedCommendingArea:SelectedModel[];
+  selectCommendingArea: SelectedModel[];
   selectedBaseName:SelectedModel[];
+  selectBaseName: SelectedModel[];
   selectedSchoolName:SelectedModel[];
+  selectSchool:SelectedModel[];
+  selectRole: SelectedModel[];
   organizationId:any;
   commendingAreaId:any;
   baseNameId:any;
@@ -147,9 +151,13 @@ export class NewUserComponent implements OnInit {
     }
   }
 
+  filterRoles(value:any){
+    this.roleValues=this.selectRole.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getRoleName(){
     this.RoleService.getselectedrole().subscribe(res=>{
       this.roleValues=res
+      this.selectRole=res
     });
   }
 
@@ -159,25 +167,36 @@ export class NewUserComponent implements OnInit {
     });
   }
 
+  filterCommendingArea(value:any){
+    this.selectedCommendingArea = this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.UserForm.value['firstLevel'];
     this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
+      this.selectCommendingArea=res
     });        
   }
-  
+  filterByBase(value:any){
+    this.selectedBaseName = this.selectBaseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   onCommendingAreaSelectionChangeGetBaseName(){
     this.commendingAreaId=this.UserForm.value['secondLevel'];
     this.BaseSchoolNameService.getSelectedBaseName(this.commendingAreaId).subscribe(res=>{
       this.selectedBaseName=res
+      this.selectBaseName=res
     });  
     //this.getBaseNameList(this.commendingAreaId);
             
+  }
+  filterBySchoolName(value:any){
+    this.selectedSchoolName=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   onBaseNameSelectionChangeGetBaseSchoolName(){
     this.baseNameId=this.UserForm.value['thirdLevel'];
     this.BaseSchoolNameService.getSelectedSchoolName(this.baseNameId).subscribe(res=>{
       this.selectedSchoolName=res
+      this.selectSchool=res
     }); 
   }
 
