@@ -88,12 +88,12 @@ export class NewBnaCurriculumUpdateComponent implements OnInit {
     });
   }
 filterSemesterId(value:any){
-  this.selectedBnaSemester=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedBnaSemester=this.selectSemesterId.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
   getBnaSemester(){
     this.BnaCurriculumUpdateService.getselectedbnasemester().subscribe(res=>{
       this.selectedBnaSemester=res
-      this.selectBNAbatch=res      
+      this.selectSemesterId=res      
     });
   }
 
