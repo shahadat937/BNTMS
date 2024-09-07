@@ -22,11 +22,16 @@ export class NewBnasemesterdurationComponent implements OnInit {
   BNASemesterDurationForm: FormGroup;
   validationErrors: string[] = [];
   bnaSubjectCurriculam:SelectedModel[];
+  selectCurriculam:SelectedModel[];
   department:SelectedModel[];
   selectedSemester:SelectedModel[];
   selectedCourseDuration:SelectedModel[];
+  selectSemester:SelectedModel[];
+  selectCourse:SelectedModel[];
   selectedBatch:SelectedModel[];
+  selectBatch:SelectedModel[];
   selectedRank:SelectedModel[];
+  selectPromotion:SelectedModel[];
   selectedLocationType:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNASemesterDurationService: BNASemesterDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
@@ -109,10 +114,13 @@ export class NewBnasemesterdurationComponent implements OnInit {
     })
   }
 
-
+  filterSubjectCurriculam(value:any){
+    this.bnaSubjectCurriculam=this.selectCurriculam.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getSelectedBnaSubjectCurriculam(){
     this.BNASemesterDurationService.getSelectedBnaSubjectCurriculam().subscribe(res=>{
       this.bnaSubjectCurriculam=res
+      this.selectCurriculam=res
     });
   } 
   
@@ -122,27 +130,42 @@ export class NewBnasemesterdurationComponent implements OnInit {
     });
   } 
 
+  filterBySemester(value:any){
+    this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+
   getSelectedBnaSemester(){
     this.BNASemesterDurationService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
+      this.selectSemester=res
     });
   } 
-
+filterByCourse(value:any){
+  this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   getSelectedCourseDuration(){
     this.BNASemesterDurationService.getSelectedCourseDuration().subscribe(res=>{
       this.selectedCourseDuration=res
+      this.selectCourse=res
     });
   } 
 
+  filterByBatch(value:any){
+    this.selectedBatch= this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getSelectedBnaBatch(){
     this.BNASemesterDurationService.getSelectedBnaBatch().subscribe(res=>{
       this.selectedBatch=res
+      this.selectBatch=res
     });
   }
-
+  filterPromotion(value:any){
+    this.selectedRank=this.selectPromotion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   getSelectedRank(){
     this.BNASemesterDurationService.getSelectedRank().subscribe(res=>{
       this.selectedRank=res
+      this.selectPromotion=res
     });
   }
 
