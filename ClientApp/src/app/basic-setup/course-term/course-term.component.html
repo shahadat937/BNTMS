@@ -32,6 +32,11 @@
                         <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Base School Name</mat-label>                        
                             <mat-select formControlName="baseSchoolNameId" required>
+                              <input type="text" 
+                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                id="selectSchool"
+                                (input)="filterBySchoolName($event.target.value)"
+                                placeholder="Search">
                               <mat-option  value="0">--Select--</mat-option >
                                 <mat-option *ngFor="let school of selectedSchool" [value]="school.value">
                                     {{school.text}}  
@@ -47,6 +52,11 @@
                         <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Course Level Title</mat-label>                        
                             <mat-select formControlName="courseLevelId" required>
+                              <input type="text" 
+                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                id="selectCourse"
+                                (input)="filterByCourseLevel($event.target.value)"
+                                placeholder="Search">
                               <mat-option  value="0">--Select--</mat-option >
                                 <mat-option *ngFor="let courseLevel of   SelectedCourseLevel" [value]="courseLevel.value">
                                     {{courseLevel.text}}  

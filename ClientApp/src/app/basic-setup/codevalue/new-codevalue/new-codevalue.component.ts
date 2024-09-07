@@ -22,6 +22,7 @@ export class NewCodeValueComponent implements OnInit {
   CodeValueForm: FormGroup;
   validationErrors: string[] = [];
   selectedModel:SelectedModel[];
+  selectCodeValue:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -71,7 +72,11 @@ export class NewCodeValueComponent implements OnInit {
   getCodeValueType(){
     this.CodeValueService.getselectedcodevaluetype().subscribe(res=>{
       this.selectedModel=res
+      this.selectCodeValue=res
     });
+  }
+  filterByValue(value:any){
+    this.selectedModel=this.selectCodeValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   onSubmit() {
     const id = this.CodeValueForm.get('codeValueId').value;   

@@ -19,6 +19,7 @@ export class NewCourseNameComponent implements OnInit {
   CourseNameForm: FormGroup;
   validationErrors: string[] = [];
   selectedCourseType:SelectedModel[]; 
+  selectCourse:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -76,7 +77,11 @@ export class NewCourseNameComponent implements OnInit {
   getSelectedCourseName(){
     this.CourseNameService.getSelectedCourseName().subscribe(res=>{
       this.selectedCourseType=res
+      this.selectCourse=res
     });
+  }
+  filterByType(value:any){
+    this.selectedCourseType=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onSubmit() {

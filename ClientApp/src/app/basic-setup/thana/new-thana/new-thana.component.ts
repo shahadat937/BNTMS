@@ -19,6 +19,7 @@ export class NewThanaComponent implements OnInit {
   ThanaForm: FormGroup;
   validationErrors: string[] = [];
   selectedModel:SelectedModel[]; 
+  selectDistric:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ThanaService: ThanaService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -62,7 +63,11 @@ export class NewThanaComponent implements OnInit {
   getDistrictName(){
     this.ThanaService.getselecteddistrict().subscribe(res=>{
       this.selectedModel=res
+      this.selectDistric=res
     });
+  }
+  filterByDistric(value:any){
+    this.selectedModel=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {

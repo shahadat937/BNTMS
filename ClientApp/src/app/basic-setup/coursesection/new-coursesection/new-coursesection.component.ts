@@ -23,6 +23,8 @@ export class NewCourseSectionComponent implements OnInit {
   selectedbaseschools : SelectedModel[];
   selectedcoursename  : SelectedModel[];
   selectedbnacurriculamtype:SelectedModel[];
+  selectCurriculum:SelectedModel[];
+  selectSchool:SelectedModel[];
   courseNameId:number;
   baseSchoolNameId:number;
   BnaCurriculumTypeId :number;
@@ -121,10 +123,13 @@ export class NewCourseSectionComponent implements OnInit {
 
 getbnacurriculamtype(){
   this.courseSectionService.getselectedbnacurriculamtype().subscribe(response=>{
-    this.selectedbnacurriculamtype=response;     
+    this.selectedbnacurriculamtype=response
+    this.selectCurriculum=response;     
   });
 }
-
+filterByCurriculum(value:any){
+  this.selectedbnacurriculamtype=this.selectCurriculum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
 //autocomplete
 getSelectedTraineeByPno(pno){
   this.CourseNameService.getSelectedCourseByName(pno).subscribe(response => {
@@ -137,9 +142,12 @@ getSelectedTraineeByPno(pno){
     this.courseSectionService.getselectedbaseschools().subscribe(res=>{
       
       this.selectedbaseschools=res
+      this.selectSchool=res
     });
   }  
-  
+  filterBySchoolName(value:any){
+    this.selectedbaseschools=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedcoursename(){
     this.courseSectionService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res

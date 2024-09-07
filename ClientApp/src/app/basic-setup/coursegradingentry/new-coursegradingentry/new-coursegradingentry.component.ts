@@ -23,7 +23,10 @@ export class NewCourseGradingEntryComponent implements OnInit {
   validationErrors: string[] = [];
   selectedSchool:SelectedModel[];
   selectedCourseNames:SelectedModel[];
+  selectCourse:SelectedModel[];
   selectedAssessment:SelectedModel[];
+  selectAssesment:SelectedModel[];
+  selectSchool:SelectedModel[];
   baseSchoolNameId:number;
   courseNameId:number;
   courseGradingEntryList:CourseGradingEntry[];
@@ -91,6 +94,7 @@ export class NewCourseGradingEntryComponent implements OnInit {
   getselectedSchools(){
     this.CourseGradingEntryService.getselectedSchools().subscribe(res=>{
       this.selectedSchool=res
+      this.selectSchool=res
     });
   }
   // onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
@@ -101,13 +105,25 @@ export class NewCourseGradingEntryComponent implements OnInit {
   getselectedCourseNames(){
     this.CourseGradingEntryService.getselectedCourseNames().subscribe(res=>{
       this.selectedCourseNames=res
+      this.selectCourse=res
     });
+  }
+  filterByCourse(value:any){
+    this.selectedCourseNames=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedAssessment(){
     this.CourseGradingEntryService.getselectedAssessment().subscribe(res=>{
       this.selectedAssessment=res
+      this.selectAssesment=res
     });
   }
+  filterByAssesment(value:any){
+    this.selectedAssessment=this.selectAssesment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+   }
+
+  filterBySchoolName(value:any){
+    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+   }
   onCourseNameSelectionChanged(item) {
       this.courseNameId = item.value 
       this.baseSchoolNameId = this.CourseGradingEntryForm.get('baseSchoolNameId').value;

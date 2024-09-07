@@ -28,6 +28,8 @@ export class CourseTermComponent implements OnInit {
   
   selectedSchool:SelectedModel[];
   SelectedCourseLevel:SelectedModel[];
+  selectCourse:SelectedModel[];
+  selectSchool:SelectedModel[];
 
 
   masterData = MasterData;
@@ -137,6 +139,7 @@ export class CourseTermComponent implements OnInit {
   getSelectedbaseSchoolName(){
     this.baseSchoolNameService.getselectedSchools().subscribe(res=>{
       this.selectedSchool=res
+      this.selectSchool=res
       console.log("this is base school " +   (res));
     });
    }
@@ -146,7 +149,14 @@ export class CourseTermComponent implements OnInit {
    getSelectedCourseLevel(){
     this.CourseLevelService.getselectedCourseLevel().subscribe(res=>{
       this.SelectedCourseLevel=res
+      this.selectCourse=res
     });
+   }
+   filterByCourseLevel(value:any){
+    this.SelectedCourseLevel=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+   }
+   filterBySchoolName(value:any){
+    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
    }
 
 

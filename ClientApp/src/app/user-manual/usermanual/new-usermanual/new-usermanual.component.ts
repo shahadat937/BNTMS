@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserManualService } from '../../service/UserManual.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { SelectedModel } from 'src/app/core/models/selectedModel';
 
 @Component({
   selector: 'app-new-usermanual',
@@ -17,6 +18,7 @@ export class NewUserManualComponent implements OnInit {
   pageTitle: string;
   destination:string;
   selectedRoles:any;
+  selectRoles:SelectedModel[];
   UserManualForm: FormGroup;
   validationErrors: string[] = [];
 
@@ -66,8 +68,12 @@ export class NewUserManualComponent implements OnInit {
 
   getSelectedRoles(){
     this.UserManualService.getSelectedRoles().subscribe(res=>{
-      this.selectedRoles=res      
+      this.selectedRoles=res
+      this.selectRoles=res      
     });
+  }
+  filterByRoles(value:any){
+    this.selectedRoles=this.selectRoles.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onSubmit() {
