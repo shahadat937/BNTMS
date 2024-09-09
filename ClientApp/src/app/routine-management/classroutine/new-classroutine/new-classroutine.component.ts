@@ -32,18 +32,26 @@ export class NewClassRoutineComponent implements OnInit {
   validationErrors: string[] = [];
   selectedbaseschool:SelectedModel[];
   selectedclasstype:SelectedModel[];
+  selectClassType:SelectedModel[];
   selectedLocationType:SelectedModel[];
   selectedclassperiod:SelectedModel[];
+  selectClassPeriod:SelectedModel[];
   selectedcoursedurationbyschoolname:SelectedModel[];
+  selectCourseTitle:SelectedModel[];
   selectedsubjectname:SelectedModel[];
+  selectSubjectName:SelectedModel[];
   selectedWeek:SelectedModel[];
+  selectWeek:SelectedModel[];
   selectedSchool:SelectedModel[];
   selectedCourseModule:SelectedModel[];
   selectedModule:SelectedModel[];
   selectedcoursename:SelectedModel[];
   //selectedmarktype:SelectedModel[];
   //selectedInstructor:{};
+  selectMarkType:SelectedModel[];
   selectedCourseSection:SelectedModel[];
+  selectInstructor:SelectedModel[];
+  selectSection:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   routineCount:number;
   instructorRoutineCount:number;
@@ -389,6 +397,7 @@ export class NewClassRoutineComponent implements OnInit {
     this.ClassRoutineService.getselectedCourseSection(this.schoolId,this.courseId).subscribe(res=>{
       this.selectedCourseSection=res;
     });
+  
     
     this.ClassRoutineService.getdataForPrintWeeklyRoutine(this.weekId).subscribe(res=>{
       this.dataForClassRoutine=res;
@@ -400,6 +409,7 @@ export class NewClassRoutineComponent implements OnInit {
       this.weekFromTo = this.datepipe.transform(weekTo, 'dd/MM/yyyy');
       
     });
+    
     if(this.schoolId != null && this.courseId != null){            
 
         this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,this.courseId,this.durationId).subscribe(res=>{
@@ -420,7 +430,9 @@ export class NewClassRoutineComponent implements OnInit {
       this.isShown=true;
     } 
   }
-
+  filterBySection(value:any){
+      this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   onDateSelectionChange(event){
     var date=this.datepipe.transform((event.value), 'MM/dd/yyyy');
     var traineeId=this.ClassRoutineForm.value['traineeId'];
@@ -456,7 +468,7 @@ export class NewClassRoutineComponent implements OnInit {
 
     this.ClassRoutineService.getselectedInstructor(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId,bnaSubjectNameId).subscribe(res=>{
       this.selectedInstructor[bnaSubjectNameId]=res;
-      
+      this.selectInstructor=res
     });
 
     
@@ -464,6 +476,7 @@ export class NewClassRoutineComponent implements OnInit {
     
     this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       this.selectedmarktype[bnaSubjectNameId]=res;
+      this.selectMarkType=res
     });
   }
 
@@ -514,12 +527,21 @@ export class NewClassRoutineComponent implements OnInit {
 
       this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedclassperiod=res;
+        this.selectClassPeriod=res;
       });
     
     }  
   }
+  filterByClassPeriod(value:any){
+    this.selectedclassperiod=this.selectClassPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
-
+filterByInstructor(value:any){
+  this.selectedInstructor=this.selectInstructor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
+filterBymarkType(value:any){
+  this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
    
   getControlLevel(index: number, type: string) {
   
@@ -540,8 +562,9 @@ export class NewClassRoutineComponent implements OnInit {
 
     this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedsubjectname=res;
+      this.selectSubjectName=res
     });
-
+    
     this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
     });
@@ -585,6 +608,10 @@ export class NewClassRoutineComponent implements OnInit {
       
     });
   }
+  filterBySubject(value:any){
+      this.selectedsubjectname=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+
 
   getselectedbaseschools(){
     this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
@@ -602,8 +629,12 @@ export class NewClassRoutineComponent implements OnInit {
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
       this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedcoursedurationbyschoolname=res;
+        this.selectCourseTitle=res;
       });
   } 
+  filterByCourseTitle(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedbnasubjectname(dropdown){
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
@@ -625,8 +656,12 @@ export class NewClassRoutineComponent implements OnInit {
     
     this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
+      this.selectWeek=res;
     });    
   } 
+  filterByWeek(value:any){
+    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedCourseModules(){
     this.ClassRoutineService.getselectedCourseModules().subscribe(res=>{
@@ -646,7 +681,11 @@ export class NewClassRoutineComponent implements OnInit {
   getselectedclasstype(){
     this.ClassRoutineService.getselectedclasstype().subscribe(res=>{
       this.selectedclasstype=res;
+      this.selectClassType=res
     });
+  }
+  filterByClassType(value:any){
+    this.selectedclasstype=this.selectClassType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   reloadCurrentRoute() {

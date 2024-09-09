@@ -27,11 +27,15 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   weightValues:SelectedModel[]; 
   colorOfEyeValues:SelectedModel[]; 
   bloodValues: SelectedModel[];
+  selectBlood:SelectedModel[];
   religionValues: SelectedModel[];
+  selectReligion:SelectedModel[];
   casteValues:SelectedModel[];
   hairColorValues:SelectedModel[];
   maritialStatusValues:SelectedModel[];
   selectedCastes:SelectedModel[];
+  selectRank:SelectedModel[];
+  selectCaste:SelectedModel[];
 
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
@@ -76,8 +80,11 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   getreligions(){
     this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
-    
+      this.selectReligion=res
     });
+  }
+  filterByReligion(value:any){
+    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   gethaircolors(){
     this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
@@ -115,16 +122,24 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   getselectedbloodgroup(){
     this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
-    
+      this.selectBlood=res
     });
+  }
+
+  filterByBloodGroup(value:any){
+    this.bloodValues=this.selectBlood.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   
   getRanks(){
     this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
+      this.selectRank=res
     
     });
+  }
+  filterByRank(value:any){
+    this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getGenders(){
@@ -145,8 +160,13 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
+      this.selectCaste=res
     });
   } 
+
+  filterByCaste(value:any){
+    this.selectedCastes=this.selectCaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
 
   intitializeForm() {

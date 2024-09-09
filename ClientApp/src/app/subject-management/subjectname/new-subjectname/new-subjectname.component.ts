@@ -34,11 +34,14 @@ export class NewSubjectnameComponent implements OnInit {
   selectedSubjectCategory:SelectedModel[];
   selectedSubjectCurriculum:SelectedModel[];
   selectedSubjectType:SelectedModel[];
+  selectSubjectType:SelectedModel[];
   selectedKindOfSubject:SelectedModel[];
+  selectSubject:SelectedModel[];
   selectedSubjectClassification:SelectedModel[];
   selectedResultStatus:SelectedModel[];
   selectedCourseModule:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
+  selectModule:SelectedModel[];
   selectedCourseByParameterRequest:BNASubjectName[];
   courseNameId:number;
   selected:number;
@@ -172,9 +175,13 @@ export class NewSubjectnameComponent implements OnInit {
     
     if(baseSchoolNameId != null && courseNameId != null){
       this.BNASubjectNameService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
-        this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;     
+        this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;  
+        this.selectModule=res;   
       });
     }  
+  }
+  filterByModule(value:any){
+    this.selectedCourseModuleByBaseSchoolAndCourseNameId=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   // activeItem(row){
   //   const id = row.bnaSubjectNameId;    
@@ -303,15 +310,22 @@ export class NewSubjectnameComponent implements OnInit {
   getSelectedSubjectType(){
     this.BNASubjectNameService.getSelectedSubjectType().subscribe(res=>{
       this.selectedSubjectType=res
+      this.selectSubjectType=res
     });
+  }
+  filterBySubjectType(value:any){
+    this.selectedSubjectType=this.selectSubjectType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
  
   getSelectedKindOfSubject(){
     this.BNASubjectNameService.getSelectedKindOfSubject().subscribe(res=>{
       this.selectedKindOfSubject=res
+      this.selectSubject=res
     });
   }
-
+filterBySubject(value:any){
+  this.selectedKindOfSubject=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   getSelectedSubjectClassification(){
     this.BNASubjectNameService.getSelectedSubjectClassification().subscribe(res=>{
       this.selectedSubjectClassification=res

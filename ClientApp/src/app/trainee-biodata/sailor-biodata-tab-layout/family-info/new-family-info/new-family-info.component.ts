@@ -22,12 +22,14 @@ export class NewParentRelativeComponent implements OnInit {
   destination:string;
   ParentRelativeForm: FormGroup;
   validationErrors: string[] = [];
-  relationTypeValues:SelectedModel[]; 
+  relationTypeValues:SelectedModel[];
+  selectRelation:SelectedModel[]; 
   maritialStatusValues:SelectedModel[]; 
   nationalityValues:SelectedModel[]; 
   religionValues:SelectedModel[]; 
   casteValues:SelectedModel[]; 
   occupationValues:SelectedModel[]; 
+  selectOccupation:SelectedModel[];
   divisionValues:SelectedModel[]; 
   districtValues:SelectedModel[]; 
   thanaValues:SelectedModel[]; 
@@ -126,7 +128,11 @@ export class NewParentRelativeComponent implements OnInit {
   getRelationType(){
     this.ParentRelativeService.getselectedrelationtype().subscribe(res=>{
       this.relationTypeValues=res
+      this.selectRelation=res
     });
+  }
+  filterByRealation(value:any){
+    this.relationTypeValues=this.selectRelation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getMaritialStatus(){
@@ -156,7 +162,11 @@ export class NewParentRelativeComponent implements OnInit {
   getOccupation(){
     this.ParentRelativeService.getselectedoccupation().subscribe(res=>{
       this.occupationValues=res
+      this.selectOccupation=res
     });
+  }
+  filterbyOccupation(value:any){
+    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getDivision(){

@@ -37,12 +37,17 @@ export class NewCourseInstructorComponent implements OnInit {
   selectedRank: SelectedModel[];
   selectedLocationType: SelectedModel[];
   selectedsubjectname: SelectedModel[];
+  selectSubjectName:SelectedModel[];
   selectedcourseduration: SelectedModel[];
   selectedmarktype:SelectedModel[];
+  selectSchool:SelectedModel[];
   selectedModule: SelectedModel[];
   selectedCourseSection: SelectedModel[];
+  selectMarkType:SelectedModel[];
+  selectSection:SelectedModel[]
   selectedCourseInstructor: CourseInstructor;
   selectedCourseModuleByBaseSchoolAndCourseNameId: SelectedModel[];
+  selectCourseModule:SelectedModel[]
   GetInstructorByParameters: CourseInstructor[];
   isShown: boolean = false;
   courseDurationIdForList: number
@@ -159,6 +164,7 @@ export class NewCourseInstructorComponent implements OnInit {
     var baseSchoolNameId = this.CourseInstructorForm.value['baseSchoolNameId'];
     this.CourseInstructorService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
+      this.selectSchool=res
     });
   }
 
@@ -281,6 +287,7 @@ export class NewCourseInstructorComponent implements OnInit {
       if (baseSchoolNameId != null && courseNameId != null) {
         this.CourseInstructorService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
           this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;
+          this.selectCourseModule=res;
         });
       }
     }
@@ -289,7 +296,11 @@ export class NewCourseInstructorComponent implements OnInit {
   getCourseModuleOnEdit(baseSchoolNameId, courseNameId){
     this.CourseInstructorService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
       this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;
+      this.selectCourseModule=res
     });
+  }
+  filterByModule(value:any){
+    this.selectedCourseModuleByBaseSchoolAndCourseNameId=this.selectCourseModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectedModule() {
@@ -301,7 +312,11 @@ export class NewCourseInstructorComponent implements OnInit {
   getselectedschools() {
     this.CourseInstructorService.getselectedschools().subscribe(res => {
       this.selectedSchool = res
+    
     });
+  }
+  filterBySchoolName(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedcourseduration() {
     this.CourseInstructorService.getselectedcourseduration().subscribe(res => {
@@ -315,7 +330,11 @@ export class NewCourseInstructorComponent implements OnInit {
     var courseModuleId = this.CourseInstructorForm.value['courseModuleId'];
     this.CourseInstructorService.getselectedbnasubjectnamebyparameters(baseSchoolNameId, courseNameId, courseModuleId).subscribe(res => {
       this.selectedsubjectname = res;
+      this.selectSubjectName=res;
     });
+  }
+  filterBySubjectName(value:any){
+    this.selectedsubjectname=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onSubjectSelectGetSection(){
@@ -324,7 +343,15 @@ export class NewCourseInstructorComponent implements OnInit {
     
     this.ClassRoutineService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedCourseSection=res;
+      this.selectSection=res
     });
+  }
+  filterBySection(value:any){
+    this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+
+  filterByMarkType(value:any){
+    this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
 
@@ -338,7 +365,9 @@ export class NewCourseInstructorComponent implements OnInit {
     
     this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       this.selectedmarktype=res;
+      this.selectMarkType=res
     });
+    
 
 
     this.isShown = true;

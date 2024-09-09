@@ -14,7 +14,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
   styleUrls: ['./new-nets.component.sass']
 })
 export class NewNETSComponent implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   buttonText:string;
   pageTitle: string;

@@ -107,6 +107,12 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Color Of Eye</mat-label>
                       <mat-select formControlName="colorOfEyeId" required>
+                        
+                          <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByColor($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of colorOfEyeValues" [value]="code.value">
                             {{code.text}}
@@ -147,6 +153,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Blood Group</mat-label>
                       <mat-select formControlName="bloodGroupId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectBlood" 
+                        (input)="filterByBloodGroup($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of bloodValues" [value]="code.value">
                             {{code.text}}
@@ -162,6 +173,12 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Religion</mat-label>
                       <mat-select formControlName="religionId" required (selectionChange)="onReligionSelectionChangeGetCastes($event.value)">
+                        
+                          <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByReligion($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of religionValues" [value]="code.value">
                             {{code.text}}
@@ -176,6 +193,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Caste</mat-label>
                       <mat-select formControlName="casteId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByCaste($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of selectedCastes" [value]="code.value">
                             {{code.text}}

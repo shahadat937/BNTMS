@@ -26,9 +26,12 @@ export class NewSubjectMarkComponent implements OnInit {
   SubjectMarkForm: FormGroup;
   validationErrors: string[] = [];
   selectedmarktype:SelectedModel[];
+  selectMarkType:SelectedModel[];
   selectedSchoolName:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
+  selectModule:SelectedModel[];
   selectedsubjectname:SelectedModel[];
+  selectSubject:SelectedModel[];
   courseNameId:number;
   isShown: boolean = false ;
   numberShown: boolean = false ;
@@ -149,7 +152,11 @@ export class NewSubjectMarkComponent implements OnInit {
   getSelectedKindOfSubject(){
     this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
       this.selectedmarktype=res
+      this.selectMarkType=res
     });
+  }
+  filterByMarkType(value:any){
+    this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectedSchoolName(){
@@ -184,8 +191,12 @@ export class NewSubjectMarkComponent implements OnInit {
     if(baseSchoolNameId != null && courseNameId != null){
       this.SubjectMarkService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;  
+        this.selectModule=res;
       });
     }  
+  }
+  filterByModule(value:any){
+    this.selectedCourseModuleByBaseSchoolAndCourseNameId=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   
@@ -195,8 +206,12 @@ export class NewSubjectMarkComponent implements OnInit {
     var courseModuleId=this.SubjectMarkForm.value['courseModuleId'];    
     this.SubjectMarkService.getselectedbnasubjectnamebyparameters(baseSchoolNameId,courseNameId,courseModuleId).subscribe(res=>{
       this.selectedsubjectname=res;
+      this.selectSubject=res;
     });
   } 
+  filterBySubject(value:any){
+    this.selectedsubjectname=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   
   reloadCurrentRoute() {
     let currentUrl = this.router.url;

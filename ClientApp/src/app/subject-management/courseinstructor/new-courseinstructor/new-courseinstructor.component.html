@@ -30,6 +30,7 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>School Name</mat-label>                
                         <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
+                          
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let semester of selectedSchool" [value]="semester.value">
                                 {{semester.text}} 
@@ -46,6 +47,11 @@
                         <mat-label>Course Title</mat-label>
                                                
                         <mat-select formControlName="courseName">
+                          <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectSchool" 
+                        (input)="filterBySchoolName($event.target.value)"
+                        placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option>
                             <mat-option (onSelectionChange)="onBaseNameSelectionChangeGetModule($event)"  *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value">
                                 {{dropdown.text}}  
@@ -62,6 +68,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Module</mat-label>      
                         <mat-select formControlName="courseModuleId" required (selectionChange)="getselectedbnasubjectname()">
+                          <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectModule" 
+                        (input)="filterByModule($event.target.value)"
+                        placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let semester of selectedCourseModuleByBaseSchoolAndCourseNameId" [value]="semester.value">
                                 {{semester.text}} 
@@ -79,6 +90,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label> Subject Name</mat-label>                        
                         <mat-select formControlName="bnaSubjectNameId" (selectionChange)="onSubjectSelectGetSection()">
+                          <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectSubject" 
+                        (input)="filterBySubjectName($event.target.value)"
+                        placeholder="Search">
                             <mat-option *ngFor="let dropdown of selectedsubjectname" [value]="dropdown.value">
                                 {{dropdown.text}} 
                               </mat-option>                          
@@ -90,6 +106,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Section</mat-label>                        
                       <mat-select formControlName="courseSectionId" required (selectionChange)="onSectionChangeGetInstructorList()">
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectSubject" 
+                        (input)="filterBySection($event.target.value)"
+                        placeholder="Search">
                         <!-- <mat-option  value="0">--Select--</mat-option > -->
                           <mat-option *ngFor="let dropdown of selectedCourseSection" [value]="dropdown.value">
                               {{dropdown.text}} 
@@ -105,6 +126,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Mark Type</mat-label>                        
                         <mat-select formControlName="subjectMarkId" required (selectionChange)="onSubjectMarkSelectionGetMarkType()">
+                          <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectSubject" 
+                        (input)="filterByMarkType($event.target.value)"
+                        placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedmarktype" [value]="dropdown.value">
                                 {{dropdown.text}} 
