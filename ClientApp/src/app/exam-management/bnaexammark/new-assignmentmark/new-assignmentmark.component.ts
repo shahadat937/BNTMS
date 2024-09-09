@@ -37,6 +37,7 @@ export class NewAssignmentMarkComponent implements OnInit {
   showHideDiv= false
   selectedcoursename: SelectedModel[];
   selectedcoursedurationbyschoolname: SelectedModel[];
+  selectCourse:SelectedModel[]
   selectedClassTypeByBaseSchoolNameIdAndCourseNameId: SelectedModel[];
   selectedSubjectNameByBaseSchoolNameIdAndCourseNameId: SelectedModel[];
   selectedmarktype: SelectedModel[];
@@ -59,6 +60,7 @@ export class NewAssignmentMarkComponent implements OnInit {
   traineeList: TraineeListForExamMark[]
   examTypeCount: number;
   selectedCourseSection:SelectedModel[];
+  selectSection:SelectedModel[];
   sectionId:number;
   bnaExamMarkId:any;
   mark:any;
@@ -71,6 +73,7 @@ export class NewAssignmentMarkComponent implements OnInit {
   schoolName:any;
   courseNameTitle:any;
   selectedSubjectNameForAssignment:SelectedModel[];
+  selectSubject:SelectedModel[];
   selectedSubjectMarkForAssignments:any[];
   subjectMarkId:any;
   paging = {
@@ -281,8 +284,12 @@ export class NewAssignmentMarkComponent implements OnInit {
       // });
       this.BNAExamMarkService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseSection=res;
+        this.selectSection=res;
       });
     }
+  }
+  filterBySection(value:any){
+    this.selectedCourseSection=this.selectSection.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSubjectbycourseandsection(){
@@ -427,10 +434,13 @@ export class NewAssignmentMarkComponent implements OnInit {
 
     this.BNAExamMarkService.getSelectedCourseDurationByschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
+      this.selectCourse=res;
 
     });
   }
-
+filterByCourseName(value:any){
+  this.selectedcoursedurationbyschoolname=this.selectCourse.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+}
   
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
@@ -454,8 +464,12 @@ export class NewAssignmentMarkComponent implements OnInit {
       // });
       this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourseForAssignment(baseSchoolNameId, courseNameId).subscribe(res => {
         this.selectedSubjectNameForAssignment = res;
+        this.selectSection=res
       });
     }
+  }
+  filterBySubject(value:any){
+    this.selectedSubjectNameForAssignment=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedcoursename() {
