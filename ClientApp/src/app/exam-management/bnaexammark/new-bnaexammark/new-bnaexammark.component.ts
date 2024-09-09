@@ -33,11 +33,13 @@ export class NewBNAExamMarkComponent implements OnInit {
   BNAExamMarkForm: FormGroup;
   validationErrors: string[] = [];
   selectedbaseschools: SelectedModel[];
+  selectCourseName:SelectedModel[];
   showHideDiv= false
   selectedcoursename: SelectedModel[];
   selectedcoursedurationbyschoolname: SelectedModel[];
   selectedClassTypeByBaseSchoolNameIdAndCourseNameId: SelectedModel[];
   selectedSubjectNameByBaseSchoolNameIdAndCourseNameId: SelectedModel[];
+  selectSubject:SelectedModel[];
   selectedmarktype: SelectedModel[];
   selectedcoursModulebySchoolAndCourse: SelectedModel[];
   selectedmarkremarks: SelectedModel[];
@@ -58,6 +60,7 @@ export class NewBNAExamMarkComponent implements OnInit {
   traineeList: TraineeListForExamMark[]
   examTypeCount: number;
   selectedCourseSection:SelectedModel[];
+  selectSection:SelectedModel[];
   sectionId:number;
   bnaExamMarkId:any;
   mark:any;
@@ -216,7 +219,11 @@ export class NewBNAExamMarkComponent implements OnInit {
   getselectedbaseschools() {
     this.BNAExamMarkService.getselectedbaseschools().subscribe(res => {
       this.selectedbaseschools = res
+      
     });
+  }
+  filterCourseName(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onValueChange(value,i){
@@ -285,8 +292,12 @@ export class NewBNAExamMarkComponent implements OnInit {
       // });
       this.BNAExamMarkService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseSection=res;
+        this.selectSection=res
       });
     }
+  }
+  filterBySection(value:any){
+    this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSubjectbycourseandsection(){
@@ -397,7 +408,7 @@ export class NewBNAExamMarkComponent implements OnInit {
 
     this.BNAExamMarkService.getSelectedCourseDurationByschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
-
+      this.selectCourseName=res
     });
   }
 
@@ -421,8 +432,12 @@ export class NewBNAExamMarkComponent implements OnInit {
     if (baseSchoolNameId != null && courseNameId != null) {
       this.BNAExamMarkService.getSelectedSubjectNameByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId, courseDurationId,this.sectionId).subscribe(res => {
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId = res;
+        this.selectSubject=res
       });
     }
+  }
+  filterBySubject(value:any){
+    this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedcoursename() {

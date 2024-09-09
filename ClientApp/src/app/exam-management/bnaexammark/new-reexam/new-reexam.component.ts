@@ -34,8 +34,10 @@ export class NewReExamComponent implements OnInit {
 
   selectedcoursename: SelectedModel[];
   selectedcoursedurationbyschoolname: SelectedModel[];
+  selectCourse:SelectedModel[];
   selectedClassTypeByBaseSchoolNameIdAndCourseNameId: SelectedModel[];
   selectedSubjectNameByBaseSchoolNameIdAndCourseNameId: SelectedModel[];
+  selectSubject:SelectedModel[];
   selectedmarktype: SelectedModel[];
   selectedcoursModulebySchoolAndCourse: SelectedModel[];
   selectedmarkremarks: SelectedModel[];
@@ -53,6 +55,7 @@ export class NewReExamComponent implements OnInit {
   traineeList: TraineeListForExamMark[]
   examTypeCount: number;
   selectedCourseSection:SelectedModel[];
+  selectSection:SelectedModel[];
   mark:any;
   markType:any;
   isBigger:boolean =false;
@@ -271,6 +274,7 @@ export class NewReExamComponent implements OnInit {
 
       this.BNAExamMarkService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseSection=res;
+        this.selectSection=res;
       });
       // this.BNAExamMarkService.getCourseDurationByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
 
@@ -280,7 +284,9 @@ export class NewReExamComponent implements OnInit {
 
     }
   }
-
+filterBySection(value:any){
+  this.selectedCourseSection=this.selectSection.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+}
   onSubjectNameSelectionChangeGetTotalMarkAndPassMark(dropdown) {
 
     if (dropdown.isUserInput) {
@@ -360,9 +366,11 @@ export class NewReExamComponent implements OnInit {
     if (baseSchoolNameId != null && courseNameId != null) {
       this.BNAExamMarkService.getSelectedSubjectNameByBaseSchoolNameIdAndCourseNameIdForReExam(baseSchoolNameId, courseNameId, courseDurationId,courseSectionId,1).subscribe(res => {
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId = res;
+        this.selectSection=res;
       });
     }
   }
+  
 
   getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,courseNameId,subjectNameId,classRoutineId){
     this.traineeNominationService.getTraineeAttendanceListForReExam(courseDurationId,courseSectionId,1,baseSchoolNameId,courseNameId,subjectNameId,classRoutineId).subscribe(res => {
@@ -378,8 +386,15 @@ export class NewReExamComponent implements OnInit {
 
     this.BNAExamMarkService.getSelectedCourseDurationByschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
+      this.selectCourse=res;
 
     });
+  }
+  filterBySubject(value:any){
+    this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterByCourse(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourse.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   

@@ -41,6 +41,7 @@ export class NewAttendanceComponent implements OnInit {
   selectedclassperiod:SelectedModel[];
   selectedbnaattendanceremark:SelectedModel[];
   selectedCourse:SelectedModel[];
+  selectCourse:SelectedModel[];
   selectedClassPeriodByBaseSchoolNameIdAndCourseNameId:SelectedModel[];
   selectedCourseDurationByParameterRequest:number;
   traineeNominationListForAttendance: TraineeList[];
@@ -157,6 +158,7 @@ export class NewAttendanceComponent implements OnInit {
   onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
       this.AttendanceService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res
+        this.selectCourse=res
       });
      }
       get f() { return this.AttendanceForm.controls; }
@@ -185,7 +187,9 @@ export class NewAttendanceComponent implements OnInit {
 
       this.classRoutineService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseSection=res;
+        
       });
+      
 
       this.subjectNameService.find(this.bnaSubjectNameId).subscribe(res=>{
         this.subjectNamefromClassRoutine = res.subjectName;
@@ -239,7 +243,9 @@ export class NewAttendanceComponent implements OnInit {
             }  
      }
 
-  
+     filterByCourse(value:any){
+        this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+     }
 
   getselectedclassroutine(){
     this.AttendanceService.getselectedclassroutine().subscribe(res=>{
