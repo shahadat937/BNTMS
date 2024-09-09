@@ -43,6 +43,7 @@ export class NewAttendanceComponent implements OnInit {
   selectedCourse:SelectedModel[];
   selectCourse:SelectedModel[];
   selectedClassPeriodByBaseSchoolNameIdAndCourseNameId:SelectedModel[];
+  selectPeriod:SelectedModel[]
   selectedCourseDurationByParameterRequest:number;
   traineeNominationListForAttendance: TraineeList[];
   selectedvalues:CheckboxSelectedModel[];
@@ -241,6 +242,9 @@ export class NewAttendanceComponent implements OnInit {
                 this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=res;     
               });
             }  
+     }
+     filterByPeriod(value:any){
+      this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=this.selectPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
      }
 
      filterByCourse(value:any){
