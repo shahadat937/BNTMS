@@ -32,9 +32,11 @@ export class NewReadingMaterialComponent implements OnInit {
   selectedcourse: SelectedModel[];
   selectedschool: SelectedModel[];
   selecteddocs: SelectedModel[];
+  selectDocument:SelectedModel[];
   selectedLocationType: SelectedModel[];
   selecteddownload: SelectedModel[];
   selectedReadingMaterialTitle: SelectedModel[];
+  selectMaterials:SelectedModel[];
   selectSchool: SelectedModel[];
   isShown: boolean = false;
   options = [];
@@ -227,7 +229,11 @@ export class NewReadingMaterialComponent implements OnInit {
   getSelectedReadingMaterial() {
     this.ReadingMaterialService.getSelectedReadingMaterial().subscribe(res => {
       this.selectedReadingMaterialTitle = res;
+      this.selectMaterials=res;
     });
+  }
+  filterByMaterial(value:any){
+    this.selectedReadingMaterialTitle=this.selectMaterials.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedcoursename() {
     this.ReadingMaterialService.getselectedcoursename().subscribe(res => {
@@ -247,7 +253,11 @@ export class NewReadingMaterialComponent implements OnInit {
   getselectedDocumentType() {
     this.ReadingMaterialService.getselectedDocumentType().subscribe(res => {
       this.selecteddocs = res
+      this.selectDocument=res
     });
+  }
+  filterByDocs(value:any){
+    this.selecteddocs=this.selectDocument.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselecteddownloadright() {

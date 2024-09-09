@@ -27,6 +27,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   sailorBranch:SelectedModel[];
   selectedSaylorRank:SelectedModel[];
   selectedSaylorSubBranch:SelectedModel[];
+  selectSubBranch:SelectedModel[];
   genderValues:SelectedModel[];
   heightValues:SelectedModel[]; 
   weightValues:SelectedModel[]; 
@@ -37,6 +38,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   hairColorValues:SelectedModel[];
   maritialStatusValues:SelectedModel[];
   selectedCastes:SelectedModel[];
+  selectCastes:SelectedModel[];
   selectedBaseName:SelectedModel[];
   filteredSelectedBaseName: SelectedModel[];
   filterSailorRank: SelectedModel[];
@@ -49,6 +51,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   filterbloodgroup: SelectedModel[];
   filterByReligion: SelectedModel[];
   selectedReligion: SelectedModel[];
+  selectRank:SelectedModel[];
 
 
   imageUrl:string="/assets/img/icon.png";
@@ -143,7 +146,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterSaylorRank(value:any) {
-    this.rankValues = this.selectedSaylorRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
+    this.rankValues = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
   }
 
   filterSaylorBranch(value:any){
@@ -184,7 +187,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   getRanks(){
     this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
-      this.selectedSaylorRank=res 
+      this.selectRank=res 
     });
   }
 
@@ -211,8 +214,11 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     var saylorBranchId
     this.BIODataGeneralInfoService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
       this.selectedSaylorSubBranch=res
-     
+      this.selectSubBranch=res
     });
+  }
+  filterBySubBranch(value:any){
+    this.selectedSaylorSubBranch=this.selectSubBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getMaritialStatus(){
@@ -225,10 +231,13 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
+      this.selectCastes=res
     });
   } 
 
-
+  filterByCastes(value:any){
+    this.selectedCastes=this.selectCastes.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   intitializeForm() {
     this.BIODataGeneralInfoForm = this.fb.group({
       traineeId: [0],

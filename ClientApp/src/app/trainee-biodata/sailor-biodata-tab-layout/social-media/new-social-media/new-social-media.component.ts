@@ -20,6 +20,7 @@ export class NewSocialMediaComponent implements OnInit {
   validationErrors: string[] = [];
   districtValues:SelectedModel[]; 
   selectedSocialMedia:SelectedModel[]; 
+  selectSocialMedia:SelectedModel[];
   traineeId: string;
 
   constructor(private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
@@ -65,7 +66,11 @@ export class NewSocialMediaComponent implements OnInit {
   getSelectedSocialMediaType(){
     this.SocialMediaService.getSelectedSocialMediaType().subscribe(res=>{
       this.selectedSocialMedia=res
+      this.selectSocialMedia=res
     });
+  }
+  filterBySocial(value:any){
+    this.selectedSocialMedia=this.selectSocialMedia.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {

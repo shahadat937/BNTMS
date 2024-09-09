@@ -58,6 +58,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Material Title</mat-label>                        
                         <mat-select formControlName="readingMaterialTitleId" >
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByMaterial($event.target.value)"
+                        placeholder="Search">
                           <mat-option  [value]="0">--Select--</mat-option >
                             <mat-option (onSelectionChange)="onMaterialTitleSelectionChange($event)" *ngFor="let semester of selectedReadingMaterialTitle" [value]="semester.value">
                                 {{semester.text}} 
@@ -70,6 +75,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Document Type </mat-label>                        
                         <mat-select formControlName="documentTypeId" >
+                          <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByDocs($event.target.value)"
+                        placeholder="Search">
                             <mat-option *ngFor="let semester of selecteddocs" (onSelectionChange)="onDocumentTypeSelectionChange($event)" [value]="semester.value">
                                 {{semester.text}} 
                               </mat-option>                          

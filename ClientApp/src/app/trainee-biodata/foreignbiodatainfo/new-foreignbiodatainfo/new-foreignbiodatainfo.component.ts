@@ -31,10 +31,14 @@ export class NewForeignBIODataInfoComponent implements OnInit {
   heightValues:SelectedModel[]; 
   weightValues:SelectedModel[]; 
   colorOfEyeValues:SelectedModel[]; 
+  selectColor:SelectedModel[]
   bloodValues: SelectedModel[];
+  selectBlood:SelectedModel[];
   religionValues: SelectedModel[];
+  selectReligion:SelectedModel[];
   hairColorValues:SelectedModel[];
   selectedCastes:SelectedModel[];
+  selectCastes:SelectedModel[];
   selectedDistrict:SelectedModel[];
   selectBranch:SelectedModel[];
   selectRank:SelectedModel[];
@@ -110,8 +114,11 @@ filterBna(value:any){
   getreligions(){
     this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
-   
+      this.selectReligion=res
     });
+  }
+  filterByReligion(value:any){
+    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   gethaircolors(){
     this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
@@ -134,13 +141,22 @@ filterBna(value:any){
   getselectedcolorofeye(){
     this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
+      this.selectColor=res
     });
+  }
+
+  filterByColor(value:any){
+    this.colorOfEyeValues=this.selectColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedbloodgroup(){
     this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
+      this.selectBlood=res
     });
+  }
+  filterByBloodGroup(value:any){
+    this.bloodValues=this.selectBlood.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getNationalitys(){
@@ -221,8 +237,12 @@ filterCountry(value:any){
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
+      this.selectCastes=res
     });
   } 
+  filterByCaste(value:any){
+    this.selectedCastes=this.selectCastes.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   // getMaritalStatus(){
   //   this.BIODataGeneralInfoService.getselectedMaritialStatus().subscribe(res=>{

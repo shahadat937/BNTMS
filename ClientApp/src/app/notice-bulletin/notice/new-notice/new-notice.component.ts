@@ -30,6 +30,7 @@ export class NewNoticeComponent implements OnInit {
   NoticeForm: FormGroup;
   validationErrors: string[] = [];
   selectedCourse:SelectedModel[];
+  selectCourse:SelectedModel[];
   selectedbaseschools:SelectedModel[];
   selectedNotice:Notice[];
   isShown: boolean = false ;
@@ -156,13 +157,16 @@ export class NewNoticeComponent implements OnInit {
         this.router.navigate([currentUrl]);
     });
   }
-
+filterByCourse(value:any){
+  this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+}
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
     this.isShown=true;
     if (baseSchoolNameId.length ==1){ 
       this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-        this.selectedCourse=res;   
+        this.selectedCourse=res;
+        this.selectCourse=res;   
       },err=>{
         
       });

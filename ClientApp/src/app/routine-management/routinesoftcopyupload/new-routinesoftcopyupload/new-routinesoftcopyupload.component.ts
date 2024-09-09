@@ -58,6 +58,7 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
   IsPublisherNameShow:boolean=false;
   selectedcoursedurationbyschoolname:SelectedModel[];
   selectedCourse:SelectedModel[];
+  selectCourse:SelectedModel[];
   selectedbaseschool:SelectedModel[];
   displayedColumns: string[] = ['ser', 'documentName', 'documentLink', 'actions'];
   paging = {
@@ -210,7 +211,11 @@ getCourseForRoutine(){
   var baseSchoolNameId=this.RoutineSoftCopyUploadForm.value['baseSchoolNameId'];
   this.ClassRoutineService.getCourseForRoutine(baseSchoolNameId).subscribe(res=>{
     this.selectedCourse=res;
+    this.selectCourse=res
   });
+}
+filterByCourse(value:any){
+  this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
 
   getSelectedRoutineSoftCopyUpload() {

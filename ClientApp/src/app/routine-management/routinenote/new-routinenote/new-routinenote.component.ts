@@ -35,8 +35,10 @@ export class NewRoutineNoteComponent implements OnInit {
   selectedLocationType:SelectedModel[];
   selectedclassperiod:SelectedModel[];
   selectedcoursedurationbyschoolname:SelectedModel[];
+  selectCourseTitle:SelectedModel[];
   selectedsubjectname:SelectedModel[];
   selectedRoutineList:SelectedModel[];
+  selectRoutine:SelectedModel[];
   selectedSchool:SelectedModel[];
   selectedCourseModule:SelectedModel[];
   selectedModule:SelectedModel[];
@@ -70,6 +72,7 @@ export class NewRoutineNoteComponent implements OnInit {
   weekFromDate:any;
   weekFromTo:any;
   selectedWeek:any;
+  selectWeek:SelectedModel[];
   isShown: boolean = false ;
   groupArrays:{ date: string; games: any; }[];
   displayedRoutineNoteColumns: string[] = ['ser','courseName','routineName','routineNotes','actions'];
@@ -158,10 +161,14 @@ export class NewRoutineNoteComponent implements OnInit {
     var baseSchoolNameId=this.RoutineNoteForm.value['baseSchoolNameId'];
     this.routineNoteService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
       this.selectedcoursedurationbyschoolname=res;
+      this.selectCourseTitle=res
     });
 
     this.getRoutineNoteList();
   } 
+  filterByCourse(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedWeeks(dropdown){
     const id = this.route.snapshot.paramMap.get('routineNoteId'); 
     if(id){
@@ -181,8 +188,12 @@ export class NewRoutineNoteComponent implements OnInit {
 
     this.routineNoteService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
+      this.selectCourseTitle=res;
     }); 
 
+  }
+  filterByWeek(value:any){
+    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedclassroutine(dropdown){
     const id = this.route.snapshot.paramMap.get('routineNoteId'); 
@@ -211,7 +222,11 @@ export class NewRoutineNoteComponent implements OnInit {
     var courseWeekId=this.RoutineNoteForm.value['courseWeekId'];
     this.routineNoteService.getRoutineListForRoutineNote(this.schoolId,this.courseId,this.durationId,courseWeekId).subscribe(res=>{
       this.selectedRoutineList=res;
+      this.selectRoutine=res;
     });
+  }
+  filterByRoutine(value:any){
+    this.selectedRoutineList=this.selectRoutine.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
     
     onRoutineSelectionChangeGet(){

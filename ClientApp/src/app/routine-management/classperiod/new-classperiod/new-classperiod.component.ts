@@ -29,6 +29,7 @@ export class NewClassPeriodComponent implements OnInit {
   validationErrors: string[] = [];
   selectedbaseschool:SelectedModel[];
   selectedcoursestatus:SelectedModel[];
+  selectEvent:SelectedModel[];
   selectedcoursename:SelectedModel[];
   isShown: boolean = false ;
   GetPeriodListByParameter:ClassPeriod[];
@@ -160,7 +161,11 @@ getSelectedCourseAutocomplete(cName){
   getselectedbnaclassschedulestatus(){
     this.ClassPeriodService.getselectedbnaclassschedulestatus().subscribe(res=>{
       this.selectedcoursestatus=res;
+      this.selectEvent=res;
     });
+  }
+  filterByStatus(value:any){
+    this.selectedcoursestatus=this.selectEvent.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedcoursename(){
