@@ -31,19 +31,28 @@ export class NewBnaClassRoutineComponent implements OnInit {
   validationErrors: string[] = [];
   selectedbaseschool:SelectedModel[];
   selectedclasstype:SelectedModel[];
+  selectClassType:SelectedModel[]
   selectedSemester:SelectedModel[];
+  selectSemester:SelectedModel[]
   selectedLocationType:SelectedModel[];
   selectedclassperiod:SelectedModel[];
+  selectClassPeriod:SelectedModel[];
   selectedcoursedurationbyschoolname:SelectedModel[];
+  selectCourseTitle:SelectedModel[];
   selectedsubjectname:SelectedModel[];
+  selectSubject:SelectedModel[];
   selectedWeek:SelectedModel[];
+  selectWeek:SelectedModel[];
   selectedSchool:SelectedModel[];
   selectedCourseModule:SelectedModel[];
   selectedModule:SelectedModel[];
   selectedcoursename:SelectedModel[];
   //selectedmarktype:SelectedModel[];
   //selectedInstructor:{};
+  selctMarkType:SelectedModel[]
   selectedCourseSection:SelectedModel[];
+  selectInstructor:SelectedModel[];
+  selectSection:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   routineCount:number;
   instructorRoutineCount:number;
@@ -395,7 +404,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
     this.ClassRoutineService.getselectedCourseSection(this.schoolId,this.courseId).subscribe(res=>{
       this.selectedCourseSection=res;
+      this.selectSection=res
     });
+   
     
     this.ClassRoutineService.getdataForPrintWeeklyRoutine(this.weekId).subscribe(res=>{
       this.dataForClassRoutine=res;
@@ -423,6 +434,9 @@ export class NewBnaClassRoutineComponent implements OnInit {
       
       this.isShown=true;
     } 
+  }
+  filterBySection(value:any){
+    this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onDateSelectionChange(event){
@@ -460,7 +474,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
     this.ClassRoutineService.getselectedInstructor(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId,bnaSubjectNameId).subscribe(res=>{
       this.selectedInstructor[bnaSubjectNameId]=res;
-      
+      this.selectInstructor=res
     });
 
     
@@ -468,6 +482,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     
     this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       this.selectedmarktype[bnaSubjectNameId]=res;
+      this.selctMarkType=res
     });
   }
 
@@ -513,9 +528,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
       this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedclassperiod=res;
+        this.selectClassPeriod=res
       });
     
     }  
+  }
+  filterByPeriod(value:any){
+    this.selectedclassperiod=this.selectClassPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getControlLevel(index: number, type: string) {
@@ -533,6 +552,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
     this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse_sem(baseSchoolNameId,courseNameId,this.bnaSemesterId).subscribe(res=>{
       this.selectedsubjectname=res;
+      this.selectSubject=res;
     });
 
     this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
@@ -588,8 +608,22 @@ export class NewBnaClassRoutineComponent implements OnInit {
   getSelectedBnaSemester(){
     this.ClassRoutineService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
+      this.selectSemester=res
     });
   } 
+
+  filterBySemester(value:any){
+    this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterBySubject(value:any){
+    this.selectedsubjectname=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterByInstructor(value:any){
+    this.selectedInstructor=this.selectInstructor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterByMark(value:any){
+    this.selectedmarktype=this.selctMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedbaseschools(){
     this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
@@ -607,8 +641,12 @@ export class NewBnaClassRoutineComponent implements OnInit {
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
       this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedcoursedurationbyschoolname=res;
+        this.selectCourseTitle=res
       });
   } 
+  filterByCourseTitle(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedbnasubjectname(dropdown){
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
@@ -647,9 +685,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
     var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
     this.ClassRoutineService.getSelectedCourseWeeks_sem(baseSchoolNameId,courseDurationId,courseNameId,bnaSemesterId).subscribe(res=>{
       this.selectedWeek=res;
+      this.selectWeek=res
     });    
  
   //  (onSelectionChange)="onSubjectNameSelectionChangeGet(dropdown,i)"
+  }
+  filterByWeek(value:any){
+    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedCourseModules(){
@@ -692,7 +734,11 @@ export class NewBnaClassRoutineComponent implements OnInit {
   getselectedclasstype(){
     this.ClassRoutineService.getselectedclasstype().subscribe(res=>{
       this.selectedclasstype=res;
+      this.selectClassType=res
     });
+  }
+  filterByClassType(value:any){
+    this.selectedclasstype=this.selectClassType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   reloadCurrentRoute() {

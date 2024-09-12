@@ -11,6 +11,7 @@ import {MasterData} from 'src/assets/data/master-data'
 import {TraineeAssessmentCreate} from '../../models/TraineeAssessmentCreate'
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { SelectedModel } from 'src/app/core/models/selectedModel';
 
 @Component({
   selector: 'app-new-traineeassessmentcreate',
@@ -27,6 +28,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
   masterData = MasterData;
   isShown:boolean=false;
   selectedcoursedurationbyschoolname:any;
+  selectCourse:SelectedModel[]
 
   role : any;
   traineeId : any;
@@ -133,8 +135,13 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
     var baseSchoolNameId=this.TraineeAssessmentCreateForm.value['baseSchoolNameId'];
     this.TraineeAssessmentCreateService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
       this.selectedcoursedurationbyschoolname=res;
+      this.selectCourse=res
     });
   }  
+
+  filterByCourse(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedbnasubjectname(){
     

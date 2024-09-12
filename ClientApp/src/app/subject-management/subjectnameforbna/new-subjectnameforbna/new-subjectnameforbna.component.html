@@ -77,6 +77,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Semester</mat-label>
                       <mat-select formControlName="bnaSemesterId" required (selectionChange)="getSubjectListbyBnaSemesterId()">
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectMark" 
+                        (input)="filterBySemester($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let subject of selectedSemester" [value]="subject.value">
                           {{subject.text}} 
@@ -92,6 +97,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Subject Category</mat-label>
                       <mat-select formControlName="subjectCategoryId">
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectMark" 
+                        (input)="filterByCategory($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let subject of selectedSubjectCategory" [value]="subject.value">
                           {{subject.text}} 
@@ -137,6 +147,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>BNA Subject Curriculum</mat-label>
                       <mat-select formControlName="bnaSubjectCurriculumId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectMark" 
+                        (input)="filterBySubject($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option (onSelectionChange)="onStatus($event)" *ngFor="let subject of selectedSubjectCurriculum" [value]="subject.value">
                           {{subject.text}} 
@@ -164,6 +179,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Subject Type</mat-label>
                       <mat-select formControlName="subjectTypeId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectMark" 
+                        (input)="filterByType($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                           <mat-option *ngFor="let type of selectedSubjectType" [value]="type.value">
                               {{type.text}} 
@@ -179,6 +199,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Kind Of Subject</mat-label>
                       <mat-select formControlName="kindOfSubjectId">
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectMark" 
+                        (input)="filterByKindofSubject($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let type of selectedKindOfSubject" [value]="type.value">
                           {{type.text}} 
@@ -221,6 +246,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Result Status</mat-label>
                       <mat-select formControlName="resultStatusId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectMark" 
+                        (input)="filterByResult($event.target.value)"
+                        placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let result of selectedResultStatus" [value]="result.value">
                           {{result.text}}  

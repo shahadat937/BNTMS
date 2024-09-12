@@ -29,18 +29,24 @@ export class NewBnaCourseInstructorComponent implements OnInit {
   validationErrors: string[] = [];
   coursesByBaseSchoolId: SelectedModel[];
   selectedcoursedurationbyschoolname: SelectedModel[];
+  selectCourse:SelectedModel[]
   selectedSchool: SelectedModel[];
   selectedBatch: SelectedModel[];
   selectedRank: SelectedModel[];
   selectedLocationType: SelectedModel[];
   selectedsubjectname: SelectedModel[];
+  selectSubject:SelectedModel[]
   selectedcourseduration: SelectedModel[];
   selectedmarktype:SelectedModel[];
+  selectMarkType:SelectedModel[];
   selectedModule: SelectedModel[];
   selectedSemester: SelectedModel[];
+  selectSemester:SelectedModel[];
   selectedSubjectCurriculum: SelectedModel[];
+  selectCurriculum:SelectedModel[];
   selectedDepartment: SelectedModel[];
   selectedCourseSection: SelectedModel[];
+  selectSection:SelectedModel[]
   selectedCourseInstructor: CourseInstructor;
   selectedCourseModuleByBaseSchoolAndCourseNameId: SelectedModel[];
   GetInstructorByParameters: CourseInstructor[];
@@ -170,7 +176,11 @@ export class NewBnaCourseInstructorComponent implements OnInit {
     var baseSchoolNameId = this.CourseInstructorForm.value['baseSchoolNameId'];
     this.CourseInstructorService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
+      this.selectCourse=res;
     });
+  }
+  filterByCourse(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   //autocomplete
@@ -292,13 +302,21 @@ export class NewBnaCourseInstructorComponent implements OnInit {
   getSelectedBnaSemester(){
     this.CourseInstructorService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
+      this.selectSemester=res
     });
   } 
+  filterBySemester(value:any){
+    this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getSelectedSubjectCurriculum(){
     this.CourseInstructorService.getSelectedSubjectCurriculum().subscribe(res=>{
       this.selectedSubjectCurriculum=res
+      this.selectCurriculum=res
     });
   } 
+  filterByCurriculum(value:any){
+    this.selectedSubjectCurriculum=this.selectCurriculum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   onStatus(dropdown) {
     if (dropdown.isUserInput) {
       this.department = dropdown.source.value;
@@ -328,7 +346,11 @@ export class NewBnaCourseInstructorComponent implements OnInit {
     var bnaSubjectCurriculumId=this.CourseInstructorForm.value['bnaSubjectCurriculumId'];  
     this.CourseInstructorService.getselectedbnasubjectnamebybnaSemesterIdAndSubjectCurriculumId(bnaSemesterId,bnaSubjectCurriculumId).subscribe(res => {
       this.selectedsubjectname = res;
+      this.selectSubject=res
     });
+  }
+  filterBySubject(value:any){
+    this.selectedsubjectname=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectSection(){
@@ -337,7 +359,11 @@ export class NewBnaCourseInstructorComponent implements OnInit {
     
     this.CourseInstructorService.getselectedcoursedurationForBna().subscribe(res=>{
       this.selectedCourseSection=res;
+      this.selectSection=res
     });
+  }
+  filterBySection(value:any){
+    this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
 
@@ -351,7 +377,9 @@ export class NewBnaCourseInstructorComponent implements OnInit {
     
     this.ClassRoutineService.getselectedmarktypeForBna(bnaSubjectNameId).subscribe(res=>{
       this.selectedmarktype=res;
+      this.selectMarkType=res;
     });
+ 
 
 
     this.isShown = true;
@@ -359,8 +387,12 @@ export class NewBnaCourseInstructorComponent implements OnInit {
 
       this.CourseInstructorService.getInstructorListForBnaByParameters(baseSchoolNameId,bnaSubjectNameId, bnaSemesterId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
         this.GetInstructorByParameters = res;
+        
       });
     }
+  }
+  filterByMark(value:any){
+    this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   onSubjectMarkSelectionGetMarkType(){
     var subjectMarkId = this.CourseInstructorForm.value['subjectMarkId'];

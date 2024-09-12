@@ -112,7 +112,7 @@ export class NewClassRoutineComponent implements OnInit {
   inputGroups: { value: string }[] = [{ value: '' }];
 
   
-  
+
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
  
@@ -236,6 +236,7 @@ export class NewClassRoutineComponent implements OnInit {
       //isApproved:[true],
     });
   }
+  
 
   addSinglePeriod(){
     const control = <FormArray>this.ClassRoutineForm.controls["perodListForm"];
@@ -244,6 +245,7 @@ export class NewClassRoutineComponent implements OnInit {
    // this.ClassRoutineForm.patchValue({ perodListForm: this.traineeList });
     
   }
+  
 
   deletePeriod(index: number) {
     //const control = this.ClassRoutineForm.get('selling_points') as FormArray;

@@ -41,7 +41,9 @@ export class NewAssessmentGroupComponent implements OnInit {
   selectedclassperiod:SelectedModel[];
   selectedbnaattendanceremark:SelectedModel[];
   selectedCourse:SelectedModel[];
+  selectCourse:SelectedModel[];
   selectedTraineeAssessmentCreates:SelectedModel[];
+  selectAssessment:SelectedModel[];
   selectedCourseDurationByParameterRequest:number;
   traineeNominationListForAttendance: traineeAssessmentGroupList[];
   selectedvalues:CheckboxSelectedModel[];
@@ -150,7 +152,14 @@ export class NewAssessmentGroupComponent implements OnInit {
   onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
       this.traineeAssessmentGroupService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res;
+        this.selectCourse=res;
       });
+    }
+    filterByCourse(value:any){
+      this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    }
+    filterByTrainee(value:any){
+      this.selectedTraineeAssessmentCreates=this.selectAssessment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
     }
     onCourseSelectionGetTraineeList(){ 
       var course = this.TraineeAssessmentGroupForm.value['courseName']; 
@@ -163,6 +172,7 @@ export class NewAssessmentGroupComponent implements OnInit {
 
         this.traineeAssessmentGroupService.getSelectedTraineeAssessmentCreates(this.courseDurationId).subscribe(res=>{
           this.selectedTraineeAssessmentCreates=res
+          this.selectAssessment=res
         });
 
       this.traineeNominationService.getTraineeNominationsListForAssessmentGroupByCourseDurationIdAndTraineeId(this.courseDurationId).subscribe(res=>{
