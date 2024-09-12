@@ -31,6 +31,7 @@ export class NewClassRoutineComponent implements OnInit {
   ClassRoutineForm: FormGroup;
   validationErrors: string[] = [];
   selectedbaseschool:SelectedModel[];
+  selectSchool:SelectedModel[];
   selectedclasstype:SelectedModel[];
   selectClassType:SelectedModel[];
   selectedLocationType:SelectedModel[];
@@ -640,12 +641,17 @@ filterBymarkType(value:any){
   getselectedbaseschools(){
     this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
+      
     });
   } 
+  filterBySchool(value:any){
+    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedbaseschoolsByBase(baseNameId){
     this.ClassRoutineService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
+      this.selectSchool=res
     });
   }  
 

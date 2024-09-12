@@ -34,6 +34,12 @@
                         <mat-label>School</mat-label>
                         <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
 
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectSection" 
+                          (input)="filterBySchool($event.target.value)"
+                          placeholder="Search">
+
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let school of selectedbaseschool" [value]="school.value">
                                 {{school.text}} 

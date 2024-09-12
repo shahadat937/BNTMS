@@ -60,6 +60,7 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
   selectedCourse:SelectedModel[];
   selectCourse:SelectedModel[];
   selectedbaseschool:SelectedModel[];
+  selectSchool:SelectedModel[];
   displayedColumns: string[] = ['ser', 'documentName', 'documentLink', 'actions'];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -190,14 +191,19 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
   getselectedbaseschools(){
     this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
+      this.selectSchool=res
     });
   } 
 
   getselectedbaseschoolsByBase(baseNameId){
     this.ClassRoutineService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
+     
     });
   }  
+  filterBySchool(value:any){
+    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
 
   getselectedcoursedurationbyschoolname(){

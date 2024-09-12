@@ -31,6 +31,7 @@ export class NewRoutineNoteComponent implements OnInit {
   RoutineNoteForm: FormGroup;
   validationErrors: string[] = [];
   selectedbaseschool:SelectedModel[];
+  selectSchool:SelectedModel[];
   selectedclasstype:SelectedModel[];
   selectedLocationType:SelectedModel[];
   selectedclassperiod:SelectedModel[];
@@ -188,7 +189,7 @@ export class NewRoutineNoteComponent implements OnInit {
 
     this.routineNoteService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
-      this.selectCourseTitle=res;
+      this.selectWeek=res;
     }); 
 
   }
@@ -275,9 +276,12 @@ export class NewRoutineNoteComponent implements OnInit {
   getselectedbaseschoolsByBase(baseNameId){
     this.routineNoteService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
+      this.selectSchool=res
     });
   }
-  
+  filterBySchool(value:any){
+    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   
 
