@@ -28,6 +28,7 @@ export class NewClassPeriodComponent implements OnInit {
   ClassPeriodForm: FormGroup;
   validationErrors: string[] = [];
   selectedbaseschool:SelectedModel[];
+  selectSchool:SelectedModel[];
   selectedcoursestatus:SelectedModel[];
   selectEvent:SelectedModel[];
   selectedcoursename:SelectedModel[];
@@ -139,11 +140,16 @@ getSelectedCourseAutocomplete(cName){
   getselectedbaseschools(){
     this.ClassPeriodService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
+      this.selectSchool=res
     });
+  }
+  filterBySchool(value:any){
+    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedbaseschoolsByBase(baseNameId){
     this.ClassPeriodService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
+      this.selectSchool=res
     });
   }
 

@@ -37,6 +37,7 @@ export class NewForeignBIODataInfoComponent implements OnInit {
   religionValues: SelectedModel[];
   selectReligion:SelectedModel[];
   hairColorValues:SelectedModel[];
+  selectHairColor:SelectedModel[];
   selectedCastes:SelectedModel[];
   selectCastes:SelectedModel[];
   selectedDistrict:SelectedModel[];
@@ -123,8 +124,12 @@ filterBna(value:any){
   gethaircolors(){
     this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
       this.hairColorValues=res
+      this.selectHairColor=res
     });
   }  
+  filterByHairColor(value:any){
+    this.hairColorValues=this.selectHairColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedheight(){
     this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{

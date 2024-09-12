@@ -32,10 +32,12 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   heightValues:SelectedModel[]; 
   weightValues:SelectedModel[]; 
   colorOfEyeValues:SelectedModel[]; 
+  selectEyeColor:SelectedModel[];
   bloodValues: SelectedModel[];
   religionValues: SelectedModel[];
   casteValues:SelectedModel[];
   hairColorValues:SelectedModel[];
+  selectHairColor:SelectedModel[];
   maritialStatusValues:SelectedModel[];
   selectedCastes:SelectedModel[];
   selectCastes:SelectedModel[];
@@ -119,8 +121,12 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   gethaircolors(){
     this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
       this.hairColorValues=res
+      this.selectHairColor=res
     
     });
+  }
+  filterByHairColor(value:any){
+    this.hairColorValues=this.selectHairColor.filter(x=> x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedcaste(){
     this.BIODataGeneralInfoService.getselectedcaste().subscribe(res=>{
@@ -172,8 +178,12 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   getselectedcolorofeye(){
     this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
+      this.selectEyeColor=res
     
     });
+  }
+  filterByEyeCoor(value:any){
+    this.colorOfEyeValues=this.selectEyeColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedbloodgroup(){
