@@ -10,6 +10,7 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-weekbycourse-list',
@@ -41,12 +42,21 @@ export class WeekByCourseListComponent implements OnInit {
   searchText="";
   groupArrays:{ courseName: string; courses: any; }[];
 
-  displayedColumns: string[] = ['ser','course', 'durationFrom', 'durationTo','countWeek'];
-  dataSource: MatTableDataSource<CourseWeek> = new MatTableDataSource();
+ 
 
+
+  displayedColumns: string[] = ['ser','course', 'durationFrom', 'durationTo','countWeek'];
+  // dataSource: MatTableDataSource<CourseWeek> = new MatTableDataSource();
+  
+  dataSource = new MatTableDataSource<any>();
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort)
+  matSort!: MatSort;
 
    selection = new SelectionModel<CourseWeek>(true, []);
-
+  
   
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private authService: AuthService,private CourseWeekService: CourseWeekService,private router: Router,private confirmService: ConfirmService) { }
 
@@ -175,11 +185,19 @@ getDateComparision(obj){
       this.schoolName=response[0].schoolName;
       this.course=response[0].course;
       // this.schoolName=response.schoolName
-
+      this.dataSource = new MatTableDataSource(response);
+      // this.dataSource.paginator = this.paginator;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.matSort;
 
     })
    
 
+  }
+  applySearch(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
   }
  
 }

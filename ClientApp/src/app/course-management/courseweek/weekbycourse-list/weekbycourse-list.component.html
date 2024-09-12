@@ -25,6 +25,12 @@
               <div class="responsive_table">
                 <div class="materialTableHeader"> 
                   <div class="row">
+                    <div class="col-4">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Search Here..</mat-label>
+                        <input matInput #filter (keyup)="applySearch(filter.value)">
+                      </mat-form-field>
+                    </div>
                     <div class="col-8">
                       <ul class="header-buttons-left ml-0">
                         <li class="dropdown">
@@ -61,26 +67,133 @@
                   </div>
                 </div>
                 <div id="print-routine">
+
+                  <!-- <mat-table #table [dataSource]="dataSource" matSort class="table tbl-by-group db-li-s-in"> -->
+
+                    <!-- Name of Course Column -->
+                    <!-- <ng-container matColumnDef="course">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Name of Course</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        {{ getDateComparision(element) }} {{ element.course }} - {{ element.courseTitle }}
+                        <span *ngIf="passOutStatus === 1" style="color:red; font-weight: bold;">(Passing Out)</span>
+                      </mat-cell>
+                    </ng-container> -->
                   
-                <table class="table  tbl-by-group db-li-s-in">
+                    <!-- Date of Commencement Column -->
+                    <!-- <ng-container matColumnDef="commencement">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Date of Commencement</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        {{ element.durationFrom | date:'mediumDate' }}
+                      </mat-cell>
+                    </ng-container> -->
+                  
+                    <!-- Date of Completion Column -->
+                    <!-- <ng-container matColumnDef="completion">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Date of Completion</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        {{ element.durationTo | date:'mediumDate' }}
+                      </mat-cell>
+                    </ng-container> -->
+                  
+                    <!-- Duration Column (Weeks) -->
+                    <!-- <ng-container matColumnDef="duration">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Duration</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        <a [routerLink]="['/course-management/courseweek-list', element.courseDurationId]">
+                          {{ element.completeWeek }} / {{ element.countWeek }} (Week)
+                        </a>
+                      </mat-cell>
+                    </ng-container> -->
+                  
+                    <!-- Define the header and row structure -->
+                    <!-- <mat-header-row *matHeaderRowDef="['course', 'commencement', 'completion', 'duration']"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: ['course', 'commencement', 'completion', 'duration']"></mat-row>
+                  
+                  </mat-table> -->
+
+                  <mat-table #table [dataSource]="dataSource" matSort class="table tbl-by-group db-li-s-in">
+
+                    <!-- Serial Number Column (Optional, you can add if needed) -->
+                    <ng-container matColumnDef="ser">
+                      <mat-header-cell class="ser-col" *matHeaderCellDef mat-sort-header>Ser:</mat-header-cell>
+                      <mat-cell class="ser-col" *matCellDef="let element; let i = index;">
+                        {{ ((paging.pageIndex-1) * paging.pageSize) + i + 1 }}
+                      </mat-cell>
+                    </ng-container>
+                  
+                    <!-- Name of Course Column -->
+                    <ng-container matColumnDef="course">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Name of Course</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        {{ getDateComparision(element) }} {{ element.course }} - {{ element.courseTitle }}
+                        <span *ngIf="passOutStatus === 1" style="color:red;font-weight:bold;">(Passing Out)</span>
+                      </mat-cell>
+                    </ng-container>
+                  
+                    <!-- Date of Commencement Column -->
+                    <ng-container matColumnDef="commencement">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Date of Commencement</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        {{ element.durationFrom | date:'mediumDate' }}
+                      </mat-cell>
+                    </ng-container>
+                  
+                    <!-- Date of Completion Column -->
+                    <ng-container matColumnDef="completion">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Date of Completion</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        {{ element.durationTo | date:'mediumDate' }}
+                      </mat-cell>
+                    </ng-container>
+                  
+                    <!-- Duration Column (Weeks) -->
+                    <ng-container matColumnDef="duration">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Duration</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        <a [routerLink]="['/course-management/courseweek-list', element.courseDurationId]">
+                          {{ element.completeWeek }} / {{ element.countWeek }} (Week)
+                        </a>
+                      </mat-cell>
+                    </ng-container>
+                  
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                      <mat-cell class="sub-col" *matCellDef="let element">
+                        <button mat-icon-button color="accent" title="Assign Section" class="btn-tbl-view" 
+                          [routerLink]="['/course-management/courseweek-list', element.courseDurationId]">
+                          <mat-icon mat-icon aria-label="Edit" class="col-white">toc</mat-icon>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+                  
+                    <!-- Define the header and row structure -->
+                    <mat-header-row *matHeaderRowDef="['ser', 'course', 'commencement', 'completion', 'duration', 'action']"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: ['ser', 'course', 'commencement', 'completion', 'duration', 'action']"></mat-row>
+                  
+                  </mat-table>
+                  
+                  
+                  
+                <!-- <table class="table  tbl-by-group db-li-s-in">
                   <thead>
-                    <tr>
+                    <tr> -->
                       <!-- <th class="cl-srl"><h5>Ser</h5></th> -->
                       <!-- <th class="cl-nm-rnk"><h5>Module</h5></th> -->
-                      <th class="cl-mrk"><h5>Name of Course</h5></th>
+                      <!-- <th class="cl-mrk"><h5>Name of Course</h5></th>
                       <th class="cl-mrk-rmrk"><h5>Date of Commencement</h5></th>
                       <th class="cl-mrk-rmrk"><h5>Date of Completion</h5></th>
                       <th class="cl-mrk-rmrk"><h5>Duration</h5></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <ng-container *ngFor="let data of runningCourses;let i= index;">
+                    <ng-container *ngFor="let data of runningCourses;let i= index;"> -->
                       <!-- <tr>
                         <td [attr.rowspan]="data.courses.length + 1">{{data.courseModule}}</td>
                       </tr> -->
-                      <tr >
+                      <!-- <tr > -->
                         <!-- <td>{{data.subjectName}} </td> -->
-                        <td>
+                        <!-- <td>
                           {{getDateComparision(data)}}
                           {{data.course}} - {{data.courseTitle}}
                           <span *ngIf="passOutStatus === 1" style="color:red;font-weight:bold;"> (Passing Out)</span>
@@ -93,7 +206,7 @@
                     </ng-container>
                    
                   </tbody>
-                </table>
+                </table> -->
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
                   <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
