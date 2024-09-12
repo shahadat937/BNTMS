@@ -29,15 +29,21 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
   selectedSemester:SelectedModel[];
+  selectSemester: SelectedModel[];
   selectedSchoolName:SelectedModel[];
   selectedCourseName:SelectedModel[];
   selectedSubjectCategory:SelectedModel[];
+  selectSubjectCategory:SelectedModel[]
   selectedSubjectCurriculum:SelectedModel[];
+  selectCurriculum:SelectedModel[];
   selectedSubjectType:SelectedModel[];
+  selectSubjectType:SelectedModel[];
   selectedKindOfSubject:SelectedModel[];
+  selectKindofSubject:SelectedModel[];
   selectedDepartment:SelectedModel[];
   selectedSubjectClassification:SelectedModel[];
   selectedResultStatus:SelectedModel[];
+  selectResult:SelectedModel[];
   selectedCourseModule:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   selectedCourseByParameterRequest:BNASubjectName[];
@@ -296,15 +302,23 @@ export class NewSubjectnameforBnaComponent implements OnInit {
 
   getSelectedResultStatus(){
     this.CodeValueService.getSelectedCodeValueByType(this.masterData.codevaluetype.ResultStatus).subscribe(res=>{
-      this.selectedResultStatus=res;     
+      this.selectedResultStatus=res;
+      this.selectResult=res    
     })
+  }
+  filterByResult(value:any){
+    this.selectedResultStatus=this.selectResult.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   getSelectedBnaSemester(){
     this.BNASubjectNameService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
+      this.selectSemester=res
     });
   } 
+  filterBySemester(value:any){
+    this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getSelectedSchoolName(){
     this.BNASubjectNameService.getSelectedSchoolName().subscribe(res=>{
       this.selectedSchoolName=res
@@ -320,26 +334,43 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   getSelectedSubjectCategory(){
     this.BNASubjectNameService.getSelectedSubjectCategory().subscribe(res=>{
       this.selectedSubjectCategory=res
+      this.selectSubjectCategory=res
 
     });
+  }
+  filterByCategory(value:any){
+    this.selectedSubjectCategory=this.selectSubjectCategory.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
  
   getSelectedSubjectCurriculum(){
     this.BNASubjectNameService.getSelectedSubjectCurriculum().subscribe(res=>{
       this.selectedSubjectCurriculum=res
+      this.selectCurriculum=res
     });
   } 
+
+  filterBySubject(value:any){
+    this.selectedSubjectCurriculum=this.selectCurriculum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getSelectedSubjectType(){
     this.BNASubjectNameService.getSelectedSubjectType().subscribe(res=>{
       this.selectedSubjectType=res
+      this.selectSubjectType=res
     });
+  }
+  filterByType(value:any){
+    this.selectedSubjectType=this.selectSubjectType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
  
   getSelectedKindOfSubject(){
     this.BNASubjectNameService.getSelectedKindOfSubject().subscribe(res=>{
       this.selectedKindOfSubject=res
+      this.selectKindofSubject=res
     });
+  }
+  filterByKindofSubject(value:any){
+    this.selectedKindOfSubject=this.selectKindofSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectedSubjectClassification(){

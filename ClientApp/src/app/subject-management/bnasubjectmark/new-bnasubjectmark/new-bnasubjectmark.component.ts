@@ -26,12 +26,17 @@ export class NewBnaSubjectMarkComponent implements OnInit {
   SubjectMarkForm: FormGroup;
   validationErrors: string[] = [];
   selectedmarktype:SelectedModel[];
+  selectMark:SelectedModel[];
   selectedmarkCategory:SelectedModel[];
+  selectCategory:SelectedModel[];
   selectedSchoolName:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   selectedsubjectname:SelectedModel[];
+  selectSubjectName:SelectedModel[];
   selectedSemester:SelectedModel[];
+  selectSemester:SelectedModel[]
   selectedSubjectCurriculum:SelectedModel[];
+  selectCurriculum:SelectedModel[];
   courseNameId:number;
   isShown: boolean = false ;
   numberShown: boolean = false ;
@@ -161,23 +166,39 @@ export class NewBnaSubjectMarkComponent implements OnInit {
   getSelectedBnaSemester(){
     this.SubjectMarkService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
+      this.selectSemester=res
     });
   } 
+  filterBySemester(value:any){
+    this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getSelectedSubjectCurriculum(){
     this.SubjectMarkService.getSelectedSubjectCurriculum().subscribe(res=>{
       this.selectedSubjectCurriculum=res
+      this.selectCurriculum=res
     });
   } 
+  filterByCurriculum(value:any){
+    this.selectedSubjectCurriculum=this.selectCurriculum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getSelectedKindOfSubject(){
     this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
       this.selectedmarktype=res
+      this.selectMark=res
     });
+  }
+  filterByMark(value:any){
+    this.selectedmarktype=this.selectMark.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedmarkCategory(){
     this.SubjectMarkService.getselectedmarkCategory().subscribe(res=>{
       this.selectedmarkCategory=res
+      this.selectCategory=res
     });
+  }
+  filterByCategory(value:any){
+    this.selectedmarkCategory=this.selectCategory.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectedSchoolName(){
@@ -225,8 +246,12 @@ export class NewBnaSubjectMarkComponent implements OnInit {
     var bnaSubjectCurriculumId=this.SubjectMarkForm.value['bnaSubjectCurriculumId'];  
     this.SubjectMarkService.getselectedbnasubjectnamebybnaSemesterId(bnaSemesterId,bnaSubjectCurriculumId).subscribe(res=>{
       this.selectedsubjectname=res;
+      this.selectSemester=res
     });
   } 
+  filterBySubject(value:any){
+    this.selectedsubjectname=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   
   reloadCurrentRoute() {
     let currentUrl = this.router.url;

@@ -23,7 +23,9 @@ export class GuestSpeakerQuationGroupListComponent implements OnInit {
   validationErrors: string[] = [];
   selectScoolName: SelectedModel[];
   selectedcoursedurationbyschoolname: SelectedModel[];
+  selectCourse:SelectedModel[]
   selectedSubjectNamebyschoolnameAndCourse: SelectedModel[];
+  selectSubject:SelectedModel[];
   selectTraineePno: SelectedModel[];
   selectGuestSpeakerQuestionName: SelectedModel[];
   questionGroupList: any[];
@@ -170,7 +172,11 @@ export class GuestSpeakerQuationGroupListComponent implements OnInit {
     var baseSchoolNameId = this.GuestSpeakerQuationGroupForm.value['baseSchoolNameId'];
     this.GuestSpeakerQuationGroupService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
+      this.selectCourse=res
     });
+  }
+  filterByCourseName(value:any){
+    this.selectedcoursedurationbyschoolname=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getSelectedSubjectNameBySchoolNameIdAndCourseNameId(dropdown) {
     
@@ -182,9 +188,12 @@ export class GuestSpeakerQuationGroupListComponent implements OnInit {
     var baseSchoolNameId=this.GuestSpeakerQuationGroupForm.value['baseSchoolNameId'];
       this.GuestSpeakerQuationGroupService.getSelectedSubjectNameBySchoolNameIdAndCourseNameId(baseSchoolNameId,this.courseNameId).subscribe(res=>{
         this.selectedSubjectNamebyschoolnameAndCourse=res;
-
+        this.selectSubject=res
       }); 
     }
+  }
+  filterBySubject(value:any){
+    this.selectedSubjectNamebyschoolnameAndCourse=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   onSubjectSelectionChangeGetinstructorNameByParams(dropdown) {
     this.isShown=true;

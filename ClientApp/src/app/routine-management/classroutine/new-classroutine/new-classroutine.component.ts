@@ -108,6 +108,12 @@ export class NewClassRoutineComponent implements OnInit {
   showHideDiv = false;
   showSpinner = false;
 
+
+  inputGroups: { value: string }[] = [{ value: '' }];
+
+  
+
+
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
  
   ngOnInit(): void {
@@ -172,6 +178,11 @@ export class NewClassRoutineComponent implements OnInit {
     this.getselectedcoursename();
     
   }
+
+  addInputGroup() {
+    this.inputGroups.push({ value: '' });
+  }
+
   intitializeForm() {
     this.ClassRoutineForm = this.fb.group({
       classRoutineId: [0],
@@ -225,12 +236,16 @@ export class NewClassRoutineComponent implements OnInit {
       //isApproved:[true],
     });
   }
+  
 
   addSinglePeriod(){
     const control = <FormArray>this.ClassRoutineForm.controls["perodListForm"];
+   
     control.push(this.createPeriodData());
    // this.ClassRoutineForm.patchValue({ perodListForm: this.traineeList });
+    
   }
+  
 
   deletePeriod(index: number) {
     //const control = this.ClassRoutineForm.get('selling_points') as FormArray;
@@ -430,6 +445,7 @@ export class NewClassRoutineComponent implements OnInit {
       this.isShown=true;
     } 
   }
+  
   filterBySection(value:any){
       this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
@@ -478,6 +494,14 @@ export class NewClassRoutineComponent implements OnInit {
       this.selectedmarktype[bnaSubjectNameId]=res;
       this.selectMarkType=res
     });
+  }
+  // addInputGroup() {
+  //   this.inputGroups.push({ value: '' });
+  // }
+  valueCopy(index: number, value: string){
+    if (value) {
+      this.inputGroups.push({ value });
+    }
   }
 
   onSubjectMarkSelectionGetMarkType(index: number){

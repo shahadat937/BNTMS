@@ -15,19 +15,30 @@
             </li>
             <li class="breadcrumb-item active">{{destination}}</li>
           </ul>
+          
         </div>
       </div>
     </div>
     <div class="row clearfix">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        
         <div class="card">
+          
           <div class="header">
           </div>
+          
           <div class="body">
+            <div class="align-right">
+              <label>
+                <input type="checkbox" />
+                Make a Copy
+              </label>
+            </div>
             <form class="form-border-design" [formGroup]="ClassRoutineForm">
+             
               <div class="row">
 
-               
+                
 
                 <div *ngIf="role != userRole.SuperAdmin && role != userRole.BNASchool && role != userRole.JSTISchool" class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
@@ -43,8 +54,10 @@
                       </mat-error>
                   </mat-form-field>
                 </div>
+                
 
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Title</mat-label>                        
                       <mat-select formControlName=" ">
@@ -217,6 +230,12 @@
                       </mat-error>
                   </mat-form-field>
                 </div>
+                
+                
+
+               
+
+
                 <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                   <h5 class="m-t-20">Total Period : <span class="c-color">{{routineCount}}</span>/{{this.totalPeriod}} </h5>
                 </div>
@@ -331,7 +350,7 @@
                         </div>
 
                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
-                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-form-field class="example-full-width mb-3 classRoomName" appearance="outline">
                             <mat-label>Class Room Name</mat-label>
                             <input matInput formControlName="classRoomName">
                           </mat-form-field>

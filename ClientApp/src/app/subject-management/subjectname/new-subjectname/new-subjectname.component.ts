@@ -39,6 +39,7 @@ export class NewSubjectnameComponent implements OnInit {
   selectSubject:SelectedModel[];
   selectedSubjectClassification:SelectedModel[];
   selectedResultStatus:SelectedModel[];
+  selectStatus:SelectedModel[];
   selectedCourseModule:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   selectModule:SelectedModel[];
@@ -273,8 +274,12 @@ export class NewSubjectnameComponent implements OnInit {
 
   getSelectedResultStatus(){
     this.CodeValueService.getSelectedCodeValueByType(this.masterData.codevaluetype.ResultStatus).subscribe(res=>{
-      this.selectedResultStatus=res;     
+      this.selectedResultStatus=res;
+      this.selectStatus=res     
     })
+  }
+  filterByStatus(value:any){
+    this.selectedResultStatus=this.selectStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   getSelectedBnaSemester(){

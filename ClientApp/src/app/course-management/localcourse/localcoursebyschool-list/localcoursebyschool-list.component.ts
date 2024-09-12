@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-localcoursebyschool-list',
@@ -31,9 +32,17 @@ export class LocalCourseBySchoolListComponent implements OnInit {
     pageSize: 100,
     length: 1
   }
+  
   searchText="";
   candidateCount:any;
   passOutStatus:any;
+
+  dataSource = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort)
+  matSort!: MatSort;
+
 
   displayedColumns: string[] = ['ser', 'baseSchoolName', 'courseName', 'professional', 'noOfCandidates', 'nbcd', 'durationFrom', 'durationTo', 'remark', 'actions'];
 
@@ -73,12 +82,28 @@ export class LocalCourseBySchoolListComponent implements OnInit {
     // }
   }
 
-  getCourseDurationsByCourseType(schoolId){
+  // getCourseDurationsByCourseType(schoolId){
+  //   this.isLoading = true;
+  //   this.CourseDurationService.getCourseListBySchool(schoolId).subscribe(response => {
+  //     this.CourseListBySchool = response; 
+      
+  //   })
+  // }
+  getCourseDurationsByCourseType(schoolId) {
     this.isLoading = true;
     this.CourseDurationService.getCourseListBySchool(schoolId).subscribe(response => {
-      this.CourseListBySchool = response; 
-    })
+      this.CourseListBySchool = response;
+      this.dataSource = new MatTableDataSource(this.CourseListBySchool);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.matSort; // Set the MatSort to the dataSource
+    });
   }
+  
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); 
+    filterValue = filterValue.toLowerCase(); 
+    this.dataSource.filter = filterValue; 
+  }
   
 }
