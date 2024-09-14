@@ -23,8 +23,11 @@ export class NewGrandFatherComponent implements OnInit {
   GrandFatherForm: FormGroup;
   validationErrors: string[] = [];
   grandFatherTypeValues:SelectedModel[]; 
+  selectGrandFather:SelectedModel[];
   occupationValues:SelectedModel[]; 
+  selectOccupation:SelectedModel[];
   nationalityValues:SelectedModel[]; 
+  selectNationality:SelectedModel[];
   selectedDeadStatus:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private GrandFatherService: GrandFatherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
@@ -86,19 +89,31 @@ export class NewGrandFatherComponent implements OnInit {
   grendFatherType(){
     this.GrandFatherService.getselectedgrandfathertype().subscribe(res=>{
       this.grandFatherTypeValues=res
+      this.selectGrandFather=res
     });
+  }
+  filterByGrandFather(value:any){
+    this.grandFatherTypeValues=this.selectGrandFather.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getOccupationName(){
     this.GrandFatherService.getselectedoccupation().subscribe(res=>{
       this.occupationValues=res
+      this.selectOccupation=res
     });
+  }
+  filterByOccupation(value:any){
+    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getNationalityName(){
     this.GrandFatherService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
+      this.selectNationality=res
     });
+  }
+  filterByNationality(value:any){
+    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectedDeadStatus(){

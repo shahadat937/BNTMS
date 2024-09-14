@@ -20,6 +20,7 @@ export class NewGameSportComponent implements OnInit {
   GameSportForm: FormGroup;
   validationErrors: string[] = [];
   gameValues:SelectedModel[];  
+  selectGame:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private GameSportService: GameSportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -70,7 +71,11 @@ export class NewGameSportComponent implements OnInit {
   getGame(){
     this.GameSportService.getselectedgame().subscribe(res=>{
       this.gameValues=res
+      this.selectGame=res
     });
+  }
+  filterByGame(value:any){
+    this.gameValues=this.selectGame.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
  

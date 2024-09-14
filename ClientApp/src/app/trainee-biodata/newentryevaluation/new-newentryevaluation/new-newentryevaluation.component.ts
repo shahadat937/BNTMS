@@ -25,9 +25,13 @@ export class NewNewEntryEvaluationComponent implements OnInit {
   NewEntryEvaluationForm: FormGroup;
   validationErrors: string[] = [];
   schoolNameValues:SelectedModel[];
+  selectSchool:SelectedModel[]
   courseNameValues:SelectedModel[];
+  selectCourse:SelectedModel[]
   courseModuleValues:SelectedModel[];
+  selectModule:SelectedModel[]
   weekNameValues:SelectedModel[];
+  selectWeekName:SelectedModel[];
   pnoValues:SelectedModel[];
   selectedCourseDurationByParameterRequest:number;
   selectedCourseDuration:number;
@@ -195,7 +199,11 @@ export class NewNewEntryEvaluationComponent implements OnInit {
   getselectedSchool(){
     this.NewEntryEvaluationService.getselectedSchool().subscribe(res=>{
       this.schoolNameValues=res
+      this.selectSchool=res
     });
+  }
+  filterBySchool(value:any){
+    this.schoolNameValues=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   onSchoolSelectionChangeGetCourseName(baseSchoolNameId){
     if(this.role === 'Super Admin'){
@@ -203,7 +211,11 @@ export class NewNewEntryEvaluationComponent implements OnInit {
     }
     this.NewEntryEvaluationService.getselectedCourseNameBySchool(baseSchoolNameId).subscribe(res=>{
       this.courseNameValues=res
+      this.selectCourse=res
     });
+  }
+  filterByCourse(value:any){
+    this.courseNameValues=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   onCourseSelectionChangeGetCourseModule(dropdown){ 
     if (dropdown.isUserInput) {
@@ -220,17 +232,24 @@ export class NewNewEntryEvaluationComponent implements OnInit {
 
       this.NewEntryEvaluationService.getselectedCourseModulesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.courseModuleValues=res
+        this.selectModule=res
       });
     }   
     // var baseSchoolNameId=this.NewEntryEvaluationForm.value['baseSchoolNameId'];
     
   }
+  filterByModule(value:any){
+    this.courseModuleValues=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   
   getselectedCourseWeek(){
     this.NewEntryEvaluationService.getselectedCourseWeek().subscribe(res=>{
       this.weekNameValues=res
-      
+      this.selectWeekName=res
     });
+  }
+  filterByWeek(value:any){
+    this.weekNameValues=this.selectWeekName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   onClassPeriodSelectionChangeGetCourseDuration(){  
     this.isShown=true

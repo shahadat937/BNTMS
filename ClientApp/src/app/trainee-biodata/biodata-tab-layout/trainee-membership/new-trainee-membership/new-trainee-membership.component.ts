@@ -21,6 +21,7 @@ export class NewTraineeMembershipComponent implements OnInit {
   TraineeMembershipForm: FormGroup;
   validationErrors: string[] = [];
   membershipTypeValues:SelectedModel[]; 
+  selectMembership:SelectedModel[]
 
   constructor(private snackBar: MatSnackBar,private TraineeMembershipService: TraineeMembershipService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -76,7 +77,11 @@ export class NewTraineeMembershipComponent implements OnInit {
   getMembershipType(){
     this.TraineeMembershipService.getselectedmembershiptype().subscribe(res=>{
       this.membershipTypeValues=res
+      this.selectMembership=res
     });
+  }
+  filterByMembership(value:any){
+    this.membershipTypeValues=this.selectMembership.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {

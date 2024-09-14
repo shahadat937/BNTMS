@@ -19,8 +19,10 @@ export class NewEducationalInstitutionComponent implements OnInit {
   traineeId:  string;
   EducationalInstitutionForm: FormGroup;
   validationErrors: string[] = [];
-  districtValues:SelectedModel[]; 
+  districtValues:SelectedModel[];
+  selectDistrict:SelectedModel[]; 
   selectedThana:SelectedModel[]; 
+  selectThana:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private EducationalInstitutionService: EducationalInstitutionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -84,7 +86,11 @@ export class NewEducationalInstitutionComponent implements OnInit {
   getDistrict(){
     this.EducationalInstitutionService.getselecteddistrict().subscribe(res=>{
       this.districtValues=res
+      this.selectDistrict=res
     });
+  }
+  filterByDistrict(value:any){
+    this.districtValues=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   // getThana(){
@@ -96,7 +102,12 @@ export class NewEducationalInstitutionComponent implements OnInit {
   onDistrictSelectionChangeGetThana(districtId){
     this.EducationalInstitutionService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
+      this.selectThana=res
     });
+  }
+
+  filterByThana(value:any){
+    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   

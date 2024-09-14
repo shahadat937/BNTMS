@@ -26,19 +26,30 @@ export class NewParentRelativeComponent implements OnInit {
   maritialStatusValues:SelectedModel[]; 
   genderValues:SelectedModel[];
   nationalityValues:SelectedModel[]; 
+  selectedNationality:SelectedModel[];
+  selectNationality:SelectedModel[];
   religionValues:SelectedModel[]; 
+  selectReligion:SelectedModel[];
   casteValues:SelectedModel[]; 
   occupationValues:SelectedModel[]; 
+  selectPreviousOccupation:SelectedModel[];
+  selectOccupation:SelectedModel[];
   divisionValues:SelectedModel[]; 
+  selectDivision:SelectedModel[];
   districtValues:SelectedModel[]; 
   thanaValues:SelectedModel[]; 
   defenseTypeValues:SelectedModel[]; 
+  selectDefenceType:SelectedModel[]
   rankValues:SelectedModel[]; 
+  selectRank:SelectedModel[];
   selectedDeadStatus:SelectedModel[];
 
   selectedCastes:SelectedModel[];
+  selectcaste:SelectedModel[];
   selectedDistrict:SelectedModel[];
+  selectDistrict:SelectedModel[];
   selectedThana:SelectedModel[];
+  selectThana:SelectedModel[];
 
 
   nationalityToggle:string;
@@ -217,13 +228,26 @@ export class NewParentRelativeComponent implements OnInit {
   getNationality(){
     this.ParentRelativeService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
+      this.selectNationality=res
+      this.selectedNationality=res
     });
+  }
+  filterByNationality(value:any){
+    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+
+  filterByDualNationality(value:any){
+    this.nationalityValues=this.selectedNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getReligion(){
     this.ParentRelativeService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
+      this.selectReligion=res
     });
+  }
+  filterByReligion(value:any){
+    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getCaste(){
@@ -235,13 +259,25 @@ export class NewParentRelativeComponent implements OnInit {
   getOccupation(){
     this.ParentRelativeService.getselectedoccupation().subscribe(res=>{
       this.occupationValues=res
+      this.selectOccupation=res
+      this.selectPreviousOccupation=res
     });
+  }
+  filterByPreviousOccupation(value:any){
+    this.occupationValues=this.selectPreviousOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterByOccupation(value:any){
+    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getDivision(){
     this.ParentRelativeService.getselecteddivision().subscribe(res=>{
       this.divisionValues=res
+      this.selectDivision=res
     });
+  }
+  filterByDivision(value:any){
+    this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getDistrict(){
@@ -259,13 +295,21 @@ export class NewParentRelativeComponent implements OnInit {
   getDefenseType(){
     this.ParentRelativeService.getselecteddefensetype().subscribe(res=>{
       this.defenseTypeValues=res
+      this.selectDefenceType=res
     });
+  }
+  filterByDefence(value:any){
+    this.defenseTypeValues=this.selectDefenceType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getRank(){
     this.ParentRelativeService.getselectedrank().subscribe(res=>{
       this.rankValues=res
+      this.selectRank=res
     });
+  }
+  filterByRank(value:any){
+    this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectedDeadStatus(){
@@ -279,19 +323,31 @@ export class NewParentRelativeComponent implements OnInit {
   onReligionSelectionChangeGetCastes(religionId){
     this.ParentRelativeService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
+      this.selectcaste=res
     });
+  }
+  filterByCaste(value:any){
+    this.selectedCastes=this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.ParentRelativeService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
+      this.selectDistrict=res
     });
+  }
+  filterByDistrict(value:any){
+    this.selectedDistrict=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onDistrictSelectionChangeGetThana(districtId){
     this.ParentRelativeService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
+      this.selectThana=res
     });
+  }
+  filterByThana(value:any){
+    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {

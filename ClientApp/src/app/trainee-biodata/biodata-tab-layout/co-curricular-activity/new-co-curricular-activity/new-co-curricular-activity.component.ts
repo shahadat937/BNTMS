@@ -20,6 +20,7 @@ export class NewCoCurricularActivityComponent implements OnInit {
   CoCurricularActivityForm: FormGroup;
   validationErrors: string[] = [];
   CoCurricularActivityTypeValues:SelectedModel[]; 
+  selectCoCurriCulum:SelectedModel[];
 
 
   constructor(private snackBar: MatSnackBar,private CoCurricularActivityService: CoCurricularActivityService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
@@ -68,7 +69,11 @@ export class NewCoCurricularActivityComponent implements OnInit {
   getCoCurricularActivityType(){
     this.CoCurricularActivityService.getselectedcocurricularactivitytype().subscribe(res=>{
       this.CoCurricularActivityTypeValues=res
+      this.selectCoCurriCulum=res
     });
+  }
+  filterByCoCurriculum(value:any){
+    this.CoCurricularActivityTypeValues=this.selectCoCurriCulum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   

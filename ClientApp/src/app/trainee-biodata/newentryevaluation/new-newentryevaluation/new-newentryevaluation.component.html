@@ -34,6 +34,11 @@
                         <mat-label>School Name</mat-label>
                         <mat-select formControlName="baseSchoolNameId" required
                           (selectionChange)="onSchoolSelectionChangeGetCourseName($event.value)">
+                          <input type="text" 
+                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      id="selectRank" 
+                      (input)="filterBySchool($event.target.value)"
+                      placeholder="Search">
                           <mat-option value="0">--Select--</mat-option>
                           <mat-option *ngFor="let code of schoolNameValues" [value]="code.value">
                             {{code.text}}
@@ -48,6 +53,11 @@
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Course Name</mat-label>
                         <mat-select formControlName="courseName" >
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByCourse($event.target.value)"
+                          placeholder="Search">
                           <mat-option value="0">--Select--</mat-option>
                           <mat-option *ngFor="let code of courseNameValues" [value]="code.value" (onSelectionChange)="onCourseSelectionChangeGetCourseModule($event)">
                             {{code.text}}
@@ -62,6 +72,11 @@
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Course Module</mat-label>
                         <mat-select formControlName="courseModuleId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByModule($event.target.value)"
+                          placeholder="Search">
                           <mat-option value="0">--Select--</mat-option>
                           <mat-option *ngFor="let code of courseModuleValues" [value]="code.value">
                             {{code.text}}
@@ -77,6 +92,11 @@
                         <mat-label>Week Name</mat-label>
                         <mat-select formControlName="courseWeekId" required
                           (selectionChange)="onClassPeriodSelectionChangeGetCourseDuration()">
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByWeek($event.target.value)"
+                          placeholder="Search">
                           <mat-option value="0">--Select--</mat-option>
                           <mat-option *ngFor="let code of weekNameValues" [value]="code.value">
                             {{code.text}}

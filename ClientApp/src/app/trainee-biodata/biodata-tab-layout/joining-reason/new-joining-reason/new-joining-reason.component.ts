@@ -20,6 +20,7 @@ export class NewJoiningReasonComponent implements OnInit {
   validationErrors: string[] = [];
   traineeId: string;
   selectedReasonType:SelectedModel[];
+  selectReason:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private JoiningReasonService: JoiningReasonService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -71,7 +72,11 @@ export class NewJoiningReasonComponent implements OnInit {
   getSelectedReasonType(){
     this.JoiningReasonService.getSelectedReasonType().subscribe(res=>{
       this.selectedReasonType=res
+      this.selectReason=res
     });
+  }
+  filterByReason(value:any){
+    this.selectedReasonType=this.selectReason.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   // getThana(){
