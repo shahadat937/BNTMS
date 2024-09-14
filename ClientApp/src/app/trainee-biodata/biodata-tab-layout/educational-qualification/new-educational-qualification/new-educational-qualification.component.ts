@@ -20,8 +20,11 @@ export class NewEducationalQualificationComponent implements OnInit {
   EducationalQualificationForm: FormGroup;
   validationErrors: string[] = [];
   examTypeValues:SelectedModel[]; 
+  selectExamType:SelectedModel[]
   groupValues:SelectedModel[]; 
+  selectGroup:SelectedModel[];
   boardValues:SelectedModel[]; 
+  selectBoard:SelectedModel[]
 
   constructor(private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -93,19 +96,31 @@ export class NewEducationalQualificationComponent implements OnInit {
   getExamType(){
     this.EducationalQualificationService.getselectedexamtype().subscribe(res=>{
       this.examTypeValues=res
+      this.selectExamType=res
     });
+  }
+  filterByExam(value:any){
+    this.examTypeValues=this.selectExamType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getBoardName(){
     this.EducationalQualificationService.getselectedboard().subscribe(res=>{
       this.boardValues=res
+      this.selectBoard=res
     });
+  }
+  filterByBoard(value:any){
+    this.boardValues=this.selectBoard.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getGroupName(){
     this.EducationalQualificationService.getselectedgroup().subscribe(res=>{
       this.groupValues=res
+      this.selectGroup=res
     });
+  }
+  filterByGroup(value:any){
+    this.groupValues=this.selectGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {

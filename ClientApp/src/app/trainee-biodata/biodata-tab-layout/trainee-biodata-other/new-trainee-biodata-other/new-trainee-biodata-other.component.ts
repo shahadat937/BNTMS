@@ -19,29 +19,45 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
   traineeId:  string;
   TraineeBIODataOtherForm: FormGroup;
   validationErrors: string[] = [];
-  bnaCurriculamTypeValues:SelectedModel[]; 
+  bnaCurriculamTypeValues:SelectedModel[];
+  selectCurriculumType:SelectedModel[]; 
   selectedPresentBillet:SelectedModel[];
+  selectPresentBillet:SelectedModel[];
   selectedInstructorType:SelectedModel[];
+  selectInstructorType:SelectedModel[];
   selectedFailureStatus:SelectedModel[];
+  selectFailureStatus:SelectedModel[]
   selectedSchoolName:SelectedModel[];
   selectedCourseName:SelectedModel[];
+  selectCours:SelectedModel[];
   selectedBnaClassSectionSelection:SelectedModel[];
+  selectBnaSection:SelectedModel[];
   selectedBnaPromotionStatus:SelectedModel[];
+  selectPromotion:SelectedModel[]
   selectedMaritalStatus:SelectedModel[];
+  selectStatus:SelectedModel[]
   selectedCountry:SelectedModel[];
+  selectCountry:SelectedModel[]
   selectedCaste:SelectedModel[];
   selectedReligion:SelectedModel[];
   selectedBloodGroup:SelectedModel[];
   bnaSemesterValues:SelectedModel[]; 
+  selectSemester:SelectedModel[];
   utOfficerTypeValues:SelectedModel[]; 
+  selectOfficerType:SelectedModel[];
   utOfficerCategoryValues:SelectedModel[];
+  selectOfficerCategory:SelectedModel[];
   bnaServiceTypeValues:SelectedModel[]; 
+  selectBnaType:SelectedModel[];
   complexionValues:SelectedModel[]; 
+  selectComplexionType:SelectedModel[];
   branchValues:SelectedModel[]; 
+  selectBranch:SelectedModel[];
   heightValues:SelectedModel[]; 
   weightValues:SelectedModel[];
   colorOfEyeValues:SelectedModel[]; 
-  nationalityValues:SelectedModel[]; 
+  nationalityValues:SelectedModel[];
+  selectNationality:SelectedModel[] 
   
   nationalityToggle:string;
 
@@ -194,25 +210,41 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
   getBNACurriculamTypeName(){
     this.TraineeBIODataOtherService.getselectedbnacurriculumtype().subscribe(res=>{
       this.bnaCurriculamTypeValues=res
+      this.selectCurriculumType=res
     });
+  }
+  filterByCurriculum(value:any){
+    this.bnaCurriculamTypeValues=this.selectCurriculumType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   getNationality(){
     this.TraineeBIODataOtherService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
+      this.selectNationality=res
     });
+  }
+  filterByNationality(value:any){
+    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedPresentbillet(){
     this.TraineeBIODataOtherService.getselectedpresentbillet().subscribe(res=>{
    this.selectedPresentBillet=res
+   this.selectPresentBillet=res
  });
+}
+filterByBillet(value:any){
+  this.selectedPresentBillet=this.selectPresentBillet.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
 
 getselectedInstructorType(){
   this.TraineeBIODataOtherService.getselectedBnaInstructorType().subscribe(res=>{
   this.selectedInstructorType=res
+  this.selectInstructorType=res
 });
+}
+filterByInstructor(value:any){
+  this.selectedInstructorType=this.selectInstructorType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
 
 changeNationality(e) {
@@ -223,38 +255,62 @@ changeNationality(e) {
 getselectedfailureStatus(){
   this.TraineeBIODataOtherService.getselectedFailurestatus().subscribe(res=>{
   this.selectedFailureStatus=res
+  this.selectFailureStatus=res
 });
+}
+filterByfailureStatus(value:any){
+  this.selectedFailureStatus=this.selectFailureStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
  
 
 getselectedCourseName(){
   this.TraineeBIODataOtherService.getselectedCourseName().subscribe(res=>{
   this.selectedCourseName=res 
+  this.selectCours=res
 });
+}
+filterByCourseName(value:any){
+  this.selectedCourseName=this.selectCours.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
 
 getselectedBnaClassSectionSelection(){
   this.TraineeBIODataOtherService.getSelectedBnaClassSectionSelection().subscribe(res=>{
   this.selectedBnaClassSectionSelection=res 
+  this.selectBnaSection=res
 });
+}
+filterByBnaPromotion(value:any){
+  this.selectedBnaClassSectionSelection=this.selectBnaSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
 
 getselectedBnaPromotionStatus(){
   this.TraineeBIODataOtherService.getselectedBnaPromotionStatus().subscribe(res=>{
     this.selectedBnaPromotionStatus=res 
+    this.selectPromotion=res
   });
+}
+filterByPromotion(value:any){
+  this.selectedBnaPromotionStatus=this.selectPromotion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
 
 getselectedMaritalStatus(){
   this.TraineeBIODataOtherService.getselectedMaritalStatus().subscribe(res=>{
-    this.selectedMaritalStatus=res  
+    this.selectedMaritalStatus=res 
+    this.selectStatus=res 
   });
+}
+filterByStatus(value:any){
+  this.selectedMaritalStatus=this.selectStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
  
 getselectedCountry(){
   this.TraineeBIODataOtherService.getselectedCountry().subscribe(res=>{
-    this.selectedCountry=res  
+    this.selectedCountry=res
+    this.selectCountry=res  
   }); 
+}
+filterByCountry(value:any){
+  this.selectedCountry=this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
 
 getselectedCaste(){
@@ -279,38 +335,62 @@ getselecteBloodGroup(){
   getBNASemesterName(){
     this.TraineeBIODataOtherService.getselectedbnasemester().subscribe(res=>{
       this.bnaSemesterValues=res
+      this.selectSemester=res
     });
+  }
+  filterBySemester(value:any){
+    this.bnaSemesterValues=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getUTOfficerTypeName(){
     this.TraineeBIODataOtherService.getselectedutofficertype().subscribe(res=>{
       this.utOfficerTypeValues=res
+      this.selectOfficerType=res
     });
+  }
+  filterByOfficer(value:any){
+    this.utOfficerTypeValues=this.selectOfficerType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
 
   getUTOfficerCategoryName(){
     this.TraineeBIODataOtherService.getselectedUtofficerCategory().subscribe(res=>{
       this.utOfficerCategoryValues=res
+      this.selectOfficerCategory=res
     });
+  }
+  filterByOfficercategory(value:any){
+    this.utOfficerCategoryValues=this.selectOfficerCategory.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getBNAServiceTypeName(){
     this.TraineeBIODataOtherService.getselectedbnaservicetype().subscribe(res=>{
       this.bnaServiceTypeValues=res
+      this.selectBnaType=res
     });
+  }
+  filterByService(value:any){
+    this.bnaServiceTypeValues=this.selectBnaType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getComplexionName(){
     this.TraineeBIODataOtherService.getselectedcomplexions().subscribe(res=>{
       this.complexionValues=res
+      this.selectComplexionType=res
     });
+  }
+  filterByComplexion(value:any){
+    this.complexionValues=this.selectComplexionType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getBranchName(){
     this.TraineeBIODataOtherService.getselectedbranch().subscribe(res=>{
       this.branchValues=res
+      this.selectBranch=res
     });
+  }
+  filterByBranch(value:any){
+    this.branchValues=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getHeightName(){

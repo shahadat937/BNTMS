@@ -21,6 +21,7 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
   TraineeVisitedAboardForm: FormGroup;
   validationErrors: string[] = [];
   countryValues:SelectedModel[]; 
+  selectCountry:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private TraineeVisitedAboardService: TraineeVisitedAboardService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -74,7 +75,11 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
   getCountry(){
     this.TraineeVisitedAboardService.getselectedcountry().subscribe(res=>{
       this.countryValues=res
+      this.selectCountry=res
     });
+  }
+  filterByCountry(value:any){
+    this.countryValues=this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {

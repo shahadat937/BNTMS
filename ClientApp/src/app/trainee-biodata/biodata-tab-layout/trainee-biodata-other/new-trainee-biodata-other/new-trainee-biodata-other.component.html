@@ -39,6 +39,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>BNA Curriculam Type</mat-label>
                       <mat-select formControlName="bnaCurriculumTypeId" required>
+                        <input type="text" 
+                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      id="selectRank" 
+                      (input)="filterByCurriculum($event.target.value)"
+                      placeholder="Search">
                         <mat-option *ngFor="let code of bnaCurriculamTypeValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -53,6 +58,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>BNA Semester</mat-label>
                       <mat-select formControlName="bnaSemesterId" required>
+                        <input type="text" 
+                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      id="selectRank" 
+                      (input)="filterBySemester($event.target.value)"
+                      placeholder="Search">
                         <mat-option *ngFor="let code of bnaSemesterValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -67,6 +77,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>UT Officer Type</mat-label>
                       <mat-select formControlName="utofficerTypeId" required>
+                        <input type="text" 
+                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      id="selectRank" 
+                      (input)="filterByOfficer($event.target.value)"
+                      placeholder="Search">
                         <mat-option *ngFor="let code of utOfficerTypeValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -81,6 +96,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>UT Officer Category</mat-label>
                       <mat-select formControlName="utofficerCategoryId" required>
+                        <input type="text" 
+                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      id="selectRank" 
+                      (input)="filterByOfficercategory($event.target.value)"
+                      placeholder="Search">
                         <mat-option *ngFor="let code of utOfficerCategoryValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -95,6 +115,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>BNA Service Type</mat-label>
                       <mat-select formControlName="bnaServiceTypeId" required>
+                      <input type="text" 
+                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      id="selectRank" 
+                      (input)="filterByService($event.target.value)"
+                      placeholder="Search">
                         <mat-option *ngFor="let code of bnaServiceTypeValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -109,6 +134,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Complexion</mat-label>
                       <mat-select formControlName="complexionId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByComplexion($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let code of complexionValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -123,6 +153,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Branch</mat-label>
                       <mat-select formControlName="branchId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByBranch($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let code of branchValues" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
@@ -137,6 +172,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Country</mat-label>  
                       <mat-select formControlName="countryId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByCountry($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let name of selectedCountry" [value]="name.value">
                             {{name.text}}
                         </mat-option>                            
@@ -151,6 +191,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Marital Status</mat-label>  
                       <mat-select formControlName="maritalStatusId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByStatus($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let name of selectedMaritalStatus" [value]="name.value">
                             {{name.text}}
                         </mat-option>                            
@@ -165,6 +210,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>BNA Promotion Status</mat-label>  
                       <mat-select formControlName="bnaPromotionStatusId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByPromotion($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let name of selectedBnaPromotionStatus" [value]="name.value">
                             {{name.text}}
                         </mat-option>                            
@@ -180,6 +230,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>BNA Class Section Selection</mat-label>  
                       <mat-select formControlName="bnaClassSectionSelectionId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByBnaPromotion($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let name of selectedBnaClassSectionSelection" [value]="name.value">
                             {{name.text}}
                         </mat-option>                            
@@ -194,6 +249,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Name</mat-label>  
                       <mat-select formControlName="courseNameId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByCourseName($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let name of selectedCourseName" [value]="name.value">
                             {{name.text}}
                         </mat-option>                            
@@ -211,6 +271,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Failure Status</mat-label> 
                       <mat-select formControlName="failureStatusId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByfailureStatus($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let status of selectedFailureStatus" [value]="status.value">
                             {{status.text}}
                         </mat-option>                           
@@ -227,6 +292,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Instructor Type</mat-label> 
                       <mat-select formControlName="bnaInstructorTypeId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByInstructor($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let instructor of selectedInstructorType" [value]="instructor.value">
                             {{instructor.text}}
                         </mat-option>                          
@@ -241,6 +311,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Present Billet</mat-label>
                       <mat-select formControlName="presentBilletId" required>
+                        <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByBillet($event.target.value)"
+                        placeholder="Search">
                         <mat-option *ngFor="let billet of selectedPresentBillet" [value]="billet.value">
                             {{billet.text}}
                         </mat-option>                          
@@ -360,6 +435,11 @@
                         <mat-label>Second Nationality</mat-label>
                         
                         <mat-select formControlName="sNationalityId">
+                          <input type="text" 
+                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        id="selectRank" 
+                        (input)="filterByNationality($event.target.value)"
+                        placeholder="Search">
                             <mat-option *ngFor="let code of nationalityValues" [value]="code.value">
                                 {{code.text}}
                             </mat-option>                          

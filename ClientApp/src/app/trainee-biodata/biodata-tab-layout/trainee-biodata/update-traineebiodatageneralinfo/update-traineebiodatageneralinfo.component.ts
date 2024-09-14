@@ -22,20 +22,32 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   validationErrors: string[] = [];
 
   batchValues:SelectedModel[]; 
+  selectBatch:SelectedModel[];
   rankValues:SelectedModel[]; 
+  selectRank:SelectedModel[];
   genderValues:SelectedModel[];
   divisionValues:SelectedModel[];
+  selectDivision:SelectedModel[];
   branchValues:SelectedModel[];
+  selectBranch:SelectedModel[];
   nationalityValues:SelectedModel[];
+  selectNationality:SelectedModel[];
   heightValues:SelectedModel[]; 
   weightValues:SelectedModel[]; 
   colorOfEyeValues:SelectedModel[]; 
+  selectEyeColor:SelectedModel[];
   bloodValues: SelectedModel[];
+  selectBloodGroup:SelectedModel[];
   religionValues: SelectedModel[];
+  selectReligion:SelectedModel[];
   hairColorValues:SelectedModel[];
+  selectHairColor:SelectedModel[]
   selectedCastes:SelectedModel[];
+  selectCaste:SelectedModel[];
   selectedDistrict:SelectedModel[];
+  selectDistrict:SelectedModel[];
   selectedThana:SelectedModel[];
+  selectThana:SelectedModel[]
 
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
@@ -80,18 +92,30 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   getBatchs(){
     this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
       this.batchValues=res
+      this.selectBatch=res
     });
+  }
+  filterByBatch(value:any){
+    this.batchValues=this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getreligions(){
     this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
+      this.selectReligion=res
     });
+  }
+  filterByReligion(value:any){
+    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   gethaircolors(){
     this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
       this.hairColorValues=res
+      this.selectHairColor=res
     });
   }  
+  filterByHairColor(value:any){
+    this.hairColorValues=this.selectHairColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedheight(){
     this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
@@ -108,31 +132,51 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   getselectedcolorofeye(){
     this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
+      this.selectEyeColor=res
     });
   }
 
+  filterByEyeColoe(value:any){
+    this.colorOfEyeValues=this.selectEyeColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  }
   getselectedbloodgroup(){
     this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
+      this.selectBloodGroup=res
     });
+  }
+  filterByBloodGroup(value:any){
+    this.bloodValues=this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getNationalitys(){
     this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
+      this.selectNationality=res
     });
+  }
+  filterByNationality(value:any){
+    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getBranch(){
     this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
       this.branchValues=res
+      this.selectBranch=res
     });
+  }
+  filterByBranch(value:any){
+    this.branchValues=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getRanks(){
     this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
+      this.selectRank=res
     });
+  }
+  filterByRank(value:any){
+    this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getGenders(){
@@ -144,25 +188,41 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   getDivisions(){
     this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
       this.divisionValues=res
+      this.selectDivision=res
     });
+  }
+  filterByDivision(value:any){
+    this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
+      this.selectDistrict=res
     });
+  }
+  filterByDistrict(value:any){
+    this.selectedDistrict=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
+      this.selectCaste=res
     });
+  }
+  filterByCaste(value:any){
+    this.selectedCastes=this.selectCaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   onDistrictSelectionChangeGetThana(districtId){
     this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
+      this.selectThana=res
     });
+   }
+   filterByThana(value:any){
+    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
    }
 
   // getMaritalStatus(){

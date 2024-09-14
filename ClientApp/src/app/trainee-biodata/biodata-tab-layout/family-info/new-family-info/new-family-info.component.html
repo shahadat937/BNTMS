@@ -165,6 +165,11 @@
                         <mat-label>Nationality</mat-label>
                         
                         <mat-select formControlName="nationalityId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByNationality($event.target.value)"
+                          placeholder="Search">
                             <mat-option *ngFor="let code of nationalityValues" [value]="code.value">
                                 {{code.text}}
                             </mat-option>                          
@@ -178,6 +183,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Religion</mat-label>
                       <mat-select formControlName="religionId" required (selectionChange)="onReligionSelectionChangeGetCastes($event.value)">
+                        <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByReligion($event.target.value)"
+                          placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of religionValues" [value]="code.value">
                             {{code.text}}
@@ -192,6 +202,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Caste</mat-label>
                         <mat-select formControlName="casteId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByCaste($event.target.value)"
+                          placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                           <mat-option *ngFor="let code of selectedCastes" [value]="code.value">
                             {{code.text}}
@@ -207,6 +222,11 @@
                         <mat-label>Occupation</mat-label>
                         
                         <mat-select formControlName="occupationId" required>
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByOccupation($event.target.value)"
+                          placeholder="Search">
                             <mat-option *ngFor="let code of occupationValues" [value]="code.value">
                                 {{code.text}}
                             </mat-option>                          
@@ -233,6 +253,11 @@
                         <mat-label>Previous Occupation</mat-label>
                         
                         <mat-select formControlName="previousOccupationId">
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByPreviousOccupation($event.target.value)"
+                          placeholder="Search">
                             <mat-option *ngFor="let code of occupationValues" [value]="code.value">
                                 {{code.text}}
                             </mat-option>                          
@@ -249,6 +274,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Division</mat-label>                
                       <mat-select formControlName="divisionId" required (selectionChange)="onDivisionSelectionChangeGetDistrict($event.value)">
+                        <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByDivision($event.target.value)"
+                          placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let division of divisionValues" [value]="division.value">
                           {{division.text}}  
@@ -263,6 +293,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>District</mat-label>                
                       <mat-select formControlName="districtId" required (selectionChange)="onDistrictSelectionChangeGetThana($event.value)">
+                        <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByDistrict($event.target.value)"
+                          placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let district of selectedDistrict" [value]="district.value">
                           {{district.text}}  
@@ -277,6 +312,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Thana</mat-label>                        
                       <mat-select formControlName="thanaId" required>
+                        <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByThana($event.target.value)"
+                          placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let thana of selectedThana" [value]="thana.value">
                           {{thana.text}}  
@@ -344,6 +384,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Defense Type</mat-label>                        
                         <mat-select formControlName="defenseTypeId">
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByDefence($event.target.value)"
+                          placeholder="Search">
                             <mat-option *ngFor="let code of defenseTypeValues" [value]="code.value">
                                 {{code.text}}
                             </mat-option>                          
@@ -354,6 +399,11 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Rank</mat-label>                        
                         <mat-select formControlName="rankId">
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByRank($event.target.value)"
+                          placeholder="Search">
                             <mat-option *ngFor="let code of rankValues" [value]="code.value">
                                 {{code.text}}
                             </mat-option>                          
@@ -402,6 +452,11 @@
                         <mat-label>Second Nationality</mat-label>
                         
                         <mat-select formControlName="secondNationalityId">
+                          <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          id="selectRank" 
+                          (input)="filterByDualNationality($event.target.value)"
+                          placeholder="Search">
                             <mat-option *ngFor="let code of nationalityValues" [value]="code.value">
                                 {{code.text}}
                             </mat-option>                          

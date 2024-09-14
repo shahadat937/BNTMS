@@ -20,6 +20,7 @@ export class NewQuestionComponent implements OnInit {
   QuestionForm: FormGroup;
   validationErrors: string[] = [];
   typeValues:SelectedModel[]; 
+  selectQuestionType:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private QuestionService: QuestionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -72,7 +73,11 @@ export class NewQuestionComponent implements OnInit {
   getQuestionType(){
     this.QuestionService.getselectedquestiontype().subscribe(res=>{
       this.typeValues=res
+      this.selectQuestionType=res
     });
+  }
+  filterByType(value:any){
+    this.typeValues=this.selectQuestionType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   

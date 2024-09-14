@@ -21,6 +21,7 @@ export class NewElectionComponent implements OnInit {
   ElectionForm: FormGroup;
   validationErrors: string[] = [];
   electedValues:SelectedModel[]; 
+  selectElectedValue:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private ElectionService: ElectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -74,7 +75,11 @@ export class NewElectionComponent implements OnInit {
   getElectedName(){
     this.ElectionService.getselectedelected().subscribe(res=>{
       this.electedValues=res
+      this.selectElectedValue=res
     });
+  }
+  filterByElectedValue(value:any){
+    this.electedValues=this.selectElectedValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {

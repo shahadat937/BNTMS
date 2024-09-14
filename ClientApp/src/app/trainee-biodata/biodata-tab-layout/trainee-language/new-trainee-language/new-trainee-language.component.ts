@@ -21,6 +21,7 @@ export class NewTraineeLanguageComponent implements OnInit {
   traineeId: string;
   districtValues:SelectedModel[]; 
   selectedLanguages:SelectedModel[]; 
+  selectLanguage:SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -76,7 +77,11 @@ export class NewTraineeLanguageComponent implements OnInit {
   getLanguages(){
        this.TraineeLanguageService.getselectedLanguage().subscribe(res=>{
       this.selectedLanguages=res
+      this.selectLanguage=res
     });
+  }
+  filterByLanguage(value:any){
+    this.selectedLanguages=this.selectLanguage.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
 

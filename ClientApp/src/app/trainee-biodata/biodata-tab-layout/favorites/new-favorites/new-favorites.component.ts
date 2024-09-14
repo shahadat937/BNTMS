@@ -20,6 +20,7 @@ export class NewFavoritesComponent implements OnInit {
   validationErrors: string[] = [];
   districtValues:SelectedModel[]; 
   selectedFavorites:SelectedModel[]; 
+  selectFavourite:SelectedModel[];
   traineeId: string;
 
   constructor(private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
@@ -65,7 +66,11 @@ export class NewFavoritesComponent implements OnInit {
   getSelectedFavoritesType(){
     this.FavoritesService.getSelectedFavoritesType().subscribe(res=>{
       this.selectedFavorites=res
+      this.selectFavourite=res
     });
+  }
+  filterByFavourite(value:any){
+    this.selectedFavorites=this.selectFavourite.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   
   onSubmit() {
