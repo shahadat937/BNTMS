@@ -168,6 +168,7 @@ export class ViewCourseListBySchoolComponent implements OnInit {
   getCourseListByBase(schoolId) {
     this.schoolDashboardService.getCourseNamesByBase(schoolId).subscribe((response) => {
         this.CourseNamesList = response;
+        this.CourseNamesList = new MatTableDataSource(response)
         const groups = this.CourseNamesList.reduce((groups, courses) => {
           const schoolname = courses.schoolname;
           if (!groups[schoolname]) {
@@ -186,5 +187,10 @@ export class ViewCourseListBySchoolComponent implements OnInit {
         });
 
       });
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.CourseNamesList.filter = filterValue;
   }
 }
