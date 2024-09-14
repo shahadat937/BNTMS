@@ -1,3 +1,5 @@
+import { ReadingMaterialListComponent } from './../../student/readingmaterial-list/readingmaterial-list.component';
+import { ReadingMaterial } from 'src/app/reading-materials/models/readingmaterial';
 import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -38,6 +40,7 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
   }
   searchText="";
   displayedReadingMaterialColumns: string[] = ['ser','course','materialCount','actions'];
+  // ReadIngMaterialList = new MatTableDataSource<any>();
 
   constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -61,12 +64,15 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
   getReadingMetarialBySchool(schoolId){
     this.schoolDashboardService.getReadingMetarialBySchool(schoolId).subscribe(response => {   
       this.ReadIngMaterialList=response;
+      this.ReadIngMaterialList = new MatTableDataSource(response);
     })
   }
 
   getReadingMetarialByBase(schoolId){
     this.schoolDashboardService.getReadingMetarialByBase(schoolId).subscribe(response => {   
       this.ReadIngMaterialList=response;
+      this.ReadIngMaterialList = new MatTableDataSource(response);
+
       const groups = this.ReadIngMaterialList.reduce((groups, courses) => {
         const schoolname = courses.schoolname;
         if (!groups[schoolname]) {
@@ -86,4 +92,10 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
 
     })
   }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.ReadIngMaterialList.filter=filterValue
+  }
+
 }
