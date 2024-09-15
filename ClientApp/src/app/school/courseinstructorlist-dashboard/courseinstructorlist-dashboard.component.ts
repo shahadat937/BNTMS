@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-courseinstructorlist-dashboard',
@@ -43,6 +44,8 @@ export class CourseInstructorListDashboardComponent implements OnInit {
     length: 1
   }
   searchText="";
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
 
   displayedInstructorColumns: string[] = ['ser','course','instructorCount','actions'];
 
@@ -61,6 +64,7 @@ export class CourseInstructorListDashboardComponent implements OnInit {
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.getInstructorByCourse(this.schoolId);
+    // this.InstructorList.paginator = this.paginator; 
     if (this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice ||  this.role == this.userRole.TC ||  this.role == this.userRole.TCO) {
       this.getInstructorBySchoolForBase(this.branchId);
     } else {
@@ -71,12 +75,15 @@ export class CourseInstructorListDashboardComponent implements OnInit {
   getInstructorByCourse(schoolId){
     this.schoolDashboardService.getInstructorByCourse(schoolId).subscribe(response => {         
       this.InstructorList=response;
+     
+
     })
   }
 
   getInstructorBySchoolForBase(baseId){
     this.schoolDashboardService.getInstructorBySchoolForBase(baseId).subscribe((response) => {
       this.InstructorList = response;
+      this.InstructorList= new MatTableDataSource(response)
       const groups = this.InstructorList.reduce((groups, courses) => {
         const schoolname = courses.schoolName;
         if (!groups[schoolname]) {
@@ -95,5 +102,19 @@ export class CourseInstructorListDashboardComponent implements OnInit {
       });
 
     });
+  }
+  
+
+  pageChanged(event: PageEvent) {
+    
+    this.paging.pageIndex = event.pageIndex
+    this.paging.pageSize = event.pageSize
+    this.paging.pageIndex = this.paging.pageIndex + 1
+    
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.InstructorList.filter = filterValue;
   }
 }
