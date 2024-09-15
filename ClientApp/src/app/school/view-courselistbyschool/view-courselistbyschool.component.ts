@@ -167,6 +167,7 @@ export class ViewCourseListBySchoolComponent implements OnInit {
 }
   getCourseListByBase(schoolId) {
     this.schoolDashboardService.getCourseNamesByBase(schoolId).subscribe((response) => {
+      
         this.CourseNamesList = response;
         this.CourseNamesList = new MatTableDataSource(response)
         const groups = this.CourseNamesList.reduce((groups, courses) => {
@@ -188,6 +189,7 @@ export class ViewCourseListBySchoolComponent implements OnInit {
 
       });
   }
+ 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();

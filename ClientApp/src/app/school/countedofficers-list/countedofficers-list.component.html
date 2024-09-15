@@ -26,6 +26,10 @@
                 <div class="materialTableHeader"> 
                   <div class="row">
                     <div class="col-8">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Search Here..</mat-label>
+                        <input matInput #filter (keyup)="(filter.value)">
+                      </mat-form-field>
                       <ul class="header-buttons-left ml-0">
                         <li class="dropdown">
                         </li>

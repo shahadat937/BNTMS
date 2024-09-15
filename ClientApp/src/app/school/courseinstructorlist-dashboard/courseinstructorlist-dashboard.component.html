@@ -26,6 +26,10 @@
                 <div class="materialTableHeader"> 
                   <div class="row">
                     <div class="col-8">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Search Here..</mat-label>
+                        <input matInput #filter (keyup)="applyFilter(filter.value)">
+                      </mat-form-field>
                       <ul class="header-buttons-left ml-0">
                         <li class="dropdown">
                         </li>
@@ -79,7 +83,7 @@
                   <mat-row *matRowDef="let row; columns: displayedInstructorColumns;"></mat-row>
                 </mat-table>
 
-                <table *ngIf="role == userRole.CO || role == userRole.TC || role == userRole.TCO" class="table  tbl-by-group db-li-s-in">
+                <!-- <table *ngIf="role == userRole.CO || role == userRole.TC || role == userRole.TCO" class="table  tbl-by-group db-li-s-in">
                   <thead>
                     <tr>
                       <th class="cl-nm-rnk"><h5>School Name</h5></th>
@@ -103,7 +107,8 @@
                       </tr>                    
                     </ng-container>
                   </tbody>
-                </table>
+                </table> -->
+                
               </div>
             </div>
           </div>

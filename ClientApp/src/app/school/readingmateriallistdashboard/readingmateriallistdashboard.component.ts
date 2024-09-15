@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 
+
 @Component({
   selector: 'app-readingmateriallistdashboard.component',
   templateUrl: './readingmateriallistdashboard.component.html',
@@ -35,7 +36,7 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
   fileUrl:any = environment.fileUrl;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: this.masterData.paging.pageSize,
+    pageSize: 100,
     length: 1
   }
   searchText="";
