@@ -14,6 +14,7 @@ namespace SchoolManagement.Application.DTOs.Bulletin
         public int BulletinId { get; set; }
         public List<SelectedModel>? BaseSchoolNameId { get; set; }
         public List<string>? CourseNameId { get; set; }
+        public List<string>? CourseName { get; set; }
         public int? CourseDurationId { get; set; }
         public string? BuletinDetails { get; set; }
         public int? Status { get; set; }
