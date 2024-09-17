@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { Role } from 'src/app/core/models/role';
 import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.service';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.
   styleUrls: ['./new-classroutine.component.sass']
 }) 
 export class NewClassRoutineComponent implements OnInit {
+  copy: boolean = false;
    masterData = MasterData;
    userRole = Role;
   loading = false;
@@ -221,6 +223,14 @@ export class NewClassRoutineComponent implements OnInit {
   }
 
   private createPeriodData() {
+
+
+    if(this.copy) {
+      const control = <FormArray>this.ClassRoutineForm.controls["perodListForm"];
+      const val = control.controls[control.length-1].value;
+
+      return this.fb.group(val);
+    }
 
     return this.fb.group({
       subjectId:[''],
