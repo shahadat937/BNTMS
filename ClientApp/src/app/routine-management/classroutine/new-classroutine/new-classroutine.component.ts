@@ -23,7 +23,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./new-classroutine.component.sass']
 }) 
 export class NewClassRoutineComponent implements OnInit {
-  copy: boolean = false;
+  copy: boolean = true;
    masterData = MasterData;
    userRole = Role;
   loading = false;
@@ -225,7 +225,7 @@ export class NewClassRoutineComponent implements OnInit {
   private createPeriodData() {
 
 
-    if(this.copy) {
+    if(this.copy&&this.ClassRoutineForm!=undefined) {
       const control = <FormArray>this.ClassRoutineForm.controls["perodListForm"];
       const val = control.controls[control.length-1].value;
 
