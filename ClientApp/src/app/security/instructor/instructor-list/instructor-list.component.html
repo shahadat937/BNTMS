@@ -141,7 +141,7 @@
                   No results
                 </div>-->
                 <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
-                [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                [pageSize]="10" [pageSizeOptions]="masterData.paging.pageSizeOptions"
                 (page)="pageChanged($event)">
                 </mat-paginator>
               </div>
