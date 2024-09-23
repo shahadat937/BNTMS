@@ -110,10 +110,10 @@ export class CourseInstructorListDashboardComponent implements OnInit {
   getInstructorBySchoolForBase(baseId){
     this.schoolDashboardService.getInstructorBySchoolForBase(baseId).subscribe((response) => {
       this.dataSource = new MatTableDataSource(response);
-      console.log(this.dataSource)
+     
       this.dataSource.sort = this.InitialOrdersort;
       this.dataSource.paginator = this.InitialOrderpaginator;
-      console.log(this.dataSource.paginator)
+      
       // this.InstructorList = response;
       // this.InstructorList= new MatTableDataSource(response)
       const groups = this.InstructorList.reduce((groups, courses) => {
@@ -141,6 +141,6 @@ export class CourseInstructorListDashboardComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
-    this.InstructorList.filter = filterValue;
+    this.dataSource.filter = filterValue;
   }
 }

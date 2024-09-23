@@ -46,7 +46,7 @@
                   </div>
                 </div>
               </div>
-              <mat-table  #table [dataSource]="dataSource" matSort class="table tbl-by-group">               
+              <mat-table #table matSort [dataSource]="dataSource"  class="table table-hover absent-list mat-cell db-tbl">               
                 <ng-container matColumnDef="ser">
                   <mat-header-cell class="ser-col" *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                   <mat-cell class="ser-col" *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
@@ -80,17 +80,23 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>  
+              <mat-paginator #InitialOrderMatPaginator="matPaginator"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons >
+             </mat-paginator>
 
               <div>
-                <mat-paginator
+                <!-- <mat-paginator
                   appBubblePagination
                   [length]="dataSource.data.length"
                   [showFirstLastButtons]="true"
                   [pageSize]="10"
                   [pageSizeOptions]="[5, 10, 25, 50, 100]"
                   aria-label="Select page"
-                >
-                </mat-paginator>
+                > -->
+                <!-- </mat-paginator> -->
+                
               </div>
             </div>
           </div>

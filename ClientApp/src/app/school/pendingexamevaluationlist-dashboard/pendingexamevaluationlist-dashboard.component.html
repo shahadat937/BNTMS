@@ -26,6 +26,10 @@
                 <div class="materialTableHeader"> 
                   <div class="row">
                     <div class="col-8">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Search Here..</mat-label>
+                        <input matInput #filter (keyup)="applyFilter(filter.value)">
+                      </mat-form-field>
                       <ul class="header-buttons-left ml-0">
                         <li class="dropdown">
                         </li>
@@ -46,7 +50,7 @@
                     </div>
                   </div>
                 </div>
-                <mat-table  #table [dataSource]="PendingExamEvaluation" matSort class="table table-hover absent-list mat-cell db-tbl">               
+                <mat-table  #table [dataSource]="dataSource" matSort class="table table-hover absent-list mat-cell db-tbl">               
                   <ng-container matColumnDef="ser">
                     <mat-header-cell class="ser-col" *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                     <mat-cell class="ser-col" *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
@@ -97,6 +101,11 @@
                   <mat-header-row *matHeaderRowDef="displayedExamEvaluationColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedExamEvaluationColumns;"></mat-row>
                 </mat-table>  
+                <mat-paginator #InitialOrderMatPaginator="matPaginator"
+                [pageSize]="10"
+                  [pageSizeOptions]="[5, 10, 20]"
+                  showFirstLastButtons >
+                 </mat-paginator>
               </div>
             </div>
           </div>

@@ -17,6 +17,8 @@ import {Inject, LOCALE_ID } from '@angular/core';
   styleUrls: ['./courseactivation-list.component.sass'] 
 })
 export class CourseActivationListComponent implements OnInit {
+  
+  
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -39,6 +41,7 @@ export class CourseActivationListComponent implements OnInit {
 
 
    selection = new SelectionModel<CourseDuration>(true, []);
+userRole: any;
 
   
   constructor(@Inject(LOCALE_ID) public locale: string,private datepipe: DatePipe,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
