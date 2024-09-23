@@ -50,7 +50,7 @@
                     </div>
                   </div>
                 </div>
-                <mat-table *ngIf="role != userRole.CO || role !=userRole.TC || role !=userRole.TCO" #table [dataSource]="InstructorList" matSort class="table table-hover absent-list mat-cell db-tbl">               
+                <mat-table *ngIf="role != userRole.CO || role !=userRole.TC || role !=userRole.TCO" #table matSort [dataSource]="dataSource"  class="table table-hover absent-list mat-cell db-tbl">               
                   <ng-container matColumnDef="ser">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                     <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
@@ -77,12 +77,16 @@
                   </ng-container>
 
                   
-                  
+                  <mat-paginator #InitialOrderMatPaginator="matPaginator"
+                  [pageSizeOptions]="[5, 10, 20]"
+                  showFirstLastButtons >
+                 </mat-paginator>
 
                   <mat-header-row *matHeaderRowDef="displayedInstructorColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedInstructorColumns;"></mat-row>
+                
                 </mat-table>
-
+             
                 <!-- <table *ngIf="role == userRole.CO || role == userRole.TC || role == userRole.TCO" class="table  tbl-by-group db-li-s-in">
                   <thead>
                     <tr>

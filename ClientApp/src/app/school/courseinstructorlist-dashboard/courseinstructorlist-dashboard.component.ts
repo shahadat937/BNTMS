@@ -11,6 +11,7 @@ import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { filter } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-courseinstructorlist-dashboard',
@@ -18,6 +19,9 @@ import { filter } from 'rxjs';
   styleUrls: ['./courseinstructorlist-dashboard.component.sass']
 })
 export class CourseInstructorListDashboardComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -80,10 +84,38 @@ export class CourseInstructorListDashboardComponent implements OnInit {
     })
   }
 
+  // getInstructorBySchoolForBase(baseId){
+  //   this.schoolDashboardService.getInstructorBySchoolForBase(baseId).subscribe((response) => {
+  //     this.InstructorList = response;
+  //     this.InstructorList= new MatTableDataSource(response)
+  //     const groups = this.InstructorList.reduce((groups, courses) => {
+  //       const schoolname = courses.schoolName;
+  //       if (!groups[schoolname]) {
+  //         groups[schoolname] = [];
+  //       }
+  //       groups[schoolname].push(courses);
+  //       return groups;
+  //     }, {});
+
+  //     // Edit: to add it in the array format instead
+  //     this.groupArrays = Object.keys(groups).map((schoolname) => {
+  //       return {
+  //         schoolname,
+  //         courses: groups[schoolname],
+  //       };
+  //     });
+
+  //   });
+  // }
   getInstructorBySchoolForBase(baseId){
     this.schoolDashboardService.getInstructorBySchoolForBase(baseId).subscribe((response) => {
-      this.InstructorList = response;
-      this.InstructorList= new MatTableDataSource(response)
+      this.dataSource = new MatTableDataSource(response);
+      console.log(this.dataSource)
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      console.log(this.dataSource.paginator)
+      // this.InstructorList = response;
+      // this.InstructorList= new MatTableDataSource(response)
       const groups = this.InstructorList.reduce((groups, courses) => {
         const schoolname = courses.schoolName;
         if (!groups[schoolname]) {
@@ -105,13 +137,7 @@ export class CourseInstructorListDashboardComponent implements OnInit {
   }
   
 
-  pageChanged(event: PageEvent) {
-    
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
-    
-  }
+ 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
