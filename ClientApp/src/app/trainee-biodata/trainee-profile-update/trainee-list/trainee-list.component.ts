@@ -11,6 +11,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -19,7 +20,9 @@ import { Role } from 'src/app/core/models/role';
   styleUrls: ['./trainee-list.component.sass']
 })
 export class TraineeListComponent implements OnInit {
-
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  // dataSource = new MatTableDataSource();
   
    masterData = MasterData;
   loading = false;
@@ -69,6 +72,12 @@ export class TraineeListComponent implements OnInit {
 
   getTraineeListForUpdate(){
     this.BIODataGeneralInfoService.getTraineeListForUpdate(this.branchId,this.searchText).subscribe(response => {
+
+      this.dataSource = new MatTableDataSource(response);
+      
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      console.log(this.dataSource.paginator)
       this.traineeList=response;     
     })
   }
@@ -97,12 +106,7 @@ export class TraineeListComponent implements OnInit {
     
   }
  
-  pageChanged(event: PageEvent) {
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
-    this.getBIODataGeneralInfos();
-  }
+  
 
   applyFilter(searchText: any){ 
     this.searchText = searchText;

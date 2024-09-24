@@ -11,6 +11,7 @@ import { SchoolDashboardService } from "../services/SchoolDashboard.service";
 import { environment } from "src/environments/environment";
 import { AuthService } from "src/app/core/service/auth.service";
 import { Role } from "src/app/core/models/role";
+import { MatSort } from "@angular/material/sort";
 
 @Component({
   selector: "app-view-courselistbyschool.component",
@@ -18,7 +19,10 @@ import { Role } from "src/app/core/models/role";
   styleUrls: ["./view-courselistbyschool.component.sass"],
 })
 export class ViewCourseListBySchoolComponent implements OnInit {
-   masterData = MasterData;
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
+  masterData = MasterData;
   loading = false;
   userRole = Role;
   isLoading = false;
@@ -167,6 +171,11 @@ export class ViewCourseListBySchoolComponent implements OnInit {
 }
   getCourseListByBase(schoolId) {
     this.schoolDashboardService.getCourseNamesByBase(schoolId).subscribe((response) => {
+      this.dataSource = new MatTableDataSource(response);
+      
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      
       
         this.CourseNamesList = response;
         this.CourseNamesList = new MatTableDataSource(response)
@@ -193,6 +202,6 @@ export class ViewCourseListBySchoolComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
-    this.CourseNamesList.filter = filterValue;
+    this.dataSource.filter = filterValue;
   }
 }

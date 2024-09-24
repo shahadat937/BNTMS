@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-countedofficers-list',
@@ -17,6 +18,9 @@ import { Role } from 'src/app/core/models/role';
   styleUrls: ['./countedofficers-list.component.sass']
 })
 export class CountedOfficersListComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -282,7 +286,10 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else{
         this.destination = "Trainee";
-        this.schoolDashboardService.getnominatedCourseListFromSpRequestBySchoolId(currentDateTime,this.schoolId).subscribe(response => {         
+        this.schoolDashboardService.getnominatedCourseListFromSpRequestBySchoolId(currentDateTime,this.schoolId).subscribe(response => {   
+          this.dataSource = new MatTableDataSource(response);
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;      
           this.Countedlist=response;
   
           // this gives an object with dates as keys

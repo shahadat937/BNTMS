@@ -8,6 +8,7 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-pendingexamevaluationlist-dashboard',
@@ -15,6 +16,9 @@ import { SchoolDashboardService } from '../services/SchoolDashboard.service';
   styleUrls: ['./pendingexamevaluationlist-dashboard.component.sass']
 })
 export class PendingExamEvaluationlistDashboardComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -37,6 +41,7 @@ export class PendingExamEvaluationlistDashboardComponent implements OnInit {
   searchText="";
 
   displayedExamEvaluationColumns: string[] = ['ser', 'course','subject','date','examStatus', 'resultStatus','approveStatus','name'];
+// dataSource: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -51,8 +56,17 @@ export class PendingExamEvaluationlistDashboardComponent implements OnInit {
   }
 
   getPendingExamEvaluation(schoolId){
-    this.schoolDashboardService.getPendingExamEvaluation(schoolId).subscribe(response => {         
+    this.schoolDashboardService.getPendingExamEvaluation(schoolId).subscribe(response => {   
+      this.dataSource = new MatTableDataSource(response);
+      console.log(this.dataSource)
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;      
       this.PendingExamEvaluation=response;
     })
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 }

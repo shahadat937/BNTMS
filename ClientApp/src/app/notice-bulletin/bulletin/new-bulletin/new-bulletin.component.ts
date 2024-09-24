@@ -15,6 +15,7 @@ import { MatOption } from '@angular/material/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-new-bulletin',
@@ -22,6 +23,9 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrls: ['./new-bulletin.component.sass']
 })
 export class NewBulletinComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  // dataSource = new MatTableDataSource();
   @ViewChild('allSelected') private allSelected: MatOption;
   @ViewChild('allSelectedCourse') private allSelectedCourse: MatOption;
   isShowCourseName: boolean = false;
@@ -37,6 +41,7 @@ export class NewBulletinComponent implements OnInit {
   validationErrors: string[] = [];
   selectedcoursedurationbyschoolname: SelectedModel[];
   selectedbaseschools: SelectedModel[];
+  selectSchool:SelectedModel[];
   isLoading = false;
   partyTypedropdownList = [];
   partyTypeselectedItems = [];
@@ -193,7 +198,11 @@ export class NewBulletinComponent implements OnInit {
   getselectedbaseschools() {
     this.bulletinService.getselectedbaseschools().subscribe(res => {
       this.selectedbaseschools = res
+      this.selectSchool=res
     });
+  }
+  filterBySchool(value:any){
+    this.selectedbaseschools = this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()));
   }
 
   reloadCurrentRoute() {
@@ -322,6 +331,11 @@ export class NewBulletinComponent implements OnInit {
   getBulletins(baseSchoolNameId) {
     this.isLoading = true;
     this.bulletinService.getBulletins(this.paging.pageIndex, this.paging.pageSize, this.searchText, baseSchoolNameId).subscribe(response => {
+      // this.dataSource = new MatTableDataSource(response);
+      
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      
       this.dataSource.data = response.items;
       this.paging.length = response.totalItemsCount
       this.isLoading = false;

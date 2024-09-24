@@ -13,6 +13,7 @@ import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -21,6 +22,9 @@ import { Role } from 'src/app/core/models/role';
   styleUrls: ['./readingmateriallistdashboard.component.sass']
 })
 export class ReadingMateriallistDashboardComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -71,6 +75,11 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
 
   getReadingMetarialByBase(schoolId){
     this.schoolDashboardService.getReadingMetarialByBase(schoolId).subscribe(response => {   
+      this.dataSource = new MatTableDataSource(response);
+      
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      
       this.ReadIngMaterialList=response;
       this.ReadIngMaterialList = new MatTableDataSource(response);
 
@@ -96,7 +105,7 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
-    this.ReadIngMaterialList.filter=filterValue
+    this.dataSource.filter=filterValue
   }
 
 }
