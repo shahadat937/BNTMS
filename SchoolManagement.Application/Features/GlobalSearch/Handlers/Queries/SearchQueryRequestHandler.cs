@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using SchoolManagement.Application.DTOs.GlobalSearch;
+using AutoMapper.QueryableExtensions.Impl;
+using SchoolManagement.Application.Features.TraineeNominations.Handlers.Queries;
 
 namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 {
@@ -26,19 +28,56 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
         public async Task<object> Handle(SearchQueryRequest request, CancellationToken cancellationToken)
         {
-            if(request.Query==null)
+            string traineeCountQuery = $"EXEC [dbo].[spTraineeSearchCount] @query='{request.Query.keyword}'";
+            string traineeQuery = $"EXEC [dbo].[spTraineeSearch] @query='{request.Query.keyword}'";
+            string instructorCountQuery = $"EXEC [dbo].[spInstructorSearchCount] @query='{request.Query.keyword}'";
+            string instructorQuery = $"EXEC [dbo].[spInstructorSearch] @query='{request.Query.keyword}'";
+
+            // Get which type of data to get
+            bool needTrainee = request.Query.Filters.Where(x => x == "trainee").Any();
+            bool needInstructor = request.Query.Filters.Where(x => x == "instructor").Any();
+            bool needCourse = request.Query.Filters.Where(x => x == "course").Any();
+
+            if(request.Query.keyword==null)
             {
-                request.Query = "";
+                request.Query.keyword = "";
             }
 
-            var trainee = _repository.ExecWithSqlQuery($"EXEC [dbo].[spTraineeSearch] @query='{request.Query}'");
+            List<string> queriesForCount = GetQueriesForCount(request.Query.Filters, request.Query.keyword);
+            List<string> queries = GetQueriesForResult(request.Query.Filters, request.Query.keyword);
 
-            List<Dictionary<string, object>> traineeRows = trainee.AsEnumerable()
-                        .Select(row => trainee.Columns.Cast<DataColumn>()
-                        .ToDictionary(col => col.ColumnName, col => row[col]))
-                        .ToList();
 
-            var instructor = _repository.ExecWithSqlQuery($"EXEC [dbo].[spInstructorSearch] @query='{request.Query}'");
+            List<int> counts = new List<int>();
+            List<int> prefSum = new List<int>();
+            prefSum.Add(0);
+            int totals = 0;
+            foreach(var query in queriesForCount)
+            {
+                int count = (int) _repository.ExecWithSqlQuery(query).Rows[0]["totalCount"];
+                counts.Add(count);
+                totals += count;
+                prefSum.Add(totals);
+            }
+
+            var results = new QueryResultDto();
+            for(int i =0; i<queries.Count();i++)
+            {
+                // TODO: Need to determine how many data to get from a particular table
+                // 
+                List<int> indexes = getPaginationData(counts, totals, prefSum, request.Query.PageSize, request.Query.PageIndex,i);
+
+                var queryResult = _repository.ExecWithSqlQuery(queries[i]);
+                List<Dictionary<string, object>> rows = queryResult.AsEnumerable()
+                    .Select(row => queryResult.Columns.Cast<DataColumn>()
+                    .ToDictionary(col => col.ColumnName, col => row[col]))
+                    .ToList();
+
+                results.Results.AddRange(rows);
+
+            }
+
+            var instructor = _repository.ExecWithSqlQuery($"EXEC [dbo].[spInstructorSearch] @query='{request.Query.keyword}'");
+
 
             List<Dictionary<string, object>> instructorRows = instructor.AsEnumerable()
             .Select(row => instructor.Columns.Cast<DataColumn>()
@@ -47,14 +86,130 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
 
 
-            var result = new QueryResultDto();
-            result.Query = request.Query;
-            result.Results.AddRange(traineeRows);
-            result.Results.AddRange(instructorRows);
-            result.ResponseCount = result.Results.Count;
+            results.Query = request.Query.keyword;
+            results.ResponseCount = results.Results.Count;
+
+            return results;
+        }
+
+        List<string> GetQueriesForCount(List<string> filters, string keyword)
+        {
+            string traineeCountQuery = $"EXEC [dbo].[spTraineeSearchCount] @query='{keyword}'";
+            string instructorCountQuery = $"EXEC [dbo].[spInstructorSearchCount] @query='{keyword}'";
+
+            bool needTrainee = filters.Where(x => x == "trainee").Any();
+            bool needInstructor = filters.Where(x => x == "instructor").Any();
+            bool needCourse = filters.Where(x => x == "course").Any();
+
+            List<string> queriesForCount = new List<string>();
+
+            // add which sp need to execute for counting the total result according to the filters
+            if (needTrainee)
+            {
+                queriesForCount.Add(traineeCountQuery);
+            }
+
+            if (needInstructor)
+            {
+                queriesForCount.Add(instructorCountQuery);
+            }
+
+            if (needCourse)
+            {
+
+            }
+
+            return queriesForCount;
+        }
+
+        List<string> GetQueriesForResult(List<string> filters, string keyword)
+        {
+            string traineeQuery = $"EXEC [dbo].[spTraineeSearch] @query='{keyword}'";
+            string instructorQuery = $"EXEC [dbo].[spInstructorSearch] @query='{keyword}'";
+
+            bool needTrainee = filters.Where(x => x == "trainee").Any();
+            bool needInstructor = filters.Where(x => x == "instructor").Any();
+            bool needCourse = filters.Where(x => x == "course").Any();
+
+            List<string> QueriesForResult = new List<string>();
+
+            if (needTrainee)
+            {
+                QueriesForResult.Add(traineeQuery);
+            }
+
+            if (needInstructor)
+            {
+                QueriesForResult.Add(instructorQuery);
+            }
+
+            if (needCourse)
+            {
+
+            }
+
+            return QueriesForResult;
+        }
+
+        List<int> getPaginationData(List<int> counts, int totalCounts, List<int> prefSum, int pageSize, int pageIndex, int tableIndex)
+        {
+            List<int> indexes = new List<int>();
+            int start = Math.Max(0, pageIndex - 1) * pageSize;
+            int end = Math.Min(pageSize * pageIndex,totalCounts);
+
+            int curStartTable = -1;
+            int curStartIndex = -1;
+            int curEndIndex = -1;
+            int curEndTable = -1;
+            int startIndex = -1;
+            int endIndex = -1;
+
             
 
+            for(int i = 0; i < prefSum.Count()-1; i++)
+            {
+                if (prefSum[i+1] >=start)
+                {
+                    curStartIndex = start - prefSum[i];
+                    curStartTable = i;
+                    break;
+
+                }
+            }
+
+            for(int i = 0; i<prefSum.Count()-1; i++)
+            {
+                if (prefSum[i+1]>=end)
+                {
+                    curEndIndex = end - prefSum[i];
+                    curEndTable = i;
+                    break;
+                }
+            }
+
+
+
+            if(tableIndex>curStartTable&&tableIndex<=curEndTable)
+            {
+                startIndex = 0;
+            } else if(tableIndex == curStartTable)
+            {
+                startIndex = curStartIndex;
+            }
+
+            if(tableIndex < curEndTable)
+            {
+                endIndex = counts[tableIndex];
+            } else if(tableIndex == curEndTable)
+            {
+                endIndex = curEndIndex;
+            }
+
+            List<int> result = new List<int>();
+            result.Add(startIndex);
+            result.Add(endIndex);
             return result;
+
         }
     }
 }

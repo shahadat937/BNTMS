@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SchoolManagement.Application.DTOs.GlobalSearch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,6 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Requests.Queries
 {
     public class SearchQueryRequest : IRequest<object>
     {
-        public string Query { get; set; }
-        public int? PageSize {  get; set; }
-        public int? PageIndex { get; set; }
+        public QueryDto Query { get; set; }
     }
 }
