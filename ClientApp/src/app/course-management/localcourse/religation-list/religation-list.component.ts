@@ -19,6 +19,9 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./religation-list.component.sass']
 })
 export class ReligationListComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   CourseListBySchool: CourseDuration[] = [];
@@ -35,11 +38,11 @@ export class ReligationListComponent implements OnInit {
   candidateCount:any;
 
   
-  dataSource = new MatTableDataSource<any>();
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  matSort!: MatSort;
+  // dataSource = new MatTableDataSource<any>();
+  // @ViewChild(MatPaginator)
+  // paginator!: MatPaginator;
+  // @ViewChild(MatSort)
+  // matSort!: MatSort;
 
 
   displayedColumns: string[] = ['ser', 'name', 'duration', 'action'];
@@ -61,15 +64,19 @@ export class ReligationListComponent implements OnInit {
   getCourseDurationsByCourseType(schoolId){
     this.isLoading = true;
     this.CourseDurationService.getCourseListBySchool(schoolId).subscribe(response => {
-      this.CourseListBySchool = response; 
       this.dataSource = new MatTableDataSource(response);
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+
+      this.CourseListBySchool = response; 
+      // this.dataSource = new MatTableDataSource(response);
     
     })
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
+    filterValue = filterValue.toLowerCase().replace(/\s/g, "");
+    console.log(filterValue)
     this.dataSource.filter = filterValue;
   }
   

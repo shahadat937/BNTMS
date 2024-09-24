@@ -562,6 +562,18 @@ public class DashboardController : ControllerBase
     [HttpGet]
     [Route("get-instructorDetailByCourse")]
 
+    //public IEnumerable<ActionResult> GetInstructorInfoBySchoolForCO(int page =1, int pageSize = 10)
+    //{
+    //    var totalCount = Instructor.Count;
+    //    var totalPage = Math.Ceiling(totalCount / pageSize);
+    //    var ProductPerSize = GetInstructorInfoByCourse
+    //                         .Skip((page-1)*pageSize)
+    //                         .Take(pageSize).ToList();
+
+    //    return ProductPerSize;
+
+    //}
+
     public async Task<ActionResult> GetInstructorDetailByCourse(int baseSchoolNameId, int courseNameId, int courseDurationId)
     {
         var InstructorInfoByCourse = await _mediator.Send(new GetInstructorDetailByCourseSpRequest

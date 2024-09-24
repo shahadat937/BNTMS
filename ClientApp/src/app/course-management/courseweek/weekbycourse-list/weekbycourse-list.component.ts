@@ -18,6 +18,9 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./weekbycourse-list.component.sass'] 
 })
 export class WeekByCourseListComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseWeek[] = [];
@@ -48,7 +51,7 @@ export class WeekByCourseListComponent implements OnInit {
   displayedColumns: string[] = ['ser','course', 'durationFrom', 'durationTo','countWeek'];
   // dataSource: MatTableDataSource<CourseWeek> = new MatTableDataSource();
   
-  dataSource = new MatTableDataSource<any>();
+  // dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -179,6 +182,12 @@ getDateComparision(obj){
   getrunningCourseListBySchool(schoolId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.CourseWeekService.getrunningCourseListBySchool(currentDateTime, this.masterData.coursetype.LocalCourse, schoolId).subscribe(response => {   
+
+      this.dataSource = new MatTableDataSource(response);
+     
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      
       
       //this.localCourseCount=response.length;
       this.runningCourses=response;
@@ -195,8 +204,8 @@ getDateComparision(obj){
 
   }
   applySearch(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
+   
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
     this.dataSource.filter = filterValue;
   }
  

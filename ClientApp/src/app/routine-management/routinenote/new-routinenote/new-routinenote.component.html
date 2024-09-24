@@ -58,6 +58,7 @@
                           <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                               id="selectSection" 
+                              (keydown.space)="$event.stopPropagation()"
                               (input)="filterByCourse($event.target.value)"
                               placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
@@ -79,6 +80,7 @@
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                               id="selectSection" 
                               (input)="filterByWeek($event.target.value)"
+                              (keydown.space)="$event.stopPropagation()"
                               placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedWeek" [value]="dropdown.value" (onSelectionChange)="onWeekSelectionChangeGet(dropdown)">
@@ -97,7 +99,8 @@
                         <mat-select formControlName="classRoutineId" (selectionChange)="onRoutineSelectionChangeGet()">
                           <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                              id="selectSection" 
+                              id="selectSection"
+                              (keydown.space)="$event.stopPropagation()" 
                               (input)="filterByRoutine($event.target.value)"
                               placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >

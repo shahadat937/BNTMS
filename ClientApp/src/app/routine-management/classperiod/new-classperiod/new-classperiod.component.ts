@@ -171,7 +171,7 @@ getSelectedCourseAutocomplete(cName){
     });
   }
   filterByStatus(value:any){
-    this.selectedcoursestatus=this.selectEvent.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursestatus=this.selectEvent.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedcoursename(){

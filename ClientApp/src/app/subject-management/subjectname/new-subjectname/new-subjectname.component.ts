@@ -182,7 +182,7 @@ export class NewSubjectnameComponent implements OnInit {
     }  
   }
   filterByModule(value:any){
-    this.selectedCourseModuleByBaseSchoolAndCourseNameId=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseModuleByBaseSchoolAndCourseNameId=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   // activeItem(row){
   //   const id = row.bnaSubjectNameId;    
@@ -319,7 +319,7 @@ export class NewSubjectnameComponent implements OnInit {
     });
   }
   filterBySubjectType(value:any){
-    this.selectedSubjectType=this.selectSubjectType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSubjectType=this.selectSubjectType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
  
   getSelectedKindOfSubject(){
@@ -329,7 +329,7 @@ export class NewSubjectnameComponent implements OnInit {
     });
   }
 filterBySubject(value:any){
-  this.selectedKindOfSubject=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedKindOfSubject=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getSelectedSubjectClassification(){
     this.BNASubjectNameService.getSelectedSubjectClassification().subscribe(res=>{

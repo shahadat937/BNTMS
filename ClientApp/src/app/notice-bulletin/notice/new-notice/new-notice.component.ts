@@ -11,6 +11,9 @@ import { Notice } from '../../models/notice';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { MatOption } from '@angular/material/core';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-new-notice',
@@ -18,6 +21,9 @@ import { MatOption } from '@angular/material/core';
   styleUrls: ['./new-notice.component.sass']
 }) 
 export class NewNoticeComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
   @ViewChild('allSelected') private allSelected: MatOption;
   @ViewChild('allSelectedCourse') private allSelectedCourse: MatOption;
   isShowCourseName:boolean=false;
@@ -215,6 +221,10 @@ stopNotices(element){
 
   getselectedbaseschools(){
     this.noticeService.getselectedbaseschools().subscribe(res=>{
+      // this.dataSource = new MatTableDataSource(response);
+     
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
       this.selectedbaseschools=res
       this.filteredbaseschools = res;
     }); 

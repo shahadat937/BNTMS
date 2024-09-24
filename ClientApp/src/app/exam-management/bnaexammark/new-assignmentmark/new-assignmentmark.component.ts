@@ -289,7 +289,7 @@ export class NewAssignmentMarkComponent implements OnInit {
     }
   }
   filterBySection(value:any){
-    this.selectedCourseSection=this.selectSection.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseSection=this.selectSection.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSubjectbycourseandsection(){
@@ -439,7 +439,7 @@ export class NewAssignmentMarkComponent implements OnInit {
     });
   }
 filterByCourseName(value:any){
-  this.selectedcoursedurationbyschoolname=this.selectCourse.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedcoursedurationbyschoolname=this.selectCourse.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   
   reloadCurrentRoute() {
@@ -469,7 +469,7 @@ filterByCourseName(value:any){
     }
   }
   filterBySubject(value:any){
-    this.selectedSubjectNameForAssignment=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSubjectNameForAssignment=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedcoursename() {

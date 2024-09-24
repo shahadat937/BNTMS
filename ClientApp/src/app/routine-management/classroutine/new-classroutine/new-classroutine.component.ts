@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { Role } from 'src/app/core/models/role';
 import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.service';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.
   styleUrls: ['./new-classroutine.component.sass']
 }) 
 export class NewClassRoutineComponent implements OnInit {
+  copy: boolean = true;
    masterData = MasterData;
    userRole = Role;
   loading = false;
@@ -221,6 +223,14 @@ export class NewClassRoutineComponent implements OnInit {
   }
 
   private createPeriodData() {
+
+
+    if(this.copy&&this.ClassRoutineForm!=undefined) {
+      const control = <FormArray>this.ClassRoutineForm.controls["perodListForm"];
+      const val = control.controls[control.length-1].value;
+
+      return this.fb.group(val);
+    }
 
     return this.fb.group({
       subjectId:[''],
@@ -448,7 +458,7 @@ export class NewClassRoutineComponent implements OnInit {
   }
   
   filterBySection(value:any){
-      this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+      this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onDateSelectionChange(event){
     var date=this.datepipe.transform((event.value), 'MM/dd/yyyy');
@@ -558,14 +568,14 @@ export class NewClassRoutineComponent implements OnInit {
     }  
   }
   filterByClassPeriod(value:any){
-    this.selectedclassperiod=this.selectClassPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedclassperiod=this.selectClassPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
 filterByInstructor(value:any){
-  this.selectedInstructor=this.selectInstructor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedInstructor=this.selectInstructor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 filterBymarkType(value:any){
-  this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
    
   getControlLevel(index: number, type: string) {
@@ -634,7 +644,7 @@ filterBymarkType(value:any){
     });
   }
   filterBySubject(value:any){
-      this.selectedsubjectname=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+      this.selectedsubjectname=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
 
@@ -645,7 +655,7 @@ filterBymarkType(value:any){
     });
   } 
   filterBySchool(value:any){
-    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedbaseschoolsByBase(baseNameId){
@@ -663,7 +673,7 @@ filterBymarkType(value:any){
       });
   } 
   filterByCourseTitle(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedbnasubjectname(dropdown){
@@ -690,7 +700,7 @@ filterBymarkType(value:any){
     });    
   } 
   filterByWeek(value:any){
-    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedCourseModules(){
@@ -715,7 +725,7 @@ filterBymarkType(value:any){
     });
   }
   filterByClassType(value:any){
-    this.selectedclasstype=this.selectClassType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedclasstype=this.selectClassType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   reloadCurrentRoute() {

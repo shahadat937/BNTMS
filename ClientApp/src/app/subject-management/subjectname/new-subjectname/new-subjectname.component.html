@@ -66,6 +66,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectModule" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByModule($event.target.value)"
                         placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
@@ -147,6 +148,7 @@
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectType" 
                         (input)="filterBySubjectType($event.target.value)"
+                        (keydown.space)="$event.stopPropagation()"
                         placeholder="Search">
                           <mat-option *ngFor="let type of selectedSubjectType" [value]="type.value">
                               {{type.text}} 
@@ -165,6 +167,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectSubject" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterBySubject($event.target.value)"
                         placeholder="Search">  
                         <mat-option *ngFor="let type of selectedKindOfSubject" [value]="type.value">

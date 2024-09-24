@@ -52,6 +52,7 @@
                                   <input type="text" 
                                   style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                   id="selectSearch" 
+                                  (keydown.space)="$event.stopPropagation()"
                                   (input)="filterByCourse($event.target.value)" placeholder="Search">
                                   <mat-option  value="0">--Select--</mat-option >
                                     <mat-option (onSelectionChange)="onCourseNameSelectionChangeGetSubjectAndTraineeList($event)" 
@@ -73,6 +74,7 @@
                                 <input type="text" 
                                   style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                   id="selectSearch" 
+                                  (keydown.space)="$event.stopPropagation()"
                                   (input)="filterBySection($event.target.value)" placeholder="Search">
                                   <!-- <mat-option  value="0">--Select--</mat-option > -->
                                     <mat-option *ngFor="let dropdown of selectedCourseSection"  [value]="dropdown.value">
@@ -91,7 +93,8 @@
                                 <mat-select formControlName="bnaSubjectName" required >
                                   <input type="text" 
                                   style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                                  id="selectSearch" 
+                                  id="selectSearch"
+                                  (keydown.space)="$event.stopPropagation()" 
                                   (input)="filterBySubject($event.target.value)" placeholder="Search">
                                   <mat-option  value="0">--Select--</mat-option >
                                     <mat-option (onSelectionChange)="onSubjectNameSelectionChangeGetTotalMarkAndPassMark($event)" *ngFor="let dropdown of selectedSubjectNameByBaseSchoolNameIdAndCourseNameId" [value]="dropdown">

@@ -316,7 +316,7 @@ export class NewCourseInstructorComponent implements OnInit {
     });
   }
   filterBySchoolName(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursedurationbyschoolname=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcourseduration() {
     this.CourseInstructorService.getselectedcourseduration().subscribe(res => {
@@ -347,11 +347,11 @@ export class NewCourseInstructorComponent implements OnInit {
     });
   }
   filterBySection(value:any){
-    this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   filterByMarkType(value:any){
-    this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
 

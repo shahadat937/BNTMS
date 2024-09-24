@@ -73,7 +73,7 @@
               </div>
               
 
-               <table class="table  tbl-by-group mat-table course-completion">
+               <table class="table  tbl-by-group mat-table course-completion" >
                 <thead>
                   <tr>
                     <!-- <th class="cl-srl"><h5>Ser</h5></th> -->
@@ -113,10 +113,10 @@
                 </tbody>
               </table>
           
-               <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
-              [pageSize]="paging.pageSize" 
-              (page)="pageChanged($event)">
-              </mat-paginator>
+               <mat-paginator #InitialOrderMatPaginator="matPaginator"
+                  [pageSizeOptions]="[5, 10, 20]"
+                  showFirstLastButtons >
+                 </mat-paginator>
             </div>
           </div>
         </div>

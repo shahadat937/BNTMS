@@ -126,7 +126,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByHairColor(value:any){
-    this.hairColorValues=this.selectHairColor.filter(x=> x.text.toLowerCase().includes(value.toLowerCase()))
+    this.hairColorValues=this.selectHairColor.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcaste(){
     this.BIODataGeneralInfoService.getselectedcaste().subscribe(res=>{
@@ -136,7 +136,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
   filterBaseName(value:any) {
     console.log(value);
-    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase()));
+    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
   getselectedheight(){
     this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
@@ -152,11 +152,11 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterSaylorRank(value:any) {
-    this.rankValues = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
+    this.rankValues = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   filterSaylorBranch(value:any){
-    this.sailorBranch = this.selectedSaylorBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+    this.sailorBranch = this.selectedSaylorBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   // filterWeight(value:any){
@@ -168,11 +168,11 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   // }
   
   filterBloodgroup(value:any){
-    this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   filterbyReligion(value:any){
-    this.religionValues = this.selectedReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.religionValues = this.selectedReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().filter(/\s/g,'')))
   }
 
   getselectedcolorofeye(){
@@ -183,7 +183,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByEyeCoor(value:any){
-    this.colorOfEyeValues=this.selectEyeColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.colorOfEyeValues=this.selectEyeColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedbloodgroup(){
@@ -228,7 +228,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterBySubBranch(value:any){
-    this.selectedSaylorSubBranch=this.selectSubBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSaylorSubBranch=this.selectSubBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getMaritialStatus(){
@@ -246,7 +246,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   } 
 
   filterByCastes(value:any){
-    this.selectedCastes=this.selectCastes.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCastes=this.selectCastes.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   intitializeForm() {
     this.BIODataGeneralInfoForm = this.fb.group({

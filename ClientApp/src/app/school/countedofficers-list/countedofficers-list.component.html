@@ -55,14 +55,14 @@
                   </div>
                 </div>
                 
-                <div *ngIf="this.role == this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool || this.role == this.userRole.SchoolOIC" id="print-routine">
+                <div *ngIf="this.role == this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool || this.role == this.userRole.SchoolOIC" id="print-routine" [dataSource]="dataSource">
                   <table class="table  tbl-by-group">
                     <thead>
                       <tr>
                         <!-- <th class="cl-srl"><h5>Ser</h5></th> -->
                         <th class="cl-srl"><h5> Course </h5></th>
                         <th class="course-col"><h5>O.No/P.No  </h5></th>
-                        <th class="course-col"><h5>Name   </h5></th>
+                        <th class="course-col"><h5>Name1   </h5></th>
                         <th class="course-col"><h5>Rank  </h5></th>
                         <th *ngIf="officerTypeId == masterData.OfficerType.Foreign" class="cl-mrk"><h5> Country </h5></th>
                       </tr>
@@ -99,14 +99,18 @@
                       </ng-container>
                     </tbody>
                   </table>
+                  <mat-paginator #InitialOrderMatPaginator="matPaginator"
+                  [pageSizeOptions]="[5, 10, 20]"
+                  showFirstLastButtons >
+                 </mat-paginator>
                 </div>
                 
                 <div *ngIf="this.role == this.userRole.MasterAdmin ||this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO" id="print-routine">
-                  <table class="table  tbl-by-group">
+                  <!-- <table class="table  tbl-by-group">
                     <thead>
-                      <tr>
+                      <tr> -->
                         <!-- <th class="cl-srl"><h5>Ser</h5></th> -->
-                        <th class="cl-srl"><h5> School </h5></th>
+                        <!-- <th class="cl-srl"><h5> School </h5></th>
                         <th class="cl-srl"><h5> Course </h5></th>
                         <th class="course-col"><h5>O.No/P.No </h5></th>
                         <th class="course-col"><h5>name </h5></th>
@@ -123,10 +127,10 @@
                           <td class="course-name-col">{{number.course}} - {{number.courseTitle}}</td>
                           <td class="course-col">{{number.pno}}</td>
                           <td class="course-col">{{number.name}} </td>
-                          <td class="course-col">{{number.position}}</td>
+                          <td class="course-col">{{number.position}}</td> -->
                           <!-- <td>{{number.durationFrom | date:'mediumDate'}} - {{number.durationTo | date:'mediumDate'}}</td> -->
                           
-                          <td *ngIf="officerTypeId == masterData.OfficerType.Foreign">{{number.countryName}}</td>
+                          <!-- <td *ngIf="officerTypeId == masterData.OfficerType.Foreign">{{number.countryName}}</td> -->
                           <!-- <td>{{number.nbcd}}</td>
                           <td>{{number.durationFrom | date:'mediumDate'}}</td>
                           <td>{{number.durationTo | date:'mediumDate'}}</td> -->
@@ -143,10 +147,11 @@
                             </button>
                             
                           </td> -->
-                        </tr>
+                        <!-- </tr>
                       </ng-container>
                     </tbody>
-                  </table>
+                  </table> -->
+                  
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
                   <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print

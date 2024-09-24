@@ -34,6 +34,7 @@ export class ScheduleInstallmentListComponent implements OnInit {
   selectedFiscalYear:SelectedModel[];
   selectedPaymentType:SelectedModel[];
   selectedCourseDuration:SelectedModel[];
+  selectCourse:SelectedModel[];
   selectedTrainee:SelectedModel[];
   totalBudget:any;
   availableAmount:any;
@@ -235,7 +236,11 @@ export class ScheduleInstallmentListComponent implements OnInit {
   getSelectedCourseDurationByCourseTypeId(){
     this.CourseBudgetAllocationService.getSelectedCourseDurationByCourseTypeId(MasterData.coursetype.ForeignCourse).subscribe(res=>{
       this.selectedCourseDuration=res
+      this.selectCourse=res
     });
+  }
+  fileterByCourse(value:any){
+    this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   // getSelectedCourseName(){
   //   this.CourseBudgetAllocationService.getselectedBudgetCode().subscribe(res=>{
