@@ -37,8 +37,8 @@ namespace SchoolManagement.Application.DTOs.User
         public string LastName { get; set; }
 
         //[Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        [RegularExpression(@"(\S)+", ErrorMessage = "White space is not allowed.")]
+        //[EmailAddress(ErrorMessage = "Invalid Email Address")]
+        //[RegularExpression(@"(\S)+", ErrorMessage = "White space is not allowed.")]
 
         public string? Email { get; set; }
 
