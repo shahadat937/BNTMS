@@ -36,6 +36,7 @@ export class CentralExamCourseListComponent implements OnInit {
   searchText="";
 
   displayedColumns: string[]= ['ser','course','duration','candidate','action'];
+dataSource: any;
   
   constructor(private snackBar: MatSnackBar,private dashboardService: dashboardService,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) { }
 
@@ -59,5 +60,9 @@ export class CentralExamCourseListComponent implements OnInit {
       }); 
     }
     //this.applyFilter(courseNameId)
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    
   }
 }

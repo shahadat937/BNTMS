@@ -284,14 +284,14 @@ stopNotices(element){
   } 
 
   filterBaseSchools(value:string) {
-    this.filteredbaseschools = this.selectedbaseschools.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()));
+    this.filteredbaseschools = this.selectedbaseschools.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   filterCourse(value:string) {
     if(this.selectedCourse==undefined||this.selectedCourse.length<=0) {
       return;
     }
-    this.filteredCourse = this.selectedCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()));
+    this.filteredCourse = this.selectedCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   onSubmit() {

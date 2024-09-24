@@ -244,11 +244,11 @@ export class NewAttendanceComponent implements OnInit {
             }  
      }
      filterByPeriod(value:any){
-      this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=this.selectPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+      this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=this.selectPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
      }
 
      filterByCourse(value:any){
-        this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+        this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
      }
 
   getselectedclassroutine(){

@@ -75,8 +75,8 @@ export class ExamApproveComponent implements OnInit {
 
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
+    
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
     this.dataSource.filter = filterValue;
   }
 }

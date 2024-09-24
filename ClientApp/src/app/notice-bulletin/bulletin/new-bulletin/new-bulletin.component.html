@@ -72,7 +72,11 @@
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
+<<<<<<< HEAD
+                        <mat-label>Course Title11</mat-label>                        
+=======
                         <mat-label>Course Title </mat-label>                        
+>>>>>>> 8464781f03ca06ec77a57e2fdb83578dc3e14935
                         <mat-select multiple formControlName="courseName" [disabled]="isShowCourseName">
                           <!-- <mat-option  value="0">--Select--</mat-option > -->
                             <mat-option #allSelectedCourse (click)="toggleAllSelectionCourse()" [value]="0">All</mat-option>
@@ -145,6 +149,7 @@
                                   <input type="text" 
                           style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                           id="selectSearch" 
+                          (keydown.space)="$event.stopPropagation()"
                           (input)="filterBySchool($event.target.value)"
                           placeholder="Search">
                                 

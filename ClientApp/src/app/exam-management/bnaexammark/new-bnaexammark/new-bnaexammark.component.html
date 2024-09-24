@@ -53,6 +53,7 @@
                                   <input type="text" 
                                   style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                   id="selectSearch" 
+                                  (keydown.space)="$event.stopPropagation()"
                                   (input)="filterCourseName($event.target.value)" placeholder="Search">
                                   <mat-option  value="0">--Select--</mat-option >
                                     <mat-option (onSelectionChange)="onCourseNameSelectionChangeGetSubjectAndTraineeList($event)" *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown">
@@ -72,6 +73,7 @@
                                   <input type="text" 
                                   style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                   id="selectSearch" 
+                                  (keydown.space)="$event.stopPropagation()"
                                   (input)="filterBySection($event.target.value)" placeholder="Search">
                                   <!-- <mat-option  value="0">--Select--</mat-option > -->
                                     <mat-option *ngFor="let dropdown of selectedCourseSection"  [value]="dropdown.value">
@@ -91,6 +93,7 @@
                                   <input type="text" 
                                   style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                   id="selectSearch" 
+                                  (keydown.space)="$event.stopPropagation()"
                                   (input)="filterBySubject($event.target.value)" placeholder="Search">
                                   <mat-option  value="0">--Select--</mat-option >
                                     <mat-option (onSelectionChange)="onSubjectNameSelectionChangeGetTotalMarkAndPassMark($event)" *ngFor="let dropdown of selectedSubjectNameByBaseSchoolNameIdAndCourseNameId" [value]="dropdown">

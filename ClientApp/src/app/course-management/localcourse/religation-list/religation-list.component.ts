@@ -75,8 +75,8 @@ export class ReligationListComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
+    filterValue = filterValue.toLowerCase().replace(/\s/g, "");
+    console.log(filterValue)
     this.dataSource.filter = filterValue;
   }
   

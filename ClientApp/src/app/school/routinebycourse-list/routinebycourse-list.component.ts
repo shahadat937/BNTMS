@@ -50,6 +50,7 @@ export class RoutineByCourseListComponent implements OnInit {
   RoutineByCourse:any;
   sectionList:SelectedModel[];
   selectedWeek:SelectedModel[];
+  selectWeek:SelectedModel[];
   courseType:any;
   schoolId:any;
   courseTypeId:any;
@@ -121,6 +122,7 @@ export class RoutineByCourseListComponent implements OnInit {
       });
       this.classRoutineService.getSelectedCourseWeeks(this.schoolId,durationId,courseNameId).subscribe(res=>{
         this.selectedWeek=res;
+        this.selectWeek=res;
       });
 
       
@@ -194,6 +196,9 @@ export class RoutineByCourseListComponent implements OnInit {
 
       
     });
+  }
+  filterByWeek(value:any){
+    this.selectedWeek = this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   toggle(){

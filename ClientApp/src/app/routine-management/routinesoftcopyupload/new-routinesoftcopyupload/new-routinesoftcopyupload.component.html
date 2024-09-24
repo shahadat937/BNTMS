@@ -35,6 +35,7 @@
                           <input type="text" 
                           style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                           id="selectSection" 
+                          (keydown.space)="$event.stopPropagation()"
                           (input)="filterBySchool($event.target.value)"
                           placeholder="Search">
                             <mat-option *ngFor="let semester of selectedbaseschool" [value]="semester.value">
@@ -53,6 +54,7 @@
                           <input type="text" 
                           style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                           id="selectSection" 
+                          (keydown.space)="$event.stopPropagation()"
                           (input)="filterByCourse($event.target.value)"
                           placeholder="Search">
                           <mat-option  value="">--Select--</mat-option >

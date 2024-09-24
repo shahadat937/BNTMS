@@ -458,7 +458,7 @@ export class NewClassRoutineComponent implements OnInit {
   }
   
   filterBySection(value:any){
-      this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+      this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onDateSelectionChange(event){
     var date=this.datepipe.transform((event.value), 'MM/dd/yyyy');
@@ -568,14 +568,14 @@ export class NewClassRoutineComponent implements OnInit {
     }  
   }
   filterByClassPeriod(value:any){
-    this.selectedclassperiod=this.selectClassPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedclassperiod=this.selectClassPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
 filterByInstructor(value:any){
-  this.selectedInstructor=this.selectInstructor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedInstructor=this.selectInstructor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 filterBymarkType(value:any){
-  this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
    
   getControlLevel(index: number, type: string) {
@@ -644,7 +644,7 @@ filterBymarkType(value:any){
     });
   }
   filterBySubject(value:any){
-      this.selectedsubjectname=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+      this.selectedsubjectname=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
 
@@ -655,7 +655,7 @@ filterBymarkType(value:any){
     });
   } 
   filterBySchool(value:any){
-    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedbaseschoolsByBase(baseNameId){
@@ -673,7 +673,7 @@ filterBymarkType(value:any){
       });
   } 
   filterByCourseTitle(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedbnasubjectname(dropdown){
@@ -700,7 +700,7 @@ filterBymarkType(value:any){
     });    
   } 
   filterByWeek(value:any){
-    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedCourseModules(){
@@ -725,7 +725,7 @@ filterBymarkType(value:any){
     });
   }
   filterByClassType(value:any){
-    this.selectedclasstype=this.selectClassType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedclasstype=this.selectClassType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   reloadCurrentRoute() {

@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { environment } from 'src/environments/environment';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-schoolnotice-list.component',
@@ -16,6 +17,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./schoolnotice-list.component.sass']
 })
 export class SchoolNoticeListComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -43,6 +47,14 @@ export class SchoolNoticeListComponent implements OnInit {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.schoolDashboardService.getNoticeBySchoolId(schoolId,currentDateTime).subscribe(response => {   
       this.NoticeForSchoolDashboard=response;
+      this.dataSource = new MatTableDataSource(response);
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
     })
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
   }
 }
