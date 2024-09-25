@@ -279,7 +279,7 @@ export class NewSubjectnameComponent implements OnInit {
     })
   }
   filterByStatus(value:any){
-    this.selectedResultStatus=this.selectStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedResultStatus=this.selectStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   getSelectedBnaSemester(){
