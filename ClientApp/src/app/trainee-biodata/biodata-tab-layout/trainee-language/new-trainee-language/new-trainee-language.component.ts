@@ -81,7 +81,7 @@ export class NewTraineeLanguageComponent implements OnInit {
     });
   }
   filterByLanguage(value:any){
-    this.selectedLanguages=this.selectLanguage.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedLanguages=this.selectLanguage.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
 

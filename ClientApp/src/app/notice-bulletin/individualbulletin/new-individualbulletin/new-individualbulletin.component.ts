@@ -295,7 +295,7 @@ stopNotices(element){
   } 
 
   filterBaseSchools(value:string) {
-    this.filteredbaseschools = this.selectedbaseschools.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()));
+    this.filteredbaseschools = this.selectedbaseschools.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   filterCourse(value:string) {

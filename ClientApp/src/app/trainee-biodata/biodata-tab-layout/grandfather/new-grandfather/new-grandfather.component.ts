@@ -93,7 +93,7 @@ export class NewGrandFatherComponent implements OnInit {
     });
   }
   filterByGrandFather(value:any){
-    this.grandFatherTypeValues=this.selectGrandFather.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.grandFatherTypeValues=this.selectGrandFather.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getOccupationName(){
@@ -103,7 +103,7 @@ export class NewGrandFatherComponent implements OnInit {
     });
   }
   filterByOccupation(value:any){
-    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getNationalityName(){
@@ -113,7 +113,7 @@ export class NewGrandFatherComponent implements OnInit {
     });
   }
   filterByNationality(value:any){
-    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSelectedDeadStatus(){

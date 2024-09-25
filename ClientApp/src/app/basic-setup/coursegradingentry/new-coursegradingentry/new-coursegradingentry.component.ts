@@ -109,7 +109,7 @@ export class NewCourseGradingEntryComponent implements OnInit {
     });
   }
   filterByCourse(value:any){
-    this.selectedCourseNames=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseNames=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedAssessment(){
     this.CourseGradingEntryService.getselectedAssessment().subscribe(res=>{
@@ -118,11 +118,11 @@ export class NewCourseGradingEntryComponent implements OnInit {
     });
   }
   filterByAssesment(value:any){
-    this.selectedAssessment=this.selectAssesment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedAssessment=this.selectAssesment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
    }
 
   filterBySchoolName(value:any){
-    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
    }
   onCourseNameSelectionChanged(item) {
       this.courseNameId = item.value 

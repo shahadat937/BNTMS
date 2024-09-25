@@ -67,7 +67,7 @@ export class NewThanaComponent implements OnInit {
     });
   }
   filterByDistric(value:any){
-    this.selectedModel=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedModel=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {

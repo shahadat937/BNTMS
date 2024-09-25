@@ -76,7 +76,7 @@ export class NewCodeValueComponent implements OnInit {
     });
   }
   filterByValue(value:any){
-    this.selectedModel=this.selectCodeValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedModel=this.selectCodeValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onSubmit() {
     const id = this.CodeValueForm.get('codeValueId').value;   

@@ -70,7 +70,7 @@ export class NewFavoritesComponent implements OnInit {
     });
   }
   filterByFavourite(value:any){
-    this.selectedFavorites=this.selectFavourite.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedFavorites=this.selectFavourite.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {

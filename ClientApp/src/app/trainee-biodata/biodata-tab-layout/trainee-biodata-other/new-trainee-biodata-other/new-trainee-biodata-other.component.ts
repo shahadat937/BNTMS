@@ -214,7 +214,7 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
     });
   }
   filterByCurriculum(value:any){
-    this.bnaCurriculamTypeValues=this.selectCurriculumType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bnaCurriculamTypeValues=this.selectCurriculumType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   getNationality(){
@@ -224,7 +224,7 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
     });
   }
   filterByNationality(value:any){
-    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedPresentbillet(){
@@ -234,7 +234,7 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
  });
 }
 filterByBillet(value:any){
-  this.selectedPresentBillet=this.selectPresentBillet.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedPresentBillet=this.selectPresentBillet.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
 getselectedInstructorType(){
@@ -244,7 +244,7 @@ getselectedInstructorType(){
 });
 }
 filterByInstructor(value:any){
-  this.selectedInstructorType=this.selectInstructorType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedInstructorType=this.selectInstructorType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
 changeNationality(e) {
@@ -259,7 +259,7 @@ getselectedfailureStatus(){
 });
 }
 filterByfailureStatus(value:any){
-  this.selectedFailureStatus=this.selectFailureStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedFailureStatus=this.selectFailureStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
  
 
@@ -270,7 +270,7 @@ getselectedCourseName(){
 });
 }
 filterByCourseName(value:any){
-  this.selectedCourseName=this.selectCours.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedCourseName=this.selectCours.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
 getselectedBnaClassSectionSelection(){
@@ -280,7 +280,7 @@ getselectedBnaClassSectionSelection(){
 });
 }
 filterByBnaPromotion(value:any){
-  this.selectedBnaClassSectionSelection=this.selectBnaSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedBnaClassSectionSelection=this.selectBnaSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
 getselectedBnaPromotionStatus(){
@@ -290,7 +290,7 @@ getselectedBnaPromotionStatus(){
   });
 }
 filterByPromotion(value:any){
-  this.selectedBnaPromotionStatus=this.selectPromotion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedBnaPromotionStatus=this.selectPromotion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
 getselectedMaritalStatus(){
@@ -300,7 +300,7 @@ getselectedMaritalStatus(){
   });
 }
 filterByStatus(value:any){
-  this.selectedMaritalStatus=this.selectStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedMaritalStatus=this.selectStatus.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
  
 getselectedCountry(){
@@ -310,7 +310,7 @@ getselectedCountry(){
   }); 
 }
 filterByCountry(value:any){
-  this.selectedCountry=this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedCountry=this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
 getselectedCaste(){
@@ -339,7 +339,7 @@ getselecteBloodGroup(){
     });
   }
   filterBySemester(value:any){
-    this.bnaSemesterValues=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bnaSemesterValues=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getUTOfficerTypeName(){
@@ -349,7 +349,7 @@ getselecteBloodGroup(){
     });
   }
   filterByOfficer(value:any){
-    this.utOfficerTypeValues=this.selectOfficerType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.utOfficerTypeValues=this.selectOfficerType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
 
@@ -360,7 +360,7 @@ getselecteBloodGroup(){
     });
   }
   filterByOfficercategory(value:any){
-    this.utOfficerCategoryValues=this.selectOfficerCategory.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.utOfficerCategoryValues=this.selectOfficerCategory.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getBNAServiceTypeName(){
@@ -370,7 +370,7 @@ getselecteBloodGroup(){
     });
   }
   filterByService(value:any){
-    this.bnaServiceTypeValues=this.selectBnaType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bnaServiceTypeValues=this.selectBnaType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getComplexionName(){
@@ -380,7 +380,7 @@ getselecteBloodGroup(){
     });
   }
   filterByComplexion(value:any){
-    this.complexionValues=this.selectComplexionType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.complexionValues=this.selectComplexionType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getBranchName(){
@@ -390,7 +390,7 @@ getselecteBloodGroup(){
     });
   }
   filterByBranch(value:any){
-    this.branchValues=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.branchValues=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getHeightName(){

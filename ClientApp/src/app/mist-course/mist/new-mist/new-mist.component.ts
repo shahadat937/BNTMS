@@ -99,7 +99,7 @@ export class NewMistComponent implements OnInit {
     });
   }
   filterByCourseName(value:any){
-    this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcoursetype(){
     this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
@@ -107,7 +107,7 @@ export class NewMistComponent implements OnInit {
     });
   } 
   filterSchoolName(value:any){
-    this.selectedschoolname=this.selecSchoolName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedschoolname=this.selecSchoolName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedbaseschools(){
     this.CourseDurationService.getselectedbaseschools().subscribe(res=>{

@@ -76,7 +76,7 @@ export class NewJoiningReasonComponent implements OnInit {
     });
   }
   filterByReason(value:any){
-    this.selectedReasonType=this.selectReason.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedReasonType=this.selectReason.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   // getThana(){

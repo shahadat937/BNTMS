@@ -105,10 +105,10 @@ export class NewSchoolNameComponent implements OnInit {
     });        
   }
   filterByCommendingArea(value:any){
-    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   filterByBaseName(value:any){
-    this.selectedBaseName=this.selectBaseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBaseName=this.selectBaseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onCommendingAreaSelectionChangeGetBaseName(){
     this.baseNameId=this.BaseSchoolForm.value['secondLevel'];

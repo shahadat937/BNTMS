@@ -94,7 +94,7 @@ export class NewBaseNameComponent implements OnInit {
   // }
 
   filterByCommendingArea(value:any){
-    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.BaseNameForm.value['firstLevel'];

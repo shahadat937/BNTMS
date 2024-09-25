@@ -35,6 +35,7 @@
                               <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                 id="selectSchool"
+                                (keydown.space)="$event.stopPropagation()"
                                 (input)="filterBySchoolName($event.target.value)"
                                 placeholder="Search">
                               <mat-option  value="0">--Select--</mat-option >
@@ -55,6 +56,7 @@
                               <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                 id="selectCourse"
+                                (keydown.space)="$event.stopPropagation()"
                                 (input)="filterByCourseLevel($event.target.value)"
                                 placeholder="Search">
                               <mat-option  value="0">--Select--</mat-option >

@@ -128,15 +128,15 @@ export class NewLocalcourseComponent implements OnInit {
 
   filterBaseName(value:any) {
     console.log(value);
-    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase()));
+    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   filterSchoolName(value:any) {
-    this.filteredSelectedSchool = this.selectedSchool.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
+    this.filteredSelectedSchool = this.selectedSchool.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   filterNbcd(value: any) {
-    this.filteredbaseSchoolFornbcd = this.selectedbaseschoolfornbcd.filter(x => x.text.toLowerCase().includes(value.toLowerCase()));
+    this.filteredbaseSchoolFornbcd = this.selectedbaseschoolfornbcd.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
   //autocomplete
   onCourseSelectionChanged(item) {

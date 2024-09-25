@@ -73,7 +73,7 @@ export class NewUserManualComponent implements OnInit {
     });
   }
   filterByRoles(value:any){
-    this.selectedRoles=this.selectRoles.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedRoles=this.selectRoles.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onSubmit() {
