@@ -70,7 +70,7 @@ export class NewSocialMediaComponent implements OnInit {
     });
   }
   filterBySocial(value:any){
-    this.selectedSocialMedia=this.selectSocialMedia.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSocialMedia=this.selectSocialMedia.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {
