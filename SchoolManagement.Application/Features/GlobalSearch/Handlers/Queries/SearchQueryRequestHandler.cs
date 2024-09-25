@@ -34,9 +34,9 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
             string instructorQuery = $"EXEC [dbo].[spInstructorSearch] @query='{request.Query.keyword}'";
 
             // Get which type of data to get
-            bool needTrainee = request.Query.Filters.Where(x => x == "trainee").Any();
-            bool needInstructor = request.Query.Filters.Where(x => x == "instructor").Any();
-            bool needCourse = request.Query.Filters.Where(x => x == "course").Any();
+            //bool needTrainee = request.Query.Filters.Where(x => x == "trainee").Any();
+            //bool needInstructor = request.Query.Filters.Where(x => x == "instructor").Any();
+           // bool needCourse = request.Query.Filters.Where(x => x == "course").Any();
 
             if(request.Query.keyword==null)
             {
@@ -66,7 +66,14 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
                 // 
                 List<int> indexes = getPaginationData(counts, totals, prefSum, request.Query.PageSize, request.Query.PageIndex,i);
 
-                var queryResult = _repository.ExecWithSqlQuery(queries[i]);
+                if (indexes[0] < 0 || indexes[1] < 0 || (indexes[1] - indexes[0])<=0)
+                {
+                    continue;
+                }
+
+                string query = queries[i] + $",@startIndex='{indexes[0]}',@Limit={indexes[1] - indexes[0]}";
+
+                var queryResult = _repository.ExecWithSqlQuery(query);
                 List<Dictionary<string, object>> rows = queryResult.AsEnumerable()
                     .Select(row => queryResult.Columns.Cast<DataColumn>()
                     .ToDictionary(col => col.ColumnName, col => row[col]))
@@ -75,16 +82,6 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
                 results.Results.AddRange(rows);
 
             }
-
-            var instructor = _repository.ExecWithSqlQuery($"EXEC [dbo].[spInstructorSearch] @query='{request.Query.keyword}'");
-
-
-            List<Dictionary<string, object>> instructorRows = instructor.AsEnumerable()
-            .Select(row => instructor.Columns.Cast<DataColumn>()
-            .ToDictionary(col => col.ColumnName, col => row[col]))
-            .ToList();
-
-
 
             results.Query = request.Query.keyword;
             results.ResponseCount = results.Results.Count;
@@ -96,10 +93,11 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
         {
             string traineeCountQuery = $"EXEC [dbo].[spTraineeSearchCount] @query='{keyword}'";
             string instructorCountQuery = $"EXEC [dbo].[spInstructorSearchCount] @query='{keyword}'";
+            string courseCountQuery = $"EXEC [dbo].[spCourseSearchCount] @query='{keyword}'";
 
-            bool needTrainee = filters.Where(x => x == "trainee").Any();
-            bool needInstructor = filters.Where(x => x == "instructor").Any();
-            bool needCourse = filters.Where(x => x == "course").Any();
+            bool needTrainee = filters.Where(x => x == "trainee").Any()||filters.Count()==0;
+            bool needInstructor = filters.Where(x => x == "instructor").Any()||filters.Count()==0;
+            bool needCourse = filters.Where(x => x == "course").Any() || filters.Count()==0;
 
             List<string> queriesForCount = new List<string>();
 
@@ -116,7 +114,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
             if (needCourse)
             {
-
+                queriesForCount.Add(courseCountQuery);
             }
 
             return queriesForCount;
@@ -126,10 +124,11 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
         {
             string traineeQuery = $"EXEC [dbo].[spTraineeSearch] @query='{keyword}'";
             string instructorQuery = $"EXEC [dbo].[spInstructorSearch] @query='{keyword}'";
+            string courseQuery = $"EXEC [dbo].[spCourseSearch] @query='{keyword}'";
 
-            bool needTrainee = filters.Where(x => x == "trainee").Any();
-            bool needInstructor = filters.Where(x => x == "instructor").Any();
-            bool needCourse = filters.Where(x => x == "course").Any();
+            bool needTrainee = filters.Where(x => x == "trainee").Any() || filters.Count() == 0;
+            bool needInstructor = filters.Where(x => x == "instructor").Any() || filters.Count() == 0;
+            bool needCourse = filters.Where(x => x == "course").Any() || filters.Count() == 0;
 
             List<string> QueriesForResult = new List<string>();
 
@@ -145,7 +144,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
             if (needCourse)
             {
-
+                QueriesForResult.Add(courseQuery);
             }
 
             return QueriesForResult;
@@ -154,8 +153,16 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
         List<int> getPaginationData(List<int> counts, int totalCounts, List<int> prefSum, int pageSize, int pageIndex, int tableIndex)
         {
             List<int> indexes = new List<int>();
+            List<int> result = new List<int>();
             int start = Math.Max(0, pageIndex - 1) * pageSize;
             int end = Math.Min(pageSize * pageIndex,totalCounts);
+
+            if((totalCounts+pageSize-1)/pageSize<pageIndex)
+            {
+                result.Add(-1);
+                result.Add(-1);
+                return result;
+            }
 
             int curStartTable = -1;
             int curStartIndex = -1;
@@ -205,7 +212,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
                 endIndex = curEndIndex;
             }
 
-            List<int> result = new List<int>();
+            
             result.Add(startIndex);
             result.Add(endIndex);
             return result;
