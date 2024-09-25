@@ -129,7 +129,7 @@ getSelectedTraineeByPno(pno){
     });
   }  
   filterBySchoolName(value:any){
-    this.selectedbaseschools=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedbaseschools=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcoursename(){
     this.CourseModuleService.getselectedcoursename().subscribe(res=>{

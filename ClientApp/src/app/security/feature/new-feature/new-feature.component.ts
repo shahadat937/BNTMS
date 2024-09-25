@@ -80,7 +80,7 @@ export class NewFeatureComponent implements OnInit {
     })
   }
 filterByModel(value:any){
-  this.selectedModel = this.selectModel.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedModel = this.selectModel.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getModule(){
     this.FeatureService.getselectedmodule().subscribe(res=>{

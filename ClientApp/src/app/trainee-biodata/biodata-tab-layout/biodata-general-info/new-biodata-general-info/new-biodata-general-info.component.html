@@ -150,6 +150,7 @@
                         <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
 	                              id="selectRank" 
+                                (keydown.space)="$event.stopPropagation()"
                                 (input)="filterBloodGroup($event.target.value)"
                                 placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
@@ -170,6 +171,7 @@
                         <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
 	                              id="selectRank" 
+                                (keydown.space)="$event.stopPropagation()"
                                 (input)="filterByReligion($event.target.value)"
                                 placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
@@ -189,6 +191,7 @@
                         <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
 	                              id="selectRank" 
+                                (keydown.space)="$event.stopPropagation()"
                                 (input)="filterByCaste($event.target.value)"
                                 placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
@@ -220,6 +223,7 @@
                         <input type="text" 
                                 style="width:100%;height:50px;padding:10px; border: 1px solid white;"
 	                              id="selectRank" 
+                                (keydown.space)="$event.stopPropagation()"
                                 (input)="filterByRank($event.target.value)"
                                 placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
@@ -237,6 +241,7 @@
                       <mat-label>Branch</mat-label>
                       <mat-select formControlName="branchId" required>
                         <input type="text" 
+                        (keydown.space)="$event.stopPropagation()"
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
                        (input) = "filterByBranch($event.target.value)"
@@ -256,6 +261,7 @@
                       <mat-label>BNA Batch</mat-label>
                       <mat-select formControlName="bnaBatchId" required>
                         <input type="text" 
+                        (keydown.space)="$event.stopPropagation()"
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
                        (input)="filterByBatch($event.target.value)"
@@ -291,6 +297,7 @@
                       <mat-label>Division</mat-label>                
                       <mat-select formControlName="divisionId" (selectionChange)="onDivisionSelectionChangeGetDistrict($event.value)">
                         <input type="text" 
+                        (keydown.space)="$event.stopPropagation()"
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
                         (input)="filterDivision($event.target.value)"
@@ -309,6 +316,7 @@
                       <mat-label>District</mat-label>                
                       <mat-select formControlName="districtId"  (selectionChange)="onDistrictSelectionChangeGetThana($event.value)">
                         <input type="text" 
+                        (keydown.space)="$event.stopPropagation()"
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
                         (input)="filterByDistric($event.target.value)"
@@ -327,6 +335,7 @@
                       <mat-label>Thana</mat-label>                        
                       <mat-select formControlName="thanaId" >
                         <input type="text" 
+                        (keydown.space)="$event.stopPropagation()"
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
                         (input)="filterByThana($event.target.value)"

@@ -202,7 +202,7 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
     });
   }  
   filterBySchool(value:any){
-    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
 
@@ -221,7 +221,7 @@ getCourseForRoutine(){
   });
 }
 filterByCourse(value:any){
-  this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
   getSelectedRoutineSoftCopyUpload() {

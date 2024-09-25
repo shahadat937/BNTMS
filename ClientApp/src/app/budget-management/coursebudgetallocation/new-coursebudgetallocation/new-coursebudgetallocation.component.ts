@@ -226,10 +226,10 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
     });
   }
   filterByCourseName(value:any){
-    this.selectedCourseDuration=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseDuration=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   filterByTrainee(value:any){
-    this.selectedTrainee=this.selectTrainee.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedTrainee=this.selectTrainee.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSelectedCourseDuration(CourseTypeId){
@@ -250,7 +250,7 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
     });
   } 
   filterByBudget(value:any){
-    this.selectedBudgetCode=this.selectBUdgetCode.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBudgetCode=this.selectBUdgetCode.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedPaymentType(){
     this.CourseBudgetAllocationService.getselectedPaymentType().subscribe(res=>{
@@ -259,7 +259,7 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
     });
   }
   filterByPayment(value:any){
-    this.selectedPaymentType=this.selectPayment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedPaymentType=this.selectPayment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedBudgetType(){

@@ -74,7 +74,7 @@ export class NewRoleFeatureComponent implements OnInit {
     })
   }
   filterByRole(value:any){
-    this.selectedrole=this.selectRole.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedrole=this.selectRole.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedrole(){
     this.RoleFeatureService.getselectedrole().subscribe(res=>{
@@ -83,7 +83,7 @@ export class NewRoleFeatureComponent implements OnInit {
     });
   }
   filterByFeature(value:any){
-    this.selectedfeature=this.selectFeature.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedfeature=this.selectFeature.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedfeature(){
     this.RoleFeatureService.getselectedfeature().subscribe(res=>{

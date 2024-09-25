@@ -202,7 +202,7 @@ export class NewBulletinComponent implements OnInit {
     });
   }
   filterBySchool(value:any){
-    this.selectedbaseschools = this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()));
+    this.selectedbaseschools = this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   reloadCurrentRoute() {

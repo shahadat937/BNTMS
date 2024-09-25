@@ -73,7 +73,7 @@ export class NewCoCurricularActivityComponent implements OnInit {
     });
   }
   filterByCoCurriculum(value:any){
-    this.CoCurricularActivityTypeValues=this.selectCoCurriCulum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.CoCurricularActivityTypeValues=this.selectCoCurriCulum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   

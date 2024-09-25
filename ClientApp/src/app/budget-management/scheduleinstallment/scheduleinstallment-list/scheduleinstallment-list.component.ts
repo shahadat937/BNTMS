@@ -240,7 +240,7 @@ export class ScheduleInstallmentListComponent implements OnInit {
     });
   }
   fileterByCourse(value:any){
-    this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   // getSelectedCourseName(){
   //   this.CourseBudgetAllocationService.getselectedBudgetCode().subscribe(res=>{

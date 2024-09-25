@@ -18,6 +18,7 @@ import {dashboardService} from '../services/dashboard.service';
   styleUrls: ['./countedofficers-list.component.sass']
 })
 export class CountedOfficersListComponent implements OnInit {
+  
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeNomination[] = [];
@@ -36,6 +37,7 @@ export class CountedOfficersListComponent implements OnInit {
   searchText="";
 
   displayedColumns: string[] = ['ser','name','course','duration'];
+dataSource: any;
 
   constructor(private datepipe: DatePipe,private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) { }
 

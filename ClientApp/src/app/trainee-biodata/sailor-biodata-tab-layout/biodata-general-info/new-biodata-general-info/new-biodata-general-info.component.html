@@ -63,6 +63,7 @@
                       <mat-select formControlName="saylorRankId" required >
                         <input type="text" 
                           style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          (keydown.space)="$event.stopPropagation()"
                           (input)="filterSaylorRank($event.target.value)"
                           id="selectSearch" 
                          placeholder="Search">
@@ -82,6 +83,7 @@
                       <mat-select formControlName="saylorBranchId" required (selectionChange)="onBranchSelectionChangegetSubBranch($event.value)">
                         <input type="text" 
                           style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          (keydown.space)="$event.stopPropagation()"
                           (input)="filterSaylorBranch($event.target.value)"
                           id="selectSearch" 
                          placeholder="Search">
@@ -102,6 +104,7 @@
                       <mat-select formControlName="saylorSubBranchId" required>
                         <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                              (keydown.space)="$event.stopPropagation()"
 	                            id="selectRank" 
                               (input)="filterBySubBranch($event.target.value)"
                               placeholder="Search">
@@ -226,6 +229,7 @@
                       <mat-select formControlName="colorOfEyeId" required>
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        (keydown.space)="$event.stopPropagation()"
 	                      id="selectRank" 
                         (input)="filterByEyeCoor($event.target.value)"
                         placeholder="Search">
@@ -244,6 +248,7 @@
                       <mat-select formControlName="hairColorId" required>
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        (keydown.space)="$event.stopPropagation()"
 	                      id="selectRank" 
                         (input)="filterByHairColor($event.target.value)"
                         placeholder="Search">
@@ -262,6 +267,7 @@
                       <mat-select formControlName="bloodGroupId" required>
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        (keydown.space)="$event.stopPropagation()"
                         id="selectBloodGroup" 
                         (input)="filterBloodgroup($event.target.value)"
                         placeholder="Search">
@@ -301,6 +307,7 @@
                       <mat-select formControlName="religionId" required (selectionChange)="onReligionSelectionChangeGetCastes($event.value)">
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        (keydown.space)="$event.stopPropagation()"
                         id="selectSearch"
                         (input)="filterbyReligion($event.target.value)"
                         placeholder="Search">
@@ -320,6 +327,7 @@
                       <mat-select formControlName="casteId" required>
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        (keydown.space)="$event.stopPropagation()"
 	                      id="selectRank" 
                         (input)="filterByCastes($event.target.value)"
                         placeholder="Search">

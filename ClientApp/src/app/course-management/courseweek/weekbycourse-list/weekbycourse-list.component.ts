@@ -204,8 +204,8 @@ getDateComparision(obj){
 
   }
   applySearch(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
+   
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
     this.dataSource.filter = filterValue;
   }
  

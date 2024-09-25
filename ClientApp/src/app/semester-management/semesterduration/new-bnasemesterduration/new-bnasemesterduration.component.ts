@@ -115,7 +115,7 @@ export class NewBnasemesterdurationComponent implements OnInit {
   }
 
   filterSubjectCurriculam(value:any){
-    this.bnaSubjectCurriculam=this.selectCurriculam.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bnaSubjectCurriculam=this.selectCurriculam.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().reeplac(/\s/g,'')))
   }
   getSelectedBnaSubjectCurriculam(){
     this.BNASemesterDurationService.getSelectedBnaSubjectCurriculam().subscribe(res=>{
@@ -131,7 +131,7 @@ export class NewBnasemesterdurationComponent implements OnInit {
   } 
 
   filterBySemester(value:any){
-    this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSelectedBnaSemester(){
@@ -141,7 +141,7 @@ export class NewBnasemesterdurationComponent implements OnInit {
     });
   } 
 filterByCourse(value:any){
-  this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getSelectedCourseDuration(){
     this.BNASemesterDurationService.getSelectedCourseDuration().subscribe(res=>{
@@ -151,7 +151,7 @@ filterByCourse(value:any){
   } 
 
   filterByBatch(value:any){
-    this.selectedBatch= this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBatch= this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getSelectedBnaBatch(){
     this.BNASemesterDurationService.getSelectedBnaBatch().subscribe(res=>{
@@ -160,7 +160,7 @@ filterByCourse(value:any){
     });
   }
   filterPromotion(value:any){
-    this.selectedRank=this.selectPromotion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedRank=this.selectPromotion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getSelectedRank(){
     this.BNASemesterDurationService.getSelectedRank().subscribe(res=>{

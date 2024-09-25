@@ -109,7 +109,7 @@ export class NewBudgetAllocationComponent implements OnInit {
     });
   } 
   filterBudgetCode(value:any){
-    this.selectedBudgetCode=this.selectBudget.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBudgetCode=this.selectBudget.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedBudgetType(){
@@ -119,10 +119,10 @@ export class NewBudgetAllocationComponent implements OnInit {
     });
   } 
   filterByType(value:any){
-    this.selectedBudgetType=this.selectBudgetType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBudgetType=this.selectBudgetType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   filterByYear(value:any){
-    this.selectedFiscalYear=this.selectYear.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedFiscalYear=this.selectYear.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedFiscalYear(){
     this.BudgetAllocationService.getselectedFiscalYear().subscribe(res=>{

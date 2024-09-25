@@ -90,7 +90,7 @@ export class NewEducationalInstitutionComponent implements OnInit {
     });
   }
   filterByDistrict(value:any){
-    this.districtValues=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.districtValues=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   // getThana(){
@@ -107,7 +107,7 @@ export class NewEducationalInstitutionComponent implements OnInit {
   }
 
   filterByThana(value:any){
-    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   

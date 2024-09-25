@@ -109,7 +109,7 @@ export class NewForeignBIODataInfoComponent implements OnInit {
     });
   }
 filterBna(value:any){
-  this.batchValues= this.selectBatchValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.batchValues= this.selectBatchValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
   getreligions(){
@@ -119,7 +119,7 @@ filterBna(value:any){
     });
   }
   filterByReligion(value:any){
-    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   gethaircolors(){
     this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
@@ -128,7 +128,7 @@ filterBna(value:any){
     });
   }  
   filterByHairColor(value:any){
-    this.hairColorValues=this.selectHairColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.hairColorValues=this.selectHairColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedheight(){
@@ -151,7 +151,7 @@ filterBna(value:any){
   }
 
   filterByColor(value:any){
-    this.colorOfEyeValues=this.selectColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.colorOfEyeValues=this.selectColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedbloodgroup(){
@@ -161,7 +161,7 @@ filterBna(value:any){
     });
   }
   filterByBloodGroup(value:any){
-    this.bloodValues=this.selectBlood.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bloodValues=this.selectBlood.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getNationalitys(){
@@ -171,7 +171,7 @@ filterBna(value:any){
   }
 
 filterCountry(value:any){
-  this.cuntryValues = this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.cuntryValues = this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
   getselectedCountry(){
@@ -182,7 +182,7 @@ filterCountry(value:any){
   }
 
   filterBranch(value:any){
-    this.branchValues= this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.branchValues= this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getBranch(){
     this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
@@ -193,7 +193,7 @@ filterCountry(value:any){
 
 
   rankFilter(value:any){
-  this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
 
@@ -246,7 +246,7 @@ filterCountry(value:any){
     });
   } 
   filterByCaste(value:any){
-    this.selectedCastes=this.selectCastes.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCastes=this.selectCastes.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   // getMaritalStatus(){

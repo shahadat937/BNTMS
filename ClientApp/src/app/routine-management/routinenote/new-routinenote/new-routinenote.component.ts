@@ -168,7 +168,7 @@ export class NewRoutineNoteComponent implements OnInit {
     this.getRoutineNoteList();
   } 
   filterByCourse(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedWeeks(dropdown){
     const id = this.route.snapshot.paramMap.get('routineNoteId'); 
@@ -194,7 +194,7 @@ export class NewRoutineNoteComponent implements OnInit {
 
   }
   filterByWeek(value:any){
-    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedWeek=this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedclassroutine(dropdown){
     const id = this.route.snapshot.paramMap.get('routineNoteId'); 
@@ -227,7 +227,7 @@ export class NewRoutineNoteComponent implements OnInit {
     });
   }
   filterByRoutine(value:any){
-    this.selectedRoutineList=this.selectRoutine.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedRoutineList=this.selectRoutine.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
     
     onRoutineSelectionChangeGet(){
@@ -265,6 +265,7 @@ export class NewRoutineNoteComponent implements OnInit {
 
   applyFilter(searchText: any){ 
     this.searchText = searchText;
+    
     this.getRoutineNoteList();
   } 
 

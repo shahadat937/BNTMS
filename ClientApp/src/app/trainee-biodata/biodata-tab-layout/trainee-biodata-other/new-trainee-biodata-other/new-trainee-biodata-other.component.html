@@ -42,6 +42,7 @@
                         <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterByCurriculum($event.target.value)"
                       placeholder="Search">
                         <mat-option *ngFor="let code of bnaCurriculamTypeValues" [value]="code.value">
@@ -61,6 +62,7 @@
                         <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterBySemester($event.target.value)"
                       placeholder="Search">
                         <mat-option *ngFor="let code of bnaSemesterValues" [value]="code.value">
@@ -80,6 +82,7 @@
                         <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterByOfficer($event.target.value)"
                       placeholder="Search">
                         <mat-option *ngFor="let code of utOfficerTypeValues" [value]="code.value">
@@ -98,7 +101,8 @@
                       <mat-select formControlName="utofficerCategoryId" required>
                         <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                      id="selectRank" 
+                      id="selectRank"
+                      (keydown.space)="$event.stopPropagation()" 
                       (input)="filterByOfficercategory($event.target.value)"
                       placeholder="Search">
                         <mat-option *ngFor="let code of utOfficerCategoryValues" [value]="code.value">
@@ -118,6 +122,7 @@
                       <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterByService($event.target.value)"
                       placeholder="Search">
                         <mat-option *ngFor="let code of bnaServiceTypeValues" [value]="code.value">
@@ -137,6 +142,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByComplexion($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let code of complexionValues" [value]="code.value">
@@ -156,6 +162,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByBranch($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let code of branchValues" [value]="code.value">
@@ -175,6 +182,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByCountry($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let name of selectedCountry" [value]="name.value">
@@ -194,6 +202,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByStatus($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let name of selectedMaritalStatus" [value]="name.value">
@@ -213,6 +222,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByPromotion($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let name of selectedBnaPromotionStatus" [value]="name.value">
@@ -233,6 +243,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByBnaPromotion($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let name of selectedBnaClassSectionSelection" [value]="name.value">
@@ -252,6 +263,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByCourseName($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let name of selectedCourseName" [value]="name.value">
@@ -274,6 +286,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByfailureStatus($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let status of selectedFailureStatus" [value]="status.value">
@@ -295,6 +308,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByInstructor($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let instructor of selectedInstructorType" [value]="instructor.value">
@@ -314,6 +328,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByBillet($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let billet of selectedPresentBillet" [value]="billet.value">
@@ -437,7 +452,8 @@
                         <mat-select formControlName="sNationalityId">
                           <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                        id="selectRank" 
+                        id="selectRank"
+                        (keydown.space)="$event.stopPropagation()" 
                         (input)="filterByNationality($event.target.value)"
                         placeholder="Search">
                             <mat-option *ngFor="let code of nationalityValues" [value]="code.value">

@@ -223,7 +223,7 @@ export class NewBNAExamMarkComponent implements OnInit {
     });
   }
   filterCourseName(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursedurationbyschoolname=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onValueChange(value,i){
@@ -297,7 +297,7 @@ export class NewBNAExamMarkComponent implements OnInit {
     }
   }
   filterBySection(value:any){
-    this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseSection=this.selectSection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSubjectbycourseandsection(){
@@ -437,7 +437,7 @@ export class NewBNAExamMarkComponent implements OnInit {
     }
   }
   filterBySubject(value:any){
-    this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedcoursename() {
