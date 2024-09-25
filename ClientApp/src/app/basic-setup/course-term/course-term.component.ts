@@ -153,10 +153,10 @@ export class CourseTermComponent implements OnInit {
     });
    }
    filterByCourseLevel(value:any){
-    this.SelectedCourseLevel=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.SelectedCourseLevel=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
    }
    filterBySchoolName(value:any){
-    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
    }
 
 

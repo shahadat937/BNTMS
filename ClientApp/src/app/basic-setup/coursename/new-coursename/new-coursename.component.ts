@@ -81,7 +81,7 @@ export class NewCourseNameComponent implements OnInit {
     });
   }
   filterByType(value:any){
-    this.selectedCourseType=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseType=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onSubmit() {

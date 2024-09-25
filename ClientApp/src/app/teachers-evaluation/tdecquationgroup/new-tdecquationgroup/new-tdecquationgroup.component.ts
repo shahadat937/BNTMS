@@ -181,10 +181,10 @@ export class NewTdecQuationGroupComponent implements OnInit {
     });
   }
   filterByCourse(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursedurationbyschoolname=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   filterBySubject(value:any){
-    this.selectedSubjectNamebyschoolnameAndCourse=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSubjectNamebyschoolnameAndCourse=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getSelectedSubjectNameBySchoolNameIdAndCourseNameId(dropdown) {
     

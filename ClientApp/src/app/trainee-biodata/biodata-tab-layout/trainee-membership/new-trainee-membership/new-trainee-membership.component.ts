@@ -81,7 +81,7 @@ export class NewTraineeMembershipComponent implements OnInit {
     });
   }
   filterByMembership(value:any){
-    this.membershipTypeValues=this.selectMembership.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.membershipTypeValues=this.selectMembership.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {

@@ -79,7 +79,7 @@ export class NewElectionComponent implements OnInit {
     });
   }
   filterByElectedValue(value:any){
-    this.electedValues=this.selectElectedValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.electedValues=this.selectElectedValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {

@@ -95,7 +95,7 @@ export class NewNETSComponent implements OnInit {
     })
   }
   filterCourseName(value:any){
-    this.selectedcoursename = this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedcoursename = this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcoursename(){
     this.CourseDurationService. getSelectedCourseByType(this.courseTypeId).subscribe(res=>{

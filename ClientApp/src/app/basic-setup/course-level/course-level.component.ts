@@ -137,7 +137,7 @@ deleteItem(row) {
     });
    }
    filterBySchool(value:any){
-    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSchool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
    }
 
 

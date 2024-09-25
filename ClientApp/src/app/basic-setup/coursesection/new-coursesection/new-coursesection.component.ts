@@ -128,7 +128,7 @@ getbnacurriculamtype(){
   });
 }
 filterByCurriculum(value:any){
-  this.selectedbnacurriculamtype=this.selectCurriculum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedbnacurriculamtype=this.selectCurriculum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 //autocomplete
 getSelectedTraineeByPno(pno){
@@ -146,7 +146,7 @@ getSelectedTraineeByPno(pno){
     });
   }  
   filterBySchoolName(value:any){
-    this.selectedbaseschools=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedbaseschools=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcoursename(){
     this.courseSectionService.getselectedcoursename().subscribe(res=>{

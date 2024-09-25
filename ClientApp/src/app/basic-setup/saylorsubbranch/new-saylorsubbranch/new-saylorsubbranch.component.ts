@@ -66,7 +66,7 @@ export class NewSaylorSubBranchComponent implements OnInit {
     });
   }
   filterByBranch(value:any){
-    this.selectedSaylorBranch=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedSaylorBranch=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onSubmit() {
     const id = this.SaylorSubBranchForm.get('saylorSubBranchId').value;   

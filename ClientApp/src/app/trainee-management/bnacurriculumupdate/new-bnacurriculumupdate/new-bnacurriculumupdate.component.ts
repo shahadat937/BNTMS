@@ -79,7 +79,7 @@ export class NewBnaCurriculumUpdateComponent implements OnInit {
   
   
   filterBnaBatch(value:any){
-    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getBnaBatch(){
     this.BnaCurriculumUpdateService.getselectedbnabatch().subscribe(res=>{
@@ -88,7 +88,7 @@ export class NewBnaCurriculumUpdateComponent implements OnInit {
     });
   }
 filterSemesterId(value:any){
-  this.selectedBnaSemester=this.selectSemesterId.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedBnaSemester=this.selectSemesterId.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getBnaSemester(){
     this.BnaCurriculumUpdateService.getselectedbnasemester().subscribe(res=>{
@@ -98,7 +98,7 @@ filterSemesterId(value:any){
   }
 
   filterSemesterDuration(value:any){
-    this.selectedBnaSemesterDurations=this.selectSemesterDuration.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBnaSemesterDurations=this.selectSemesterDuration.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getBnaSemesterDurations(){
     this.BnaCurriculumUpdateService.getselectedbnasemesterdurations().subscribe(res=>{
@@ -107,7 +107,7 @@ filterSemesterId(value:any){
     });
   }
 filterByType(value:any){
-  this.selectedbnacurriculamtype=this.selectCurriculumType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedbnacurriculamtype=this.selectCurriculumType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getbnacurriculamtype(){
     this.BnaCurriculumUpdateService.getselectedbnacurriculamtype().subscribe(res=>{

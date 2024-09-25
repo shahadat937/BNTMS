@@ -74,7 +74,7 @@ export class NewDistrictComponent implements OnInit {
     });
   }
   filterDivision(value:any){
-    this.selectedModel=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedModel=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {

@@ -132,7 +132,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByRealation(value:any){
-    this.relationTypeValues=this.selectRelation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.relationTypeValues=this.selectRelation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getMaritialStatus(){
@@ -166,7 +166,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterbyOccupation(value:any){
-    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getDivision(){

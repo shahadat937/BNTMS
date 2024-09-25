@@ -43,6 +43,7 @@
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByGrandFather($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let code of grandFatherTypeValues" [value]="code.value">
@@ -69,7 +70,8 @@
                       <mat-select formControlName="occupationId" required>
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                        id="selectRank" 
+                        id="selectRank"
+                        (keydown.space)="$event.stopPropagation()" 
                         (input)="filterByOccupation($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let code of occupationValues" [value]="code.value">
@@ -117,7 +119,8 @@
                       <mat-select formControlName="nationalityId" required>
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                        id="selectRank" 
+                        id="selectRank"
+                        (keydown.space)="$event.stopPropagation()" 
                         (input)="filterByNationality($event.target.value)"
                         placeholder="Search">
                         <mat-option *ngFor="let code of nationalityValues" [value]="code.value">

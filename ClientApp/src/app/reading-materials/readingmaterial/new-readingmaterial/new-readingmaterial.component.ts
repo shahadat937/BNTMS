@@ -233,7 +233,7 @@ export class NewReadingMaterialComponent implements OnInit {
     });
   }
   filterByMaterial(value:any){
-    this.selectedReadingMaterialTitle=this.selectMaterials.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedReadingMaterialTitle=this.selectMaterials.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcoursename() {
     this.ReadingMaterialService.getselectedcoursename().subscribe(res => {
@@ -257,7 +257,7 @@ export class NewReadingMaterialComponent implements OnInit {
     });
   }
   filterByDocs(value:any){
-    this.selecteddocs=this.selectDocument.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selecteddocs=this.selectDocument.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselecteddownloadright() {

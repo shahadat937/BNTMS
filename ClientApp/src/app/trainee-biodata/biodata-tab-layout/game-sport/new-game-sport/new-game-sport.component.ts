@@ -75,7 +75,7 @@ export class NewGameSportComponent implements OnInit {
     });
   }
   filterByGame(value:any){
-    this.gameValues=this.selectGame.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.gameValues=this.selectGame.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
  
