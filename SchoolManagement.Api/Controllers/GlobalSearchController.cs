@@ -1,4 +1,5 @@
 ﻿using SchoolManagement.Application;
+using SchoolManagement.Application.DTOs.GlobalSearch;
 using SchoolManagement.Application.Features.GlobalSearch.Requests.Queries;
 
 namespace SchoolManagement.Api.Controllers
@@ -16,7 +17,7 @@ namespace SchoolManagement.Api.Controllers
 
         [HttpGet]
         [Route("searchAll")]
-        public async Task<ActionResult> searchAll([FromQuery] string query)
+        public async Task<ActionResult> searchAll([FromQuery] QueryDto query)
         {
             var command = new SearchQueryRequest { Query = query };
             var response = await _mediator.Send(command);
