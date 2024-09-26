@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './new-newentryevaluation.component.html',
   styleUrls: ['./new-newentryevaluation.component.sass']
 })
-export class NewNewEntryEvaluationComponent implements OnInit {
+export class NewNewEntryEvaluationComponent implements OnInit, OnDestroy {
   buttonText:string;
   pageTitle: string;
    masterData = MasterData;
@@ -57,6 +57,7 @@ export class NewNewEntryEvaluationComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['ser','traineePNo','noitikota', 'sahonsheelota','utsaho','samayanubartita', 'manovhab','udyam', 'khapKhawano','onyano'];
+  subscription: any;
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService, private NewEntryEvaluationService: NewEntryEvaluationService,private fb: FormBuilder, private router: Router,private traineeNominationService:TraineeNominationService,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
   ngOnInit(): void {
@@ -123,6 +124,13 @@ export class NewNewEntryEvaluationComponent implements OnInit {
     //this.getSelectedPno();
     
   }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+  
   intitializeForm() {
     this.NewEntryEvaluationForm = this.fb.group({
       newEntryEvaluationId: [0],
@@ -197,7 +205,7 @@ export class NewNewEntryEvaluationComponent implements OnInit {
 }
 
   getselectedSchool(){
-    this.NewEntryEvaluationService.getselectedSchool().subscribe(res=>{
+    this.subscription = this.NewEntryEvaluationService.getselectedSchool().subscribe(res=>{
       this.schoolNameValues=res
       this.selectSchool=res
     });
@@ -243,7 +251,7 @@ export class NewNewEntryEvaluationComponent implements OnInit {
   }
   
   getselectedCourseWeek(){
-    this.NewEntryEvaluationService.getselectedCourseWeek().subscribe(res=>{
+    this.subscription = this.NewEntryEvaluationService.getselectedCourseWeek().subscribe(res=>{
       this.weekNameValues=res
       this.selectWeekName=res
     });
@@ -276,7 +284,7 @@ export class NewNewEntryEvaluationComponent implements OnInit {
    }
   
   getselectedPno(){
-    this.NewEntryEvaluationService.getselectedPno().subscribe(res=>{
+    this.subscription = this.NewEntryEvaluationService.getselectedPno().subscribe(res=>{
       this.pnoValues=res
     });
   }
@@ -294,7 +302,7 @@ export class NewNewEntryEvaluationComponent implements OnInit {
     
     
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading = true;
             this.NewEntryEvaluationService.update(+id,this.NewEntryEvaluationForm.value).subscribe(response => {

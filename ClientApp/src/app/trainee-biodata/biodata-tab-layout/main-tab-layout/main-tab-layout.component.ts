@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ChildParameterService} from '../service/ChildParameter.service';
 import { AuthService } from 'src/app/core/service/auth.service';
@@ -9,7 +9,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './main-tab-layout.component.html',
   styleUrls: ['./main-tab-layout.component.sass']
 })
-export class MainTabLayoutComponent implements OnInit {
+export class MainTabLayoutComponent implements OnInit,OnDestroy {
 
   
   
@@ -20,6 +20,7 @@ export class MainTabLayoutComponent implements OnInit {
   role:any;
   traineeId:any;
   userRole = Role;
+  subscription: any;
   constructor(private router: Router,private authService: AuthService, private route: ActivatedRoute, private childParameterService: ChildParameterService) {
   
     this.role = this.authService.currentUserValue.role.trim();
@@ -164,6 +165,11 @@ export class MainTabLayoutComponent implements OnInit {
     }
 
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   ngOnInit(): void {
    
     this.id = this.route.snapshot.paramMap.get('traineeId');
@@ -181,7 +187,7 @@ export class MainTabLayoutComponent implements OnInit {
     }
   
     
-    this.router.events.subscribe((res) => {
+    this.subscription = this.router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
     });
   }

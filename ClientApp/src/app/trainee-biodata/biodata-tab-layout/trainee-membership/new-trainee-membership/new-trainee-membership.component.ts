@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeMembershipService } from '../../../biodata-tab-layout/service/TraineeMembership.service';
@@ -12,7 +12,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-trainee-membership.component.html',
   styleUrls: ['./new-trainee-membership.component.sass']
 })
-export class NewTraineeMembershipComponent implements OnInit {
+export class NewTraineeMembershipComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,6 +22,7 @@ export class NewTraineeMembershipComponent implements OnInit {
   validationErrors: string[] = [];
   membershipTypeValues:SelectedModel[]; 
   selectMembership:SelectedModel[]
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private TraineeMembershipService: TraineeMembershipService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -57,6 +58,11 @@ export class NewTraineeMembershipComponent implements OnInit {
     this.intitializeForm();
    this.getMembershipType();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.TraineeMembershipForm = this.fb.group({
       traineeMembershipId: [0],
@@ -75,7 +81,7 @@ export class NewTraineeMembershipComponent implements OnInit {
   }
 
   getMembershipType(){
-    this.TraineeMembershipService.getselectedmembershiptype().subscribe(res=>{
+    this.subscription = this.TraineeMembershipService.getselectedmembershiptype().subscribe(res=>{
       this.membershipTypeValues=res
       this.selectMembership=res
     });
@@ -89,10 +95,10 @@ export class NewTraineeMembershipComponent implements OnInit {
     
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.TraineeMembershipService.update(+id,this.TraineeMembershipForm.value).subscribe(response => {
+          this.subscription = this.TraineeMembershipService.update(+id,this.TraineeMembershipForm.value).subscribe(response => {
             this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/trainee-membership-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -107,7 +113,7 @@ export class NewTraineeMembershipComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.TraineeMembershipService.submit(this.TraineeMembershipForm.value).subscribe(response => {
+      this.subscription = this.TraineeMembershipService.submit(this.TraineeMembershipForm.value).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/trainee-membership-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

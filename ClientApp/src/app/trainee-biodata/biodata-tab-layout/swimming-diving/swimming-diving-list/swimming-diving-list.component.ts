@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SwimmingDiving } from '../../models/SwimmingDiving';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './swimming-diving-list.component.html',
   styleUrls: ['./swimming-diving-list.component.sass']
 })
-export class SwimmingDivingListComponent implements OnInit {
+export class SwimmingDivingListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -33,10 +33,16 @@ export class SwimmingDivingListComponent implements OnInit {
   dataSource: MatTableDataSource<SwimmingDiving> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<SwimmingDiving>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getSwimmingDivings();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
  
   getSwimmingDivings() {
@@ -44,7 +50,7 @@ export class SwimmingDivingListComponent implements OnInit {
     
 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.SwimmingDivingService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.SwimmingDivingService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -65,7 +71,7 @@ export class SwimmingDivingListComponent implements OnInit {
     const id = row.SwimmingDivingId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This SwimmingDiving Item').subscribe(result => {
       if (result) {
-        this.SwimmingDivingService.delete(id).subscribe(() => {
+        this.subscription = this.SwimmingDivingService.delete(id).subscribe(() => {
           this.getSwimmingDivings();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

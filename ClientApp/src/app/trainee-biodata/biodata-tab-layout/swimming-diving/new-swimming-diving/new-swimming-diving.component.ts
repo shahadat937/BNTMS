@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray,FormControl,Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SwimmingDivingService } from '../../service/SwimmingDiving.service';
@@ -16,7 +16,7 @@ import { ThemePalette } from '@angular/material/core';
   templateUrl: './new-swimming-diving.component.html',
   styleUrls: ['./new-swimming-diving.component.sass']
 })
-export class NewSwimmingDivingComponent implements OnInit {
+export class NewSwimmingDivingComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   hideRequiredControl = new FormControl(false);
@@ -31,6 +31,7 @@ export class NewSwimmingDivingComponent implements OnInit {
   //checkArray:any;
  // selectedvalues:CheckboxSelectedModel[];
   selectedvalues:CheckboxSelectedModel[];
+  subscription: any;
  
  // form: FormGroup;
 
@@ -66,10 +67,15 @@ export class NewSwimmingDivingComponent implements OnInit {
     this.intitializeForm();
   
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   onDropdownChange(selectedValue){    
 
-      this.CodeValueService.getCheckBoxSelectedCodeValueByTypeWithChecked(selectedValue.value).subscribe(res=>{
+      this.subscription = this.CodeValueService.getCheckBoxSelectedCodeValueByTypeWithChecked(selectedValue.value).subscribe(res=>{
        this.selectedvalues=res;    
     })
   }
@@ -125,7 +131,7 @@ export class NewSwimmingDivingComponent implements OnInit {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This SwimmingDiving Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.SwimmingDivingService.update(+id,SwimmingDivingFormValue).subscribe(response => {
+          this.subscription = this.SwimmingDivingService.update(+id,SwimmingDivingFormValue).subscribe(response => {
             this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/swimming-diving-details/');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -140,7 +146,7 @@ export class NewSwimmingDivingComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.SwimmingDivingService.submit(SwimmingDivingFormValue).subscribe(response => {
+      this.subscription = this.SwimmingDivingService.submit(SwimmingDivingFormValue).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/swimming-diving-details/');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

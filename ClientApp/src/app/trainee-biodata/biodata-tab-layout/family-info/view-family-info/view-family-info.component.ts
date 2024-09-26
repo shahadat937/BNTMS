@@ -75,11 +75,16 @@ export class ViewParentRelativeComponent implements OnInit {
   additionalInformation: string;
   status: number;          
   additionaInformation: string;
+  subscription: any;
   
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ParentRelativeService: ParentRelativeService,private router: Router,private confirmService: ConfirmService) { }
   
-  
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('parentRelativeId'); 

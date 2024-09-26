@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TraineeLanguage } from '../../models/TraineeLanguage';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './trainee-language-list.component.html',
   styleUrls: ['./trainee-language-list.component.sass']
 })
-export class TraineeLanguageListComponent implements OnInit {
+export class TraineeLanguageListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,16 +34,22 @@ export class TraineeLanguageListComponent implements OnInit {
   dataSource: MatTableDataSource<TraineeLanguage> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<TraineeLanguage>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getTraineeLanguages();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getTraineeLanguages() {
     this.isLoading = true;
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.TraineeLanguageService.getTraineeLanguageByTraineeId(+this.traineeId).subscribe(response => {     
+    this.subscription = this.TraineeLanguageService.getTraineeLanguageByTraineeId(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -63,9 +69,9 @@ export class TraineeLanguageListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeLanguageId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
-        this.TraineeLanguageService.delete(id).subscribe(() => {
+        this.subscription = this.TraineeLanguageService.delete(id).subscribe(() => {
           this.getTraineeLanguages();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BIODataGeneralInfo } from '../../models/BIODataGeneralInfo';
@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './biodata-general-info-list.component.html',
   styleUrls: ['./biodata-general-info-list.component.sass']
 })
-export class BIODataGeneralInfoListComponent implements OnInit {
+export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
  userRole= Role;
    masterData = MasterData;
   loading = false;
@@ -41,6 +41,7 @@ export class BIODataGeneralInfoListComponent implements OnInit {
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
 
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) { }
@@ -52,6 +53,11 @@ export class BIODataGeneralInfoListComponent implements OnInit {
    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
 
     this.getBIODataGeneralInfos();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   
   getBIODataGeneralInfos() {
@@ -94,7 +100,7 @@ export class BIODataGeneralInfoListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.BIODataGeneralInfoService.delete(id).subscribe(() => {
           this.getBIODataGeneralInfos();

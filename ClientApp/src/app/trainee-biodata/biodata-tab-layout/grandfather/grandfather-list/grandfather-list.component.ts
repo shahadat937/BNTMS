@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { GrandFather } from '../../models/GrandFather';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './grandfather-list.component.html',
   styleUrls: ['./grandfather-list.component.sass']
 })
-export class GrandFatherListComponent implements OnInit {
+export class GrandFatherListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,16 +34,22 @@ export class GrandFatherListComponent implements OnInit {
   dataSource: MatTableDataSource<GrandFather> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<GrandFather>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private GrandFatherService: GrandFatherService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getGrandFathers();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getGrandFathers() {
     this.isLoading = true;
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.GrandFatherService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.GrandFatherService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      
      this.dataSource.data=response;
     })
@@ -63,7 +69,7 @@ export class GrandFatherListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.grandFatherId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       
       if (result) {
         this.GrandFatherService.delete(id).subscribe(() => {
