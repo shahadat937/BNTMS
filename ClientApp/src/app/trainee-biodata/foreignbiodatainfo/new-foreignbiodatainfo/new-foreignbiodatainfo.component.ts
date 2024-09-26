@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,7 +13,7 @@ import { ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./new-foreignbiodatainfo.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class NewForeignBIODataInfoComponent implements OnInit {
+export class NewForeignBIODataInfoComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -49,6 +49,7 @@ export class NewForeignBIODataInfoComponent implements OnInit {
   fileAttr = 'Choose File';
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
+  subscription: any;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -69,7 +70,7 @@ export class NewForeignBIODataInfoComponent implements OnInit {
       this.destination='Edit';
       this.buttonText="Update";
  
-      this.BIODataGeneralInfoService.find(+id).subscribe(
+      this.subscription = this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
@@ -101,9 +102,14 @@ export class NewForeignBIODataInfoComponent implements OnInit {
     this.gethaircolors();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getBatchs(){
-    this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
       this.batchValues=res
       this.selectBatchValue=res
     });
@@ -113,7 +119,7 @@ filterBna(value:any){
 }
 
   getreligions(){
-    this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
       this.selectReligion=res
     });
@@ -122,7 +128,7 @@ filterBna(value:any){
     this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   gethaircolors(){
-    this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
       this.hairColorValues=res
       this.selectHairColor=res
     });
@@ -132,19 +138,19 @@ filterBna(value:any){
   }
 
   getselectedheight(){
-    this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
       this.heightValues=res
     });
   }
 
   getselectedweight(){
-    this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
       this.weightValues=res
     });
   }
 
   getselectedcolorofeye(){
-    this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
       this.selectColor=res
     });
@@ -155,7 +161,7 @@ filterBna(value:any){
   }
 
   getselectedbloodgroup(){
-    this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
       this.selectBlood=res
     });
@@ -165,7 +171,7 @@ filterBna(value:any){
   }
 
   getNationalitys(){
-    this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
     });
   }
@@ -175,7 +181,7 @@ filterCountry(value:any){
 }
 
   getselectedCountry(){
-    this.BIODataGeneralInfoService.getselectedCountry().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedCountry().subscribe(res=>{
       this.cuntryValues=res
       this.selectCountry= res
     });
@@ -185,7 +191,7 @@ filterCountry(value:any){
     this.branchValues= this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getBranch(){
-    this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
       this.branchValues=res
       this.selectBranch=res
     });
@@ -199,14 +205,14 @@ filterCountry(value:any){
 
 
   getRanks(){
-    this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
       this.selectRank=res
     });
   }
 
   getGenders(){
-    this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
       this.genderValues=res
     });
   }
@@ -222,25 +228,25 @@ filterCountry(value:any){
     }
   }
   getDivisions(){
-    this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
       this.divisionValues=res
     });
   }
 
   onDivisionSelectionChangeGetDistrict(divisionId){
-    this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
+    this.subscription = this.subscription = this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
     });
   }
 
   onDistrictSelectionChangeGetThana(districtId){
-    this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
     });
   }
 
   onReligionSelectionChangeGetCastes(religionId){
-    this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
       this.selectCastes=res
     });
@@ -345,7 +351,7 @@ filterCountry(value:any){
     }
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item?').subscribe(result => {
         if (result) {
           this.loading = true;
           this.BIODataGeneralInfoService.update(+id,formData).subscribe(response => {
@@ -363,7 +369,7 @@ filterCountry(value:any){
       })
     }else {
       this.loading = true;
-      this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
+      this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/foreignbiodatainfo-list');
 
         this.snackBar.open('Information Inserted Successfully ', '', {

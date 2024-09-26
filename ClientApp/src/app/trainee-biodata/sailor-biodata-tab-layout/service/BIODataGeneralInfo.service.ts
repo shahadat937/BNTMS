@@ -61,6 +61,9 @@ export class BIODataGeneralInfoService {
   getselectedrank(){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/ranks/get-selectedRanks')
   }
+  getselectedSailorRank(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/saylor-rank/get-selectedSaylorRanks')
+  }
   getselectedheight(){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/height/get-selectedHeight')
   }

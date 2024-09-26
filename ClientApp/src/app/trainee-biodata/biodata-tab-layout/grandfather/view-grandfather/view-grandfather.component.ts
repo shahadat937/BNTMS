@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { GrandFather } from '../../models/GrandFather';
@@ -16,7 +16,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-grandfather.component.html',
   styleUrls: ['./view-grandfather.component.sass']
 })
-export class ViewGrandFatherComponent implements OnInit {
+export class ViewGrandFatherComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -36,14 +36,19 @@ export class ViewGrandFatherComponent implements OnInit {
   nationality: string;  
   status:number;           
   additionalInformation: string;
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private GrandFatherService: GrandFatherService,private router: Router,private confirmService: ConfirmService) { }
   
   
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('grandFatherId'); 
-    this.GrandFatherService.find(+id).subscribe( res => {
+   this.subscription = this.GrandFatherService.find(+id).subscribe( res => {
       this.grandFatherId = res.grandFatherId,
       this.traineeId = res.traineeId,
       this.grandFatherTypeId = res.grandFatherTypeId,

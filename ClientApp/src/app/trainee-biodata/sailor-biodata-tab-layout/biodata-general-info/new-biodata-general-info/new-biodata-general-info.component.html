@@ -68,7 +68,7 @@
                           id="selectSearch" 
                          placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
-                        <mat-option *ngFor="let code of rankValues" [value]="code.value">
+                        <mat-option *ngFor="let code of selectedSailorRank" [value]="code.value">
                             {{code.text}}
                         </mat-option>                          
                       </mat-select>

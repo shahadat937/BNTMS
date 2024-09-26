@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeLanguageService } from '../../service/TraineeLanguage.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-trainee-language.component.html',
   styleUrls: ['./new-trainee-language.component.sass']
 })
-export class NewTraineeLanguageComponent implements OnInit {
+export class NewTraineeLanguageComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,6 +22,7 @@ export class NewTraineeLanguageComponent implements OnInit {
   districtValues:SelectedModel[]; 
   selectedLanguages:SelectedModel[]; 
   selectLanguage:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -32,7 +33,7 @@ export class NewTraineeLanguageComponent implements OnInit {
       this.pageTitle = 'Edit Languages';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.TraineeLanguageService.find(+id).subscribe(
+      this.subscription = this.TraineeLanguageService.find(+id).subscribe(
         res => {
           this.TraineeLanguageForm.patchValue({          
 
@@ -59,6 +60,11 @@ export class NewTraineeLanguageComponent implements OnInit {
     //this.getDistrict();
     //this.getThana();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.TraineeLanguageForm = this.fb.group({
       traineeLanguageId: [0],
@@ -75,7 +81,7 @@ export class NewTraineeLanguageComponent implements OnInit {
   }
 
   getLanguages(){
-       this.TraineeLanguageService.getselectedLanguage().subscribe(res=>{
+    this.subscription = this.TraineeLanguageService.getselectedLanguage().subscribe(res=>{
       this.selectedLanguages=res
       this.selectLanguage=res
     });
@@ -89,7 +95,7 @@ export class NewTraineeLanguageComponent implements OnInit {
   onSubmit() {
     const id = this.TraineeLanguageForm.get('traineeLanguageId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.TraineeLanguageService.update(+id,this.TraineeLanguageForm.value).subscribe(response => {
@@ -107,7 +113,7 @@ export class NewTraineeLanguageComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.TraineeLanguageService.submit(this.TraineeLanguageForm.value).subscribe(response => {
+      this.subscription = this.TraineeLanguageService.submit(this.TraineeLanguageForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/trainee-language-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,6 +7,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MasterData } from 'src/assets/data/master-data';
+import { Subscription } from 'rxjs';
  
 @Component({
   selector: 'app-new-BIODataGeneralInfo',
@@ -14,7 +15,7 @@ import { MasterData } from 'src/assets/data/master-data';
   styleUrls: ['./new-biodata-general-info.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class NewBIODataGeneralInfoComponent implements OnInit {
+export class NewBIODataGeneralInfoComponent implements OnInit,OnDestroy {
   masterData = MasterData;
   buttonText:string;
   loading = false;
@@ -55,9 +56,10 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   selectedReligion: SelectedModel[];
   selectRank:SelectedModel[];
 
-
+  private subscription: Subscription;
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
+  selectedSailorRank: SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
     this.files = [];
@@ -98,9 +100,14 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.getMaritialStatus();
     this.getselectedSaylorBranch();
     this.getselectedSaylorRank();
+    this.getselectedSailorRank();
     //this.getselectedSaylorSubBranch();
   }
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -113,13 +120,13 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
 
   getreligions(){
-    this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
+    this.subscription =this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
       this.selectedReligion=res
     });
   }
   gethaircolors(){
-    this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
       this.hairColorValues=res
       this.selectHairColor=res
     
@@ -139,20 +146,20 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
   getselectedheight(){
-    this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
       this.heightValues=res
     
     });
   }
 
   getselectedweight(){
-    this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
       this.weightValues=res
       this.selectedWeight=res
     });
   }
   filterSaylorRank(value:any) {
-    this.rankValues = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+    this.selectedSailorRank = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   filterSaylorBranch(value:any){
@@ -176,7 +183,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
 
   getselectedcolorofeye(){
-    this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
       this.selectEyeColor=res
     
@@ -187,7 +194,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
 
   getselectedbloodgroup(){
-    this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
       this.selectBloodGroup=res
     });
@@ -195,34 +202,40 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
 
   
   getRanks(){
-    this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
       this.selectRank=res 
     });
   }
 
   getGenders(){
-    this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
       this.genderValues=res
      
     });
   }
   getselectedSaylorBranch(){
-    this.BIODataGeneralInfoService.getselectedSaylorBranch().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorBranch().subscribe(res=>{
       this.sailorBranch=res
       this.selectedSaylorBranch=res
      
     });
   }
   getselectedSaylorRank(){
-    this.BIODataGeneralInfoService.getselectedSaylorRank().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorRank().subscribe(res=>{
       this.selectedSaylorRank=res
      
     });
   }
+  getselectedSailorRank(){
+    this.subscription = this.BIODataGeneralInfoService.getselectedSailorRank().subscribe(res=>{
+      this.selectedSailorRank=res
+     this.selectRank=res
+    });
+  }
   onBranchSelectionChangegetSubBranch(saylorBranchId){
     var saylorBranchId
-    this.BIODataGeneralInfoService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
       this.selectedSaylorSubBranch=res
       this.selectSubBranch=res
     });
@@ -232,14 +245,14 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
 
   getMaritialStatus(){
-    this.BIODataGeneralInfoService.getselectedmaritialstatus().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedmaritialstatus().subscribe(res=>{
       this.maritialStatusValues=res
      
     });
   }
 
   onReligionSelectionChangeGetCastes(religionId){
-    this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
       this.selectCastes=res
     });
@@ -375,7 +388,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     }
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         if (result) {
           this.loading = true;
           this.BIODataGeneralInfoService.update(+id,formData).subscribe(response => {
@@ -393,7 +406,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       })
     }else {
       this.loading = true;
-      this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
+      this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

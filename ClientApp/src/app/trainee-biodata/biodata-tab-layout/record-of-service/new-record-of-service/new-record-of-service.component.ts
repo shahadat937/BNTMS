@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecordOfServiceService } from '../../service/RecordOfService.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-record-of-service.component.html',
   styleUrls: ['./new-record-of-service.component.sass']
 })
-export class NewRecordOfServiceComponent implements OnInit {
+export class NewRecordOfServiceComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,6 +21,7 @@ export class NewRecordOfServiceComponent implements OnInit {
   districtValues:SelectedModel[]; 
   selectedRecordOfService:SelectedModel[]; 
   traineeId: string;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private RecordOfServiceService: RecordOfServiceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -31,7 +32,7 @@ export class NewRecordOfServiceComponent implements OnInit {
       this.pageTitle = 'Edit Record of Service';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.RecordOfServiceService.find(+id).subscribe(
+      this.subscription = this.RecordOfServiceService.find(+id).subscribe(
         res => {
           this.RecordOfServiceForm.patchValue({          
             recordOfServiceId: res.recordOfServiceId,
@@ -52,6 +53,11 @@ export class NewRecordOfServiceComponent implements OnInit {
     }
     this.intitializeForm();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.RecordOfServiceForm = this.fb.group({
       recordOfServiceId: [0],
@@ -70,7 +76,7 @@ export class NewRecordOfServiceComponent implements OnInit {
   onSubmit() {
     const id = this.RecordOfServiceForm.get('recordOfServiceId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.RecordOfServiceService.update(+id,this.RecordOfServiceForm.value).subscribe(response => {
@@ -88,7 +94,7 @@ export class NewRecordOfServiceComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.RecordOfServiceService.submit(this.RecordOfServiceForm.value).subscribe(response => {
+      this.subscription = this.RecordOfServiceService.submit(this.RecordOfServiceForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/record-of-service-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

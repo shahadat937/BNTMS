@@ -60,6 +60,7 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
   selectNationality:SelectedModel[] 
   
   nationalityToggle:string;
+  subscription: any;
 
 
   constructor(private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
@@ -154,6 +155,11 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
      this.getColorOfEyeName();
      this.getNationality();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.TraineeBIODataOtherForm = this.fb.group({
       traineeBioDataOtherId: [0],
@@ -208,7 +214,7 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
   }
 
   getBNACurriculamTypeName(){
-    this.TraineeBIODataOtherService.getselectedbnacurriculumtype().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedbnacurriculumtype().subscribe(res=>{
       this.bnaCurriculamTypeValues=res
       this.selectCurriculumType=res
     });
@@ -218,7 +224,7 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
   }
   
   getNationality(){
-    this.TraineeBIODataOtherService.getselectednationality().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
       this.selectNationality=res
     });
@@ -228,7 +234,7 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
   }
 
   getselectedPresentbillet(){
-    this.TraineeBIODataOtherService.getselectedpresentbillet().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedpresentbillet().subscribe(res=>{
    this.selectedPresentBillet=res
    this.selectPresentBillet=res
  });
@@ -238,7 +244,7 @@ filterByBillet(value:any){
 }
 
 getselectedInstructorType(){
-  this.TraineeBIODataOtherService.getselectedBnaInstructorType().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedBnaInstructorType().subscribe(res=>{
   this.selectedInstructorType=res
   this.selectInstructorType=res
 });
@@ -253,7 +259,7 @@ changeNationality(e) {
   this.nationalityToggle=e.value;
 }
 getselectedfailureStatus(){
-  this.TraineeBIODataOtherService.getselectedFailurestatus().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedFailurestatus().subscribe(res=>{
   this.selectedFailureStatus=res
   this.selectFailureStatus=res
 });
@@ -264,7 +270,7 @@ filterByfailureStatus(value:any){
  
 
 getselectedCourseName(){
-  this.TraineeBIODataOtherService.getselectedCourseName().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedCourseName().subscribe(res=>{
   this.selectedCourseName=res 
   this.selectCours=res
 });
@@ -274,7 +280,7 @@ filterByCourseName(value:any){
 }
 
 getselectedBnaClassSectionSelection(){
-  this.TraineeBIODataOtherService.getSelectedBnaClassSectionSelection().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getSelectedBnaClassSectionSelection().subscribe(res=>{
   this.selectedBnaClassSectionSelection=res 
   this.selectBnaSection=res
 });
@@ -284,7 +290,7 @@ filterByBnaPromotion(value:any){
 }
 
 getselectedBnaPromotionStatus(){
-  this.TraineeBIODataOtherService.getselectedBnaPromotionStatus().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedBnaPromotionStatus().subscribe(res=>{
     this.selectedBnaPromotionStatus=res 
     this.selectPromotion=res
   });
@@ -294,7 +300,7 @@ filterByPromotion(value:any){
 }
 
 getselectedMaritalStatus(){
-  this.TraineeBIODataOtherService.getselectedMaritalStatus().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedMaritalStatus().subscribe(res=>{
     this.selectedMaritalStatus=res 
     this.selectStatus=res 
   });
@@ -304,7 +310,7 @@ filterByStatus(value:any){
 }
  
 getselectedCountry(){
-  this.TraineeBIODataOtherService.getselectedCountry().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedCountry().subscribe(res=>{
     this.selectedCountry=res
     this.selectCountry=res  
   }); 
@@ -314,26 +320,26 @@ filterByCountry(value:any){
 }
 
 getselectedCaste(){
-  this.TraineeBIODataOtherService.getselectedCaste().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedCaste().subscribe(res=>{
     this.selectedCaste=res  
   }); 
 } 
 
 getselectedReligion(){
-  this.TraineeBIODataOtherService.getselectedReligion().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedReligion().subscribe(res=>{
     this.selectedReligion=res  
   }); 
 }
 
 getselecteBloodGroup(){
-  this.TraineeBIODataOtherService.getselectedBloodGroup().subscribe(res=>{
+  this.subscription = this.TraineeBIODataOtherService.getselectedBloodGroup().subscribe(res=>{
     this.selectedBloodGroup=res
   }); 
 }
   
 
   getBNASemesterName(){
-    this.TraineeBIODataOtherService.getselectedbnasemester().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedbnasemester().subscribe(res=>{
       this.bnaSemesterValues=res
       this.selectSemester=res
     });
@@ -343,7 +349,7 @@ getselecteBloodGroup(){
   }
 
   getUTOfficerTypeName(){
-    this.TraineeBIODataOtherService.getselectedutofficertype().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedutofficertype().subscribe(res=>{
       this.utOfficerTypeValues=res
       this.selectOfficerType=res
     });
@@ -354,7 +360,7 @@ getselecteBloodGroup(){
 
 
   getUTOfficerCategoryName(){
-    this.TraineeBIODataOtherService.getselectedUtofficerCategory().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedUtofficerCategory().subscribe(res=>{
       this.utOfficerCategoryValues=res
       this.selectOfficerCategory=res
     });
@@ -364,7 +370,7 @@ getselecteBloodGroup(){
   }
 
   getBNAServiceTypeName(){
-    this.TraineeBIODataOtherService.getselectedbnaservicetype().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedbnaservicetype().subscribe(res=>{
       this.bnaServiceTypeValues=res
       this.selectBnaType=res
     });
@@ -374,7 +380,7 @@ getselecteBloodGroup(){
   }
 
   getComplexionName(){
-    this.TraineeBIODataOtherService.getselectedcomplexions().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedcomplexions().subscribe(res=>{
       this.complexionValues=res
       this.selectComplexionType=res
     });
@@ -384,7 +390,7 @@ getselecteBloodGroup(){
   }
 
   getBranchName(){
-    this.TraineeBIODataOtherService.getselectedbranch().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedbranch().subscribe(res=>{
       this.branchValues=res
       this.selectBranch=res
     });
@@ -394,19 +400,19 @@ getselecteBloodGroup(){
   }
 
   getHeightName(){
-    this.TraineeBIODataOtherService.getselectedheight().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedheight().subscribe(res=>{
       this.heightValues=res
     });
   }
 
   getWeightName(){
-    this.TraineeBIODataOtherService.getselectedweight().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedweight().subscribe(res=>{
       this.weightValues=res
     });
   }
 
   getColorOfEyeName(){
-    this.TraineeBIODataOtherService.getselectedcolorofeye().subscribe(res=>{
+    this.subscription = this.TraineeBIODataOtherService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
     });
   }
@@ -416,10 +422,10 @@ getselecteBloodGroup(){
   onSubmit() {
     const id = this.TraineeBIODataOtherForm.get('traineeBioDataOtherId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.TraineeBIODataOtherService.update(+id,this.TraineeBIODataOtherForm.value).subscribe(response => {
+          this.subscription = this.TraineeBIODataOtherService.update(+id,this.TraineeBIODataOtherForm.value).subscribe(response => {
             this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/trainee-biodata-other-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -434,7 +440,7 @@ getselecteBloodGroup(){
       })
     } else {
       this.loading=true;
-      this.TraineeBIODataOtherService.submit(this.TraineeBIODataOtherForm.value).subscribe(response => {
+      this.subscription = this.TraineeBIODataOtherService.submit(this.TraineeBIODataOtherForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/trainee-biodata-other-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

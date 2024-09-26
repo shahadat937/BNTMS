@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionService } from '../../service/Question.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-question.component.html',
   styleUrls: ['./new-question.component.sass']
 })
-export class NewQuestionComponent implements OnInit {
+export class NewQuestionComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,6 +21,7 @@ export class NewQuestionComponent implements OnInit {
   validationErrors: string[] = [];
   typeValues:SelectedModel[]; 
   selectQuestionType:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private QuestionService: QuestionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -32,7 +33,7 @@ export class NewQuestionComponent implements OnInit {
       this.pageTitle = 'Edit Question';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.QuestionService.find(+id).subscribe(
+     this.subscription = this.QuestionService.find(+id).subscribe(
         res => {
           this.QuestionForm.patchValue({          
 
@@ -56,6 +57,11 @@ export class NewQuestionComponent implements OnInit {
     this.getQuestionType();
     //this.getThana();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.QuestionForm = this.fb.group({
       questionId: [0],
@@ -71,7 +77,7 @@ export class NewQuestionComponent implements OnInit {
   }
 
   getQuestionType(){
-    this.QuestionService.getselectedquestiontype().subscribe(res=>{
+    this.subscription = this.QuestionService.getselectedquestiontype().subscribe(res=>{
       this.typeValues=res
       this.selectQuestionType=res
     });
@@ -87,10 +93,10 @@ export class NewQuestionComponent implements OnInit {
     const id = this.QuestionForm.get('questionId').value; 
       
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.QuestionService.update(+id,this.QuestionForm.value).subscribe(response => {
+          this.subscription = this.QuestionService.update(+id,this.QuestionForm.value).subscribe(response => {
             this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/question-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -105,7 +111,7 @@ export class NewQuestionComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.QuestionService.submit(this.QuestionForm.value).subscribe(response => {
+      this.subscription = this.QuestionService.submit(this.QuestionForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/question-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

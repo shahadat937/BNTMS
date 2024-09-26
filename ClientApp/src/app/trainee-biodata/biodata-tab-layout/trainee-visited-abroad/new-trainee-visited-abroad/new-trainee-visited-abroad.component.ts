@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeVisitedAboardService } from '../../../biodata-tab-layout/service/TraineeVisitedAboard.service';
@@ -12,7 +12,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-trainee-visited-abroad.component.html',
   styleUrls: ['./new-trainee-visited-abroad.component.sass']
 })
-export class NewTraineeVisitedAboardComponent implements OnInit {
+export class NewTraineeVisitedAboardComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,6 +22,7 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
   validationErrors: string[] = [];
   countryValues:SelectedModel[]; 
   selectCountry:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private TraineeVisitedAboardService: TraineeVisitedAboardService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -71,9 +72,14 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
     
     })
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getCountry(){
-    this.TraineeVisitedAboardService.getselectedcountry().subscribe(res=>{
+    this.subscription = this.TraineeVisitedAboardService.getselectedcountry().subscribe(res=>{
       this.countryValues=res
       this.selectCountry=res
     });
@@ -87,7 +93,7 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
     
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.TraineeVisitedAboardService.update(+id,this.TraineeVisitedAboardForm.value).subscribe(response => {
@@ -105,7 +111,7 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.TraineeVisitedAboardService.submit(this.TraineeVisitedAboardForm.value).subscribe(response => {
+      this.subscription = this.TraineeVisitedAboardService.submit(this.TraineeVisitedAboardForm.value).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/trainee-visited-aboard-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

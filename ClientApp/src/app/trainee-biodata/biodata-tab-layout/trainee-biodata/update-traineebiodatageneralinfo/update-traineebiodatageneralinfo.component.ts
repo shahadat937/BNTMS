@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,7 +12,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   styleUrls: ['./update-traineebiodatageneralinfo.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
+export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -51,6 +51,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
 
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
     this.files = [];
@@ -88,9 +89,14 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     this.getreligions();
     this.gethaircolors();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getBatchs(){
-    this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
       this.batchValues=res
       this.selectBatch=res
     });
@@ -99,7 +105,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     this.batchValues=this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getreligions(){
-    this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
       this.selectReligion=res
     });
@@ -108,7 +114,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   gethaircolors(){
-    this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
       this.hairColorValues=res
       this.selectHairColor=res
     });
@@ -118,19 +124,19 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   getselectedheight(){
-    this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
       this.heightValues=res
     });
   }
 
   getselectedweight(){
-    this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
       this.weightValues=res
     });
   }
 
   getselectedcolorofeye(){
-    this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
       this.selectEyeColor=res
     });
@@ -140,7 +146,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     this.colorOfEyeValues=this.selectEyeColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedbloodgroup(){
-    this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
       this.selectBloodGroup=res
     });
@@ -150,7 +156,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   getNationalitys(){
-    this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
       this.selectNationality=res
     });
@@ -160,7 +166,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   getBranch(){
-    this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
       this.branchValues=res
       this.selectBranch=res
     });
@@ -170,7 +176,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   getRanks(){
-    this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
       this.selectRank=res
     });
@@ -180,13 +186,13 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   getGenders(){
-    this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
       this.genderValues=res
     });
   }
 
   getDivisions(){
-    this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
       this.divisionValues=res
       this.selectDivision=res
     });
@@ -196,7 +202,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   onDivisionSelectionChangeGetDistrict(divisionId){
-    this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
       this.selectDistrict=res
     });
@@ -206,7 +212,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   onReligionSelectionChangeGetCastes(religionId){
-    this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
       this.selectCaste=res
     });
@@ -216,7 +222,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   onDistrictSelectionChangeGetThana(districtId){
-    this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
       this.selectThana=res
     });
@@ -278,7 +284,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     this.traineeId = this.BIODataGeneralInfoForm.get('traineeId').value;   
 
     if (this.traineeId) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.BIODataGeneralInfoService.update(+this.traineeId,this.BIODataGeneralInfoForm.value).subscribe(response => {
