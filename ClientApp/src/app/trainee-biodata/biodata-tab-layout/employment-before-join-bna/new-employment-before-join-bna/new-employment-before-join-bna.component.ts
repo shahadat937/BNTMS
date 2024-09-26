@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmploymentBeforeJoinBNAService } from '../../service/EmploymentBeforeJoinBNA.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-employment-before-join-bna.component.html',
   styleUrls: ['./new-employment-before-join-bna.component.sass']
 })
-export class NewEmploymentBeforeJoinBNAComponent implements OnInit {
+export class NewEmploymentBeforeJoinBNAComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -20,6 +20,7 @@ export class NewEmploymentBeforeJoinBNAComponent implements OnInit {
   EmploymentBeforeJoinBNAForm: FormGroup;
   validationErrors: string[] = [];
   typeValues:SelectedModel[]; 
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private EmploymentBeforeJoinBNAService: EmploymentBeforeJoinBNAService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -30,7 +31,7 @@ export class NewEmploymentBeforeJoinBNAComponent implements OnInit {
       this.pageTitle = 'Edit Employment Before Join BNA';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.EmploymentBeforeJoinBNAService.find(+id).subscribe(
+      this.subscription = this.EmploymentBeforeJoinBNAService.find(+id).subscribe(
         res => { 
           this.EmploymentBeforeJoinBNAForm.patchValue({          
 
@@ -54,6 +55,11 @@ export class NewEmploymentBeforeJoinBNAComponent implements OnInit {
     }
     this.intitializeForm();
     
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.EmploymentBeforeJoinBNAForm = this.fb.group({

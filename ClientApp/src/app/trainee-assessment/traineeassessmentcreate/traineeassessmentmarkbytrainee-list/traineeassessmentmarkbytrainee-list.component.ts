@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {TraineeAssessmentCreate} from '../../models/TraineeAssessmentCreate'
@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './traineeassessmentmarkbytrainee-list.component.html',
   styleUrls: ['./traineeassessmentmarkbytrainee-list.component.sass']
 })
-export class TraineeAssessmentMarkByTraineeListComponent implements OnInit {
+export class TraineeAssessmentMarkByTraineeListComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeAssessmentCreate[] = [];
@@ -44,6 +44,7 @@ export class TraineeAssessmentMarkByTraineeListComponent implements OnInit {
 
 
    selection = new SelectionModel<TraineeAssessmentCreate>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar, private _location: Location,private authService: AuthService,  private route: ActivatedRoute,private TraineeAssessmentCreateService: TraineeAssessmentCreateService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
@@ -58,6 +59,11 @@ export class TraineeAssessmentMarkByTraineeListComponent implements OnInit {
     this.getTraineeAssessmentMarkListByAssessmentTrainee();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
  
   getTraineeAssessmentMarkListByAssessmentTrainee() {
@@ -66,7 +72,7 @@ export class TraineeAssessmentMarkByTraineeListComponent implements OnInit {
     var traineeAssessmentCreateId = this.route.snapshot.paramMap.get('traineeAssessmentCreateId'); 
     var assessmentTraineeId = this.route.snapshot.paramMap.get('assessmentTraineeId'); 
     this.isLoading = true;
-    this.TraineeAssessmentCreateService.getTraineeAssessmentMarkListByAssessmentTrainee(courseDurationId, traineeAssessmentCreateId,assessmentTraineeId).subscribe(response => {
+    this.subscription = this.TraineeAssessmentCreateService.getTraineeAssessmentMarkListByAssessmentTrainee(courseDurationId, traineeAssessmentCreateId,assessmentTraineeId).subscribe(response => {
       this.traineeAssessmentMarkList = response;
     })
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoCurricularActivity } from '../../models/CoCurricularActivity';
@@ -16,7 +16,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-co-curricular-activity.component.html',
   styleUrls: ['./view-co-curricular-activity.component.sass']
 })
-export class ViewCoCurricularActivityComponent implements OnInit {
+export class ViewCoCurricularActivityComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -28,16 +28,22 @@ export class ViewCoCurricularActivityComponent implements OnInit {
   coCurricularActivityType: string;
   participation: string;
   achievement: string;  
+  subscription: any;
   // examTypeValues:SelectedModel[]; 
   // groupValues:SelectedModel[]; 
   // boardValues:SelectedModel[]; 
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private CoCurricularActivityService: CoCurricularActivityService,private router: Router,private confirmService: ConfirmService) { }
   
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('coCurricularActivityId'); 
-    this.CoCurricularActivityService.find(+id).subscribe( res => {
+    this.subscription = this.CoCurricularActivityService.find(+id).subscribe( res => {
       this.coCurricularActivityId = res.coCurricularActivityId,
       this.traineeId = res.traineeId,
       this.coCurricularActivityTypeId = res.coCurricularActivityTypeId,

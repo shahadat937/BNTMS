@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Election } from '../../models/Election';
@@ -16,7 +16,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-election.component.html',
   styleUrls: ['./view-election.component.sass']
 })
-export class ViewElectionComponent implements OnInit {
+export class ViewElectionComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -31,14 +31,19 @@ export class ViewElectionComponent implements OnInit {
   durationFrom: Date;
   durationTo: Date;
   additionalInformation: string;  
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ElectionService: ElectionService,private router: Router,private confirmService: ConfirmService) { }
   
-  
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('electionId'); 
-    this.ElectionService.find(+id).subscribe( res => {
+    this.subscription = this.ElectionService.find(+id).subscribe( res => {
       this.electionId = res.electionId,
       this.traineeId = res.traineeId,
       this.instituteName = res.instituteName,

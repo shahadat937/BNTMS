@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoCurricularActivityService } from '../../service/CoCurricularActivity.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-co-curricular-activity.component.html',
   styleUrls: ['./new-co-curricular-activity.component.sass']
 })
-export class NewCoCurricularActivityComponent implements OnInit {
+export class NewCoCurricularActivityComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,6 +21,7 @@ export class NewCoCurricularActivityComponent implements OnInit {
   validationErrors: string[] = [];
   CoCurricularActivityTypeValues:SelectedModel[]; 
   selectCoCurriCulum:SelectedModel[];
+  subscription: any;
 
 
   constructor(private snackBar: MatSnackBar,private CoCurricularActivityService: CoCurricularActivityService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
@@ -32,7 +33,7 @@ export class NewCoCurricularActivityComponent implements OnInit {
       this.pageTitle = 'Edit Co-Curricular Activity Type';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.CoCurricularActivityService.find(+id).subscribe(
+      this.subscription = this.CoCurricularActivityService.find(+id).subscribe(
         res => {
           this.CoCurricularActivityForm.patchValue({          
 
@@ -53,6 +54,11 @@ export class NewCoCurricularActivityComponent implements OnInit {
     this.intitializeForm();
     this.getCoCurricularActivityType();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.CoCurricularActivityForm = this.fb.group({
       coCurricularActivityId: [0],
@@ -67,7 +73,7 @@ export class NewCoCurricularActivityComponent implements OnInit {
   }
 
   getCoCurricularActivityType(){
-    this.CoCurricularActivityService.getselectedcocurricularactivitytype().subscribe(res=>{
+    this.subscription = this.CoCurricularActivityService.getselectedcocurricularactivitytype().subscribe(res=>{
       this.CoCurricularActivityTypeValues=res
       this.selectCoCurriCulum=res
     });
@@ -81,10 +87,10 @@ export class NewCoCurricularActivityComponent implements OnInit {
     const id = this.CoCurricularActivityForm.get('coCurricularActivityId').value;   
     if (id) {
 
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.CoCurricularActivityService.update(+id,this.CoCurricularActivityForm.value).subscribe(response => {
+          this.subscription = this.CoCurricularActivityService.update(+id,this.CoCurricularActivityForm.value).subscribe(response => {
             this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/co-curricular-activity-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -99,7 +105,7 @@ export class NewCoCurricularActivityComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.CoCurricularActivityService.submit(this.CoCurricularActivityForm.value).subscribe(response => {
+      this.subscription = this.CoCurricularActivityService.submit(this.CoCurricularActivityForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/co-curricular-activity-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

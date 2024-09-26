@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TdecQuestionName } from '../../models/TdecQuestionName';
@@ -15,7 +15,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './tdecquestionname-list.component.html',
   styleUrls: ['./tdecquestionname-list.component.sass']
 })
-export class TdecQuestionNameListComponent implements OnInit {
+export class TdecQuestionNameListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -35,6 +35,7 @@ export class TdecQuestionNameListComponent implements OnInit {
   traineeId:any;
   branchId:any;
   selection = new SelectionModel<TdecQuestionName>(true, []);
+  subscription: any;
 
   
   constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private TdecQuestionNameService: TdecQuestionNameService,private router: Router,private confirmService: ConfirmService) { }
@@ -47,6 +48,11 @@ export class TdecQuestionNameListComponent implements OnInit {
     this.getTdecQuestionNames();
   //  this.getTdecQuestionNameFilteredResult();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   // getTdecQuestionNameFilteredResult(){
 //this.branchId == null ? 1 :this.branchId
@@ -54,7 +60,7 @@ export class TdecQuestionNameListComponent implements OnInit {
 
   getTdecQuestionNames() {
     this.isLoading = true;
-    this.TdecQuestionNameService.getTdecQuestionNameFiltered(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.branchId == '' ? 0 :this.branchId).subscribe(response => {
+    this.TdecQuestionNameService.getTdecQuestionNameFiltered(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText,this.branchId == '' ? 0 :this.branchId).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -94,7 +100,7 @@ export class TdecQuestionNameListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.tdecQuestionNameId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.TdecQuestionNameService.delete(id).subscribe(() => {
           this.getTdecQuestionNames();

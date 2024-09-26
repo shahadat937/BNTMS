@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {TraineeAssessmentMark} from '../../models/TraineeAssessmentMark';
@@ -16,7 +16,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './traineeassessmentmark-list.component.html',
   styleUrls: ['./traineeassessmentmark-list.component.sass']
 })
-export class TraineeAssessmentMarkListComponent implements OnInit {
+export class TraineeAssessmentMarkListComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeAssessmentMark[] = [];
@@ -40,6 +40,7 @@ export class TraineeAssessmentMarkListComponent implements OnInit {
 
 
    selection = new SelectionModel<TraineeAssessmentMark>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private TraineeAssessmentMarkService: TraineeAssessmentMarkService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
@@ -53,10 +54,15 @@ export class TraineeAssessmentMarkListComponent implements OnInit {
     this.getTraineeAssessmentMarks();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getTraineeAssessmentMarks() {
     this.isLoading = true;
-    this.TraineeAssessmentMarkService.getTraineeAssessmentMarks(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.TraineeAssessmentMarkService.getTraineeAssessmentMarks(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
       this.dataSource.data = response.items; 
       // const groups = this.dataSource.data.reduce((groups, courses) => {
@@ -101,7 +107,7 @@ export class TraineeAssessmentMarkListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeAssessmentMarkId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.TraineeAssessmentMarkService.delete(id).subscribe(() => {
           this.getTraineeAssessmentMarks();

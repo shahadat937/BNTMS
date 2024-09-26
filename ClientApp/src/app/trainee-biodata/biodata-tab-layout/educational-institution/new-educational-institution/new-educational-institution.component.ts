@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EducationalInstitutionService } from '../../service/EducationalInstitution.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-educational-institution.component.html',
   styleUrls: ['./new-educational-institution.component.sass']
 })
-export class NewEducationalInstitutionComponent implements OnInit {
+export class NewEducationalInstitutionComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -23,6 +23,7 @@ export class NewEducationalInstitutionComponent implements OnInit {
   selectDistrict:SelectedModel[]; 
   selectedThana:SelectedModel[]; 
   selectThana:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private EducationalInstitutionService: EducationalInstitutionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -33,7 +34,7 @@ export class NewEducationalInstitutionComponent implements OnInit {
       this.pageTitle = 'Edit Educational Institution';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.EducationalInstitutionService.find(+id).subscribe(
+      this.subscription = this.EducationalInstitutionService.find(+id).subscribe(
         res => {
           this.EducationalInstitutionForm.patchValue({          
 
@@ -63,6 +64,11 @@ export class NewEducationalInstitutionComponent implements OnInit {
     this.getDistrict();
     //this.getThana();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.EducationalInstitutionForm = this.fb.group({
       educationalInstitutionId: [0],
@@ -84,7 +90,7 @@ export class NewEducationalInstitutionComponent implements OnInit {
   }
 
   getDistrict(){
-    this.EducationalInstitutionService.getselecteddistrict().subscribe(res=>{
+    this.subscription = this.EducationalInstitutionService.getselecteddistrict().subscribe(res=>{
       this.districtValues=res
       this.selectDistrict=res
     });
@@ -100,7 +106,7 @@ export class NewEducationalInstitutionComponent implements OnInit {
   // }
 
   onDistrictSelectionChangeGetThana(districtId){
-    this.EducationalInstitutionService.getthanaByDistrict(districtId).subscribe(res=>{
+    this.subscription = this.EducationalInstitutionService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
       this.selectThana=res
     });
@@ -117,7 +123,7 @@ export class NewEducationalInstitutionComponent implements OnInit {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This EducationalInstitution Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.EducationalInstitutionService.update(+id,this.EducationalInstitutionForm.value).subscribe(response => {
+          this.subscription = this.EducationalInstitutionService.update(+id,this.EducationalInstitutionForm.value).subscribe(response => {
             this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/educational-institution-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -132,7 +138,7 @@ export class NewEducationalInstitutionComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.EducationalInstitutionService.submit(this.EducationalInstitutionForm.value).subscribe(response => {
+      this.subscription = this.EducationalInstitutionService.submit(this.EducationalInstitutionForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/educational-institution-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

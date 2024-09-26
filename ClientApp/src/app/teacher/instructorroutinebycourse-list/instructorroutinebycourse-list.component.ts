@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   styleUrls: ['./instructorroutinebycourse-list.component.sass']
 })
 
-export class InstructorRoutinebyCourseComponent implements OnInit {
+export class InstructorRoutinebyCourseComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -39,6 +39,7 @@ export class InstructorRoutinebyCourseComponent implements OnInit {
   }
   searchText="";
   displayedRoutineCountColumns: string[] = ['ser','course','courseDuration','actions'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private authService: AuthService,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -53,7 +54,7 @@ export class InstructorRoutinebyCourseComponent implements OnInit {
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     var bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId'); 
 
-    this.instructorDashboardService.getInstructorRoutineByCourseList(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId,this.traineeId).subscribe(response => {         
+    this.subscription = this.instructorDashboardService.getInstructorRoutineByCourseList(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId,this.traineeId).subscribe(response => {         
       this.RoutineByCourse=response;
       this.courseName=this.RoutineByCourse[0].course + "_" + this.RoutineByCourse[0].courseTitle;
       const groups = this.RoutineByCourse.reduce((groups, courses) => {
@@ -73,6 +74,11 @@ export class InstructorRoutinebyCourseComponent implements OnInit {
         };
       });
     })
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   toggle(){
     this.showHideDiv = !this.showHideDiv;

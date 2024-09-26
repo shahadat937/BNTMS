@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { MasterData } from 'src/assets/data/master-data';
   templateUrl: './new-instructorassignment.component.html',
   styleUrls: ['./new-instructorassignment.component.sass']
 })
-export class NewInstructorAssignmentComponent implements OnInit {
+export class NewInstructorAssignmentComponent implements OnInit,OnDestroy {
   pageTitle: string;
   destination:string;
   btnText:string;
@@ -36,6 +36,7 @@ export class NewInstructorAssignmentComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['ser', 'assignmentTopic','assignmentMark','remarks','duration', 'status', 'subList'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private AssignmentService: InstructorAssignmentService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -54,7 +55,7 @@ export class NewInstructorAssignmentComponent implements OnInit {
       this.pageTitle = 'Edit/List of Assignment';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.AssignmentService.find(+id).subscribe(
+      this.subscription = this.AssignmentService.find(+id).subscribe(
         res => {
           this.InstructorAssignmentForm.patchValue({          
 
@@ -71,6 +72,11 @@ export class NewInstructorAssignmentComponent implements OnInit {
       this.btnText = 'Save';
     }
     this.intitializeForm();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.InstructorAssignmentForm = this.fb.group({
@@ -92,13 +98,13 @@ export class NewInstructorAssignmentComponent implements OnInit {
   }
 
   getInstructorAssignmentListByInstructorId(){
-    this.AssignmentService.getInstructorAssignmentListByInstructorId(this.baseSchoolNameId,this.courseDurationId,this.bnaSubjectNameId,this.instructorId).subscribe(res=>{
+    this.subscription = this.AssignmentService.getInstructorAssignmentListByInstructorId(this.baseSchoolNameId,this.courseDurationId,this.bnaSubjectNameId,this.instructorId).subscribe(res=>{
       this.instructorAssignmentsList=res;
     });
   }
 
   stopInstructorAssignments(instructorAssignmentId){
-    this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
         this.AssignmentService.stopInstructorAssignments(instructorAssignmentId).subscribe(res => {
           this.getInstructorAssignmentListByInstructorId();
@@ -114,7 +120,7 @@ export class NewInstructorAssignmentComponent implements OnInit {
     })
   }
   getCourseInstructorIdForInstructorAssignmentSave(){
-    this.AssignmentService.getCourseInstructorIdForInstructorAssignmentSave(this.instructorId,this.bnaSubjectNameId,this.baseSchoolNameId,this.courseDurationId).subscribe(res=>{
+    this.subscription = this.AssignmentService.getCourseInstructorIdForInstructorAssignmentSave(this.instructorId,this.bnaSubjectNameId,this.baseSchoolNameId,this.courseDurationId).subscribe(res=>{
       this.cousreInstructorId=res;
     });
   }
@@ -134,11 +140,11 @@ export class NewInstructorAssignmentComponent implements OnInit {
     this.InstructorAssignmentForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId); 
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
         if (result) {
           this.loading = true;
-          this.AssignmentService.update(+id,this.InstructorAssignmentForm.value).subscribe(response => {
+          this.subscription = this.AssignmentService.update(+id,this.InstructorAssignmentForm.value).subscribe(response => {
             this.router.navigateByUrl('/basic-setup/board-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -153,7 +159,7 @@ export class NewInstructorAssignmentComponent implements OnInit {
       })
     }  else {
       this.loading = true;
-      this.AssignmentService.submit(this.InstructorAssignmentForm.value).subscribe(response => {
+      this.subscription = this.AssignmentService.submit(this.InstructorAssignmentForm.value).subscribe(response => {
         // admin/dashboard/assignment-list/44787
         //this.router.navigateByUrl('/admin/dashboard/assignment-list/'+this.instructorId);
         this.getInstructorAssignmentListByInstructorId();
@@ -173,7 +179,7 @@ export class NewInstructorAssignmentComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.instructorAssignmentId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.AssignmentService.delete(id).subscribe(() => {
           this.getInstructorAssignmentListByInstructorId();
