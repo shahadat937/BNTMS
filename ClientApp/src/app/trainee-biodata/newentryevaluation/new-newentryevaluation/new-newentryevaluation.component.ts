@@ -203,7 +203,7 @@ export class NewNewEntryEvaluationComponent implements OnInit {
     });
   }
   filterBySchool(value:any){
-    this.schoolNameValues=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.schoolNameValues=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onSchoolSelectionChangeGetCourseName(baseSchoolNameId){
     if(this.role === 'Super Admin'){
@@ -215,7 +215,7 @@ export class NewNewEntryEvaluationComponent implements OnInit {
     });
   }
   filterByCourse(value:any){
-    this.courseNameValues=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.courseNameValues=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onCourseSelectionChangeGetCourseModule(dropdown){ 
     if (dropdown.isUserInput) {
@@ -239,7 +239,7 @@ export class NewNewEntryEvaluationComponent implements OnInit {
     
   }
   filterByModule(value:any){
-    this.courseModuleValues=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.courseModuleValues=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   getselectedCourseWeek(){

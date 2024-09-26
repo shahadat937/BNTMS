@@ -46,7 +46,8 @@
                       <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
                         <input type="text" 
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                            id="selectSection" 
+                            id="selectSection"
+                            (keydown.space)="$event.stopPropagation()" 
                             (input)="filterBySchool($event.target.value)"
                             placeholder="Search">
                         <mat-option  value="">--Select--</mat-option >
@@ -69,6 +70,7 @@
                         <input type="text" 
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectMark" 
+                            (keydown.space)="$event.stopPropagation()"
                             (input)="filterByCourseTitle($event.target.value)"
                             placeholder="Search">
                         <mat-option  value="">--Select--</mat-option >
@@ -90,6 +92,7 @@
                         <input type="text" 
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectWeek" 
+                            (keydown.space)="$event.stopPropagation()"
                             (input)="filterByWeek($event.target.value)"
                             placeholder="Search">
                         <mat-option  value="">--Select--</mat-option >
@@ -123,8 +126,10 @@
                       <mat-select formControlName="courseSectionId" required (selectionChange)="onSectionSelectionGet()">
                         <!-- <mat-option  value="0">--Select--</mat-option > -->
                           <input type="text" 
+                          (keydown.space)="$event.stopPropagation()"
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectSection" 
+                            (keydown.space)="$event.stopPropagation()"
                             (input)="filterBySection($event.target.value)"
                             placeholder="Search">
 
@@ -265,6 +270,7 @@
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectSection" 
                             (input)="filterBySubject($event.target.value)"
+                            (keydown.space)="$event.stopPropagation()"
                             placeholder="Search">
                               <mat-option value="">--Select--</mat-option>
                               <mat-option *ngFor="let dropdown of selectedsubjectname" [value]="dropdown.value" (onSelectionChange)="onSubjectNameSelectionChangeGet(dropdown,i)">
@@ -284,6 +290,7 @@
                               <input type="text" 
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectSection" 
+                            (keydown.space)="$event.stopPropagation()"
                             (input)="filterByInstructor($event.target.value)"
                             placeholder="Search">
                               <mat-option value="">--Select--</mat-option>
@@ -306,6 +313,7 @@
                               <input type="text" 
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectSection" 
+                            (keydown.space)="$event.stopPropagation()"
                             (input)="filterBymarkType($event.target.value)"
                             placeholder="Search">
                               <mat-option value="">--Select--</mat-option>
@@ -324,6 +332,7 @@
                               <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                               id="selectSection" 
+                              (keydown.space)="$event.stopPropagation()"
                               (input)="filterByClassPeriod($event.target.value)"
                               placeholder="Search">
                               <mat-option value="">--Select--</mat-option>
@@ -344,6 +353,7 @@
                               <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                               id="selectSection" 
+                              (keydown.space)="$event.stopPropagation()"
                               (input)="filterByClassType($event.target.value)"
                               placeholder="Search">
                               <mat-option value="">--Select--</mat-option>

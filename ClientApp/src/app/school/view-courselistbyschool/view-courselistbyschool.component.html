@@ -53,10 +53,10 @@
                             color="warn" routerLink="/admin/dashboard/main"> 
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
-                            <button class="btn-space"  mat-raised-button
+                            <!-- <button class="btn-space"  mat-raised-button
                             color="warn" routerLink="/admin/dashboard/school-dashboard"> 
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
-                            </button>
+                            </button> -->
                           </div>
                         </li>
                        
@@ -64,7 +64,7 @@
                     </div>
                   </div>
                 </div>
-                <mat-table #table [dataSource]="CourseNamesList" matSort class="table table-hover course-list mat-cell db-tbl">               
+                <mat-table #table [dataSource]="dataSource" matSort class="table table-hover course-list mat-cell db-tbl">               
                   <ng-container matColumnDef="ser">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                     <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
@@ -86,7 +86,10 @@
                   <mat-row *matRowDef="let row; columns: displayedCourseNamesColumns;"></mat-row>
                 </mat-table>
 
-                
+                <mat-paginator #InitialOrderMatPaginator="matPaginator"
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons >
+               </mat-paginator>
 
 
                 <div id="print-routine">

@@ -8,6 +8,7 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-instructorbycourse-list',
@@ -15,6 +16,9 @@ import { SchoolDashboardService } from '../services/SchoolDashboard.service';
   styleUrls: ['./instructorbycourse-list.component.sass']
 })
 export class InstructorByCourseListComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -30,6 +34,7 @@ export class InstructorByCourseListComponent implements OnInit {
   searchText="";
 
   displayedRoutineColumns: string[] = ['ser', 'subject', 'name'];
+// dataSource: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -38,7 +43,10 @@ export class InstructorByCourseListComponent implements OnInit {
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    this.schoolDashboardService.getInstructorDetailByCourse(courseNameId,this.schoolId,courseDurationId).subscribe(response => {         
+    this.schoolDashboardService.getInstructorDetailByCourse(courseNameId,this.schoolId,courseDurationId).subscribe(response => {    
+      this.dataSource = new MatTableDataSource(response);
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;     
       this.courseName = response[0].course+'-'+response[0].courseTitle;
       this.InstructorByCourse=response;
     })

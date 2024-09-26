@@ -109,6 +109,7 @@
                       <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByEyeColoe($event.target.value)"
                         placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -128,6 +129,7 @@
                       <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByHairColor($event.target.value)"
                         placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -147,6 +149,7 @@
                       <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
+                        (keydown.space)="$event.stopPropagation()"
                         (input)="filterByBloodGroup($event.target.value)"
                         placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -173,6 +176,7 @@
                       <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterByReligion($event.target.value)"
                       placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -192,6 +196,7 @@
                       <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterByCaste($event.target.value)"
                       placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -221,6 +226,7 @@
                     <mat-label>Rank</mat-label>
                     <mat-select formControlName="rankId" required>
                       <input type="text" 
+                      (keydown.space)="$event.stopPropagation()"
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
                       (input)="filterByRank($event.target.value)"
@@ -240,6 +246,7 @@
                     <mat-label>Branch</mat-label>
                     <mat-select formControlName="branchId" required>
                       <input type="text" 
+                      (keydown.space)="$event.stopPropagation()"
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
                       (input)="filterByBranch($event.target.value)"
@@ -261,6 +268,7 @@
                       <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterByBatch($event.target.value)"
                       placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -295,7 +303,8 @@
                     <mat-select formControlName="divisionId" required (selectionChange)="onDivisionSelectionChangeGetDistrict($event.value)">
                       <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                      id="selectRank" 
+                      id="selectRank"
+                      (keydown.space)="$event.stopPropagation()" 
                       (input)="filterByDivision($event.target.value)"
                       placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -314,6 +323,7 @@
                       <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterByDistrict($event.target.value)"
                       placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -332,6 +342,7 @@
                       <input type="text" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
+                      (keydown.space)="$event.stopPropagation()"
                       (input)="filterByThana($event.target.value)"
                       placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
@@ -361,7 +372,8 @@
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                     <mat-label>Nationality</mat-label>
                     <mat-select formControlName="nationalityId" required>
-                      <input type="text" 
+                      <input type="text"
+                      (keydown.space)="$event.stopPropagation()" 
                       style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                       id="selectRank" 
                       (input)="filterByNationality($event.target.value)"

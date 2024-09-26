@@ -23,6 +23,7 @@ export class NewParentRelativeComponent implements OnInit {
   ParentRelativeForm: FormGroup;
   validationErrors: string[] = [];
   relationTypeValues:SelectedModel[]; 
+  selectRealation:SelectedModel[];
   maritialStatusValues:SelectedModel[]; 
   genderValues:SelectedModel[];
   nationalityValues:SelectedModel[]; 
@@ -211,7 +212,11 @@ export class NewParentRelativeComponent implements OnInit {
   getRelationType(){
     this.ParentRelativeService.getselectedrelationtype().subscribe(res=>{
       this.relationTypeValues=res
+      this.selectRealation=res
     });
+  }
+  filterByRelation(value:any){
+    this.relationTypeValues=this.selectRealation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getGenders(){
@@ -233,11 +238,11 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByNationality(value:any){
-    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   filterByDualNationality(value:any){
-    this.nationalityValues=this.selectedNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.nationalityValues=this.selectedNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getReligion(){
@@ -247,7 +252,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByReligion(value:any){
-    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getCaste(){
@@ -264,10 +269,10 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByPreviousOccupation(value:any){
-    this.occupationValues=this.selectPreviousOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.occupationValues=this.selectPreviousOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   filterByOccupation(value:any){
-    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.occupationValues=this.selectOccupation.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getDivision(){
@@ -277,7 +282,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByDivision(value:any){
-    this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getDistrict(){
@@ -299,7 +304,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByDefence(value:any){
-    this.defenseTypeValues=this.selectDefenceType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.defenseTypeValues=this.selectDefenceType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getRank(){
@@ -309,7 +314,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByRank(value:any){
-    this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSelectedDeadStatus(){
@@ -327,7 +332,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByCaste(value:any){
-    this.selectedCastes=this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCastes=this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onDivisionSelectionChangeGetDistrict(divisionId){
@@ -337,7 +342,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByDistrict(value:any){
-    this.selectedDistrict=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedDistrict=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onDistrictSelectionChangeGetThana(districtId){
@@ -347,7 +352,7 @@ export class NewParentRelativeComponent implements OnInit {
     });
   }
   filterByThana(value:any){
-    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {

@@ -79,7 +79,7 @@ export class NewTraineeVisitedAboardComponent implements OnInit {
     });
   }
   filterByCountry(value:any){
-    this.countryValues=this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.countryValues=this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {

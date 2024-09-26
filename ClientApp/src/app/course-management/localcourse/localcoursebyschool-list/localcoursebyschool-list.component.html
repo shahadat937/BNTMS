@@ -106,7 +106,11 @@
                   <mat-header-row *matHeaderRowDef="['ser', 'course', 'duration', 'action']"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['ser', 'course', 'duration', 'action']"></mat-row>
                 </mat-table>
-                
+                <mat-paginator #InitialOrderMatPaginator="matPaginator"
+                [pageSize]="10"
+                  [pageSizeOptions]="[5, 10, 20]"
+                  showFirstLastButtons >
+                 </mat-paginator>
 
                 <!-- <table class="table  tbl-by-group">
                   <thead>

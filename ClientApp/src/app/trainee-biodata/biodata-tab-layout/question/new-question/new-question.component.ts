@@ -77,7 +77,7 @@ export class NewQuestionComponent implements OnInit {
     });
   }
   filterByType(value:any){
-    this.typeValues=this.selectQuestionType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.typeValues=this.selectQuestionType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   

@@ -14,6 +14,7 @@ import { MasterData } from 'src/assets/data/master-data';
   styleUrls: ['./new-commendingarea.component.sass']
 })
 export class NewCommendingAreaComponent implements OnInit {
+  
   pageTitle: string;
   destination:string;
   btnText:string;

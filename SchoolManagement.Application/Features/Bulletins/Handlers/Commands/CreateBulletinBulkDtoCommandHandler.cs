@@ -40,20 +40,21 @@ namespace SchoolManagement.Application.Features.Bulletins.Handlers.Commands
 
             if(request.bulletinBulkDto.BaseSchoolNameId.Count<2)
             {
-                if (request.bulletinBulkDto.CourseNameId == null || request.bulletinBulkDto.CourseNameId.Count <= 0)
+                if (request.bulletinBulkDto.CourseName == null || request.bulletinBulkDto.CourseName.Count <= 0)
                 {
                     throw new BadRequestException("No Course is selected");
                 }
-                foreach (var courseName in request.bulletinBulkDto.CourseNameId)
+                foreach (var courseName in request.bulletinBulkDto.CourseName)
                 {
                     var bulletinDto = new CreateBulletinDto();
-                    bulletinDto.BaseSchoolNameId = (int) request.bulletinBulkDto.BaseSchoolNameId[0].Value;
+                    bulletinDto.BaseSchoolNameId = (int) (long) request.bulletinBulkDto.BaseSchoolNameId[0].Value;
                     string[] courseIdAndDuration = courseName.Split('_');
 
                     //Add Bulletin courseNameId and courseDurationId
                     if (courseIdAndDuration.Length != 2)
                     {
-                        throw new BadRequestException("Invalid Course");
+                        continue;
+                        //throw new BadRequestException("Invalid Course");
                     }
 
                     if (int.TryParse(courseIdAndDuration[1], out var courseId))
@@ -96,11 +97,12 @@ namespace SchoolManagement.Application.Features.Bulletins.Handlers.Commands
                 foreach(var schoolNameId in request.bulletinBulkDto.BaseSchoolNameId)
                 {
                     var bulletinDto = new CreateBulletinDto();
-                    bulletinDto.BaseSchoolNameId = (int)schoolNameId.Value;
+                    bulletinDto.BaseSchoolNameId = (int)(long)schoolNameId.Value;
                     bulletinDto.Status = request.bulletinBulkDto.Status;
                     bulletinDto.IsActive = request.bulletinBulkDto.IsActive;
                     bulletinDto.BuletinDetails = request.bulletinBulkDto.BuletinDetails;
                     bulletinDto.MenuPosition = request.bulletinBulkDto.MenuPosition;
+                    bulletinDto.Status = request.bulletinBulkDto.Status;
 
                     var validator = new CreateBulletinDtoValidator();
                     var validationResult = await validator.ValidateAsync(bulletinDto);

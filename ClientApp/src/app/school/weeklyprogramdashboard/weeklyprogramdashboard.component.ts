@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { environment } from 'src/environments/environment';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-weeklyprogramdashboard.component',
@@ -17,6 +18,9 @@ import { environment } from 'src/environments/environment';
 })
 
 export class WeeklyProgramDashboardComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -47,8 +51,15 @@ export class WeeklyProgramDashboardComponent implements OnInit {
   }
 
   getRoutineInfoByCourse(schoolId){
-    this.schoolDashboardService.getRoutineByCourse(schoolId).subscribe(response => {         
+    this.schoolDashboardService.getRoutineByCourse(schoolId).subscribe(response => {     
+      this.dataSource = new MatTableDataSource(response);
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;    
       this.RoutineByCourse=response;
     })
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
   }
 }

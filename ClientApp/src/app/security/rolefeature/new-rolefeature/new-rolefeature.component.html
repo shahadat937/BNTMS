@@ -46,6 +46,7 @@
                         <input type="text" 
                           style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectRole" 
+                            (keydown.space)="$event.stopPropagation()"
                            (input)="filterByRole($event.target.value)"
                             placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
@@ -65,6 +66,7 @@
                         <input type="text" 
                           style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectFeature" 
+                            (keydown.space)="$event.stopPropagation()"
                            (input)="filterByFeature($event.target.value)"
                             placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >

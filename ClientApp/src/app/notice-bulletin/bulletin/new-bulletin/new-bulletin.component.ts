@@ -14,6 +14,8 @@ import { Role } from 'src/app/core/models/role';
 import { MatOption } from '@angular/material/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-new-bulletin',
@@ -21,6 +23,9 @@ import { ClassGetter } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./new-bulletin.component.sass']
 })
 export class NewBulletinComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  // dataSource = new MatTableDataSource();
   @ViewChild('allSelected') private allSelected: MatOption;
   @ViewChild('allSelectedCourse') private allSelectedCourse: MatOption;
   isShowCourseName: boolean = false;
@@ -36,6 +41,7 @@ export class NewBulletinComponent implements OnInit {
   validationErrors: string[] = [];
   selectedcoursedurationbyschoolname: SelectedModel[];
   selectedbaseschools: SelectedModel[];
+  selectSchool:SelectedModel[];
   isLoading = false;
   partyTypedropdownList = [];
   partyTypeselectedItems = [];
@@ -192,7 +198,11 @@ export class NewBulletinComponent implements OnInit {
   getselectedbaseschools() {
     this.bulletinService.getselectedbaseschools().subscribe(res => {
       this.selectedbaseschools = res
+      this.selectSchool=res
     });
+  }
+  filterBySchool(value:any){
+    this.selectedbaseschools = this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
   reloadCurrentRoute() {
@@ -228,13 +238,14 @@ export class NewBulletinComponent implements OnInit {
     else if (this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool) {
 
       this.loading = true;
-      this.selectedcoursedurationbyschoolname.forEach(element => {
-        var courseNameArr = element.value.split('_');
-        var courseDurationId = courseNameArr[0];
-        var courseNameId = courseNameArr[1];
-        this.BulletinForm.get('courseNameId').patchValue(courseNameId);
-        this.BulletinForm.get('courseDurationId').patchValue(courseDurationId);
-      });
+      //this.selectedcoursedurationbyschoolname.forEach(element => {
+      //  var courseNameArr = element.value.split('_');
+      //  var courseDurationId = courseNameArr[0];
+      //  var courseNameId = courseNameArr[1];
+      //  this.BulletinForm.get('courseNameId').patchValue(courseNameId);
+      //  this.BulletinForm.get('courseDurationId').patchValue(courseDurationId);
+      //});
+
 
       // var courseNameArr = this.BulletinForm.value.courseName.split('_');
       // var courseDurationId = courseNameArr[0];
@@ -244,90 +255,73 @@ export class NewBulletinComponent implements OnInit {
       // this.BulletinForm.get('courseNameId').patchValue(courseNameId);
       // this.BulletinForm.get('courseDurationId').patchValue(courseDurationId);
 
-      this.BulletinForm.value.courseName.forEach(element => {
-        this.BulletinForm.value.courseName = element;
 
+      let baseSchoolNameId: SelectedModel ={value: parseInt(this.BulletinForm.get('baseSchoolNameId').value),text:"custom"};
 
-        this.bulletinService.submit(this.BulletinForm.value).subscribe(response => {
+      this.BulletinForm.get('baseSchoolNameId').patchValue([baseSchoolNameId]);
+
+      console.log(this.BulletinForm.value);
+      this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({
+        next: response => {
+          if(response.success) {
+            this.snackBar.open('Information Inserted Successfully ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-success'
+            });
+          } else {
+            this.snackBar.open('Information insertion failed ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-warning'
+            });
+          }
+        },
+        error: err=> {
+          this.loading = false; 
+        },
+        complete: () => {
+          this.loading = false;
           this.reloadCurrentRoute();
-          // this.getBulletins(baseSchoolNameId);
-          this.snackBar.open('Information Inserted Successfully ', '', {
-            duration: 2000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'right',
-            panelClass: 'snackbar-success'
-          });
-        }, error => {
-          this.validationErrors = error;
-        })
+        }
 
-      });
-
+      })
 
     }
     else {
       //
       this.loading = true;
       console.log(this.BulletinForm.value);
-      this.BulletinForm.value.baseSchoolNameId.forEach(element => {
-        if (element.value != 0) {
 
-          this.BulletinForm.value.baseSchoolNameId = element.value;
-          if (this.BulletinForm.value.courseName != "") {
-            this.BulletinForm.value.courseName.forEach((courseElement, index) => {
-
-              if (courseElement != 0) {
-                var courseNameArr = courseElement.split('_');
-                var courseDurationId = courseNameArr[0];
-                var courseNameId = courseNameArr[1];
-                this.BulletinForm.get('courseNameId').patchValue(courseNameId);
-                this.BulletinForm.get('courseDurationId').patchValue(courseDurationId);
-                this.BulletinForm.value.courseName = ""
-                this.BulletinForm.value.baseSchoolNameId = element.value
-              }
-              if (courseElement != 0) {
-                this.bulletinService.submit(this.BulletinForm.value).subscribe(response => {
-
-                }, error => {
-                  this.validationErrors = error;
-                })
-              }
-
-
+      this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({
+        next: response => {
+          if(response.success) {
+            this.snackBar.open('Information Inserted Successfully ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-success'
             });
-
+          } else {
+            this.snackBar.open('Information insertion failed ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-warning'
+            });
           }
-          else {
-
-            this.bulletinService.submit(this.BulletinForm.value).subscribe(response => {
-              // this.reloadCurrentRoute();
-              // // this.getBulletins(baseSchoolNameId);
-              // this.snackBar.open('Information Inserted Successfully ', '', {
-              //   duration: 2000,
-              //   verticalPosition: 'bottom',
-              //   horizontalPosition: 'right',
-              //   panelClass: 'snackbar-success'
-              // });
-            }, error => {
-              this.validationErrors = error;
-            })
-
-          }
+        },
+        error: err=> {
+          this.loading = false; 
+        },
+        complete: () => {
+          this.loading = false;
+          this.reloadCurrentRoute();
         }
-
-
-
-      });
-
-      this.reloadCurrentRoute();
+      })
       // this.getBulletins(baseSchoolNameId);
-      this.snackBar.open('Information Inserted Successfully ', '', {
-        duration: 2000,
-        verticalPosition: 'bottom',
-        horizontalPosition: 'right',
-        panelClass: 'snackbar-success'
-      });
-
     }
   }
 
@@ -337,6 +331,11 @@ export class NewBulletinComponent implements OnInit {
   getBulletins(baseSchoolNameId) {
     this.isLoading = true;
     this.bulletinService.getBulletins(this.paging.pageIndex, this.paging.pageSize, this.searchText, baseSchoolNameId).subscribe(response => {
+      // this.dataSource = new MatTableDataSource(response);
+      
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      
       this.dataSource.data = response.items;
       this.paging.length = response.totalItemsCount
       this.isLoading = false;

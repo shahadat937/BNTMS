@@ -92,7 +92,7 @@ export class NewTraineeSectionSelectionComponent implements OnInit {
     });
   }
   filterBnaBatch(value:any){
-    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getBnaSemester(){
@@ -103,7 +103,7 @@ export class NewTraineeSectionSelectionComponent implements OnInit {
   }
 
   filterSemesterId(value:any){
-    this.selectedBnaSemester=this.selectSemesterId.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedBnaSemester=this.selectSemesterId.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getbnaclasssectionselection(){
@@ -114,10 +114,10 @@ export class NewTraineeSectionSelectionComponent implements OnInit {
     });
   }
  filterClassSelection(value:any){
-  this.selectedbnaclasssectionselection=this.selectClassSelection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedbnaclasssectionselection=this.selectClassSelection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
  }
 filterPreviewSection(value:any){
-  this.selectedbnaclasssectionselection=this.selectPreview.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedbnaclasssectionselection=this.selectPreview.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getbnacurriculamtype(){
     this.TraineeSectionSelectionService.getselectedbnacurriculamtype().subscribe(res=>{

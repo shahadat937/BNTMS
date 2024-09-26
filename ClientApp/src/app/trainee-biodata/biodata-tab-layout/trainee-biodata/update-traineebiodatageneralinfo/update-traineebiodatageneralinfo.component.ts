@@ -96,7 +96,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByBatch(value:any){
-    this.batchValues=this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.batchValues=this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getreligions(){
     this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
@@ -105,7 +105,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByReligion(value:any){
-    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   gethaircolors(){
     this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
@@ -114,7 +114,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }  
   filterByHairColor(value:any){
-    this.hairColorValues=this.selectHairColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.hairColorValues=this.selectHairColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedheight(){
@@ -137,7 +137,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   }
 
   filterByEyeColoe(value:any){
-    this.colorOfEyeValues=this.selectEyeColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.colorOfEyeValues=this.selectEyeColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedbloodgroup(){
     this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
@@ -146,7 +146,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByBloodGroup(value:any){
-    this.bloodValues=this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bloodValues=this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getNationalitys(){
@@ -156,7 +156,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByNationality(value:any){
-    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.nationalityValues=this.selectNationality.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getBranch(){
@@ -166,7 +166,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByBranch(value:any){
-    this.branchValues=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.branchValues=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getRanks(){
@@ -176,7 +176,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByRank(value:any){
-    this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getGenders(){
@@ -192,7 +192,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByDivision(value:any){
-    this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onDivisionSelectionChangeGetDistrict(divisionId){
@@ -202,7 +202,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByDistrict(value:any){
-    this.selectedDistrict=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedDistrict=this.selectDistrict.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onReligionSelectionChangeGetCastes(religionId){
@@ -212,7 +212,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByCaste(value:any){
-    this.selectedCastes=this.selectCaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCastes=this.selectCaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onDistrictSelectionChangeGetThana(districtId){
@@ -222,7 +222,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
     });
    }
    filterByThana(value:any){
-    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedThana=this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
    }
 
   // getMaritalStatus(){

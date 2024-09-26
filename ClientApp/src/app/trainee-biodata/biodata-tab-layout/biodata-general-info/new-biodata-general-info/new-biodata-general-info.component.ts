@@ -97,7 +97,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
 
 
   filterByBatch(value:any){
-    this.batchValues = this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.batchValues = this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getBatchs(){
     this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
@@ -106,7 +106,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByReligion(value:any){
-    this.religionValues = this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.religionValues = this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getreligions(){
     this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
@@ -138,7 +138,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterBloodGroup(value:any){
-    this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedbloodgroup(){
     this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
@@ -153,7 +153,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
   filterByBranch(value:any){
-    this.branchValues = this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.branchValues = this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getBranch(){
     this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
@@ -163,7 +163,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
 
   filterByRank(value:any){
-    this.rankValues=this.selectrank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.rankValues=this.selectrank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getRanks(){
     this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
@@ -190,7 +190,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
 
   filterDivision(value:any){
-      this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+      this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getDivisions(){
     this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
@@ -200,7 +200,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
 
   filterByDistric(value:any){
-    this.selectedDistrict=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedDistrict=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
@@ -210,7 +210,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   }
 
   filterByThana(value:any){
-    this.selectedThana = this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedThana = this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onDistrictSelectionChangeGetThana(districtId){
     this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
@@ -219,7 +219,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     });
   }
 filterByCaste(value:any){
-  this.selectedCastes = this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  this.selectedCastes = this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   onReligionSelectionChangeGetCastes(religionId){
     this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{

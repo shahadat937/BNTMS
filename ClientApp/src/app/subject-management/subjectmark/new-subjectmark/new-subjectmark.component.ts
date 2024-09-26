@@ -156,7 +156,7 @@ export class NewSubjectMarkComponent implements OnInit {
     });
   }
   filterByMarkType(value:any){
-    this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSelectedSchoolName(){
@@ -196,7 +196,7 @@ export class NewSubjectMarkComponent implements OnInit {
     }  
   }
   filterByModule(value:any){
-    this.selectedCourseModuleByBaseSchoolAndCourseNameId=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedCourseModuleByBaseSchoolAndCourseNameId=this.selectModule.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   
@@ -210,7 +210,7 @@ export class NewSubjectMarkComponent implements OnInit {
     });
   } 
   filterBySubject(value:any){
-    this.selectedsubjectname=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.selectedsubjectname=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   
   reloadCurrentRoute() {

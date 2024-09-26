@@ -96,7 +96,7 @@ export class NewEducationalQualificationComponent implements OnInit {
     });
   }
   filterbyExamType(value:any){
-    this.examTypeValues=this.selectExamType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.examTypeValues=this.selectExamType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getBoardName(){
@@ -106,7 +106,7 @@ export class NewEducationalQualificationComponent implements OnInit {
     });
   }
   filterByBoard(value:any){
-    this.boardValues=this.selectBoard.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.boardValues=this.selectBoard.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getGroupName(){
@@ -116,7 +116,7 @@ export class NewEducationalQualificationComponent implements OnInit {
     });
   }
   filterByGroup(value:any){
-    this.groupValues=this.selectGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    this.groupValues=this.selectGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onSubmit() {
     const id = this.EducationalQualificationForm.get('educationalQualificationId').value;  

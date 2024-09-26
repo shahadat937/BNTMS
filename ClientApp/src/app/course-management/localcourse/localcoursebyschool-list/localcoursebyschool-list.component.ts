@@ -20,6 +20,9 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./localcoursebyschool-list.component.sass']
 })
 export class LocalCourseBySchoolListComponent implements OnInit {
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
    masterData = MasterData;
   loading = false;
   CourseListBySchool: CourseDuration[] = [];
@@ -37,7 +40,7 @@ export class LocalCourseBySchoolListComponent implements OnInit {
   candidateCount:any;
   passOutStatus:any;
 
-  dataSource = new MatTableDataSource<any>();
+  // dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
@@ -92,6 +95,11 @@ export class LocalCourseBySchoolListComponent implements OnInit {
   getCourseDurationsByCourseType(schoolId) {
     this.isLoading = true;
     this.CourseDurationService.getCourseListBySchool(schoolId).subscribe(response => {
+      this.dataSource = new MatTableDataSource(response);
+      console.log(this.dataSource)
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      console.log(this.dataSource.paginator)
       this.CourseListBySchool = response;
       this.dataSource = new MatTableDataSource(this.CourseListBySchool);
       this.dataSource.paginator = this.paginator;
@@ -101,8 +109,8 @@ export class LocalCourseBySchoolListComponent implements OnInit {
   
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); 
-    filterValue = filterValue.toLowerCase(); 
+     
+    filterValue = filterValue.toLowerCase().replace(/\s/g, ""); 
     this.dataSource.filter = filterValue; 
   }
   
