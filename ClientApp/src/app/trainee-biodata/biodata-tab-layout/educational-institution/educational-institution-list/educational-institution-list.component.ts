@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EducationalInstitution } from '../../models/EducationalInstitution';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './educational-institution-list.component.html',
   styleUrls: ['./educational-institution-list.component.sass']
 })
-export class EducationalInstitutionListComponent implements OnInit {
+export class EducationalInstitutionListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,10 +34,16 @@ export class EducationalInstitutionListComponent implements OnInit {
   dataSource: MatTableDataSource<EducationalInstitution> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<EducationalInstitution>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalInstitutionService: EducationalInstitutionService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getEducationalInstitutions();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
  
   getEducationalInstitutions() {
@@ -45,7 +51,7 @@ export class EducationalInstitutionListComponent implements OnInit {
     
 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.EducationalInstitutionService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.EducationalInstitutionService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -66,7 +72,7 @@ export class EducationalInstitutionListComponent implements OnInit {
     const id = row.educationalInstitutionId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This EducationalInstitution Item').subscribe(result => {
       if (result) {
-        this.EducationalInstitutionService.delete(id).subscribe(() => {
+        this.subscription =  this.EducationalInstitutionService.delete(id).subscribe(() => {
           this.getEducationalInstitutions();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

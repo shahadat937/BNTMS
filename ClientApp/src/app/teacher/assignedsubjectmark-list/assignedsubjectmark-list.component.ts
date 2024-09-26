@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./assignedsubjectmark-list.component.sass']
 })
 
-export class AssignedSubjectMarkListComponent implements OnInit {
+export class AssignedSubjectMarkListComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -35,6 +35,7 @@ export class AssignedSubjectMarkListComponent implements OnInit {
   }
   searchText="";
   displayedCourseColumns: string[] = ['ser','Module','subjectName', 'subjectType', 'period','totalMark','passMark', 'actions'];
+  subscription: any;
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
   ngOnInit() {
@@ -43,8 +44,13 @@ export class AssignedSubjectMarkListComponent implements OnInit {
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     var bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId');
-    this.instructorDashboardService.getSpInstructorSubject(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId).subscribe(res=>{ 
+    this.subscription = this.instructorDashboardService.getSpInstructorSubject(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId).subscribe(res=>{ 
       this.courseList = res;
     });  
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

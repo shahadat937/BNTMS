@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ParentRelativeService } from '../../service/ParentRelative.service';
@@ -13,7 +13,7 @@ import { MasterData } from 'src/assets/data/master-data';
   templateUrl: './new-family-info.component.html',
   styleUrls: ['./new-family-info.component.sass']
 })
-export class NewParentRelativeComponent implements OnInit {
+export class NewParentRelativeComponent implements OnInit,OnDestroy {
   buttonText:string;
    masterData = MasterData;
   loading = false;
@@ -58,6 +58,7 @@ export class NewParentRelativeComponent implements OnInit {
   deadStatusToggle:string;
 
   defensehidevalue:string;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private ParentRelativeService: ParentRelativeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -68,7 +69,7 @@ export class NewParentRelativeComponent implements OnInit {
       this.pageTitle = 'Edit Family Information';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.ParentRelativeService.find(+id).subscribe(
+      this.subscription = this.ParentRelativeService.find(+id).subscribe(
         res => {
           this.ParentRelativeForm.patchValue({          
 
@@ -141,6 +142,11 @@ export class NewParentRelativeComponent implements OnInit {
     this.getGenders();
     this.getSelectedDeadStatus();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.ParentRelativeForm = this.fb.group({
       
@@ -210,7 +216,7 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   getRelationType(){
-    this.ParentRelativeService.getselectedrelationtype().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectedrelationtype().subscribe(res=>{
       this.relationTypeValues=res
       this.selectRealation=res
     });
@@ -220,18 +226,18 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   getGenders(){
-    this.ParentRelativeService.getselectedgender().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectedgender().subscribe(res=>{
       this.genderValues=res
     });
   }
   getMaritialStatus(){
-    this.ParentRelativeService.getselectedmaritialstatus().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectedmaritialstatus().subscribe(res=>{
       this.maritialStatusValues=res
     });
   }
 
   getNationality(){
-    this.ParentRelativeService.getselectednationality().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
       this.selectNationality=res
       this.selectedNationality=res
@@ -246,7 +252,7 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   getReligion(){
-    this.ParentRelativeService.getselectedreligion().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
       this.selectReligion=res
     });
@@ -256,13 +262,13 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   getCaste(){
-    this.ParentRelativeService.getselectedcaste().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectedcaste().subscribe(res=>{
       this.casteValues=res
     });
   }
 
   getOccupation(){
-    this.ParentRelativeService.getselectedoccupation().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectedoccupation().subscribe(res=>{
       this.occupationValues=res
       this.selectOccupation=res
       this.selectPreviousOccupation=res
@@ -276,7 +282,7 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   getDivision(){
-    this.ParentRelativeService.getselecteddivision().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselecteddivision().subscribe(res=>{
       this.divisionValues=res
       this.selectDivision=res
     });
@@ -286,19 +292,19 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   getDistrict(){
-    this.ParentRelativeService.getselecteddistrict().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselecteddistrict().subscribe(res=>{
       this.districtValues=res
     });
   }
 
   getThana(){
-    this.ParentRelativeService.getselectedthana().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectedthana().subscribe(res=>{
       this.thanaValues=res
     });
   }
 
   getDefenseType(){
-    this.ParentRelativeService.getselecteddefensetype().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselecteddefensetype().subscribe(res=>{
       this.defenseTypeValues=res
       this.selectDefenceType=res
     });
@@ -308,7 +314,7 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   getRank(){
-    this.ParentRelativeService.getselectedrank().subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getselectedrank().subscribe(res=>{
       this.rankValues=res
       this.selectRank=res
     });
@@ -319,14 +325,14 @@ export class NewParentRelativeComponent implements OnInit {
 
   getSelectedDeadStatus(){
     
-    this.CodeValueService.getSelectedCodeValueByType(this.masterData.codevaluetype.DeadStatus).subscribe(res=>{
+    this.subscription = this.CodeValueService.getSelectedCodeValueByType(this.masterData.codevaluetype.DeadStatus).subscribe(res=>{
       this.selectedDeadStatus=res;      
     })
   }
 
 
   onReligionSelectionChangeGetCastes(religionId){
-    this.ParentRelativeService.getcastebyreligion(religionId).subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
       this.selectcaste=res
     });
@@ -336,7 +342,7 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   onDivisionSelectionChangeGetDistrict(divisionId){
-    this.ParentRelativeService.getdistrictbydivision(divisionId).subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
       this.selectDistrict=res
     });
@@ -346,7 +352,7 @@ export class NewParentRelativeComponent implements OnInit {
   }
 
   onDistrictSelectionChangeGetThana(districtId){
-    this.ParentRelativeService.getthanaByDistrict(districtId).subscribe(res=>{
+    this.subscription = this.ParentRelativeService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
       this.selectThana=res
     });
@@ -358,10 +364,10 @@ export class NewParentRelativeComponent implements OnInit {
   onSubmit() {
     const id = this.ParentRelativeForm.get('parentRelativeId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) { 
           this.loading = true;
-          this.ParentRelativeService.update(+id,this.ParentRelativeForm.value).subscribe(response => {
+          this.subscription = this.ParentRelativeService.update(+id,this.ParentRelativeForm.value).subscribe(response => {
             this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/family-info-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -376,7 +382,7 @@ export class NewParentRelativeComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.ParentRelativeService.submit(this.ParentRelativeForm.value).subscribe(response => {
+      this.subscription = this.ParentRelativeService.submit(this.ParentRelativeForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/family-info-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

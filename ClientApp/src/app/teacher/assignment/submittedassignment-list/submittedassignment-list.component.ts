@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -16,7 +16,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './submittedassignment-list.component.html',
   styleUrls: ['./submittedassignment-list.component.sass']
 })
-export class SubmittedAssignmentComponent implements OnInit {
+export class SubmittedAssignmentComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -40,6 +40,7 @@ export class SubmittedAssignmentComponent implements OnInit {
   searchText="";
 
   displayedSubmittedStudentsColumns: string[] = ['ser', 'trainee', 'status', 'file', 'remarks', 'marks'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private fb: FormBuilder,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -54,8 +55,13 @@ export class SubmittedAssignmentComponent implements OnInit {
     this.intitializeMarkForm(); 
     this.getStudentSubmittedAssignmentLists();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getStudentSubmittedAssignmentLists(){
-    this.instructorDashboardService.getStudentSubmittedAssignmentLists(this.instructorAssignmentId,this.baseSchoolNameId,this.courseNameId,this.courseDurationId,this.bnaSubjectNameId).subscribe(response => {         
+    this.subscription = this.instructorDashboardService.getStudentSubmittedAssignmentLists(this.instructorAssignmentId,this.baseSchoolNameId,this.courseNameId,this.courseDurationId,this.bnaSubjectNameId).subscribe(response => {         
       this.submittedStudents=response;
       this.clearList();
       this.getTraineeListonClick(); 
@@ -110,7 +116,7 @@ export class SubmittedAssignmentComponent implements OnInit {
     if(assignmentMarkEntryId){
     }else{
       
-      this.instructorDashboardService.find(formValues.traineeAssignmentSubmitId).subscribe(response => {         
+      this.subscription = this.instructorDashboardService.find(formValues.traineeAssignmentSubmitId).subscribe(response => {         
         this.getTraineeAssignmentSubmit=response;
         this.assignmentMarkForm.get('traineeAssignmentSubmitId').setValue(this.getTraineeAssignmentSubmit.traineeAssignmentSubmitId);
         this.assignmentMarkForm.get('instructorAssignmentId').setValue(this.getTraineeAssignmentSubmit.instructorAssignmentId);
@@ -130,7 +136,7 @@ export class SubmittedAssignmentComponent implements OnInit {
 
       this.confirmService.confirm('Confirm Insertion message', 'Are You Sure Insertion This Item?').subscribe(result => {
         if (result) {
-          this.instructorDashboardService.submit(this.assignmentMarkForm.value).subscribe(response => {
+          this.subscription = this.instructorDashboardService.submit(this.assignmentMarkForm.value).subscribe(response => {
             //this.router.navigateByUrl('/teachers-evaluation/tdecactionstatus-list');
             this.getStudentSubmittedAssignmentLists();
             this.snackBar.open('Information Inserted Successfully ', '', {

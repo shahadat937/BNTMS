@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TdecQuationGroup } from '../../models/TdecQuationGroup';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './tdecquationgroup-list.component.html',
   styleUrls: ['./tdecquationgroup-list.component.sass']
 })
-export class TdecQuationGroupListComponent implements OnInit {
+export class TdecQuationGroupListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -33,6 +33,7 @@ export class TdecQuationGroupListComponent implements OnInit {
   dataSource: MatTableDataSource<TdecQuationGroup> = new MatTableDataSource();
 
   selection = new SelectionModel<TdecQuationGroup>(true, []);
+  subscription: any;
 
   
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TdecQuationGroupService: TdecQuationGroupService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class TdecQuationGroupListComponent implements OnInit {
   ngOnInit() {
     this.getTdecQuationGroups();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   getTdecQuationGroups() {
     this.isLoading = true;
-    this.TdecQuationGroupService.getTdecQuationGroups(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.TdecQuationGroupService.getTdecQuationGroups(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -83,7 +89,7 @@ export class TdecQuationGroupListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.tdecQuationGroupId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.TdecQuationGroupService.delete(id).subscribe(() => {
           this.getTdecQuationGroups();

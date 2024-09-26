@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { BNAExamMarkService } from '../../service/bnaexammark.service';
@@ -24,7 +24,7 @@ import { MarkTypeService } from 'src/app/basic-setup/service/MarkType.service';
   templateUrl: './new-qexammark.component.html',
   styleUrls: ['./new-qexammark.component.sass']
 })
-export class NewQExamMarkComponent implements OnInit {
+export class NewQExamMarkComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText: string;
@@ -74,6 +74,7 @@ export class NewQExamMarkComponent implements OnInit {
   courseTypeId:any;
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar, private markTypeService: MarkTypeService,private classRoutineService: ClassRoutineService,private subjectMarkService:SubjectMarkService,private BNASubjectNameService: BNASubjectNameService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
 
@@ -123,6 +124,11 @@ export class NewQExamMarkComponent implements OnInit {
     //this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
     //this.getSelectedBranch();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   setParamDataToForm(){
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
@@ -149,13 +155,13 @@ export class NewQExamMarkComponent implements OnInit {
     this.BNAExamMarkForm.get('examTypeCount').setValue(1);
     this.BNAExamMarkForm.get('courseSectionId').setValue(courseSectionId);
 
-    this.markTypeService.find(Number(markTypeId)).subscribe(res => {  
+    this.subscription =this.markTypeService.find(Number(markTypeId)).subscribe(res => {  
       this.markTypeName = res.typeName;
       this.onSubjectMarkSelectionGetPassMark();
     });
  
     if(this.courseNameId == this.masterData.courseName.JCOsTraining){
-      this.traineeNominationService.getNewTraineeNominationsForJcoExamByBranch(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res => {
+      this.subscription = this.traineeNominationService.getNewTraineeNominationsForJcoExamByBranch(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res => {
         this.traineeList = res;
         this.clearList()
         this.getTraineeListonClick();
@@ -166,7 +172,7 @@ export class NewQExamMarkComponent implements OnInit {
 
     }
 
-    this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(this.courseNameId, bnaSubjectNameId).subscribe(res => {
+    this.subscription = this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(this.courseNameId, bnaSubjectNameId).subscribe(res => {
        
       this.subjectMarkList = res;
     });
@@ -177,7 +183,7 @@ export class NewQExamMarkComponent implements OnInit {
   }
 
   getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId){
-    this.traineeNominationService.getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,1,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId).subscribe(res => {
+    this.subscription = this.traineeNominationService.getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,1,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId).subscribe(res => {
       this.traineeList = res;
       this.clearList()
       this.getTraineeListonClick();
@@ -186,7 +192,7 @@ export class NewQExamMarkComponent implements OnInit {
 
   onSubjectMarkSelectionGetPassMark(){
     var subjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
-    this.subjectMarkService.find(subjectMarkId).subscribe(res => {
+    this.subscription = this.subjectMarkService.find(subjectMarkId).subscribe(res => {
       this.subjectPassMark = res.passMark;
       var mark = res.mark;
       this.mark =mark;
@@ -232,7 +238,7 @@ export class NewQExamMarkComponent implements OnInit {
   }
 
   getselectedexammarkremark() {
-    this.BNAExamMarkService.getselectedexammarkremark().subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getselectedexammarkremark().subscribe(res => {
       this.selectedmarkremarks = res
     });
   }
@@ -408,7 +414,7 @@ export class NewQExamMarkComponent implements OnInit {
 
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
           this.loading=true;
           this.BNAExamMarkService.update(+id, JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
@@ -427,7 +433,7 @@ export class NewQExamMarkComponent implements OnInit {
     } else {
       var aaa=223;
       var bbb=333;
-      this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading=true;
           this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {

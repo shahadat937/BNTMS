@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Election } from '../../models/Election';
@@ -14,7 +14,7 @@ import{MasterData} from '../../../../../assets/data/master-data';
   templateUrl: './election-list.component.html',
   styleUrls: ['./election-list.component.sass']
 })
-export class ElectionListComponent implements OnInit {
+export class ElectionListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -33,17 +33,23 @@ export class ElectionListComponent implements OnInit {
   dataSource: MatTableDataSource<Election> = new MatTableDataSource();
 
   selection = new SelectionModel<Election>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private ElectionService: ElectionService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getElections();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
  
   getElections() {
     this.isLoading = true;
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
 
-    this.ElectionService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.ElectionService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -62,7 +68,7 @@ export class ElectionListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.electionId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.ElectionService.delete(id).subscribe(() => {
           this.getElections();

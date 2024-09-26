@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TdecActionStatus } from '../../models/TdecActionStatus';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './tdecactionstatus-list.component.html',
   styleUrls: ['./tdecactionstatus-list.component.sass']
 })
-export class TdecActionStatusListComponent implements OnInit {
+export class TdecActionStatusListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -33,6 +33,7 @@ export class TdecActionStatusListComponent implements OnInit {
   dataSource: MatTableDataSource<TdecActionStatus> = new MatTableDataSource();
 
   selection = new SelectionModel<TdecActionStatus>(true, []);
+  subscription: any;
 
   
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TdecActionStatusService: TdecActionStatusService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class TdecActionStatusListComponent implements OnInit {
   ngOnInit() {
     this.getTdecActionStatuses();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   getTdecActionStatuses() {
     this.isLoading = true;
-    this.TdecActionStatusService.getTdecActionStatuses(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.TdecActionStatusService.getTdecActionStatuses(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -83,7 +89,7 @@ export class TdecActionStatusListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.tdecActionStatusId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.TdecActionStatusService.delete(id).subscribe(() => {
           this.getTdecActionStatuses();
