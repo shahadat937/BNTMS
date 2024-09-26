@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.GlobalSearch.Requests.Queries
 {
-    public class GetTraineeDetailsRequest: IRequest<object>
+    public class GetSearchedTraineeDetailRequest: IRequest<object>
     {
         public int TraineeId { get; set; }
     }
