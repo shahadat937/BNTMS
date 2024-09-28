@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNASubjectNameService } from '../../service/BNASubjectName.service';
@@ -18,7 +18,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-subjectnameforbna.component.html',
   styleUrls: ['./new-subjectnameforbna.component.sass']
 })
-export class NewSubjectnameforBnaComponent implements OnInit {
+export class NewSubjectnameforBnaComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -66,6 +66,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
     length: 1
   }
   displayedColumns: string[] = ['ser','subjectName','subjectType','kindOfSubject','totalPeriod','totalMark','passMarkBna',/*'bnaSemesterId','courseNameId','isActive',*/ 'actions'];
+  subscription: any;
   constructor(private snackBar: MatSnackBar,private authService:AuthService, private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService:CodeValueService,private BNASubjectNameService: BNASubjectNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -78,7 +79,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
       this.pageTitle = 'Edit Subject Name';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.BNASubjectNameService.find(+id).subscribe(
+      this.subscription = this.BNASubjectNameService.find(+id).subscribe(
         res => {
           this.BNASubjectNameForm.patchValue({          
 
@@ -141,6 +142,11 @@ export class NewSubjectnameforBnaComponent implements OnInit {
 
     this.intitializeForm();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.BNASubjectNameForm = this.fb.group({
       bnaSubjectNameId: [0],
@@ -177,7 +183,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
       creditHour:[]
 
     })
-    this.BNASubjectNameForm.get('course').valueChanges
+    this.subscription = this.BNASubjectNameForm.get('course').valueChanges
     .subscribe(value => {
         this.getSelectedCourseAutocomplete(value);
     })
@@ -188,7 +194,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
    var courseNameId=this.BNASubjectNameForm.value['courseNameId'];
     
     if(baseSchoolNameId != null && courseNameId != null){
-      this.BNASubjectNameService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
+      this.subscription = this.BNASubjectNameService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;     
       });
     }  
@@ -214,9 +220,9 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   inActiveItem(row){
     const id = row.bnaSubjectNameId;    
     if(row.subjectActiveStatus == 0){
-      this.confirmService.confirm('Confirm Active message', 'Are You Sure Active This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Active message', 'Are You Sure Active This Item').subscribe(result => {
         if (result) {
-          this.BNASubjectNameService.activeSubject(id).subscribe(() => {
+          this.subscription = this.BNASubjectNameService.activeSubject(id).subscribe(() => {
             this.onModuleSelectionChangeGetsubjectList();
            // this.getCourseDurations();
             this.snackBar.open('Information actived Successfully ', '', {
@@ -231,7 +237,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
     }else{
       this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Deactive This Item').subscribe(result => {
         if (result) {
-          this.BNASubjectNameService.activeSubject(id).subscribe(() => {
+          this.subscription = this.BNASubjectNameService.activeSubject(id).subscribe(() => {
             this.onModuleSelectionChangeGetsubjectList();
            // this.getCourseDurations();
             this.snackBar.open('Information Deactived Successfully ', '', {
@@ -252,7 +258,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
     var courseModuleId=this.BNASubjectNameForm.value['courseModuleId'];
     this.isShown=true;
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null){
-      this.BNASubjectNameService.getSelectedCourseByParameters(baseSchoolNameId,courseNameId,courseModuleId,this.status).subscribe(res=>{
+      this.subscription = this.BNASubjectNameService.getSelectedCourseByParameters(baseSchoolNameId,courseNameId,courseModuleId,this.status).subscribe(res=>{
         this.selectedCourseByParameterRequest=res;  
       }); 
     }
@@ -260,7 +266,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   getSubjectListbyBnaSemesterId(){
     var bnaSemesterId=this.BNASubjectNameForm.value['bnaSemesterId'];
     this.isShown=true;
-    this.BNASubjectNameService.getSubjectListbyBnaSemesterId(bnaSemesterId).subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSubjectListbyBnaSemesterId(bnaSemesterId).subscribe(res=>{
       this.subjectnamelist=res;     
     })
   }
@@ -281,19 +287,19 @@ export class NewSubjectnameforBnaComponent implements OnInit {
     this.onBaseNameSelectionChangeGetModule();
   }
   getSelectedCourseAutocomplete(cName){
-    this.CourseNameService.getSelectedCourseByName(cName).subscribe(response => {
+    this.subscription = this.CourseNameService.getSelectedCourseByName(cName).subscribe(response => {
       this.options = response;
       this.filteredOptions = response;
     })
   }
 
   getSelectedCourseModule(){
-    this.BNASubjectNameService.getSelectedCourseModule().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedCourseModule().subscribe(res=>{
       this.selectedCourseModule=res;     
     })
   }
   getSelectedDepartment(){
-    this.BNASubjectNameService.getSelectedDepartment().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedDepartment().subscribe(res=>{
       this.selectedDepartment=res;     
     })
   }
@@ -311,7 +317,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   }
   
   getSelectedBnaSemester(){
-    this.BNASubjectNameService.getSelectedBnaSemester().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
       this.selectSemester=res
     });
@@ -320,19 +326,19 @@ export class NewSubjectnameforBnaComponent implements OnInit {
     this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getSelectedSchoolName(){
-    this.BNASubjectNameService.getSelectedSchoolName().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedSchoolName().subscribe(res=>{
       this.selectedSchoolName=res
     });
   }
 
   getSelectedCourseName(){
-    this.BNASubjectNameService.getSelectedCourseName().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedCourseName().subscribe(res=>{
       this.selectedCourseName=res
     });
   }
  
   getSelectedSubjectCategory(){
-    this.BNASubjectNameService.getSelectedSubjectCategory().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedSubjectCategory().subscribe(res=>{
       this.selectedSubjectCategory=res
       this.selectSubjectCategory=res
 
@@ -343,7 +349,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   }
  
   getSelectedSubjectCurriculum(){
-    this.BNASubjectNameService.getSelectedSubjectCurriculum().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedSubjectCurriculum().subscribe(res=>{
       this.selectedSubjectCurriculum=res
       this.selectCurriculum=res
     });
@@ -354,7 +360,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   }
 
   getSelectedSubjectType(){
-    this.BNASubjectNameService.getSelectedSubjectType().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedSubjectType().subscribe(res=>{
       this.selectedSubjectType=res
       this.selectSubjectType=res
     });
@@ -364,7 +370,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   }
  
   getSelectedKindOfSubject(){
-    this.BNASubjectNameService.getSelectedKindOfSubject().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedKindOfSubject().subscribe(res=>{
       this.selectedKindOfSubject=res
       this.selectKindofSubject=res
     });
@@ -374,7 +380,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   }
 
   getSelectedSubjectClassification(){
-    this.BNASubjectNameService.getSelectedSubjectClassification().subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getSelectedSubjectClassification().subscribe(res=>{
       this.selectedSubjectClassification=res
     });
   }
@@ -396,7 +402,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
     
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
       if (result) {
-        this.BNASubjectNameService.delete(id).subscribe(() => {
+        this.subscription = this.BNASubjectNameService.delete(id).subscribe(() => {
           this.SubjectListonDelete(baseSchoolNameId,courseNameId,courseModuleId);
           this.reloadCurrentRoute();   
           this.snackBar.open('Information Deleted Successfully ', '', {
@@ -421,10 +427,10 @@ export class NewSubjectnameforBnaComponent implements OnInit {
   onSubmit() {
     const id = this.BNASubjectNameForm.get('bnaSubjectNameId').value;
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.BNASubjectNameService.update(+id,this.BNASubjectNameForm.value).subscribe(response => {
+          this.subscription = this.BNASubjectNameService.update(+id,this.BNASubjectNameForm.value).subscribe(response => {
             this.router.navigateByUrl('/subject-management/add-subjectnameforbna');  
             //this.router.navigateByUrl('/routine-management/add-classperiod');
             //this.reloadCurrentRoute();          
@@ -441,7 +447,7 @@ export class NewSubjectnameforBnaComponent implements OnInit {
       })
     }else {
       this.loading = true;
-      this.BNASubjectNameService.submit(this.BNASubjectNameForm.value).subscribe(response => {
+      this.subscription = this.BNASubjectNameService.submit(this.BNASubjectNameForm.value).subscribe(response => {
         // this.router.navigateByUrl('/subject-management/subjectname-list');
         this.onModuleSelectionChangeGetsubjectList();
         this.BNASubjectNameForm.reset();

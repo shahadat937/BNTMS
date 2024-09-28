@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
@@ -18,7 +18,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './weeklyprogram-list.component.html',
   styleUrls: ['./weeklyprogram-list.component.sass']
 })
-export class WeeklyProgramListComponent implements OnInit {
+export class WeeklyProgramListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -49,6 +49,7 @@ export class WeeklyProgramListComponent implements OnInit {
    displayedSubjectListColumns: string[] = ['ser','subjectName','subjectShortName','instructorShortCode'];
    displayedPeriodListColumns: string[] = ['ser','periodName','duration'];
    displayedRoutineNoteColumns: string[] = ['ser','routineName','routineNote'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private ClassPeriodService: ClassPeriodService,private ClassRoutineService: ClassRoutineService,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
 
@@ -60,6 +61,11 @@ export class WeeklyProgramListComponent implements OnInit {
     var courseSectionId = this.route.snapshot.paramMap.get('courseSectionId');
     this.getRoutineByCourseDuration(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId, 0);
     this.getInstructorAndSubject(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId);
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   allItem(){
@@ -79,10 +85,10 @@ export class WeeklyProgramListComponent implements OnInit {
   // }
 
   getInstructorAndSubject(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId){
-    this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.traineeListByBaseSchoolAndCourse=res;
     })
-    this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,null,courseSectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,null,courseSectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
     });
   }
@@ -90,7 +96,7 @@ export class WeeklyProgramListComponent implements OnInit {
   getRoutineByCourseDuration(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId,status){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
 
-    this.studentDashboardService.getRoutineByCourseDurationId(baseSchoolNameId,courseNameId,courseDurationId, courseSectionId, status).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getRoutineByCourseDurationId(baseSchoolNameId,courseNameId,courseDurationId, courseSectionId, status).subscribe(res=>{
       this.RoutineByCourseDuration = res;
 
       this.displayedColumns =[...Object.keys(this.RoutineByCourseDuration[0])];
@@ -112,10 +118,10 @@ export class WeeklyProgramListComponent implements OnInit {
         };
       });
     });
-    this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
+    this.subscription = this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.periodListByBaseSchoolAndCourse=res;
     })
-    this.studentDashboardService.getRoutineNotesForDashboard(currentDateTime,baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getRoutineNotesForDashboard(currentDateTime,baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.routineNotesList=res;
     })
   }

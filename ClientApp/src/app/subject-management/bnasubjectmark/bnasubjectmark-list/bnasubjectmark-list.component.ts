@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SubjectMark } from '../../models/SubjectMark';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './bnasubjectmark-list.component.html',
   styleUrls: ['./bnasubjectmark-list.component.sass']
 })
-export class BnaSubjectMarkListComponent implements OnInit {
+export class BnaSubjectMarkListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -33,16 +33,22 @@ export class BnaSubjectMarkListComponent implements OnInit {
   dataSource: MatTableDataSource<SubjectMark> = new MatTableDataSource();
 
   selection = new SelectionModel<SubjectMark>(true, []);
+  subscription: any;
   
   constructor(private snackBar: MatSnackBar,private SubjectMarkService: SubjectMarkService,private router: Router,private confirmService: ConfirmService) { }
   
   ngOnInit() {
     this.getSubjectMarks();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getSubjectMarks() {
     this.isLoading = true;
-    this.SubjectMarkService.getSubjectMarks(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.SubjectMarkService.getSubjectMarks(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
       
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
@@ -64,7 +70,7 @@ export class BnaSubjectMarkListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.subjectMarkId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.SubjectMarkService.delete(id).subscribe(() => {
           this.getSubjectMarks();

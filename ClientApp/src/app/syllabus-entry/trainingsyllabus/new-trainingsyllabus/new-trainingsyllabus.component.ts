@@ -180,7 +180,7 @@ export class NewTrainingSyllabusComponent implements OnInit,OnDestroy {
       var baseSchoolNameId = this.TrainingSyllabusForm.value['baseSchoolNameId'];
       var courseNameId = this.TrainingSyllabusForm.value['courseNameId'];
       var bnaSubjectNameId = this.TrainingSyllabusForm.value['bnaSubjectNameId'];
-      this.TrainingSyllabusService.getSelectedSubjectShowTrainingSyllabuslist(baseSchoolNameId, courseNameId, bnaSubjectNameId).subscribe(response => {
+      this.TrainingSyllabusService.getSelectedSubjectShowTrainingSyllabuslist(baseSchoolNameId, this.subscription = courseNameId, bnaSubjectNameId).subscribe(response => {
         this.trainingSyllabusList = response;
       })
     }
@@ -199,7 +199,7 @@ export class NewTrainingSyllabusComponent implements OnInit,OnDestroy {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.TrainingSyllabusService.update(+id, this.TrainingSyllabusForm.value).subscribe(response => {
+          this.subscription = this.TrainingSyllabusService.update(+id, this.TrainingSyllabusForm.value).subscribe(response => {
             this.router.navigateByUrl('/syllabus-entry/add-trainingsyllabus');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,

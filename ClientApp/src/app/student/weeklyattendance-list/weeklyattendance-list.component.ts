@@ -36,6 +36,7 @@ export class WeeklyAttendanceListComponent implements OnInit {
 
 
    selection = new SelectionModel<BNASubjectName>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
@@ -44,6 +45,11 @@ export class WeeklyAttendanceListComponent implements OnInit {
     var traineeId = this.route.snapshot.paramMap.get('traineeId');
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.getAttendanceByTraineeAndCourseDuration(traineeId, courseDurationId)
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   getAttendanceByTraineeAndCourseDuration(traineeId,courseDurationId){

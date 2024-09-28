@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseInstructorService } from '../../service/courseinstructor.service';
@@ -18,7 +18,7 @@ import { delay, of, Subscription } from 'rxjs';
   templateUrl: './new-courseinstructor.component.html',
   styleUrls: ['./new-courseinstructor.component.sass']
 })
-export class NewCourseInstructorComponent implements OnInit {
+export class NewCourseInstructorComponent implements OnInit,OnDestroy {
 
   subscription: Subscription = new Subscription();
    masterData = MasterData;
@@ -81,7 +81,7 @@ export class NewCourseInstructorComponent implements OnInit {
       this.destination = "Update";
       this.buttonText = "Update"
 
-      this.CourseInstructorService.find(+id).subscribe(
+      this.subscription = this.CourseInstructorService.find(+id).subscribe(
        
         res => {
        
@@ -128,6 +128,11 @@ export class NewCourseInstructorComponent implements OnInit {
     //this.getselectedcoursedurationbyschoolname();
     this.getSelectedModule();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   intitializeForm() {
     this.CourseInstructorForm = this.fb.group({
@@ -162,7 +167,7 @@ export class NewCourseInstructorComponent implements OnInit {
       this.CourseInstructorForm.get('baseSchoolNameId').setValue(this.branchId);
     }
     var baseSchoolNameId = this.CourseInstructorForm.value['baseSchoolNameId'];
-    this.CourseInstructorService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
+    this.subscription = this.subscription = this.CourseInstructorService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
       this.selectSchool=res
     });
@@ -185,9 +190,9 @@ export class NewCourseInstructorComponent implements OnInit {
       return;
     }
 
-    this.subscription = delay$.subscribe(data => {
+    this.subscription = this.subscription = delay$.subscribe(data => {
 
-      this.CourseInstructorService.getSelectedTraineeByPno(data).subscribe(response => {
+      this.subscription = this.CourseInstructorService.getSelectedTraineeByPno(data).subscribe(response => {
         this.options = response;
         this.filteredOptions = response;
       })
@@ -197,9 +202,9 @@ export class NewCourseInstructorComponent implements OnInit {
 
   //Stop Course Instructor
   stopCourseInstructor(element) {
-    this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
-        this.CourseInstructorService.stopCourseInstructor(element.courseInstructorId).subscribe(() => {
+        this.subscription = this.CourseInstructorService.stopCourseInstructor(element.courseInstructorId).subscribe(() => {
 
           var baseSchoolNameId = element.baseSchoolNameId;
           var bnaSubjectNameId = element.bnaSubjectNameId;
@@ -218,7 +223,7 @@ export class NewCourseInstructorComponent implements OnInit {
           });
           if (baseSchoolNameId != null && bnaSubjectNameId != null && courseModuleId != null && courseNameId != null) {
 
-            this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
+            this.subscription = this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
               this.GetInstructorByParameters = res;
             });
           }
@@ -230,11 +235,11 @@ export class NewCourseInstructorComponent implements OnInit {
   //Running Course Instructor
   RunningCourseInstructor(element) {
 
-    this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
         
 
-        this.CourseInstructorService.RunningCourseInstructor(element.courseInstructorId).subscribe(() => {
+        this.subscription = this.CourseInstructorService.RunningCourseInstructor(element.courseInstructorId).subscribe(() => {
 
           var baseSchoolNameId = element.baseSchoolNameId;
           var bnaSubjectNameId = element.bnaSubjectNameId;
@@ -253,7 +258,7 @@ export class NewCourseInstructorComponent implements OnInit {
 
           if (baseSchoolNameId != null && bnaSubjectNameId != null && courseModuleId != null && courseNameId != null) {
 
-            this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
+            this.subscription = this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
               this.GetInstructorByParameters = res;
             });
           }
@@ -285,7 +290,7 @@ export class NewCourseInstructorComponent implements OnInit {
       this.CourseInstructorForm.get('courseDurationId').setValue(courseDurationId);
 
       if (baseSchoolNameId != null && courseNameId != null) {
-        this.CourseInstructorService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
+        this.subscription = this.CourseInstructorService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
           this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;
           this.selectCourseModule=res;
         });
@@ -294,7 +299,7 @@ export class NewCourseInstructorComponent implements OnInit {
   }
 
   getCourseModuleOnEdit(baseSchoolNameId, courseNameId){
-    this.CourseInstructorService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
+    this.subscription = this.CourseInstructorService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
       this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;
       this.selectCourseModule=res
     });
@@ -304,13 +309,13 @@ export class NewCourseInstructorComponent implements OnInit {
   }
 
   getSelectedModule() {
-    this.CourseInstructorService.getSelectedModule().subscribe(res => {
+    this.subscription = this.CourseInstructorService.getSelectedModule().subscribe(res => {
       this.selectedModule = res
     });
   }
 
   getselectedschools() {
-    this.CourseInstructorService.getselectedschools().subscribe(res => {
+    this.subscription = this.CourseInstructorService.getselectedschools().subscribe(res => {
       this.selectedSchool = res
     
     });
@@ -319,7 +324,7 @@ export class NewCourseInstructorComponent implements OnInit {
     this.selectedcoursedurationbyschoolname=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcourseduration() {
-    this.CourseInstructorService.getselectedcourseduration().subscribe(res => {
+    this.subscription = this.CourseInstructorService.getselectedcourseduration().subscribe(res => {
       this.selectedcourseduration = res;
     });
   }
@@ -373,14 +378,14 @@ export class NewCourseInstructorComponent implements OnInit {
     this.isShown = true;
     if (baseSchoolNameId != null && bnaSubjectNameId != null && courseModuleId != null && courseNameId != null && courseSectionId != null) {
 
-      this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
+      this.subscription = this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
         this.GetInstructorByParameters = res;
       });
     }
   }
   onSubjectMarkSelectionGetMarkType(){
     var subjectMarkId = this.CourseInstructorForm.value['subjectMarkId'];
-    this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
       this.CourseInstructorForm.get('markTypeId').setValue(res.markTypeId);
     });
 
@@ -389,7 +394,7 @@ export class NewCourseInstructorComponent implements OnInit {
     this.isShown = true;
     if (baseSchoolNameId != null && bnaSubjectNameId != null && courseModuleId != null && courseNameId != null) {
 
-      this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
+      this.subscription = this.CourseInstructorService.getInstructorByParameters(baseSchoolNameId,bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId).subscribe(res => {
         this.GetInstructorByParameters = res;
       });
     }
@@ -408,9 +413,9 @@ export class NewCourseInstructorComponent implements OnInit {
     var courseNameId = row.courseNameId;
     var courseDurationId = row.courseDurationId;
     var courseSectionId = row.courseSectionId;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.CourseInstructorService.delete(id).subscribe(() => {
+        this.subscription = this.CourseInstructorService.delete(id).subscribe(() => {
           this.GetInstructorListAfterDelete(baseSchoolNameId, bnaSubjectNameId, courseModuleId, courseNameId,courseDurationId,courseSectionId);
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,
@@ -434,10 +439,10 @@ export class NewCourseInstructorComponent implements OnInit {
     this.loading = true;
     const id = this.CourseInstructorForm.get('courseInstructorId').value;
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.CourseInstructorService.update(+id, this.CourseInstructorForm.value).subscribe(response => {
+          this.subscription = this.CourseInstructorService.update(+id, this.CourseInstructorForm.value).subscribe(response => {
             this.router.navigateByUrl('/subject-management/add-subjectinstructor');
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -455,7 +460,7 @@ export class NewCourseInstructorComponent implements OnInit {
 
     else {
       this.loading = true;
-      this.CourseInstructorService.submit(this.CourseInstructorForm.value).subscribe(response => {
+      this.subscription = this.CourseInstructorService.submit(this.CourseInstructorForm.value).subscribe(response => {
         //this.router.navigateByUrl('/subject-management/subjectinstructor-list');
         this.onSectionChangeGetInstructorList();
         this.reloadCurrentRoute();
