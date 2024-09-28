@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.DTOs.GlobalSearch
 {
-    public class SearchedTraineeDetailDto
+    public class SearchedInstructorDetailDto
     {
         public List<CourseDurationDto> CourseDurations { get; set; } = new List<CourseDurationDto>();
-        public int TotalCourse {  get; set; }
+        public int TotalCourse { get; set; }
         public int PreviousCourse { get; set; }
         public int RunningCourse { get; set; }
-        public int UpcomingCourse {  get; set; }
+        public int UpcomingCourse { get; set; }
     }
 }

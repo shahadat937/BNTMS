@@ -49,6 +49,9 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
             traineeDetail.CourseDurations = _mapper.Map<List<CourseDurationDto>>(courseDurations);
             traineeDetail.TotalCourse = traineeDetail.CourseDurations.Count();
+            traineeDetail.PreviousCourse = traineeDetail.CourseDurations.Where(x => x.DurationTo < DateTime.Now).Count();
+            traineeDetail.RunningCourse = traineeDetail.CourseDurations.Where(x=> x.DurationFrom <= DateTime.Now && x.DurationTo >= DateTime.Now).Count();
+            traineeDetail.UpcomingCourse = traineeDetail.CourseDurations.Where(x => x.DurationFrom > DateTime.Now).Count();
 
             return traineeDetail;
         }
