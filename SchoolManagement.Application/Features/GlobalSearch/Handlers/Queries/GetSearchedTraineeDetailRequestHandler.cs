@@ -34,7 +34,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
         public async Task<object> Handle(GetSearchedTraineeDetailRequest request, CancellationToken cancellationToken)
         {
             // TODO: YET TO IMPLEMENT
-            var trainee = _CourseDurationRepo.Get(request.TraineeId);
+            var trainee = await _TraineeInfoRepo.Get(request.TraineeId);
 
             if(trainee == null)
             {
@@ -45,9 +45,10 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
             List<int?> courseDurationIds = await _TraineeNominationRepo.Where(x => x.TraineeId == request.TraineeId && x.TraineeId != null).Select(x =>x.CourseDurationId).Distinct().ToListAsync();
 
-            var courseDurations = _CourseDurationRepo.Where(x => courseDurationIds.Contains(x.CourseDurationId)).Distinct().ToListAsync();
+            var courseDurations = await _CourseDurationRepo.Where(x => courseDurationIds.Contains(x.CourseDurationId)).Distinct().ToListAsync();
 
             traineeDetail.CourseDurations = _mapper.Map<List<CourseDurationDto>>(courseDurations);
+            traineeDetail.TotalCourse = traineeDetail.CourseDurations.Count();
 
             return traineeDetail;
         }
