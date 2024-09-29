@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttendanceService } from '../../service/attendance.service';
@@ -25,7 +25,7 @@ import { ClassRoutineService } from '../../../../../src/app/routine-management/s
   templateUrl: './attendance-instructor.component.html',
   styleUrls: ['./attendance-instructor.component.sass']
 })
-export class AttendanceInstructorComponent implements OnInit {
+export class AttendanceInstructorComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -63,6 +63,7 @@ export class AttendanceInstructorComponent implements OnInit {
   // selection = new SelectionModel<Attendance>(true, []);
   displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   dataSource ;
+  subscription: any;
   constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
   ngOnInit(): void {
@@ -72,7 +73,7 @@ export class AttendanceInstructorComponent implements OnInit {
       this.pageTitle = 'Edit Attendance Instructor'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.AttendanceService.find(+id).subscribe(
+      this.subscription = this.AttendanceService.find(+id).subscribe(
         res => {
           this.AttendanceForm.patchValue({          
             attendanceId:res.attendanceId, 
@@ -105,6 +106,11 @@ export class AttendanceInstructorComponent implements OnInit {
      this.getselectedclassperiod(this.traineeId);
     this.getselectedbnaattendanceremark();
     // this.getAttendanceListForUpdate();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.AttendanceForm = this.fb.group({
@@ -215,7 +221,7 @@ export class AttendanceInstructorComponent implements OnInit {
         this.isShown=true;
         this.clearList();
 
-        this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
+        this.subscription = this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
           this.traineeNominationListForAttendance=res; 
           this.getTraineeListonClick();
          });
@@ -297,7 +303,7 @@ export class AttendanceInstructorComponent implements OnInit {
 
 
   getselectedbnaattendanceremark(){
-    this.AttendanceService.getselectedbnaattendanceremark().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedbnaattendanceremark().subscribe(res=>{
       this.selectedbnaattendanceremark=res
     });
   }
@@ -322,7 +328,7 @@ export class AttendanceInstructorComponent implements OnInit {
     // }
     
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
       
         if (result) {
           this.AttendanceService.updateAttendanceList(JSON.stringify(this.AttendanceForm.value)).subscribe(response => {
@@ -340,7 +346,7 @@ export class AttendanceInstructorComponent implements OnInit {
       })
     }
     else {
-      this.AttendanceService.submitAttendance(this.AttendanceForm.value).subscribe(response => {
+      this.subscription = this.AttendanceService.submitAttendance(this.AttendanceForm.value).subscribe(response => {
         // this.router.navigateByUrl('/attendance-management/add-attendance');
         // this.AttendanceForm.reset();
         // this.AttendanceForm.get('attendanceId').setValue(0);

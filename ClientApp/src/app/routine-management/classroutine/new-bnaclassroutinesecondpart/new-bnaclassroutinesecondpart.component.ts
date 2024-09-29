@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClassRoutineService } from '../../service/classroutine.service';
@@ -22,7 +22,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
   templateUrl: './new-bnaclassroutinesecondpart.component.html',
   styleUrls: ['./new-bnaclassroutinesecondpart.component.sass']
 })
-export class NewBnaclassroutinesecondpartComponent implements OnInit {
+export class NewBnaclassroutinesecondpartComponent implements OnInit, OnDestroy {
    masterData = MasterData;
    userRole = Role;
   loading = false;
@@ -135,6 +135,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
   selectedWeekAll: SelectedModel[];
   bnaClassRoutineAll: any[];
   bnaInstructorInfo: any[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,) { }
 
@@ -173,7 +174,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
       this.pageTitle = 'Edit Weekly Program'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.ClassRoutineService.find(+id).subscribe(
+      this.subscription = this.ClassRoutineService.find(+id).subscribe(
         res => {
           this.ClassRoutineForm.patchValue({          
             classRoutineId:res.classRoutineId, 
@@ -221,6 +222,11 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     this.getselectedCourseModules();
     this.getselectedcoursename();
     this.getSelectedBnaSemester();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.ClassRoutineForm = this.fb.group({
@@ -451,7 +457,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     this.weekName=dropdown.text;
     this.weekId=dropdown.value;
     
-    this.ClassRoutineService.getRoutineNotesForWeeklyRoutine(this.schoolId,this.courseId,this.durationId,this.weekId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getRoutineNotesForWeeklyRoutine(this.schoolId,this.courseId,this.durationId,this.weekId).subscribe(res=>{
       this.routineNotesList=res;
     });
 
@@ -459,7 +465,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     //   this.selectedCourseSection=res;
     // });
     
-    this.ClassRoutineService.getdataForPrintWeeklyRoutine(this.weekId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getdataForPrintWeeklyRoutine(this.weekId).subscribe(res=>{
       this.dataForClassRoutine=res;
       // this.schoolName = res[0].schoolName;
       // this.courseNameTitle = res[0].courseName;
@@ -471,11 +477,11 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     });
     if(this.schoolId != null && this.courseId != null){            
 
-        this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,this.courseId,this.durationId).subscribe(res=>{
+      this.subscription = this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,this.courseId,this.durationId).subscribe(res=>{
           this.traineeListByBaseSchoolAndCourse=res;
         })
 
-        this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,this.courseId).subscribe(res=>{
+        this.subscription = this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,this.courseId).subscribe(res=>{
           this.periodListByBaseSchoolAndCourse=res;
         })
 
@@ -493,7 +499,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     var classPeriodId=this.ClassRoutineForm.value['classPeriodId'];
 
 
-    this.ClassRoutineService.getInstructorAvailabilityByDateAndPeriod(traineeId, classPeriodId, date).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getInstructorAvailabilityByDateAndPeriod(traineeId, classPeriodId, date).subscribe(res=>{
        //this.selectedclassperiod=res;
       this.instructorRoutineOverLapList = res;
       this.instructorRoutineCount=res.length;
@@ -520,7 +526,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     this.ClassRoutineForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
    this.onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,courseSectionId,bnaSubjectNameId,courseDurationId,index);  
 
-    this.ClassRoutineService.getselectedInstructor(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId,bnaSubjectNameId).subscribe(res=>{
+   this.subscription = this.ClassRoutineService.getselectedInstructor(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId,bnaSubjectNameId).subscribe(res=>{
       this.selectedInstructor[bnaSubjectNameId]=res;
       
     });
@@ -528,7 +534,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     
     
     
-    this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       this.selectedmarktype[bnaSubjectNameId]=res;
     });
   }
@@ -537,7 +543,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
 
    let markId = (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('subjectMarkId').value;
     // var subjectMarkId = this.ClassRoutineForm.value['subjectMarkId'];
-    this.ClassRoutineService.findSubjectMark(markId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.findSubjectMark(markId).subscribe(res=>{
       (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('markTypeId').setValue(res.markTypeId);
      // this.ClassRoutineForm.get('markTypeId').setValue(res.markTypeId);
     });
@@ -551,7 +557,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     // var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
 
 
-    this.ClassRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
       this.routineCount=res;
       (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
     //  this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
@@ -559,7 +565,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
 
     
   
-    this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       this.totalPeriod=res;
       (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('subjectCountPeriod').setValue(this.totalPeriod);
       // this.ClassRoutineForm.get('subjectCountPeriod').setValue(this.totalPeriod);
@@ -597,11 +603,11 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     //   this.selectedsubjectname=res;
     // });
 
-    this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
     });
 
-    this.ClassRoutineService.getSubjectsByRoutineList(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSubjectsByRoutineList(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
       this.getSubjectsByRoutineList=res;
     });
 
@@ -609,7 +615,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     //   this.courseSection = res.sectionName;
     // });
 
-    this.ClassRoutineService.getClassRoutineHeaderByParams(baseSchoolNameId,courseNameId,courseDurationId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getClassRoutineHeaderByParams(baseSchoolNameId,courseNameId,courseDurationId,this.sectionId).subscribe(res=>{
       this.courseSection = res[0].sectionName;
       this.schoolName = res[0].schoolName;
       this.courseNameTitle = res[0].courseNameTitle;
@@ -621,7 +627,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
       this.durationTo =this.datepipe.transform(durationTo, 'dd/MM/yyyy');
     });
 
-    this.courseWeekService.find(courseWeekId).subscribe(res=>{
+    this.subscription = this.courseWeekService.find(courseWeekId).subscribe(res=>{
       var weekStartDate = res.dateFrom;
       this.weekStartDate =this.datepipe.transform(weekStartDate, 'dd/MM/yyyy');
     });
@@ -629,7 +635,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
  
 
  
-    this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameBNAClassSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameBNAClassSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       //debugger;
       // for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
@@ -642,7 +648,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
 
       
     }); 
-    this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameBNAExamSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameBNAExamSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDateexam=res;
       this.displayedColumnsexam =[...Object.keys(this.selectedRoutineByParametersAndDateexam[0])];      
     });
@@ -650,64 +656,64 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
   }
 
   getSelectedBnaSemester(){
-    this.ClassRoutineService.getSelectedBnaSemester().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
     });
   } 
 
   getselectedbaseschools(){
-    this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
     });
   } 
 
   getselectedbaseschoolsByBase(baseNameId){
-    this.ClassRoutineService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
     });
   }  
 
   getselectedcoursedurationbyschoolname(){
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
-      this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+      this.subscription = this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedcoursedurationbyschoolname=res;
       });
   } 
 
   getSelectedSubjectCurriculum(){
-    this.ClassRoutineService.getSelectedSubjectCurriculum().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSelectedSubjectCurriculum().subscribe(res=>{
       this.selectedSubjectCurriculum=res
     });
   }
   getCourseWeeksAll(){
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
-    this.ClassRoutineService.getDropdownSelectedCourseWeeksAll(this.baseSchoolId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getDropdownSelectedCourseWeeksAll(this.baseSchoolId).subscribe(res=>{
       this.selectedWeekAll = res
     });
   }
   
   getDropdownSubjectName(){
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
-    this.ClassRoutineService.getDropdownSubjectName(this.baseSchoolId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getDropdownSubjectName(this.baseSchoolId).subscribe(res=>{
       this.selectedsubjectname = res
     });
   }
 
   getDropdownCourseSection(){
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
-    this.ClassRoutineService.getDropdownCourseSection(this.baseSchoolId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getDropdownCourseSection(this.baseSchoolId).subscribe(res=>{
       this.selectedCourseSection = res
     });
   }
 
   getDropdownInstructorInfo(){
-    this.ClassRoutineService.getDropdownInstructorInfo(this.selectedSubjectId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getDropdownInstructorInfo(this.selectedSubjectId).subscribe(res=>{
       this.selectedInstructorInfo = res
     });
   }
 
   getSelectedMarkType(){
-    this.ClassRoutineService.getDropdownMarkType(this.selectedSubjectId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getDropdownMarkType(this.selectedSubjectId).subscribe(res=>{
       this.selectedmarktype=res;
     });
   }
@@ -720,7 +726,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
   
   getSelectedClassPeriod(){
     this.baseSchoolId = this.authService.currentUserValue.branchId.trim();
-    this.ClassRoutineService.getDropdownClassPeriod(this.baseSchoolId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getDropdownClassPeriod(this.baseSchoolId).subscribe(res=>{
       this.selectedclassperiod=res;
     });
   }
@@ -734,7 +740,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
   // }
 
   getSelectedDepartment(){
-    this.ClassRoutineService.getSelectedDepartment().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSelectedDepartment().subscribe(res=>{
       this.selectedDepartment=res;     
     })
   }
@@ -765,7 +771,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
   
  
     
-    this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
+  this.subscription = this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;    
     });
   } 
@@ -785,7 +791,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
   // }
 
   getselectedCourseModules(){
-    this.ClassRoutineService.getselectedCourseModules().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedCourseModules().subscribe(res=>{
       this.selectedCourseModule=res;
     });
   } 
@@ -815,14 +821,14 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
   
 
   getselectedcoursename(){
-    this.ClassRoutineService.getselectedcoursename().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res;
     });
   } 
 
 
   getselectedclasstype(){
-    this.ClassRoutineService.getselectedclasstype().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedclasstype().subscribe(res=>{
       this.selectedclasstype=res;
     });
   }
@@ -900,7 +906,7 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     
     this.loading = true;
 
-    this.ClassRoutineService.bnasubmit(this.ClassRoutineForm.value).subscribe(response => {
+    this.subscription = this.ClassRoutineService.bnasubmit(this.ClassRoutineForm.value).subscribe(response => {
       
       this.reloadCurrentRoute();
       this.snackBar.open('Information Inserted Successfully ', '', {
@@ -955,9 +961,9 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.classRoutineId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.ClassRoutineService.delete(id).subscribe(() => {
+        this.subscription = this.ClassRoutineService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,
@@ -1243,13 +1249,13 @@ export class NewBnaclassroutinesecondpartComponent implements OnInit {
     }
   }
   viewFilteredBnaClassRoutine(){
-    this.ClassRoutineService.viewFilteredBnaClassRoutine(this.bnaSelectedSubjectCurriculumId, this.selectedCourseNameId, this.selectedCourseDurationId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.viewFilteredBnaClassRoutine(this.bnaSelectedSubjectCurriculumId, this.selectedCourseNameId, this.selectedCourseDurationId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
       this.bnaClassRoutineAll = res;
     });
   }
   
   viewFilteredInstructorInfo(){
-    this.ClassRoutineService.viewFilteredInstructorInfo(this.bnaSelectedSubjectCurriculumId, this.selectedCourseNameId, this.selectedCourseDurationId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.viewFilteredInstructorInfo(this.bnaSelectedSubjectCurriculumId, this.selectedCourseNameId, this.selectedCourseDurationId, this.selectedBnaSemesterId, this.selectedCourseSectionId, this.selectedCourseWeekId).subscribe(res=>{
       this.bnaInstructorInfo = res;
     });
   }

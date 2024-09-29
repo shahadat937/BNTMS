@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
@@ -21,7 +21,7 @@ import { ClassRoutine } from '../../models/classroutine';
   templateUrl: './edit-classroutine.component.html',
   styleUrls: ['./edit-classroutine.component.sass']
 }) 
-export class EditClassRoutineComponent implements OnInit {
+export class EditClassRoutineComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -76,6 +76,7 @@ export class EditClassRoutineComponent implements OnInit {
       pageSize: this.masterData.paging.pageSize,
       length: 1
     }
+  subscription: any;
   
   constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -96,6 +97,11 @@ export class EditClassRoutineComponent implements OnInit {
     this.getselectedclasstype();
     this.getselectedclassperiod(this.schoolId,this.courseId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   intitializeForm() {
     this.EditedClassRoutineForm = this.fb.group({
@@ -107,12 +113,12 @@ export class EditClassRoutineComponent implements OnInit {
     })
   }
   getSubjectName(schoolName,courseName){
-    this.classRoutineService.getselectedSubjectNamesBySchoolAndCourse(schoolName,courseName).subscribe(res=>{
+    this.subscription = this.classRoutineService.getselectedSubjectNamesBySchoolAndCourse(schoolName,courseName).subscribe(res=>{
       this.selectedsubjectname=res;
     });
   }
   getEditedRoutineList(schoolId,durationId,courseId,weekId,sectionId){
-    this.classRoutineService.getClassRoutineListByParams(schoolId,durationId,courseId,weekId,sectionId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getClassRoutineListByParams(schoolId,durationId,courseId,weekId,sectionId).subscribe(res=>{
       this.editedRoutineList=res;
       this.schoolName=this.editedRoutineList[0].baseSchoolName;
       this.CourseName=this.editedRoutineList[0].courseName;
@@ -179,16 +185,16 @@ export class EditClassRoutineComponent implements OnInit {
 
     //this.onSubjectNameSelectionChange(this.schoolId,this.courseId,this.sectionId,bnaSubjectNameId, this.durationId,index);  
 
-    this.classRoutineService.getselectedInstructor(this.schoolId,this.courseId,this.durationId,this.sectionId,bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getselectedInstructor(this.schoolId,this.courseId,this.durationId,this.sectionId,bnaSubjectNameId).subscribe(res=>{
   
       this.selectedInstructor[bnaSubjectNameId]=res;
     });
     
-    this.classRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       this.selectedmarktypearray[bnaSubjectNameId]=res;
     });
 
-    this.classRoutineService.getClassRoutineCountByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId,this.durationId,this.sectionId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getClassRoutineCountByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId,this.durationId,this.sectionId).subscribe(res=>{
       this.routineCount=res;
       (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
     });
@@ -198,14 +204,14 @@ export class EditClassRoutineComponent implements OnInit {
     
 
 
-    this.classRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
       this.routineCount=res;
       (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
     });
 
  
   
-    this.classRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       this.totalPeriod=res;
       (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('subjectCountPeriod').setValue(this.totalPeriod);
      
@@ -226,13 +232,13 @@ export class EditClassRoutineComponent implements OnInit {
    }
 
   getselectedclassperiod(baseSchoolNameId: number,courseNameId: number){
-    this.classRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedclassperiod=res;
     });
   }
 
   getselectedclasstype(){
-    this.classRoutineService.getselectedclasstype().subscribe(res=>{
+    this.subscription = this.classRoutineService.getselectedclasstype().subscribe(res=>{
       this.selectedclasstype=res;
     });
   }
@@ -242,13 +248,13 @@ export class EditClassRoutineComponent implements OnInit {
     if (event.isUserInput) {    // ignore on deselection of the previous option
       
       var courseSectionId=0;
-      this.classRoutineService.getClassRoutineCountByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId,this.durationId,courseSectionId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getClassRoutineCountByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId,this.durationId,courseSectionId).subscribe(res=>{
         this.routineCount=res;
         //this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
         //this.EditedClassRoutineForm.controls["RoutineList"].get('classCountPeriod').setValue(this.routineCount);
       });
     
-      this.classRoutineService.getTotalPeriodByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getTotalPeriodByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId).subscribe(res=>{
         this.totalPeriod=res;
         //this.ClassRoutineForm.get('subjectCountPeriod').setValue(this.totalPeriod);
         //this.EditedClassRoutineForm.controls["RoutineList"].get('subjectCountPeriod').setValue(this.totalPeriod);
@@ -287,7 +293,7 @@ export class EditClassRoutineComponent implements OnInit {
 
   getModifiedRoutine(baseSchoolNameId,courseNameId,courseWeekId,courseSectionId){
     this.isShown=true;
-    this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId,courseWeekId,courseSectionId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId,courseWeekId,courseSectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
@@ -309,7 +315,7 @@ export class EditClassRoutineComponent implements OnInit {
 
   deleteItem(index) {
     const id = (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classRoutineId').value;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.classRoutineService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();
@@ -349,7 +355,7 @@ export class EditClassRoutineComponent implements OnInit {
     // }else {
       
     
-      this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading = true;
           this.classRoutineService.weeklyRoutineUpdate(JSON.stringify(this.EditedClassRoutineForm.value)).subscribe(response => {                        

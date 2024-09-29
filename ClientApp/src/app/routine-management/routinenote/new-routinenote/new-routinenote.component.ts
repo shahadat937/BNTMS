@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutineNoteService } from '../../service/routinenote.service';
@@ -19,7 +19,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-routinenote.component.html',
   styleUrls: ['./new-routinenote.component.sass']
 }) 
-export class NewRoutineNoteComponent implements OnInit {
+export class NewRoutineNoteComponent implements OnInit, OnDestroy {
    masterData = MasterData;
    userRole = Role;
   loading = false;
@@ -86,6 +86,7 @@ export class NewRoutineNoteComponent implements OnInit {
   showHideDiv = false;
 
   searchText="";
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private classRoutineService:ClassRoutineService,private authService: AuthService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private routineNoteService: RoutineNoteService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -101,7 +102,7 @@ export class NewRoutineNoteComponent implements OnInit {
       this.pageTitle = 'Edit Routine Note'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.routineNoteService.find(+id).subscribe(
+      this.subscription = this.routineNoteService.find(+id).subscribe(
         res => {
           this.RoutineNoteForm.patchValue({                      
             routineNoteId: res.routineNoteId,
@@ -142,6 +143,11 @@ export class NewRoutineNoteComponent implements OnInit {
     
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   intitializeForm() {
     this.RoutineNoteForm = this.fb.group({
@@ -160,7 +166,7 @@ export class NewRoutineNoteComponent implements OnInit {
   }
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.RoutineNoteForm.value['baseSchoolNameId'];
-    this.routineNoteService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.routineNoteService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
       this.selectedcoursedurationbyschoolname=res;
       this.selectCourseTitle=res
     });
@@ -221,7 +227,7 @@ export class NewRoutineNoteComponent implements OnInit {
     this.courseId=this.RoutineNoteForm.value['courseNameId'];
     this.RoutineNoteForm.get('courseWeekId').setValue(dropdown.value);
     var courseWeekId=this.RoutineNoteForm.value['courseWeekId'];
-    this.routineNoteService.getRoutineListForRoutineNote(this.schoolId,this.courseId,this.durationId,courseWeekId).subscribe(res=>{
+    this.subscription = this.routineNoteService.getRoutineListForRoutineNote(this.schoolId,this.courseId,this.durationId,courseWeekId).subscribe(res=>{
       this.selectedRoutineList=res;
       this.selectRoutine=res;
     });
@@ -237,7 +243,7 @@ export class NewRoutineNoteComponent implements OnInit {
     var classroutineid=this.RoutineNoteForm.value['classRoutineId'];
     // this.weekName=dropdown.text;
     // this.weekId=dropdown.value;
-    this.classRoutineService.getSubjectNameIdFromclassRoutine(classroutineid).subscribe(res=>{
+    this.subscription = this.classRoutineService.getSubjectNameIdFromclassRoutine(classroutineid).subscribe(res=>{
       
       this.RoutineNoteForm.get('bnaSubjectNameId').setValue(res);
       // this.RoutineNoteForm.get('courseWeekId').setValue(res.courseWeekId);
@@ -246,7 +252,7 @@ export class NewRoutineNoteComponent implements OnInit {
   }
   getRoutineNoteList(){
     var baseSchoolNameId=this.RoutineNoteForm.value['baseSchoolNameId'];
-    this.routineNoteService.getRoutineNotesByBaseSchoolNameId(this.paging.pageIndex, this.paging.pageSize,this.searchText,baseSchoolNameId).subscribe(response => {    
+    this.subscription = this.routineNoteService.getRoutineNotesByBaseSchoolNameId(this.paging.pageIndex, this.paging.pageSize,this.searchText,baseSchoolNameId).subscribe(response => {    
       this.routineNoteList = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -270,12 +276,12 @@ export class NewRoutineNoteComponent implements OnInit {
   } 
 
   getselectedbaseschools(){
-    this.routineNoteService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.routineNoteService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
     });
   }  
   getselectedbaseschoolsByBase(baseNameId){
-    this.routineNoteService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
+    this.subscription = this.routineNoteService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
       this.selectSchool=res
     });
@@ -318,10 +324,10 @@ export class NewRoutineNoteComponent implements OnInit {
   onSubmit() {
     const id = this.RoutineNoteForm.get('routineNoteId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.routineNoteService.update(+id,this.RoutineNoteForm.value).subscribe(response => {
+          this.subscription = this.routineNoteService.update(+id,this.RoutineNoteForm.value).subscribe(response => {
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -336,7 +342,7 @@ export class NewRoutineNoteComponent implements OnInit {
       })
     }else {
       this.loading = true;
-      this.routineNoteService.submit(this.RoutineNoteForm.value).subscribe(response => {
+      this.subscription = this.routineNoteService.submit(this.RoutineNoteForm.value).subscribe(response => {
         
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -353,7 +359,7 @@ export class NewRoutineNoteComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.routineNoteId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.routineNoteService.delete(id).subscribe(() => {
           this.reloadCurrentRoute();

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
@@ -18,7 +18,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './readingmaterial-list.component.html',
   styleUrls: ['./readingmaterial-list.component.sass']
 })
-export class ReadingMaterialListComponent implements OnInit {
+export class ReadingMaterialListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -48,6 +48,7 @@ export class ReadingMaterialListComponent implements OnInit {
 
   
    selection = new SelectionModel<BNASubjectName>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
@@ -79,9 +80,14 @@ export class ReadingMaterialListComponent implements OnInit {
       this.getReadingMaterialBySchoolAndCourse(baseSchoolNameId, courseNameId);
     }
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getReadingMaterialList(documentTypeId){
-    this.studentDashboardService.getReadingMaterialListByType(documentTypeId).subscribe(res=>{            
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(documentTypeId).subscribe(res=>{            
       this.ReadingMaterialBySchoolAndCourse=res;     
     });
   }
@@ -93,7 +99,7 @@ export class ReadingMaterialListComponent implements OnInit {
   // }
 
   getReadingMaterialBySchoolAndCourse(baseSchoolNameId, courseNameId){    
-    this.studentDashboardService.getReadingMAterialInfoBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getReadingMAterialInfoBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res=>{
       this.ReadingMaterialBySchoolAndCourse = res;
 
       const groups = this.ReadingMaterialBySchoolAndCourse.reduce((groups, courses) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
@@ -15,7 +15,7 @@ import { StudentDashboardService } from '../services/StudentDashboard.service';
   templateUrl: './subjectmodule-list.component.html',
   styleUrls: ['./subjectmodule-list.component.sass']
 })
-export class SubjectModuleListComponent implements OnInit {
+export class SubjectModuleListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -35,6 +35,7 @@ export class SubjectModuleListComponent implements OnInit {
 
 
    selection = new SelectionModel<BNASubjectName>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
@@ -43,9 +44,14 @@ export class SubjectModuleListComponent implements OnInit {
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     this.getCourseModuleByCourseName(courseNameId)
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getCourseModuleByCourseName(courseNameId){
-    this.studentDashboardService.getSelectedCourseModulesByCourseNameId(courseNameId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getSelectedCourseModulesByCourseNameId(courseNameId).subscribe(res=>{
       this.CourseModuleByCourseName = res;
     });
   }

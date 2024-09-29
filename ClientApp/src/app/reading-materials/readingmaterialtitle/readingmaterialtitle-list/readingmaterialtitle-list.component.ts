@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ReadingMaterialTitle } from '../../models/ReadingMaterialTitle';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './readingmaterialtitle-list.component.html',
   styleUrls: ['./readingmaterialtitle-list.component.sass']
 })
-export class ReadingmaterialtitleListComponent implements OnInit {
+export class ReadingmaterialtitleListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ReadingMaterialTitle[] = [];
@@ -32,6 +32,7 @@ export class ReadingmaterialtitleListComponent implements OnInit {
 
 
    selection = new SelectionModel<ReadingMaterialTitle>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private ReadingMaterialTitleService: ReadingMaterialTitleService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class ReadingmaterialtitleListComponent implements OnInit {
     this.getReadingMaterialTitles();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getReadingMaterialTitles() {
     this.isLoading = true;
-    this.ReadingMaterialTitleService.getReadingMaterialTitles(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.ReadingMaterialTitleService.getReadingMaterialTitles(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -67,9 +73,9 @@ export class ReadingmaterialtitleListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.readingMaterialTitleId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
-        this.ReadingMaterialTitleService.delete(id).subscribe(() => {
+        this.subscription = this.ReadingMaterialTitleService.delete(id).subscribe(() => {
           this.getReadingMaterialTitles();
 
           this.snackBar.open('ReadingMaterialTitle Information Deleted Successfully ', '', {

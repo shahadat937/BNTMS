@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AttendanceService} from '../../../attendance-management/service/attendance.service'
@@ -25,7 +25,7 @@ import { ClassRoutine } from '../../../routine-management/models/classroutine';
   templateUrl: './new-attendance.component.html',
   styleUrls: ['./new-attendance.component.sass']
 }) 
-export class NewAttendanceComponent implements OnInit {
+export class NewAttendanceComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   myModel = true;
@@ -69,6 +69,7 @@ export class NewAttendanceComponent implements OnInit {
   checked = false;
   isShown: boolean = false ;
   isShownForTraineeList:boolean=false;
+  subscription: any;
   // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   // dataSource ;
   constructor(private snackBar: MatSnackBar,private BNAExamMarkService :BNAExamMarkService,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
@@ -81,7 +82,7 @@ export class NewAttendanceComponent implements OnInit {
       this.pageTitle = 'Edit Attendance'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.AttendanceService.find(+id).subscribe(
+      this.subscription = this.AttendanceService.find(+id).subscribe(
         res => {
           this.AttendanceForm.patchValue({          
             attendanceId:res.attendanceId, 
@@ -117,6 +118,11 @@ export class NewAttendanceComponent implements OnInit {
      this.getselectedbnaattendanceremark();
      this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.AttendanceForm = this.fb.group({
       attendanceId: [0],
@@ -147,7 +153,7 @@ export class NewAttendanceComponent implements OnInit {
       // });
 
         this.isLoading = true;
-        this.classRoutineService.getClassRoutinesByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseDurationId).subscribe(response => {
+        this.subscription = this.classRoutineService.getClassRoutinesByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseDurationId).subscribe(response => {
             
           this.dataSource.data = response.items.filter(x=>x.attendanceComplete===0); 
           this.paging.length = response.totalItemsCount    
@@ -158,7 +164,7 @@ export class NewAttendanceComponent implements OnInit {
 
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
-    this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
@@ -190,7 +196,7 @@ export class NewAttendanceComponent implements OnInit {
 
   
   onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
-      this.AttendanceService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.AttendanceService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res
       });
      }
@@ -209,19 +215,19 @@ export class NewAttendanceComponent implements OnInit {
            var courseNameId=courseNameArr[1];
 
       var  formatedDate=this.datepipe.transform((date), 'MM/dd/yyyy');
-      this.classRoutineService.getSubjectNameFromRoutine(baseSchoolNameId,courseNameId,formatedDate,classPeriodId,this.courseDurationId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getSubjectNameFromRoutine(baseSchoolNameId,courseNameId,formatedDate,classPeriodId,this.courseDurationId).subscribe(res=>{
         this.subjectNamefromClassRoutine=res;
               for (let i =0; i < this.subjectNamefromClassRoutine.length; i++) {
                     this.bnaSubjectNameId= this.subjectNamefromClassRoutine[i].value
                    }  
       })
 
-      this.classRoutineService.getSelectedRoutineId(baseSchoolNameId,courseNameId,classPeriodId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getSelectedRoutineId(baseSchoolNameId,courseNameId,classPeriodId).subscribe(res=>{
         this.classRoutineId=res;
       })
 
        if(baseSchoolNameId != null && courseNameId != null && this.courseDurationId !=null && classPeriodId !=null){
-          this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res=>{
+        this.subscription = this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res=>{
           this.traineeNominationListForAttendance=res; 
           for(let i=0;i<=this.traineeNominationListForAttendance.length;i++)
           {
@@ -252,36 +258,36 @@ export class NewAttendanceComponent implements OnInit {
      }
 
   getselectedclassroutine(){
-    this.AttendanceService.getselectedclassroutine().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedclassroutine().subscribe(res=>{
       this.selectedclassroutine=res
     });
   } 
 
   getselectedbaseschools(){
-    this.AttendanceService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschools=res
     });
   } 
 
   getselectedcoursename(){
-    this.AttendanceService.getselectedcoursename().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res
     });
   }
 
   getselectedbnasubjectname(){
-    this.AttendanceService.getselectedbnasubjectname().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedbnasubjectname().subscribe(res=>{
       this.selectedbnasubjectname=res
     });
   }
   getselectedclassperiod(){
-    this.AttendanceService.getselectedclassperiod().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedclassperiod().subscribe(res=>{
       this.selectedclassperiod=res
     });
   }
 
   getselectedbnaattendanceremark(){
-    this.AttendanceService.getselectedbnaattendanceremark().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedbnaattendanceremark().subscribe(res=>{
       this.selectedbnaattendanceremark=res
     });
   }
@@ -302,7 +308,7 @@ export class NewAttendanceComponent implements OnInit {
       this.traineeNominationListForAttendance[i]["classRoutineId"] = this.classRoutineId;
     }
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.AttendanceService.update(+id,JSON.stringify(this.traineeNominationListForAttendance)).subscribe(response => {
@@ -320,7 +326,7 @@ export class NewAttendanceComponent implements OnInit {
       })
     }else {
       this.loading=true;
-      this.AttendanceService.submit(JSON.stringify(this.traineeNominationListForAttendance) ).subscribe(response => {
+      this.subscription = this.AttendanceService.submit(JSON.stringify(this.traineeNominationListForAttendance) ).subscribe(response => {
         this.AttendanceForm.reset();
         this.AttendanceForm.get('attendanceId').setValue(0);
         this.isShown=false;

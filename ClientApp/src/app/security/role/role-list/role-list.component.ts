@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Role } from '../../models/role';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './role-list.component.html',
   styleUrls: ['./role-list.component.sass']
 })
-export class RoleListComponent implements OnInit {
+export class RoleListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -33,6 +33,7 @@ export class RoleListComponent implements OnInit {
   dataSource: MatTableDataSource<Role> = new MatTableDataSource();
 
   selection = new SelectionModel<Role>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private roleService: RoleService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,14 @@ export class RoleListComponent implements OnInit {
   ngOnInit() {
     this.getRoles();
   }
-  
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getRoles() {
     this.isLoading = true;
-    this.roleService.getRoles(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.roleService.getRoles(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -83,7 +88,7 @@ export class RoleListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.roleId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.roleService.delete(id).subscribe(() => {
           this.getRoles();

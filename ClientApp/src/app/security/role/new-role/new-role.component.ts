@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,13 +10,14 @@ import { RoleService } from '../../service/role.service';
   templateUrl: './new-role.component.html',
   styleUrls: ['./new-role.component.sass']
 })
-export class NewRoleComponent implements OnInit {
+export class NewRoleComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
   destination:string;
   roleForm: FormGroup;
   validationErrors: string[] = [];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private roleService: RoleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -26,7 +27,7 @@ export class NewRoleComponent implements OnInit {
       this.pageTitle = 'Edit Role';
       this.destination='Edit';
       this.buttonText="Update";
-      this.roleService.find(+id).subscribe(
+      this.subscription = this.roleService.find(+id).subscribe(
         res => {
           this.roleForm.patchValue({          
 
@@ -46,6 +47,11 @@ export class NewRoleComponent implements OnInit {
     }
     this.intitializeForm();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.roleForm = this.fb.group({
       roleId: [0],
@@ -61,7 +67,7 @@ export class NewRoleComponent implements OnInit {
   onSubmit() {
     const id = this.roleForm.get('roleId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.roleService.update(+id,this.roleForm.value).subscribe(response => {
@@ -79,7 +85,7 @@ export class NewRoleComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.roleService.submit(this.roleForm.value).subscribe(response => {
+      this.subscription = this.roleService.submit(this.roleForm.value).subscribe(response => {
         this.router.navigateByUrl('/security/role-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

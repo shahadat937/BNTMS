@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
@@ -13,7 +13,7 @@ import { MasterData } from 'src/assets/data/master-data';
   templateUrl: './new-commendingarea.component.html',
   styleUrls: ['./new-commendingarea.component.sass']
 })
-export class NewCommendingAreaComponent implements OnInit {
+export class NewCommendingAreaComponent implements OnInit, OnDestroy {
   
   pageTitle: string;
   destination:string;
@@ -34,6 +34,7 @@ export class NewCommendingAreaComponent implements OnInit {
   }
 
   displayedColumns: string[] = [ 'ser','schoolLogo', 'schoolName', 'shortName',  'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { }
 
@@ -43,7 +44,7 @@ export class NewCommendingAreaComponent implements OnInit {
       this.pageTitle = 'Edit Commanding Area';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.BaseSchoolNameService.find(+id).subscribe(
+      this.subscription = this.BaseSchoolNameService.find(+id).subscribe(
         res => {
           this.CommendingAreaForm.patchValue({          
             
@@ -81,7 +82,11 @@ export class NewCommendingAreaComponent implements OnInit {
     //this.getOrganizationList();
     this.onOrganizationSelectionChangeGetCommendingAreaList();
   }
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
 
   // getSelectedOrganization(){
@@ -97,7 +102,7 @@ export class NewCommendingAreaComponent implements OnInit {
 
   getCommendingAreaList(organizationId){
     this.isShown=true;
-    this.BaseSchoolNameService.getCommendingAreaList(organizationId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getCommendingAreaList(organizationId).subscribe(res=>{
       this.commendingAreaList=res
     });
   }
@@ -147,10 +152,10 @@ export class NewCommendingAreaComponent implements OnInit {
       formData.append(key, value);
     }
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
+          this.subscription = this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
             this.router.navigateByUrl('/security/new-commandingarea');
             this.getCommendingAreaList(this.organizationId);
             this.CommendingAreaForm.reset();
@@ -167,7 +172,7 @@ export class NewCommendingAreaComponent implements OnInit {
       })
     } else {   
       this.loading=true;   
-      this.BaseSchoolNameService.submit(formData).subscribe(response => {
+      this.subscription = this.BaseSchoolNameService.submit(formData).subscribe(response => {
         //this.router.navigateByUrl('/basic-setup/baseschoolname-list');
         this.getCommendingAreaList(this.organizationId);
         this.CommendingAreaForm.reset();
@@ -186,9 +191,9 @@ export class NewCommendingAreaComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.baseSchoolNameId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
-        this.BaseSchoolNameService.delete(id).subscribe(() => {
+        this.subscription = this.BaseSchoolNameService.delete(id).subscribe(() => {
           this.getCommendingAreaList(this.organizationId);
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 2000,

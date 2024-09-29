@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
@@ -13,7 +13,7 @@ import { MasterData } from 'src/assets/data/master-data';
   templateUrl: './new-schoolname.component.html',
   styleUrls: ['./new-schoolname.component.sass']
 })
-export class NewSchoolNameComponent implements OnInit {
+export class NewSchoolNameComponent implements OnInit, OnDestroy {
   pageTitle: string;
   destination:string;
   btnText:string;
@@ -39,6 +39,7 @@ export class NewSchoolNameComponent implements OnInit {
   }
 
   displayedColumns: string[] = [ 'ser','schoolLogo', 'schoolName', 'shortName',  'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { }
 
@@ -48,7 +49,7 @@ export class NewSchoolNameComponent implements OnInit {
       this.pageTitle = 'Edit Base School';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.BaseSchoolNameService.find(+id).subscribe(
+      this.subscription = this.BaseSchoolNameService.find(+id).subscribe(
         res => {
           this.BaseSchoolForm.patchValue({          
             
@@ -89,7 +90,11 @@ export class NewSchoolNameComponent implements OnInit {
     this.onOrganizationSelectionChangeGetCommendingArea(); 
   }
 
-  
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   // getSelectedOrganization(){
   //   this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
@@ -99,7 +104,7 @@ export class NewSchoolNameComponent implements OnInit {
 
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.BaseSchoolForm.value['firstLevel'];
-    this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
       this.selectCommendingArea=res
     });        
@@ -112,7 +117,7 @@ export class NewSchoolNameComponent implements OnInit {
   }
   onCommendingAreaSelectionChangeGetBaseName(){
     this.baseNameId=this.BaseSchoolForm.value['secondLevel'];
-    this.BaseSchoolNameService.getSelectedBaseName(this.baseNameId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedBaseName(this.baseNameId).subscribe(res=>{
       this.selectedBaseName=res
       this.selectBaseName=res
       
@@ -129,7 +134,7 @@ export class NewSchoolNameComponent implements OnInit {
 
   getBaseSchoolList(baseNameId){
     this.isShown=true;
-    this.BaseSchoolNameService.getBaseSchoolList(baseNameId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getBaseSchoolList(baseNameId).subscribe(res=>{
       this.baseSchoolList=res
     });
   }
@@ -178,10 +183,10 @@ export class NewSchoolNameComponent implements OnInit {
       formData.append(key, value);
     }
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
+          this.subscription = this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
             this.router.navigateByUrl('/security/new-baseschool');
             this.getBaseSchoolList(this.baseNameId);
             this.BaseSchoolForm.reset();
@@ -198,7 +203,7 @@ export class NewSchoolNameComponent implements OnInit {
       })
     } else {   
       this.loading=true;   
-      this.BaseSchoolNameService.submit(formData).subscribe(response => {
+      this.subscription = this.BaseSchoolNameService.submit(formData).subscribe(response => {
         //this.router.navigateByUrl('/basic-setup/baseschoolname-list');
         this.getBaseSchoolList(this.baseNameId);
         this.BaseSchoolForm.reset();
@@ -217,7 +222,7 @@ export class NewSchoolNameComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.baseSchoolNameId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.BaseSchoolNameService.delete(id).subscribe(() => {
           this.getBaseSchoolList(this.baseNameId);

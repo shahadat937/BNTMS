@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutineSoftCopyUploadService } from '../../service/RoutineSoftCopyUpload.service';
@@ -23,7 +23,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './new-routinesoftcopyupload.component.html',
   styleUrls: ['./new-routinesoftcopyupload.component.sass']
 })
-export class NewRoutineSoftcopyUploadComponent implements OnInit {
+export class NewRoutineSoftcopyUploadComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   roleList = Role;
@@ -76,6 +76,7 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
 
 
    selection = new SelectionModel<RoutineSoftCopyUpload>(true, []);
+  subscription: any;
 
   constructor(public dialog: MatDialog,private snackBar: MatSnackBar,private ClassRoutineService: ClassRoutineService, private authService: AuthService,private courseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private RoutineSoftCopyUploadService: RoutineSoftCopyUploadService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
     this.files = [];
@@ -95,7 +96,7 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
       this.pageTitle = 'Soft Copy Upload';
       this.destination = "Edit";
       this.buttonText = "Update"
-      this.RoutineSoftCopyUploadService.find(+id).subscribe(
+      this.subscription = this.RoutineSoftCopyUploadService.find(+id).subscribe(
         res => {
           this.RoutineSoftCopyUploadForm.patchValue({
            routineSoftCopyUploadId: res.routineSoftCopyUploadId,
@@ -173,6 +174,11 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
       });
     }
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 
   getselectedbnasubjectname(dropdown){
@@ -182,21 +188,21 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
       this.RoutineSoftCopyUploadForm.get('courseDurationId').setValue(courseDurationId);
 
       this.isLoading = true;
-      this.RoutineSoftCopyUploadService.getSoftCopyUploadList(this.paging.pageIndex, this.paging.pageSize,this.searchText, this.branchId,courseDurationId).subscribe(response => {
+      this.subscription = this.RoutineSoftCopyUploadService.getSoftCopyUploadList(this.paging.pageIndex, this.paging.pageSize,this.searchText, this.branchId,courseDurationId).subscribe(response => {
   
         this.dataSource.data = response.items;
       })
   } 
 
   getselectedbaseschools(){
-    this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
       this.selectSchool=res
     });
   } 
 
   getselectedbaseschoolsByBase(baseNameId){
-    this.ClassRoutineService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
      
     });
@@ -208,14 +214,14 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit {
 
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.RoutineSoftCopyUploadForm.value['baseSchoolNameId'];
-    this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
       this.selectedcoursedurationbyschoolname=res;
     });
 } 
 
 getCourseForRoutine(){
   var baseSchoolNameId=this.RoutineSoftCopyUploadForm.value['baseSchoolNameId'];
-  this.ClassRoutineService.getCourseForRoutine(baseSchoolNameId).subscribe(res=>{
+  this.subscription = this.ClassRoutineService.getCourseForRoutine(baseSchoolNameId).subscribe(res=>{
     this.selectedCourse=res;
     this.selectCourse=res
   });
@@ -225,18 +231,18 @@ filterByCourse(value:any){
 }
 
   getSelectedRoutineSoftCopyUpload() {
-    this.RoutineSoftCopyUploadService.getSelectedRoutineSoftCopyUpload().subscribe(res => {
+    this.subscription = this.RoutineSoftCopyUploadService.getSelectedRoutineSoftCopyUpload().subscribe(res => {
       this.selectedRoutineSoftCopyUploadTitle = res;
     });
   }
   getselectedcoursename() {
-    this.RoutineSoftCopyUploadService.getselectedcoursename().subscribe(res => {
+    this.subscription = this.RoutineSoftCopyUploadService.getselectedcoursename().subscribe(res => {
       this.selectedcourse = res;
     });
   }
 
   getselectedschools() {
-    this.RoutineSoftCopyUploadService.getselectedschools().subscribe(res => {
+    this.subscription = this.RoutineSoftCopyUploadService.getselectedschools().subscribe(res => {
       this.selectedschool = res;
     });
   }
@@ -250,9 +256,9 @@ filterByCourse(value:any){
 
   deleteItem(row) {
     const id = row.routineSoftCopyUploadId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.RoutineSoftCopyUploadService.delete(id).subscribe(() => {
+        this.subscription = this.RoutineSoftCopyUploadService.delete(id).subscribe(() => {
           this.getCourseForRoutine();
          //this.getCourseDurationsByCourseType();
           this.snackBar.open('Information Deleted Successfully ', '', {
@@ -276,10 +282,10 @@ filterByCourse(value:any){
     }
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.RoutineSoftCopyUploadService.update(+id, formData).subscribe(response => {
+          this.subscription = this.RoutineSoftCopyUploadService.update(+id, formData).subscribe(response => {
             // if(this.traineeId){              
             //   const url = '/admin/dashboard/RoutineSoftCopyUploadlistinstructor/'+this.traineeId+'/'+this.schoolId;          
             //   this.router.navigateByUrl(url);
@@ -300,7 +306,7 @@ filterByCourse(value:any){
       })
     } else {
       this.loading = true;
-      this.RoutineSoftCopyUploadService.submit(formData).subscribe((event: HttpEvent<any>) => {
+      this.subscription = this.RoutineSoftCopyUploadService.submit(formData).subscribe((event: HttpEvent<any>) => {
 
         switch (event.type) {
           case HttpEventType.Sent:

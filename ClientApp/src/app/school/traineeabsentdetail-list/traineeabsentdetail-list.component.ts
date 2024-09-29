@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseInstructor} from '../../subject-management/models/courseinstructor';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './traineeabsentdetail-list.component.html',
   styleUrls: ['./traineeabsentdetail-list.component.sass']
 })
-export class TraineeAbsentDetailListComponent implements OnInit {
+export class TraineeAbsentDetailListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -27,6 +27,7 @@ export class TraineeAbsentDetailListComponent implements OnInit {
   searchText="";
 
   displayedColumns: string[]= ['ser','moduleName','subjectName','attendanceDate', 'periodName',  'attendanceRemarksCause'];
+  subscription: any;
   
   constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private schoolDashboardService: SchoolDashboardService,private router: Router,private confirmService: ConfirmService) { }
 
@@ -34,10 +35,15 @@ export class TraineeAbsentDetailListComponent implements OnInit {
     this.onModuleSelectionChangeGetsubjectList();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   onModuleSelectionChangeGetsubjectList(){
     var traineeId = this.route.snapshot.paramMap.get('traineeId'); 
-    this.schoolDashboardService.getTraineeAbsentDetail(Number(traineeId)).subscribe(res=>{
+    this.subscription = this.schoolDashboardService.getTraineeAbsentDetail(Number(traineeId)).subscribe(res=>{
       this.TraineeAbsentDetail=res;  
     }); 
   }

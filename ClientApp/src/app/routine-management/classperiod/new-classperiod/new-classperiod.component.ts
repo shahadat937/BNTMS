@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClassPeriodService } from '../../service/classperiod.service';
@@ -17,7 +17,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-classperiod.component.html',
   styleUrls: ['./new-classperiod.component.sass']
 }) 
-export class NewClassPeriodComponent implements OnInit {
+export class NewClassPeriodComponent implements OnInit, OnDestroy {
    masterData = MasterData;
    userRole = Role;
   loading = false;
@@ -50,6 +50,7 @@ export class NewClassPeriodComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['ser', 'periodName','bnaClassScheduleStatus','durationForm','durationTo', 'menuPosition', 'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private authService: AuthService, private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassPeriodService: ClassPeriodService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -66,7 +67,7 @@ export class NewClassPeriodComponent implements OnInit {
       this.destination = "Edit"; 
       this.buttonText= "Update" ;
       this.isEditMode=true;
-      this.ClassPeriodService.find(+id).subscribe(
+      this.subscription = this.ClassPeriodService.find(+id).subscribe(
         res => {
           this.ClassPeriodForm.patchValue({          
             classPeriodId:res.classPeriodId, 
@@ -102,6 +103,11 @@ export class NewClassPeriodComponent implements OnInit {
     this.getselectedbnaclassschedulestatus();
     this.getselectedcoursename();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.ClassPeriodForm = this.fb.group({
       classPeriodId: [0],
@@ -130,7 +136,7 @@ onCourseSelectionChanged(item) {
   this.onCourseSelectionChangeGetPeriodList()
 }
 getSelectedCourseAutocomplete(cName){
-  this.CourseNameService.getSelectedCourseByName(cName).subscribe(response => {
+  this.subscription = this.CourseNameService.getSelectedCourseByName(cName).subscribe(response => {
     this.options = response;
     this.filteredOptions = response;
   })
@@ -138,7 +144,7 @@ getSelectedCourseAutocomplete(cName){
 
 
   getselectedbaseschools(){
-    this.ClassPeriodService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.ClassPeriodService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
       this.selectSchool=res
     });
@@ -147,7 +153,7 @@ getSelectedCourseAutocomplete(cName){
     this.selectedbaseschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedbaseschoolsByBase(baseNameId){
-    this.ClassPeriodService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
+    this.subscription = this.ClassPeriodService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
       this.selectSchool=res
     });
@@ -158,14 +164,14 @@ getSelectedCourseAutocomplete(cName){
     var courseNameId=this.ClassPeriodForm.value['courseNameId'];
     this.isShown=true;
     if(baseSchoolNameId != null && courseNameId != null){
-      this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
+      this.subscription = this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.GetPeriodListByParameter=res;  
       }); 
     }
   }
   
   getselectedbnaclassschedulestatus(){
-    this.ClassPeriodService.getselectedbnaclassschedulestatus().subscribe(res=>{
+    this.subscription = this.ClassPeriodService.getselectedbnaclassschedulestatus().subscribe(res=>{
       this.selectedcoursestatus=res;
       this.selectEvent=res;
     });
@@ -175,7 +181,7 @@ getSelectedCourseAutocomplete(cName){
   }
 
   getselectedcoursename(){
-    this.ClassPeriodService.getselectedcoursename().subscribe(res=>{
+    this.subscription = this.ClassPeriodService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res;
     });
   }
@@ -191,10 +197,10 @@ getSelectedCourseAutocomplete(cName){
   onSubmit() {
     const id = this.ClassPeriodForm.get('classPeriodId').value; 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.ClassPeriodService.update(+id,this.ClassPeriodForm.value).subscribe(response => {
+          this.subscription = this.ClassPeriodService.update(+id,this.ClassPeriodForm.value).subscribe(response => {
             this.router.navigateByUrl('/routine-management/add-classperiod');
            // this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -210,7 +216,7 @@ getSelectedCourseAutocomplete(cName){
       })
     }else {
       this.loading = true;
-      this.ClassPeriodService.submit(this.ClassPeriodForm.value).subscribe(response => {
+      this.subscription = this.ClassPeriodService.submit(this.ClassPeriodForm.value).subscribe(response => {
         //this.router.navigateByUrl('/routine-management/add-classperiod');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -228,7 +234,7 @@ getSelectedCourseAutocomplete(cName){
 
   deleteItem(row) {
     const id = row.classPeriodId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.ClassPeriodService.delete(id).subscribe(() => {
           this.onCourseSelectionChangeGetPeriodList();

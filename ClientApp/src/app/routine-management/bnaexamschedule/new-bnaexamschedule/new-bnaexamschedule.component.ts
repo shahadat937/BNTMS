@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAExamScheduleService } from '../../service/bnaexamschedule.service';
@@ -13,7 +13,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
   templateUrl: './new-bnaexamschedule.component.html',
   styleUrls: ['./new-bnaexamschedule.component.sass']
 }) 
-export class NewBNAExamScheduleComponent implements OnInit {
+export class NewBNAExamScheduleComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -25,6 +25,7 @@ export class NewBNAExamScheduleComponent implements OnInit {
   selectedsubjectname:SelectedModel[];
   selectedsemester:SelectedModel[];
   selectedexamtype:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamScheduleService: BNAExamScheduleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -34,7 +35,7 @@ export class NewBNAExamScheduleComponent implements OnInit {
       this.pageTitle = 'Edit BNA Exam Schedule'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.BNAExamScheduleService.find(+id).subscribe(
+      this.subscription = this.BNAExamScheduleService.find(+id).subscribe(
         res => {
           this.BNAExamScheduleForm.patchValue({          
             bnaExamScheduleId:res.bnaExamScheduleId, 
@@ -68,6 +69,11 @@ export class NewBNAExamScheduleComponent implements OnInit {
     this.getselectedbnasubjectname();
     this.getselectedbnasemester();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.BNAExamScheduleForm = this.fb.group({
       bnaExamScheduleId: [0],
@@ -91,25 +97,25 @@ export class NewBNAExamScheduleComponent implements OnInit {
   
 
   getselectedexamtype(){
-    this.BNAExamScheduleService.getselectedexamtype().subscribe(res=>{
+    this.subscription = this.BNAExamScheduleService.getselectedexamtype().subscribe(res=>{
       this.selectedexamtype=res;
     });
   } 
 
   getselectedbnabatch(){
-    this.BNAExamScheduleService.getselectedbnabatch().subscribe(res=>{
+    this.subscription = this.BNAExamScheduleService.getselectedbnabatch().subscribe(res=>{
       this.selectedbatch=res;
     });
   } 
 
   getselectedbnasubjectname(){
-    this.BNAExamScheduleService.getselectedbnasubjectname().subscribe(res=>{
+    this.subscription = this.BNAExamScheduleService.getselectedbnasubjectname().subscribe(res=>{
       this.selectedsubjectname=res;
     });
   } 
 
   getselectedbnasemester(){
-    this.BNAExamScheduleService.getselectedbnasemester().subscribe(res=>{
+    this.subscription = this.BNAExamScheduleService.getselectedbnasemester().subscribe(res=>{
       this.selectedsemester=res;
     });
   } 
@@ -119,10 +125,10 @@ export class NewBNAExamScheduleComponent implements OnInit {
   onSubmit() {
     const id = this.BNAExamScheduleForm.get('bnaExamScheduleId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.BNAExamScheduleService.update(+id,this.BNAExamScheduleForm.value).subscribe(response => {
+          this.subscription = this.BNAExamScheduleService.update(+id,this.BNAExamScheduleForm.value).subscribe(response => {
             this.router.navigateByUrl('/routine-management/bnaexamschedule-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -137,7 +143,7 @@ export class NewBNAExamScheduleComponent implements OnInit {
       })
     }else {
       this.loading = true;
-      this.BNAExamScheduleService.submit(this.BNAExamScheduleForm.value).subscribe(response => {
+      this.subscription = this.BNAExamScheduleService.submit(this.BNAExamScheduleForm.value).subscribe(response => {
         this.router.navigateByUrl('/routine-management/bnaexamschedule-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-bnasubjectmark.component.html',
   styleUrls: ['./new-bnasubjectmark.component.sass']
 })
-export class NewBnaSubjectMarkComponent implements OnInit {
+export class NewBnaSubjectMarkComponent implements OnInit , OnDestroy {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -58,6 +58,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
   }
 
   displayedColumns: string[] = [ 'ser', 'subjectCurriculumName','markCategory','markType', 'mark', 'passMark', 'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private bnaSubjectNameService:BNASubjectNameService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -71,7 +72,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
       this.pageTitle = 'Edit BNA Subject Mark';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.SubjectMarkService.find(+id).subscribe(
+      this.subscription = this.SubjectMarkService.find(+id).subscribe(
         res => {
           this.SubjectMarkForm.patchValue({          
 
@@ -109,6 +110,11 @@ export class NewBnaSubjectMarkComponent implements OnInit {
     this.getSelectedBnaSemester();
     this.getselectedmarkCategory();
     this.getSelectedSubjectCurriculum();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.SubjectMarkForm = this.fb.group({
@@ -158,13 +164,13 @@ export class NewBnaSubjectMarkComponent implements OnInit {
   SubjectMarkListAfterDelete(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId){
     this.isShown=true;
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null && bnaSubjectNameId !=null){
-      this.SubjectMarkService.getselectedsubjectmarkbyparameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
+      this.subscription = this.SubjectMarkService.getselectedsubjectmarkbyparameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
         this.selectedSubjectMark=res;  
       }); 
     }
   }
   getSelectedBnaSemester(){
-    this.SubjectMarkService.getSelectedBnaSemester().subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
       this.selectSemester=res
     });
@@ -173,7 +179,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
     this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getSelectedSubjectCurriculum(){
-    this.SubjectMarkService.getSelectedSubjectCurriculum().subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getSelectedSubjectCurriculum().subscribe(res=>{
       this.selectedSubjectCurriculum=res
       this.selectCurriculum=res
     });
@@ -182,7 +188,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
     this.selectedSubjectCurriculum=this.selectCurriculum.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getSelectedKindOfSubject(){
-    this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
       this.selectedmarktype=res
       this.selectMark=res
     });
@@ -192,7 +198,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
   }
 
   getselectedmarkCategory(){
-    this.SubjectMarkService.getselectedmarkCategory().subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getselectedmarkCategory().subscribe(res=>{
       this.selectedmarkCategory=res
       this.selectCategory=res
     });
@@ -202,7 +208,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
   }
 
   getSelectedSchoolName(){
-    this.SubjectMarkService.getSelectedSchoolName().subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getSelectedSchoolName().subscribe(res=>{
       this.selectedSchoolName=res
     });
   }
@@ -220,7 +226,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
     this.onBaseNameSelectionChangeGetModule();
   }
   getSelectedCourseAutocomplete(cName){
-    this.SubjectMarkService.getSelectedCourseByName(cName).subscribe(response => {
+    this.subscription = this.SubjectMarkService.getSelectedCourseByName(cName).subscribe(response => {
       this.options = response;
       this.filteredOptions = response;
     })
@@ -231,7 +237,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
     var courseNameId=this.SubjectMarkForm.value['courseNameId'];
      
     if(baseSchoolNameId != null && courseNameId != null){
-      this.SubjectMarkService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
+      this.subscription = this.SubjectMarkService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;  
       });
     }  
@@ -244,7 +250,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
     // var courseModuleId=this.SubjectMarkForm.value['courseModuleId'];    
     var bnaSemesterId=this.SubjectMarkForm.value['bnaSemesterId'];  
     var bnaSubjectCurriculumId=this.SubjectMarkForm.value['bnaSubjectCurriculumId'];  
-    this.SubjectMarkService.getselectedbnasubjectnamebybnaSemesterId(bnaSemesterId,bnaSubjectCurriculumId).subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getselectedbnasubjectnamebybnaSemesterId(bnaSemesterId,bnaSubjectCurriculumId).subscribe(res=>{
       this.selectedsubjectname=res;
       this.selectSemester=res
     });
@@ -263,11 +269,11 @@ export class NewBnaSubjectMarkComponent implements OnInit {
   onSubmit() {
     const id = this.SubjectMarkForm.get('subjectMarkId').value;  
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
         if (result) {
           this.loading = true;
-          this.SubjectMarkService.update(+id,this.SubjectMarkForm.value).subscribe(response => {
+          this.subscription = this.SubjectMarkService.update(+id,this.SubjectMarkForm.value).subscribe(response => {
             this.router.navigateByUrl('/subject-management/add-bnasubjectmark');
             //this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -283,7 +289,7 @@ export class NewBnaSubjectMarkComponent implements OnInit {
       })
     }  else {
       this.loading = true;
-      this.SubjectMarkService.submit(this.SubjectMarkForm.value).subscribe(response => {
+      this.subscription = this.SubjectMarkService.submit(this.SubjectMarkForm.value).subscribe(response => {
         // this.router.navigateByUrl('/subject-management/add-bnasubjectmark');
         this.onsubjectSelectionChangeGetsubjectMarkList();
         this.SubjectMarkForm.reset();
@@ -309,9 +315,9 @@ export class NewBnaSubjectMarkComponent implements OnInit {
     var courseNameId=row.courseNameId;
     var courseModuleId=row.courseModuleId;
     var bnaSubjectNameId=row.bnaSubjectNameId;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
-        this.SubjectMarkService.delete(id).subscribe(() => {
+        this.subscription = this.SubjectMarkService.delete(id).subscribe(() => {
           this.SubjectMarkListAfterDelete(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId);
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 2000,

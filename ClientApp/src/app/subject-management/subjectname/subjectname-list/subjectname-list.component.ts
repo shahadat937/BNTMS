@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../models/BNASubjectName';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './subjectname-list.component.html',
   styleUrls: ['./subjectname-list.component.sass']
 })
-export class SubjectnameListComponent implements OnInit {
+export class SubjectnameListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -33,6 +33,7 @@ export class SubjectnameListComponent implements OnInit {
 
 
    selection = new SelectionModel<BNASubjectName>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService) { }
@@ -41,10 +42,15 @@ export class SubjectnameListComponent implements OnInit {
     this.getBNASubjectNames();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getBNASubjectNames() {
     this.isLoading = true;
-    this.BNASubjectNameService.getBNASubjectNames(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.status).subscribe(response => {
+    this.subscription = this.BNASubjectNameService.getBNASubjectNames(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.status).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -68,7 +74,7 @@ export class SubjectnameListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.bnaSubjectNameId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASubjectName Item').subscribe(result => {
       if (result) {
         this.BNASubjectNameService.delete(id).subscribe(() => {
           this.getBNASubjectNames();

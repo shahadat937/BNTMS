@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import {TraineeAssignmentSubmitService} from '../services/TraineeAssignmentSubmi
   templateUrl: './new-studentassignment.component.html',
   styleUrls: ['./new-studentassignment.component.sass']
 })
-export class NewStudentAssignmentComponent implements OnInit {
+export class NewStudentAssignmentComponent implements OnInit, OnDestroy {
   pageTitle: string;
   destination:string;
   btnText:string;
@@ -40,6 +40,7 @@ export class NewStudentAssignmentComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['ser', 'assignmentTopic','remarks','imageUpload','actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private fb: FormBuilder,private AssignmentService:TraineeAssignmentSubmitService, private router: Router,  private route: ActivatedRoute) { }
 
@@ -60,7 +61,7 @@ export class NewStudentAssignmentComponent implements OnInit {
       this.pageTitle = 'Add Assignment';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.AssignmentService.find(+id).subscribe(
+      this.subscription = this.AssignmentService.find(+id).subscribe(
         res => {
           this.InstructorAssignmentForm.patchValue({          
 
@@ -77,6 +78,11 @@ export class NewStudentAssignmentComponent implements OnInit {
       this.btnText = 'Save';
     }
     this.intitializeForm();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.InstructorAssignmentForm = this.fb.group({
@@ -102,7 +108,7 @@ export class NewStudentAssignmentComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeAssignmentSubmitId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.AssignmentService.delete(id).subscribe(() => {
           this.getTraineeAssignmentSubmitListByParameter();
@@ -119,7 +125,7 @@ export class NewStudentAssignmentComponent implements OnInit {
   }
  
   getTraineeAssignmentSubmitListByParameter(){
-    this.AssignmentService.getTraineeAssignmentSubmitListByParameter(this.traineeId,this.instructorId,this.bnaSubjectNameId,this.baseSchoolNameId,this.courseNameId,this.courseDurationId,this.courseInstructorId,this.instructorAssignmentId).subscribe(res=>{
+    this.AssignmentService.getTraineeAssignmentSubmitListByParameter(this.traineeId,this.instructorId,this.bnaSubjectNameId,this.baseSchoolNameId,this.courseNameId,this.courseDurationId,this.subscription = this.courseInstructorId,this.instructorAssignmentId).subscribe(res=>{
       this.traineeAssignmentList=res;
     });
   }
@@ -181,7 +187,7 @@ export class NewStudentAssignmentComponent implements OnInit {
       formData.append(key, value);
     }
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
         if (result) {
           this.loading = true;
@@ -200,7 +206,7 @@ export class NewStudentAssignmentComponent implements OnInit {
       })
     }  else {
       this.loading = true;
-      this.AssignmentService.submit(formData).subscribe(response => {
+      this.subscription = this.AssignmentService.submit(formData).subscribe(response => {
      //   studentassignment-list/45120/20/1065/3089
         this.router.navigateByUrl('/admin/dashboard/studentassignment-list/'+this.traineeId+'/'+this.baseSchoolNameId+'/'+this.courseNameId+'/'+this.courseDurationId);
         this.snackBar.open('Information Inserted Successfully ', '', {
