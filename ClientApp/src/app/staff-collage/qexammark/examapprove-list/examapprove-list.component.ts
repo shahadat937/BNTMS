@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -14,7 +14,7 @@ import { BNAExamMarkService } from '../../../central-exam/service/bnaexammark.se
   templateUrl: './examapprove-list.component.html',
   styleUrls: ['./examapprove-list.component.sass']
 })
-export class ExamApproveComponent implements OnInit {
+export class ExamApproveComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -37,6 +37,7 @@ export class ExamApproveComponent implements OnInit {
   searchText="";
 
   displayedExamEvaluationColumns: string[] = ['ser', 'course','subject','date','examStatus', 'markStatus'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private BNAExamMarkService: BNAExamMarkService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -49,12 +50,17 @@ export class ExamApproveComponent implements OnInit {
 
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
  
   
   getStuffClgApproveList(){
     this.destination="Stuff Collage"
-    this.BNAExamMarkService.getCentralExamApproveList(this.masterData.coursetype.CentralExam, this.masterData.courseName.StaffCollage).subscribe(res=>{
+    this.subscription = this.BNAExamMarkService.getCentralExamApproveList(this.masterData.coursetype.CentralExam, this.masterData.courseName.StaffCollage).subscribe(res=>{
       this.examList=res;  
     });
   }

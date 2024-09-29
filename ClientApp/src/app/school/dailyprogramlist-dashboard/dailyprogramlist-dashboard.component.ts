@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './dailyprogramlist-dashboard.component.html',
   styleUrls: ['./dailyprogramlist-dashboard.component.sass']
 })
-export class DailyprogramlistDashboardComponent implements OnInit {
+export class DailyprogramlistDashboardComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -34,6 +34,7 @@ export class DailyprogramlistDashboardComponent implements OnInit {
   }
   searchText="";
   displayedRoutineCountColumns: string[] = ['ser','course','moduleName','routineCount','actions'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -42,11 +43,16 @@ export class DailyprogramlistDashboardComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     this.getCurrentRoutineBySchool(this.schoolId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getCurrentRoutineBySchool(schoolId){
     this.dbType=1;
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getCurrentRoutineBySchool(currentDateTime,schoolId).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getCurrentRoutineBySchool(currentDateTime,schoolId).subscribe(response => {   
       this.TodayRoutineList=response;
     })
   }

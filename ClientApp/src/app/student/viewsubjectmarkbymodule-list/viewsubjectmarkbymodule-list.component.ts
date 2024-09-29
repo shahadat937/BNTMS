@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SubjectMark } from '../../subject-management/models/SubjectMark';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './viewsubjectmarkbymodule-list.component.html',
   styleUrls: ['./viewsubjectmarkbymodule-list.component.sass']
 })
-export class ViewSubjectMarkListByModuleComponent implements OnInit {
+export class ViewSubjectMarkListByModuleComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: SubjectMark[] = [];
@@ -37,12 +37,18 @@ export class ViewSubjectMarkListByModuleComponent implements OnInit {
 
 
    selection = new SelectionModel<SubjectMark>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private SubjectMarkService: SubjectMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getSubjectMarks();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
  
   getSubjectMarks() {
@@ -51,7 +57,7 @@ export class ViewSubjectMarkListByModuleComponent implements OnInit {
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     var bnaSubjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId'); 
     this.courseModuleId = this.route.snapshot.paramMap.get('courseModuleId'); 
-    this.SubjectMarkService.getSelectedsubjectMarksBySubject(Number(this.baseSchoolNameId),Number(this.courseNameId),Number(bnaSubjectNameId)).subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getSelectedsubjectMarksBySubject(Number(this.baseSchoolNameId),Number(this.courseNameId),Number(bnaSubjectNameId)).subscribe(res=>{
       this.SelectedsubjectMarksBySubject=res;  
     });
   }

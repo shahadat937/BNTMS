@@ -4,7 +4,7 @@ import {RoleService} from '../../service/role.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UserService } from '../../service/User.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
@@ -19,7 +19,7 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './new-userlist.component.html',
   styleUrls: ['./new-userlist.component.sass']
 })
-export class NewUserListComponent implements OnInit {
+export class NewUserListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   // pageTitle: string;
@@ -45,6 +45,7 @@ export class NewUserListComponent implements OnInit {
   displayedColumns: string[] = ['select', 'ser', 'pno', 'name', 'mobile', 'email'];
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
+  subscription: any;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -59,10 +60,15 @@ export class NewUserListComponent implements OnInit {
     this.intitializeForm();
     this.getTraineeList(this.searchPno);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getTraineeList(searchPno) {
     this.isLoading = true;
-    this.UserService.getTraineeList(searchPno).subscribe(response => {
+    this.subscription = this.UserService.getTraineeList(searchPno).subscribe(response => {
       //this.dataSource.data = response; 
       console.log(response)
      this.dataSource=new MatTableDataSource(response);
@@ -145,7 +151,7 @@ export class NewUserListComponent implements OnInit {
       };
       userFormList.push(userInfo);
     });
-    this.UserService.submit(userFormList).subscribe((response : any) => {
+    this.subscription = this.UserService.submit(userFormList).subscribe((response : any) => {
           if(response.success){
             this.UserService.Users = [];
             this.snackBar.open(response.message, '', {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -15,7 +15,7 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './pendingexamevaluationlist-dashboard.component.html',
   styleUrls: ['./pendingexamevaluationlist-dashboard.component.sass']
 })
-export class PendingExamEvaluationlistDashboardComponent implements OnInit {
+export class PendingExamEvaluationlistDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -41,6 +41,7 @@ export class PendingExamEvaluationlistDashboardComponent implements OnInit {
   searchText="";
 
   displayedExamEvaluationColumns: string[] = ['ser', 'course','subject','date','examStatus', 'resultStatus','approveStatus','name'];
+  subscription: any;
 // dataSource: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
@@ -54,9 +55,14 @@ export class PendingExamEvaluationlistDashboardComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.getPendingExamEvaluation(this.schoolId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getPendingExamEvaluation(schoolId){
-    this.schoolDashboardService.getPendingExamEvaluation(schoolId).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getPendingExamEvaluation(schoolId).subscribe(response => {   
       this.dataSource = new MatTableDataSource(response);
       console.log(this.dataSource)
       this.dataSource.sort = this.InitialOrdersort;

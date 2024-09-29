@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClassRoutineService } from '../../service/classroutine.service';
@@ -22,7 +22,7 @@ import { Subject } from 'rxjs';
   templateUrl: './new-classroutine.component.html',
   styleUrls: ['./new-classroutine.component.sass']
 }) 
-export class NewClassRoutineComponent implements OnInit {
+export class NewClassRoutineComponent implements OnInit, OnDestroy {
   copy: boolean = true;
    masterData = MasterData;
    userRole = Role;
@@ -113,6 +113,7 @@ export class NewClassRoutineComponent implements OnInit {
 
 
   inputGroups: { value: string }[] = [{ value: '' }];
+  subscription: any;
 
   
 
@@ -132,7 +133,7 @@ export class NewClassRoutineComponent implements OnInit {
       this.pageTitle = 'Edit Weekly Program'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.ClassRoutineService.find(+id).subscribe(
+      this.subscription = this.ClassRoutineService.find(+id).subscribe(
         res => {
           this.ClassRoutineForm.patchValue({          
             classRoutineId:res.classRoutineId, 
@@ -180,6 +181,11 @@ export class NewClassRoutineComponent implements OnInit {
     this.getselectedCourseModules();
     this.getselectedcoursename();
     
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   addInputGroup() {
@@ -420,12 +426,12 @@ export class NewClassRoutineComponent implements OnInit {
       this.routineNotesList=res;
     });
 
-    this.ClassRoutineService.getselectedCourseSection(this.schoolId,this.courseId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedCourseSection(this.schoolId,this.courseId).subscribe(res=>{
       this.selectedCourseSection=res;
     });
   
     
-    this.ClassRoutineService.getdataForPrintWeeklyRoutine(this.weekId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getdataForPrintWeeklyRoutine(this.weekId).subscribe(res=>{
       this.dataForClassRoutine=res;
       // this.schoolName = res[0].schoolName;
       // this.courseNameTitle = res[0].courseName;
@@ -438,18 +444,18 @@ export class NewClassRoutineComponent implements OnInit {
     
     if(this.schoolId != null && this.courseId != null){            
 
-        this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,this.courseId,this.durationId).subscribe(res=>{
+      this.subscription = this.ClassRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,this.courseId,this.durationId).subscribe(res=>{
           this.traineeListByBaseSchoolAndCourse=res;
         })
 
-        this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,this.courseId).subscribe(res=>{
+        this.subscription = this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,this.courseId).subscribe(res=>{
           this.periodListByBaseSchoolAndCourse=res;
         })
 
-      this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(this.schoolId,this.courseId).subscribe(res=>{
+        this.subscription = this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(this.schoolId,this.courseId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;    
       });
-      this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(this.schoolId,this.courseId).subscribe(res=>{
+      this.subscription = this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(this.schoolId,this.courseId).subscribe(res=>{
         this.selectedclassperiod=res;
       });
       
@@ -466,7 +472,7 @@ export class NewClassRoutineComponent implements OnInit {
     var classPeriodId=this.ClassRoutineForm.value['classPeriodId'];
 
 
-    this.ClassRoutineService.getInstructorAvailabilityByDateAndPeriod(traineeId, classPeriodId, date).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getInstructorAvailabilityByDateAndPeriod(traineeId, classPeriodId, date).subscribe(res=>{
        //this.selectedclassperiod=res;
       this.instructorRoutineOverLapList = res;
       this.instructorRoutineCount=res.length;
@@ -493,7 +499,7 @@ export class NewClassRoutineComponent implements OnInit {
     this.ClassRoutineForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
    this.onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,courseSectionId,bnaSubjectNameId,courseDurationId,index);  
 
-    this.ClassRoutineService.getselectedInstructor(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId,bnaSubjectNameId).subscribe(res=>{
+   this.subscription = this.ClassRoutineService.getselectedInstructor(baseSchoolNameId,courseNameId,courseDurationId,courseSectionId,bnaSubjectNameId).subscribe(res=>{
       this.selectedInstructor[bnaSubjectNameId]=res;
       this.selectInstructor=res
     });
@@ -501,7 +507,7 @@ export class NewClassRoutineComponent implements OnInit {
     
     
     
-    this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       this.selectedmarktype[bnaSubjectNameId]=res;
       this.selectMarkType=res
     });
@@ -533,7 +539,7 @@ export class NewClassRoutineComponent implements OnInit {
     // var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
     //let routineCounttt;
 
-    this.ClassRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
       this.routineCount=res;
       (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
     //  this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
@@ -545,7 +551,7 @@ export class NewClassRoutineComponent implements OnInit {
 
  
   
-    this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       this.totalPeriod=res;
       (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('subjectCountPeriod').setValue(this.totalPeriod);
       // this.ClassRoutineForm.get('subjectCountPeriod').setValue(this.totalPeriod);
@@ -554,13 +560,13 @@ export class NewClassRoutineComponent implements OnInit {
 
     if(baseSchoolNameId !=null && courseNameId !=null  && bnaSubjectNameId !=null){
 
-      this.ClassRoutineService.getCourseModuleIdForRoutine(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
+      this.subscription = this.ClassRoutineService.getCourseModuleIdForRoutine(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
         var courseModuleId=res;
         this.ClassRoutineForm.get('courseModuleId').setValue(courseModuleId);
         console.log("Course Module Id : ", courseModuleId);
       });
 
-      this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
+      this.subscription = this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedclassperiod=res;
         this.selectClassPeriod=res;
       });
@@ -595,16 +601,16 @@ filterBymarkType(value:any){
     this.sectionId = this.ClassRoutineForm.value['courseSectionId'];
 
 
-    this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedsubjectname=res;
       this.selectSubjectName=res
     });
     
-    this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSubjectlistBySchoolAndCourse(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
     });
 
-    this.ClassRoutineService.getSubjectsByRoutineList(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSubjectsByRoutineList(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,this.sectionId).subscribe(res=>{
       this.getSubjectsByRoutineList=res;
     });
 
@@ -612,7 +618,7 @@ filterBymarkType(value:any){
     //   this.courseSection = res.sectionName;
     // });
 
-    this.ClassRoutineService.getClassRoutineHeaderByParams(baseSchoolNameId,courseNameId,courseDurationId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getClassRoutineHeaderByParams(baseSchoolNameId,courseNameId,courseDurationId,this.sectionId).subscribe(res=>{
       this.courseSection = res[0].sectionName;
       this.schoolName = res[0].schoolName;
       this.courseNameTitle = res[0].courseNameTitle;
@@ -624,12 +630,12 @@ filterBymarkType(value:any){
       this.durationTo =this.datepipe.transform(durationTo, 'dd/MM/yyyy');
     });
 
-    this.courseWeekService.find(courseWeekId).subscribe(res=>{
+    this.subscription = this.courseWeekService.find(courseWeekId).subscribe(res=>{
       var weekStartDate = res.dateFrom;
       this.weekStartDate =this.datepipe.transform(weekStartDate, 'dd/MM/yyyy');
     });
 
-    this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       //debugger;
       // for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
@@ -649,7 +655,7 @@ filterBymarkType(value:any){
 
 
   getselectedbaseschools(){
-    this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
       
     });
@@ -659,7 +665,7 @@ filterBymarkType(value:any){
   }
 
   getselectedbaseschoolsByBase(baseNameId){
-    this.ClassRoutineService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedbaseschoolsByBase(baseNameId).subscribe(res=>{
       this.selectedbaseschool=res;
       this.selectSchool=res
     });
@@ -667,7 +673,7 @@ filterBymarkType(value:any){
 
   getselectedcoursedurationbyschoolname(){
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
-      this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+      this.subscription = this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedcoursedurationbyschoolname=res;
         this.selectCourseTitle=res;
       });
@@ -694,7 +700,7 @@ filterBymarkType(value:any){
       this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
     } 
     
-    this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
       this.selectWeek=res;
     });    
@@ -704,7 +710,7 @@ filterBymarkType(value:any){
   }
 
   getselectedCourseModules(){
-    this.ClassRoutineService.getselectedCourseModules().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedCourseModules().subscribe(res=>{
       this.selectedCourseModule=res;
     });
   } 

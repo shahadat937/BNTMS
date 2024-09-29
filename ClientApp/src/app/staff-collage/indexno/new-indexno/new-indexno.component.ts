@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AttendanceService} from '../../../attendance-management/service/attendance.service'
@@ -26,7 +26,7 @@ import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeLi
   templateUrl: './new-indexno.component.html',
   styleUrls: ['./new-indexno.component.sass']
 }) 
-export class NewIndexNoComponent implements OnInit {
+export class NewIndexNoComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   myModel = true;
@@ -71,6 +71,7 @@ export class NewIndexNoComponent implements OnInit {
   checked = false;
   isShown: boolean = false ;
   isShownForTraineeList:boolean=false;
+  subscription: any;
   // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   // dataSource ;
   constructor(private snackBar: MatSnackBar,private BNAExamMarkService :BNAExamMarkService,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
@@ -83,7 +84,7 @@ export class NewIndexNoComponent implements OnInit {
       this.pageTitle = 'Edit Nomination Index'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.AttendanceService.find(+id).subscribe(
+      this.subscription = this.AttendanceService.find(+id).subscribe(
         res => {
           this.AttendanceForm.patchValue({          
             attendanceId:res.attendanceId, 
@@ -110,6 +111,7 @@ export class NewIndexNoComponent implements OnInit {
       this.destination = "Add"; 
       this.buttonText= "Save"
     } 
+    
     this.intitializeForm();
     //  this.getselectedclassroutine();
     //  this.getselectedbaseschools();
@@ -133,6 +135,11 @@ export class NewIndexNoComponent implements OnInit {
       attendanceStatus:[true],
       traineeListForm: this.fb.array([this.createTraineeData()]),
     })
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   // public int? CourseDurationId { get; set; }
@@ -198,7 +205,7 @@ export class NewIndexNoComponent implements OnInit {
       this.AttendanceForm.get('courseNameId').setValue(this.courseNameId);
       this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
 
-      this.traineeNominationService.getTestTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res => {
+      this.subscription = this.traineeNominationService.getTestTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res => {
         this.traineeList = res;
         this.clearList();
         this.getTraineeListonClick();
@@ -208,7 +215,7 @@ export class NewIndexNoComponent implements OnInit {
 
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
-    this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
@@ -277,10 +284,10 @@ export class NewIndexNoComponent implements OnInit {
     //     }
     //   })
     // } else {
-      this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.traineeNominationService.updateTraineeNominationList(this.AttendanceForm.value).subscribe(response => {
+          this.subscription = this.traineeNominationService.updateTraineeNominationList(this.AttendanceForm.value).subscribe(response => {
             this.reloadCurrentRoute();
             this.snackBar.open('Information Inserted Successfully ', '', {
               duration: 2000,

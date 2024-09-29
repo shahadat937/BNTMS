@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -16,7 +16,7 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './schoolnotice-list.component.html',
   styleUrls: ['./schoolnotice-list.component.sass']
 })
-export class SchoolNoticeListComponent implements OnInit {
+export class SchoolNoticeListComponent implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -35,6 +35,7 @@ export class SchoolNoticeListComponent implements OnInit {
   }
   searchText="";
   displayedReadingMaterialColumns: string[] = ['ser','course','noticeDetails','newStatus'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -42,10 +43,15 @@ export class SchoolNoticeListComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     this.getNoticeBySchoolId(this.schoolId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getNoticeBySchoolId(schoolId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getNoticeBySchoolId(schoolId,currentDateTime).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getNoticeBySchoolId(schoolId,currentDateTime).subscribe(response => {   
       this.NoticeForSchoolDashboard=response;
       this.dataSource = new MatTableDataSource(response);
       this.dataSource.sort = this.InitialOrdersort;

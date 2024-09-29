@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoleFeatureService } from '../../service/rolefeature.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
   templateUrl: './new-rolefeature.component.html',
   styleUrls: ['./new-rolefeature.component.sass'] 
 })
-export class NewRoleFeatureComponent implements OnInit {
+export class NewRoleFeatureComponent implements OnInit, OnDestroy {
   pageTitle: string; 
   loading = false;
   destination:string;
@@ -26,6 +26,7 @@ export class NewRoleFeatureComponent implements OnInit {
   selectRole:SelectedModel[];
   selectedfeature:SelectedModel[];
   selectFeature:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private RoleFeatureService: RoleFeatureService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -38,7 +39,7 @@ export class NewRoleFeatureComponent implements OnInit {
       this.pageTitle = 'Edit RoleFeature';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.RoleFeatureService.find(this.Roleid, this.Featureid).subscribe(
+      this.subscription =  this.RoleFeatureService.find(this.Roleid, this.Featureid).subscribe(
         res => {
           this.RoleFeatureForm.patchValue({          
             roleId: res.roleId,
@@ -61,6 +62,11 @@ export class NewRoleFeatureComponent implements OnInit {
     this.getselectedrole();
     this.getselectedfeature();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.RoleFeatureForm = this.fb.group({
       roleId:['', Validators.required],
@@ -77,7 +83,7 @@ export class NewRoleFeatureComponent implements OnInit {
     this.selectedrole=this.selectRole.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedrole(){
-    this.RoleFeatureService.getselectedrole().subscribe(res=>{
+    this.subscription = this.RoleFeatureService.getselectedrole().subscribe(res=>{
       this.selectedrole=res
       this.selectRole=res
     });
@@ -86,7 +92,7 @@ export class NewRoleFeatureComponent implements OnInit {
     this.selectedfeature=this.selectFeature.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedfeature(){
-    this.RoleFeatureService.getselectedfeature().subscribe(res=>{
+    this.subscription = this.RoleFeatureService.getselectedfeature().subscribe(res=>{
       this.selectedfeature=res
       this.selectFeature=res
     });
@@ -98,10 +104,10 @@ export class NewRoleFeatureComponent implements OnInit {
     const fid = this.route.snapshot.paramMap.get('featureId'); 
     this.Featureid = Number(fid)
     if (this.Roleid && this.Featureid) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.RoleFeatureService.update(this.Roleid,this.Featureid,this.RoleFeatureForm.value).subscribe(response => {
+          this.subscription = this.RoleFeatureService.update(this.Roleid,this.Featureid,this.RoleFeatureForm.value).subscribe(response => {
             this.router.navigateByUrl('/security/rolefeature-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -116,7 +122,7 @@ export class NewRoleFeatureComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.RoleFeatureService.submit(this.RoleFeatureForm.value).subscribe(response => {
+      this.subscription = this.RoleFeatureService.submit(this.RoleFeatureForm.value).subscribe(response => {
         this.router.navigateByUrl('/security/rolefeature-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

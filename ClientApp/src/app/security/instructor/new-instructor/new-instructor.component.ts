@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../service/User.service';
@@ -13,7 +13,7 @@ import {RoleService} from '../../service/role.service'
   templateUrl: './new-instructor.component.html',
   styleUrls: ['./new-instructor.component.sass']
 })
-export class NewInstructorComponent implements OnInit {
+export class NewInstructorComponent implements OnInit, OnDestroy {
   loading = false;
   pageTitle: string;
   destination:string;
@@ -35,6 +35,7 @@ export class NewInstructorComponent implements OnInit {
   isEdit:boolean=false;
   options = [];
   filteredOptions;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private RoleService: RoleService,private BaseSchoolNameService: BaseSchoolNameService,private confirmService: ConfirmService,private UserService: UserService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -45,7 +46,7 @@ export class NewInstructorComponent implements OnInit {
       this.destination = "Edit";
       this.buttonText= "Update";
       this.isEdit=true;
-      this.UserService.find(id).subscribe(
+      this.subscription = this.UserService.find(id).subscribe(
         res => {
           this.InstructorForm.patchValue({          
 
@@ -83,6 +84,11 @@ export class NewInstructorComponent implements OnInit {
     this.getSelectedOrganization();
     this.getRoleName();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   intitializeForm() {
     this.InstructorForm = this.fb.group({
@@ -119,7 +125,7 @@ export class NewInstructorComponent implements OnInit {
     this.InstructorForm.get('trainee').setValue(item.text);
   }
   getSelectedTraineeAutocomplete(pno){
-    this.UserService.getSelectedTraineeByPno(pno).subscribe(response => {
+    this.subscription = this.UserService.getSelectedTraineeByPno(pno).subscribe(response => {
       this.options = response;
       this.filteredOptions = response;
     })
@@ -133,27 +139,27 @@ export class NewInstructorComponent implements OnInit {
   }
 
   getRoleName(){
-    this.RoleService.getselectedrolesForTrainee().subscribe(res=>{
+    this.subscription = this.RoleService.getselectedrolesForTrainee().subscribe(res=>{
       this.roleValues=res
     });
   }
 
   getSelectedOrganization(){
-    this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
       this.selectedOrganization=res
     });
   }
 
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.InstructorForm.value['firstLevel'];
-    this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
     });        
   }
   
   onCommendingAreaSelectionChangeGetBaseName(){
     this.commendingAreaId=this.InstructorForm.value['secondLevel'];
-    this.BaseSchoolNameService.getSelectedBaseName(this.commendingAreaId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedBaseName(this.commendingAreaId).subscribe(res=>{
       this.selectedBaseName=res
     });  
     //this.getBaseNameList(this.commendingAreaId);
@@ -161,7 +167,7 @@ export class NewInstructorComponent implements OnInit {
   }
   onBaseNameSelectionChangeGetBaseSchoolName(){
     this.baseNameId=this.InstructorForm.value['thirdLevel'];
-    this.BaseSchoolNameService.getSelectedSchoolName(this.baseNameId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedSchoolName(this.baseNameId).subscribe(res=>{
       this.selectedSchoolName=res
     }); 
   }
@@ -173,10 +179,10 @@ export class NewInstructorComponent implements OnInit {
       this.InstructorForm.get('password').setValue('Admin@123');
       this.InstructorForm.get('confirmPassword').setValue('Admin@123');
 
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.UserService.update(id,this.InstructorForm.value).subscribe(response => {
+          this.subscription = this.UserService.update(id,this.InstructorForm.value).subscribe(response => {
             this.router.navigateByUrl('/security/instructor-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -191,7 +197,7 @@ export class NewInstructorComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.UserService.submit(this.InstructorForm.value).subscribe(response => {
+      this.subscription = this.UserService.submit(this.InstructorForm.value).subscribe(response => {
         this.router.navigateByUrl('/security/instructor-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

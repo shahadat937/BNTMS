@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './absentlist-dashboard.component.html',
   styleUrls: ['./absentlist-dashboard.component.sass']
 })
-export class AbsentlistDashboardComponent implements OnInit {
+export class AbsentlistDashboardComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -36,6 +36,7 @@ export class AbsentlistDashboardComponent implements OnInit {
   }
   searchText="";
   displayedRoutineAbsentColumns: string[] = ['ser','course','nominated','actions'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -44,12 +45,17 @@ export class AbsentlistDashboardComponent implements OnInit {
     // this.getTraineeAbsentList(this.schoolId);
     this.getCurrentAttendanceBySchool(this.schoolId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   
 
   getCurrentAttendanceBySchool(schoolId){    
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getCurrentAttendanceBySchool(currentDateTime,schoolId).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getCurrentAttendanceBySchool(currentDateTime,schoolId).subscribe(response => {   
       this.TodayAttendanceList=response;
     })
   }

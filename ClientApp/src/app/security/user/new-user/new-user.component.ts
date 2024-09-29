@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../service/User.service';
@@ -14,7 +14,7 @@ import { MasterData } from 'src/assets/data/master-data';
   templateUrl: './new-user.component.html',
   styleUrls: ['./new-user.component.sass']
 })
-export class NewUserComponent implements OnInit {
+export class NewUserComponent implements OnInit, OnDestroy {
 
   masterData = MasterData;
   loading = false;
@@ -43,6 +43,7 @@ export class NewUserComponent implements OnInit {
 
   options = [];
   filteredOptions;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private RoleService: RoleService,private BaseSchoolNameService: BaseSchoolNameService,private confirmService: ConfirmService,private UserService: UserService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -53,7 +54,7 @@ export class NewUserComponent implements OnInit {
       this.destination = "Edit";
       this.buttonText= "Update";
       this.isEdit=true;
-      this.UserService.find(id).subscribe(
+      this.subscription = this.UserService.find(id).subscribe(
      
         res => {
           this.UserForm.patchValue({          
@@ -94,6 +95,11 @@ export class NewUserComponent implements OnInit {
     this.intitializeForm();
     this.onOrganizationSelectionChangeGetCommendingArea();
     this.getRoleName();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   intitializeForm() {
@@ -155,14 +161,14 @@ export class NewUserComponent implements OnInit {
     this.roleValues=this.selectRole.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getRoleName(){
-    this.RoleService.getselectedrole().subscribe(res=>{
+    this.subscription = this.RoleService.getselectedrole().subscribe(res=>{
       this.roleValues=res
       this.selectRole=res
     });
   }
 
   getSelectedOrganization(){
-    this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedOrganization().subscribe(res=>{
       this.selectedOrganization=res
     });
   }
@@ -172,7 +178,7 @@ export class NewUserComponent implements OnInit {
   }
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.UserForm.value['firstLevel'];
-    this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
       this.selectCommendingArea=res
     });        
@@ -182,7 +188,7 @@ export class NewUserComponent implements OnInit {
   }
   onCommendingAreaSelectionChangeGetBaseName(){
     this.commendingAreaId=this.UserForm.value['secondLevel'];
-    this.BaseSchoolNameService.getSelectedBaseName(this.commendingAreaId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedBaseName(this.commendingAreaId).subscribe(res=>{
       this.selectedBaseName=res
       this.selectBaseName=res
     });  
@@ -194,7 +200,7 @@ export class NewUserComponent implements OnInit {
   }
   onBaseNameSelectionChangeGetBaseSchoolName(){
     this.baseNameId=this.UserForm.value['thirdLevel'];
-    this.BaseSchoolNameService.getSelectedSchoolName(this.baseNameId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedSchoolName(this.baseNameId).subscribe(res=>{
       this.selectedSchoolName=res
       this.selectSchool=res
     }); 
@@ -206,7 +212,7 @@ export class NewUserComponent implements OnInit {
     //const id = this.route.snapshot.paramMap.get('userId');   
      
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.UserService.update(id,this.UserForm.value).subscribe(response => {
@@ -224,7 +230,7 @@ export class NewUserComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.UserService.submit(this.UserForm.value).subscribe(response => {
+      this.subscription = this.UserService.submit(this.UserForm.value).subscribe(response => {
         this.router.navigateByUrl('/security/user-list');
         this.snackBar.open('User Created Successfully ', '', {
           duration: 2000,

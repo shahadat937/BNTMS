@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {ClassRoutine} from '../../models/classroutine'
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './classroutine-list.component.html',
   styleUrls: ['./classroutine-list.component.sass']
 })
-export class ClassRoutineListComponent implements OnInit {
+export class ClassRoutineListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ClassRoutine[] = [];
@@ -32,6 +32,7 @@ export class ClassRoutineListComponent implements OnInit {
 
 
    selection = new SelectionModel<ClassRoutine>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private ClassRoutineService: ClassRoutineService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class ClassRoutineListComponent implements OnInit {
     this.getClassRoutines();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getClassRoutines() {
     this.isLoading = true;
-    this.ClassRoutineService.getClassRoutines(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.ClassRoutineService.getClassRoutines(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -67,7 +73,7 @@ export class ClassRoutineListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.classRoutineId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.ClassRoutineService.delete(id).subscribe(() => {
           this.getClassRoutines();

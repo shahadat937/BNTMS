@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef,Pipe, PipeTransform  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef,Pipe, PipeTransform, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -39,7 +39,7 @@ import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.
   templateUrl: './routinebycourse-list.component.html',
   styleUrls: ['./routinebycourse-list.component.sass']
 })
-export class RoutineByCourseListComponent implements OnInit {
+export class RoutineByCourseListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -88,6 +88,7 @@ export class RoutineByCourseListComponent implements OnInit {
   displayedRoutineNoteColumns: string[] = ['ser','routineName','routineNote'];
   displayedPeriodListColumns: string[] = ['ser','periodName','duration'];
   displayedSubjectListColumns: string[] = ['ser','instructorName','instructorShortCode'];
+  subscription: any;
   constructor(private datepipe: DatePipe,private fb: FormBuilder, private courseWeekService: CourseWeekService,private authService: AuthService,private ClassPeriodService: ClassPeriodService, private classRoutineService:ClassRoutineService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
   ngOnInit() {
@@ -108,25 +109,30 @@ export class RoutineByCourseListComponent implements OnInit {
 
     
 
-      this.classRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,courseNameId,durationId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getCourseInstructorByBaseSchoolNameAndCourseName(this.schoolId,courseNameId,durationId).subscribe(res=>{
         this.traineeListByBaseSchoolAndCourse=res;
       })
-      this.classRoutineService.getRoutineNotesForDashboard(currentDateTime,this.schoolId,courseNameId,durationId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getRoutineNotesForDashboard(currentDateTime,this.schoolId,courseNameId,durationId).subscribe(res=>{
         this.routineNotesList=res;
       })
-      this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,courseNameId).subscribe(res=>{
+      this.subscription = this.ClassPeriodService.getSelectedPeriodBySchoolAndCourse(this.schoolId,courseNameId).subscribe(res=>{
         this.periodListByBaseSchoolAndCourse=res;
       })
-      this.classRoutineService.getselectedCourseSection(this.schoolId,courseNameId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getselectedCourseSection(this.schoolId,courseNameId).subscribe(res=>{
         this.sectionList=res;
       });
-      this.classRoutineService.getSelectedCourseWeeks(this.schoolId,durationId,courseNameId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getSelectedCourseWeeks(this.schoolId,durationId,courseNameId).subscribe(res=>{
         this.selectedWeek=res;
         this.selectWeek=res;
       });
 
       
     
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.RoutineBySectionForm = this.fb.group({
@@ -141,7 +147,7 @@ export class RoutineByCourseListComponent implements OnInit {
     var durationId = this.route.snapshot.paramMap.get('courseDurationId');
     var weekId=this.RoutineBySectionForm.value['courseWeekId'];
     
-    this.classRoutineService.getRoutineNotesForWeeklyRoutine(schoolId,courseNameId,durationId,weekId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getRoutineNotesForWeeklyRoutine(schoolId,courseNameId,durationId,weekId).subscribe(res=>{
       this.routineNotesList=res;
     });
 
@@ -159,10 +165,10 @@ export class RoutineByCourseListComponent implements OnInit {
     var courseWeekId = this.RoutineBySectionForm.value['courseWeekId'];
     var sectionId = this.RoutineBySectionForm.value['courseSectionId'];
 
-    this.classRoutineService.getSubjectlistBySchoolAndCourse(this.schoolId,courseNameId,durationId,courseWeekId,sectionId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getSubjectlistBySchoolAndCourse(this.schoolId,courseNameId,durationId,courseWeekId,sectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
     });
-    this.classRoutineService.getSubjectsByRoutineList(this.schoolId,courseNameId,durationId,courseWeekId,sectionId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getSubjectsByRoutineList(this.schoolId,courseNameId,durationId,courseWeekId,sectionId).subscribe(res=>{
       this.getSubjectsByRoutineList=res;
     });
 
@@ -178,12 +184,12 @@ export class RoutineByCourseListComponent implements OnInit {
       this.durationTo =this.datepipe.transform(durationTo, 'dd/MM/yyyy');
     });
 
-    this.courseWeekService.find(courseWeekId).subscribe(res=>{
+    this.subscription = this.courseWeekService.find(courseWeekId).subscribe(res=>{
       var weekStartDate = res.dateFrom;
       this.weekStartDate =this.datepipe.transform(weekStartDate, 'dd/MM/yyyy');
     });
 
-    this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(this.schoolId,courseNameId,courseWeekId,sectionId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(this.schoolId,courseNameId,courseWeekId,sectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       
       for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){

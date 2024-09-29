@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -18,7 +18,8 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './courseinstructorlist-dashboard.component.html',
   styleUrls: ['./courseinstructorlist-dashboard.component.sass']
 })
-export class CourseInstructorListDashboardComponent implements OnInit {
+export class CourseInstructorListDashboardComponent implements OnInit, OnDestroy {
+  
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -52,6 +53,7 @@ export class CourseInstructorListDashboardComponent implements OnInit {
   paginator!: MatPaginator;
 
   displayedInstructorColumns: string[] = ['ser','course','instructorCount','actions'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -75,9 +77,14 @@ export class CourseInstructorListDashboardComponent implements OnInit {
       this.getInstructorByCourse(this.schoolId);
     }
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getInstructorByCourse(schoolId){
-    this.schoolDashboardService.getInstructorByCourse(schoolId).subscribe(response => {         
+    this.subscription = this.schoolDashboardService.getInstructorByCourse(schoolId).subscribe(response => {         
       this.InstructorList=response;
      
 
@@ -108,7 +115,7 @@ export class CourseInstructorListDashboardComponent implements OnInit {
   //   });
   // }
   getInstructorBySchoolForBase(baseId){
-    this.schoolDashboardService.getInstructorBySchoolForBase(baseId).subscribe((response) => {
+    this.subscription = this.schoolDashboardService.getInstructorBySchoolForBase(baseId).subscribe((response) => {
       this.dataSource = new MatTableDataSource(response);
      
       this.dataSource.sort = this.InitialOrdersort;

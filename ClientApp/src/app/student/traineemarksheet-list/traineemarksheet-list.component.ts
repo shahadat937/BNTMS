@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnDestroy, OnInit  } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute,Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
@@ -11,7 +11,7 @@ import { StudentDashboardService } from '../services/StudentDashboard.service';
   templateUrl: './traineemarksheet-list.component.html',
   styleUrls: ['./traineemarksheet-list.component.sass']
 })
-export class TraineeMarkSheetComponent implements OnInit {
+export class TraineeMarkSheetComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -27,6 +27,7 @@ export class TraineeMarkSheetComponent implements OnInit {
   searchText="";
   
   displayedColumns: string[] ;
+  subscription: any;
   //displayedColumns: string[] = ['ser','pno','name','rankposition','course','courseTitle','subjectName','totalMark','passMarkBna', 'obtaintMark'];
   //displayedColumns: string[] = ['pno','name','position','general Navigation ','instrument','relvel and Fleet Work','rule of The Road'];
 
@@ -39,12 +40,16 @@ export class TraineeMarkSheetComponent implements OnInit {
     this.getTraineeMarkListByDuration();
     
   }
- 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getTraineeMarkListByDuration() {
     this.isLoading = true;
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     var traineeId = Number(this.route.snapshot.paramMap.get('traineeId')); 
-    this.studentDashboardService.getTraineeMarksheet(traineeId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getTraineeMarksheet(traineeId,courseDurationId).subscribe(res=>{
       this.marklistbycourse=res;  
       this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
   //displayedColumns: string[] = [...Object.keys(this.marklistbycourse[0])];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNASemesterDurationService } from '../../service/BNASemesterDuration.service';
@@ -13,7 +13,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
   templateUrl: './new-bnasemesterduration.component.html',
   styleUrls: ['./new-bnasemesterduration.component.sass']
 }) 
-export class NewBnasemesterdurationComponent implements OnInit {
+export class NewBnasemesterdurationComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -33,6 +33,7 @@ export class NewBnasemesterdurationComponent implements OnInit {
   selectedRank:SelectedModel[];
   selectPromotion:SelectedModel[];
   selectedLocationType:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNASemesterDurationService: BNASemesterDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -42,7 +43,7 @@ export class NewBnasemesterdurationComponent implements OnInit {
       this.pageTitle = 'Edit BNASemesterDuration'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.BNASemesterDurationService.find(+id).subscribe(
+      this.subscription = this.BNASemesterDurationService.find(+id).subscribe(
         res => {
           this.BNASemesterDurationForm.patchValue({  
                     
@@ -84,6 +85,11 @@ export class NewBnasemesterdurationComponent implements OnInit {
     this.getSelectedLocationType();
     this.getSelectedCourseDuration();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.BNASemesterDurationForm = this.fb.group({
       bnaSemesterDurationId: [0],
@@ -109,7 +115,7 @@ export class NewBnasemesterdurationComponent implements OnInit {
   }
   
   getSelectedLocationType(){
-    this.CodeValueService.getSelectedCodeValueByType(this.masterData.codevaluetype.LocationType).subscribe(res=>{
+    this.subscription = this.CodeValueService.getSelectedCodeValueByType(this.masterData.codevaluetype.LocationType).subscribe(res=>{
       this.selectedLocationType=res;      
     })
   }
@@ -118,14 +124,14 @@ export class NewBnasemesterdurationComponent implements OnInit {
     this.bnaSubjectCurriculam=this.selectCurriculam.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().reeplac(/\s/g,'')))
   }
   getSelectedBnaSubjectCurriculam(){
-    this.BNASemesterDurationService.getSelectedBnaSubjectCurriculam().subscribe(res=>{
+    this.subscription = this.BNASemesterDurationService.getSelectedBnaSubjectCurriculam().subscribe(res=>{
       this.bnaSubjectCurriculam=res
       this.selectCurriculam=res
     });
   } 
   
   getSelectedDepartment(){
-    this.BNASemesterDurationService.getSelectedDepartment().subscribe(res=>{
+    this.subscription = this.BNASemesterDurationService.getSelectedDepartment().subscribe(res=>{
       this.department=res
     });
   } 
@@ -135,7 +141,7 @@ export class NewBnasemesterdurationComponent implements OnInit {
   }
 
   getSelectedBnaSemester(){
-    this.BNASemesterDurationService.getSelectedBnaSemester().subscribe(res=>{
+    this.subscription = this.BNASemesterDurationService.getSelectedBnaSemester().subscribe(res=>{
       this.selectedSemester=res
       this.selectSemester=res
     });
@@ -144,7 +150,7 @@ filterByCourse(value:any){
   this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getSelectedCourseDuration(){
-    this.BNASemesterDurationService.getSelectedCourseDuration().subscribe(res=>{
+    this.subscription = this.BNASemesterDurationService.getSelectedCourseDuration().subscribe(res=>{
       this.selectedCourseDuration=res
       this.selectCourse=res
     });
@@ -154,7 +160,7 @@ filterByCourse(value:any){
     this.selectedBatch= this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getSelectedBnaBatch(){
-    this.BNASemesterDurationService.getSelectedBnaBatch().subscribe(res=>{
+    this.subscription = this.BNASemesterDurationService.getSelectedBnaBatch().subscribe(res=>{
       this.selectedBatch=res
       this.selectBatch=res
     });
@@ -163,7 +169,7 @@ filterByCourse(value:any){
     this.selectedRank=this.selectPromotion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getSelectedRank(){
-    this.BNASemesterDurationService.getSelectedRank().subscribe(res=>{
+    this.subscription =  this.BNASemesterDurationService.getSelectedRank().subscribe(res=>{
       this.selectedRank=res
       this.selectPromotion=res
     });
@@ -172,10 +178,10 @@ filterByCourse(value:any){
   onSubmit() {
     const id = this.BNASemesterDurationForm.get('bnaSemesterDurationId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.BNASemesterDurationService.update(+id,this.BNASemesterDurationForm.value).subscribe(response => {
+          this.subscription = this.BNASemesterDurationService.update(+id,this.BNASemesterDurationForm.value).subscribe(response => {
             this.router.navigateByUrl('/semester-management/bnasemesterduration-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -190,7 +196,7 @@ filterByCourse(value:any){
       })
     }else {
       this.loading=true;
-      this.BNASemesterDurationService.submit(this.BNASemesterDurationForm.value).subscribe(response => {
+      this.subscription = this.BNASemesterDurationService.submit(this.BNASemesterDurationForm.value).subscribe(response => {
         this.router.navigateByUrl('/semester-management/bnasemesterduration-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

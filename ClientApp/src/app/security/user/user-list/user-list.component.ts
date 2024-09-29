@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from '../../models/User';
@@ -16,7 +16,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.sass']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   InstructorForm: FormGroup;
@@ -36,6 +36,7 @@ export class UserListComponent implements OnInit {
 
 
   selection = new SelectionModel<User>(true, []);
+  subscription: any;
   
   constructor(private snackBar: MatSnackBar,private fb: FormBuilder,private UserService: UserService,private router: Router,private confirmService: ConfirmService) { }
   // ngOnInit() {
@@ -44,6 +45,11 @@ export class UserListComponent implements OnInit {
   ngOnInit() {
     this.getUsers();
     this.intitializeForm();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   intitializeForm() {
@@ -66,7 +72,7 @@ export class UserListComponent implements OnInit {
  
   getUsers() {
     this.isLoading = true;
-    this.UserService.getUsers(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.UserService.getUsers(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
     this.dataSource.data = response.items; 
     this.paging.length = response.totalItemsCount    
     this.isLoading = false;
@@ -104,7 +110,7 @@ export class UserListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.id; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.UserService.delete(id).subscribe(() => {
           this.getUsers();
@@ -143,7 +149,7 @@ export class UserListComponent implements OnInit {
 
   PasswordUpdate(row) {
     const id = row.id; 
-    this.confirmService.confirm('Confirm Update message', 'Are You Sure Resetting This  User Password?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Resetting This  User Password?').subscribe(result => {
       if (id) {
         this.UserService.find(id).subscribe(
           res => {
@@ -159,7 +165,7 @@ export class UserListComponent implements OnInit {
               traineeId:res.traineeId     
             
             });   
-            this.UserService.resetPassword(id,this.InstructorForm.value).subscribe(response => {
+            this.subscription = this.UserService.resetPassword(id,this.InstructorForm.value).subscribe(response => {
               // this.router.navigateByUrl('/security/instructor-list');
               //vaiya eta theke ami password nicchi
               this.getUsers();

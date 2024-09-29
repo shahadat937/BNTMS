@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -17,7 +17,7 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./weeklyprogramdashboard.component.sass']
 })
 
-export class WeeklyProgramDashboardComponent implements OnInit {
+export class WeeklyProgramDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -37,6 +37,7 @@ export class WeeklyProgramDashboardComponent implements OnInit {
   }
   searchText="";
   displayedRoutineCountColumns: string[] = ['ser','course','courseDuration','actions'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -49,9 +50,14 @@ export class WeeklyProgramDashboardComponent implements OnInit {
     // })
     this.getRoutineInfoByCourse(this.schoolId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getRoutineInfoByCourse(schoolId){
-    this.schoolDashboardService.getRoutineByCourse(schoolId).subscribe(response => {     
+    this.subscription = this.schoolDashboardService.getRoutineByCourse(schoolId).subscribe(response => {     
       this.dataSource = new MatTableDataSource(response);
       this.dataSource.sort = this.InitialOrdersort;
       this.dataSource.paginator = this.InitialOrderpaginator;    

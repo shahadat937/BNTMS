@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -14,7 +14,7 @@ import { SchoolDashboardService } from '../services/SchoolDashboard.service';
   templateUrl: './attendancebycourse-list.component.html',
   styleUrls: ['./attendancebycourse-list.component.sass']
 })
-export class AttendanceByCourseListComponent implements OnInit {
+export class AttendanceByCourseListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -32,6 +32,7 @@ export class AttendanceByCourseListComponent implements OnInit {
   searchText="";
 
   displayedRoutineColumns: string[] = ['ser', 'date','duration', 'period', 'subject', 'nominated', 'absent'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -41,7 +42,7 @@ export class AttendanceByCourseListComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.durationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getCurrentAttendanceDetailList(currentDateTime,Number(this.courseNameId),this.schoolId,this.durationId).subscribe(response => {         
+    this.schoolDashboardService.getCurrentAttendanceDetailList(currentDateTime,Number(this.courseNameId),this.subscription = this.schoolId,this.durationId).subscribe(response => {         
       this.AttendanceByCourse=response;
 
        // this gives an object with dates as keys
@@ -63,6 +64,11 @@ export class AttendanceByCourseListComponent implements OnInit {
         });
 
     })
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

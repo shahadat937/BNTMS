@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {ClassPeriod} from '../../models/classperiod'
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './classperiod-list.component.html',
   styleUrls: ['./classperiod-list.component.sass']
 })
-export class ClassPeriodListComponent implements OnInit {
+export class ClassPeriodListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ClassPeriod[] = [];
@@ -32,6 +32,7 @@ export class ClassPeriodListComponent implements OnInit {
 
 
    selection = new SelectionModel<ClassPeriod>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private ClassPeriodService: ClassPeriodService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class ClassPeriodListComponent implements OnInit {
     this.getClassPeriods();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getClassPeriods() {
     this.isLoading = true;
-    this.ClassPeriodService.getClassPeriods(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.ClassPeriodService.getClassPeriods(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -67,7 +73,7 @@ export class ClassPeriodListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.classPeriodId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.ClassPeriodService.delete(id).subscribe(() => {
           this.getClassPeriods();

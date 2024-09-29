@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
@@ -16,7 +16,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './installment-list.component.html',
   styleUrls: ['./installment-list.component.sass']
 })
-export class InstallmentListComponent implements OnInit {
+export class InstallmentListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -38,6 +38,7 @@ export class InstallmentListComponent implements OnInit {
 
   
    selection = new SelectionModel<BNASubjectName>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
@@ -53,15 +54,21 @@ export class InstallmentListComponent implements OnInit {
     this.getTraineeRemittanceNotification(traineeId, courseDurationId)
   }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getTraineeRemittanceNotification(traineeId,courseDurationId){
-    this.studentDashboardService.getRemittanceNotificationForStudent(traineeId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getRemittanceNotificationForStudent(traineeId,courseDurationId).subscribe(res=>{
       this.traineeRemittanceNotification=res;  
     });
   }
 
   inActiveItem(row){
     const id = row.courseBudgetAllocationId; 
-          this.confirmService.confirm('Confirm Accepted message', 'Are You Sure Accepted This Item').subscribe(result => {
+          this.subscription = this.confirmService.confirm('Confirm Accepted message', 'Are You Sure Accepted This Item').subscribe(result => {
             if (result) {
           this.studentDashboardService.acceptedCourseBudget(id).subscribe(() => {
             //this.getselectedPresentStocks(row.departmentNameId,this.searchText);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDurationService } from '../../service/courseduration.service';
@@ -17,7 +17,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   templateUrl: './new-staffcollagecourse.component.html',
   styleUrls: ['./new-staffcollagecourse.component.sass']
 })
-export class NewStaffCollageCourseComponent implements OnInit {
+export class NewStaffCollageCourseComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -43,6 +43,7 @@ export class NewStaffCollageCourseComponent implements OnInit {
 
   displayedColumns: string[] = ['ser','courseName','durationFrom','durationTo', 'status', 'actions'];
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
+  subscription: any;
 
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
@@ -53,7 +54,7 @@ export class NewStaffCollageCourseComponent implements OnInit {
       this.pageTitle = 'Edit Staff Collage Course'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.CourseDurationService.find(+id).subscribe(
+      this.subscription = this.CourseDurationService.find(+id).subscribe(
         res => {
           this.CourseDurationForm.patchValue({ 
             courseDurationId: res.courseDurationId,
@@ -83,10 +84,15 @@ export class NewStaffCollageCourseComponent implements OnInit {
     this.getSelectedCourseByType();
     this.getCourseDurationsByCourseType();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getCourseDurationsByCourseType(){
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.masterData.courseName.StaffCollage).subscribe(response => {
+    this.subscription = this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.masterData.courseName.StaffCollage).subscribe(response => {
       this.dataSource.data = response.items.filter(x=>x.isCompletedStatus===0); 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -135,22 +141,22 @@ export class NewStaffCollageCourseComponent implements OnInit {
   }
   //AutoComplete for courseName
   getSelectedCourseAutocomplete(cName){
-    this.CourseNameService.getSelectedCourseByNameAndType(this.masterData.coursetype.CentralExam,cName).subscribe(response => {
+    this.subscription = this.CourseNameService.getSelectedCourseByNameAndType(this.masterData.coursetype.CentralExam,cName).subscribe(response => {
       this.options = response;
       this.filteredOptions = response;
     })
   }
   getSelectedCourseByType(){
-    this.CourseNameService.getSelectedCourseByType(1021).subscribe(res=>{
+    this.subscription = this.CourseNameService.getSelectedCourseByType(1021).subscribe(res=>{
       this.selectedCourseByType=res
     });
   }
 
   stopCentralExam(element){
     if(element.isCompletedStatus ===0){
-      this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
         if (result) {
-       this.CourseDurationService.stopCentralExam(element.courseDurationId).subscribe(() => {
+          this.subscription = this.CourseDurationService.stopCentralExam(element.courseDurationId).subscribe(() => {
         this.getCourseDurationsByCourseType();
         // this.getCourseDurationsByCourseType().subscribe(res=>{
         //         this.selectedNotice=res
@@ -175,7 +181,7 @@ export class NewStaffCollageCourseComponent implements OnInit {
   }
 
   getselectedfiscalyear(){
-    this.CourseDurationService.getselectedFiscalYear().subscribe(res=>{
+    this.subscription = this.CourseDurationService.getselectedFiscalYear().subscribe(res=>{
       this.selectedfiscalyear=res
     });
   }
@@ -189,9 +195,9 @@ export class NewStaffCollageCourseComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.courseDurationId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.CourseDurationService.delete(id).subscribe(() => {
+        this.subscription = this.CourseDurationService.delete(id).subscribe(() => {
           
           this.getCourseDurationsByCourseType();
           this.snackBar.open('Information Deleted Successfully ', '', {
@@ -208,10 +214,10 @@ export class NewStaffCollageCourseComponent implements OnInit {
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;  
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
+          this.subscription = this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
              this.router.navigateByUrl('/staff-collage/add-staffcollagecourse');
              this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -228,7 +234,7 @@ export class NewStaffCollageCourseComponent implements OnInit {
       })
     }else {
       this.loading=true;
-      this.CourseDurationService.submit(this.CourseDurationForm.value).subscribe(response => {
+      this.subscription = this.CourseDurationService.submit(this.CourseDurationForm.value).subscribe(response => {
         this.router.navigateByUrl('/staff-collage/add-staffcollagecourse');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {

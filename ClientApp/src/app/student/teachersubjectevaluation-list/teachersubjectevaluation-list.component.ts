@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAExamMarkService } from '../../exam-management/service/bnaexammark.service';
@@ -20,7 +20,7 @@ import {TdecGroupResultService} from '../services/tdecgroupresult.service'
   templateUrl: './teachersubjectevaluation-list.component.html',
   styleUrls: ['./teachersubjectevaluation-list.component.sass']
 }) 
-export class TeacherSubjectEvaluationComponent implements OnInit {
+export class TeacherSubjectEvaluationComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -70,6 +70,7 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
   
     displayedColumns: string[] = ['sl','markType','passMark', 'mark'];
     displayedColumnsForTraineeList: string[] = ['sl','traineePNo','traineeName', 'obtaintMark','examMarkRemarksId'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private tdecGroupResultService:TdecGroupResultService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, private studentDashboardService: StudentDashboardService ) { }
 
@@ -91,7 +92,7 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
       this.pageTitle = 'Edit  Exam Mark'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.BNAExamMarkService.find(+id).subscribe(
+      this.subscription = this.BNAExamMarkService.find(+id).subscribe(
         res => {
           this.BNAExamMarkForm.patchValue({          
             bnaExamMarkId:res.bnaExamMarkId, 
@@ -122,6 +123,11 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
     } 
     this.intitializeForm();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   intitializeForm() {
     this.BNAExamMarkForm = this.fb.group({
@@ -141,7 +147,7 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
   }
 
   getTdecQuationGroupByParams(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId){
-    this.studentDashboardService.getTdecQuationGroupByParams(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getTdecQuationGroupByParams(baseSchoolNameId,courseNameId,courseDurationId,bnaSubjectNameId).subscribe(res=>{
       this.questionList=res
       this.courseName=res[0].courseName;
       this.courseTitle=res[0].courseDuration;
@@ -156,7 +162,7 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
   }
 
   getSelectedTdecActionStatus(){
-    this.studentDashboardService.getSelectedTdecActionStatus().subscribe(res=>{
+    this.subscription = this.studentDashboardService.getSelectedTdecActionStatus().subscribe(res=>{
       this.SelectedTdecActionStatus=res
     });
   }
@@ -223,10 +229,10 @@ export class TeacherSubjectEvaluationComponent implements OnInit {
     // }else {
       
     
-      this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.tdecGroupResultService.submit(this.BNAExamMarkForm.value).subscribe(response => {
+          this.subscription = this.tdecGroupResultService.submit(this.BNAExamMarkForm.value).subscribe(response => {
             //this.router.navigateByUrl('/exam-management/bnaexammark-list');
             // this.BNAExamMarkForm.reset();
             // this.isShown = false;

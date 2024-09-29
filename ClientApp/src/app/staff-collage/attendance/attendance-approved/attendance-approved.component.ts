@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttendanceService } from '../../service/attendance.service';
@@ -22,7 +22,7 @@ import { ClassRoutineService } from 'src/app/routine-management/service/classrou
   templateUrl: './attendance-approved.component.html',
   styleUrls: ['./attendance-approved.component.sass']
 })
-export class AttendanceApprovedComponent implements OnInit {
+export class AttendanceApprovedComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -58,6 +58,7 @@ export class AttendanceApprovedComponent implements OnInit {
   // selection = new SelectionModel<Attendance>(true, []);
   displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   dataSource ;
+  subscription: any;
   constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
   ngOnInit(): void {
@@ -66,7 +67,7 @@ export class AttendanceApprovedComponent implements OnInit {
       this.pageTitle = 'Edit Attendance'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.AttendanceService.find(+id).subscribe(
+     this.subscription = this.AttendanceService.find(+id).subscribe(
         res => {
           this.AttendanceForm.patchValue({          
             attendanceId:res.attendanceId, 
@@ -99,6 +100,11 @@ export class AttendanceApprovedComponent implements OnInit {
      this.getselectedclassperiod();
      this.getselectedbnaattendanceremark();
     // this.getAttendanceListForUpdate();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.AttendanceForm = this.fb.group({
@@ -165,7 +171,7 @@ export class AttendanceApprovedComponent implements OnInit {
   // }
 
   onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
-      this.AttendanceService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.AttendanceService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res
       });
      }
@@ -186,14 +192,14 @@ export class AttendanceApprovedComponent implements OnInit {
       //              }  
       // })
 
-      this.classRoutineService.getSelectedRoutineId(baseSchoolNameId,courseNameId,classPeriodId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getSelectedRoutineId(baseSchoolNameId,courseNameId,classPeriodId).subscribe(res=>{
         this.classRoutineId=res;
       })
 
        if(baseSchoolNameId != null && courseNameId != null && classPeriodId !=null){
-        this.AttendanceService.getSelectedCourseDurationByParameterRequestFromClassRoutine(baseSchoolNameId,courseNameId,classPeriodId).subscribe(res=>{
+        this.subscription = this.AttendanceService.getSelectedCourseDurationByParameterRequestFromClassRoutine(baseSchoolNameId,courseNameId,classPeriodId).subscribe(res=>{
           this.selectedCourseDurationByParameterRequest=res;  
-         this.traineeNominationService.getTraineeNominationByCourseDurationId(this.selectedCourseDurationByParameterRequest).subscribe(res=>{
+          this.subscription = this.traineeNominationService.getTraineeNominationByCourseDurationId(this.selectedCourseDurationByParameterRequest).subscribe(res=>{
           this.traineeNominationListForAttendance=res; 
          });
         });
@@ -201,7 +207,7 @@ export class AttendanceApprovedComponent implements OnInit {
       this.isShown=true;
       this.clearList();
       
-        this.AttendanceService.getAttendanceListForUpdate(this.paging.pageIndex, this.paging.pageSize,this.searchText,baseSchoolNameId,courseNameId,classPeriodId).subscribe(response => {
+        this.AttendanceService.getAttendanceListForUpdate(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText,baseSchoolNameId,courseNameId,classPeriodId).subscribe(response => {
         this.dataSource = response.items; 
         this.paging.length = response.totalItemsCount    
         this.getTraineeListonClick();
@@ -213,7 +219,7 @@ export class AttendanceApprovedComponent implements OnInit {
            var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
            var courseNameId=this.AttendanceForm.value['courseNameId'];
             if(baseSchoolNameId != null && courseNameId != null){
-              this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameIdforAttendances(baseSchoolNameId,courseNameId,date).subscribe(res=>{
+              this.subscription = this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameIdforAttendances(baseSchoolNameId,courseNameId,date).subscribe(res=>{
                 this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameIdforAttendanceApprove=res;     
               });
             }  
@@ -224,36 +230,36 @@ export class AttendanceApprovedComponent implements OnInit {
      }
 
   getselectedclassroutine(){
-    this.AttendanceService.getselectedclassroutine().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedclassroutine().subscribe(res=>{
       this.selectedclassroutine=res
     });
   } 
 
   getselectedbaseschools(){
-    this.AttendanceService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschools=res
     });
   } 
 
   getselectedcoursename(){
-    this.AttendanceService.getselectedcoursename().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res
     });
   }
 
   getselectedbnasubjectname(){
-    this.AttendanceService.getselectedbnasubjectname().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedbnasubjectname().subscribe(res=>{
       this.selectedbnasubjectname=res
     });
   }
   getselectedclassperiod(){
-    this.AttendanceService.getselectedclassperiod().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedclassperiod().subscribe(res=>{
       this.selectedclassperiod=res
     });
   }
 
   getselectedbnaattendanceremark(){
-    this.AttendanceService.getselectedbnaattendanceremark().subscribe(res=>{
+    this.subscription = this.AttendanceService.getselectedbnaattendanceremark().subscribe(res=>{
       this.selectedbnaattendanceremark=res
     });
   }
@@ -275,7 +281,7 @@ export class AttendanceApprovedComponent implements OnInit {
     // }
     
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.AttendanceService.updateAttendanceList(JSON.stringify(this.AttendanceForm.value)).subscribe(response => {
             this.router.navigateByUrl('/attendance-management/add-attendance');
@@ -291,7 +297,7 @@ export class AttendanceApprovedComponent implements OnInit {
         }
       })
     }else {
-      this.AttendanceService.updateAttendanceList(JSON.stringify(this.AttendanceForm.value)).subscribe(response => {
+      this.subscription = this.AttendanceService.updateAttendanceList(JSON.stringify(this.AttendanceForm.value)).subscribe(response => {
         // this.router.navigateByUrl('/attendance-management/add-attendance');
         // this.AttendanceForm.reset();
         // this.AttendanceForm.get('attendanceId').setValue(0);
