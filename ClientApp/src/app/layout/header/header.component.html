@@ -44,7 +44,13 @@
         <!-- </li> -->
         <!-- #START# Notifications-->
 
-
+        <li>
+          <a href="" (click)="testFun($event)">
+            <mat-icon style="font-size:28px; color: #fff" color="primary">
+              search
+            </mat-icon>
+          </a>
+        </li>
         <li *ngIf="role == userRole.Student" class="nav-item" ngbDropdown>
           <!-- <button [routerLink]="['/admin/dashboard/school-history']" title="History" mat-icon-button ngbDropdownToggle class="nav-notification-icons" >
             <img src="../../../assets/images/app-icon/material.png" class="syllabus-icon">

@@ -142,6 +142,7 @@ this.userRole.SchoolOIC
       })
     }
 
+
     
 
     // const userRole = this.authService.currentUserValue.role;
@@ -168,6 +169,11 @@ this.userRole.SchoolOIC
       this.flagvalue = val.map((element) => element.flag);
     }
 
+  }
+
+  testFun(event:any) {
+    event.preventDefault();
+    console.log("Hello World");
   }
   ngAfterViewInit() {
     // set theme on startup

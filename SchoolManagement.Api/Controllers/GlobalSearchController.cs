@@ -24,5 +24,32 @@ namespace SchoolManagement.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("get-searchedTraineeDetail/{traineeId}")]
+        public async Task<ActionResult> GetSearchedTraineeDetail(int traineeId)
+        {
+            var command = new GetSearchedTraineeDetailRequest { TraineeId = traineeId };
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("get-searchedInstructorDetail/{instructorId}")]
+        public async Task<ActionResult> GetSearchedInstructorDetail(int instructorId)
+        {
+            var command = new GetSearchedInstructorDetailRequest { instructorId = instructorId };
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("get-searchedCourseDetail/{courseDurationId}")]
+        public async Task<ActionResult> GetSearchedCourseDeatail(int courseDurationId)
+        {
+            var command = new GetSearchedCourseDetailRequest { CourseDurationId = courseDurationId };
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
     }
 }
