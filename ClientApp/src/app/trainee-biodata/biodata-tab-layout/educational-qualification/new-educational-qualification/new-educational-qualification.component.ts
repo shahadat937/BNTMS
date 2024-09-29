@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EducationalQualificationService } from '../../service/EducationalQualification.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-educational-qualification.component.html',
   styleUrls: ['./new-educational-qualification.component.sass']
 })
-export class NewEducationalQualificationComponent implements OnInit {
+export class NewEducationalQualificationComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -25,6 +25,7 @@ export class NewEducationalQualificationComponent implements OnInit {
   selectGroup:SelectedModel[];
   boardValues:SelectedModel[]; 
   selectBoard:SelectedModel[]
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -69,6 +70,11 @@ export class NewEducationalQualificationComponent implements OnInit {
     this.getBoardName();
     this.getGroupName();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.EducationalQualificationForm = this.fb.group({
       educationalQualificationId: [0],
@@ -94,7 +100,7 @@ export class NewEducationalQualificationComponent implements OnInit {
   }
 
   getExamType(){
-    this.EducationalQualificationService.getselectedexamtype().subscribe(res=>{
+    this.subscription = this.EducationalQualificationService.getselectedexamtype().subscribe(res=>{
       this.examTypeValues=res
       this.selectExamType=res
     });
@@ -104,7 +110,7 @@ export class NewEducationalQualificationComponent implements OnInit {
   }
 
   getBoardName(){
-    this.EducationalQualificationService.getselectedboard().subscribe(res=>{
+    this.subscription = this.EducationalQualificationService.getselectedboard().subscribe(res=>{
       this.boardValues=res
       this.selectBoard=res
     });
@@ -114,7 +120,7 @@ export class NewEducationalQualificationComponent implements OnInit {
   }
 
   getGroupName(){
-    this.EducationalQualificationService.getselectedgroup().subscribe(res=>{
+    this.subscription = this.EducationalQualificationService.getselectedgroup().subscribe(res=>{
       this.groupValues=res
       this.selectGroup=res
     });
@@ -128,7 +134,7 @@ export class NewEducationalQualificationComponent implements OnInit {
     
     
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading = true;
           this.EducationalQualificationService.update(+id,this.EducationalQualificationForm.value).subscribe(response => {
@@ -146,7 +152,7 @@ export class NewEducationalQualificationComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.EducationalQualificationService.submit(this.EducationalQualificationForm.value).subscribe(response => {
+      this.subscription = this.EducationalQualificationService.submit(this.EducationalQualificationForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/educational-qualification-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

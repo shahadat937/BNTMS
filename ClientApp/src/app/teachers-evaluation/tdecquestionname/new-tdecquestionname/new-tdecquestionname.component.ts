@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-tdecquestionname.component.html',
   styleUrls: ['./new-tdecquestionname.component.sass']
 })
-export class NewTdecQuestionNameComponent implements OnInit {
+export class NewTdecQuestionNameComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -23,6 +23,7 @@ export class NewTdecQuestionNameComponent implements OnInit {
   traineeId:any;
   branchId:any;
   userRole = Role;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private TdecQuestionNameService: TdecQuestionNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -57,6 +58,11 @@ export class NewTdecQuestionNameComponent implements OnInit {
       this.TdecQuestionNameForm.get('baseSchoolNameId').setValue(this.branchId);
      }
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.TdecQuestionNameForm = this.fb.group({
       tdecQuestionNameId: [0],
@@ -70,10 +76,10 @@ export class NewTdecQuestionNameComponent implements OnInit {
   onSubmit() {
     const id = this.TdecQuestionNameForm.get('tdecQuestionNameId').value;  
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.TdecQuestionNameService.update(+id,this.TdecQuestionNameForm.value).subscribe(response => {
+          this.subscription = this.TdecQuestionNameService.update(+id,this.TdecQuestionNameForm.value).subscribe(response => {
             this.router.navigateByUrl('/teachers-evaluation/tdecquestionname-list');
               this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -88,7 +94,7 @@ export class NewTdecQuestionNameComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.TdecQuestionNameService.submit(this.TdecQuestionNameForm.value).subscribe(response => {
+      this.subscription = this.TdecQuestionNameService.submit(this.TdecQuestionNameForm.value).subscribe(response => {
         this.router.navigateByUrl('/teachers-evaluation/tdecquestionname-list');
           this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

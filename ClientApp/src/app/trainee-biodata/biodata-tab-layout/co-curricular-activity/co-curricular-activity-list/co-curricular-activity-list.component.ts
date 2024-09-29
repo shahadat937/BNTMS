@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoCurricularActivity } from '../../models/CoCurricularActivity';
@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
   templateUrl: './co-curricular-activity-list.component.html',
   styleUrls: ['./co-curricular-activity-list.component.sass']
 })
-export class CoCurricularActivityListComponent implements OnInit {
+export class CoCurricularActivityListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -36,23 +36,29 @@ export class CoCurricularActivityListComponent implements OnInit {
   dataSource: MatTableDataSource<CoCurricularActivity> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<CoCurricularActivity>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private CoCurricularActivityService: CoCurricularActivityService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getCoCurricularActivitys();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getCoCurricularActivitys() {
     this.isLoading = true;
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.CoCurricularActivityService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.CoCurricularActivityService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
 
   deleteItem(row) {
     const id = row.coCurricularActivityId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete Item').subscribe(result => {
       if (result) {
         this.CoCurricularActivityService.delete(id).subscribe(() => {
           this.getCoCurricularActivitys();

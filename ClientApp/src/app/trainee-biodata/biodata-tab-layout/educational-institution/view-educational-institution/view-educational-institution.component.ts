@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EducationalInstitution } from '../../models/EducationalInstitution';
@@ -16,7 +16,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-educational-institution.component.html',
   styleUrls: ['./view-educational-institution.component.sass']
 })
-export class ViewEducationalInstitutionComponent implements OnInit {
+export class ViewEducationalInstitutionComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -38,6 +38,7 @@ export class ViewEducationalInstitutionComponent implements OnInit {
   status:number;           
   districtValues:SelectedModel[]; 
   thanaValues:SelectedModel[]; 
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalInstitutionService: EducationalInstitutionService,private router: Router,private confirmService: ConfirmService) { }
   
@@ -64,10 +65,14 @@ export class ViewEducationalInstitutionComponent implements OnInit {
   //     }      
   //   });
   // }
-  
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('educationalInstitutionId'); 
-    this.EducationalInstitutionService.find(+id).subscribe( res => {
+    this.subscription = this.EducationalInstitutionService.find(+id).subscribe( res => {
       this.educationalInstitutionId = res.educationalInstitutionId,
       this.traineeId = res.traineeId,
       this.instituteName = res.instituteName,

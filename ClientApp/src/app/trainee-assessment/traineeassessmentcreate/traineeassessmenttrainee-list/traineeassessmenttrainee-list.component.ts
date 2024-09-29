@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {TraineeAssessmentCreate} from '../../models/TraineeAssessmentCreate'
@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './traineeassessmenttrainee-list.component.html',
   styleUrls: ['./traineeassessmenttrainee-list.component.sass']
 })
-export class TraineeAssessmentTraineeListComponent implements OnInit {
+export class TraineeAssessmentTraineeListComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeAssessmentCreate[] = [];
@@ -46,6 +46,7 @@ export class TraineeAssessmentTraineeListComponent implements OnInit {
 
 
    selection = new SelectionModel<TraineeAssessmentCreate>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar, private _location: Location,private authService: AuthService,  private route: ActivatedRoute,private TraineeAssessmentCreateService: TraineeAssessmentCreateService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
@@ -62,11 +63,16 @@ export class TraineeAssessmentTraineeListComponent implements OnInit {
     this.getTraineeAssessmentGroupListByAssessment(this.searchText);
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
  
   getTraineeAssessmentGroupListByAssessment(search) {
     this.isLoading = true;
-    this.TraineeAssessmentCreateService.getTraineeAssessmentGroupListByAssessment(this.courseDurationId, this.traineeAssessmentCreateId,search).subscribe(response => {
+    this.TraineeAssessmentCreateService.getTraineeAssessmentGroupListByAssessment(this.courseDurationId, this.subscription = this.traineeAssessmentCreateId,search).subscribe(response => {
       this.traineeAssessmentGroupList = response;
     })
   }

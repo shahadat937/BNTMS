@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./weeklyroutineteacherdashboard.component.sass']
 })
 
-export class WeeklyRoutineTeacherDashboard implements OnInit {
+export class WeeklyRoutineTeacherDashboard implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -37,14 +37,20 @@ export class WeeklyRoutineTeacherDashboard implements OnInit {
   }
   searchText="";
   displayedRoutineColumns: string[] = ['ser', 'date','schoolName','duration', 'course','subject', 'location'];
+  subscription: any;
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
   ngOnInit() {
    this.traineeId = this.route.snapshot.paramMap.get('traineeId');
    this.getWeeklyRoutineByInstructor(this.traineeId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getWeeklyRoutineByInstructor(id){
-    this.instructorDashboardService.getSpInstructorRoutineByTraineeId(id).subscribe(res=>{
+    this.subscription = this.instructorDashboardService.getSpInstructorRoutineByTraineeId(id).subscribe(res=>{
       this.routineList = res;
 
       // this gives an object with dates as keys

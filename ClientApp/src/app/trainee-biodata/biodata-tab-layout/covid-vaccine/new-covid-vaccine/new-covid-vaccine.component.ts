@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CovidVaccineService } from '../../service/CovidVaccine.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-covid-vaccine.component.html',
   styleUrls: ['./new-covid-vaccine.component.sass']
 })
-export class NewCovidVaccineComponent implements OnInit {
+export class NewCovidVaccineComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,6 +21,7 @@ export class NewCovidVaccineComponent implements OnInit {
   districtValues:SelectedModel[]; 
   selectedCovidVaccine:SelectedModel[]; 
   traineeId: string;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private CovidVaccineService: CovidVaccineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -31,7 +32,7 @@ export class NewCovidVaccineComponent implements OnInit {
       this.pageTitle = 'Edit Covid vaccine';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.CovidVaccineService.find(+id).subscribe(
+      this.subscription = this.CovidVaccineService.find(+id).subscribe(
         res => {
           this.CovidVaccineForm.patchValue({          
             covidVaccineId: res.covidVaccineId,
@@ -53,6 +54,11 @@ export class NewCovidVaccineComponent implements OnInit {
     }
     this.intitializeForm();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.CovidVaccineForm = this.fb.group({
       covidVaccineId: [0],
@@ -72,7 +78,7 @@ export class NewCovidVaccineComponent implements OnInit {
   onSubmit() {
     const id = this.CovidVaccineForm.get('covidVaccineId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.CovidVaccineService.update(+id,this.CovidVaccineForm.value).subscribe(response => {
@@ -90,7 +96,7 @@ export class NewCovidVaccineComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.CovidVaccineService.submit(this.CovidVaccineForm.value).subscribe(response => {
+      this.subscription = this.CovidVaccineService.submit(this.CovidVaccineForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/covidvaccine-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

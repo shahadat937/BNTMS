@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './new-tdecquationgroup.component.html',
   styleUrls: ['./new-tdecquationgroup.component.sass']
 })
-export class NewTdecQuationGroupComponent implements OnInit {
+export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
   buttonText: string;
   loading = false;
   pageTitle: string;
@@ -46,6 +46,7 @@ export class NewTdecQuationGroupComponent implements OnInit {
 
   options = [];
   filteredOptions;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private TdecQuationGroupService: TdecQuationGroupService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
 
@@ -60,7 +61,7 @@ export class NewTdecQuationGroupComponent implements OnInit {
       this.pageTitle = 'Edit Tdec Quation Group';
       this.destination = 'Edit';
       this.buttonText = "Update";
-      this.TdecQuationGroupService.find(+id).subscribe(
+      this.subscription = this.TdecQuationGroupService.find(+id).subscribe(
         res => {
           this.TdecQuationGroupForm.patchValue({
 
@@ -90,6 +91,11 @@ export class NewTdecQuationGroupComponent implements OnInit {
     }
     this.getselectedBaseScoolName();
     this.getselectedTdecQuestionName();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.TdecQuationGroupForm = this.fb.group({
@@ -159,13 +165,13 @@ export class NewTdecQuationGroupComponent implements OnInit {
   }
   //autocomplete  Pno
   getSelectedPno(pno) {
-    this.TdecQuationGroupService.getSelectedPno(pno).subscribe(response => {
+    this.subscription = this.TdecQuationGroupService.getSelectedPno(pno).subscribe(response => {
       this.options = response;
       this.filteredOptions = response;
     })
   }
   getselectedBaseScoolName() {
-    this.TdecQuationGroupService.getselectedBaseScoolName().subscribe(res => {
+    this.subscription = this.TdecQuationGroupService.getselectedBaseScoolName().subscribe(res => {
       this.selectScoolName = res
       this.selectSchool=res
     });
@@ -175,7 +181,7 @@ export class NewTdecQuationGroupComponent implements OnInit {
   }
   getselectedcoursedurationbyschoolname() {
     var baseSchoolNameId = this.TdecQuationGroupForm.value['baseSchoolNameId'];
-    this.TdecQuationGroupService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
+    this.subscription = this.TdecQuationGroupService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
       this.selectCourseName=res
     });
@@ -194,7 +200,7 @@ export class NewTdecQuationGroupComponent implements OnInit {
      this.courseDurationId=courseNameArr[1];
 
     var baseSchoolNameId=this.TdecQuationGroupForm.value['baseSchoolNameId'];
-      this.TdecQuationGroupService.getSelectedSubjectNameBySchoolNameIdAndCourseNameId(baseSchoolNameId,this.courseNameId).subscribe(res=>{
+      this.TdecQuationGroupService.getSelectedSubjectNameBySchoolNameIdAndCourseNameId(baseSchoolNameId,this.subscription = this.courseNameId).subscribe(res=>{
         this.selectedSubjectNamebyschoolnameAndCourse=res;
         this.selectSubject=res
 
@@ -215,7 +221,7 @@ export class NewTdecQuationGroupComponent implements OnInit {
     this.TdecQuationGroupForm.get('courseNameId').setValue(this.courseNameId);
     this.TdecQuationGroupForm.get('bnaSubjectNameIds').setValue(bnaSubjectNameId);
 
-    this.TdecQuationGroupService.getinstructorNameByParams(baseSchoolNameId,this.courseNameId,this.courseDurationId,bnaSubjectNameId).subscribe(res => {
+    this.subscription = this.TdecQuationGroupService.getinstructorNameByParams(baseSchoolNameId,this.courseNameId,this.courseDurationId,bnaSubjectNameId).subscribe(res => {
       
       this.selectedinstructorname = res
       this.getinstructorid = this.selectedinstructorname[0].traineeId,
@@ -243,17 +249,17 @@ reloadCurrentRoute() {
     var subjectNameId= dropdown.value;
   }
     getselectedTdecQuestionName(){
-      this.TdecQuationGroupService.getselectedTdecQuestionName().subscribe(res => {
+      this.subscription = this.TdecQuationGroupService.getselectedTdecQuestionName().subscribe(res => {
         this.selectTdecQuestionName = res
       });
     }
     onSubmit() {
       const id = this.TdecQuationGroupForm.get('tdecQuationGroupId').value;
       if (id) {
-        this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+        this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
           if (result) {
             this.loading=true;
-            this.TdecQuationGroupService.update(+id, this.TdecQuationGroupForm.value).subscribe(response => {
+            this.subscription = this.TdecQuationGroupService.update(+id, this.TdecQuationGroupForm.value).subscribe(response => {
               this.router.navigateByUrl('/teachers-evaluation/tdecquationgroup-list');
               this.snackBar.open('Information Updated Successfully ', '', {
                 duration: 2000,
@@ -268,7 +274,7 @@ reloadCurrentRoute() {
         })
       } else {
         this.loading=true;
-        this.TdecQuationGroupService.submit(this.TdecQuationGroupForm.value).subscribe(response => {
+        this.subscription = this.TdecQuationGroupService.submit(this.TdecQuationGroupForm.value).subscribe(response => {
           this.reloadCurrentRoute();
           this.snackBar.open('Information Inserted Successfully ', '', {
             duration: 2000,

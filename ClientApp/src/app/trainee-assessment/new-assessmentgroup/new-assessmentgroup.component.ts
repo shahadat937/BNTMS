@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeAssessmentGroupService } from '../service/TraineeAssessmentGroup.service';
@@ -24,7 +24,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-assessmentgroup.component.html',
   styleUrls: ['./new-assessmentgroup.component.sass']
 }) 
-export class NewAssessmentGroupComponent implements OnInit {
+export class NewAssessmentGroupComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   myModel = true;
@@ -73,6 +73,7 @@ export class NewAssessmentGroupComponent implements OnInit {
   isShownForTraineeList:boolean=false;
   displayedColumns: string[] = ['ser','traineePNo','attendanceStatus'];
   dataSource ;
+  subscription: any;
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private subjectNameService: BNASubjectNameService,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private traineeAssessmentGroupService: TraineeAssessmentGroupService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
   ngOnInit(): void {
@@ -98,6 +99,11 @@ export class NewAssessmentGroupComponent implements OnInit {
     //  this.getselectedbnasubjectname();
     //  this.getselectedclassperiod();
     //  this.getselectedbnaattendanceremark();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.TraineeAssessmentGroupForm = this.fb.group({
@@ -150,7 +156,7 @@ export class NewAssessmentGroupComponent implements OnInit {
    }
   
   onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
-      this.traineeAssessmentGroupService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
+      this.subscription = this.traineeAssessmentGroupService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res;
         this.selectCourse=res;
       });
@@ -228,7 +234,7 @@ export class NewAssessmentGroupComponent implements OnInit {
 
   onSubmit() {
     
-    this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
       if (result) {
         this.loading=true;
         this.traineeAssessmentGroupService.saveTraineeAssessmentGrouplist(JSON.stringify(this.TraineeAssessmentGroupForm.value)).subscribe(response => {

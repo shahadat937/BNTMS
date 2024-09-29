@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CovidVaccine } from '../../models/CovidVaccine';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './covid-vaccine-list.component.html',
   styleUrls: ['./covid-vaccine-list.component.sass']
 })
-export class CovidVaccineListComponent implements OnInit {
+export class CovidVaccineListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,16 +34,22 @@ export class CovidVaccineListComponent implements OnInit {
   dataSource: MatTableDataSource<CovidVaccine> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<CovidVaccine>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private CovidVaccineService: CovidVaccineService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getCovidVaccines();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getCovidVaccines() {
     this.isLoading = true;
     this.traineeId= this.route.snapshot.paramMap.get('traineeId');
-    this.CovidVaccineService.getCovidVaccineByTraineeId(+this.traineeId).subscribe(response => {     
+    this.subscription = this.CovidVaccineService.getCovidVaccineByTraineeId(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -65,7 +71,7 @@ export class CovidVaccineListComponent implements OnInit {
     const id = row.covidVaccineId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.CovidVaccineService.delete(id).subscribe(() => {
+        this.subscription = this.CovidVaccineService.delete(id).subscribe(() => {
           this.getCovidVaccines();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

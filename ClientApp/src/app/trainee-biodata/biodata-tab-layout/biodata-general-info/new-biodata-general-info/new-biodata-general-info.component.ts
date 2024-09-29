@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,7 +14,7 @@ import { isNull } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./new-biodata-general-info.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class NewBIODataGeneralInfoComponent implements OnInit {
+export class NewBIODataGeneralInfoComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -49,6 +49,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
   fileAttr = 'Choose File';
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
     this.files = [];
@@ -63,7 +64,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       this.destination='Edit';
       this.buttonText="Update";
  
-      this.BIODataGeneralInfoService.find(+id).subscribe(
+      this.subscription = this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
@@ -94,13 +95,17 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.gethaircolors();
     
   }
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   filterByBatch(value:any){
     this.batchValues = this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getBatchs(){
-    this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
       this.batchValues=res
       this.selectBatch=res
     });
@@ -109,31 +114,31 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.religionValues = this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getreligions(){
-    this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
       this.religionValues=res
       this.selectReligion=res
     });
   }
   gethaircolors(){
-    this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
       this.hairColorValues=res
     });
   }  
 
   getselectedheight(){
-    this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
       this.heightValues=res
     });
   }
 
   getselectedweight(){
-    this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
       this.weightValues=res
     });
   }
 
   getselectedcolorofeye(){
-    this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
     });
   }
@@ -141,14 +146,14 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedbloodgroup(){
-    this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
       this.bloodValues=res
       this.selectBloodGroup=res
     });
   }
 
   getNationalitys(){
-    this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
     });
   }
@@ -156,7 +161,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.branchValues = this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getBranch(){
-    this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
       this.branchValues=res
       this.selectBranch=res
     });
@@ -166,14 +171,14 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.rankValues=this.selectrank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getRanks(){
-    this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
       this.rankValues=res
       this.selectrank=res
     });
   }
 
   getGenders(){
-    this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
       this.genderValues=res
     });
   }
@@ -193,7 +198,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
       this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getDivisions(){
-    this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
       this.divisionValues=res
       this.selectDivision=res
     });
@@ -203,7 +208,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.selectedDistrict=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onDivisionSelectionChangeGetDistrict(divisionId){
-    this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
       this.selectedDistrict=res
       this.selectDistric=res
     });
@@ -213,7 +218,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit {
     this.selectedThana = this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onDistrictSelectionChangeGetThana(districtId){
-    this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
       this.selectedThana=res
       this.selectThana=res
     });
@@ -222,7 +227,7 @@ filterByCaste(value:any){
   this.selectedCastes = this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   onReligionSelectionChangeGetCastes(religionId){
-    this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
+    this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
       this.selectcaste=res
     });
@@ -399,7 +404,7 @@ filterByCaste(value:any){
       })
     }else {
       this.loading = true;
-      this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
+      this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/biodata-general-Info-list');
 
         this.snackBar.open('Information Inserted Successfully ', '', {

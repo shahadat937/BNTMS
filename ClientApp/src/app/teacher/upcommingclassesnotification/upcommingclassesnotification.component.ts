@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./upcommingclassesnotification.component.sass']
 })
 
-export class UpcommingClassesNotification implements OnInit {
+export class UpcommingClassesNotification implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -35,14 +35,20 @@ export class UpcommingClassesNotification implements OnInit {
   }
   searchText="";
   displayedRoutineColumns: string[] = ['ser', 'durationForm','durationTo','subjectName', 'classLocation'];
+  subscription: any;
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
   ngOnInit() {
    this.traineeId = this.route.snapshot.paramMap.get('traineeId');
    this.getSpCurrentRoutineForStudentDashboard(this.traineeId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getSpCurrentRoutineForStudentDashboard(id){
-    this.instructorDashboardService.getSpCurrentRoutineForStudentDashboard(id).subscribe(res=>{
+    this.subscription = this.instructorDashboardService.getSpCurrentRoutineForStudentDashboard(id).subscribe(res=>{
       this.routineList = res;
     });
   }

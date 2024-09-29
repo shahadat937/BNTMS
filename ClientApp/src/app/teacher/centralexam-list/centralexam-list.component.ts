@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -14,7 +14,7 @@ import { InstructorDashboardService } from '../services/InstructorDashboard.serv
   templateUrl: './centralexam-list.component.html',
   styleUrls: ['./centralexam-list.component.sass']
 })
-export class CentralExamComponent implements OnInit {
+export class CentralExamComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -37,6 +37,7 @@ export class CentralExamComponent implements OnInit {
   searchText="";
 
   displayedExamEvaluationColumns: string[] = ['ser', 'course','subject','date','examStatus', 'markStatus'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -58,9 +59,14 @@ export class CentralExamComponent implements OnInit {
     }
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getExamList(traineeId,courseTypeId,courseNameId){
-    this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,courseTypeId,courseNameId).subscribe(res=>{
+    this.subscription = this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,courseTypeId,courseNameId).subscribe(res=>{
       this.examList=res;  
     });
   }
