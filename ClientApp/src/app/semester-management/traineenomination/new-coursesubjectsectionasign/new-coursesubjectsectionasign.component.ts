@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttendanceService } from '../../../attendance-management/service/attendance.service'; 
@@ -27,7 +27,7 @@ import { Location } from '@angular/common';
   templateUrl: './new-coursesubjectsectionasign.component.html',
   styleUrls: ['./new-coursesubjectsectionasign.component.sass']
 }) 
-export class NewcoursesubjectsectionasignComponent implements OnInit {
+export class NewcoursesubjectsectionasignComponent implements OnInit, OnDestroy {
   masterData = MasterData;
   loading = false;
   myModel = true;
@@ -81,6 +81,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   checked = false;
   isShown: boolean = false ;
   isShownForTraineeList:boolean=false;
+  subscription: any;
   // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   // dataSource ;
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private subjectNameService: BNASubjectNameService,private CoursesubjectsectionasignService:CoursesubjectsectionasignService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, private location: Location) { }
@@ -106,6 +107,11 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
     this.getExistingTraineeNominationList();
     this.getCourseSection();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 
   intitializeForm() {
@@ -130,7 +136,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   }
 
   getCourseSection(){
-    this.CoursesubjectsectionasignService.getselectedcoursedurationForBna().subscribe(res=>{  
+    this.subscription = this.CoursesubjectsectionasignService.getselectedcoursedurationForBna().subscribe(res=>{  
         this.courseSectionList=res;
     });
   }
@@ -165,7 +171,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   }
 
   getExistingTraineeNominationList(){
-    this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAlredyAsignId(this.traineeNominationId).subscribe(res=>{
+    this.subscription = this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAlredyAsignId(this.traineeNominationId).subscribe(res=>{
       this.assignedSubjectCourseList = res;
       
     if(this.assignedSubjectCourseList.length != 0){
@@ -191,7 +197,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
 
   getTraineeNominationIdList(){
 
-    this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAsignId(this.schollNameId,this.courseNameId,this.bnaSubjectCurriculumId,this.bnaSemesterId).subscribe(res=>{
+    this.subscription = this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAsignId(this.schollNameId,this.courseNameId,this.bnaSubjectCurriculumId,this.bnaSemesterId).subscribe(res=>{
       this.subjectList=res;
     });
 
@@ -241,10 +247,10 @@ storeValues() {
     this.loading = true;
 
 if (this.actionStatus=='S'){
-    this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
+  this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
       if (result) {
         this.loading = true;
-        this.CoursesubjectsectionasignService.submit(this.NomeneeSubjectSectionForm.value).subscribe(response => {
+        this.subscription = this.CoursesubjectsectionasignService.submit(this.NomeneeSubjectSectionForm.value).subscribe(response => {
        //   this.router.navigateByUrl('/semester-management/add-traineenomination='+);
           this.reloadCurrentRoute();
           this.snackBar.open('Information Inserted Successfully ', '', {
@@ -259,11 +265,11 @@ if (this.actionStatus=='S'){
       }
     })}
     else if(this.actionStatus=='U'){
-      this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
         if (result) {
           this.loading = true;
           console.log("Form Value : ", this.NomeneeSubjectSectionForm.value);
-          this.CoursesubjectsectionasignService.update(this.NomeneeSubjectSectionForm.value).subscribe(response => {
+          this.subscription = this.CoursesubjectsectionasignService.update(this.NomeneeSubjectSectionForm.value).subscribe(response => {
             //this.router.navigateByUrl('/course-management/schoolcourse-list');
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {

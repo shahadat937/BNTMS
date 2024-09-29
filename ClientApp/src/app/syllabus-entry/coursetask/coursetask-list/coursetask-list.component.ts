@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CourseTask } from '../../models/CourseTask';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './coursetask-list.component.html',
   styleUrls: ['./coursetask-list.component.sass']
 })
-export class CourseTaskListComponent implements OnInit {
+export class CourseTaskListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,6 +34,7 @@ export class CourseTaskListComponent implements OnInit {
  
 
   selection = new SelectionModel<CourseTask>(true, []);
+  subscription: any;
 
   
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private CourseTaskService: CourseTaskService,private router: Router,private confirmService: ConfirmService) { }
@@ -41,10 +42,15 @@ export class CourseTaskListComponent implements OnInit {
   ngOnInit() {
     this.getCourseTasks();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   getCourseTasks() {
     this.isLoading = true;
-    this.CourseTaskService.getCourseTasks(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.CourseTaskService.getCourseTasks(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
@@ -83,9 +89,9 @@ export class CourseTaskListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.courseTaskId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
-        this.CourseTaskService.delete(id).subscribe(() => {
+        this.subscription = this.CourseTaskService.delete(id).subscribe(() => {
           this.getCourseTasks();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

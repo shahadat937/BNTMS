@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -16,7 +16,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './upcomingcoursesnbcd-list.component.html',
   styleUrls: ['./upcomingcoursesnbcd-list.component.sass']
 })
-export class UpcomingCoursesNbcdListComponent implements OnInit {
+export class UpcomingCoursesNbcdListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -48,6 +48,7 @@ export class UpcomingCoursesNbcdListComponent implements OnInit {
   searchText="";
 
   displayedColumns: string[] = ['ser','course','durationFrom','durationTo','daysCalculate', 'actions'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -69,6 +70,11 @@ export class UpcomingCoursesNbcdListComponent implements OnInit {
       this.getUpcomingCourseListBySchool(schoolId);
     }
     
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   toggle(){
     this.showHideDiv = !this.showHideDiv;
@@ -148,7 +154,7 @@ export class UpcomingCoursesNbcdListComponent implements OnInit {
 }
   getUpcomingCourseListBySchool(schoolId){
       let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-      this.schoolDashboardService.getUpcomingCourseListByNbcdSchool(currentDateTime, this.masterData.coursetype.LocalCourse, schoolId).subscribe(response => {         
+     this.subscription = this.schoolDashboardService.getUpcomingCourseListByNbcdSchool(currentDateTime, this.masterData.coursetype.LocalCourse, schoolId).subscribe(response => {         
         this.schoolName = response[0].schoolName;
         this.UpcomingCourseCount=response.length;
         this.upcomingCourses=response;
@@ -160,7 +166,7 @@ export class UpcomingCoursesNbcdListComponent implements OnInit {
   checkCourseWeeks(courseDurationId){
     
     
-    this.schoolDashboardService.getCourseWeekListByCourseDuration(courseDurationId).subscribe(response => {     
+    this.subscription = this.schoolDashboardService.getCourseWeekListByCourseDuration(courseDurationId).subscribe(response => {     
       this.weekCount=response.length;
       // if(this.weekCount > 0){
       //   this.isShowAlarmButton=false;
@@ -178,9 +184,9 @@ export class UpcomingCoursesNbcdListComponent implements OnInit {
     
 
 
-    this.confirmService.confirm('Confirm  message', 'Are You Sure ').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm  message', 'Are You Sure ').subscribe(result => {
       if (result) {
-        this.schoolDashboardService.genarateCourseWeek(id).subscribe(() => {
+        this.subscription = this.schoolDashboardService.genarateCourseWeek(id).subscribe(() => {
           this.getUpcomingCourseListBySchool(this.school);
           this.snackBar.open('Course Week Generated Successfully ', '', {
             duration: 3000,
@@ -204,7 +210,7 @@ export class UpcomingCoursesNbcdListComponent implements OnInit {
 
   getrunningCourseListBySchool(schoolId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getrunningCourseListBySchool(currentDateTime, this.masterData.coursetype.LocalCourse, schoolId,0).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getrunningCourseListBySchool(currentDateTime, this.masterData.coursetype.LocalCourse, schoolId,0).subscribe(response => {   
       
       this.localCourseCount=response.length;
       this.runningCourses=response;
@@ -213,7 +219,7 @@ export class UpcomingCoursesNbcdListComponent implements OnInit {
 
   getUpcomingCourseListByBase(baseId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getUpcomingCourseListByBase(currentDateTime,baseId).subscribe(response => {         
+    this.subscription = this.schoolDashboardService.getUpcomingCourseListByBase(currentDateTime,baseId).subscribe(response => {         
       this.UpcomingCourseCount=response.length;
       this.upcomingCourses=response;
 

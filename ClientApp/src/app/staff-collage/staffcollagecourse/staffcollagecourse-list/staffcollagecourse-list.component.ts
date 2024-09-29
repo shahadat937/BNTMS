@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseDuration} from '../../models/courseduration'
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './staffcollagecourse-list.component.html',
   styleUrls: ['./staffcollagecourse-list.component.sass']
 })
-export class StaffCollageCourseListComponent implements OnInit {
+export class StaffCollageCourseListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -33,6 +33,7 @@ export class StaffCollageCourseListComponent implements OnInit {
 
 
    selection = new SelectionModel<CourseDuration>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,9 +41,14 @@ export class StaffCollageCourseListComponent implements OnInit {
   ngOnInit() {
      this.getCourseDurationsByCourseType();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getCourseDurationsByCourseType(){
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.masterData.examtypefromcoursetype.centralExam).subscribe(response => {
+    this.subscription = this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.masterData.examtypefromcoursetype.centralExam).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -63,7 +69,7 @@ export class StaffCollageCourseListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.courseDurationId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.CourseDurationService.delete(id).subscribe(() => {
          this.getCourseDurationsByCourseType();

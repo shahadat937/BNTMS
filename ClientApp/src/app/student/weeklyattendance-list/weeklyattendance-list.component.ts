@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
@@ -15,7 +15,7 @@ import { StudentDashboardService } from '../services/StudentDashboard.service';
   templateUrl: './weeklyattendance-list.component.html',
   styleUrls: ['./weeklyattendance-list.component.sass']
 })
-export class WeeklyAttendanceListComponent implements OnInit {
+export class WeeklyAttendanceListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -36,6 +36,7 @@ export class WeeklyAttendanceListComponent implements OnInit {
 
 
    selection = new SelectionModel<BNASubjectName>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
@@ -45,12 +46,17 @@ export class WeeklyAttendanceListComponent implements OnInit {
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.getAttendanceByTraineeAndCourseDuration(traineeId, courseDurationId)
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getAttendanceByTraineeAndCourseDuration(traineeId,courseDurationId){
-    this.studentDashboardService.getAttendanceParcentageByTraineeAndCourseDuration(traineeId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getAttendanceParcentageByTraineeAndCourseDuration(traineeId,courseDurationId).subscribe(res=>{
       this.traineeParcentage=res[0].percentage;
     });
-    this.studentDashboardService.getAttendanceByTraineeAndCourseDuration(traineeId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getAttendanceByTraineeAndCourseDuration(traineeId,courseDurationId).subscribe(res=>{
       this.AttendanceByTraineeAndCourseDuration = res;
       // this gives an object with dates as keys
       const groups = this.AttendanceByTraineeAndCourseDuration.reduce((groups, attendance) => {

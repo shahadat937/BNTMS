@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseInstructor} from '../../models/courseinstructor'
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './bnacourseinstructor-list.component.html',
   styleUrls: ['./bnacourseinstructor-list.component.sass']
 })
-export class BnaCourseInstructorListComponent implements OnInit {
+export class BnaCourseInstructorListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseInstructor[] = [];
@@ -32,6 +32,7 @@ export class BnaCourseInstructorListComponent implements OnInit {
 
 
    selection = new SelectionModel<CourseInstructor>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class BnaCourseInstructorListComponent implements OnInit {
     this.getCourseInstructors();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getCourseInstructors() {
     this.isLoading = true;
-    this.CourseInstructorService.getCourseInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.CourseInstructorService.getCourseInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
@@ -66,7 +72,7 @@ export class BnaCourseInstructorListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.courseInstructorId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.CourseInstructorService.delete(id).subscribe(() => {
           this.getCourseInstructors();

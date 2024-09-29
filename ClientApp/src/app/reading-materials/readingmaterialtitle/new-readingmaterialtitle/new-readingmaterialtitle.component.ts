@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../core/service/confirm.service';
   templateUrl: './new-readingmaterialtitle.component.html',
   styleUrls: ['./new-readingmaterialtitle.component.sass']
 })
-export class NewReadingmaterialtitleComponent implements OnInit {
+export class NewReadingmaterialtitleComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -19,6 +19,7 @@ export class NewReadingmaterialtitleComponent implements OnInit {
   ReadingMaterialTitleForm: FormGroup;
   validationErrors: string[] = [];
   showSpinner=false;
+  subscription: any;
   // success:boolean;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ReadingMaterialTitleService: ReadingMaterialTitleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
@@ -29,7 +30,7 @@ export class NewReadingmaterialtitleComponent implements OnInit {
       this.pageTitle = 'Edit ReadingMaterial Title';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.ReadingMaterialTitleService.find(+id).subscribe(
+      this.subscription = this.ReadingMaterialTitleService.find(+id).subscribe(
         res => {
           this.ReadingMaterialTitleForm.patchValue({          
 
@@ -45,6 +46,11 @@ export class NewReadingmaterialtitleComponent implements OnInit {
     }
     this.intitializeForm();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.ReadingMaterialTitleForm = this.fb.group({
       readingMaterialTitleId: [0],
@@ -56,10 +62,10 @@ export class NewReadingmaterialtitleComponent implements OnInit {
   onSubmit() {
     const id = this.ReadingMaterialTitleForm.get('readingMaterialTitleId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.ReadingMaterialTitleService.update(+id,this.ReadingMaterialTitleForm.value).subscribe(response => {
+          this.subscription = this.ReadingMaterialTitleService.update(+id,this.ReadingMaterialTitleForm.value).subscribe(response => {
             this.router.navigateByUrl('/reading-materials/readingmaterialtitle-list');
             this.snackBar.open('ReadingMaterialTitle Information Updated Successfully ', '', {
               duration: 2000,
@@ -77,7 +83,7 @@ export class NewReadingmaterialtitleComponent implements OnInit {
     else {
       this.loading = true;
       this.showSpinner=true;
-      this.ReadingMaterialTitleService.submit(this.ReadingMaterialTitleForm.value).subscribe(response => {
+      this.subscription = this.ReadingMaterialTitleService.submit(this.ReadingMaterialTitleForm.value).subscribe(response => {
     
         if(response.message){
           this.showSpinner=false;

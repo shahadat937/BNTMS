@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {TraineeNomination} from '../../models/traineenomination'
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './traineenomination-list.component.html',
   styleUrls: ['./traineenomination-list.component.sass']
 })
-export class TraineeNominationListComponent implements OnInit {
+export class TraineeNominationListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeNomination[] = [];
@@ -34,6 +34,7 @@ export class TraineeNominationListComponent implements OnInit {
 
 
    selection = new SelectionModel<TraineeNomination>(true, []);
+  subscription: any;
 
   
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) { }
@@ -41,7 +42,7 @@ export class TraineeNominationListComponent implements OnInit {
   ngOnInit() {
     //this.getTraineeNominations();
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
+    this.subscription = this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
           this.courseDurationId= res.courseDurationId, 
           this.courseNameId = res.courseNameId 
@@ -49,7 +50,11 @@ export class TraineeNominationListComponent implements OnInit {
     );
     this.getTraineeNominationsByCourseDurationId(this.courseDurationId)
   }
- 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   // getTraineeNominations() {
   //   this.isLoading = true;
   //   this.TraineeNominationService.getTraineeNominations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
@@ -63,7 +68,7 @@ export class TraineeNominationListComponent implements OnInit {
 
  getTraineeNominationsByCourseDurationId(courseDurationId) {
     this.isLoading = true;
-    this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
+    this.subscription = this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -84,7 +89,7 @@ export class TraineeNominationListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeNominationId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.getTraineeNominationsByCourseDurationId(this.courseDurationId)

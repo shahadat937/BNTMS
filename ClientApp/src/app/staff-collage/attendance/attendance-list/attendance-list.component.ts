@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {Attendance} from '../../models/attendance'
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './attendance-list.component.html',
   styleUrls: ['./attendance-list.component.sass']
 })
-export class AttendanceListComponent implements OnInit {
+export class AttendanceListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: Attendance[] = [];
@@ -33,6 +33,7 @@ export class AttendanceListComponent implements OnInit {
 
 
    selection = new SelectionModel<Attendance>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private AttendanceService: AttendanceService,private router: Router,private confirmService: ConfirmService) { }
@@ -41,10 +42,15 @@ export class AttendanceListComponent implements OnInit {
     this.getAttendances();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getAttendances() {
     this.isLoading = true;
-    this.AttendanceService.getAttendances(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.AttendanceService.getAttendances(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -68,9 +74,9 @@ export class AttendanceListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.attendanceId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
-        this.AttendanceService.delete(id).subscribe(() => {
+        this.subscription = this.AttendanceService.delete(id).subscribe(() => {
           this.getAttendances();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

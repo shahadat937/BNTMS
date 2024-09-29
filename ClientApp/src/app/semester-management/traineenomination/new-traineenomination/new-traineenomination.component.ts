@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -22,7 +22,7 @@ import { CourseDurationService } from 'src/app/course-management/service/coursed
   templateUrl: './new-traineenomination.component.html',
   styleUrls: ['./new-traineenomination.component.sass']
 }) 
-export class NewTraineeNominationComponent implements OnInit {
+export class NewTraineeNominationComponent implements OnInit, OnDestroy {
   masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -77,6 +77,7 @@ export class NewTraineeNominationComponent implements OnInit {
 
 
    selection = new SelectionModel<TraineeNomination>(true, []);
+  subscription: any;
 
   
 
@@ -89,7 +90,7 @@ export class NewTraineeNominationComponent implements OnInit {
     //this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.bnaSemesterDurationId = this.route.snapshot.paramMap.get('bnaSemesterDurationId'); 
 
-    this.BNASemesterDurationService.find(Number(this.bnaSemesterDurationId)).subscribe(res=>{
+    this.subscription = this.BNASemesterDurationService.find(Number(this.bnaSemesterDurationId)).subscribe(res=>{
        this.courseDurationId = res.courseDurationId;
        this.bnaSemesterDurationId = res.bnaSemesterDurationId;
        this.bnaSubjectCurriculumId = res.bnaSubjectCurriculamId;
@@ -108,7 +109,7 @@ export class NewTraineeNominationComponent implements OnInit {
           this.subjectCurriculamName = res.subjectCurriculumName;
         });
        
-      this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
+        this.subscription = this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
         this.courseNameId = res.courseNameId;
         this.TraineeNominationForm.get('courseNameId').setValue(res.courseNameId);
         this.schoolName = res.baseSchoolName;
@@ -125,7 +126,7 @@ export class NewTraineeNominationComponent implements OnInit {
       });
     });
   
-    this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
+    this.subscription = this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
         this.TraineeNominationForm.patchValue({          
           traineeNominationId:res.traineeNominationId, 
@@ -154,7 +155,7 @@ export class NewTraineeNominationComponent implements OnInit {
       this.pageTitle = 'Edit Trainee Nomination'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.TraineeNominationService.find(+id).subscribe(
+      this.subscription = this.TraineeNominationService.find(+id).subscribe(
         res => {
           this.TraineeNominationForm.patchValue({          
             traineeNominationId:res.traineeNominationId, 
@@ -193,7 +194,11 @@ export class NewTraineeNominationComponent implements OnInit {
     this.getSelectedDepartment();
    // this.getSelectedTraineeByPno();
   }
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.TraineeNominationForm = this.fb.group({
       traineeNominationId: [0],
@@ -242,7 +247,7 @@ export class NewTraineeNominationComponent implements OnInit {
 //   })
 // }
 getSelectedTraineeByPno(pno){
-  this.TraineeNominationService.getSelectedTraineeByparameterForBnaRequest(pno).subscribe(response => {
+  this.subscription = this.TraineeNominationService.getSelectedTraineeByparameterForBnaRequest(pno).subscribe(response => {
     this.options = response;
     this.filteredOptions = response;
   })
@@ -257,19 +262,19 @@ getSelectedTraineeByPno(pno){
 
 
   getSelectedTrainee(){
-    this.TraineeNominationService.getSelectedTrainee().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getSelectedTrainee().subscribe(res=>{
       this.selectedTrainee=res
     });
   } 
 
   getselectedcoursename(){
-    this.TraineeNominationService.getselectedcoursename().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getselectedcoursename().subscribe(res=>{
       this.selectedcourse=res
     });
   } 
 
   getselectedWithdrawnDoc(){
-    this.TraineeNominationService.getselectedWithdrawnDoc().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getselectedWithdrawnDoc().subscribe(res=>{
       this.selecteddoc=res
     });
   } 
@@ -287,7 +292,7 @@ getSelectedTraineeByPno(pno){
   
 
   getSelectedSubjectCurriculum(){
-    this.TraineeNominationService.getSelectedSubjectCurriculum().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getSelectedSubjectCurriculum().subscribe(res=>{
       this.selectedSubjectCurriculum=res
     });
   } 
@@ -297,13 +302,13 @@ getSelectedTraineeByPno(pno){
     }
   }
   getSelectedDepartment(){
-    this.TraineeNominationService.getSelectedDepartment().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getSelectedDepartment().subscribe(res=>{
       this.selectedDepartment=res;     
     })
   }
 
   getselectedTraineeCourseStatus(){
-    this.TraineeNominationService.getselectedTraineeCourseStatus().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getselectedTraineeCourseStatus().subscribe(res=>{
       this.selectedcoursestatus=res
     });
   }
@@ -317,10 +322,10 @@ getSelectedTraineeByPno(pno){
   onSubmit() {
     const id = this.TraineeNominationForm.get('traineeNominationId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.TraineeNominationService.update(+id,this.TraineeNominationForm.value).subscribe(response => {
+          this.subscription = this.TraineeNominationService.update(+id,this.TraineeNominationForm.value).subscribe(response => {
 
             // this.router.navigateByUrl('/semester-management/traineenomination-list/'+this.courseDurationId);
             this.getTraineeNominationsByBnaSemesterDurationId(this.bnaSemesterDurationId);
@@ -339,7 +344,7 @@ getSelectedTraineeByPno(pno){
       })
     }else {
       this.loading = true;
-      this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
+      this.subscription = this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         // this.router.navigateByUrl('/semester-management/traineenomination-list/'+this.courseDurationId);
         this.getTraineeNominationsByBnaSemesterDurationId(this.bnaSemesterDurationId);
         this.reloadCurrentRoute();
@@ -371,13 +376,13 @@ getSelectedTraineeByPno(pno){
   // }
   getTraineeNominationsByBnaSemesterDurationId(bnaSemesterDurationId) {
     this.isLoading = true;
-    this.TraineeNominationService.getTraineeNominationsByBnaSemesterDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,bnaSemesterDurationId).subscribe(response => {
+    this.TraineeNominationService.getTraineeNominationsByBnaSemesterDurationId(this.paging.pageIndex, this.subscription = this.paging.pageSize,this.searchText,bnaSemesterDurationId).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
 
-    this.TraineeNominationService.gettraineeNominationListByBnaSemesterDurationId(bnaSemesterDurationId).subscribe(response => {
+    this.subscription = this.TraineeNominationService.gettraineeNominationListByBnaSemesterDurationId(bnaSemesterDurationId).subscribe(response => {
       this.nominatedPercentageList=response;
       this.nominatedPercentageListCount=response.length;
     });
@@ -397,7 +402,7 @@ getSelectedTraineeByPno(pno){
 
   deleteItem(row) {
     const id = row.traineeNominationId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.getTraineeNominationsByBnaSemesterDurationId(this.bnaSemesterDurationId)

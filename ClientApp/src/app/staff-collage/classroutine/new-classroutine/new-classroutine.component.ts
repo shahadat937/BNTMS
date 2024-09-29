@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ClassRoutineService} from '../../../routine-management/service/classroutine.service'
@@ -19,7 +19,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './new-classroutine.component.html',
   styleUrls: ['./new-classroutine.component.sass']
 }) 
-export class NewClassRoutineComponent implements OnInit {
+export class NewClassRoutineComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -73,6 +73,7 @@ export class NewClassRoutineComponent implements OnInit {
   subjectlistBySchoolAndCourse:any;
   isShown: boolean = false ;
   groupArrays:{ date: string; games: any; }[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private subjectNameService: BNASubjectNameService, private BNAExamMarkService: BNAExamMarkService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -82,7 +83,7 @@ export class NewClassRoutineComponent implements OnInit {
       this.pageTitle = 'Edit Class Routine'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.ClassRoutineService.find(+id).subscribe(
+      this.subscription = this.ClassRoutineService.find(+id).subscribe(
         res => {
           this.ClassRoutineForm.patchValue({          
             classRoutineId:res.classRoutineId, 
@@ -121,6 +122,11 @@ export class NewClassRoutineComponent implements OnInit {
 
     this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.ClassRoutineForm = this.fb.group({
       classRoutineId: [0],
@@ -157,7 +163,7 @@ export class NewClassRoutineComponent implements OnInit {
       this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
       this.ClassRoutineForm.get('courseDurationId').setValue(this.courseDurationId);
 
-      this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
+      this.subscription = this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
        
       });
@@ -182,7 +188,7 @@ export class NewClassRoutineComponent implements OnInit {
 }
 
 getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
-  this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
+  this.subscription = this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
     this.selectedCourseDurationByCourseTypeAndCourseName = res;
   });
 }
@@ -190,7 +196,7 @@ getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
 
 getClassRoutineList(){
   this.isLoading = true;
-  this.ClassRoutineService.getClassRoutinesByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseDurationId).subscribe(response => {             
+  this.subscription = this.ClassRoutineService.getClassRoutinesByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseDurationId).subscribe(response => {             
     this.dataSource.data = response.items; 
     this.paging.length = response.totalItemsCount    
     this.isLoading = false;
@@ -198,13 +204,13 @@ getClassRoutineList(){
 }
 
   getselectedcoursename(){
-    this.ClassRoutineService.getselectedcoursename().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res;
     });
   } 
 
   getselectedclasstype(){
-    this.ClassRoutineService.getselectedclasstype().subscribe(res=>{
+    this.subscription = this.ClassRoutineService.getselectedclasstype().subscribe(res=>{
       this.selectedclasstype=res;
     });
   }
@@ -221,10 +227,10 @@ getClassRoutineList(){
   onSubmit() {
     const id = this.ClassRoutineForm.get('classRoutineId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.ClassRoutineService.update(+id,this.ClassRoutineForm.value).subscribe(response => {
+          this.subscription = this.ClassRoutineService.update(+id,this.ClassRoutineForm.value).subscribe(response => {
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -239,7 +245,7 @@ getClassRoutineList(){
       })
     }else {
       this.loading=true;
-      this.ClassRoutineService.submit(this.ClassRoutineForm.value).subscribe(response => {
+      this.subscription = this.ClassRoutineService.submit(this.ClassRoutineForm.value).subscribe(response => {
         
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -256,9 +262,9 @@ getClassRoutineList(){
 
   deleteItem(row) {
     const id = row.classRoutineId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.ClassRoutineService.delete(id).subscribe(() => {
+        this.subscription = this.ClassRoutineService.delete(id).subscribe(() => {
           this.getClassRoutineList();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

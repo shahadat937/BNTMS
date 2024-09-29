@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './schoolevent-list.component.html',
   styleUrls: ['./schoolevent-list.component.sass']
 })
-export class SchoolEventListComponent implements OnInit {
+export class SchoolEventListComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -31,6 +31,7 @@ export class SchoolEventListComponent implements OnInit {
   }
   searchText="";
   displayedReadingMaterialColumns: string[] = ['ser','eventHeading','eventDetails','duration','newStatus'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -38,10 +39,15 @@ export class SchoolEventListComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     this.getEventBySchoolId(this.schoolId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getEventBySchoolId(schoolId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getEventBySchoolId(schoolId,currentDateTime).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getEventBySchoolId(schoolId,currentDateTime).subscribe(response => {   
       this.EventForSchoolDashboard=response;
     })
   }

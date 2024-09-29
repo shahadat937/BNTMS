@@ -1,6 +1,6 @@
 import { ReadingMaterialListComponent } from './../../student/readingmaterial-list/readingmaterial-list.component';
 import { ReadingMaterial } from 'src/app/reading-materials/models/readingmaterial';
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -21,7 +21,7 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './readingmateriallistdashboard.component.html',
   styleUrls: ['./readingmateriallistdashboard.component.sass']
 })
-export class ReadingMateriallistDashboardComponent implements OnInit {
+export class ReadingMateriallistDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -45,6 +45,7 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
   }
   searchText="";
   displayedReadingMaterialColumns: string[] = ['ser','course','materialCount','actions'];
+  subscription: any;
   // ReadIngMaterialList = new MatTableDataSource<any>();
 
   constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
@@ -65,16 +66,21 @@ export class ReadingMateriallistDashboardComponent implements OnInit {
     }
 
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getReadingMetarialBySchool(schoolId){
-    this.schoolDashboardService.getReadingMetarialBySchool(schoolId).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getReadingMetarialBySchool(schoolId).subscribe(response => {   
       this.ReadIngMaterialList=response;
       this.ReadIngMaterialList = new MatTableDataSource(response);
     })
   }
 
   getReadingMetarialByBase(schoolId){
-    this.schoolDashboardService.getReadingMetarialByBase(schoolId).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getReadingMetarialByBase(schoolId).subscribe(response => {   
       this.dataSource = new MatTableDataSource(response);
       
       this.dataSource.sort = this.InitialOrdersort;

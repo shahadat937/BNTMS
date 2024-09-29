@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReadingMaterialService } from '../../service/readingmaterial.service';
@@ -20,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './new-readingmaterial.component.html',
   styleUrls: ['./new-readingmaterial.component.sass']
 })
-export class NewReadingMaterialComponent implements OnInit {
+export class NewReadingMaterialComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   roleList = Role;
@@ -64,6 +64,7 @@ export class NewReadingMaterialComponent implements OnInit {
   }
 
   filteredOptions;
+  subscription: any;
 
   constructor(public dialog: MatDialog,private snackBar: MatSnackBar, private authService: AuthService,private courseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private ReadingMaterialService: ReadingMaterialService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
     this.files = [];
@@ -83,7 +84,7 @@ export class NewReadingMaterialComponent implements OnInit {
       this.pageTitle = 'Edit Reading Material';
       this.destination = "Edit";
       this.buttonText = "Update"
-      this.ReadingMaterialService.find(+id).subscribe(
+      this.subscription = this.ReadingMaterialService.find(+id).subscribe(
         res => {
           this.ReadingMaterialForm.patchValue({
             readingMaterialId: res.readingMaterialId,
@@ -122,6 +123,11 @@ export class NewReadingMaterialComponent implements OnInit {
     this.getselecteddownloadright();
     this.getSelectedReadingMaterial();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() { 
     this.ReadingMaterialForm = this.fb.group({
       readingMaterialId: [0],
@@ -144,7 +150,7 @@ export class NewReadingMaterialComponent implements OnInit {
       publisherName:['']
     })
     //autocomplete
-    this.ReadingMaterialForm.get('course').valueChanges
+    this.subscription = this.ReadingMaterialForm.get('course').valueChanges
       .subscribe(value => {
         this.getSelectedCourseByName(value);
       })
@@ -213,21 +219,21 @@ export class NewReadingMaterialComponent implements OnInit {
       this.courseNameId = this.ReadingMaterialForm.get('courseNameId').value;
       this.readingMaterialTitleId = dropdown.source.value;
 
-      this.ReadingMaterialService.getSelectedReadingMaterialByMaterialTitleIdBaseSchoolIdAndCourseNameId(this.baseSchoolNameId, this.courseNameId, this.readingMaterialTitleId).subscribe(response => {
+      this.subscription = this.ReadingMaterialService.getSelectedReadingMaterialByMaterialTitleIdBaseSchoolIdAndCourseNameId(this.baseSchoolNameId, this.courseNameId, this.readingMaterialTitleId).subscribe(response => {
         this.readingMaterialList = response;
       })
     }
   }
   //autocomplete
   getSelectedCourseByName(coursename) {
-    this.courseNameService.getSelectedCourseByName(coursename).subscribe(response => {
+    this.subscription = this.courseNameService.getSelectedCourseByName(coursename).subscribe(response => {
       this.options = response;
       this.filteredOptions = response;
     })
   }
 
   getSelectedReadingMaterial() {
-    this.ReadingMaterialService.getSelectedReadingMaterial().subscribe(res => {
+    this.subscription = this.ReadingMaterialService.getSelectedReadingMaterial().subscribe(res => {
       this.selectedReadingMaterialTitle = res;
       this.selectMaterials=res;
     });
@@ -236,7 +242,7 @@ export class NewReadingMaterialComponent implements OnInit {
     this.selectedReadingMaterialTitle=this.selectMaterials.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcoursename() {
-    this.ReadingMaterialService.getselectedcoursename().subscribe(res => {
+    this.subscription = this.ReadingMaterialService.getselectedcoursename().subscribe(res => {
       this.selectedcourse = res;
     });
   }
@@ -244,14 +250,14 @@ export class NewReadingMaterialComponent implements OnInit {
     this.selectedschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedschools() {
-    this.ReadingMaterialService.getselectedschools().subscribe(res => {
+    this.subscription = this.ReadingMaterialService.getselectedschools().subscribe(res => {
       this.selectedschool = res;
       this.selectSchool=res;
     });
   }
 
   getselectedDocumentType() {
-    this.ReadingMaterialService.getselectedDocumentType().subscribe(res => {
+    this.subscription = this.ReadingMaterialService.getselectedDocumentType().subscribe(res => {
       this.selecteddocs = res
       this.selectDocument=res
     });
@@ -261,7 +267,7 @@ export class NewReadingMaterialComponent implements OnInit {
   }
 
   getselecteddownloadright() {
-    this.ReadingMaterialService.getselecteddownloadright().subscribe(res => {
+    this.subscription = this.ReadingMaterialService.getselecteddownloadright().subscribe(res => {
       this.selecteddownload = res
     });
   }
@@ -281,10 +287,10 @@ export class NewReadingMaterialComponent implements OnInit {
     }
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.ReadingMaterialService.update(+id, formData).subscribe(response => {
+          this.subscription = this.ReadingMaterialService.update(+id, formData).subscribe(response => {
             if(this.traineeId){              
               const url = '/admin/dashboard/readingmateriallistinstructor/'+this.traineeId+'/'+this.schoolId;          
               this.router.navigateByUrl(url);
@@ -305,7 +311,7 @@ export class NewReadingMaterialComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.ReadingMaterialService.submit(formData).subscribe((event: HttpEvent<any>) => {
+      this.subscription = this.ReadingMaterialService.submit(formData).subscribe((event: HttpEvent<any>) => {
 
         switch (event.type) {
           case HttpEventType.Sent:

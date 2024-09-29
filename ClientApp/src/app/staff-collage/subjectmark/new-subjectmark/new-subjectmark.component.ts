@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
   templateUrl: './new-subjectmark.component.html',
   styleUrls: ['./new-subjectmark.component.sass']
 })
-export class NewSubjectMarkComponent implements OnInit {
+export class NewSubjectMarkComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   pageTitle: string;
@@ -43,6 +43,7 @@ export class NewSubjectMarkComponent implements OnInit {
   }
 
   displayedColumns: string[] = [ 'ser', 'markType', 'mark', 'passMark', 'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -53,7 +54,7 @@ export class NewSubjectMarkComponent implements OnInit {
       this.pageTitle = 'Edit Staff College Subject Mark';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.SubjectMarkService.find(+id).subscribe(
+      this.subscription = this.SubjectMarkService.find(+id).subscribe(
         res => {
           this.SubjectMarkForm.patchValue({          
 
@@ -84,6 +85,11 @@ export class NewSubjectMarkComponent implements OnInit {
     this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
     this.getSelectedSubjectNameByCourseNameId();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.SubjectMarkForm = this.fb.group({
       subjectMarkId: [0],
@@ -104,24 +110,24 @@ export class NewSubjectMarkComponent implements OnInit {
   }
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
-    this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.StaffCollage).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
   getSelectedSubjectNameByCourseNameId(){
-    this.SubjectMarkService.getSelectedSubjectNameByCourseNameId(MasterData.courseName.StaffCollage).subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getSelectedSubjectNameByCourseNameId(MasterData.courseName.StaffCollage).subscribe(res=>{
       this.selectedsubjectname=res;
     });
   }
 
   getAllSubjectList(){
-    this.SubjectMarkService.getSelectedSubjectMarkByCourseNameIdAndBnaSubjectNameId(this.masterData.courseName.StaffCollage,this.bnaSubjectNameId).subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getSelectedSubjectMarkByCourseNameIdAndBnaSubjectNameId(this.masterData.courseName.StaffCollage,this.bnaSubjectNameId).subscribe(res=>{
       this.selectedSubjectMark=res;  
     }); 
    }
   
     getSelectedMarkType(){
-      this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
+      this.subscription = this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
         this.selectedmarktype=res
       });
     }
@@ -141,11 +147,11 @@ export class NewSubjectMarkComponent implements OnInit {
   onSubmit() {
     const id = this.SubjectMarkForm.get('subjectMarkId').value;  
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
         if (result) {
           this.loading=true;
-          this.SubjectMarkService.update(+id,this.SubjectMarkForm.value).subscribe(response => {
+          this.subscription = this.SubjectMarkService.update(+id,this.SubjectMarkForm.value).subscribe(response => {
             this.router.navigateByUrl('/staff-collage/add-staffcollagesubjectmark');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -160,7 +166,7 @@ export class NewSubjectMarkComponent implements OnInit {
       })
     }  else {
       this.loading=true;
-      this.SubjectMarkService.submit(this.SubjectMarkForm.value).subscribe(response => {
+      this.subscription = this.SubjectMarkService.submit(this.SubjectMarkForm.value).subscribe(response => {
         this.router.navigateByUrl('/staff-collage/add-staffcollagesubjectmark');
         this.onsubjectSelectionChangeGetsubjectMarkList();
         this.SubjectMarkForm.reset();
@@ -180,7 +186,7 @@ export class NewSubjectMarkComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.subjectMarkId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.SubjectMarkService.delete(id).subscribe(() => {
           this.getAllSubjectList();

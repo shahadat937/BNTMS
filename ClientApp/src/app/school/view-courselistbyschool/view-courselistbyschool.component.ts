@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
@@ -18,7 +18,7 @@ import { MatSort } from "@angular/material/sort";
   templateUrl: "./view-courselistbyschool.component.html",
   styleUrls: ["./view-courselistbyschool.component.sass"],
 })
-export class ViewCourseListBySchoolComponent implements OnInit {
+export class ViewCourseListBySchoolComponent implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -45,6 +45,7 @@ export class ViewCourseListBySchoolComponent implements OnInit {
   };
   searchText = "";
   displayedCourseNamesColumns: string[] = ["ser", "course", "actions"];
+  subscription: any;
 
   constructor(
     private datepipe: DatePipe,
@@ -69,7 +70,11 @@ export class ViewCourseListBySchoolComponent implements OnInit {
       this.getCourseListBySchool(this.schoolId);
     }
   }
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getCourseListBySchool(schoolId) {
     this.schoolDashboardService
       .getCourseNamesBySchool(schoolId)
@@ -170,7 +175,7 @@ export class ViewCourseListBySchoolComponent implements OnInit {
 
 }
   getCourseListByBase(schoolId) {
-    this.schoolDashboardService.getCourseNamesByBase(schoolId).subscribe((response) => {
+   this.subscription = this.schoolDashboardService.getCourseNamesByBase(schoolId).subscribe((response) => {
       this.dataSource = new MatTableDataSource(response);
       
       this.dataSource.sort = this.InitialOrdersort;

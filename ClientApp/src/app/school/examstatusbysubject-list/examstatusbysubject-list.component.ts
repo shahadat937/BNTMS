@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
@@ -15,7 +15,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './examstatusbysubject-list.component.html',
   styleUrls: ['./examstatusbysubject-list.component.sass']
 })
-export class ExamStatusBySubjectListComponent implements OnInit {
+export class ExamStatusBySubjectListComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -47,6 +47,7 @@ export class ExamStatusBySubjectListComponent implements OnInit {
     length: 1
   }
   searchText="";
+  subscription: any;
 
 
   
@@ -59,6 +60,11 @@ export class ExamStatusBySubjectListComponent implements OnInit {
     const branchId =  this.authService.currentUserValue.branchId.trim();
     this.getSubjectNames(); 
     
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   toggle(){
     this.showHideDiv = !this.showHideDiv;
@@ -140,7 +146,7 @@ export class ExamStatusBySubjectListComponent implements OnInit {
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
 
 
-    this.schoolDashboardService.getExamStatusBySubjectList(courseDurationId).subscribe(res=>{
+    this.subscription = this.schoolDashboardService.getExamStatusBySubjectList(courseDurationId).subscribe(res=>{
       this.SelectedsubjectsBySchoolAndCourse=res;  
       this.courseTypeId = res[0].coursetypeid;
 

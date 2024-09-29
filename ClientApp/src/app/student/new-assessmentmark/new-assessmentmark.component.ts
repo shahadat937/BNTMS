@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { BNAExamMarkService } from '../../service/bnaexammark.service';
@@ -27,7 +27,7 @@ import {Location} from '@angular/common';
   templateUrl: './new-assessmentmark.component.html',
   styleUrls: ['./new-assessmentmark.component.sass']
 })
-export class NewAssessmentMarkComponent implements OnInit {
+export class NewAssessmentMarkComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText: string;
@@ -80,6 +80,7 @@ export class NewAssessmentMarkComponent implements OnInit {
   courseTypeId:any;
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar, private _location: Location, private authService: AuthService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private studentDashboardService: StudentDashboardService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
@@ -102,6 +103,11 @@ export class NewAssessmentMarkComponent implements OnInit {
     //..................................
     //this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
     //this.getSelectedBranch();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   backClicked() {
     this._location.back();
@@ -129,7 +135,7 @@ export class NewAssessmentMarkComponent implements OnInit {
     //   this.onSubjectMarkSelectionGetPassMark();
     // });
  
-    this.studentDashboardService.getTraineeListForAssessmentGroupByCourseDurationIdAndTraineeId(this.courseDurationId,traineeId,traineeAssessmentCreateId).subscribe(res => {
+    this.subscription = this.studentDashboardService.getTraineeListForAssessmentGroupByCourseDurationIdAndTraineeId(this.courseDurationId,traineeId,traineeAssessmentCreateId).subscribe(res => {
       this.traineeList = res;
       this.clearList()
       this.getTraineeListonClick();
@@ -197,7 +203,7 @@ export class NewAssessmentMarkComponent implements OnInit {
   onSubmit() {
     
     
-      this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading=true;
           this.studentDashboardService.saveTraineeAssessmentMarklist(JSON.stringify(this.TraineeAssessmentMarkForm.value)).subscribe(response => {

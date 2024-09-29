@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -14,7 +14,7 @@ import { SchoolDashboardService } from '../services/SchoolDashboard.service';
   templateUrl: './runningcourses-list.component.html',
   styleUrls: ['./runningcourses-list.component.sass']
 })
-export class RunningCoursesListComponent implements OnInit {
+export class RunningCoursesListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -35,6 +35,7 @@ export class RunningCoursesListComponent implements OnInit {
   searchText="";
 
   displayedColumns: string[] = ['ser','course','noOfCandidates','professional','nbcd','durationFrom','durationTo', 'remark', 'actions'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -47,10 +48,15 @@ export class RunningCoursesListComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.getrunningCourseListBySchool(this.schoolId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getrunningCourseListBySchool(schoolId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getrunningCourseListBySchool(currentDateTime, this.masterData.coursetype.LocalCourse, schoolId,0).subscribe(response => {   
+    this.subscription = this.schoolDashboardService.getrunningCourseListBySchool(currentDateTime, this.masterData.coursetype.LocalCourse, schoolId,0).subscribe(response => {   
       
       this.localCourseCount=response.length;
       this.runningCourses=response;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { RoleFeature } from '../../models/rolefeature';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './rolefeature-list.component.html',
   styleUrls: ['./rolefeature-list.component.sass']
 })
-export class RoleFeatureListComponent implements OnInit {
+export class RoleFeatureListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: RoleFeature[] = [];
@@ -32,6 +32,7 @@ export class RoleFeatureListComponent implements OnInit {
 
 
    selection = new SelectionModel<RoleFeature>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private RoleFeatureService: RoleFeatureService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class RoleFeatureListComponent implements OnInit {
     this.getRoleFeatures();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getRoleFeatures() {
     this.isLoading = true;
-    this.RoleFeatureService.getRoleFeatures(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.RoleFeatureService.getRoleFeatures(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -68,9 +74,9 @@ export class RoleFeatureListComponent implements OnInit {
   deleteItem(row) {
     const Roleid = row.roleId; 
     const Featureid = row.featureId;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.RoleFeatureService.delete(Roleid,Featureid).subscribe(() => {
+        this.subscription = this.RoleFeatureService.delete(Roleid,Featureid).subscribe(() => {
           this.getRoleFeatures();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

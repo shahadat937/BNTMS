@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { CourseTaskService } from '../../service/CourseTask.service';
   templateUrl: './new-coursetask.component.html',
   styleUrls: ['./new-coursetask.component.sass']
 })
-export class NewCourseTaskComponent implements OnInit {
+export class NewCourseTaskComponent implements OnInit,OnDestroy {
   buttonText: string;
   pageTitle: string;
    masterData = MasterData;
@@ -48,6 +48,7 @@ export class NewCourseTaskComponent implements OnInit {
   searchText = "";
 
   displayedColumns: string[] = ['sl', 'schoolName', 'courseName', 'subjectName', 'taskDetail', 'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar, private authService: AuthService, private CourseTaskService: CourseTaskService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
 
@@ -62,7 +63,7 @@ export class NewCourseTaskComponent implements OnInit {
       this.pageTitle = 'Edit Course Task';
       this.destination = 'Edit';
       this.buttonText = "Update";
-      this.CourseTaskService.find(+id).subscribe(
+      this.subscription = this.CourseTaskService.find(+id).subscribe(
         res => {
           this.CourseTaskForm.patchValue({
 
@@ -91,6 +92,11 @@ export class NewCourseTaskComponent implements OnInit {
     this.getselectedBaseScoolName();
     //this.getSelectedSubjectNameBySchoolNameIdAndCourseNameId();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.CourseTaskForm = this.fb.group({
       courseTaskId: [0],
@@ -110,7 +116,7 @@ export class NewCourseTaskComponent implements OnInit {
       })
   }
   getselectedBaseScoolName() {
-    this.CourseTaskService.getselectedBaseScoolName().subscribe(res => {
+    this.subscription = this.CourseTaskService.getselectedBaseScoolName().subscribe(res => {
       this.selectScoolName = res
     });
   }
@@ -122,7 +128,7 @@ export class NewCourseTaskComponent implements OnInit {
   }
   //autocomplete for Course
   getSelectedCourseName(courseName) {
-    this.CourseTaskService.getselectedCourseName(courseName).subscribe(response => {
+    this.subscription = this.CourseTaskService.getselectedCourseName(courseName).subscribe(response => {
       this.getSelectedSubjectNameBySchoolNameIdAndCourseNameId()
       this.options = response;
       this.filteredOptions = response;
@@ -132,7 +138,7 @@ export class NewCourseTaskComponent implements OnInit {
   getSelectedSubjectNameBySchoolNameIdAndCourseNameId() {
     var baseSchoolNameId = this.CourseTaskForm.value['baseSchoolNameId'];
     var courseNameId = this.CourseTaskForm.value['courseNameId'];
-    this.CourseTaskService.getselectedSubjectBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res => {
+    this.subscription = this.CourseTaskService.getselectedSubjectBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res => {
       this.selectedSubjectNamebyschoolnameAndCourse = res;
 
     });
@@ -164,10 +170,10 @@ export class NewCourseTaskComponent implements OnInit {
   onSubmit() {
     const id = this.CourseTaskForm.get('courseTaskId').value;
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.CourseTaskService.update(+id, this.CourseTaskForm.value).subscribe(response => {
+          this.subscription = this.CourseTaskService.update(+id, this.CourseTaskForm.value).subscribe(response => {
             this.router.navigateByUrl('/syllabus-entry/add-coursetask');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -182,7 +188,7 @@ export class NewCourseTaskComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.CourseTaskService.submit(this.CourseTaskForm.value).subscribe(response => {
+      this.subscription = this.CourseTaskService.submit(this.CourseTaskForm.value).subscribe(response => {
         //this.router.navigateByUrl('/syllabus-entry/coursetask-list');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -200,7 +206,7 @@ export class NewCourseTaskComponent implements OnInit {
   }
   deleteItem(row) {
     const id = row.courseTaskId;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.CourseTaskService.delete(id).subscribe(() => {
           //this.getCourseTasks();

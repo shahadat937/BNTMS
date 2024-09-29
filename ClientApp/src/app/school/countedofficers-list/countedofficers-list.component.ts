@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -17,7 +17,7 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './countedofficers-list.component.html',
   styleUrls: ['./countedofficers-list.component.sass']
 })
-export class CountedOfficersListComponent implements OnInit {
+export class CountedOfficersListComponent implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -45,9 +45,16 @@ export class CountedOfficersListComponent implements OnInit {
   groupCOArrays:{ schoolName: string; courses: any; }[];
 
   displayedColumns: string[] = ['ser','name','course','duration'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+  
   ngOnInit() {
     //this.getTraineeNominations();
     this.role = this.authService.currentUserValue.role.trim();
@@ -62,7 +69,7 @@ export class CountedOfficersListComponent implements OnInit {
     if(this.role == this.userRole.MasterAdmin ||this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO){
       if(Number(this.officerTypeId) == this.masterData.OfficerType.Foreign){
         this.destination = "Foreign Trainee";      
-        this.schoolDashboardService.getNominatedForeignTraineeByTypeAndBase(currentDateTime,this.schoolId, this.masterData.OfficerType.Foreign).subscribe(response => {         
+        this.subscription = this.schoolDashboardService.getNominatedForeignTraineeByTypeAndBase(currentDateTime,this.schoolId, this.masterData.OfficerType.Foreign).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -86,7 +93,7 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.officer){
         this.destination = "Officer";
-        this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.officer, this.schoolId).subscribe(response => {         
+        this.subscription = this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.officer, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -110,7 +117,7 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.sailor){
         this.destination = "Sailor";
-        this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.sailor, this.schoolId).subscribe(response => {         
+        this.subscription = this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.sailor, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -134,7 +141,7 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.civil){
         this.destination = "Civil";
-        this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.civil, this.schoolId).subscribe(response => {         
+        this.subscription = this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.civil, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -158,7 +165,7 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else{
         this.destination = "Trainee";
-        this.schoolDashboardService.getNominatedTotalTraineeByBaseFromSp(this.branchId).subscribe(response => {         
+        this.subscription = this.schoolDashboardService.getNominatedTotalTraineeByBaseFromSp(this.branchId).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -183,7 +190,7 @@ export class CountedOfficersListComponent implements OnInit {
     }else{
       if(Number(this.officerTypeId) == this.masterData.OfficerType.Foreign){
         this.destination = "Foreign Trainee";      
-        this.schoolDashboardService.getnominatedForeignTraineeFromSpRequestBySchoolId(currentDateTime,this.schoolId, this.masterData.OfficerType.Foreign).subscribe(response => {         
+        this.subscription = this.schoolDashboardService.getnominatedForeignTraineeFromSpRequestBySchoolId(currentDateTime,this.schoolId, this.masterData.OfficerType.Foreign).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -208,7 +215,7 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.officer){
         this.destination = "Officer";
-        this.schoolDashboardService.getrunningCourseTotalOfficerListBySchoolRequest(currentDateTime, this.masterData.TraineeStatus.officer, this.schoolId).subscribe(response => {         
+        this.schoolDashboardService.getrunningCourseTotalOfficerListBySchoolRequest(currentDateTime, this.subscription = this.masterData.TraineeStatus.officer, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -234,7 +241,7 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.sailor){
         this.destination = "Sailor";
-        this.schoolDashboardService.getrunningCourseTotalOfficerListBySchoolRequest(currentDateTime, this.masterData.TraineeStatus.sailor, this.schoolId).subscribe(response => {         
+        this.schoolDashboardService.getrunningCourseTotalOfficerListBySchoolRequest(currentDateTime, this.subscription = this.masterData.TraineeStatus.sailor, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -260,7 +267,7 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.civil){
         this.destination = "Civil";
-        this.schoolDashboardService.getrunningCourseTotalOfficerListBySchoolRequest(currentDateTime, this.masterData.TraineeStatus.civil, this.schoolId).subscribe(response => {         
+        this.schoolDashboardService.getrunningCourseTotalOfficerListBySchoolRequest(currentDateTime, this.subscription = this.masterData.TraineeStatus.civil, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
   
           // this gives an object with dates as keys
@@ -286,7 +293,7 @@ export class CountedOfficersListComponent implements OnInit {
       }
       else{
         this.destination = "Trainee";
-        this.schoolDashboardService.getnominatedCourseListFromSpRequestBySchoolId(currentDateTime,this.schoolId).subscribe(response => {   
+        this.subscription = this.schoolDashboardService.getnominatedCourseListFromSpRequestBySchoolId(currentDateTime,this.schoolId).subscribe(response => {   
           this.dataSource = new MatTableDataSource(response);
       this.dataSource.sort = this.InitialOrdersort;
       this.dataSource.paginator = this.InitialOrderpaginator;      

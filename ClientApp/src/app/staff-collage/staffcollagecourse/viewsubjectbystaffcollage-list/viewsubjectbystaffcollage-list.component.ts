@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 //import { BNASubjectName } from '../../../subject-management/models/BNASubjectName';
@@ -16,7 +16,7 @@ import { BNASubjectName } from '../../models/BNASubjectName';
   templateUrl: './viewsubjectbystaffcollage-list.component.html',
   styleUrls: ['./viewsubjectbystaffcollage-list.component.sass']
 })
-export class ViewSubjectListByStaffCollageComponent implements OnInit {
+export class ViewSubjectListByStaffCollageComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -38,6 +38,7 @@ export class ViewSubjectListByStaffCollageComponent implements OnInit {
 
 
    selection = new SelectionModel<BNASubjectName>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
@@ -48,10 +49,15 @@ export class ViewSubjectListByStaffCollageComponent implements OnInit {
     this.onBranchSelectionChange();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   onBranchSelectionChange() {
     this.isLoading = true;
     //this.isShown = true;
-    this.BNASubjectNameService.getselectedSubjectNameByBranchId().subscribe(res => {
+    this.subscription = this.BNASubjectNameService.getselectedSubjectNameByBranchId().subscribe(res => {
       this.subjectNameList = res
     });
   }

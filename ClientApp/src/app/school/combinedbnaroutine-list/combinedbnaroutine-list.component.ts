@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef,Pipe, PipeTransform  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef,Pipe, PipeTransform, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -39,7 +39,7 @@ import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.
   templateUrl: './combinedbnaroutine-list.component.html',
   styleUrls: ['./combinedbnaroutine-list.component.sass']
 })
-export class CombinedBnaRoutineListComponent implements OnInit {
+export class CombinedBnaRoutineListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -87,6 +87,7 @@ export class CombinedBnaRoutineListComponent implements OnInit {
   displayedRoutineNoteColumns: string[] = ['ser','routineName','routineNote'];
   displayedPeriodListColumns: string[] = ['ser','periodName','duration'];
   displayedSubjectListColumns: string[] = ['ser','instructorName','instructorShortCode'];
+  subscription: any;
   constructor(private datepipe: DatePipe, private _location: Location,private fb: FormBuilder, private courseWeekService: CourseWeekService,private authService: AuthService,private ClassPeriodService: ClassPeriodService, private classRoutineService:ClassRoutineService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
   ngOnInit() {
@@ -123,6 +124,11 @@ export class CombinedBnaRoutineListComponent implements OnInit {
       
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.RoutineBySectionForm = this.fb.group({
       courseNameId:[],            
@@ -135,7 +141,7 @@ export class CombinedBnaRoutineListComponent implements OnInit {
   }
 
   getSelectedcourseNamesBySchool(schoolId){
-    this.classRoutineService.getSelectedcourseNamesBySchool(schoolId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getSelectedcourseNamesBySchool(schoolId).subscribe(res=>{
       this.selectedCourses=res;
     });
   }
@@ -148,7 +154,7 @@ export class CombinedBnaRoutineListComponent implements OnInit {
     var routineDate = this.RoutineBySectionForm.value['routineDate'];
     var currentRoutineDate =this.datepipe.transform((routineDate), 'MM/dd/yyyy');
 
-    this.classRoutineService.getCombinedClassByCourseForBNA(this.branchId,courseNameId,currentRoutineDate).subscribe(res=>{
+    this.subscription = this.classRoutineService.getCombinedClassByCourseForBNA(this.branchId,courseNameId,currentRoutineDate).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       
       for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){

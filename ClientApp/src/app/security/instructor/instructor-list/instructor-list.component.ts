@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from '../../models/User';
@@ -16,7 +16,7 @@ import { Role } from '../../../core/models/role';
   templateUrl: './instructor-list.component.html',
   styleUrls: ['./instructor-list.component.sass']
 })
-export class InstructorListComponent implements OnInit {
+export class InstructorListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   allRole : Role;
@@ -37,6 +37,7 @@ export class InstructorListComponent implements OnInit {
 
 
   selection = new SelectionModel<User>(true, []);
+  subscription: any;
   
   constructor(private snackBar: MatSnackBar,private UserService: UserService,private fb: FormBuilder,private router: Router,private confirmService: ConfirmService) { }
   // ngOnInit() {
@@ -47,10 +48,14 @@ export class InstructorListComponent implements OnInit {
     this.intitializeForm();
    // this.refresh();
   }
- 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getInstructors() {
     this.isLoading = true;
-    this.UserService.getInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.UserService.getInstructors(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
     this.dataSource.data = response.items; 
     this.paging.length = response.totalItemsCount    
     this.isLoading = false;
@@ -88,9 +93,9 @@ export class InstructorListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.id; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
-        this.UserService.delete(id).subscribe(() => {
+        this.subscription = this.UserService.delete(id).subscribe(() => {
           this.getInstructors();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,
@@ -124,8 +129,13 @@ export class InstructorListComponent implements OnInit {
   PasswordUpdate(row) {
     const id = row.id; 
     this.confirmService.confirm('Confirm Update message', 'Are You Sure Resetting This  User Password?').subscribe(result => {
+
+      if (id) {
+        this.subscription = this.UserService.find(id).subscribe(
+
       if (id&&result) {
         this.UserService.find(id).subscribe(
+
           res => {
             this.InstructorForm.patchValue({          
   
@@ -139,7 +149,7 @@ export class InstructorListComponent implements OnInit {
               traineeId:res.traineeId     
             
             });   
-            this.UserService.resetPassword(id,this.InstructorForm.value).subscribe(response => {
+            this.subscription = this.UserService.resetPassword(id,this.InstructorForm.value).subscribe(response => {
               // this.router.navigateByUrl('/security/instructor-list');
               //vaiya eta theke ami password nicchi
               this.getInstructors();
@@ -160,8 +170,13 @@ export class InstructorListComponent implements OnInit {
 
   ShiftRoleOfItem(row) {
     const id = row.id; 
+
+    this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
+      if (id) {
+
     this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
       if (id&&result) {
+
         this.UserService.find(id).subscribe(
           res => {
             this.InstructorForm.patchValue({          
@@ -194,7 +209,7 @@ export class InstructorListComponent implements OnInit {
       this.InstructorForm.get('roleName').setValue('Instructor');
     }
     
-    this.UserService.update(userId,this.InstructorForm.value).subscribe(response => {
+    this.subscription = this.UserService.update(userId,this.InstructorForm.value).subscribe(response => {
       // this.router.navigateByUrl('/security/instructor-list');
       this.getInstructors();
       this.snackBar.open('Information Updated Successfully ', '', {

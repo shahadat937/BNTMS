@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './materialbycourse-list.component.html',
   styleUrls: ['./materialbycourse-list.component.sass']
 })
-export class MaterialByCourseListComponent implements OnInit {
+export class MaterialByCourseListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -31,6 +31,7 @@ export class MaterialByCourseListComponent implements OnInit {
   searchText="";
 
   displayedReadingMaterialColumns: string[] = ['ser','readingMaterialTitle','documentName','aurhorName','publisherName','documentLink'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -38,11 +39,16 @@ export class MaterialByCourseListComponent implements OnInit {
     //this.getTraineeNominations();
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
-    this.schoolDashboardService.getReadingMetarialByCourse(courseNameId,this.schoolId).subscribe(response => {         
+    this.subscription = this.schoolDashboardService.getReadingMetarialByCourse(courseNameId,this.schoolId).subscribe(response => {         
       this.MaterialByCourse=response;
     })
     
 
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

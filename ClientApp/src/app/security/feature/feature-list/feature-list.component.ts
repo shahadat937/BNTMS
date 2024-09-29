@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Feature } from '../../models/feature';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './feature-list.component.html',
   styleUrls: ['./feature-list.component.sass']
 })
-export class FeatureListComponent implements OnInit {
+export class FeatureListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: Feature[] = [];
@@ -32,6 +32,7 @@ export class FeatureListComponent implements OnInit {
 
 
    selection = new SelectionModel<Feature>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private FeatureService: FeatureService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class FeatureListComponent implements OnInit {
     this.getFeatures();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getFeatures() {
     this.isLoading = true;
-    this.FeatureService.getFeatures(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.FeatureService.getFeatures(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -67,7 +73,7 @@ export class FeatureListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.featureId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.FeatureService.delete(id).subscribe(() => {
           this.getFeatures();

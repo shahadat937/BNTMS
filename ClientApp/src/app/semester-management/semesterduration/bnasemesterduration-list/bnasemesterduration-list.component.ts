@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {BNASemesterDuration} from '../../models/BNASemesterDuration'
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./bnasemesterduration-list.component.sass']
 })
 
-export class BnasemesterdurationListComponent implements OnInit {
+export class BnasemesterdurationListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASemesterDuration[] = [];
@@ -33,6 +33,7 @@ export class BnasemesterdurationListComponent implements OnInit {
 
 
    selection = new SelectionModel<BNASemesterDuration>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private BNASemesterDurationService: BNASemesterDurationService,private router: Router,private confirmService: ConfirmService) { }
@@ -41,10 +42,15 @@ export class BnasemesterdurationListComponent implements OnInit {
     this.getBNASemesterDurations();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getBNASemesterDurations() {
     this.isLoading = true;
-    this.BNASemesterDurationService.getBNASemesterDurations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.BNASemesterDurationService.getBNASemesterDurations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -71,7 +77,7 @@ export class BnasemesterdurationListComponent implements OnInit {
 
     this.confirmService.confirm('Confirm  message', 'Are You Sure? ').subscribe(result => {
       if (result) {
-        this.BNASemesterDurationService.genarateCourseWeekForBna(id).subscribe(() => {
+        this.subscription = this.BNASemesterDurationService.genarateCourseWeekForBna(id).subscribe(() => {
           //this.getCoursesByViewType(1);
           this.getBNASemesterDurations();
           this.snackBar.open('Course Week Generated Successfully ', '', {
@@ -87,9 +93,9 @@ export class BnasemesterdurationListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.bnaSemesterDurationId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASemesterDuration Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This BNASemesterDuration Item').subscribe(result => {
       if (result) {
-        this.BNASemesterDurationService.delete(id).subscribe(() => {
+        this.subscription = this.BNASemesterDurationService.delete(id).subscribe(() => {
           this.getBNASemesterDurations();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

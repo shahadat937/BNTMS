@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
@@ -13,7 +13,7 @@ import { MasterData } from 'src/assets/data/master-data';
   templateUrl: './new-organization.component.html',
   styleUrls: ['./new-organization.component.sass']
 })
-export class NewOrganizationComponent implements OnInit {
+export class NewOrganizationComponent implements OnInit, OnDestroy {
   pageTitle: string;
   destination:string;
   btnText:string;
@@ -31,6 +31,7 @@ export class NewOrganizationComponent implements OnInit {
   }
 
   displayedColumns: string[] = [ 'ser','schoolLogo', 'schoolName', 'shortName',  'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { }
 
@@ -40,7 +41,7 @@ export class NewOrganizationComponent implements OnInit {
       this.pageTitle = 'Edit Organization';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.BaseSchoolNameService.find(+id).subscribe(
+      this.subscription = this.BaseSchoolNameService.find(+id).subscribe(
         res => {
           this.OrganizationForm.patchValue({          
             
@@ -77,9 +78,14 @@ export class NewOrganizationComponent implements OnInit {
     this.intitializeForm();
     this.getOrganizationList();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getOrganizationList(){
-    this.BaseSchoolNameService.getOrganizationList().subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getOrganizationList().subscribe(res=>{
       this.organizationList=res
     });
   }
@@ -129,7 +135,7 @@ export class NewOrganizationComponent implements OnInit {
       formData.append(key, value);
     }
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
           this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
@@ -149,7 +155,7 @@ export class NewOrganizationComponent implements OnInit {
       })
     } else {  
       this.loading=true;    
-      this.BaseSchoolNameService.submit(formData).subscribe(response => {
+      this.subscription = this.BaseSchoolNameService.submit(formData).subscribe(response => {
         //this.router.navigateByUrl('/basic-setup/baseschoolname-list');
         this.getOrganizationList();
         this.OrganizationForm.reset();
@@ -168,9 +174,9 @@ export class NewOrganizationComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.baseSchoolNameId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
-        this.BaseSchoolNameService.delete(id).subscribe(() => {
+        this.subscription = this.BaseSchoolNameService.delete(id).subscribe(() => {
           this.getOrganizationList();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 2000,

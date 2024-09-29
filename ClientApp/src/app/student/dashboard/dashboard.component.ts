@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TraineeNominationService } from '../../course-management/service/traineenomination.service';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
@@ -59,7 +59,7 @@ export type areaChartOptions = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.sass'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('chart') chart: ChartComponent;
    masterData = MasterData;
   loading = false;
@@ -145,6 +145,7 @@ export class DashboardComponent implements OnInit {
   displayedForeignRemittanceColumns: string[] = ['ser','installmentAmount','paymentType','nextInstallmentDate','status', 'receivedStatus'];
   displayedJcoSubjectColumns: string[] = ['paperNo', 'subjectName', 'totalMark', 'passMarkBna'];
   displayedJcoRoutineColumns: string[] = ['subject','date','time'];
+  subscription: any;
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private confirmService: ConfirmService,private authService: AuthService , private datepipe: DatePipe,private route: ActivatedRoute,private BNASubjectNameService: BNASubjectNameService,private TraineeNominationService: TraineeNominationService,private studentDashboardService: StudentDashboardService) {}
 
   // Doughnut chart start
@@ -276,10 +277,15 @@ export class DashboardComponent implements OnInit {
     }); 
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   gettraineeAssessmentForStudentSpRequest(traineeId,courseDurationId){ 
     // var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
-    this.studentDashboardService.gettraineeAssessmentForStudentSpRequest(courseDurationId,traineeId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.gettraineeAssessmentForStudentSpRequest(courseDurationId,traineeId).subscribe(res=>{
       this.StudentAssessnmentCount = res.length;
     });
   }
@@ -299,49 +305,49 @@ export class DashboardComponent implements OnInit {
 
   getNoticeForTraineeDashboard(schoolId,durationId,traineeId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.studentDashboardService.getNoticeForTraineeDashboard(schoolId,currentDateTime,durationId,traineeId).subscribe(response => {   
+    this.subscription = this.studentDashboardService.getNoticeForTraineeDashboard(schoolId,currentDateTime,durationId,traineeId).subscribe(response => {   
       this.NoticeForStudent=response;
     })
   }
 
   getStuffClgRoutine(courseDurationId){
-    this.studentDashboardService.getStuffClgRoutine(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {             
+    this.subscription = this.studentDashboardService.getStuffClgRoutine(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {             
       this.StuffClgRoutineList = response.items; 
     })
   }
   getTraineeNominationCount(traineeId,courseNameId){
-    this.studentDashboardService.getTraineeNominationCount(traineeId,courseNameId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getTraineeNominationCount(traineeId,courseNameId).subscribe(res=>{
       this.attemptCount=res
     });
   }
   getSubjectListBySaylorBranch(courseNameId,saylorBranchId,saylorSubBranchId){
-    this.studentDashboardService.getSubjectListBySaylorBranch(courseNameId,saylorBranchId,saylorSubBranchId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getSubjectListBySaylorBranch(courseNameId,saylorBranchId,saylorSubBranchId).subscribe(res=>{
       this.subjectListBySaylorBranch=res
     });
   }
 
   getAssignmentCount(baseSchoolNameId,courseNameId,courseDurationId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.studentDashboardService.getAssignmentListForStudent(currentDateTime,baseSchoolNameId,courseNameId,courseDurationId).subscribe(response => {   
+    this.subscription = this.studentDashboardService.getAssignmentListForStudent(currentDateTime,baseSchoolNameId,courseNameId,courseDurationId).subscribe(response => {   
       this.StudentAssignmentCount=response.length;
     });
   }
 
   getActiveBulletins(baseSchoolNameId){
     this.isBulletinShown=true;
-    this.studentDashboardService.getActiveBulletinList(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getActiveBulletinList(baseSchoolNameId).subscribe(res=>{
       this.bulletinList=res;  
     });
   }
 
   getQexamSubjectList(courseNameId,branchId){
-    this.studentDashboardService.getQexamSubjectList(branchId,courseNameId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getQexamSubjectList(branchId,courseNameId).subscribe(res=>{
       this.QexamSubjectList=res;  
     });
   }
 
   getQexamRoutineByBranch(courseDurationId,branchId){
-    this.studentDashboardService.getQexamRoutineByBranch(courseDurationId,branchId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getQexamRoutineByBranch(courseDurationId,branchId).subscribe(res=>{
       this.QexamRoutineList=res;  
 
       for(let i=0;i<=this.QexamRoutineList.length;i++){
@@ -355,30 +361,30 @@ export class DashboardComponent implements OnInit {
   }
 
   getStuffClgSubjectList(){
-    this.studentDashboardService.getStuffClgSubjectList().subscribe(res=>{
+    this.subscription = this.studentDashboardService.getStuffClgSubjectList().subscribe(res=>{
       this.StuffClgSubjectList=res;  
     });
   }
   getTodayRoutine(courseDurationId,courseSectionId){
-    this.studentDashboardService.getCurrentRoutineByTraineeId(courseDurationId,courseSectionId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getCurrentRoutineByTraineeId(courseDurationId,courseSectionId).subscribe(res=>{
       this.todayroutine=res;  
     });
   }
 
   getCurrentJcoRoutine(courseDurationId,saylorBranchId,saylorSubBranchId){
-    this.studentDashboardService.getCurrentJcoRoutine(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getCurrentJcoRoutine(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res=>{
       this.todayroutine=res;  
     });
   }
 
   getTraineeRemittanceNotification(traineeId,courseDurationId){
-    this.studentDashboardService.getRemittanceNotificationForStudent(traineeId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getRemittanceNotificationForStudent(traineeId,courseDurationId).subscribe(res=>{
       this.traineeRemittanceNotification=res;  
     });
   }
   
   getTraineeOtherDocInfo(traineeId,courseDurationId){
-    this.studentDashboardService.getStudentOtherDocInfo(traineeId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getStudentOtherDocInfo(traineeId,courseDurationId).subscribe(res=>{
       
       var approvedlistItemCount = res.length;
       if(approvedlistItemCount > 0 ){
@@ -391,20 +397,20 @@ export class DashboardComponent implements OnInit {
   }
   
   getTraineeOtherDocuments(traineeId,courseDurationId){
-    this.studentDashboardService.getStudentOtherDocuments(traineeId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getStudentOtherDocuments(traineeId,courseDurationId).subscribe(res=>{
             
       this.studentOtherDocumentList=res;     
     });
   }
   getInterServiceDocuments(courseDurationId){
-    this.studentDashboardService.getInterServiceDocuments(courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getInterServiceDocuments(courseDurationId).subscribe(res=>{
             
       this.InterServiceDocumentList=res;     
     });
   }
   
   getTraineeGoDocument(courseDurationId){
-    this.studentDashboardService.getStudentGoDocument(courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getStudentGoDocument(courseDurationId).subscribe(res=>{
             
       this.studentGoDocumentList=res;     
     });
@@ -416,7 +422,7 @@ export class DashboardComponent implements OnInit {
     if(row.receivedStatus == 0){
       this.confirmService.confirm('Confirm Payment message', 'Have You Recieved This Installment').subscribe(result => {
         if (result) {
-          this.studentDashboardService.ChangereceivedStatus(id,1).subscribe(() => {
+          this.subscription = this.studentDashboardService.ChangereceivedStatus(id,1).subscribe(() => {
            // this.getBulletins(baseSchoolNameId);
            this.getTraineeRemittanceNotification(this.inputId,this.courseDurationId);
             this.snackBar.open('Received Successfully!', '', { 
@@ -434,10 +440,10 @@ export class DashboardComponent implements OnInit {
   changeDocStatus(row, fieldStatus){
     const id = row.foreignCourseOtherDocId;    
     //var baseSchoolNameId=this.CourseBudgetAllocationForm.value['baseSchoolNameId'];    
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Updating The Status?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Updating The Status?').subscribe(result => {
         if (result) {
           if(fieldStatus == 1){
-            this.studentDashboardService.ChangeReleventDocStatus(id,'passport',true).subscribe(() => {
+            this.subscription = this.studentDashboardService.ChangeReleventDocStatus(id,'passport',true).subscribe(() => {
               // this.getBulletins(baseSchoolNameId);
               this.getTraineeOtherDocInfo(this.inputId,this.courseDurationId);
               this.snackBar.open('Updated Successfully!', '', { 
@@ -448,7 +454,7 @@ export class DashboardComponent implements OnInit {
               });
             })
           } else if(fieldStatus == 2){
-            this.studentDashboardService.ChangeReleventDocStatus(id,'dgfi',true).subscribe(() => {
+            this.subscription = this.studentDashboardService.ChangeReleventDocStatus(id,'dgfi',true).subscribe(() => {
               // this.getBulletins(baseSchoolNameId);
               this.getTraineeOtherDocInfo(this.inputId,this.courseDurationId);
               this.snackBar.open('Updated Successfully!', '', { 

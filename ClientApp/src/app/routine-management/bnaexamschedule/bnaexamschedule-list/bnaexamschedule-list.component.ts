@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {BNAExamSchedule} from '../../models/bnaexamschedule'
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './bnaexamschedule-list.component.html',
   styleUrls: ['./bnaexamschedule-list.component.sass']
 })
-export class BNAExamScheduleListComponent implements OnInit {
+export class BNAExamScheduleListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNAExamSchedule[] = [];
@@ -32,6 +32,7 @@ export class BNAExamScheduleListComponent implements OnInit {
 
 
    selection = new SelectionModel<BNAExamSchedule>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private BNAExamScheduleService: BNAExamScheduleService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class BNAExamScheduleListComponent implements OnInit {
     this.getBNAExamSchedules();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getBNAExamSchedules() {
     this.isLoading = true;
-    this.BNAExamScheduleService.getBNAExamSchedules(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.BNAExamScheduleService.getBNAExamSchedules(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -67,9 +73,9 @@ export class BNAExamScheduleListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.bnaExamScheduleId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.BNAExamScheduleService.delete(id).subscribe(() => {
+        this.subscription = this.BNAExamScheduleService.delete(id).subscribe(() => {
           this.getBNAExamSchedules();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

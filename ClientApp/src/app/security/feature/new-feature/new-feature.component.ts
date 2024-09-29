@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FeatureService } from '../../service/feature.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
   templateUrl: './new-feature.component.html',
   styleUrls: ['./new-feature.component.sass'] 
 })
-export class NewFeatureComponent implements OnInit {
+export class NewFeatureComponent implements OnInit, OnDestroy {
   pageTitle: string; 
   loading = false;
   destination:string;
@@ -21,6 +21,7 @@ export class NewFeatureComponent implements OnInit {
   validationErrors: string[] = [];
   selectedModel:SelectedModel[];
   selectModel:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private FeatureService: FeatureService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -30,7 +31,7 @@ export class NewFeatureComponent implements OnInit {
       this.pageTitle = 'Edit Feature';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.FeatureService.find(+id).subscribe(
+      this.subscription = this.FeatureService.find(+id).subscribe(
         res => {
           this.FeatureForm.patchValue({          
 
@@ -60,6 +61,11 @@ export class NewFeatureComponent implements OnInit {
     this.intitializeForm();
     this.getModule();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.FeatureForm = this.fb.group({
       featureId: [0],
@@ -83,7 +89,7 @@ filterByModel(value:any){
   this.selectedModel = this.selectModel.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
   getModule(){
-    this.FeatureService.getselectedmodule().subscribe(res=>{
+    this.subscription = this.FeatureService.getselectedmodule().subscribe(res=>{
       this.selectedModel=res
       this.selectModel=res
     });
@@ -92,7 +98,7 @@ filterByModel(value:any){
   onSubmit() {
     const id = this.FeatureForm.get('featureId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.FeatureService.update(+id,this.FeatureForm.value).subscribe(response => {
@@ -110,7 +116,7 @@ filterByModel(value:any){
       })
     } else {
       this.loading=true;
-      this.FeatureService.submit(this.FeatureForm.value).subscribe(response => {
+      this.subscription = this.FeatureService.submit(this.FeatureForm.value).subscribe(response => {
         this.router.navigateByUrl('/security/feature-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

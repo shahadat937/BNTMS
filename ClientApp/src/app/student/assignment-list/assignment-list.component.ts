@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseInstructor} from '../../subject-management/models/courseinstructor';
@@ -16,7 +16,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './assignment-list.component.html',
   styleUrls: ['./assignment-list.component.sass']
 })
-export class AssignmentListComponent implements OnInit {
+export class AssignmentListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -33,12 +33,18 @@ export class AssignmentListComponent implements OnInit {
   searchText="";
 
   displayedColumns: string[]= ['ser','bnaSubjectName', 'endDate', 'assignmentMark','assignmentTopic','actions'];
+  subscription: any;
   
   constructor(private snackBar: MatSnackBar, private datepipe: DatePipe ,private route: ActivatedRoute,private studentDashboardService: StudentDashboardService,private router: Router,private confirmService: ConfirmService) { }
 
   ngOnInit() {
     this.onModuleSelectionChangeGetsubjectList();
     
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   onModuleSelectionChangeGetsubjectList(){
@@ -51,7 +57,7 @@ export class AssignmentListComponent implements OnInit {
     
 
     if(this.baseSchoolNameId != null && this.courseDurationId !=null && this.courseNameId !=null){
-      this.studentDashboardService.getAssignmentListForStudent(currentDateTime,this.baseSchoolNameId,this.courseNameId,this.courseDurationId).subscribe(response => {   
+      this.studentDashboardService.getAssignmentListForStudent(currentDateTime,this.baseSchoolNameId,this.subscription = this.courseNameId,this.courseDurationId).subscribe(response => {   
         this.NoticeForStudent=response;
       })
     }

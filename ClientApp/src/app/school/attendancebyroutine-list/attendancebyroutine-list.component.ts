@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -14,7 +14,7 @@ import { SchoolDashboardService } from '../services/SchoolDashboard.service';
   templateUrl: './attendancebyroutine-list.component.html',
   styleUrls: ['./attendancebyroutine-list.component.sass']
 })
-export class AttendanceByRoutineListComponent implements OnInit {
+export class AttendanceByRoutineListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -31,6 +31,7 @@ export class AttendanceByRoutineListComponent implements OnInit {
   searchText="";
 
   displayedRoutineColumns: string[] = ['ser', 'subject', 'name', 'attendanceRemarks'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -40,8 +41,13 @@ export class AttendanceByRoutineListComponent implements OnInit {
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.durationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     var routineId = this.route.snapshot.paramMap.get('classRoutineId'); 
-    this.schoolDashboardService.getCurrentAttendanceDetailByRoutineList(this.courseNameId,this.schoolId,this.durationId,routineId).subscribe(response => {         
+    this.schoolDashboardService.getCurrentAttendanceDetailByRoutineList(this.courseNameId,this.schoolId,this.subscription = this.durationId,routineId).subscribe(response => {         
       this.AttendanceByRoutine=response;
     })
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './viewsubjectbymodule-list.component.html',
   styleUrls: ['./viewsubjectbymodule-list.component.sass']
 })
-export class ViewSubjectListByModuleComponent implements OnInit {
+export class ViewSubjectListByModuleComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -34,6 +34,7 @@ export class ViewSubjectListByModuleComponent implements OnInit {
 
 
    selection = new SelectionModel<BNASubjectName>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
@@ -42,13 +43,18 @@ export class ViewSubjectListByModuleComponent implements OnInit {
     this.getSubjectNames();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getSubjectNames() {
     this.isLoading = true;
     var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     var courseModuleId = this.route.snapshot.paramMap.get('courseModuleId'); 
-    this.BNASubjectNameService.getbnaSubjectListForStudentDashboard(baseSchoolNameId,this.courseNameId,courseModuleId).subscribe(res=>{
+    this.subscription = this.BNASubjectNameService.getbnaSubjectListForStudentDashboard(baseSchoolNameId,this.courseNameId,courseModuleId).subscribe(res=>{
       this.SelectedsubjectsBySchoolAndCourse=res;  
     });
   }

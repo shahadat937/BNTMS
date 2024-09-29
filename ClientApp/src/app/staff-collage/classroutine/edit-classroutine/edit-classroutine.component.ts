@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
@@ -21,7 +21,7 @@ import { ClassRoutine } from '../../models/classroutine';
   templateUrl: './edit-classroutine.component.html',
   styleUrls: ['./edit-classroutine.component.sass']
 }) 
-export class EditClassRoutineComponent implements OnInit {
+export class EditClassRoutineComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -71,6 +71,7 @@ export class EditClassRoutineComponent implements OnInit {
       pageSize: this.masterData.paging.pageSize,
       length: 1
     }
+  subscription: any;
   
   constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -88,6 +89,11 @@ export class EditClassRoutineComponent implements OnInit {
     this.getSubjectName(this.schoolId,this.courseId);
     this.getModifiedRoutine(this.schoolId,this.courseId,this.weekId)
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.EditedClassRoutineForm = this.fb.group({
       
@@ -98,12 +104,12 @@ export class EditClassRoutineComponent implements OnInit {
     })
   }
   getSubjectName(schoolName,courseName){
-    this.classRoutineService.getselectedSubjectNamesBySchoolAndCourse(schoolName,courseName).subscribe(res=>{
+    this.subscription = this.classRoutineService.getselectedSubjectNamesBySchoolAndCourse(schoolName,courseName).subscribe(res=>{
       this.selectedsubjectname=res;
     });
   }
   getEditedRoutineList(schoolId,durationId,courseId,weekId){
-    this.classRoutineService.getClassRoutineListByParams(schoolId,durationId,courseId,weekId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getClassRoutineListByParams(schoolId,durationId,courseId,weekId).subscribe(res=>{
       this.editedRoutineList=res;
       this.schoolName=this.editedRoutineList[0].baseSchoolName;
       this.CourseName=this.editedRoutineList[0].courseName;
@@ -177,7 +183,7 @@ export class EditClassRoutineComponent implements OnInit {
 
   getModifiedRoutine(baseSchoolNameId,courseNameId,courseWeekId){
     this.isShown=true;
-    this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId,courseWeekId).subscribe(res=>{
+    this.subscription = this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId,courseWeekId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
@@ -212,9 +218,9 @@ export class EditClassRoutineComponent implements OnInit {
     // }else {
       
     
-      this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
-          this.classRoutineService.weeklyRoutineUpdate(JSON.stringify(this.EditedClassRoutineForm.value)).subscribe(response => {                        
+          this.subscription = this.classRoutineService.weeklyRoutineUpdate(JSON.stringify(this.EditedClassRoutineForm.value)).subscribe(response => {                        
             this.getModifiedRoutine(this.schoolId,this.courseId,this.weekId)
             this.snackBar.open('Information Inserted Successfully ', '', {
               duration: 2000,

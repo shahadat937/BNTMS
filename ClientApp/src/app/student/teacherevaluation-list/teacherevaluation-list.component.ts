@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -13,7 +13,7 @@ import { StudentDashboardService } from '../services/StudentDashboard.service';
   templateUrl: './teacherevaluation-list.component.html',
   styleUrls: ['./teacherevaluation-list.component.sass']
 })
-export class TeacherEvaluationListComponent implements OnInit {
+export class TeacherEvaluationListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -29,6 +29,7 @@ export class TeacherEvaluationListComponent implements OnInit {
   searchText="";
 
   displayedCourseModuleColumns: string[] = ['ser','course','subjectName','name','actions'];
+  subscription: any;
 
 
   
@@ -41,9 +42,14 @@ export class TeacherEvaluationListComponent implements OnInit {
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.getTdecQuestionGroupListBySp(baseSchoolNameId,courseNameId,courseDurationId)
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getTdecQuestionGroupListBySp(baseSchoolNameId,courseNameId,courseDurationId){
-    this.studentDashboardService.getTdecQuestionGroupListBySp(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getTdecQuestionGroupListBySp(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.CourseModuleByCourseName = res;
     });
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
@@ -13,7 +13,7 @@ import { MasterData } from 'src/assets/data/master-data';
   templateUrl: './new-basename.component.html',
   styleUrls: ['./new-basename.component.sass']
 })
-export class NewBaseNameComponent implements OnInit {
+export class NewBaseNameComponent implements OnInit, OnDestroy {
   pageTitle: string;
   destination:string;
   btnText:string;
@@ -36,6 +36,7 @@ export class NewBaseNameComponent implements OnInit {
   }
 
   displayedColumns: string[] = [ 'ser','schoolLogo', 'schoolName', 'shortName',  'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { }
 
@@ -45,7 +46,7 @@ export class NewBaseNameComponent implements OnInit {
       this.pageTitle = 'Edit Base Name';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.BaseSchoolNameService.find(+id).subscribe(
+      this.subscription = this.BaseSchoolNameService.find(+id).subscribe(
         res => {
           this.BaseNameForm.patchValue({          
             
@@ -84,7 +85,11 @@ export class NewBaseNameComponent implements OnInit {
     //this.getOrganizationList();
     this.onOrganizationSelectionChangeGetCommendingArea();
   }
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
 
   // getSelectedOrganization(){
@@ -98,7 +103,7 @@ export class NewBaseNameComponent implements OnInit {
   }
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.BaseNameForm.value['firstLevel'];
-    this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
       this.selectedCommendingArea=res
       this.selectCommendingArea=res
     });        
@@ -112,7 +117,7 @@ export class NewBaseNameComponent implements OnInit {
 
   getBaseNameList(commendingAreaId){
     this.isShown=true;
-    this.BaseSchoolNameService.getBaseNameList(commendingAreaId).subscribe(res=>{
+    this.subscription = this.BaseSchoolNameService.getBaseNameList(commendingAreaId).subscribe(res=>{
       this.baseNameList=res
     });
   }
@@ -162,10 +167,10 @@ export class NewBaseNameComponent implements OnInit {
       formData.append(key, value);
     }
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
+          this.subscription = this.BaseSchoolNameService.update(+id,formData).subscribe(response => {
             this.router.navigateByUrl('/security/new-basename');
             this.getBaseNameList(this.commendingAreaId);
             this.BaseNameForm.reset();
@@ -182,7 +187,7 @@ export class NewBaseNameComponent implements OnInit {
       })
     } else {  
       this.loading=true;    
-      this.BaseSchoolNameService.submit(formData).subscribe(response => {
+      this.subscription = this.BaseSchoolNameService.submit(formData).subscribe(response => {
         //this.router.navigateByUrl('/basic-setup/baseschoolname-list');
         this.getBaseNameList(this.commendingAreaId);
         this.BaseNameForm.reset();
@@ -201,9 +206,9 @@ export class NewBaseNameComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.baseSchoolNameId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
-        this.BaseSchoolNameService.delete(id).subscribe(() => {
+        this.subscription = this.BaseSchoolNameService.delete(id).subscribe(() => {
           this.getBaseNameList(this.commendingAreaId);
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 2000,
