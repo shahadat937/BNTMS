@@ -69,7 +69,7 @@
                         <ul class="header-buttons">
                           <li>
                             <div class="icon-button-demo">
-                              <button class="pointer" mat-raised-button color="primary" (click)="createUserSelectedRows()">
+                              <button [disabled]="this.selection.selected.length<=0" class="pointer" mat-raised-button color="primary" (click)="createUserSelectedRows()">
                                 Create User
                               </button>
                             </div>

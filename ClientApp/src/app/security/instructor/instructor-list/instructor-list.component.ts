@@ -129,8 +129,13 @@ export class InstructorListComponent implements OnInit, OnDestroy {
   PasswordUpdate(row) {
     const id = row.id; 
     this.confirmService.confirm('Confirm Update message', 'Are You Sure Resetting This  User Password?').subscribe(result => {
+
       if (id) {
         this.subscription = this.UserService.find(id).subscribe(
+
+      if (id&&result) {
+        this.UserService.find(id).subscribe(
+
           res => {
             this.InstructorForm.patchValue({          
   
@@ -165,8 +170,13 @@ export class InstructorListComponent implements OnInit, OnDestroy {
 
   ShiftRoleOfItem(row) {
     const id = row.id; 
+
     this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
       if (id) {
+
+    this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
+      if (id&&result) {
+
         this.UserService.find(id).subscribe(
           res => {
             this.InstructorForm.patchValue({          

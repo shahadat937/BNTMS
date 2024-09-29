@@ -65,12 +65,14 @@ import {UpcomingCoursesNbcdListComponent} from './../../school/upcomingcoursesnb
 import {ViewCourseCreateNbcdComponent} from './../dashboard/view-coursecreatenbcd/view-coursecreatenbcd.component';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
-import {RoutineSoftcopyTraineeComponent} from '../dashboard/routinesoftcopytrainee/routinesoftcopytrainee.component'
+import {RoutineSoftcopyTraineeComponent} from '../dashboard/routinesoftcopytrainee/routinesoftcopytrainee.component';
+import { GlobalSearchModalComponent } from './global-search-modal/global-search-modal.component'
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -123,7 +125,8 @@ FullCalendarModule.registerPlugins([
     SchoolHistoryComponent,
     JstiTraineeDetailsComponent,
     CourseOutlineListComponent,
-    RoutineSoftcopyTraineeComponent
+    RoutineSoftcopyTraineeComponent,
+    GlobalSearchModalComponent
   ],
   imports: [
     CommonModule,
@@ -152,7 +155,8 @@ FullCalendarModule.registerPlugins([
     MatDatepickerModule,
     MaterialFileInputModule,
     NgMarqueeModule, 
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule
   ],
 })
 export class DashboardModule {}
