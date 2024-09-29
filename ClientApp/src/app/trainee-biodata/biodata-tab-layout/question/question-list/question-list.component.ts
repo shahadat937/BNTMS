@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Question } from '../../models/Question';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './question-list.component.html',
   styleUrls: ['./question-list.component.sass']
 })
-export class QuestionListComponent implements OnInit {
+export class QuestionListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,17 +34,23 @@ export class QuestionListComponent implements OnInit {
   dataSource: MatTableDataSource<Question> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<Question>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private QuestionService: QuestionService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getQuestions();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
  
   getQuestions() {
     this.isLoading = true;
     
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.QuestionService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.QuestionService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -63,7 +69,7 @@ export class QuestionListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.questionId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.QuestionService.delete(id).subscribe(() => {
           this.getQuestions();

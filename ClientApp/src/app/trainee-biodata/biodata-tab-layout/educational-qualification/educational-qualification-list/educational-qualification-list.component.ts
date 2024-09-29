@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EducationalQualification } from '../../models/EducationalQualification';
@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
   templateUrl: './educational-qualification-list.component.html',
   styleUrls: ['./educational-qualification-list.component.sass']
 })
-export class EducationalQualificationListComponent implements OnInit {
+export class EducationalQualificationListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -36,16 +36,22 @@ export class EducationalQualificationListComponent implements OnInit {
   dataSource: MatTableDataSource<EducationalQualification> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<EducationalQualification>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getEducationalQualifications();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getEducationalQualifications() {
     this.isLoading = true;
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.EducationalQualificationService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.EducationalQualificationService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -64,7 +70,7 @@ export class EducationalQualificationListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.educationalQualificationId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.EducationalQualificationService.delete(id).subscribe(() => {
           this.getEducationalQualifications();

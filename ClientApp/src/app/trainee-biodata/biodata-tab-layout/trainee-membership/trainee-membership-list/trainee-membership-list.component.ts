@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TraineeMembership } from '../../models/TraineeMembership';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './trainee-membership-list.component.html',
   styleUrls: ['./trainee-membership-list.component.sass']
 })
-export class TraineeMembershipListComponent implements OnInit {
+export class TraineeMembershipListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -30,21 +30,28 @@ export class TraineeMembershipListComponent implements OnInit {
   }
   // searchText="";
 
+
   displayedColumns: string[] = ['ser', 'orgName','membershipType','briefAddress','appointment','durationFrom','durationTo','actions'];
   dataSource: MatTableDataSource<TraineeMembership> = new MatTableDataSource();
 
   selection = new SelectionModel<TraineeMembership>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar, private TraineeMembershipService: TraineeMembershipService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getTraineeMemberships();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
  
   getTraineeMemberships() {
     this.isLoading = true;
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
 
-    this.TraineeMembershipService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.TraineeMembershipService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -63,7 +70,7 @@ export class TraineeMembershipListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeMembershipId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.TraineeMembershipService.delete(id).subscribe(() => {
           this.getTraineeMemberships();

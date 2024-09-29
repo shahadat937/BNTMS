@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BIODataGeneralInfo } from '../../models/BIODataGeneralInfo';
@@ -16,7 +16,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   templateUrl: './foreignbiodatainfo-list.component.html',
   styleUrls: ['./foreignbiodatainfo-list.component.sass']
 })
-export class ForeignBIODataInfoListComponent implements OnInit {
+export class ForeignBIODataInfoListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,6 +34,7 @@ export class ForeignBIODataInfoListComponent implements OnInit {
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
 
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) { }
@@ -42,10 +43,15 @@ export class ForeignBIODataInfoListComponent implements OnInit {
   ngOnInit() {
     this.getBIODataGeneralInfos();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   getBIODataGeneralInfos() {
     this.isLoading = true;
-    this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -83,9 +89,9 @@ export class ForeignBIODataInfoListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
-        this.BIODataGeneralInfoService.delete(id).subscribe(() => {
+        this.subscription = this.BIODataGeneralInfoService.delete(id).subscribe(() => {
           this.getBIODataGeneralInfos();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

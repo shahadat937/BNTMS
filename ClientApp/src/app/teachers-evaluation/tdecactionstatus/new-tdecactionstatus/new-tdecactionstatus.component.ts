@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,13 +10,14 @@ import { TdecActionStatusService } from '../../service/TdecActionStatus.service'
   templateUrl: './new-tdecactionstatus.component.html',
   styleUrls: ['./new-tdecactionstatus.component.sass']
 })
-export class NewTdecActionStatusComponent implements OnInit {
+export class NewTdecActionStatusComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
   destination:string;
   TdecActionStatusForm: FormGroup;
   validationErrors: string[] = [];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private TdecActionStatusService: TdecActionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -26,7 +27,7 @@ export class NewTdecActionStatusComponent implements OnInit {
       this.pageTitle = 'Edit Tdec Action Status';
       this.destination='Edit';
       this.buttonText="Update";
-      this.TdecActionStatusService.find(+id).subscribe(
+      this.subscription = this.TdecActionStatusService.find(+id).subscribe(
         res => {
           this.TdecActionStatusForm.patchValue({          
 
@@ -44,6 +45,11 @@ export class NewTdecActionStatusComponent implements OnInit {
     }
     this.intitializeForm();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.TdecActionStatusForm = this.fb.group({
       tdecActionStatusId: [0],
@@ -57,10 +63,10 @@ export class NewTdecActionStatusComponent implements OnInit {
   onSubmit() {
     const id = this.TdecActionStatusForm.get('tdecActionStatusId').value;  
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.TdecActionStatusService.update(+id,this.TdecActionStatusForm.value).subscribe(response => {
+          this.subscription = this.TdecActionStatusService.update(+id,this.TdecActionStatusForm.value).subscribe(response => {
             this.router.navigateByUrl('/teachers-evaluation/tdecactionstatus-list');
               this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -75,7 +81,7 @@ export class NewTdecActionStatusComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.TdecActionStatusService.submit(this.TdecActionStatusForm.value).subscribe(response => {
+      this.subscription = this.TdecActionStatusService.submit(this.TdecActionStatusForm.value).subscribe(response => {
         this.router.navigateByUrl('/teachers-evaluation/tdecactionstatus-list');
           this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

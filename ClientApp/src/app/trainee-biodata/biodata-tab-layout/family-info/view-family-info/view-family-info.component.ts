@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ParentRelative } from '../../models/ParentRelative';
@@ -16,7 +16,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-family-info.component.html',
   styleUrls: ['./view-family-info.component.sass']
 })
-export class ViewParentRelativeComponent implements OnInit {
+export class ViewParentRelativeComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -75,15 +75,20 @@ export class ViewParentRelativeComponent implements OnInit {
   additionalInformation: string;
   status: number;          
   additionaInformation: string;
+  subscription: any;
   
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ParentRelativeService: ParentRelativeService,private router: Router,private confirmService: ConfirmService) { }
   
-  
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('parentRelativeId'); 
-    this.ParentRelativeService.find(+id).subscribe( res => {
+    this.subscription = this.ParentRelativeService.find(+id).subscribe( res => {
       this.parentRelativeId = res.parentRelativeId,
       this.traineeId = res.traineeId,
       this.relationTypeId = res.relationTypeId,

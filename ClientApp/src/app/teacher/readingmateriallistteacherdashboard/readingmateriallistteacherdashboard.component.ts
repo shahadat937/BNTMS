@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './readingmateriallistteacherdashboard.component.html',
   styleUrls: ['./readingmateriallistteacherdashboard.component.sass']
 })
-export class ReadingMaterialListTeacherDashboardComponent implements OnInit {
+export class ReadingMaterialListTeacherDashboardComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -34,6 +34,7 @@ export class ReadingMaterialListTeacherDashboardComponent implements OnInit {
   }
   searchText="";
   displayedReadingMaterialColumns: string[] = ['ser','readingMaterialTitle','documentName','aurhorName','publisherName','documentLink'];
+  subscription: any;
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
   ngOnInit() {
@@ -41,8 +42,13 @@ export class ReadingMaterialListTeacherDashboardComponent implements OnInit {
    this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
    this.getReadingMetarialByInstructor(this.schoolId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   getReadingMetarialByInstructor(id){
-    this.instructorDashboardService.getSpReadingMaterialByTraineeId(id).subscribe(res=>{
+    this.subscription = this.instructorDashboardService.getSpReadingMaterialByTraineeId(id).subscribe(res=>{
       this.materialList = res;
     });
   }

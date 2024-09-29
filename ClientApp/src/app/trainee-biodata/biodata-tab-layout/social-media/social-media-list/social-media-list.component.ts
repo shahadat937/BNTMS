@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SocialMedia } from '../../models/SocialMedia';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './social-media-list.component.html',
   styleUrls: ['./social-media-list.component.sass']
 })
-export class SocialMediaListComponent implements OnInit {
+export class SocialMediaListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,16 +34,22 @@ export class SocialMediaListComponent implements OnInit {
   dataSource: MatTableDataSource<SocialMedia> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<SocialMedia>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getSocialMedias();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getSocialMedias() {
     this.isLoading = true;
     this.traineeId= this.route.snapshot.paramMap.get('traineeId');
-    this.SocialMediaService.getSocialMediaByTraineeId(+this.traineeId).subscribe(response => {     
+    this.subscription = this.SocialMediaService.getSocialMediaByTraineeId(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -63,7 +69,7 @@ export class SocialMediaListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.socialMediaId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.SocialMediaService.delete(id).subscribe(() => {
           this.getSocialMedias();

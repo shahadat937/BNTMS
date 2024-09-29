@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { GameSport } from '../../models/GameSport';
@@ -16,7 +16,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-game-sport.component.html',
   styleUrls: ['./view-game-sport.component.sass']
 })
-export class ViewGameSportComponent implements OnInit {
+export class ViewGameSportComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -30,16 +30,21 @@ export class ViewGameSportComponent implements OnInit {
   performance: string;
   additionalInformation: string;
   gameValues:SelectedModel[];  
+  subscription: any;
 
   
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private GameSportService: GameSportService,private router: Router,private confirmService: ConfirmService) { }
   
-  
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('gameSportId'); 
-    this.GameSportService.find(+id).subscribe( res => {
+    this.subscription = this.GameSportService.find(+id).subscribe( res => {
       
       this.gameSportId = res.gameSportId,
       this.traineeId = res.traineeId,

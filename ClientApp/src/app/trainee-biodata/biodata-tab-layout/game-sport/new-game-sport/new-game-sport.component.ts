@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameSportService } from '../../service/GameSport.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-game-sport.component.html',
   styleUrls: ['./new-game-sport.component.sass']
 })
-export class NewGameSportComponent implements OnInit {
+export class NewGameSportComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,6 +21,7 @@ export class NewGameSportComponent implements OnInit {
   validationErrors: string[] = [];
   gameValues:SelectedModel[];  
   selectGame:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private GameSportService: GameSportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -31,7 +32,7 @@ export class NewGameSportComponent implements OnInit {
       this.pageTitle = 'Edit Game & Sport';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.GameSportService.find(+id).subscribe(
+      this.subscription = this.GameSportService.find(+id).subscribe(
         res => {
           this.GameSportForm.patchValue({          
 
@@ -54,6 +55,12 @@ export class NewGameSportComponent implements OnInit {
     this.intitializeForm();
     this.getGame();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   intitializeForm() {
     this.GameSportForm = this.fb.group({
       gameSportId: [0],
@@ -69,7 +76,7 @@ export class NewGameSportComponent implements OnInit {
   }
 
   getGame(){
-    this.GameSportService.getselectedgame().subscribe(res=>{
+    this.subscription = this.GameSportService.getselectedgame().subscribe(res=>{
       this.gameValues=res
       this.selectGame=res
     });
@@ -83,10 +90,10 @@ export class NewGameSportComponent implements OnInit {
   onSubmit() {
     const id = this.GameSportForm.get('gameSportId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.GameSportService.update(+id,this.GameSportForm.value).subscribe(response => {
+          this.subscription = this.GameSportService.update(+id,this.GameSportForm.value).subscribe(response => {
             this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/game-sport-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -101,7 +108,7 @@ export class NewGameSportComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.GameSportService.submit(this.GameSportForm.value).subscribe(response => {
+      this.subscription = this.GameSportService.submit(this.GameSportForm.value).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/game-sport-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

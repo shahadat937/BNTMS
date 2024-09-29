@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Favorites } from '../../models/Favorites';
@@ -15,7 +15,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-favorites.component.html',
   styleUrls: ['./view-favorites.component.sass']
 })
-export class ViewFavoritesComponent implements OnInit {
+export class ViewFavoritesComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -29,11 +29,18 @@ export class ViewFavoritesComponent implements OnInit {
     additionalInformation: string;
     menuPosition: number;
     isActive: true
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private router: Router,private confirmService: ConfirmService) { }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('favoritesId'); 
-    this.FavoritesService.find(+id).subscribe( res => {
+    this.subscription = this.FavoritesService.find(+id).subscribe( res => {
       this.favoritesId= res.favoritesId,
       this.favoritesTypeId=res.favoritesTypeId,
       this.favoritesTypeName = res.favoritesTypeName,

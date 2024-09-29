@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../core/service/confirm.service';
   templateUrl: './new-traineeassessmentmark.component.html',
   styleUrls: ['./new-traineeassessmentmark.component.sass']
 })
-export class NewTraineeAssessmentMarkComponent implements OnInit {
+export class NewTraineeAssessmentMarkComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -19,6 +19,7 @@ export class NewTraineeAssessmentMarkComponent implements OnInit {
   selectedRoles:any;
   TraineeAssessmentMarkForm: FormGroup;
   validationErrors: string[] = [];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeAssessmentMarkService: TraineeAssessmentMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -28,7 +29,7 @@ export class NewTraineeAssessmentMarkComponent implements OnInit {
       this.pageTitle = 'Edit User Manual';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.TraineeAssessmentMarkService.find(+id).subscribe(
+      this.subscription = this.TraineeAssessmentMarkService.find(+id).subscribe(
         res => {
           this.TraineeAssessmentMarkForm.patchValue({          
             traineeAssessmentMarkId: res.traineeAssessmentMarkId,
@@ -53,6 +54,11 @@ export class NewTraineeAssessmentMarkComponent implements OnInit {
     }
     this.intitializeForm();
     // this.getSelectedRoles();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.TraineeAssessmentMarkForm = this.fb.group({
@@ -82,10 +88,10 @@ export class NewTraineeAssessmentMarkComponent implements OnInit {
     // } 
     if (id) {
       
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.TraineeAssessmentMarkService.update(+id,this.TraineeAssessmentMarkForm.value).subscribe(response => {
+          this.subscription = this.TraineeAssessmentMarkService.update(+id,this.TraineeAssessmentMarkForm.value).subscribe(response => {
             this.router.navigateByUrl('/trainee-assessment/traineeassessmentmark-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -102,7 +108,7 @@ export class NewTraineeAssessmentMarkComponent implements OnInit {
 
     else {
       this.loading = true;
-      this.TraineeAssessmentMarkService.submit(this.TraineeAssessmentMarkForm.value).subscribe(response => {
+      this.subscription = this.TraineeAssessmentMarkService.submit(this.TraineeAssessmentMarkForm.value).subscribe(response => {
         this.router.navigateByUrl('/trainee-assessment/traineeassessmentmark-list');
 
         this.snackBar.open('Information Saved Successfully ', '', {

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MilitaryTraining } from '../../models/MilitaryTraining';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './military-training-list.component.html',
   styleUrls: ['./military-training-list.component.sass']
 })
-export class MilitaryTrainingListComponent implements OnInit {
+export class MilitaryTrainingListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -34,16 +34,22 @@ export class MilitaryTrainingListComponent implements OnInit {
   dataSource: MatTableDataSource<MilitaryTraining> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<MilitaryTraining>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private MilitaryTrainingService: MilitaryTrainingService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getMilitaryTrainings();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getMilitaryTrainings() {
     this.isLoading = true;
     this.traineeId= this.route.snapshot.paramMap.get('traineeId');
-    this.MilitaryTrainingService.getMilitaryTrainingByTraineeId(+this.traineeId).subscribe(response => {     
+    this.subscription = this.MilitaryTrainingService.getMilitaryTrainingByTraineeId(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -63,9 +69,9 @@ export class MilitaryTrainingListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.militaryTrainingId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.MilitaryTrainingService.delete(id).subscribe(() => {
+        this.subscription = this.MilitaryTrainingService.delete(id).subscribe(() => {
           this.getMilitaryTrainings();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MilitaryTrainingService } from '../../service/MilitaryTraining.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-military-training.component.html',
   styleUrls: ['./new-military-training.component.sass']
 })
-export class NewMilitaryTrainingComponent implements OnInit {
+export class NewMilitaryTrainingComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,6 +21,7 @@ export class NewMilitaryTrainingComponent implements OnInit {
   districtValues:SelectedModel[]; 
   selectedMilitaryTraining:SelectedModel[]; 
   traineeId: string;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private MilitaryTrainingService: MilitaryTrainingService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -31,7 +32,7 @@ export class NewMilitaryTrainingComponent implements OnInit {
       this.pageTitle = 'Edit Record of Service';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.MilitaryTrainingService.find(+id).subscribe(
+      this.subscription = this.MilitaryTrainingService.find(+id).subscribe(
         res => {
           this.MilitaryTrainingForm.patchValue({          
             militaryTrainingId: res.militaryTrainingId,
@@ -52,6 +53,11 @@ export class NewMilitaryTrainingComponent implements OnInit {
     }
     this.intitializeForm();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.MilitaryTrainingForm = this.fb.group({
       militaryTrainingId: [0],
@@ -70,10 +76,10 @@ export class NewMilitaryTrainingComponent implements OnInit {
   onSubmit() {
     const id = this.MilitaryTrainingForm.get('militaryTrainingId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.MilitaryTrainingService.update(+id,this.MilitaryTrainingForm.value).subscribe(response => {
+          this.subscription = this.MilitaryTrainingService.update(+id,this.MilitaryTrainingForm.value).subscribe(response => {
             this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/militarytraining-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -88,7 +94,7 @@ export class NewMilitaryTrainingComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.MilitaryTrainingService.submit(this.MilitaryTrainingForm.value).subscribe(response => {
+      this.subscription = this.MilitaryTrainingService.submit(this.MilitaryTrainingForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/militarytraining-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

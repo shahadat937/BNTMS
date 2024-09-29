@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SocialMediaService } from '../../service/SocialMedia.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-social-media.component.html',
   styleUrls: ['./new-social-media.component.sass']
 })
-export class NewSocialMediaComponent implements OnInit {
+export class NewSocialMediaComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,6 +22,7 @@ export class NewSocialMediaComponent implements OnInit {
   selectedSocialMedia:SelectedModel[]; 
   selectSocialMedia:SelectedModel[]
   traineeId: string;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -52,6 +53,11 @@ export class NewSocialMediaComponent implements OnInit {
     this.intitializeForm();
     this.getSelectedSocialMediaType();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.SocialMediaForm = this.fb.group({
       socialMediaId: [0],
@@ -64,7 +70,7 @@ export class NewSocialMediaComponent implements OnInit {
   }
 
   getSelectedSocialMediaType(){
-    this.SocialMediaService.getSelectedSocialMediaType().subscribe(res=>{
+    this.subscription = this.SocialMediaService.getSelectedSocialMediaType().subscribe(res=>{
       this.selectedSocialMedia=res
       this.selectSocialMedia=res
     });
@@ -76,7 +82,7 @@ export class NewSocialMediaComponent implements OnInit {
   onSubmit() {
     const id = this.SocialMediaForm.get('socialMediaId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
           this.SocialMediaService.update(+id,this.SocialMediaForm.value).subscribe(response => {
@@ -94,7 +100,7 @@ export class NewSocialMediaComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.SocialMediaService.submit(this.SocialMediaForm.value).subscribe(response => {
+      this.subscription = this.SocialMediaService.submit(this.SocialMediaForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/social-media-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

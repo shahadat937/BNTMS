@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ElectionService } from '../../../biodata-tab-layout/service/Election.service';
@@ -12,7 +12,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-election.component.html',
   styleUrls: ['./new-election.component.sass']
 })
-export class NewElectionComponent implements OnInit {
+export class NewElectionComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,6 +22,7 @@ export class NewElectionComponent implements OnInit {
   validationErrors: string[] = [];
   electedValues:SelectedModel[]; 
   selectElectedValue:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private ElectionService: ElectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -32,7 +33,7 @@ export class NewElectionComponent implements OnInit {
       this.pageTitle = 'Edit Election';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.ElectionService.find(+id).subscribe(
+      this.subscription = this.ElectionService.find(+id).subscribe(
         res => {
           this.ElectionForm.patchValue({          
 
@@ -56,6 +57,11 @@ export class NewElectionComponent implements OnInit {
     this.intitializeForm();
     this.getElectedName();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.ElectionForm = this.fb.group({
       electionId: [0],
@@ -73,7 +79,7 @@ export class NewElectionComponent implements OnInit {
   }
 
   getElectedName(){
-    this.ElectionService.getselectedelected().subscribe(res=>{
+    this.subscription = this.ElectionService.getselectedelected().subscribe(res=>{
       this.electedValues=res
       this.selectElectedValue=res
     });
@@ -87,10 +93,10 @@ export class NewElectionComponent implements OnInit {
     
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.ElectionService.update(+id,this.ElectionForm.value).subscribe(response => {
+          this.subscription = this.ElectionService.update(+id,this.ElectionForm.value).subscribe(response => {
             this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/election-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -105,7 +111,7 @@ export class NewElectionComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.ElectionService.submit(this.ElectionForm.value).subscribe(response => {
+      this.subscription = this.ElectionService.submit(this.ElectionForm.value).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/election-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

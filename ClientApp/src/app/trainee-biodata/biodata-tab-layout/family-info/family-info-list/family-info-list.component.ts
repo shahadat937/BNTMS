@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ParentRelative } from '../../models/ParentRelative';
@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
   templateUrl: './family-info-list.component.html',
   styleUrls: ['./family-info-list.component.sass']
 })
-export class ParentRelativeListComponent implements OnInit {
+export class ParentRelativeListComponent implements OnInit,OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -36,16 +36,22 @@ export class ParentRelativeListComponent implements OnInit {
   dataSource: MatTableDataSource<ParentRelative> = new MatTableDataSource();
 
   SelectionModel = new SelectionModel<ParentRelative>(true, []);
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ParentRelativeService: ParentRelativeService,private router: Router,private confirmService: ConfirmService) { }
   ngOnInit() {
     this.getParentRelatives();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getParentRelatives() {
     this.isLoading = true;
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.ParentRelativeService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
+    this.subscription = this.ParentRelativeService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
   }
@@ -64,7 +70,7 @@ export class ParentRelativeListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.parentRelativeId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.ParentRelativeService.delete(id).subscribe(() => {
           this.getParentRelatives();

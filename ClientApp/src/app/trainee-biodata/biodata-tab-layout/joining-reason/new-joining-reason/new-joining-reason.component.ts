@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JoiningReasonService } from '../../service/JoiningReason.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-joining-reason.component.html',
   styleUrls: ['./new-joining-reason.component.sass']
 })
-export class NewJoiningReasonComponent implements OnInit {
+export class NewJoiningReasonComponent implements OnInit,OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,6 +21,7 @@ export class NewJoiningReasonComponent implements OnInit {
   traineeId: string;
   selectedReasonType:SelectedModel[];
   selectReason:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private JoiningReasonService: JoiningReasonService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -31,7 +32,7 @@ export class NewJoiningReasonComponent implements OnInit {
       this.pageTitle = 'Edit Joining Reason';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.JoiningReasonService.find(+id).subscribe(
+      this.subscription = this.JoiningReasonService.find(+id).subscribe(
         res => {
           this.JoiningReasonForm.patchValue({          
 
@@ -55,6 +56,11 @@ export class NewJoiningReasonComponent implements OnInit {
    // this.getDistrict();
     //this.getThana();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.JoiningReasonForm = this.fb.group({
       joiningReasonId: [0],
@@ -70,7 +76,7 @@ export class NewJoiningReasonComponent implements OnInit {
   }
 
   getSelectedReasonType(){
-    this.JoiningReasonService.getSelectedReasonType().subscribe(res=>{
+    this.subscription = this.JoiningReasonService.getSelectedReasonType().subscribe(res=>{
       this.selectedReasonType=res
       this.selectReason=res
     });
@@ -89,7 +95,7 @@ export class NewJoiningReasonComponent implements OnInit {
   onSubmit() {
     const id = this.JoiningReasonForm.get('joiningReasonId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading = true;
           this.JoiningReasonService.update(+id,this.JoiningReasonForm.value).subscribe(response => {
@@ -107,7 +113,7 @@ export class NewJoiningReasonComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.JoiningReasonService.submit(this.JoiningReasonForm.value).subscribe(response => {
+      this.subscription = this.JoiningReasonService.submit(this.JoiningReasonForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/joining-reason-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

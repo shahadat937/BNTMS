@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FavoritesService } from '../../service/Favorites.service';
@@ -11,7 +11,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-favorites.component.html',
   styleUrls: ['./new-favorites.component.sass']
 })
-export class NewFavoritesComponent implements OnInit {
+export class NewFavoritesComponent implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,6 +22,7 @@ export class NewFavoritesComponent implements OnInit {
   selectedFavorites:SelectedModel[]; 
   selectFavourite:SelectedModel[];
   traineeId: string;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
 
@@ -32,7 +33,7 @@ export class NewFavoritesComponent implements OnInit {
       this.pageTitle = 'Edit Favorites';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.FavoritesService.find(+id).subscribe(
+      this.subscription = this.FavoritesService.find(+id).subscribe(
         res => {
           this.FavoritesForm.patchValue({          
             favoritesId: res.favoritesId,
@@ -52,6 +53,11 @@ export class NewFavoritesComponent implements OnInit {
     this.intitializeForm();
     this.getSelectedFavoritesType();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.FavoritesForm = this.fb.group({
       favoritesId: [0],
@@ -64,7 +70,7 @@ export class NewFavoritesComponent implements OnInit {
   }
 
   getSelectedFavoritesType(){
-    this.FavoritesService.getSelectedFavoritesType().subscribe(res=>{
+    this.subscription = this.FavoritesService.getSelectedFavoritesType().subscribe(res=>{
       this.selectedFavorites=res
       this.selectFavourite=res
     });
@@ -76,10 +82,10 @@ export class NewFavoritesComponent implements OnInit {
   onSubmit() {
     const id = this.FavoritesForm.get('favoritesId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.FavoritesService.update(+id,this.FavoritesForm.value).subscribe(response => {
+          this.subscription = this.FavoritesService.update(+id,this.FavoritesForm.value).subscribe(response => {
             this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/favorites-details/'+this.traineeId);
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -94,7 +100,7 @@ export class NewFavoritesComponent implements OnInit {
       })
     } else {
       this.loading = true;
-      this.FavoritesService.submit(this.FavoritesForm.value).subscribe(response => {
+      this.subscription = this.FavoritesService.submit(this.FavoritesForm.value).subscribe(response => {
         this.router.navigateByUrl('trainee-biodata/trainee-biodata-tab/main-tab-layout/main-tab/favorites-details/'+this.traineeId);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {TraineeAssessmentCreate} from '../../models/TraineeAssessmentCreate'
@@ -16,7 +16,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './traineeassessmentcreate-list.component.html',
   styleUrls: ['./traineeassessmentcreate-list.component.sass']
 })
-export class TraineeAssessmentCreateListComponent implements OnInit {
+export class TraineeAssessmentCreateListComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeAssessmentCreate[] = [];
@@ -40,6 +40,7 @@ export class TraineeAssessmentCreateListComponent implements OnInit {
 
 
    selection = new SelectionModel<TraineeAssessmentCreate>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private TraineeAssessmentCreateService: TraineeAssessmentCreateService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
@@ -53,10 +54,15 @@ export class TraineeAssessmentCreateListComponent implements OnInit {
     this.getTraineeAssessmentCreates();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getTraineeAssessmentCreates() {
     this.isLoading = true;
-    this.TraineeAssessmentCreateService.getTraineeAssessmentCreates(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.branchId,3212).subscribe(response => {
+    this.subscription = this.TraineeAssessmentCreateService.getTraineeAssessmentCreates(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.branchId,3212).subscribe(response => {
      
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
@@ -89,7 +95,7 @@ export class TraineeAssessmentCreateListComponent implements OnInit {
       this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Stop This Assessment').subscribe(result => {
         if (result) {
           //this.runningload = true;
-          this.TraineeAssessmentCreateService.ChangeAssessmentStatus(id,1).subscribe(() => {
+          this.subscription = this.TraineeAssessmentCreateService.ChangeAssessmentStatus(id,1).subscribe(() => {
           //  this.getBulletins(baseSchoolNameId);
           this.getTraineeAssessmentCreates();
             this.snackBar.open('Assessment Stopped!', '', {
@@ -104,10 +110,10 @@ export class TraineeAssessmentCreateListComponent implements OnInit {
     }
     else{
       
-      this.confirmService.confirm('Confirm Active message', 'Are You Sure Run This Assessment').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Active message', 'Are You Sure Run This Assessment').subscribe(result => {
         if (result) {
           //this.runningload = true;
-          this.TraineeAssessmentCreateService.ChangeAssessmentStatus(id,0).subscribe(() => {
+          this.subscription = this.TraineeAssessmentCreateService.ChangeAssessmentStatus(id,0).subscribe(() => {
           //  this.getBulletins(baseSchoolNameId);
           this.getTraineeAssessmentCreates();
             this.snackBar.open('Assessment Running!', '', { 
@@ -124,7 +130,7 @@ export class TraineeAssessmentCreateListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeAssessmentCreateId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.TraineeAssessmentCreateService.delete(id).subscribe(() => {
           this.getTraineeAssessmentCreates();

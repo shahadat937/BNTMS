@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EducationalQualification } from '../../models/EducationalQualification';
@@ -16,7 +16,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-educational-qualification.component.html',
   styleUrls: ['./view-educational-qualification.component.sass']
 })
-export class ViewEducationalQualificationComponent implements OnInit {
+export class ViewEducationalQualificationComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -42,6 +42,7 @@ export class ViewEducationalQualificationComponent implements OnInit {
   examTypeValues:SelectedModel[]; 
   groupValues:SelectedModel[]; 
   boardValues:SelectedModel[]; 
+  subscription: any;
 
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private router: Router,private confirmService: ConfirmService) { }
   
@@ -83,10 +84,15 @@ export class ViewEducationalQualificationComponent implements OnInit {
   //     }      
   //   });
   // }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('educationalQualificationId'); 
-    this.EducationalQualificationService.find(+id).subscribe( res => {
+    this.subscription = this.EducationalQualificationService.find(+id).subscribe( res => {
       this.educationalQualificationId = res.educationalQualificationId,
       this.traineeId = res.traineeId,
       this.examTypeId = res.examTypeId,

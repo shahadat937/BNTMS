@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NewEntryEvaluation } from '../../models/NewEntryEvaluation';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './newentryevaluation-list.component.html',
   styleUrls: ['./newentryevaluation-list.component.sass']
 })
-export class NewEntryEvaluationListComponent implements OnInit {
+export class NewEntryEvaluationListComponent implements OnInit, OnDestroy {
 
    masterData = MasterData;
   loading = false;
@@ -33,6 +33,7 @@ export class NewEntryEvaluationListComponent implements OnInit {
   dataSource: MatTableDataSource<NewEntryEvaluation> = new MatTableDataSource();
 
   selection = new SelectionModel<NewEntryEvaluation>(true, []);
+  subscription: any;
 
   
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private NewEntryEvaluationService: NewEntryEvaluationService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class NewEntryEvaluationListComponent implements OnInit {
   ngOnInit() {
     this.getNewEntryEvaluations();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
   getNewEntryEvaluations() {
     this.isLoading = true;
-    this.NewEntryEvaluationService.getNewEntryEvaluations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.NewEntryEvaluationService.getNewEntryEvaluations(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -83,9 +89,9 @@ export class NewEntryEvaluationListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.newEntryEvaluationId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
-        this.NewEntryEvaluationService.delete(id).subscribe(() => {
+        this.subscription = this.NewEntryEvaluationService.delete(id).subscribe(() => {
           this.getNewEntryEvaluations();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

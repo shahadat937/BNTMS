@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { TrainingSyllabusService } from '../../service/TrainingSyllabus.service'
   templateUrl: './new-trainingsyllabus.component.html',
   styleUrls: ['./new-trainingsyllabus.component.sass']
 })
-export class NewTrainingSyllabusComponent implements OnInit {
+export class NewTrainingSyllabusComponent implements OnInit,OnDestroy {
   buttonText: string;
   pageTitle: string;
    masterData = MasterData;
@@ -50,6 +50,7 @@ export class NewTrainingSyllabusComponent implements OnInit {
   searchText = "";
 
   displayedColumns: string[] = ['sl', 'schoolName', 'courseName', 'subjectName', 'courseTask', 'trainingObjective','syllabusDetail', 'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private authService: AuthService, private TrainingSyllabusService: TrainingSyllabusService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
 
@@ -64,7 +65,7 @@ export class NewTrainingSyllabusComponent implements OnInit {
       this.pageTitle = 'Edit Training Syllabus';
       this.destination = 'Edit';
       this.buttonText = "Update";
-      this.TrainingSyllabusService.find(+id).subscribe(
+      this.subscription = this.TrainingSyllabusService.find(+id).subscribe(
         res => {
           this.TrainingSyllabusForm.patchValue({
             trainingSyllabusId:res.trainingSyllabusId,
@@ -101,6 +102,11 @@ export class NewTrainingSyllabusComponent implements OnInit {
     this.getselectedCourseTask();
     this.getselectedTrainingObjective();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.TrainingSyllabusForm = this.fb.group({
       trainingSyllabusId:[0],
@@ -126,7 +132,7 @@ export class NewTrainingSyllabusComponent implements OnInit {
       })
   }
   getselectedBaseScoolName() {
-    this.TrainingSyllabusService.getselectedBaseScoolName().subscribe(res => {
+    this.subscription = this.TrainingSyllabusService.getselectedBaseScoolName().subscribe(res => {
       this.selectScoolName = res
     });
   }
@@ -138,19 +144,19 @@ export class NewTrainingSyllabusComponent implements OnInit {
   }
   //autocomplete for Course
   getSelectedCourseName(courseName) {
-    this.TrainingSyllabusService.getselectedCourseName(courseName).subscribe(response => {
+    this.subscription = this.TrainingSyllabusService.getselectedCourseName(courseName).subscribe(response => {
       this.getSelectedSubjectNameBySchoolNameIdAndCourseNameId()
       this.options = response;
       this.filteredOptions = response;
     })
   }
   getselectedCourseTask() {
-    this.TrainingSyllabusService.getselectedCourseTask().subscribe(res => {
+    this.subscription = this.TrainingSyllabusService.getselectedCourseTask().subscribe(res => {
       this.selectCourseTask = res
     });
   }
   getselectedTrainingObjective() {
-    this.TrainingSyllabusService.getselectedTrainingObjective().subscribe(res => {
+    this.subscription = this.TrainingSyllabusService.getselectedTrainingObjective().subscribe(res => {
       this.selectTrainingObjective = res
     });
   }
@@ -158,7 +164,7 @@ export class NewTrainingSyllabusComponent implements OnInit {
 
     var baseSchoolNameId = this.TrainingSyllabusForm.value['baseSchoolNameId'];
     var courseNameId = this.TrainingSyllabusForm.value['courseNameId'];
-    this.TrainingSyllabusService.getselectedSubjectFromObjectiveBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res => {
+    this.subscription = this.TrainingSyllabusService.getselectedSubjectFromObjectiveBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res => {
       this.selectedSubjectNamebyschoolnameAndCourse = res;
       
 
@@ -190,7 +196,7 @@ export class NewTrainingSyllabusComponent implements OnInit {
   onSubmit() {
     const id = this.TrainingSyllabusForm.get('trainingSyllabusId').value;
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
           this.loading=true;
           this.TrainingSyllabusService.update(+id, this.TrainingSyllabusForm.value).subscribe(response => {
@@ -208,7 +214,7 @@ export class NewTrainingSyllabusComponent implements OnInit {
       })
     } else {
       this.loading=true;
-      this.TrainingSyllabusService.submit(this.TrainingSyllabusForm.value).subscribe(response => {
+      this.subscription = this.TrainingSyllabusService.submit(this.TrainingSyllabusForm.value).subscribe(response => {
         //this.router.navigateByUrl('/syllabus-entry/coursetask-list');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -226,7 +232,7 @@ export class NewTrainingSyllabusComponent implements OnInit {
   }
   deleteItem(row) {
     const id = row.trainingSyllabusId;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.TrainingSyllabusService.delete(id).subscribe(() => {
           //this.getCourseTasks();

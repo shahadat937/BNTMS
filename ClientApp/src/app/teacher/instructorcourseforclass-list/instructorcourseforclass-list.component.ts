@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./instructorcourseforclass-list.component.sass']
 })
 
-export class InstructorCourseForClassComponent implements OnInit {
+export class InstructorCourseForClassComponent implements OnInit,OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -33,6 +33,7 @@ export class InstructorCourseForClassComponent implements OnInit {
   }
   searchText="";
   displayedRoutineCountColumns: string[] = ['ser','course','courseDuration','actions'];
+  subscription: any;
 
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
 
@@ -44,9 +45,14 @@ export class InstructorCourseForClassComponent implements OnInit {
     // })
     this.getRoutineInfoByCourse(traineeId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getRoutineInfoByCourse(traineeId){
-    this.instructorDashboardService.getInstructorAssignedCourseList(traineeId).subscribe(response => {         
+    this.subscription = this.instructorDashboardService.getInstructorAssignedCourseList(traineeId).subscribe(response => {         
       this.RoutineByCourse=response;
     })
   }

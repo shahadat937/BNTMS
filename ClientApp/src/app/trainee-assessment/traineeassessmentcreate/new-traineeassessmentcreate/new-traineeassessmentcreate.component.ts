@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +18,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './new-traineeassessmentcreate.component.html',
   styleUrls: ['./new-traineeassessmentcreate.component.sass']
 })
-export class NewTraineeAssessmentCreateComponent implements OnInit {
+export class NewTraineeAssessmentCreateComponent implements OnInit, OnDestroy {
   buttonText:string;
   userRole = Role;
   loading = false;
@@ -49,6 +49,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
 
   displayedColumns: string[] = ['ser','course','assessmentName','startDate','endDate','status', 'actions'];
   dataSource: MatTableDataSource<TraineeAssessmentCreate> = new MatTableDataSource();
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private confirmService: ConfirmService,private TraineeAssessmentCreateService: TraineeAssessmentCreateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -62,7 +63,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
       this.pageTitle = 'Edit Trainee Assessment';
       this.destination = "Edit";
       this.buttonText= "Update"
-      this.TraineeAssessmentCreateService.find(+id).subscribe(
+      this.subscription = this.TraineeAssessmentCreateService.find(+id).subscribe(
         res => {
           this.TraineeAssessmentCreateForm.patchValue({          
 
@@ -91,6 +92,11 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
       this.getselectedcoursedurationbyschoolname();
     }
     this.getTraineeAssessmentCreates();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.TraineeAssessmentCreateForm = this.fb.group({
@@ -123,7 +129,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
 
   getTraineeAssessmentCreates() {
     this.isLoading = true;
-    this.TraineeAssessmentCreateService.getTraineeAssessmentCreates(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.branchId,this.courseDuration).subscribe(response => {
+    this.subscription = this.TraineeAssessmentCreateService.getTraineeAssessmentCreates(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.branchId,this.courseDuration).subscribe(response => {
      
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
@@ -133,7 +139,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
 
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.TraineeAssessmentCreateForm.value['baseSchoolNameId'];
-    this.TraineeAssessmentCreateService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.TraineeAssessmentCreateService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
       this.selectedcoursedurationbyschoolname=res;
       this.selectCourse=res
     });
@@ -167,7 +173,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
       this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Stop This Assessment').subscribe(result => {
         if (result) {
           //this.runningload = true;
-          this.TraineeAssessmentCreateService.ChangeAssessmentStatus(id,1).subscribe(() => {
+          this.subscription = this.TraineeAssessmentCreateService.ChangeAssessmentStatus(id,1).subscribe(() => {
           //  this.getBulletins(baseSchoolNameId);
           this.getTraineeAssessmentCreates();
             this.snackBar.open('Assessment Stopped!', '', {
@@ -182,7 +188,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
     }
     else{
       
-      this.confirmService.confirm('Confirm Active message', 'Are You Sure Run This Assessment').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Active message', 'Are You Sure Run This Assessment').subscribe(result => {
         if (result) {
           //this.runningload = true;
           this.TraineeAssessmentCreateService.ChangeAssessmentStatus(id,0).subscribe(() => {
@@ -202,7 +208,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.traineeAssessmentCreateId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
       if (result) {
         this.TraineeAssessmentCreateService.delete(id).subscribe(() => {
           this.getTraineeAssessmentCreates();
@@ -232,7 +238,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
     //   formData.append(key, value);
     // } 
     if (id) {      
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
           this.TraineeAssessmentCreateService.update(+id,this.TraineeAssessmentCreateForm.value).subscribe(response => {
@@ -253,7 +259,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit {
 
     else {
       this.loading = true;
-      this.TraineeAssessmentCreateService.submit(this.TraineeAssessmentCreateForm.value).subscribe(response => {
+      this.subscription = this.TraineeAssessmentCreateService.submit(this.TraineeAssessmentCreateForm.value).subscribe(response => {
         // this.router.navigateByUrl('/trainee-assessment/traineeassessmentcreate-list');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Saved Successfully ', '', {
