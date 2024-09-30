@@ -16,6 +16,9 @@ import { LanguageService } from 'src/app/core/service/language.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
 import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
+import {GlobalSearchModalComponent} from '../../admin/dashboard/global-search-modal/global-search-modal.component'
+import { MatDialog } from '@angular/material/dialog';
+import { inject } from '@angular/core/testing';
 const document: any = window.document;
 
 @Component({
@@ -52,7 +55,8 @@ export class HeaderComponent
     private router: Router,
     private baseSchoolNameService: BaseSchoolNameService,
     public languageService: LanguageService,
-    private instructorDashboardService: InstructorDashboardService
+    private instructorDashboardService: InstructorDashboardService,
+    private dialog: MatDialog
   ) {
     super();
   }
@@ -105,6 +109,7 @@ export class HeaderComponent
       message: 'kindly help me for code.',
     },
   ];
+
 
 
   
@@ -174,7 +179,16 @@ this.userRole.SchoolOIC
   testFun(event:any) {
     event.preventDefault();
     console.log("Hello World");
+    this.openSearchModal();
   }
+
+  openSearchModal() {
+    const dialogRef =  this.dialog.open(GlobalSearchModalComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog Result: ${result}`);
+    }) 
+  }
+
   ngAfterViewInit() {
     // set theme on startup
     if (localStorage.getItem('theme')) {
