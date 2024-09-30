@@ -9,13 +9,14 @@ import { BNAExamMarkService } from '../../../exam-management/service/bnaexammark
 import { CourseDurationService } from '../../service/courseduration.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-marklistbycourse',
   templateUrl: './marklistbycourse-list.component.html',
   styleUrls: ['./marklistbycourse-list.component.sass']
 })
-export class MarkListByCourseComponent implements OnInit {
+export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -61,7 +62,9 @@ export class MarkListByCourseComponent implements OnInit {
     private BNAExamMarkService: BNAExamMarkService,
     private router: Router,
     private confirmService: ConfirmService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

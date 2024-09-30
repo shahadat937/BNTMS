@@ -9,13 +9,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-tdecquestionname-list',
   templateUrl: './tdecquestionname-list.component.html',
   styleUrls: ['./tdecquestionname-list.component.sass']
 })
-export class TdecQuestionNameListComponent implements OnInit {
+export class TdecQuestionNameListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -37,7 +38,9 @@ export class TdecQuestionNameListComponent implements OnInit {
   selection = new SelectionModel<TdecQuestionName>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private TdecQuestionNameService: TdecQuestionNameService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private TdecQuestionNameService: TdecQuestionNameService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

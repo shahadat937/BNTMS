@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './interservicemark-list.component.html',
   styleUrls: ['./interservicemark-list.component.sass']
 })
-export class InterServiceMarkListComponent implements OnInit {
+export class InterServiceMarkListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -36,7 +37,9 @@ export class InterServiceMarkListComponent implements OnInit {
   selection = new SelectionModel<InterServiceMark>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private InterServiceMarkService: InterServiceMarkService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private InterServiceMarkService: InterServiceMarkService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getInterServiceMarks();

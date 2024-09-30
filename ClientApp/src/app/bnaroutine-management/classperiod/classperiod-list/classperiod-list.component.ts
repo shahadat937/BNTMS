@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-classperiod-list',
   templateUrl: './classperiod-list.component.html',
   styleUrls: ['./classperiod-list.component.sass']
 })
-export class ClassPeriodListComponent implements OnInit {
+export class ClassPeriodListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ClassPeriod[] = [];
@@ -34,7 +35,9 @@ export class ClassPeriodListComponent implements OnInit {
    selection = new SelectionModel<ClassPeriod>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private ClassPeriodService: ClassPeriodService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ClassPeriodService: ClassPeriodService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getClassPeriods();

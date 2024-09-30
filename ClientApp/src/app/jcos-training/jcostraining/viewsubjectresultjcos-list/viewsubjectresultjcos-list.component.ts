@@ -9,13 +9,14 @@ import { BNASubjectName } from '../../models/BNASubjectName';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-viewsubjectresultjcos',
   templateUrl: './viewsubjectresultjcos-list.component.html',
   styleUrls: ['./viewsubjectresultjcos-list.component.sass']
 })
-export class ViewSubjectResultJcosComponent implements OnInit {
+export class ViewSubjectResultJcosComponent extends UnsubscribeOnDestroyAdapter  implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -47,7 +48,9 @@ export class ViewSubjectResultJcosComponent implements OnInit {
    selection = new SelectionModel<BNASubjectName>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.dbType = Number(this.route.snapshot.paramMap.get('backType'));

@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-religation',
   templateUrl: './new-religation.component.html',
   styleUrls: ['./new-religation.component.sass']
 })
-export class NewReligationComponent implements OnInit {
+export class NewReligationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -27,7 +28,9 @@ export class NewReligationComponent implements OnInit {
   traineePno:any;
   courseDurationId:any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeNominationId'); 

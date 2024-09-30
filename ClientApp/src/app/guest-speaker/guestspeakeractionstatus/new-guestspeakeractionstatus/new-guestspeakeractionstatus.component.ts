@@ -9,13 +9,14 @@ import { GuestSpeakerActionStatus } from '../../models/GuestSpeakerActionStatus'
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-guestspeakeractionstatus',
   templateUrl: './new-guestspeakeractionstatus.component.html',
   styleUrls: ['./new-guestspeakeractionstatus.component.sass']
 })
-export class NewGuestSpeakerActionStatusComponent implements OnInit {
+export class NewGuestSpeakerActionStatusComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -37,7 +38,9 @@ export class NewGuestSpeakerActionStatusComponent implements OnInit {
 
   selection = new SelectionModel<GuestSpeakerActionStatus>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private GuestSpeakerActionStatusService: GuestSpeakerActionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private GuestSpeakerActionStatusService: GuestSpeakerActionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('guestSpeakerActionStatusId'); 

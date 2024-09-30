@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {Bulletin} from '../../models/bulletin';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './bulletin-list.component.html',
   styleUrls: ['./bulletin-list.component.sass']
 })
-export class BulletinListComponent implements OnInit {
+export class BulletinListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: Bulletin[] = [];
@@ -32,6 +32,7 @@ export class BulletinListComponent implements OnInit {
 
 
    selection = new SelectionModel<Bulletin>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private BulletinService: BulletinService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class BulletinListComponent implements OnInit {
     this.getBulletins();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getBulletins() {
     this.isLoading = true;
-    this.BulletinService.getBulletins(this.paging.pageIndex, this.paging.pageSize,this.searchText,20).subscribe(response => {
+    this.subscription = this.BulletinService.getBulletins(this.paging.pageIndex, this.paging.pageSize,this.searchText,20).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -67,9 +73,9 @@ export class BulletinListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.bulletinId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.BulletinService.delete(id).subscribe(() => {
+        this.subscription = this.BulletinService.delete(id).subscribe(() => {
           this.getBulletins();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

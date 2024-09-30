@@ -28,6 +28,7 @@ import { StudentDashboardService } from 'src/app/student/services/StudentDashboa
 import { BaseSchoolNameService } from 'src/app/basic-setup/service/BaseSchoolName.service';
 import { TraineeNominationService } from '../../course-management/service/traineenomination.service';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 export type avgLecChartOptions = {
@@ -60,7 +61,7 @@ export type pieChartOptions = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.sass'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild('chart') chart: ChartComponent;
   public avgLecChartOptions: Partial<avgLecChartOptions>;
   public pieChartOptions: Partial<pieChartOptions>;
@@ -124,7 +125,9 @@ export class DashboardComponent implements OnInit {
 
   displayedColumns: string[] = ['ser','course', 'duration', 'dayCount','country', 'goStatus','candidates','sanction','actions'];
   
-  constructor(private datepipe: DatePipe, private authService: AuthService,private TraineeNominationService: TraineeNominationService,private baseSchoolNameService:BaseSchoolNameService,private studentDashboardService:StudentDashboardService,private route: ActivatedRoute,private router: Router,private fb: FormBuilder,private foreignDashboardService: ForeignDashboardService) {}
+  constructor(private datepipe: DatePipe, private authService: AuthService,private TraineeNominationService: TraineeNominationService,private baseSchoolNameService:BaseSchoolNameService,private studentDashboardService:StudentDashboardService,private route: ActivatedRoute,private router: Router,private fb: FormBuilder,private foreignDashboardService: ForeignDashboardService) {
+    super();
+  }
   ngOnInit() {
 
     this.dbType = this.masterData.dbType.foreignTrainingDb;

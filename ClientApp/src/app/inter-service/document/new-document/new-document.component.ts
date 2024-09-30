@@ -11,13 +11,14 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-document',
   templateUrl: './new-document.component.html',
   styleUrls: ['./new-document.component.sass']
 })
-export class NewDocumentComponent implements OnInit {
+export class NewDocumentComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   pageTitle: string;
   destination:string;
@@ -63,7 +64,9 @@ export class NewDocumentComponent implements OnInit {
 
 
   //displayedColumns: string[] = ['countryGroup', 'country', 'currencyName', 'allowancePercentage', 'dailyPayment',   'actions'];
-  constructor(private snackBar: MatSnackBar,private CourseBudgetAllocationService:CourseBudgetAllocationService, private documentService: DocumentService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CourseBudgetAllocationService:CourseBudgetAllocationService, private documentService: DocumentService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('documentId'); 

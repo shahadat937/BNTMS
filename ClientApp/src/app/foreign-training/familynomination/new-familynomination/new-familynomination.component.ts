@@ -8,13 +8,14 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { FamilyInfoListforFamilyNomination } from '../../models/familyinfoListforfamilynomination';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-familynomination',
   templateUrl: './new-familynomination.component.html',
   styleUrls: ['./new-familynomination.component.sass']
 })
-export class NewFamilyNominationComponent implements OnInit {
+export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText: string;
@@ -29,7 +30,9 @@ export class NewFamilyNominationComponent implements OnInit {
   traineeList: FamilyInfoListforFamilyNomination[]
 
   displayedColumnsForFamilyInfoList: string[] = ['sl', 'fullName', 'relationType', 'status'];
-  constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private FamilyNominationService: FamilyNominationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private FamilyNominationService: FamilyNominationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('familyNominationId');

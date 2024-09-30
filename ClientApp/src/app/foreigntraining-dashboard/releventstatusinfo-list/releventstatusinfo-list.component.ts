@@ -11,13 +11,14 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-releventstatusinfo-list.component',
   templateUrl: './releventstatusinfo-list.component.html',
   styleUrls: ['./releventstatusinfo-list.component.sass'] 
 }) 
-export class ReleventStatusInfoListComponent implements OnInit {
+export class ReleventStatusInfoListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -48,7 +49,9 @@ export class ReleventStatusInfoListComponent implements OnInit {
   traineeId:any;
   role:any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private foreignDashboardService: ForeignDashboardService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private foreignDashboardService: ForeignDashboardService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
 

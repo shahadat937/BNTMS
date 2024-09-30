@@ -13,6 +13,7 @@ import { TraineeList } from '../../../attendance-management/models/traineeList';
 import { DatePipe } from '@angular/common';
 import{ClassRoutineService} from '../../../routine-management/service/classroutine.service'
 import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.service'
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -20,7 +21,7 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
   templateUrl: './new-attendancetraineelist.component.html',
   styleUrls: ['./new-attendancetraineelist.component.sass']
 }) 
-export class NewAttendanceTraineeListComponent implements OnInit {
+export class NewAttendanceTraineeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   myModel = true;
@@ -64,7 +65,9 @@ export class NewAttendanceTraineeListComponent implements OnInit {
   checked = false;
   isShown: boolean = false ;
   isShownForTraineeList:boolean=false;
-  constructor(private snackBar: MatSnackBar,private BNAExamMarkService :BNAExamMarkService,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private BNAExamMarkService :BNAExamMarkService,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('attendanceId'); 

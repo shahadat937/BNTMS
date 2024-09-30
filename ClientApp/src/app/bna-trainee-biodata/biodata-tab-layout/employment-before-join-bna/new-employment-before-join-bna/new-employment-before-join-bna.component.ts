@@ -5,13 +5,14 @@ import { EmploymentBeforeJoinBNAService } from '../../service/EmploymentBeforeJo
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-employment-before-join-bna',
   templateUrl: './new-employment-before-join-bna.component.html',
   styleUrls: ['./new-employment-before-join-bna.component.sass']
 })
-export class NewEmploymentBeforeJoinBNAComponent implements OnInit {
+export class NewEmploymentBeforeJoinBNAComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,7 +22,9 @@ export class NewEmploymentBeforeJoinBNAComponent implements OnInit {
   validationErrors: string[] = [];
   typeValues:SelectedModel[]; 
 
-  constructor(private snackBar: MatSnackBar,private EmploymentBeforeJoinBNAService: EmploymentBeforeJoinBNAService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private EmploymentBeforeJoinBNAService: EmploymentBeforeJoinBNAService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('employmentBeforeJoinBnaId'); 

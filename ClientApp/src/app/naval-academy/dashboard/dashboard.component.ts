@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InstructorDashboardService } from '../services/InstructorDashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -55,7 +55,7 @@ export type pieChartOptions = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.sass'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('chart') chart: ChartComponent;
   public avgLecChartOptions: Partial<avgLecChartOptions>;
   public pieChartOptions: Partial<pieChartOptions>;
@@ -93,6 +93,7 @@ export class DashboardComponent implements OnInit {
   displayedCourseColumns: string[] = ['ser','schoolName','course', 'subjectName'];
   displayedRoutineColumns: string[] = ['ser', 'date','schoolName','duration', 'course','subject', 'location'];
   displayedReadingMaterialColumns: string[] = ['ser','readingMaterialTitle','documentName','documentLink'];
+  subscription: any;
   
 
   constructor(private fb: FormBuilder, private authService: AuthService, private datepipe: DatePipe, private studentDashboardService: StudentDashboardService,private route: ActivatedRoute,private instructorDashboardService: InstructorDashboardService) {}
@@ -107,7 +108,7 @@ export class DashboardComponent implements OnInit {
     // this.getSpCurrentRoutineForStudentDashboard(this.traineeId);
     //this.traineeId=this.route.snapshot.paramMap.get('traineeId'); 
     this.getSpCurrentRoutineForStudentDashboard(this.traineeId);
-    this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res=>{
+    this.subscription = this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res=>{
       if(res){
         this.courseList = res;
         let infoList=res;
@@ -127,13 +128,19 @@ export class DashboardComponent implements OnInit {
       
     });  
     
-    this.instructorDashboardService.getSpInstructorRoutineByTraineeId(this.traineeId).subscribe(res=>{
+    this.subscription = this.instructorDashboardService.getSpInstructorRoutineByTraineeId(this.traineeId).subscribe(res=>{
       this.routineList = res;
     });
 
-    this.instructorDashboardService.getSpReadingMaterialByTraineeId(this.traineeId).subscribe(res=>{
+    this.subscription = this.instructorDashboardService.getSpReadingMaterialByTraineeId(this.traineeId).subscribe(res=>{
       this.materialList = res;
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   // intitializeForm() {
@@ -152,20 +159,20 @@ export class DashboardComponent implements OnInit {
   // }
 
   getSpCurrentRoutineForStudentDashboard(id){
-    this.instructorDashboardService.getSpCurrentRoutineForStudentDashboard(id).subscribe(res=>{
+    this.subscription = this.instructorDashboardService.getSpCurrentRoutineForStudentDashboard(id).subscribe(res=>{
       this.upcomingCoursesList = res;
     });
   }
 
   getActiveBulletins(baseSchoolNameId){
-    this.studentDashboardService.getActiveBulletinList(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.studentDashboardService.getActiveBulletinList(baseSchoolNameId).subscribe(res=>{
       this.bulletinList=res;  
     });
   }
 
   getNoticeBySchoolId(schoolId){
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.studentDashboardService.getNoticeBySchoolId(schoolId,currentDateTime).subscribe(response => {   
+    this.subscription = this.studentDashboardService.getNoticeBySchoolId(schoolId,currentDateTime).subscribe(response => {   
       this.NoticeForInstructor=response;
     })
   }

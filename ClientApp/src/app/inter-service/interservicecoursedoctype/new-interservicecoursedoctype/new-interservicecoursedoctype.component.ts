@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { InterServiceCourseDocTypeService } from '../../service/InterServiceCourseDocType.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-interservicecoursedoctype',
   templateUrl: './new-interservicecoursedoctype.component.html',
   styleUrls: ['./new-interservicecoursedoctype.component.sass']
 })
-export class NewInterServiceCourseDocTypeComponent implements OnInit {
+export class NewInterServiceCourseDocTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -20,7 +21,9 @@ export class NewInterServiceCourseDocTypeComponent implements OnInit {
   validationErrors: string[] = [];
   selectedForceType:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private InterServiceCourseDocTypeService: InterServiceCourseDocTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private InterServiceCourseDocTypeService: InterServiceCourseDocTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('interServiceCourseDocTypeId'); 

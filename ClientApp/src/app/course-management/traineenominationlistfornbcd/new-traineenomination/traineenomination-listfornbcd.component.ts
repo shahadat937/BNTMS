@@ -15,13 +15,14 @@ import { CourseDurationService } from '../../service/courseduration.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TraineeNomination } from '../../models/traineenomination';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-traineenomination-listfornbcd',
   templateUrl: './traineenomination-listfornbcd.component.html',
   styleUrls: ['./traineenomination-listfornbcd.component.sass']
 }) 
-export class TraineeNominationListForNbcdComponent implements OnInit {
+export class TraineeNominationListForNbcdComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -66,7 +67,9 @@ export class TraineeNominationListForNbcdComponent implements OnInit {
 
   
 
-  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private courseDurationService: CourseDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private courseDurationService: CourseDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
  
   ngOnInit(): void {
    

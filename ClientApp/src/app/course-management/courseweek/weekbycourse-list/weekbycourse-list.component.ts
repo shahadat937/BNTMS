@@ -11,13 +11,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-weekbycourse-list',
   templateUrl: './weekbycourse-list.component.html',
   styleUrls: ['./weekbycourse-list.component.sass'] 
 })
-export class WeekByCourseListComponent implements OnInit {
+export class WeekByCourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -61,7 +62,9 @@ export class WeekByCourseListComponent implements OnInit {
    selection = new SelectionModel<CourseWeek>(true, []);
   
   
-  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private authService: AuthService,private CourseWeekService: CourseWeekService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private authService: AuthService,private CourseWeekService: CourseWeekService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
 

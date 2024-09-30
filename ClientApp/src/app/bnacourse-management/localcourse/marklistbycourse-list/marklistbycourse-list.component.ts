@@ -6,13 +6,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{ MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNAExamMarkService } from '../../../exam-management/service/bnaexammark.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-marklistbycourse',
   templateUrl: './marklistbycourse-list.component.html',
   styleUrls: ['./marklistbycourse-list.component.sass']
 })
-export class MarkListByCourseComponent implements OnInit {
+export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -39,7 +40,9 @@ export class MarkListByCourseComponent implements OnInit {
    selection = new SelectionModel<BNASubjectName>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
    

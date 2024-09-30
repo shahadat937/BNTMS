@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDurationService } from '../../service/courseduration.service';
@@ -13,7 +13,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
   templateUrl: './new-mist.component.html',
   styleUrls: ['./new-mist.component.sass']
 })
-export class NewMistComponent implements OnInit {
+export class NewMistComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -27,6 +27,7 @@ export class NewMistComponent implements OnInit {
   selectCourseName:SelectedModel[];
   selectedschoolname:SelectedModel[];
   selecSchoolName: SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -37,7 +38,7 @@ export class NewMistComponent implements OnInit {
       this.pageTitle = 'Edit MISt Course'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.CourseDurationService.find(+id).subscribe(
+      this.subscription = this.CourseDurationService.find(+id).subscribe(
         res => {
           this.CourseDurationForm.patchValue({          
             courseDurationId:res.courseDurationId, 
@@ -72,6 +73,11 @@ export class NewMistComponent implements OnInit {
     this.getselectedbaseschools();
     this.getselectedcoursetype();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.CourseDurationForm = this.fb.group({
       courseDurationId: [0],
@@ -93,7 +99,7 @@ export class NewMistComponent implements OnInit {
     })
   }
   getselectedcoursename(){
-    this.CourseDurationService.getselectedcoursename().subscribe(res=>{
+    this.subscription = this.CourseDurationService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res
       this.selectCourseName=res
     });
@@ -102,7 +108,7 @@ export class NewMistComponent implements OnInit {
     this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcoursetype(){
-    this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
+    this.subscription = this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
       this.selectedcoursetype=res
     });
   } 
@@ -110,7 +116,7 @@ export class NewMistComponent implements OnInit {
     this.selectedschoolname=this.selecSchoolName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedbaseschools(){
-    this.CourseDurationService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.CourseDurationService.getselectedbaseschools().subscribe(res=>{
       this.selectedschoolname=res
       this.selecSchoolName=res
     });
@@ -118,10 +124,10 @@ export class NewMistComponent implements OnInit {
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
+          this.subscription = this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
             this.router.navigateByUrl('/mist-course/mist-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -136,7 +142,7 @@ export class NewMistComponent implements OnInit {
       })
     }else {
       this.loading=true;
-      this.CourseDurationService.submit(this.CourseDurationForm.value).subscribe(response => {
+      this.subscription = this.CourseDurationService.submit(this.CourseDurationForm.value).subscribe(response => {
         this.router.navigateByUrl('/mist-course/mist-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

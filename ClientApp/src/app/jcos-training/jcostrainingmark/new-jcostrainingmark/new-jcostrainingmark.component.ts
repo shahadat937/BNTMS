@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {BNAExamMarkService} from '../../../jcos-training/service/bnaexammark.service'
@@ -16,7 +16,7 @@ import {TraineeListForExamMark} from '../../../exam-management/models/traineeLis
   templateUrl: './new-jcostrainingmark.component.html',
   styleUrls: ['./new-jcostrainingmark.component.sass']
 })
-export class NewJCOsTrainingMarkComponent implements OnInit {
+export class NewJCOsTrainingMarkComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   buttonText: string;
@@ -57,6 +57,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
 
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
 
@@ -66,7 +67,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
       this.pageTitle = 'Edit Create Q-Exam Mark';
       this.destination = "Edit";
       this.buttonText = "Update"
-      this.BNAExamMarkService.find(+id).subscribe(
+      this.subscription = this.BNAExamMarkService.find(+id).subscribe(
         res => {
           this.BNAExamMarkForm.patchValue({
             bnaExamMarkId: res.bnaExamMarkId,
@@ -104,6 +105,11 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
     //this.getSelectedSubjectNameByBranchId();
     //..................................
     this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.BNAExamMarkForm = this.fb.group({
@@ -173,17 +179,17 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
   }
 
   getSelectedBranch() {
-    this.BNAExamMarkService.getSelectedBranch().subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getSelectedBranch().subscribe(res => {
       this.selectedBranch = res
     });
   }
   onSelectedSubjectNameByBranchId(branchId) {
-    this.BNAExamMarkService.getSelectedSubjectNameByBranchId(branchId).subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getSelectedSubjectNameByBranchId(branchId).subscribe(res => {
       this.selectedSubjectValue = res
     });
   }
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
-    this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
@@ -207,12 +213,12 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
       this.baseSchoolNameId = baseSchoolNameId;
       var courseNameId = this.BNAExamMarkForm.value['courseNameId'];
       
-      this.BNAExamMarkService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
+      this.subscription = this.BNAExamMarkService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
              this.selectedSubjectNameByCourseNameId = res;
         });
 
         
-        this.traineeNominationService.getTestTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res => {
+        this.subscription = this.traineeNominationService.getTestTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res => {
           this.traineeList = res;
         });
 
@@ -221,13 +227,13 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
 
 
   getselectedbaseschools() {
-    this.BNAExamMarkService.getselectedbaseschools().subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getselectedbaseschools().subscribe(res => {
       this.selectedbaseschools = res
     });
   }
 
   getselectedexammarkremark() {
-    this.BNAExamMarkService.getselectedexammarkremark().subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getselectedexammarkremark().subscribe(res => {
       this.selectedmarkremarks = res
     });
   }
@@ -250,19 +256,19 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
       this.clearList()
       this.getTraineeListonClick();
 
-      this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(courseNameId, this.bnaSubjectNameId).subscribe(res => {
+      this.subscription = this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(courseNameId, this.bnaSubjectNameId).subscribe(res => {
        
        this.subjectMarkList = res;
         this.BNAExamMarkForm.get('classRoutineId').setValue(3447);
       });
 
 
-      this.BNAExamMarkService.getClassRoutineIdForStaffCollege(this.courseDurationId, courseNameId, this.bnaSubjectNameId).subscribe(res => {
+      this.subscription = this.BNAExamMarkService.getClassRoutineIdForStaffCollege(this.courseDurationId, courseNameId, this.bnaSubjectNameId).subscribe(res => {
         this.classRoutineId = res;
         this.BNAExamMarkForm.get('classRoutineId').setValue(this.classRoutineId);
       });
 
-      this.BNAExamMarkService.getselectedmarktypesByCourseNameIdAndSubjectNameId(courseNameId, courseDurationId, this.bnaSubjectNameId).subscribe(res => {
+      this.subscription = this.BNAExamMarkService.getselectedmarktypesByCourseNameIdAndSubjectNameId(courseNameId, courseDurationId, this.bnaSubjectNameId).subscribe(res => {
         this.selectedmarktype = res
         this.examTypeCount = res.length;
         this.BNAExamMarkForm.get('examTypeCount').setValue(this.examTypeCount);
@@ -270,7 +276,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
 
       // GetTotalMarkAndPassMarkByCourseNameIdAndSubjectId
 
-      this.BNAExamMarkService.GetTotalMarkAndPassMarkByCourseNameIdAndSubjectId(courseNameId, this.bnaSubjectNameId).subscribe(res => {
+      this.subscription = this.BNAExamMarkService.GetTotalMarkAndPassMarkByCourseNameIdAndSubjectId(courseNameId, this.bnaSubjectNameId).subscribe(res => {
 
         this.getTotalMarkAndPassMark = res;
         this.totalMark = res[0].totalMark;
@@ -286,7 +292,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
     var baseSchoolNameId = this.BNAExamMarkForm.value['baseSchoolNameId'];
     this.isShown = false;
 
-    this.BNAExamMarkService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
       this.selectedcoursedurationbyschoolname = res;
     });
   }
@@ -299,7 +305,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
   }
 
   getselectedcoursename() {
-    this.BNAExamMarkService.getselectedcoursename().subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getselectedcoursename().subscribe(res => {
       this.selectedcoursename = res
     });
   }
@@ -308,10 +314,10 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
     const id = this.BNAExamMarkForm.get('bnaExamMarkId').value;
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.BNAExamMarkService.update(+id, JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
+          this.subscription = this.BNAExamMarkService.update(+id, JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
             this.router.navigateByUrl('/exam-management/bnaexammark-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -325,10 +331,10 @@ export class NewJCOsTrainingMarkComponent implements OnInit {
         }
       })
     } else {
-      this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
+          this.subscription = this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
            this.BNAExamMarkForm.reset();
             this.isShown = false;
             this.BNAExamMarkForm.get('bnaExamMarkId').setValue(0);

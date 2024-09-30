@@ -10,6 +10,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { BudgetAllocation } from '../../models/BudgetAllocation';
   templateUrl: './new-budgetallocation.component.html',
   styleUrls: ['./new-budgetallocation.component.sass']
 }) 
-export class NewBudgetAllocationComponent implements OnInit {
+export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -39,7 +40,9 @@ export class NewBudgetAllocationComponent implements OnInit {
   budgetCodeId:any;
   fiscalYearId:any;
   isShow:boolean=false;
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BudgetAllocationService: BudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BudgetAllocationService: BudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
 
   ELEMENT_DATA: BudgetAllocation[] = [];

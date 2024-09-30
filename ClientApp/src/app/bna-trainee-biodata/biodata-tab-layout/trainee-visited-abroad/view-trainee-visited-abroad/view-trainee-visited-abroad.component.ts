@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-trainee-visited-abroad',
   templateUrl: './view-trainee-visited-abroad.component.html',
   styleUrls: ['./view-trainee-visited-abroad.component.sass']
 })
-export class ViewTraineeVisitedAboardComponent implements OnInit {
+export class ViewTraineeVisitedAboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -33,7 +34,9 @@ export class ViewTraineeVisitedAboardComponent implements OnInit {
   //status: number;
   // electedValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeVisitedAboardService: TraineeVisitedAboardService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeVisitedAboardService: TraineeVisitedAboardService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   // getElected(){    
   //   this.TraineeVisitedAboardService.getselectedelected().subscribe(res=>{

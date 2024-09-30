@@ -12,13 +12,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-budgetinfo-list.component',
   templateUrl: './budgetinfo-list.component.html',
   styleUrls: ['./budgetinfo-list.component.sass'] 
 }) 
-export class BudgetInfoListComponent implements OnInit {
+export class BudgetInfoListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -50,7 +51,9 @@ export class BudgetInfoListComponent implements OnInit {
   traineeId:any;
   role:any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private foreignDashboardService: ForeignDashboardService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private foreignDashboardService: ForeignDashboardService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     

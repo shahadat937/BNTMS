@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-familynomination-list',
   templateUrl: './familynomination-list.component.html',
   styleUrls: ['./familynomination-list.component.sass']
 })
-export class FamilyNominationListComponent implements OnInit {
+export class FamilyNominationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: FamilyNomination[] = [];
@@ -34,7 +35,9 @@ export class FamilyNominationListComponent implements OnInit {
    selection = new SelectionModel<FamilyNomination>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private FamilyNominationService: FamilyNominationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private FamilyNominationService: FamilyNominationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getFamilyNominations();

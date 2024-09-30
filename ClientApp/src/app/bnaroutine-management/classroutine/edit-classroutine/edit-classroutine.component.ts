@@ -15,13 +15,14 @@ import { TraineeListForExamMark } from '../../../exam-management/models/traineeL
 
 import { ClassRoutineService } from '../../service/classroutine.service';
 import { ClassRoutine } from '../../models/classroutine';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-edit-classroutine',
   templateUrl: './edit-classroutine.component.html',
   styleUrls: ['./edit-classroutine.component.sass']
 }) 
-export class EditClassRoutineComponent implements OnInit {
+export class EditClassRoutineComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -72,7 +73,9 @@ export class EditClassRoutineComponent implements OnInit {
       length: 1
     }
   
-  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
      

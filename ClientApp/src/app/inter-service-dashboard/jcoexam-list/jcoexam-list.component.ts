@@ -10,13 +10,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-jcoexam-list',
   templateUrl: './jcoexam-list.component.html',
   styleUrls: ['./jcoexam-list.component.sass']
 })
-export class JcoExamListComponent implements OnInit {
+export class JcoExamListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -45,7 +46,9 @@ export class JcoExamListComponent implements OnInit {
   displayedColumns: string[] = ['ser','name','duration', 'candidates', 'subject'];
 
   
-  constructor(private datepipe: DatePipe,private route: ActivatedRoute, private authService: AuthService,private snackBar: MatSnackBar,private interServiceDashboardService: InterServiceDashboardService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private route: ActivatedRoute, private authService: AuthService,private snackBar: MatSnackBar,private interServiceDashboardService: InterServiceDashboardService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     // this.userRole.InterSeeviceDesk

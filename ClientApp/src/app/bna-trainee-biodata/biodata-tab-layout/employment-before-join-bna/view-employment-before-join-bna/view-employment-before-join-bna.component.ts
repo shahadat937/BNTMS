@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-employment-before-join-bna',
   templateUrl: './view-employment-before-join-bna.component.html',
   styleUrls: ['./view-employment-before-join-bna.component.sass']
 })
-export class ViewEmploymentBeforeJoinBNAComponent implements OnInit {
+export class ViewEmploymentBeforeJoinBNAComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -33,7 +34,9 @@ export class ViewEmploymentBeforeJoinBNAComponent implements OnInit {
            
   
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EmploymentBeforeJoinBNAService: EmploymentBeforeJoinBNAService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EmploymentBeforeJoinBNAService: EmploymentBeforeJoinBNAService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   
   

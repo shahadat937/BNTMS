@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoticeService } from '../../service/notice.service';
@@ -19,7 +19,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-individualnotice.component.html',
   styleUrls: ['./new-individualnotice.component.sass']
 }) 
-export class IndividualNoticeComponent implements OnInit {
+export class IndividualNoticeComponent implements OnInit, OnDestroy {
   masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -48,6 +48,7 @@ export class IndividualNoticeComponent implements OnInit {
 
   displayedColumns: string[] = ['ser','courseName','noticeDetails','status'];
   displayedColumnsForTraineeList: string[] = ['sl','traineePNo','traineeName', 'obtaintMark','examMarkRemarksId'];
+  subscription: any;
   constructor(
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
@@ -69,7 +70,7 @@ export class IndividualNoticeComponent implements OnInit {
       this.pageTitle = 'Edit Notice'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.individualNoticeService.find(+id).subscribe(
+      this.subscription = this.individualNoticeService.find(+id).subscribe(
         res => {
           this.NoticeForm.patchValue({             
             noticeId: res.noticeId,
@@ -99,6 +100,11 @@ export class IndividualNoticeComponent implements OnInit {
     this.getselectedbaseschools();
     //this.getselectedcoursedurationbyschoolname();
    // this.getNoticeBySchool();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.NoticeForm = this.fb.group({
@@ -178,7 +184,7 @@ export class IndividualNoticeComponent implements OnInit {
   var courseNameId=courseNameArr[1];
   this.courseName=dropdown.text;
 
-  this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
+  this.subscription = this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
     console.log(res)
     this.traineeNominationListForNotice=res; 
 
@@ -209,7 +215,7 @@ export class IndividualNoticeComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
    // this.isShown=true;
-    this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+   this.subscription = this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
       this.selectedCourse=res;
       this.filteredCourse = res;   
     });
@@ -220,12 +226,12 @@ export class IndividualNoticeComponent implements OnInit {
 
 
 stopNotices(element){
-    this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
+  this.subscription = this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
-     this.individualNoticeService.stopNotices(element.noticeId).subscribe(() => {
+        this.subscription = this.individualNoticeService.stopNotices(element.noticeId).subscribe(() => {
       var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
 
-      this.individualNoticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
+      this.subscription = this.individualNoticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
         this.selectedNotice=res
       }); 
 
@@ -277,7 +283,7 @@ stopNotices(element){
 // }
 
   getselectedbaseschools(){
-    this.individualNoticeService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.individualNoticeService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschools=res
       this.filteredbaseschools = res;
     }); 
@@ -301,10 +307,10 @@ stopNotices(element){
    this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.individualNoticeService.update(+id,this.NoticeForm.value).subscribe(response => {
+          this.subscription = this.individualNoticeService.update(+id,this.NoticeForm.value).subscribe(response => {
             // this.router.navigateByUrl('/notice-bulletin/notice-list');
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -320,7 +326,7 @@ stopNotices(element){
       })
     }else {
       this.loading = true;
-      this.individualNoticeService.submit(this.NoticeForm.value).subscribe(response => {
+      this.subscription = this.individualNoticeService.submit(this.NoticeForm.value).subscribe(response => {
         // this.router.navigateByUrl('/notice-bulletin/notice-list');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {

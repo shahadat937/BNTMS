@@ -8,13 +8,14 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-courseweek',
   templateUrl: './new-courseweek.component.html',
   styleUrls: ['./new-courseweek.component.sass']
 }) 
-export class NewCourseWeekComponent implements OnInit {
+export class NewCourseWeekComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -32,7 +33,9 @@ export class NewCourseWeekComponent implements OnInit {
   traineeId:any;
   branchId:any;
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseWeekService: CourseWeekService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute ) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseWeekService: CourseWeekService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute ) {
+    super();
+  }
 
   ngOnInit(): void {
 

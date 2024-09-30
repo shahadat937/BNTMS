@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-trainee-language-list',
   templateUrl: './trainee-language-list.component.html',
   styleUrls: ['./trainee-language-list.component.sass']
 })
-export class TraineeLanguageListComponent implements OnInit {
+export class TraineeLanguageListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class TraineeLanguageListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<TraineeLanguage>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getTraineeLanguages();
   }

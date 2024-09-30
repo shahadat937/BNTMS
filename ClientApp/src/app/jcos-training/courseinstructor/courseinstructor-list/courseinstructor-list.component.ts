@@ -1,3 +1,4 @@
+import { UnsubscribeOnDestroyAdapter } from './../../../shared/UnsubscribeOnDestroyAdapter';
 import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './courseinstructor-list.component.html',
   styleUrls: ['./courseinstructor-list.component.sass']
 })
-export class CourseInstructorListComponent implements OnInit {
+export class CourseInstructorListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseInstructor[] = [];
@@ -34,7 +35,9 @@ export class CourseInstructorListComponent implements OnInit {
    selection = new SelectionModel<CourseInstructor>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getCourseInstructors();

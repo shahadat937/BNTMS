@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Notice } from '../../models/notice';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './notice-list.component.html',
   styleUrls: ['./notice-list.component.sass']
 })
-export class NoticeListComponent implements OnInit {
+export class NoticeListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: Notice[] = [];
@@ -32,6 +32,7 @@ export class NoticeListComponent implements OnInit {
 
 
    selection = new SelectionModel<Notice>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar,private NoticeService: NoticeService,private router: Router,private confirmService: ConfirmService) { }
@@ -40,10 +41,15 @@ export class NoticeListComponent implements OnInit {
     this.getNotices();
     
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
  
   getNotices() {
     this.isLoading = true;
-    this.NoticeService.getNotices(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+    this.subscription = this.NoticeService.getNotices(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
      
 
       this.dataSource.data = response.items; 
@@ -67,7 +73,7 @@ export class NoticeListComponent implements OnInit {
 
   deleteItem(row) {
     const id = row.noticeId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.NoticeService.delete(id).subscribe(() => {
           this.getNotices();

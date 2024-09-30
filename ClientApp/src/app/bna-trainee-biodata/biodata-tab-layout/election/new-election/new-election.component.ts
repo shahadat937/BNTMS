@@ -5,6 +5,7 @@ import { ElectionService } from '../../../biodata-tab-layout/service/Election.se
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-election.component.html',
   styleUrls: ['./new-election.component.sass']
 })
-export class NewElectionComponent implements OnInit {
+export class NewElectionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,7 +23,9 @@ export class NewElectionComponent implements OnInit {
   validationErrors: string[] = [];
   electedValues:SelectedModel[]; 
 
-  constructor(private snackBar: MatSnackBar,private ElectionService: ElectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ElectionService: ElectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('electionId'); 

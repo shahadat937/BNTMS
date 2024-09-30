@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoticeService } from '../../service/notice.service';
@@ -19,7 +19,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-individualbulletin.component.html',
   styleUrls: ['./new-individualbulletin.component.sass']
 }) 
-export class IndividualBulletinComponent implements OnInit {
+export class IndividualBulletinComponent implements OnInit, OnDestroy {
   masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -49,6 +49,7 @@ export class IndividualBulletinComponent implements OnInit {
 
   displayedColumns: string[] = ['ser','courseName','noticeDetails','status'];
   displayedColumnsForTraineeList: string[] = ['sl','traineePNo','traineeName', 'obtaintMark','examMarkRemarksId'];
+  subscription: any;
   constructor(
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
@@ -70,7 +71,7 @@ export class IndividualBulletinComponent implements OnInit {
       this.pageTitle = 'Edit Individual Bulletin'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.individualBulletinService.find(+id).subscribe(
+      this.subscription = this.individualBulletinService.find(+id).subscribe(
         res => {
           this.NoticeForm.patchValue({             
             individualBulletinId: res.individualBulletinId,
@@ -100,6 +101,11 @@ export class IndividualBulletinComponent implements OnInit {
     this.getselectedbaseschools();
     //this.getselectedcoursedurationbyschoolname();
    // this.getNoticeBySchool();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.NoticeForm = this.fb.group({
@@ -185,7 +191,7 @@ export class IndividualBulletinComponent implements OnInit {
 
   this.getIndividualBulletinList(baseSchoolNameId,courseNameId,courseDurationId);
 
-  this.individualBulletinService.getInstructorListByCourse(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
+  this.subscription = this.individualBulletinService.getInstructorListByCourse(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
     this.traineeNominationListForNotice=res; 
 
     for(let i=0;i < this.traineeNominationListForNotice.length;i++ ){
@@ -206,7 +212,7 @@ export class IndividualBulletinComponent implements OnInit {
 
 
   getIndividualBulletinList(baseSchoolNameId,courseNameId,courseDurationId){
-    this.individualBulletinService.getIndividualBulletinByCourse(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
+    this.subscription = this.individualBulletinService.getIndividualBulletinByCourse(baseSchoolNameId,courseNameId,courseDurationId).subscribe(res=>{
       this.IndividualBulletinByCourse=res; 
     });
   }
@@ -221,7 +227,7 @@ export class IndividualBulletinComponent implements OnInit {
   getselectedcoursedurationbyschoolname(){
     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
    // this.isShown=true;
-    this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+   this.subscription = this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
       this.selectedCourse=res;
       this.filteredCourse = res;   
     });
@@ -231,12 +237,12 @@ export class IndividualBulletinComponent implements OnInit {
 } 
 
 stopNotices(element){
-    this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
+  this.subscription = this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
      this.individualBulletinService.stopNotices(element.noticeId).subscribe(() => {
       var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
 
-      this.individualBulletinService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
+      this.subscription = this.individualBulletinService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
         this.selectedNotice=res
       }); 
 
@@ -288,7 +294,7 @@ stopNotices(element){
 // }
 
   getselectedbaseschools(){
-    this.individualBulletinService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.individualBulletinService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschools=res
       this.filteredbaseschools = res;
     }); 
@@ -311,10 +317,10 @@ stopNotices(element){
   //  this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
    // console.lo
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.individualBulletinService.update(+id,this.NoticeForm.value).subscribe(response => {
+          this.subscription = this.individualBulletinService.update(+id,this.NoticeForm.value).subscribe(response => {
             // this.router.navigateByUrl('/notice-bulletin/notice-list');
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -330,7 +336,7 @@ stopNotices(element){
       })
     }else {
       this.loading = true;
-      this.individualBulletinService.submit(this.NoticeForm.value).subscribe(response => {
+      this.subscription = this.individualBulletinService.submit(this.NoticeForm.value).subscribe(response => {
         // this.router.navigateByUrl('/notice-bulletin/notice-list');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -348,7 +354,7 @@ stopNotices(element){
 
   deleteItem(row) {
     const id = row.individualBulletinId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.individualBulletinService.delete(id).subscribe(() => {
           this.getIndividualBulletinList(row.baseSchoolNameId,row.courseNameId,row.courseDurationId);

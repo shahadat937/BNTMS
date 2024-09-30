@@ -5,6 +5,7 @@ import { TraineeMembershipService } from '../../../biodata-tab-layout/service/Tr
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-trainee-membership.component.html',
   styleUrls: ['./new-trainee-membership.component.sass']
 })
-export class NewTraineeMembershipComponent implements OnInit {
+export class NewTraineeMembershipComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,7 +23,9 @@ export class NewTraineeMembershipComponent implements OnInit {
   validationErrors: string[] = [];
   membershipTypeValues:SelectedModel[]; 
 
-  constructor(private snackBar: MatSnackBar,private TraineeMembershipService: TraineeMembershipService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private TraineeMembershipService: TraineeMembershipService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeMembershipId'); 

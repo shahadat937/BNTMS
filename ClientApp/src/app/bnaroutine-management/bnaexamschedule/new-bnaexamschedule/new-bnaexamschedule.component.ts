@@ -7,13 +7,14 @@ import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service'
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnaexamschedule',
   templateUrl: './new-bnaexamschedule.component.html',
   styleUrls: ['./new-bnaexamschedule.component.sass']
 }) 
-export class NewBNAExamScheduleComponent implements OnInit {
+export class NewBNAExamScheduleComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -26,7 +27,9 @@ export class NewBNAExamScheduleComponent implements OnInit {
   selectedsemester:SelectedModel[];
   selectedexamtype:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamScheduleService: BNAExamScheduleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamScheduleService: BNAExamScheduleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamScheduleId'); 

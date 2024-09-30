@@ -12,13 +12,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../../routine-management/models/classroutine';
 import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
 import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-traineereligation-list',
   templateUrl: './traineereligation-list.component.html',
   styleUrls: ['./traineereligation-list.component.sass']
 }) 
-export class TraineeReligationListComponent implements OnInit {
+export class TraineeReligationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   loading = false;
   myModel = true;
@@ -67,7 +68,9 @@ export class TraineeReligationListComponent implements OnInit {
   isShownForTraineeList:boolean=false;
   // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   // dataSource ;
-  constructor(private snackBar: MatSnackBar,private courseDutartionService: CourseDurationService, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private courseDutartionService: CourseDurationService, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     // 3136
