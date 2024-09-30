@@ -230,7 +230,10 @@ export class NewUserComponent implements OnInit, OnDestroy {
       })
     } else {
       this.loading=true;
-      this.subscription = this.UserService.submit(this.UserForm.value).subscribe(response => {
+      const userFormList : any[] = [];
+      userFormList.push(this.UserForm.value);
+      // this.subscription = this.UserService.submit(this.UserForm.value).subscribe(response => {
+        this.subscription = this.UserService.submit(userFormList).subscribe(response => {
         this.router.navigateByUrl('/security/user-list');
         this.snackBar.open('User Created Successfully ', '', {
           duration: 2000,
@@ -242,7 +245,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
         this.validationErrors = error;
       })
     }
- 
+    this.loading=false;
   }
 
 }
