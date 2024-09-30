@@ -26,7 +26,7 @@ export class GlobalSearchService {
   }
 
 
-  searchData(keywords:string, pageSize:number, pageIndex:number): Observable<any[]> {
+  searchData(keywords:string, pageSize:number, pageIndex:number): Observable<any> {
     let params = new HttpParams();
     params = params.set('keyword',keywords);
     params = params.set('PageSize',pageSize);
@@ -38,7 +38,7 @@ export class GlobalSearchService {
     }
     
 
-    return this.http.get<any[]>(this.baseUrl+"/globalSearch/searchAll",{params:params}).pipe(
+    return this.http.get<any>(this.baseUrl+"/globalSearch/searchAll",{params:params}).pipe(
       map(response => {
         let data = {creationDate: (new Date()).getTime(),payload:response}
         this.setCachedData(keywords,data,SearchType.Search,pageSize,pageIndex);
@@ -65,12 +65,12 @@ export class GlobalSearchService {
     );
   }
 
-  getTraineeDetail(traineeId: number): any {
+  getTraineeDetail(traineeId: number): Observable<any> {
     if(this.HaveCachedData(traineeId.toString(),SearchType.Trainee)) {
       return of (this.getCachedData(traineeId.toString(),SearchType.Trainee)["payload"]);
     }
 
-    this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedTraineeDetail/${traineeId}`).pipe(
+    return this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedTraineeDetail/${traineeId}`).pipe(
       map(response => {
         let data = {creationDate: (new Date()).getDate(),payload:response}
         this.setCachedData(traineeId.toString(),data,SearchType.Trainee);
