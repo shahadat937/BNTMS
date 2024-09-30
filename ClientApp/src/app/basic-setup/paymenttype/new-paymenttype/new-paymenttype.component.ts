@@ -6,13 +6,14 @@ import { PaymentTypeService } from '../../service/PaymentType.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-paymenttype',
   templateUrl: './new-paymenttype.component.html',
   styleUrls: ['./new-paymenttype.component.sass']
 })
-export class NewPaymentTypeComponent implements OnInit {
+export class NewPaymentTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   loading = false;
   pageTitle: string;
   destination:string;
@@ -20,7 +21,9 @@ export class NewPaymentTypeComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private PaymentTypeService: PaymentTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private PaymentTypeService: PaymentTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('paymentTypeId'); 

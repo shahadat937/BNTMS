@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ReligionService } from '../../service/religion.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-religion',
   templateUrl: './new-religion.component.html',
   styleUrls: ['./new-religion.component.sass']
 })
-export class NewReligionComponent implements OnInit {
+export class NewReligionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewReligionComponent implements OnInit {
   religionForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private religionService: ReligionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private religionService: ReligionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('religionId'); 

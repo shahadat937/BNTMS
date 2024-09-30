@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './Rank-list.component.html',
   styleUrls: ['./Rank-list.component.sass']
 })
-export class RankListComponent implements OnInit {
+export class RankListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -36,7 +37,9 @@ export class RankListComponent implements OnInit {
   selection = new SelectionModel<Rank>(true, []);
   
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private RankService: RankService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private RankService: RankService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   // ngOnInit() {
   //   this.dataSource2.paginator = this.paginator;
   // }

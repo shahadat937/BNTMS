@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RelationTypeService } from '../../service/RelationType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-relationtype',
   templateUrl: './new-relationtype.component.html',
   styleUrls: ['./new-relationtype.component.sass']
 })
-export class NewRelationTypeComponent implements OnInit {
+export class NewRelationTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewRelationTypeComponent implements OnInit {
   RelationTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private RelationTypeService: RelationTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private RelationTypeService: RelationTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('relationTypeId'); 

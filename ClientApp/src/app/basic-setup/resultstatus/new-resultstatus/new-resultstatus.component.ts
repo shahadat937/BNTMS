@@ -6,13 +6,14 @@ import { ResultStatusService } from '../../service/resultstatus.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-resultstatus',
   templateUrl: './new-resultstatus.component.html',
   styleUrls: ['./new-resultstatus.component.sass']
 })
-export class NewResultStatusComponent implements OnInit {
+export class NewResultStatusComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   loading = false;
   pageTitle: string;
   destination:string;
@@ -20,7 +21,9 @@ export class NewResultStatusComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ResultStatusService: ResultStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ResultStatusService: ResultStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('resultStatusId'); 

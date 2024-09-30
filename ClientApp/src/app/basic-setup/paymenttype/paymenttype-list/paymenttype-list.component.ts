@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './paymenttype-list.component.html',
   styleUrls: ['./paymenttype-list.component.sass']
 })
-export class PaymentTypeListComponent implements OnInit {
+export class PaymentTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: PaymentType[] = [];
@@ -34,7 +35,9 @@ export class PaymentTypeListComponent implements OnInit {
 
   selection = new SelectionModel<PaymentType>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private PaymentTypeService: PaymentTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private PaymentTypeService: PaymentTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getPaymentType();

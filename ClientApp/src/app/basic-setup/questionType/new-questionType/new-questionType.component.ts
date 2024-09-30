@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { QuestionTypeService } from '../../service/questionType.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-questionType',
   templateUrl: './new-questionType.component.html',
   styleUrls: ['./new-questionType.component.sass']
 })
-export class NewQuestionTypeComponent implements OnInit {
+export class NewQuestionTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewQuestionTypeComponent implements OnInit {
   questionTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private questionTypeService: QuestionTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private questionTypeService: QuestionTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('questionTypeId'); 
