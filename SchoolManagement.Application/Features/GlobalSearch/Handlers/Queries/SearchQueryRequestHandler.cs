@@ -12,6 +12,7 @@ using System.Data;
 using SchoolManagement.Application.DTOs.GlobalSearch;
 using AutoMapper.QueryableExtensions.Impl;
 using SchoolManagement.Application.Features.TraineeNominations.Handlers.Queries;
+using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Queries;
 
 namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 {
@@ -29,9 +30,9 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
         public async Task<object> Handle(SearchQueryRequest request, CancellationToken cancellationToken)
         {
             string traineeCountQuery = $"EXEC [dbo].[spTraineeSearchCount] @query='{request.Query.keyword}'";
-            string traineeQuery = $"EXEC [dbo].[spTraineeSearch] @query='{request.Query.keyword}'";
+            string traineeQuery = $"EXEC [dbo].[spTraineeSearch] @query=N'{request.Query.keyword}'";
             string instructorCountQuery = $"EXEC [dbo].[spInstructorSearchCount] @query='{request.Query.keyword}'";
-            string instructorQuery = $"EXEC [dbo].[spInstructorSearch] @query='{request.Query.keyword}'";
+            string instructorQuery = $"EXEC [dbo].[spInstructorSearch] @query=N'{request.Query.keyword}'";
 
             // Get which type of data to get
             //bool needTrainee = request.Query.Filters.Where(x => x == "trainee").Any();
@@ -71,7 +72,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
                     continue;
                 }
 
-                string query = queries[i] + $",@startIndex='{indexes[0]}',@Limit={indexes[1] - indexes[0]}";
+                string query = queries[i] + $",@startIndex={indexes[0]},@Limit={indexes[1] - indexes[0]}";
 
                 var queryResult = _repository.ExecWithSqlQuery(query);
                 List<Dictionary<string, object>> rows = queryResult.AsEnumerable()
@@ -85,6 +86,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
             results.Query = request.Query.keyword;
             results.ResponseCount = results.Results.Count;
+            results.TotalResult = totals;
 
             return results;
         }
