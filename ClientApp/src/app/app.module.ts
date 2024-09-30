@@ -34,6 +34,8 @@ import {
   HttpClient,
 } from '@angular/common/http';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -74,7 +76,9 @@ export function createTranslateLoader(http: HttpClient): any {
     MatCheckboxModule,
     // core & shared
     CoreModule,
-    SharedModule
+    SharedModule,
+    MatDialogModule,
+    MatMenuModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

@@ -205,7 +205,9 @@ namespace SchoolManagement.Application
         public const string BnaExamManagement = SMSRoutePrefixBase + "bnaexam-management"; 
         public const string CourseTerm = SMSRoutePrefixBase + "CourseTerm"; 
         public const string CourseLevel = SMSRoutePrefixBase + "CourseLevel"; 
-        public const string UniversityCourseResult = SMSRoutePrefixBase + "UniversityCourseResult"; 
+        public const string UniversityCourseResult = SMSRoutePrefixBase + "UniversityCourseResult";
+
+        public const string GlobalSearch = SMSRoutePrefixBase + "globalSearch";
 
 
     }
