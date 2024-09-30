@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -14,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './utofficercategory-list.component.html',
   styleUrls: ['./utofficercategory-list.component.sass']
 })
-export class UTOfficerCategoryListComponent implements OnInit {
+export class UTOfficerCategoryListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -31,7 +32,9 @@ export class UTOfficerCategoryListComponent implements OnInit {
   displayedColumns: string[] = [ 'ser', 'utofficerCategoryName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<UTOfficerCategory> = new MatTableDataSource();
 
-  constructor(private snackBar: MatSnackBar,private UTOfficerCategoryService: UTOfficerCategoryService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private UTOfficerCategoryService: UTOfficerCategoryService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getUTOfficerCategorys();

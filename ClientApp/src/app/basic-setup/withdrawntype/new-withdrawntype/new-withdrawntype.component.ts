@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { WithdrawnType } from '../../models/WithdrawnType';
 import { PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-withdrawntype',
   templateUrl: './new-withdrawntype.component.html',
   styleUrls: ['./new-withdrawntype.component.sass']
 })
-export class NewWithdrawnTypeComponent implements OnInit {
+export class NewWithdrawnTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   loading = false;
   pageTitle: string;
@@ -35,7 +36,9 @@ export class NewWithdrawnTypeComponent implements OnInit {
   displayedColumns: string[] = ['ser', 'name','shortName', 'menuPosition','actions']
   dataSource: MatTableDataSource<WithdrawnType> = new MatTableDataSource();
   selection = new SelectionModel<WithdrawnType>(true, []);
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private WithdrawnTypeService: WithdrawnTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private WithdrawnTypeService: WithdrawnTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('withdrawnTypeId'); 

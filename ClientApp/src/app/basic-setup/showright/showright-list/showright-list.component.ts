@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './showright-list.component.html',
   styleUrls: ['./showright-list.component.sass']
 })
-export class ShowRightListComponent implements OnInit {
+export class ShowRightListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ShowRight[] = [];
@@ -34,7 +35,9 @@ export class ShowRightListComponent implements OnInit {
 
   selection = new SelectionModel<ShowRight>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private ShowRightService: ShowRightService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ShowRightService: ShowRightService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getShowRight();

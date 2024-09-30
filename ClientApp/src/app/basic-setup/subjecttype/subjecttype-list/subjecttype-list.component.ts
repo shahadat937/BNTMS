@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-subjecttype-list',
   templateUrl: './subjecttype-list.component.html',
   styleUrls: ['./subjecttype-list.component.sass']
 })
-export class SubjecttypeListComponent implements OnInit {
+export class SubjecttypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -34,7 +35,9 @@ export class SubjecttypeListComponent implements OnInit {
   selection = new SelectionModel<SubjectType>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private SubjectTypeService: SubjectTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private SubjectTypeService: SubjectTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getSubjectTypes();

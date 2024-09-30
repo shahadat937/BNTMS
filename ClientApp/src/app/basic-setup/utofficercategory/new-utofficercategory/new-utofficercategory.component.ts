@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UTOfficerCategoryService } from '../../service/UTOfficerCategory.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-utofficercategory',
   templateUrl: './new-utofficercategory.component.html',
   styleUrls: ['./new-utofficercategory.component.sass']
 })
-export class NewUTOfficerCategoryComponent implements OnInit {
+export class NewUTOfficerCategoryComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewUTOfficerCategoryComponent implements OnInit {
   UTOfficerCategoryForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private confirmService: ConfirmService,private snackBar: MatSnackBar,private UTOfficerCategoryService: UTOfficerCategoryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private confirmService: ConfirmService,private snackBar: MatSnackBar,private UTOfficerCategoryService: UTOfficerCategoryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('utofficerCategoryId'); 
