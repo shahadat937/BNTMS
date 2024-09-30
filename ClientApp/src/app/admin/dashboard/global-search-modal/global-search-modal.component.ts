@@ -6,7 +6,6 @@ import {GlobalSearchService} from '../services/global-search.service'
   selector: 'app-global-search-modal',
   templateUrl: './global-search-modal.component.html',
   styleUrls: ['./global-search-modal.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GlobalSearchModalComponent implements OnInit {
 
@@ -14,14 +13,16 @@ export class GlobalSearchModalComponent implements OnInit {
   pageSize: number;
   pageIndex: number;
   subscription: Subscription = new Subscription();
-  searchResults: any[];
+  searchResults: any;
+  totalResult : number;
   
   constructor(
     private globalSearchService: GlobalSearchService
   ) { 
     this.searchText= "";
     this.pageIndex = 1;
-    this.pageSize = 10;
+    this.pageSize = 5;
+    this.totalResult = 0;
     this.searchResults = [];
   }
 
@@ -49,7 +50,9 @@ export class GlobalSearchModalComponent implements OnInit {
     this.subscription = source$.subscribe(data => {
       this.globalSearchService.searchData(data,this.pageSize,this.pageIndex).subscribe({
         next: response => {
-          console.log(response);
+          this.searchResults = response;
+          this.totalResult = response.totalResult;
+          console.log(this.searchResults);
         }
       })
     })
