@@ -10,13 +10,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { TraineeList } from 'src/app/attendance-management/models/traineeList';
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-BnaClassTest',
   templateUrl: './new-BnaClassTest.component.html',
   styleUrls: ['./new-BnaClassTest.component.sass']
 })
-export class NewBnaClassTestComponent implements OnInit {
+export class NewBnaClassTestComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText: string;
@@ -46,7 +47,9 @@ export class NewBnaClassTestComponent implements OnInit {
   displayedColumnsForTraineeList: string[] = ['sl', 'trainee', 'obtainedMark1', 'obtainedMark2', 'obtainedMark3', 'obtainedMark4', 'obtainedMark5'];
 
 
-  constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BnaClassTestService: BnaClassTestService, private bnaexammarkService: BNAExamMarkService, private traineeNominationService: TraineeNominationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BnaClassTestService: BnaClassTestService, private bnaexammarkService: BNAExamMarkService, private traineeNominationService: TraineeNominationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaClassTestId');

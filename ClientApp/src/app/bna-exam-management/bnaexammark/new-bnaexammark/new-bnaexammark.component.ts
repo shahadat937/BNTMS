@@ -13,13 +13,14 @@ import { TraineeNominationService } from '../../../course-management/service/tra
 import { TraineeList } from '../../../attendance-management/models/traineeList';
 import { TraineeListForExamMark } from '../../models/traineeListforexammark';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnaexammark',
   templateUrl: './new-bnaexammark.component.html',
   styleUrls: ['./new-bnaexammark.component.sass']
 })
-export class NewBNAExamMarkComponent implements OnInit {
+export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText: string;
@@ -62,7 +63,9 @@ export class NewBNAExamMarkComponent implements OnInit {
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();
