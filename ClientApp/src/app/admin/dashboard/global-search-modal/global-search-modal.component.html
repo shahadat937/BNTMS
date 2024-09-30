@@ -10,14 +10,22 @@
         (input)="onSearch()" 
         placeholder="Search Trainee, Instructor, or Course">
     </mat-form-field>
+    <hr>
 </div>
 <mat-dialog-content style="max-width: 60vw;min-width:60vw;min-height:50vh" class="mat-typography">
-  <hr>
   <h2>Search Result</h2>
+
+  <mat-accordion>
+    <app-search-detail *ngFor="let data of searchResults.results" [Payload]="data">
+
+    </app-search-detail>
+  </mat-accordion>
+
+
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <mat-paginator [length]="100"
-              [pageSize]="10"
+  <mat-paginator [length]="totalResult"
+              [pageSize]="pageSize"
               [pageSizeOptions]="[5, 10, 25, 100]"
               aria-label="Select page">
   </mat-paginator>

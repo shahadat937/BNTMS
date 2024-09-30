@@ -11,6 +11,7 @@ namespace SchoolManagement.Application.DTOs.GlobalSearch
     {
         public string Query {  get; set; }
         public int ResponseCount { get; set; }
+        public int TotalResult {  get; set; }
         public List<string> filters { get; set; }
         public List<object> Results { get; set; } = new List<object>();
     }
