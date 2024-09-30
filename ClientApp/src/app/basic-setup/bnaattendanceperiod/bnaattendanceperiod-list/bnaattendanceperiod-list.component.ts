@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {MasterData} from 'src/assets/data/master-data'
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
 
  
 
@@ -16,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './BnaAttendancePeriod-list.component.html',
   styleUrls: ['./BnaAttendancePeriod-list.component.sass']
 })
-export class BnaAttendancePeriodListComponent implements OnInit {
+export class BnaAttendancePeriodListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -36,7 +37,9 @@ export class BnaAttendancePeriodListComponent implements OnInit {
 
   selection = new SelectionModel<BnaAttendancePeriod>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private BnaAttendancePeriodService: BnaAttendancePeriodService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private BnaAttendancePeriodService: BnaAttendancePeriodService,private router: Router,private confirmService: ConfirmService) { 
+    super();
+  }
   
   ngOnInit() {
     this.getBnaAttendancePeriods();

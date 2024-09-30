@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-kindofsubject',
   templateUrl: './kindofsubject-list.component.html',
   styleUrls: ['./kindofsubject-list.component.sass']
 })
-export class KindOfSubjectListComponent implements OnInit {
+export class KindOfSubjectListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class KindOfSubjectListComponent implements OnInit {
    selection = new SelectionModel<KindOfSubject>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private KindOfSubjectService: KindOfSubjectService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private KindOfSubjectService: KindOfSubjectService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getKindOfSubjects();

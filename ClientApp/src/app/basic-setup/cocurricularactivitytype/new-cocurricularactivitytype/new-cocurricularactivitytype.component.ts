@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoCurricularActivityTypeService } from '../../service/CoCurricularActivityType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-cocurricularactivitytype',
   templateUrl: './new-cocurricularactivitytype.component.html',
   styleUrls: ['./new-cocurricularactivitytype.component.sass']
 })
-export class NewCoCurricularActivityTypeComponent implements OnInit {
+export class NewCoCurricularActivityTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewCoCurricularActivityTypeComponent implements OnInit {
   CoCurricularActivityTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CoCurricularActivityTypeService: CoCurricularActivityTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CoCurricularActivityTypeService: CoCurricularActivityTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('coCurricularActivityTypeId'); 

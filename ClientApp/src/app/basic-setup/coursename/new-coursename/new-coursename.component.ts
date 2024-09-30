@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CourseNameService } from '../../service/CourseName.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-coursename',
   templateUrl: './new-coursename.component.html',
   styleUrls: ['./new-coursename.component.sass']
 })
-export class NewCourseNameComponent implements OnInit {
+export class NewCourseNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -21,7 +22,9 @@ export class NewCourseNameComponent implements OnInit {
   selectedCourseType:SelectedModel[]; 
   selectCourse:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseNameId'); 

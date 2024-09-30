@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './failurestatus-list.component.html',
   styleUrls: ['./failurestatus-list.component.sass']
 })
-export class FailureStatusListComponent implements OnInit {
+export class FailureStatusListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -34,7 +35,9 @@ export class FailureStatusListComponent implements OnInit {
 
   selection = new SelectionModel<FailureStatus>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private FailureStatusService: FailureStatusService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private FailureStatusService: FailureStatusService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getFailureStatuss();

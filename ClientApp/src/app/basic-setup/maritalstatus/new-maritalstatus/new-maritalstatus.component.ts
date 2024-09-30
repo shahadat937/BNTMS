@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MaritalStatusService } from '../../service/maritalstatus.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-maritalstatus',
   templateUrl: './new-maritalstatus.component.html',
   styleUrls: ['./new-maritalstatus.component.sass']
 })
-export class NewMaritalstatusComponent implements OnInit {
+export class NewMaritalstatusComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewMaritalstatusComponent implements OnInit {
   maritalStatusForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private maritalStatusService: MaritalStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private maritalStatusService: MaritalStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('maritalstatusId'); 

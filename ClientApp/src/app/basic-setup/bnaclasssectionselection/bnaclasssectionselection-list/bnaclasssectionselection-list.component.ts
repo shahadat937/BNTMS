@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-bnaclasssectionselection-list',
   templateUrl: './bnaclasssectionselection-list.component.html',
   styleUrls: ['./bnaclasssectionselection-list.component.sass']
 })
-export class BnaclasssectionselectionListComponent implements OnInit {
+export class BnaclasssectionselectionListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNAClassSectionSelection[] = [];
@@ -32,7 +33,9 @@ export class BnaclasssectionselectionListComponent implements OnInit {
 
   selection = new SelectionModel<BNAClassSectionSelection>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private BNAClassSectionSelectionService: BNAClassSectionSelectionService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BNAClassSectionSelectionService: BNAClassSectionSelectionService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getBNAClassSectionSelections();
   }

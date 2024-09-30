@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-branch',
   templateUrl: './branch-list.component.html',
   styleUrls: ['./branch-list.component.sass']
 })
-export class BranchListComponent implements OnInit {
+export class BranchListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: Branch[] = [];
@@ -34,7 +35,9 @@ export class BranchListComponent implements OnInit {
    selection = new SelectionModel<Branch>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private branchService: BranchService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private branchService: BranchService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getBranchs();

@@ -5,13 +5,14 @@ import { CasteService } from '../../service/Caste.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-caste',
   templateUrl: './new-caste.component.html',
   styleUrls: ['./new-caste.component.sass']
 })
-export class NewCasteComponent implements OnInit {
+export class NewCasteComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -20,7 +21,9 @@ export class NewCasteComponent implements OnInit {
   validationErrors: string[] = [];
   selectedModel:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CasteService: CasteService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CasteService: CasteService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('casteId'); 

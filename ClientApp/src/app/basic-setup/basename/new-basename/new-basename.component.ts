@@ -6,13 +6,14 @@ import { AdminAuthorityService } from '../../service/AdminAuthority.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-basename',
   templateUrl: './new-basename.component.html',
   styleUrls: ['./new-basename.component.sass']
 })
-export class NewBaseNameComponent implements OnInit {
+export class NewBaseNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -25,7 +26,9 @@ export class NewBaseNameComponent implements OnInit {
   selectedForceType:SelectedModel[]; 
   districtByDivisionId:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private AdminAuthorityService:AdminAuthorityService,private confirmService: ConfirmService,private BaseNameService: BaseNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private AdminAuthorityService:AdminAuthorityService,private confirmService: ConfirmService,private BaseNameService: BaseNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('baseNameId'); 

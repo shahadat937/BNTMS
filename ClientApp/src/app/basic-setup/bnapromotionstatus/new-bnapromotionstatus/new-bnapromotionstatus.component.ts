@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAPromotionStatusService } from '../../service/BNAPromotionStatus.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnapromotionstatus',
   templateUrl: './new-bnapromotionstatus.component.html',
   styleUrls: ['./new-bnapromotionstatus.component.sass']
 })
-export class NewBNAPromotionStatusComponent implements OnInit {
+export class NewBNAPromotionStatusComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewBNAPromotionStatusComponent implements OnInit {
   BNAPromotionStatusForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private BNAPromotionStatusService: BNAPromotionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private BNAPromotionStatusService: BNAPromotionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaPromotionStatusId'); 

@@ -8,6 +8,7 @@ import { BNACurriculamType } from '../../models/bNACurriculamType';
 import { BNACurriculamTypeService } from '../../service/bNACurriculamType.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './bnacurriculamtype-list.component.html',
   styleUrls: ['./bnacurriculamtype-list.component.sass']
 })
-export class BNACurriculamTypeListComponent implements OnInit {
+export class BNACurriculamTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class BNACurriculamTypeListComponent implements OnInit {
 
   selection = new SelectionModel<BNACurriculamType>(true, []);
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private bNACurriculamTypeService: BNACurriculamTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private bNACurriculamTypeService: BNACurriculamTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   // ngOnInit() {
   //   this.dataSource2.paginator = this.paginator;
   // }

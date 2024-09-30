@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BnaAttendancePeriodService } from '../../service/BnaAttendancePeriod.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
 
 @Component({
   selector: 'app-new-BnaAttendancePeriod',
   templateUrl: './new-BnaAttendancePeriod.component.html',
   styleUrls: ['./new-BnaAttendancePeriod.component.sass']
 })
-export class NewBnaAttendancePeriodComponent implements OnInit {
+export class NewBnaAttendancePeriodComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewBnaAttendancePeriodComponent implements OnInit {
   BnaAttendancePeriodForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private BnaAttendancePeriodService: BnaAttendancePeriodService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BnaAttendancePeriodService: BnaAttendancePeriodService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super()
+   }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaAttendancePeriodId'); 

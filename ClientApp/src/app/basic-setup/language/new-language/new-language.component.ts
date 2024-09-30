@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LanguageService } from '../../service/language.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-language',
   templateUrl: './new-language.component.html',
   styleUrls: ['./new-language.component.sass']
 })
-export class NewLanguageComponent implements OnInit {
+export class NewLanguageComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewLanguageComponent implements OnInit {
   LanguageForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private LanguageService: LanguageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private LanguageService: LanguageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('languageId'); 

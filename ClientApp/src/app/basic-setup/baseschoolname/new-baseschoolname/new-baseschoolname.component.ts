@@ -5,13 +5,14 @@ import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-baseschoolname',
   templateUrl: './new-baseschoolname.component.html',
   styleUrls: ['./new-baseschoolname.component.sass']
 })
-export class NewBaseSchoolNameComponent implements OnInit {
+export class NewBaseSchoolNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -20,7 +21,9 @@ export class NewBaseSchoolNameComponent implements OnInit {
   validationErrors: string[] = [];
   selectedBaseName:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { 
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('baseSchoolNameId'); 

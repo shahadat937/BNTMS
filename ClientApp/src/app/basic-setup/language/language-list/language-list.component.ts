@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-language-list',
   templateUrl: './language-list.component.html',
   styleUrls: ['./language-list.component.sass']
 })
-export class LanguageListComponent implements OnInit {
+export class LanguageListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -33,7 +34,9 @@ export class LanguageListComponent implements OnInit {
 
   selection = new SelectionModel<Language>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private LanguageService: LanguageService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private LanguageService: LanguageService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getLanguages();
   }

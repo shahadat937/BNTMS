@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {CourseTypeService} from '../../service/CourseType.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-coursetype',
   templateUrl: './new-coursetype.component.html',
   styleUrls: ['./new-coursetype.component.sass']
 })
-export class NewCoursetypeComponent implements OnInit {
+export class NewCoursetypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewCoursetypeComponent implements OnInit {
   CourseTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseTypeService: CourseTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseTypeService: CourseTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseTypeId'); 

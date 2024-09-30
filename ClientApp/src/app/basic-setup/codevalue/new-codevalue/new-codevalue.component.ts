@@ -8,13 +8,14 @@ import { CodeValueType } from '../../models/CodeValueType';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-codevalue',
   templateUrl: './new-codevalue.component.html',
   styleUrls: ['./new-codevalue.component.sass']
 })
-export class NewCodeValueComponent implements OnInit {
+export class NewCodeValueComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -24,7 +25,9 @@ export class NewCodeValueComponent implements OnInit {
   selectedModel:SelectedModel[];
   selectCodeValue:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('codeValueId'); 

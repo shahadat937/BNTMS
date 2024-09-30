@@ -10,6 +10,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import{MasterData} from 'src/assets/data/master-data';
 import { CourseLevel } from '../models/course-level';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { CourseLevel } from '../models/course-level';
   templateUrl: './course-level.component.html',
   styleUrls: ['./course-level.component.sass']
 })
-export class CourseLevelComponent implements OnInit {
+export class CourseLevelComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -44,7 +45,9 @@ export class CourseLevelComponent implements OnInit {
 
 
 
-  constructor(private baseSchoolNameService: BaseSchoolNameService , private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseLevelService: CourseLevelService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private baseSchoolNameService: BaseSchoolNameService , private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseLevelService: CourseLevelService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
 

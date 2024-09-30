@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BnaClassTestTypeService } from '../../service/BnaClassTestType.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-BnaClassTestType',
   templateUrl: './new-BnaClassTestType.component.html',
   styleUrls: ['./new-BnaClassTestType.component.sass']
 })
-export class NewBnaClassTestTypeComponent implements OnInit {
+export class NewBnaClassTestTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewBnaClassTestTypeComponent implements OnInit {
   BnaClassTestTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private BnaClassTestTypeService: BnaClassTestTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BnaClassTestTypeService: BnaClassTestTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaClassTestTypeId'); 

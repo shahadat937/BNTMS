@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-codevalue',
   templateUrl: './codevalue-list.component.html',
   styleUrls: ['./codevalue-list.component.sass']
 })
-export class CodeValueListComponent implements OnInit {
+export class CodeValueListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CodeValue[] = [];
@@ -34,7 +35,9 @@ export class CodeValueListComponent implements OnInit {
    selection = new SelectionModel<CodeValue>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getCodeValues();

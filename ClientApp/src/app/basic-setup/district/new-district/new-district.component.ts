@@ -5,13 +5,14 @@ import { DistrictService } from '../../service/District.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-district',
   templateUrl: './new-district.component.html',
   styleUrls: ['./new-district.component.sass']
 })
-export class NewDistrictComponent implements OnInit {
+export class NewDistrictComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -22,7 +23,9 @@ export class NewDistrictComponent implements OnInit {
   selectDivision:SelectedModel[];
   districtByDivision:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private DistrictService: DistrictService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private DistrictService: DistrictService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('districtId'); 

@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ExamAttemptTypeService} from '../../service/examattempttype.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-examattempttype',
   templateUrl: './new-examattempttype.component.html',
   styleUrls: ['./new-examattempttype.component.sass']
 })
-export class NewExamAttemptTypeComponent implements OnInit {
+export class NewExamAttemptTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewExamAttemptTypeComponent implements OnInit {
   ExamAttemptTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ExamAttemptTypeService: ExamAttemptTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ExamAttemptTypeService: ExamAttemptTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('examAttemptTypeId'); 
