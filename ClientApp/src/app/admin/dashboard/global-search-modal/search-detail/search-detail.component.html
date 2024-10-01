@@ -8,8 +8,11 @@
         </mat-panel-title>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-        <app-searched-trainee-detail [Payload]="Payload">
+        <app-searched-trainee-detail *ngIf="this.Payload.Type=='Trainee'" [Payload]="Payload">
 
         </app-searched-trainee-detail>
+        <app-searched-course-detail *ngIf="this.Payload.Type=='Course'" [Payload]="Payload">
+
+        </app-searched-course-detail>
     </ng-template>
 </mat-expansion-panel>

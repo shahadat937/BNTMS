@@ -20,7 +20,9 @@ export class SearchedTraineeDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTraineeDetail();
+    if(this.Payload!=null) {
+      this.getTraineeDetail();
+    }
   }
 
   getTraineeDetail() {
