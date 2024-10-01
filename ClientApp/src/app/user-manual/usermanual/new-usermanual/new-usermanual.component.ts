@@ -6,13 +6,14 @@ import { UserManualService } from '../../service/UserManual.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-usermanual',
   templateUrl: './new-usermanual.component.html',
   styleUrls: ['./new-usermanual.component.sass']
 })
-export class NewUserManualComponent implements OnInit {
+export class NewUserManualComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,7 +23,9 @@ export class NewUserManualComponent implements OnInit {
   UserManualForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private UserManualService: UserManualService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private UserManualService: UserManualService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('userManualId'); 

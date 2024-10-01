@@ -8,6 +8,7 @@ import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.serv
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MasterData } from 'src/assets/data/master-data';
 import { Subscription } from 'rxjs';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 @Component({
   selector: 'app-new-BIODataGeneralInfo',
@@ -15,7 +16,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./new-biodata-general-info.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class NewBIODataGeneralInfoComponent implements OnInit,OnDestroy {
+export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter implements OnInit,OnDestroy {
   masterData = MasterData;
   buttonText:string;
   loading = false;
@@ -62,6 +63,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit,OnDestroy {
   selectedSailorRank: SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+    super();
     this.files = [];
   }
 

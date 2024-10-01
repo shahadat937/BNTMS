@@ -10,13 +10,14 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { ViewChild, ElementRef } from '@angular/core';
 import { Role } from 'src/app/core/models/role';
 import { MasterData } from 'src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-new-biodata-general-info-jsti',
   templateUrl: './new-biodata-general-info-jsti.component.html',
   styleUrls: ['./new-biodata-general-info-jsti.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class NewBiodataGeneralInfoJstiComponent implements OnInit {
+export class NewBiodataGeneralInfoJstiComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -50,6 +51,7 @@ export class NewBiodataGeneralInfoJstiComponent implements OnInit {
   masterData=MasterData
 
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+    super();
     this.files = [];
   }
 

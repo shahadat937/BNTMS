@@ -10,13 +10,14 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-usermanual-list',
   templateUrl: './usermanual-list.component.html',
   styleUrls: ['./usermanual-list.component.sass']
 })
-export class UserManualListComponent implements OnInit {
+export class UserManualListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: UserManual[] = [];
@@ -42,7 +43,9 @@ export class UserManualListComponent implements OnInit {
    selection = new SelectionModel<UserManual>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private UserManualService: UserManualService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private UserManualService: UserManualService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     

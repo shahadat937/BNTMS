@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-social-media-list',
   templateUrl: './social-media-list.component.html',
   styleUrls: ['./social-media-list.component.sass']
 })
-export class SocialMediaListComponent implements OnInit {
+export class SocialMediaListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class SocialMediaListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<SocialMedia>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getSocialMedias();
   }
