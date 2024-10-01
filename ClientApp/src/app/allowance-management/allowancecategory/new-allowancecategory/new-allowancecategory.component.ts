@@ -7,13 +7,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { AllowanceCategory } from '../../models/allowancecategory';
 import { AllowanceCategoryService } from '../../service/allowancecategory.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-allowancecategory',
   templateUrl: './new-allowancecategory.component.html',
   styleUrls: ['./new-allowancecategory.component.sass']
 })
-export class NewAllowanceCategoryComponent implements OnInit {
+export class NewAllowanceCategoryComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -36,7 +37,9 @@ export class NewAllowanceCategoryComponent implements OnInit {
 
 
   displayedColumns: string[] = ['countryGroup', 'country', 'currencyName', 'allowancePercentage', 'dailyPayment',   'actions'];
-  constructor(private snackBar: MatSnackBar,private AllowanceCategoryService: AllowanceCategoryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private AllowanceCategoryService: AllowanceCategoryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('allowanceCategoryId'); 

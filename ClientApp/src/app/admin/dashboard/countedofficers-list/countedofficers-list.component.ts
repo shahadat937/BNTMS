@@ -11,13 +11,14 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import {dashboardService} from '../services/dashboard.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-countedofficers-list',
   templateUrl: './countedofficers-list.component.html',
   styleUrls: ['./countedofficers-list.component.sass']
 })
-export class CountedOfficersListComponent implements OnInit {
+export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   
    masterData = MasterData;
   loading = false;
@@ -39,7 +40,9 @@ export class CountedOfficersListComponent implements OnInit {
   displayedColumns: string[] = ['ser','name','course','duration'];
 dataSource: any;
 
-  constructor(private datepipe: DatePipe,private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     //this.getTraineeNominations();

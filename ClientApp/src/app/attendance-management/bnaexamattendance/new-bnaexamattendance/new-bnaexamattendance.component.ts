@@ -10,13 +10,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { AttendanceService } from '../../service/attendance.service';
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
 import { TraineeList } from '../../models/traineeList';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnaexamattendance',
   templateUrl: './new-bnaexamattendance.component.html',
   styleUrls: ['./new-bnaexamattendance.component.sass']
 }) 
-export class NewBNAExamAttendanceComponent implements OnInit {
+export class NewBNAExamAttendanceComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -54,7 +55,9 @@ export class NewBNAExamAttendanceComponent implements OnInit {
     private fb: FormBuilder, 
     private router: Router,  
     private route: ActivatedRoute, 
-    ) { }
+    ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamAttendanceId'); 

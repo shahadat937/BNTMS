@@ -8,13 +8,14 @@ import { ForeignCourseOtherDoc } from '../../models/ForeignCourseOtherDoc';
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
 import { ForeignCourseOtherDocService } from '../../service/ForeignCourseOtherDoc.service';
 import {TraineeListForForeignCourseOtherDoc} from '../../../air-ticket/models/traineeListforforeigncourseotherdoc';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-foreigncourseotherdoc',
   templateUrl: './new-foreigncourseotherdoc.component.html',
   styleUrls: ['./new-foreigncourseotherdoc.component.sass']
 })
-export class NewForeignCourseOtherDocComponent implements OnInit {
+export class NewForeignCourseOtherDocComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -41,7 +42,9 @@ export class NewForeignCourseOtherDocComponent implements OnInit {
 
 
   //displayedColumns: string[] = ['countryGroup', 'country', 'currencyName', 'allowancePercentage', 'dailyPayment',   'actions'];
-  constructor(private snackBar: MatSnackBar,private traineeNominationService:TraineeNominationService,private ForeignCourseOtherDocService: ForeignCourseOtherDocService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private traineeNominationService:TraineeNominationService,private ForeignCourseOtherDocService: ForeignCourseOtherDocService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('foreignCourseOtherDocId'); 

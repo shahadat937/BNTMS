@@ -12,13 +12,14 @@ import { CourseInstructorService } from '../../../subject-management/service/cou
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-viewsubjectbyschool',
   templateUrl: './viewsubjectbyschool-list.component.html',
   styleUrls: ['./viewsubjectbyschool-list.component.sass']
 })
-export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
+export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -61,7 +62,9 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
    selection = new SelectionModel<BNASubjectName>(true, []);
 
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

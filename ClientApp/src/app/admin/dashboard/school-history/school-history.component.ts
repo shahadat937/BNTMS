@@ -13,13 +13,14 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
 import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
 import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-school-history',
   templateUrl: './school-history.component.html',
   styleUrls: ['./school-history.component.sass']
 })
-export class SchoolHistoryComponent implements OnInit {
+export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -48,7 +49,9 @@ export class SchoolHistoryComponent implements OnInit {
   displayedColumns: string[] = ['ser','schoolName','courseCount'];
 
   
-  constructor(private snackBar: MatSnackBar,private fb: FormBuilder,private instructorDashboardService: InstructorDashboardService,private studentDashboardService: StudentDashboardService,private authService: AuthService,private baseSchoolNameService: BaseSchoolNameService,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private fb: FormBuilder,private instructorDashboardService: InstructorDashboardService,private studentDashboardService: StudentDashboardService,private authService: AuthService,private baseSchoolNameService: BaseSchoolNameService,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
         

@@ -9,13 +9,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { dashboardService } from '../services/dashboard.service'
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-centralexamcourse-list',
   templateUrl: './centralexamcourse-list.component.html',
   styleUrls: ['./centralexamcourse-list.component.sass']
 })
-export class CentralExamCourseListComponent implements OnInit {
+export class CentralExamCourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNAExamInstructorAssign[] = [];
@@ -38,7 +39,9 @@ export class CentralExamCourseListComponent implements OnInit {
   displayedColumns: string[]= ['ser','course','duration','candidate','action'];
 dataSource: any;
   
-  constructor(private snackBar: MatSnackBar,private dashboardService: dashboardService,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private dashboardService: dashboardService,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.onModuleSelectionChangeGetsubjectList();

@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { AllowancePercentageService } from '../../service/allowancepercentage.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-allowancepercentage',
   templateUrl: './new-allowancepercentage.component.html',
   styleUrls: ['./new-allowancepercentage.component.sass']
 })
-export class NewAllowancePercentageComponent implements OnInit {
+export class NewAllowancePercentageComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -19,7 +20,9 @@ export class NewAllowancePercentageComponent implements OnInit {
   AllowancePercentageForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private AllowancePercentageService: AllowancePercentageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private AllowancePercentageService: AllowancePercentageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('allowancePercentageId'); 

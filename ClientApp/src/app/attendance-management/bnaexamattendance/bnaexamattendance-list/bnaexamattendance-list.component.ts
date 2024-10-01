@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-bnaexamattendance-list',
   templateUrl: './bnaexamattendance-list.component.html',
   styleUrls: ['./bnaexamattendance-list.component.sass']
 })
-export class BNAExamAttendanceListComponent implements OnInit {
+export class BNAExamAttendanceListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNAExamAttendance[] = [];
@@ -35,7 +36,9 @@ export class BNAExamAttendanceListComponent implements OnInit {
    selection = new SelectionModel<BNAExamAttendance>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BNAExamAttendanceService: BNAExamAttendanceService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BNAExamAttendanceService: BNAExamAttendanceService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getBNAExamAttendances();

@@ -14,6 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import {TraineeNominationService} from '../../../course-management/service/traineenomination.service'
 import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 
@@ -22,7 +23,7 @@ import { StudentDashboardService } from 'src/app/student/services/StudentDashboa
   templateUrl: './traineeattendance-list.component.html',
   styleUrls: ['./traineeattendance-list.component.sass']
 })
-export class TraineeAttendanceListComponent implements OnInit {
+export class TraineeAttendanceListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -55,7 +56,9 @@ export class TraineeAttendanceListComponent implements OnInit {
   trainee:any;
   durationId:any;
 
-  constructor(private datepipe: DatePipe,private fb: FormBuilder,private studentDashboardService: StudentDashboardService, private authService: AuthService,private TraineeNominationService: TraineeNominationService, private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private fb: FormBuilder,private studentDashboardService: StudentDashboardService, private authService: AuthService,private TraineeNominationService: TraineeNominationService, private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     //this.userRole.SuperAdmin

@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDurationService } from '../../../course-management/service/courseduration.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-update-courseduration',
   templateUrl: './update-courseduration.component.html',
   styleUrls: ['./update-courseduration.component.sass']
 })
-export class UpdateCourseDurationComponent implements OnInit {
+export class UpdateCourseDurationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -24,7 +25,9 @@ export class UpdateCourseDurationComponent implements OnInit {
   nbcdCourseList:any;
   nbcdStatus:any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
