@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <mat-icon class="custom-icon-size">supervisor_account</mat-icon>
+                    <h4>
+                        <b>Total Instructor</b>
+                    </h4>
+                    <h4>
+                        {{courseDetail.totalInstructor}}
+                    </h4>
+                    <div>
+                        <a href="#">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <mat-icon class="custom-icon-size">person</mat-icon>
+                    <h4>
+                        <b>Total Student</b>
+                    </h4>
+                    <h4>
+                        {{courseDetail.totalTrainee}}
+                    </h4>
+                    <div>
+                        <a href="#">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <mat-icon class="custom-icon-size">menu_book</mat-icon>
+                    <h4>
+                        <b>Total Subject</b>
+                    </h4>
+                    <h4>
+                        {{courseDetail.totalSubject}}
+                    </h4>
+                    <div>
+                        <a [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
+                            View 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
