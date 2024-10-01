@@ -24,11 +24,9 @@ export class SearchedTraineeDetailComponent implements OnInit {
   }
 
   getTraineeDetail() {
-    console.log("Hello World");
     this.globalSearchService.getTraineeDetail(this.Payload.TraineeId).subscribe({
       next: response => {
         this.traineeDetails = response;
-        console.log(this.traineeDetails);
       }
     })
   }
