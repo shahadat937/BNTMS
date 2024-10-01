@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { delay, of, Subscription } from 'rxjs';
 import {GlobalSearchService} from '../services/global-search.service'
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-global-search-modal',
@@ -33,7 +34,7 @@ export class GlobalSearchModalComponent implements OnInit {
   }
 
 
-  onSearch() {
+  onSearch(delayed:boolean) {
     if(this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -41,10 +42,18 @@ export class GlobalSearchModalComponent implements OnInit {
     if(this.searchText.trim()=="") {
       return;
     }
+    
+    
+    let delayedAmount = 0;
+
+    if(delayed) {
+      delayedAmount = 700
+    }
+
 
     let source$ = of (this.searchText);
     source$ = source$.pipe(
-      delay(700)
+      delay(delayedAmount)
     );
 
     this.subscription = source$.subscribe(data => {
@@ -58,8 +67,12 @@ export class GlobalSearchModalComponent implements OnInit {
     })
   }
 
-  updatePage(event: any) {
+  updatePage(event: PageEvent) {
+    console.log("Page Changed");
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex+1;
 
+    this.onSearch(false);
   }
 
 }
