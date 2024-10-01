@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-height-list',
   templateUrl: './height-list.component.html',
   styleUrls: ['./height-list.component.sass']
 })
-export class HeightListComponent implements OnInit {
+export class HeightListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   
    masterData = MasterData;
   loading = false;
@@ -33,7 +34,9 @@ export class HeightListComponent implements OnInit {
 
   selection = new SelectionModel<Height>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private heightService: HeightService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private heightService: HeightService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getHeights();
   }

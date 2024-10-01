@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-swimming-diving-list',
   templateUrl: './swimming-diving-list.component.html',
   styleUrls: ['./swimming-diving-list.component.sass']
 })
-export class SwimmingDivingListComponent implements OnInit {
+export class SwimmingDivingListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -34,7 +35,9 @@ export class SwimmingDivingListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<SwimmingDiving>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getSwimmingDivings();
   }

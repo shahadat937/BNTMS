@@ -16,13 +16,14 @@ import {AuthService} from '../../../../app/core/service/auth.service';
 import {MarkTypeService} from '../../../../app/basic-setup/service/MarkType.service'
 import{SubjectMarkService} from '../../../../app/subject-management/service/SubjectMark.service'
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-reexammark',
   templateUrl: './new-reexammark.component.html',
   styleUrls: ['./new-reexammark.component.sass']
 })
-export class NewReExamMarkComponent implements OnInit {
+export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   userRole = Role;
   buttonText: string;
@@ -86,8 +87,8 @@ export class NewReExamMarkComponent implements OnInit {
     private router: Router, 
     private route: ActivatedRoute
   )
-  { 
-
+  {
+    super();
   }
 
   ngOnInit(): void {

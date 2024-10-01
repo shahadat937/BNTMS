@@ -13,13 +13,14 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table'; 
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-paymentschedule-list.component',
   templateUrl: './paymentschedule-list.component.html',
   styleUrls: ['./paymentschedule-list.component.sass'] 
 }) 
-export class PaymentScheduleListComponent implements OnInit {
+export class PaymentScheduleListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -53,7 +54,9 @@ export class PaymentScheduleListComponent implements OnInit {
   role:any;
   dbType:any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService, private courseBudgetAllocationService: CourseBudgetAllocationService ,private foreignDashboardService: ForeignDashboardService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService, private courseBudgetAllocationService: CourseBudgetAllocationService ,private foreignDashboardService: ForeignDashboardService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     

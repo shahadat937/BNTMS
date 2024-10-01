@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ChildParameterService} from '../service/ChildParameter.service'
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-main-tab-layout',
   templateUrl: './main-tab-layout.component.html',
   styleUrls: ['./main-tab-layout.component.sass']
 })
-export class MainTabLayoutComponent implements OnInit {
+export class MainTabLayoutComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   
   
@@ -17,6 +18,7 @@ export class MainTabLayoutComponent implements OnInit {
   activeLinkIndex = -1; 
   constructor(private router: Router, private route: ActivatedRoute, private childParameterService: ChildParameterService) {
     
+    super();
     this.navLinks = [
         {
           label: 'General Information',

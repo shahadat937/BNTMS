@@ -10,13 +10,14 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe, formatDate } from '@angular/common';
 import {Inject, LOCALE_ID } from '@angular/core';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-courseactivation-list',
   templateUrl: './courseactivation-list.component.html',
   styleUrls: ['./courseactivation-list.component.sass'] 
 })
-export class CourseActivationListComponent implements OnInit {
+export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   
   
    masterData = MasterData;
@@ -44,7 +45,9 @@ export class CourseActivationListComponent implements OnInit {
 userRole: any;
 
   
-  constructor(@Inject(LOCALE_ID) public locale: string,private datepipe: DatePipe,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(@Inject(LOCALE_ID) public locale: string,private datepipe: DatePipe,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.currentDateTime =this.datepipe.transform((new Date), 'dd/MM/YYYY');

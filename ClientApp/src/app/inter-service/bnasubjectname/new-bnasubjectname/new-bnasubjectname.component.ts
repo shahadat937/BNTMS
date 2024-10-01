@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { BnaSubjectNameService } from '../../service/bnasubjectname.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnasubjectname',
   templateUrl: './new-bnasubjectname.component.html',
   styleUrls: ['./new-bnasubjectname.component.sass']
 })
-export class NewBnaSubjectNameComponent implements OnInit {
+export class NewBnaSubjectNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,7 +22,9 @@ export class NewBnaSubjectNameComponent implements OnInit {
   selectedCourseName:SelectedModel[];
   status=3;
 
-  constructor(private snackBar: MatSnackBar,private BnaSubjectNameService: BnaSubjectNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BnaSubjectNameService: BnaSubjectNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaSubjectNameId'); 

@@ -12,13 +12,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-runningcourse',
   templateUrl: './view-runningcourse.component.html',
   styleUrls: ['./view-runningcourse.component.sass']
 })
-export class ViewRunningCourseComponent implements OnInit {
+export class ViewRunningCourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -55,7 +56,9 @@ export class ViewRunningCourseComponent implements OnInit {
   // groupValues:SelectedModel[]; 
   // boardValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

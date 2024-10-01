@@ -12,6 +12,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { MatSort } from '@angular/material/sort';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './trainee-list.component.html',
   styleUrls: ['./trainee-list.component.sass']
 })
-export class TraineeListComponent implements OnInit {
+export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   // dataSource = new MatTableDataSource();
@@ -47,7 +48,9 @@ export class TraineeListComponent implements OnInit {
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   @ViewChild('labelImport')  labelImport: ElementRef;
   ngOnInit() {

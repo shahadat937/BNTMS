@@ -10,13 +10,14 @@ import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-viewsubjectmarkbysubject',
   templateUrl: './viewsubjectmarkbysubject-list.component.html',
   styleUrls: ['./viewsubjectmarkbysubject-list.component.sass']
 })
-export class ViewSubjectMarkListBySubjectComponent implements OnInit {
+export class ViewSubjectMarkListBySubjectComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -47,7 +48,9 @@ export class ViewSubjectMarkListBySubjectComponent implements OnInit {
    selection = new SelectionModel<SubjectMark>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService ,private SubjectMarkService: SubjectMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService ,private SubjectMarkService: SubjectMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

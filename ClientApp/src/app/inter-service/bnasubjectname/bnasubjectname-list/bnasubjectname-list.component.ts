@@ -10,13 +10,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-bnasubjectname',
   templateUrl: './bnasubjectname-list.component.html',
   styleUrls: ['./bnasubjectname-list.component.sass']
 })
-export class BnaSubjectNameListComponent implements OnInit {
+export class BnaSubjectNameListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BnaSubjectName[] = [];
@@ -37,7 +38,9 @@ export class BnaSubjectNameListComponent implements OnInit {
    selection = new SelectionModel<BnaSubjectName>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BnaSubjectNameService: BnaSubjectNameService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BnaSubjectNameService: BnaSubjectNameService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getBnaSubjectNames();

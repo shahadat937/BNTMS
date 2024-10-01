@@ -7,13 +7,14 @@ import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.serv
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-new-civilinstructorbiodata',
   templateUrl: './new-civilinstructorbiodata.component.html',
   styleUrls: ['./new-civilinstructorbiodata.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class NewCivilInstructorBioDataInfoComponent implements OnInit {
+export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -42,6 +43,7 @@ export class NewCivilInstructorBioDataInfoComponent implements OnInit {
   public files: any[];
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+    super();
     this.files = [];
   }
 

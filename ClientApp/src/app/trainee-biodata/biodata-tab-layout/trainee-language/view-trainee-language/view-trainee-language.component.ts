@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-trainee-language',
   templateUrl: './view-trainee-language.component.html',
   styleUrls: ['./view-trainee-language.component.sass']
 })
-export class ViewTraineeLanguageComponent implements OnInit {
+export class ViewTraineeLanguageComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -34,7 +35,9 @@ export class ViewTraineeLanguageComponent implements OnInit {
   menuPosition: number;
   isActive: true
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   
   

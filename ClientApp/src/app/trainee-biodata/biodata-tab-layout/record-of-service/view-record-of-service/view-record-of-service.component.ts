@@ -1,3 +1,4 @@
+import { UnsubscribeOnDestroyAdapter } from './../../../../shared/UnsubscribeOnDestroyAdapter';
 import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,7 +17,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   templateUrl: './view-social-media.component.html',
   styleUrls: ['./view-social-media.component.sass']
 })
-export class ViewSocialMediaComponent implements OnInit {
+export class ViewSocialMediaComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -31,7 +32,9 @@ export class ViewSocialMediaComponent implements OnInit {
   menuPosition: number;
   isActive: true
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('socialMediaId'); 
     this.SocialMediaService.find(+id).subscribe( res => {

@@ -8,13 +8,14 @@ import { CourseModule } from '../../models/CourseModule';
 import { CourseModuleService } from '../../service/CourseModule.service';
 import { CourseNameService } from '../../service/CourseName.service';
 import { MasterData } from 'src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-coursemodule',
   templateUrl: './new-coursemodule.component.html',
   styleUrls: ['./new-coursemodule.component.sass']
 })
-export class NewCourseModuleComponent implements OnInit {
+export class NewCourseModuleComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   pageTitle: string;
   destination:string;
@@ -42,7 +43,9 @@ export class NewCourseModuleComponent implements OnInit {
 
   displayedColumns: string[] = ['sl','moduleName', 'nameOfModule','menuPosition','actions'];
 
-  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private CourseModuleService: CourseModuleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private CourseModuleService: CourseModuleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseModuleId'); 

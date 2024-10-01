@@ -12,12 +12,13 @@ import { environment } from 'src/environments/environment';
 import {TraineeNominationService} from '../service/traineenomination.service'
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-coursecreatenbcd-list',
   templateUrl: './coursecreatenbcd-list.component.html',
   styleUrls: ['./coursecreatenbcd-list.component.sass']
 })
-export class CourseCreateNbcdListComponent implements OnInit {
+export class CourseCreateNbcdListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -49,7 +50,9 @@ showHideDiv= false;
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private datepipe: DatePipe, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

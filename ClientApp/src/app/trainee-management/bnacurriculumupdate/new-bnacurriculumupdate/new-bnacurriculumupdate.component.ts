@@ -7,13 +7,14 @@ import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service'
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-BnaCurriculumUpdate',
   templateUrl: './new-BnaCurriculumUpdate.component.html',
   styleUrls: ['./new-BnaCurriculumUpdate.component.sass']
 }) 
-export class NewBnaCurriculumUpdateComponent implements OnInit {
+export class NewBnaCurriculumUpdateComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -32,7 +33,9 @@ export class NewBnaCurriculumUpdateComponent implements OnInit {
   selectedbnacurriculamtype:SelectedModel[];
   selectCurriculumType:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BnaCurriculumUpdateService: BnaCurriculumUpdateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BnaCurriculumUpdateService: BnaCurriculumUpdateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaCurriculumUpdateId'); 

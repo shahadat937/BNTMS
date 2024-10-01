@@ -12,13 +12,14 @@ import { BaseSchoolNameService } from '../../basic-setup/service/BaseSchoolName.
 import{MasterData} from 'src/assets/data/master-data';
 import { CourseTerm } from '../models/course-term';
 import { stringify } from '@angular/compiler/src/util';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-course-term',
   templateUrl: './course-term.component.html',
   styleUrls: ['./course-term.component.sass']
 })
-export class CourseTermComponent implements OnInit {
+export class CourseTermComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -46,7 +47,9 @@ export class CourseTermComponent implements OnInit {
   dataSource: MatTableDataSource<CourseTerm> = new MatTableDataSource();
 
 
-  constructor(private baseSchoolNameService: BaseSchoolNameService , private CourseLevelService: CourseLevelService,private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseTermService: CourseTermService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private baseSchoolNameService: BaseSchoolNameService , private CourseLevelService: CourseLevelService,private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseTermService: CourseTermService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseTermId'); 

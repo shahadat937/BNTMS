@@ -11,13 +11,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-guestspeakerquestionname',
   templateUrl: './new-guestspeakerquestionname.component.html',
   styleUrls: ['./new-guestspeakerquestionname.component.sass']
 })
-export class NewGuestSpeakerQuestionNameComponent implements OnInit {
+export class NewGuestSpeakerQuestionNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -41,7 +42,9 @@ export class NewGuestSpeakerQuestionNameComponent implements OnInit {
   dataSource: MatTableDataSource<GuestSpeakerQuestionName> = new MatTableDataSource();
   selection = new SelectionModel<GuestSpeakerQuestionName>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private GuestSpeakerQuestionNameService: GuestSpeakerQuestionNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private GuestSpeakerQuestionNameService: GuestSpeakerQuestionNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('guestSpeakerQuestionNameId'); 

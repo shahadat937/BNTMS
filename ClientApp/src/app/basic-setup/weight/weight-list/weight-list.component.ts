@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './weight-list.component.html',
   styleUrls: ['./weight-list.component.sass']
 })
-export class WeightListComponent implements OnInit {
+export class WeightListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: Weight[] = [];
@@ -34,7 +35,9 @@ export class WeightListComponent implements OnInit {
 
   selection = new SelectionModel<Weight>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private weightService: WeightService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private weightService: WeightService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   // ngOnInit() {
   //   this.dataSource2.paginator = this.paginator;
   // }

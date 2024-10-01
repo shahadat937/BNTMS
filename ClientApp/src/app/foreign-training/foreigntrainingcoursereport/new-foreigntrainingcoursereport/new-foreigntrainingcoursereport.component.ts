@@ -14,13 +14,14 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-foreigntrainingcoursereport',
   templateUrl: './new-foreigntrainingcoursereport.component.html',
   styleUrls: ['./new-foreigntrainingcoursereport.component.sass']
 })
-export class NewForeignTrainingCourseReportComponent implements OnInit {
+export class NewForeignTrainingCourseReportComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   pageTitle: string;
   destination:string;
@@ -65,7 +66,9 @@ export class NewForeignTrainingCourseReportComponent implements OnInit {
 
 
   //displayedColumns: string[] = ['countryGroup', 'country', 'currencyName', 'allowancePercentage', 'dailyPayment',   'actions'];
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private CourseBudgetAllocationService:CourseBudgetAllocationService, private ForeignTrainingCourseReportService: ForeignTrainingCourseReportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private CourseBudgetAllocationService:CourseBudgetAllocationService, private ForeignTrainingCourseReportService: ForeignTrainingCourseReportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('foreignTrainingCourseReportid'); 

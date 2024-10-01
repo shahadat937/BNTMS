@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -14,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './gender-list.component.html',
   styleUrls: ['./gender-list.component.sass']
 })
-export class GenderListComponent implements OnInit {
+export class GenderListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -31,7 +32,9 @@ export class GenderListComponent implements OnInit {
   displayedColumns: string[] = [ 'ser', 'genderName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<Gender> = new MatTableDataSource();
   
-  constructor(private snackBar: MatSnackBar,private GenderService: GenderService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private GenderService: GenderService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getGenders();

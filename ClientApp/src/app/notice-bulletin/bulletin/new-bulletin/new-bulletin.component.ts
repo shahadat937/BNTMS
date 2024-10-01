@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BulletinService } from '../../service/bulletin.service';
@@ -22,7 +22,7 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './new-bulletin.component.html',
   styleUrls: ['./new-bulletin.component.sass']
 })
-export class NewBulletinComponent implements OnInit {
+export class NewBulletinComponent implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   // dataSource = new MatTableDataSource();
@@ -59,6 +59,7 @@ export class NewBulletinComponent implements OnInit {
 
   displayedColumns: string[] = ['ser', 'courseName', 'buletinDetails', 'status', 'actions'];
   dataSource: MatTableDataSource<Bulletin> = new MatTableDataSource();
+  subscription: any;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -90,7 +91,7 @@ export class NewBulletinComponent implements OnInit {
       this.pageTitle = 'Edit Bulletin';
       this.destination = "Edit";
       this.buttonText = "Update"
-      this.bulletinService.find(+id).subscribe(
+      this.subscription = this.bulletinService.find(+id).subscribe(
         res => {
 
           this.BulletinForm.patchValue({
@@ -121,6 +122,11 @@ export class NewBulletinComponent implements OnInit {
     this.getselectedbaseschools();
 
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.BulletinForm = this.fb.group({
       bulletinId: [0],
@@ -139,7 +145,7 @@ export class NewBulletinComponent implements OnInit {
     var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
     if (typeof (baseSchoolNameId) == 'string' || baseSchoolNameId.length == 1) {
       // Previus Code
-      this.bulletinService.getselectedcoursedurationbyschoolname(typeof (baseSchoolNameId) == 'string' ? baseSchoolNameId : baseSchoolNameId[0].value).subscribe(res => {
+      this.subscription = this.bulletinService.getselectedcoursedurationbyschoolname(typeof (baseSchoolNameId) == 'string' ? baseSchoolNameId : baseSchoolNameId[0].value).subscribe(res => {
         this.selectedcoursedurationbyschoolname = res;
 
       });
@@ -164,7 +170,7 @@ export class NewBulletinComponent implements OnInit {
     var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
     if (baseSchoolNameId.length == 1) {
       // Previus Code
-      this.bulletinService.getselectedcoursedurationbyschoolname(baseSchoolNameId[0].value).subscribe(res => {
+      this.subscription = this.bulletinService.getselectedcoursedurationbyschoolname(baseSchoolNameId[0].value).subscribe(res => {
         this.selectedcoursedurationbyschoolname = res;
       });
     }
@@ -196,7 +202,7 @@ export class NewBulletinComponent implements OnInit {
   }
 
   getselectedbaseschools() {
-    this.bulletinService.getselectedbaseschools().subscribe(res => {
+    this.subscription = this.bulletinService.getselectedbaseschools().subscribe(res => {
       this.selectedbaseschools = res
       this.selectSchool=res
     });
@@ -217,10 +223,10 @@ export class NewBulletinComponent implements OnInit {
     const id = this.BulletinForm.get('bulletinId').value;
     var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.bulletinService.update(+id, this.BulletinForm.value).subscribe(response => {
+          this.subscription = this.bulletinService.update(+id, this.BulletinForm.value).subscribe(response => {
             this.reloadCurrentRoute();
             // this.getBulletins(baseSchoolNameId);
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -261,7 +267,7 @@ export class NewBulletinComponent implements OnInit {
       this.BulletinForm.get('baseSchoolNameId').patchValue([baseSchoolNameId]);
 
       console.log(this.BulletinForm.value);
-      this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({
+      this.subscription = this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({
         next: response => {
           if(response.success) {
             this.snackBar.open('Information Inserted Successfully ', '', {
@@ -295,7 +301,7 @@ export class NewBulletinComponent implements OnInit {
       this.loading = true;
       console.log(this.BulletinForm.value);
 
-      this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({
+      this.subscription = this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({
         next: response => {
           if(response.success) {
             this.snackBar.open('Information Inserted Successfully ', '', {
@@ -330,7 +336,7 @@ export class NewBulletinComponent implements OnInit {
 
   getBulletins(baseSchoolNameId) {
     this.isLoading = true;
-    this.bulletinService.getBulletins(this.paging.pageIndex, this.paging.pageSize, this.searchText, baseSchoolNameId).subscribe(response => {
+    this.subscription = this.bulletinService.getBulletins(this.paging.pageIndex, this.paging.pageSize, this.searchText, baseSchoolNameId).subscribe(response => {
       // this.dataSource = new MatTableDataSource(response);
       
       this.dataSource.sort = this.InitialOrdersort;
@@ -383,9 +389,9 @@ export class NewBulletinComponent implements OnInit {
   deleteItem(row) {
     var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
     const id = row.bulletinId;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.bulletinService.delete(id).subscribe(() => {
+        this.subscription = this.bulletinService.delete(id).subscribe(() => {
           this.getBulletins(baseSchoolNameId[0].value);
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,
@@ -403,10 +409,10 @@ export class NewBulletinComponent implements OnInit {
     const id = row.bulletinId;
     var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
     if (row.status == 0) {
-      this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Stop This Bulletin').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Stop This Bulletin').subscribe(result => {
         if (result) {
           this.runningload = true;
-          this.bulletinService.ChangeBulletinStatus(id, 1).subscribe(() => {
+          this.subscription = this.bulletinService.ChangeBulletinStatus(id, 1).subscribe(() => {
             this.getBulletins(baseSchoolNameId[0].value);
             this.snackBar.open('Bulletin Stopped!', '', {
               duration: 3000,
@@ -420,10 +426,10 @@ export class NewBulletinComponent implements OnInit {
     }
     else {
 
-      this.confirmService.confirm('Confirm Active message', 'Are You Sure Run This Bulletin').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Active message', 'Are You Sure Run This Bulletin').subscribe(result => {
         if (result) {
           this.runningload = true;
-          this.bulletinService.ChangeBulletinStatus(id, 0).subscribe(() => {
+          this.subscription = this.bulletinService.ChangeBulletinStatus(id, 0).subscribe(() => {
             this.getBulletins(baseSchoolNameId[0].value);
             this.snackBar.open('Bulletin Running!', '', {
               duration: 3000,

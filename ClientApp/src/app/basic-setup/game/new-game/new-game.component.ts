@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../../service/game.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-edit-game',
   templateUrl: './new-game.component.html',
   styleUrls: ['./new-game.component.sass'] 
 })
-export class NewGameComponent implements OnInit {
+export class NewGameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string; 
   loading = false;
   destination:string;
@@ -19,7 +20,9 @@ export class NewGameComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private gameService: GameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private gameService: GameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('gameId'); 

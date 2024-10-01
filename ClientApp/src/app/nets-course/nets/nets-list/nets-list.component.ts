@@ -12,6 +12,7 @@ import { dashboardService } from 'src/app/admin/dashboard/services/dashboard.ser
 import { environment } from 'src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { TraineeNominationService } from '../../service/traineenomination.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 
@@ -21,7 +22,7 @@ import { TraineeNominationService } from '../../service/traineenomination.servic
   templateUrl: './nets-list.component.html',
   styleUrls: ['./nets-list.component.sass']
 })
-export class NetsListComponent implements OnInit {
+export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
  loading = false;
  ELEMENT_DATA: CourseDuration[] = [];
@@ -49,7 +50,9 @@ export class NetsListComponent implements OnInit {
   selection = new SelectionModel<CourseDuration>(true, []);
 
  
- constructor(private datepipe: DatePipe,private dashboardService:dashboardService,  private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+ constructor(private datepipe: DatePipe,private dashboardService:dashboardService,  private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+   super();
+ }
 
  ngOnInit() {
    // this.getCourseDurationsByCourseType(0);

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './examperiodtype-list.component.html',
   styleUrls: ['./examperiodtype-list.component.sass']
 })
-export class ExamPeriodTypeListComponent implements OnInit {
+export class ExamPeriodTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ExamPeriodType[] = [];
@@ -34,7 +35,9 @@ export class ExamPeriodTypeListComponent implements OnInit {
 
   selection = new SelectionModel<ExamPeriodType>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private ExamPeriodTypeService: ExamPeriodTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ExamPeriodTypeService: ExamPeriodTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getExamPeriodType();

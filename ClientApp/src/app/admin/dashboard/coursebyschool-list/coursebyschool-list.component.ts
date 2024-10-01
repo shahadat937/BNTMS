@@ -8,13 +8,14 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute,Router } from '@angular/router';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-coursebyschool-list',
   templateUrl: './coursebyschool-list.component.html',
   styleUrls: ['./coursebyschool-list.component.sass']
 })
-export class CoursebySchoolListComponent implements OnInit {
+export class CoursebySchoolListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   courseList:any;
@@ -33,7 +34,9 @@ export class CoursebySchoolListComponent implements OnInit {
   displayedColumns: string[] = ['ser','course','duration', 'officer','mid','cadet','sailor','civil','foreign', 'total'];
 
   
-  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private datepipe: DatePipe,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private datepipe: DatePipe,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 

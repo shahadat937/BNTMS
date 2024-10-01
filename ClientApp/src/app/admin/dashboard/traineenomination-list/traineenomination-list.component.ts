@@ -12,13 +12,14 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { environment } from 'src/environments/environment';
 import { CourseInstructorService } from 'src/app/subject-management/service/courseinstructor.service';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-traineenomination-list',
   templateUrl: './traineenomination-list.component.html',
   styleUrls: ['./traineenomination-list.component.sass']
 })
-export class TraineeNominationListComponent implements OnInit {
+export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
    userRole = Role;
   loading = false;
@@ -62,7 +63,9 @@ export class TraineeNominationListComponent implements OnInit {
    selection = new SelectionModel<TraineeNomination>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private CourseInstructorService:CourseInstructorService, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private CourseInstructorService:CourseInstructorService, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

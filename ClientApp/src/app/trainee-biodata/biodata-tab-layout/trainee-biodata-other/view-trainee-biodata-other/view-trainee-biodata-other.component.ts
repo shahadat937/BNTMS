@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-trainee-biodata-other',
   templateUrl: './view-trainee-biodata-other.component.html',
   styleUrls: ['./view-trainee-biodata-other.component.sass']
 })
-export class ViewTraineeBIODataOtherComponent implements OnInit {
+export class ViewTraineeBIODataOtherComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -98,7 +99,9 @@ export class ViewTraineeBIODataOtherComponent implements OnInit {
   // groupValues:SelectedModel[]; 
   // boardValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   // getExamType(){    
   //   this.TraineeBIODataOtherService.getselectedexamtype().subscribe(res=>{

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoticeService } from '../../service/notice.service';
@@ -20,7 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './new-notice.component.html',
   styleUrls: ['./new-notice.component.sass']
 }) 
-export class NewNoticeComponent implements OnInit {
+export class NewNoticeComponent implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -53,6 +53,7 @@ export class NewNoticeComponent implements OnInit {
 
   displayedColumns: string[] = ['ser','noticeHeading','noticeDetails','courseName','status','actions'];
   filteredbaseschools: SelectedModel[];
+  subscription: any;
   constructor(
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
@@ -74,7 +75,7 @@ export class NewNoticeComponent implements OnInit {
       this.pageTitle = 'Edit Notice'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.noticeService.find(+id).subscribe(
+      this.subscription = this.noticeService.find(+id).subscribe(
         res => {
           this.NoticeForm.patchValue({             
             noticeId: res.noticeId,
@@ -106,6 +107,11 @@ export class NewNoticeComponent implements OnInit {
     this.getselectedbaseschools();
     // this.getselectedcoursedurationbyschoolname();
    // this.getNoticeBySchool();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.NoticeForm = this.fb.group({
@@ -170,7 +176,7 @@ filterByCourse(value:any){
     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
     this.isShown=true;
     if (baseSchoolNameId.length ==1){ 
-      this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+      this.subscription = this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res;
         this.selectCourse=res;   
       },err=>{
@@ -188,19 +194,19 @@ filterByCourse(value:any){
 
     }
    
-    this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
       this.selectedNotice=res
     }); 
 } 
 
 stopNotices(element){
   if(element.status ===0){
-    this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm Stop message', 'Are You Sure Stop This Item').subscribe(result => {
       if (result) {
-     this.noticeService.stopNotices(element.noticeId).subscribe(() => {
+        this.subscription = this.noticeService.stopNotices(element.noticeId).subscribe(() => {
       var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
 
-      this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
+      this.subscription = this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
         this.selectedNotice=res
       }); 
 
@@ -220,7 +226,7 @@ stopNotices(element){
 
 
   getselectedbaseschools(){
-    this.noticeService.getselectedbaseschools().subscribe(res=>{
+    this.subscription = this.noticeService.getselectedbaseschools().subscribe(res=>{
       // this.dataSource = new MatTableDataSource(response);
      
       this.dataSource.sort = this.InitialOrdersort;
@@ -232,9 +238,9 @@ stopNotices(element){
 
   deleteItem(row) {
     const id = row.noticeId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.noticeService.delete(id).subscribe(() => {
+        this.subscription = this.noticeService.delete(id).subscribe(() => {
           //this.getNotices();
           this.reloadCurrentRoute();
           this.snackBar.open('Information Deleted Successfully ', '', {
@@ -251,10 +257,10 @@ stopNotices(element){
   onSubmit() {
     const id = this.NoticeForm.get('noticeId').value; 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.noticeService.update(+id,this.NoticeForm.value).subscribe(response => {
+          this.subscription = this.noticeService.update(+id,this.NoticeForm.value).subscribe(response => {
              this.router.navigateByUrl('/notice-bulletin/add-notice');
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -281,7 +287,7 @@ stopNotices(element){
       
       this.NoticeForm.value.courseName.forEach(element => {
         this.NoticeForm.value.courseName=element;
-        this.noticeService.submit(this.NoticeForm.value).subscribe(response => {
+        this.subscription = this.noticeService.submit(this.NoticeForm.value).subscribe(response => {
         this.reloadCurrentRoute();
         // this.getBulletins(baseSchoolNameId);
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -316,7 +322,7 @@ stopNotices(element){
               this.NoticeForm.value.baseSchoolNameId=element
             }
             if (courseElement!=0){
-              this.noticeService.submit(this.NoticeForm.value).subscribe(response => {
+              this.subscription = this.noticeService.submit(this.NoticeForm.value).subscribe(response => {
              
               }, error => {
                 this.validationErrors = error;
@@ -328,7 +334,7 @@ stopNotices(element){
           }
           else{
             
-            this.noticeService.submit(this.NoticeForm.value).subscribe(response => {
+            this.subscription = this.noticeService.submit(this.NoticeForm.value).subscribe(response => {
               // this.reloadCurrentRoute();
               // // this.getBulletins(baseSchoolNameId);
               // this.snackBar.open('Information Inserted Successfully ', '', {

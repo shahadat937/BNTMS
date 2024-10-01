@@ -16,13 +16,14 @@ import {AuthService} from '../../../../app/core/service/auth.service';
 import {MarkTypeService} from '../../../../app/basic-setup/service/MarkType.service'
 import{SubjectMarkService} from '../../../../app/subject-management/service/SubjectMark.service'
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-reexam',
   templateUrl: './new-reexam.component.html',
   styleUrls: ['./new-reexam.component.sass']
 })
-export class NewReExamComponent implements OnInit {
+export class NewReExamComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   userRole = Role;
   buttonText: string;
@@ -74,7 +75,9 @@ export class NewReExamComponent implements OnInit {
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
 
-  constructor(private snackBar: MatSnackBar, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

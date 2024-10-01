@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-grandfather',
   templateUrl: './view-grandfather.component.html',
   styleUrls: ['./view-grandfather.component.sass']
 })
-export class ViewGrandFatherComponent implements OnInit {
+export class ViewGrandFatherComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -37,7 +38,9 @@ export class ViewGrandFatherComponent implements OnInit {
   status:number;           
   additionalInformation: string;
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private GrandFatherService: GrandFatherService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private GrandFatherService: GrandFatherService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   
 

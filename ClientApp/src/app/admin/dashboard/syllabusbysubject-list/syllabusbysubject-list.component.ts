@@ -8,13 +8,14 @@ import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { dashboardService } from '../services/dashboard.service';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-syllabusbysubject',
   templateUrl: './syllabusbysubject-list.component.html',
   styleUrls: ['./syllabusbysubject-list.component.sass']
 })
-export class SyllabusbySubjectListComponent implements OnInit {
+export class SyllabusbySubjectListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -36,7 +37,9 @@ export class SyllabusbySubjectListComponent implements OnInit {
   searchText="";
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService, private dashboardService: dashboardService , private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService, private dashboardService: dashboardService , private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.traineeDb=1;

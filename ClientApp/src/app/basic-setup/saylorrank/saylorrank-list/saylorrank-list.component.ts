@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-saylorrank-list',
   templateUrl: './saylorrank-list.component.html',
   styleUrls: ['./saylorrank-list.component.sass']
 })
-export class SaylorRankListComponent implements OnInit {
+export class SaylorRankListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -34,7 +35,9 @@ export class SaylorRankListComponent implements OnInit {
   selection = new SelectionModel<SaylorRank>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private SaylorRankService: SaylorRankService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private SaylorRankService: SaylorRankService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getSaylorRanks();

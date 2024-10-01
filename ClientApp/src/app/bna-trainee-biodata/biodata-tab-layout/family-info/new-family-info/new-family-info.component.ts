@@ -7,13 +7,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
 import { MasterData } from 'src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-family-info',
   templateUrl: './new-family-info.component.html',
   styleUrls: ['./new-family-info.component.sass']
 })
-export class NewParentRelativeComponent implements OnInit {
+export class NewParentRelativeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
    masterData = MasterData;
   loading = false;
@@ -46,7 +47,9 @@ export class NewParentRelativeComponent implements OnInit {
 
   defensehidevalue:string;
 
-  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private ParentRelativeService: ParentRelativeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private ParentRelativeService: ParentRelativeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('parentRelativeId'); 

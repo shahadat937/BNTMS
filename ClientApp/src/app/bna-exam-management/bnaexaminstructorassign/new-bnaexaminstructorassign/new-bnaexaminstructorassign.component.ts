@@ -11,12 +11,13 @@ import { ClassRoutineService } from '../../../routine-management/service/classro
 import { TraineeNominationService } from '../../../course-management/service/traineenomination.service';
 import { BNAExamInstructorAssign } from '../../models/bnaexaminstructorassign';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-new-bnaexaminstructorassign',
   templateUrl: './new-bnaexaminstructorassign.component.html',
   styleUrls: ['./new-bnaexaminstructorassign.component.sass']
 }) 
-export class NewBNAExamInstructorAssignComponent implements OnInit {
+export class NewBNAExamInstructorAssignComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -61,7 +62,9 @@ export class NewBNAExamInstructorAssignComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['ser','classRoutine','trainee','bnaInstructorType','examLocation', 'actions'];
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private TraineeNominationService: TraineeNominationService,private confirmService: ConfirmService,private ClassRoutineService: ClassRoutineService,private CodeValueService: CodeValueService,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private TraineeNominationService: TraineeNominationService,private confirmService: ConfirmService,private ClassRoutineService: ClassRoutineService,private CodeValueService: CodeValueService,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamInstructorAssignId');

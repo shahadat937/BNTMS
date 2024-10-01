@@ -6,13 +6,14 @@ import { ShowRightService } from '../../service/showright.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-showright',
   templateUrl: './new-showright.component.html',
   styleUrls: ['./new-showright.component.sass']
 })
-export class NewShowRightComponent implements OnInit {
+export class NewShowRightComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   loading = false;
   pageTitle: string;
   destination:string;
@@ -20,7 +21,9 @@ export class NewShowRightComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ShowRightService: ShowRightService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ShowRightService: ShowRightService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('showRightId'); 

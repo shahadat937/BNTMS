@@ -13,13 +13,14 @@ import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { BNASubjectNameService } from '../../service/BNASubjectName.service'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-classroutine',
   templateUrl: './new-classroutine.component.html',
   styleUrls: ['./new-classroutine.component.sass']
 }) 
-export class NewClassRoutineComponent implements OnInit {
+export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -77,7 +78,9 @@ export class NewClassRoutineComponent implements OnInit {
   // displayedSubjectListColumns: string[] = ['ser','subjectName','subjectShortName'];
   // displayedPeriodListColumns: string[] = ['ser','periodName','duration'];
 
-  constructor(private snackBar: MatSnackBar,private subjectNameService: BNASubjectNameService, private BNAExamMarkService: BNAExamMarkService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private subjectNameService: BNASubjectNameService, private BNAExamMarkService: BNAExamMarkService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 

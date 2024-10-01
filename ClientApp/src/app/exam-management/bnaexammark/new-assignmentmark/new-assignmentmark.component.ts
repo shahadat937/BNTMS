@@ -18,13 +18,14 @@ import { SubjectMarkService } from 'src/app/subject-management/service/SubjectMa
 import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
 import {BNASubjectNameService} from '../../../subject-management/service/BNASubjectName.service'
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-assignmentmark',
   templateUrl: './new-assignmentmark.component.html',
   styleUrls: ['./new-assignmentmark.component.sass']
 })
-export class NewAssignmentMarkComponent implements OnInit {
+export class NewAssignmentMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -85,7 +86,9 @@ export class NewAssignmentMarkComponent implements OnInit {
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
 
-  constructor(private snackBar: MatSnackBar,private BNASubjectNameService:BNASubjectNameService,private ClassRoutineService: ClassRoutineService, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar,private BNASubjectNameService:BNASubjectNameService,private ClassRoutineService: ClassRoutineService, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

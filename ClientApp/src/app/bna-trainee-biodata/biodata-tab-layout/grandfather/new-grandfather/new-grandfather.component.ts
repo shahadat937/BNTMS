@@ -7,13 +7,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
 import { MasterData } from 'src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-grandfather',
   templateUrl: './new-grandfather.component.html',
   styleUrls: ['./new-grandfather.component.sass']
 })
-export class NewGrandFatherComponent implements OnInit {
+export class NewGrandFatherComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   pageTitle: string;
    masterData = MasterData;
@@ -27,7 +28,9 @@ export class NewGrandFatherComponent implements OnInit {
   nationalityValues:SelectedModel[]; 
   selectedDeadStatus:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private GrandFatherService: GrandFatherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private GrandFatherService: GrandFatherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('grandFatherId'); 

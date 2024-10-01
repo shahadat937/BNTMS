@@ -18,6 +18,7 @@ import { CheckboxSelectedModel } from '../../../../../src/app/core/models/checkb
 import { TraineeList } from '../../../attendance-management/models//traineeList';
 import { DatePipe } from '@angular/common';
 import { ClassRoutineService } from '../../../../../src/app/routine-management/service/classroutine.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -25,7 +26,7 @@ import { ClassRoutineService } from '../../../../../src/app/routine-management/s
   templateUrl: './attendance-instructor.component.html',
   styleUrls: ['./attendance-instructor.component.sass']
 })
-export class AttendanceInstructorComponent implements OnInit {
+export class AttendanceInstructorComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -63,7 +64,9 @@ export class AttendanceInstructorComponent implements OnInit {
   // selection = new SelectionModel<Attendance>(true, []);
   displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   dataSource ;
-  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 

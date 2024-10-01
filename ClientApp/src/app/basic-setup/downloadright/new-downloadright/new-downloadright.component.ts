@@ -6,13 +6,14 @@ import { DownloadRightService } from '../../service/downloadright.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-downloadright',
   templateUrl: './new-downloadright.component.html',
   styleUrls: ['./new-downloadright.component.sass']
 })
-export class NewDownloadRightComponent implements OnInit {
+export class NewDownloadRightComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   loading = false;
   pageTitle: string;
   destination:string;
@@ -20,7 +21,9 @@ export class NewDownloadRightComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private DownloadRightService: DownloadRightService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private DownloadRightService: DownloadRightService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('downloadRightId'); 

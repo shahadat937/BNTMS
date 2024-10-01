@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { CountryService } from '../../service/country.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-country',
   templateUrl: './new-country.component.html',
   styleUrls: ['./new-country.component.sass']
 })
-export class NewcountryComponent implements OnInit {
+export class NewcountryComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,7 +22,9 @@ export class NewcountryComponent implements OnInit {
   selectedCountryGroup:SelectedModel[];
   selectedCurrencyName:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private countryService: CountryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private countryService: CountryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('countryId'); 

@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BNABatchService } from '../../service/bNABatch.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
 //import {FormControl} from '@angular/forms';
 
 
@@ -12,7 +13,7 @@ import { BNABatchService } from '../../service/bNABatch.service';
   templateUrl: './new-bnabatch.component.html',
   styleUrls: ['./new-bnabatch.component.sass']
 })
-export class NewBNABatchComponent implements OnInit {
+export class NewBNABatchComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -23,7 +24,9 @@ export class NewBNABatchComponent implements OnInit {
   //serializedDate = new FormControl(new Date().toISOString());
 
 
-  constructor(private snackBar: MatSnackBar,private bNABatchService: BNABatchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private bNABatchService: BNABatchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+    super()
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaBatchId'); 

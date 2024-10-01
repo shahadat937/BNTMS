@@ -5,13 +5,14 @@ import { FavoritesService } from '../../service/Favorites.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-favorites',
   templateUrl: './new-favorites.component.html',
   styleUrls: ['./new-favorites.component.sass']
 })
-export class NewFavoritesComponent implements OnInit {
+export class NewFavoritesComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,7 +23,9 @@ export class NewFavoritesComponent implements OnInit {
   selectedFavorites:SelectedModel[]; 
   traineeId: string;
 
-  constructor(private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('favoritesId'); 

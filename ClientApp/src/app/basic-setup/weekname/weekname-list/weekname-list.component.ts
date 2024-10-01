@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './weekname-list.component.html',
   styleUrls: ['./weekname-list.component.sass']
 })
-export class WeekNameListComponent implements OnInit {
+export class WeekNameListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: WeekName[] = [];
@@ -34,7 +35,9 @@ export class WeekNameListComponent implements OnInit {
   selection = new SelectionModel<WeekName>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private WeekNameService:WeekNameService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private WeekNameService:WeekNameService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getWeekNames();

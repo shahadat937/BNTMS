@@ -8,13 +8,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { CourseGradingEntry } from '../../models/CourseGradingEntry';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-coursegradingentry',
   templateUrl: './new-coursegradingentry.component.html',
   styleUrls: ['./new-coursegradingentry.component.sass']
 })
-export class NewCourseGradingEntryComponent implements OnInit {
+export class NewCourseGradingEntryComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   pageTitle: string;
   destination:string;
@@ -43,7 +44,9 @@ export class NewCourseGradingEntryComponent implements OnInit {
   }
   
   displayedColumns: string[] = ['sl','markFrom', 'grade', 'assessment', 'actions'];
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseGradingEntryService: CourseGradingEntryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseGradingEntryService: CourseGradingEntryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseGradingEntryId'); 

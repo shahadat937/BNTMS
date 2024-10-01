@@ -7,13 +7,14 @@ import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service'
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-examcenterselection',
   templateUrl: './new-examcenterselection.component.html',
   styleUrls: ['./new-examcenterselection.component.sass']
 }) 
-export class NewExamCenterSelectionComponent implements OnInit {
+export class NewExamCenterSelectionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -31,7 +32,9 @@ export class NewExamCenterSelectionComponent implements OnInit {
   //  selectedExamCenterSelectionremarks:SelectedModel[];
     selectedcoursedurationbyschoolname:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ExamCenterSelectionService: ExamCenterSelectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ExamCenterSelectionService: ExamCenterSelectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('examCenterSelectionId'); 

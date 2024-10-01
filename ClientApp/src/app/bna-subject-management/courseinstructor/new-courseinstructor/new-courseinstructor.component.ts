@@ -9,13 +9,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { CourseInstructor } from '../../models/courseinstructor';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-courseinstructor',
   templateUrl: './new-courseinstructor.component.html',
   styleUrls: ['./new-courseinstructor.component.sass']
 })
-export class NewCourseInstructorComponent implements OnInit {
+export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText: string;
@@ -54,7 +55,9 @@ export class NewCourseInstructorComponent implements OnInit {
 
   displayedColumns: string[] = ['ser', 'courseModule', 'bnaSubjectName', 'trainee', 'status', 'actions'];
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

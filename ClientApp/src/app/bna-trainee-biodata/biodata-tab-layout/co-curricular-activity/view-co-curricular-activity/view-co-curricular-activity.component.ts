@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-co-curricular-activity',
   templateUrl: './view-co-curricular-activity.component.html',
   styleUrls: ['./view-co-curricular-activity.component.sass']
 })
-export class ViewCoCurricularActivityComponent implements OnInit {
+export class ViewCoCurricularActivityComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -32,7 +33,9 @@ export class ViewCoCurricularActivityComponent implements OnInit {
   // groupValues:SelectedModel[]; 
   // boardValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private CoCurricularActivityService: CoCurricularActivityService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private CoCurricularActivityService: CoCurricularActivityService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   
   ngOnInit() {

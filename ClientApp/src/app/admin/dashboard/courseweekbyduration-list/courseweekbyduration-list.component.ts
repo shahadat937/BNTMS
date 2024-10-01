@@ -11,13 +11,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { DatePipe } from '@angular/common';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-courseweekbyduration-list',
   templateUrl: './courseweekbyduration-list.component.html',
   styleUrls: ['./courseweekbyduration-list.component.sass']
 })
-export class CourseWeekByDurationListComponent implements OnInit {
+export class CourseWeekByDurationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false; 
   userRole = Role;
@@ -46,7 +47,9 @@ export class CourseWeekByDurationListComponent implements OnInit {
 
   displayedColumns: string[]= ['ser','trainee','bnaSubjectName','courseName'];
   
-  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private authService: AuthService,private route: ActivatedRoute,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private authService: AuthService,private route: ActivatedRoute,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.currentDate = this.datepipe.transform((new Date), 'MM/dd/yyyy');

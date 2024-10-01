@@ -8,13 +8,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-courseinstructor-list',
   templateUrl: './courseinstructor-list.component.html',
   styleUrls: ['./courseinstructor-list.component.sass']
 })
-export class CourseInstructorBySubjectListComponent implements OnInit {
+export class CourseInstructorBySubjectListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseInstructor[] = [];
@@ -32,7 +33,9 @@ export class CourseInstructorBySubjectListComponent implements OnInit {
 
   displayedColumns: string[]= ['ser','courseName','bnaSubjectName','trainee'];
   
-  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.onModuleSelectionChangeGetsubjectList();

@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-joining-reason-list',
   templateUrl: './joining-reason-list.component.html',
   styleUrls: ['./joining-reason-list.component.sass']
 })
-export class JoiningReasonListComponent implements OnInit {
+export class JoiningReasonListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class JoiningReasonListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<JoiningReason>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private JoiningReasonService: JoiningReasonService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private JoiningReasonService: JoiningReasonService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getJoiningReasons();
   }

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -14,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './forcetype-list.component.html',
   styleUrls: ['./forcetype-list.component.sass']
 })
-export class ForceTypeListComponent implements OnInit {
+export class ForceTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -31,7 +32,9 @@ export class ForceTypeListComponent implements OnInit {
   displayedColumns: string[] = [ 'ser', 'forceTypeName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<ForceType> = new MatTableDataSource();
   
-  constructor(private snackBar: MatSnackBar,private ForceTypeService: ForceTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ForceTypeService: ForceTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getForceTypes();

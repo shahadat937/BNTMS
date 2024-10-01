@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BloodGroupService } from '../../service/BloodGroup.service';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
 
 @Component({
   selector: 'app-new-bloodgroup',
   templateUrl: './new-bloodgroup.component.html',
   styleUrls: ['./new-bloodgroup.component.sass']
 })
-export class NewBloodGroupComponent implements OnInit {
+export class NewBloodGroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewBloodGroupComponent implements OnInit {
   BloodGroupForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private BloodGroupService: BloodGroupService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private BloodGroupService: BloodGroupService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { 
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bloodGroupId'); 

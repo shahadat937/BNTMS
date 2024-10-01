@@ -6,13 +6,14 @@ import { ExamPeriodTypeService } from '../../service/examperiodtype.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-examperiodtype',
   templateUrl: './new-examperiodtype.component.html',
   styleUrls: ['./new-examperiodtype.component.sass']
 })
-export class NewExamPeriodTypeComponent implements OnInit {
+export class NewExamPeriodTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   loading = false;
   pageTitle: string;
   destination:string;
@@ -20,7 +21,9 @@ export class NewExamPeriodTypeComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ExamPeriodTypeService: ExamPeriodTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ExamPeriodTypeService: ExamPeriodTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('examPeriodTypeId'); 

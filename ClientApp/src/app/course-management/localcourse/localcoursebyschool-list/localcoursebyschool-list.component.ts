@@ -13,13 +13,14 @@ import { TraineeNominationService } from '../../service/traineenomination.servic
 import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-localcoursebyschool-list',
   templateUrl: './localcoursebyschool-list.component.html',
   styleUrls: ['./localcoursebyschool-list.component.sass']
 })
-export class LocalCourseBySchoolListComponent implements OnInit {
+export class LocalCourseBySchoolListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -54,7 +55,9 @@ export class LocalCourseBySchoolListComponent implements OnInit {
   role:any;
 
   
-  constructor(private datepipe: DatePipe,private snackBar: MatSnackBar,private authService: AuthService,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private snackBar: MatSnackBar,private authService: AuthService,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SaylorRankService } from '../../service/SaylorRank.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({ 
   selector: 'app-new-saylorrank',
   templateUrl: './new-saylorrank.component.html',
   styleUrls: ['./new-saylorrank.component.sass']
 })
-export class NewSaylorRankComponent implements OnInit {
+export class NewSaylorRankComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewSaylorRankComponent implements OnInit {
   SaylorRankForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private SaylorRankService: SaylorRankService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private SaylorRankService: SaylorRankService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('saylorRankId'); 

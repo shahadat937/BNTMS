@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './coursegradingentry-list.component.html',
   styleUrls: ['./coursegradingentry-list.component.sass']
 })
-export class CourseGradingEntryListComponent implements OnInit {
+export class CourseGradingEntryListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseGradingEntry[] = [];
@@ -34,7 +35,9 @@ export class CourseGradingEntryListComponent implements OnInit {
 
   selection = new SelectionModel<CourseGradingEntry>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private CourseGradingEntryService: CourseGradingEntryService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CourseGradingEntryService: CourseGradingEntryService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getCourseGradingEntry();

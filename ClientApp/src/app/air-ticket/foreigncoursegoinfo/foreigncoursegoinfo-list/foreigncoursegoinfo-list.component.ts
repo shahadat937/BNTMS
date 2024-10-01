@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-foreigncoursegoinfo-list',
   templateUrl: './foreigncoursegoinfo-list.component.html',
   styleUrls: ['./foreigncoursegoinfo-list.component.sass']
 })
-export class ForeignCourseGOInfoListComponent implements OnInit {
+export class ForeignCourseGOInfoListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ForeignCourseGOInfo[] = [];
@@ -34,7 +35,9 @@ export class ForeignCourseGOInfoListComponent implements OnInit {
    selection = new SelectionModel<ForeignCourseGOInfo>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private ForeignCourseGOInfoService: ForeignCourseGOInfoService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ForeignCourseGOInfoService: ForeignCourseGOInfoService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getForeignCourseGOInfos();

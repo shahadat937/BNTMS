@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-saylorsubbranch-list',
   templateUrl: './saylorsubbranch-list.component.html',
   styleUrls: ['./saylorsubbranch-list.component.sass']
 })
-export class SaylorSubBranchListComponent implements OnInit {
+export class SaylorSubBranchListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class SaylorSubBranchListComponent implements OnInit {
   selection = new SelectionModel<SaylorSubBranch>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private SaylorSubBranchService: SaylorSubBranchService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private SaylorSubBranchService: SaylorSubBranchService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getSaylorSubBranchs();

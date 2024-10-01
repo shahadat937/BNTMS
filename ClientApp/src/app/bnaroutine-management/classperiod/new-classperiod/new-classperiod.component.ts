@@ -10,13 +10,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
 import { ClassPeriod } from '../../models/classperiod';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-classperiod',
   templateUrl: './new-classperiod.component.html',
   styleUrls: ['./new-classperiod.component.sass']
 }) 
-export class NewClassPeriodComponent implements OnInit {
+export class NewClassPeriodComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -47,7 +48,9 @@ export class NewClassPeriodComponent implements OnInit {
 
   displayedColumns: string[] = ['ser', 'periodName','bnaClassScheduleStatus','durationForm','durationTo', 'actions'];
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService, private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassPeriodService: ClassPeriodService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService, private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassPeriodService: ClassPeriodService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('classPeriodId'); 

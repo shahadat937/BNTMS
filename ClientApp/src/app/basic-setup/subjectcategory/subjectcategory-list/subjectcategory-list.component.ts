@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './subjectcategory-list.component.html',
   styleUrls: ['./subjectcategory-list.component.sass']
 })
-export class SubjectCategoryListComponent implements OnInit {
+export class SubjectCategoryListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class SubjectCategoryListComponent implements OnInit {
   selection = new SelectionModel<SubjectCategory>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private SubjectCategoryService: SubjectCategoryService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private SubjectCategoryService: SubjectCategoryService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getSubjectCategorys();

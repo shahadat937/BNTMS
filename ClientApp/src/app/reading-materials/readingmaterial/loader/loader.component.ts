@@ -1,4 +1,4 @@
-import { Component,Input,OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component,Input,OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {ReadingMaterial} from '../../models/readingmaterial'
@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.sass']
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent implements OnInit, OnDestroy {
 
   //@Input() showSpinner: any;
    masterData = MasterData;
@@ -44,6 +44,7 @@ export class LoaderComponent implements OnInit {
 
 
    selection = new SelectionModel<ReadingMaterial>(true, []);
+  subscription: any;
 
   
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private ReadingMaterialService: ReadingMaterialService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
@@ -60,7 +61,11 @@ export class LoaderComponent implements OnInit {
    // this.getReadingMaterials();
     
   }
- 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   // getReadingMaterials() {
   //   this.isLoading = true;
   //   this.ReadingMaterialService.getReadingMaterialsBySchool(this.paging.pageIndex, this.paging.pageSize,this.searchText, this.branchId).subscribe(response => {

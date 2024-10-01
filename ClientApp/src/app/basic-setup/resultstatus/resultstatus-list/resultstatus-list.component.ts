@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './resultstatus-list.component.html',
   styleUrls: ['./resultstatus-list.component.sass']
 })
-export class ResultStatusListComponent implements OnInit {
+export class ResultStatusListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ResultStatus[] = [];
@@ -34,7 +35,9 @@ export class ResultStatusListComponent implements OnInit {
 
   selection = new SelectionModel<ResultStatus>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private ResultStatusService: ResultStatusService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ResultStatusService: ResultStatusService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getResultStatus();

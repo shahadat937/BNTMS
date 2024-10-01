@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-elected-list',
   templateUrl: './elected-list.component.html',
   styleUrls: ['./elected-list.component.sass']
 })
-export class ElectedListComponent implements OnInit {
+export class ElectedListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: Elected[] = [];
@@ -32,7 +33,9 @@ export class ElectedListComponent implements OnInit {
 
   selection = new SelectionModel<Elected>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private electedService: ElectedService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private electedService: ElectedService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getElecteds();
   }

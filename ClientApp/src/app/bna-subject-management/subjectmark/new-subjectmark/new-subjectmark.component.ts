@@ -8,13 +8,14 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { SubjectMark } from '../../models/SubjectMark';
 import { MasterData } from 'src/assets/data/master-data';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-subjectmark',
   templateUrl: './new-subjectmark.component.html',
   styleUrls: ['./new-subjectmark.component.sass']
 })
-export class NewSubjectMarkComponent implements OnInit {
+export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   pageTitle: string;
@@ -45,7 +46,9 @@ export class NewSubjectMarkComponent implements OnInit {
 
   displayedColumns: string[] = [ 'ser', 'markType', 'mark', 'passMark', 'actions'];
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

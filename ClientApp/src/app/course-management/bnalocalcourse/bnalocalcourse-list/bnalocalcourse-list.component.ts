@@ -12,12 +12,13 @@ import { environment } from 'src/environments/environment';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { DatePipe } from '@angular/common';
 import { dashboardService } from 'src/app/admin/dashboard/services/dashboard.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-bnalocalcourse-list',
   templateUrl: './bnalocalcourse-list.component.html',
   styleUrls: ['./bnalocalcourse-list.component.sass']
 })
-export class BnaLocalcourseListComponent implements OnInit {
+export class BnaLocalcourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -45,7 +46,9 @@ export class BnaLocalcourseListComponent implements OnInit {
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private datepipe: DatePipe,private dashboardService:dashboardService,  private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private dashboardService:dashboardService,  private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     // this.getCourseDurationsByCourseType(0);

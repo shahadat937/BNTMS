@@ -8,13 +8,14 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-viewsubjectmarkbysubject',
   templateUrl: './viewsubjectmarkbysubject-list.component.html',
   styleUrls: ['./viewsubjectmarkbysubject-list.component.sass']
 })
-export class ViewSubjectMarkListBySubjectComponent implements OnInit {
+export class ViewSubjectMarkListBySubjectComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: SubjectMark[] = [];
@@ -38,7 +39,9 @@ export class ViewSubjectMarkListBySubjectComponent implements OnInit {
    selection = new SelectionModel<SubjectMark>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private SubjectMarkService: SubjectMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private SubjectMarkService: SubjectMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.getSubjectMarks();

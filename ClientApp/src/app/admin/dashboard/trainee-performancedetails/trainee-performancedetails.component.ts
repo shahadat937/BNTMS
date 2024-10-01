@@ -17,13 +17,14 @@ import {CourseDurationService} from '../../../course-management/service/coursedu
 import {BIODataGeneralInfoService} from '../../../trainee-biodata/service/BIODataGeneralInfo.service';
 import {RankService} from '../../../basic-setup/service/Rank.service';
 import {SaylorRankService} from '../../../basic-setup/service/SaylorRank.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-trainee-performancedetails',
   templateUrl: './trainee-performancedetails.component.html',
   styleUrls: ['./trainee-performancedetails.component.sass']
 })
-export class TraineePerformanceDetailsListComponent implements OnInit {
+export class TraineePerformanceDetailsListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -71,7 +72,9 @@ export class TraineePerformanceDetailsListComponent implements OnInit {
 
 // getExamMarkListByParameters
   
-  constructor(private snackBar: MatSnackBar,private BNAExamMarkService:BNAExamMarkService,private saylorRankService:SaylorRankService,private rankService:RankService,private courseDurationService:CourseDurationService,private biodataService:BIODataGeneralInfoService,private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private BNAExamMarkService:BNAExamMarkService,private saylorRankService:SaylorRankService,private rankService:RankService,private courseDurationService:CourseDurationService,private biodataService:BIODataGeneralInfoService,private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

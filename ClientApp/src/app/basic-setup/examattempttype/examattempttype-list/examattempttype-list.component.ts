@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './examattempttype-list.component.html',
   styleUrls: ['./examattempttype-list.component.sass']
 })
-export class ExamAttemptTypeListComponent implements OnInit {
+export class ExamAttemptTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ExamAttemptType[] = [];
@@ -34,7 +35,9 @@ export class ExamAttemptTypeListComponent implements OnInit {
   selection = new SelectionModel<ExamAttemptType>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private ExamAttemptTypeService:ExamAttemptTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ExamAttemptTypeService:ExamAttemptTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getExamAttemptTypes();

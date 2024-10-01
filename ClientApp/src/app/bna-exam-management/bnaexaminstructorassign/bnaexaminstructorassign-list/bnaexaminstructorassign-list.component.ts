@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-bnaexaminstructorassign-list',
   templateUrl: './bnaexaminstructorassign-list.component.html',
   styleUrls: ['./bnaexaminstructorassign-list.component.sass']
 })
-export class BNAExamInstructorAssignListComponent implements OnInit {
+export class BNAExamInstructorAssignListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNAExamInstructorAssign[] = [];
@@ -34,7 +35,9 @@ export class BNAExamInstructorAssignListComponent implements OnInit {
    selection = new SelectionModel<BNAExamInstructorAssign>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getBNAExamInstructorAssigns();

@@ -16,13 +16,14 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../routine-management/models/classroutine';
 import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-indexno',
   templateUrl: './new-indexno.component.html',
   styleUrls: ['./new-indexno.component.sass']
 }) 
-export class NewIndexNoComponent implements OnInit {
+export class NewIndexNoComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   myModel = true;
@@ -68,7 +69,9 @@ export class NewIndexNoComponent implements OnInit {
   isShown: boolean = false ;
   isShownForTraineeList:boolean=false;
 
-  constructor(private snackBar: MatSnackBar,private BNAExamMarkService :BNAExamMarkService,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private BNAExamMarkService :BNAExamMarkService,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { 
+    super()
+  }
 
   ngOnInit(): void {
     // 3136

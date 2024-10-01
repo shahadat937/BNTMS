@@ -13,6 +13,7 @@ import { CourseNameService } from '../../../basic-setup/service/CourseName.servi
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { Location } from '@angular/common';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-jsti-trainee-details',
@@ -23,7 +24,7 @@ import { Location } from '@angular/common';
 //     'app/local.css'
 // ],
 })
-export class JstiTraineeDetailsComponent implements OnInit {
+export class JstiTraineeDetailsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -77,7 +78,9 @@ export class JstiTraineeDetailsComponent implements OnInit {
    selection = new SelectionModel<BNASubjectName>(true, []);
 
 
-  constructor(private snackBar: MatSnackBar, private location:Location, private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private location:Location, private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

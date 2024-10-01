@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-social-media',
   templateUrl: './view-social-media.component.html',
   styleUrls: ['./view-social-media.component.sass']
 })
-export class ViewSocialMediaComponent implements OnInit {
+export class ViewSocialMediaComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -31,7 +32,9 @@ export class ViewSocialMediaComponent implements OnInit {
   menuPosition: number;
   isActive: true
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('socialMediaId'); 
     this.SocialMediaService.find(+id).subscribe( res => {

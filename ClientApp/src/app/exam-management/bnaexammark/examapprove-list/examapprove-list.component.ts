@@ -10,13 +10,14 @@ import { DatePipe } from '@angular/common';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { MatSort } from '@angular/material/sort';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-examapprove-list',
   templateUrl: './examapprove-list.component.html',
   styleUrls: ['./examapprove-list.component.sass']
 })
-export class ExamApproveComponent implements OnInit {
+export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -48,7 +49,9 @@ export class ExamApproveComponent implements OnInit {
 
   displayedExamEvaluationColumns: string[] = ['ser', 'course','subject','date','examStatus', 'markStatus'];
 
-  constructor(private datepipe: DatePipe,private authService: AuthService,private BNAExamMarkService: BNAExamMarkService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private authService: AuthService,private BNAExamMarkService: BNAExamMarkService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     

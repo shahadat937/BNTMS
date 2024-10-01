@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,  } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { BNAExamMarkService } from '../../service/bnaexammark.service';
   templateUrl: './new-subjectmark.component.html',
   styleUrls: ['./new-subjectmark.component.sass']
 })
-export class NewSubjectMarkComponent implements OnInit {
+export class NewSubjectMarkComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   pageTitle: string;
@@ -47,6 +47,7 @@ export class NewSubjectMarkComponent implements OnInit {
   }
 
   displayedColumns: string[] = [ 'ser', 'markType', 'mark', 'passMark', 'actions'];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
 
@@ -56,7 +57,7 @@ export class NewSubjectMarkComponent implements OnInit {
       this.pageTitle = 'Edit JCOs Training Subject Mark';
       this.destination = "Edit";
       this.btnText = 'Update';
-      this.SubjectMarkService.find(+id).subscribe(
+      this.subscription = this.SubjectMarkService.find(+id).subscribe(
         res => {
           this.SubjectMarkForm.patchValue({          
 
@@ -98,6 +99,11 @@ export class NewSubjectMarkComponent implements OnInit {
     this.getSelectedSubjectNameByCourseNameId();
     this.getselectedSaylorBranch();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.SubjectMarkForm = this.fb.group({
       subjectMarkId: [0],
@@ -118,7 +124,7 @@ export class NewSubjectMarkComponent implements OnInit {
       menuPosition:[],
       isActive: [true],
     })
-    this.SubjectMarkForm.get('course').valueChanges
+    this.subscription = this.SubjectMarkForm.get('course').valueChanges
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
@@ -126,35 +132,35 @@ export class NewSubjectMarkComponent implements OnInit {
   }
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
-    this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
+    this.subscription = this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
   getSelectedSubjectNameByCourseNameId(){
-    this.SubjectMarkService.getSelectedSubjectNameByCourseNameId(MasterData.courseName.JCOsTraining).subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getSelectedSubjectNameByCourseNameId(MasterData.courseName.JCOsTraining).subscribe(res=>{
       this.selectedsubjectname=res;
     });
   }
   getselectedSaylorBranch(){
-    this.SubjectMarkService.getselectedSaylorBranch().subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getselectedSaylorBranch().subscribe(res=>{
       this.selectedSaylorBranch=res
      
     });
   }
   onBranchSelectionChangegetSubBranch(saylorBranchId){
     var saylorBranchId
-    this.SubjectMarkService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
       this.selectedSaylorSubBranch=res
      
     });
   }
   getSelectedBranch() {
-    this.SubjectMarkService.getSelectedBranch().subscribe(res => {
+    this.subscription = this.SubjectMarkService.getSelectedBranch().subscribe(res => {
       this.selectedBranch = res
     });
   }
   onSelectedSubjectNameBySubBranchId(saylorSubBranchId) {
-    this.SubjectMarkService.getSelectedSubjectNameByBranchId(saylorSubBranchId).subscribe(res => {
+    this.subscription = this.SubjectMarkService.getSelectedSubjectNameByBranchId(saylorSubBranchId).subscribe(res => {
       this.selectedSubjectValue = res
     });
   }
@@ -177,7 +183,7 @@ export class NewSubjectMarkComponent implements OnInit {
     var bnaSubjectNameId=this.SubjectMarkForm.value['bnaSubjectNameId'];
     this.isShown=true;
     if(courseNameId != null  && bnaSubjectNameId !=null){
-      this.SubjectMarkService.getSelectedSubjectMarkByCourseNameIdAndBnaSubjectNameId(courseNameId,bnaSubjectNameId).subscribe(res=>{
+      this.subscription = this.SubjectMarkService.getSelectedSubjectMarkByCourseNameIdAndBnaSubjectNameId(courseNameId,bnaSubjectNameId).subscribe(res=>{
         this.selectedSubjectMark=res;  
       }); 
     }
@@ -187,27 +193,27 @@ export class NewSubjectMarkComponent implements OnInit {
     var baseSchoolNameId=this.SubjectMarkForm.value['baseSchoolNameId'];
     var courseNameId=this.SubjectMarkForm.value['courseNameId'];
     var courseModuleId=this.SubjectMarkForm.value['courseModuleId'];    
-    this.SubjectMarkService.getselectedbnasubjectnamebyparameters(baseSchoolNameId,courseNameId,courseModuleId).subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getselectedbnasubjectnamebyparameters(baseSchoolNameId,courseNameId,courseModuleId).subscribe(res=>{
       this.selectedsubjectname=res;
     });
   } 
   SubjectMarkListAfterDelete(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId){
     this.isShown=true;
     if(baseSchoolNameId != null && courseNameId != null && courseModuleId !=null && bnaSubjectNameId !=null){
-      this.SubjectMarkService.getselectedsubjectmarkbyparameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
+      this.subscription = this.SubjectMarkService.getselectedsubjectmarkbyparameters(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId).subscribe(res=>{
         this.selectedSubjectMark=res;  
       }); 
     }
   }
 
   getSelectedKindOfSubject(){
-    this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
       this.selectedmarktype=res
     });
   }
 
   getSelectedSchoolName(){
-    this.SubjectMarkService.getSelectedSchoolName().subscribe(res=>{
+    this.subscription = this.SubjectMarkService.getSelectedSchoolName().subscribe(res=>{
       this.selectedSchoolName=res
     });
   }
@@ -220,7 +226,7 @@ export class NewSubjectMarkComponent implements OnInit {
     this.onBaseNameSelectionChangeGetModule();
   }
   getSelectedCourseAutocomplete(cName){
-    this.SubjectMarkService.getSelectedCourseByName(cName).subscribe(response => {
+    this.subscription = this.SubjectMarkService.getSelectedCourseByName(cName).subscribe(response => {
       this.options = response;
       this.filteredOptions = response;
     })
@@ -231,7 +237,7 @@ export class NewSubjectMarkComponent implements OnInit {
     var courseNameId=this.SubjectMarkForm.value['courseNameId'];
      
     if(baseSchoolNameId != null && courseNameId != null){
-      this.SubjectMarkService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
+      this.subscription = this.SubjectMarkService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseModuleByBaseSchoolAndCourseNameId=res;     
       });
     }  
@@ -246,11 +252,11 @@ export class NewSubjectMarkComponent implements OnInit {
   onSubmit() {
     const id = this.SubjectMarkForm.get('subjectMarkId').value;  
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
         if (result) {
           this.loading=true;
-          this.SubjectMarkService.update(+id,this.SubjectMarkForm.value).subscribe(response => {
+          this.subscription = this.SubjectMarkService.update(+id,this.SubjectMarkForm.value).subscribe(response => {
             this.router.navigateByUrl('/jcos-training/add-jcostrainingubjectmark');
             
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -266,7 +272,7 @@ export class NewSubjectMarkComponent implements OnInit {
       })
     }  else {
       this.loading=true;
-      this.SubjectMarkService.submit(this.SubjectMarkForm.value).subscribe(response => {
+      this.subscription = this.SubjectMarkService.submit(this.SubjectMarkForm.value).subscribe(response => {
         // this.router.navigateByUrl('/jcos-training/add-subjectmark');
         this.reloadCurrentRoute();
         this.onsubjectSelectionChangeGetsubjectMarkList();
@@ -292,9 +298,9 @@ export class NewSubjectMarkComponent implements OnInit {
     var courseNameId=row.courseNameId;
     var courseModuleId=row.courseModuleId;
     var bnaSubjectNameId=row.bnaSubjectNameId;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
-        this.SubjectMarkService.delete(id).subscribe(() => {
+        this.subscription = this.SubjectMarkService.delete(id).subscribe(() => {
           this.SubjectMarkListAfterDelete(baseSchoolNameId,courseNameId,courseModuleId,bnaSubjectNameId);
           this.reloadCurrentRoute();
           this.snackBar.open('Information Deleted Successfully ', '', {

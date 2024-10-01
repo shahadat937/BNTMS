@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,7 +23,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './exam-result-nomenee-list.component.html',
   styleUrls: ['./exam-result-nomenee-list.component.sass']
 })
-export class ExamResultNomeneeListComponent implements OnInit {
+export class ExamResultNomeneeListComponent implements OnInit, OnDestroy {
   pageTitle: string;
   loading = false;
   destination: string;
@@ -57,6 +57,7 @@ export class ExamResultNomeneeListComponent implements OnInit {
 
   displayedColumns: string[] = ['ser','course','courseTitle', 'pno', 'name','cgpa'];
   dataSource: MatTableDataSource<ExamResultList> = new MatTableDataSource();
+  subscription: any;
 
   constructor(
     private authService: AuthService,
@@ -79,10 +80,15 @@ export class ExamResultNomeneeListComponent implements OnInit {
 
     this.getSelectedCourseduration(this.branchId);
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   getSelectedCourseduration(id: number): void {
     console.log('Course Duration ' + id);
-    this.examResultService.GetCourseDuration(id).subscribe(res => {
+    this.subscription = this.examResultService.GetCourseDuration(id).subscribe(res => {
       this.selectedCourseduration = res;
     });
   }
@@ -92,7 +98,7 @@ export class ExamResultNomeneeListComponent implements OnInit {
     const courseDurationsId = courseNameArr[0];
     const courseNameId = courseNameArr[1];
     console.log("FindCourseResultDurationID is " + courseDurationsId );
-    this.examResultService.FindCourseResultDurationID(this.branchId, courseDurationsId).subscribe(res => {
+    this.subscription = this.examResultService.FindCourseResultDurationID(this.branchId, courseDurationsId).subscribe(res => {
       this.CourseNomeneeResult = res;
       this.isShown = true;
       console.log("FindCourseResultDurationID is " + JSON.stringify(this.CourseNomeneeResult));

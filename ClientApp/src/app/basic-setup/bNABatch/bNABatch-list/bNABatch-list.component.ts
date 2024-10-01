@@ -8,6 +8,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
+
 
 
 @Component({
@@ -15,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './bnabatch-list.component.html',
   styleUrls: ['./bnabatch-list.component.sass']
 })
-export class BNABatchListComponent implements OnInit {
+export class BNABatchListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +37,9 @@ export class BNABatchListComponent implements OnInit {
   selection = new SelectionModel<BNABatch>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private bNABatchService: BNABatchService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private bNABatchService: BNABatchService,private router: Router,private confirmService: ConfirmService) {
+    super()
+   }
   
   ngOnInit() {
     this.getBNABatchs();

@@ -9,12 +9,13 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { MasterData } from 'src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-new-profileupdate',
   templateUrl: './new-profileupdate.component.html',
   styleUrls: ['./new-profileupdate.component.sass']
 })
-export class NewProfileUpdateComponent implements OnInit {
+export class NewProfileUpdateComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   buttonText:string;
   loading = false;
@@ -52,6 +53,7 @@ export class NewProfileUpdateComponent implements OnInit {
   traineeStatusId:any;
 
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+    super();
     this.files = [];
   }
 

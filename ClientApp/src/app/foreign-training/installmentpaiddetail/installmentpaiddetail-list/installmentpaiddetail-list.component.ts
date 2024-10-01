@@ -9,13 +9,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-installmentpaiddetail-list',
   templateUrl: './installmentpaiddetail-list.component.html',
   styleUrls: ['./installmentpaiddetail-list.component.sass']
 })
-export class InstallmentPaidDetailListComponent implements OnInit {
+export class InstallmentPaidDetailListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: InstallmentPaidDetail[] = [];
@@ -37,7 +38,9 @@ export class InstallmentPaidDetailListComponent implements OnInit {
    selection = new SelectionModel<InstallmentPaidDetail>(true, []);
 
   
-  constructor(private route : ActivatedRoute,private snackBar: MatSnackBar,private InstallmentPaidDetailService: InstallmentPaidDetailService,private router: Router, private confirmService: ConfirmService) { }
+  constructor(private route : ActivatedRoute,private snackBar: MatSnackBar,private InstallmentPaidDetailService: InstallmentPaidDetailService,private router: Router, private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
      this.courseDurationId = this.route.snapshot.paramMap.get("courseDurationId");

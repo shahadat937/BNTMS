@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ExamCenterService} from '../../service/examcenter.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-examcenter',
   templateUrl: './new-examcenter.component.html',
   styleUrls: ['./new-examcenter.component.sass']
 })
-export class NewExamCenterComponent implements OnInit {
+export class NewExamCenterComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewExamCenterComponent implements OnInit {
   ExamCenterForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ExamCenterService: ExamCenterService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ExamCenterService: ExamCenterService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('examCenterId'); 

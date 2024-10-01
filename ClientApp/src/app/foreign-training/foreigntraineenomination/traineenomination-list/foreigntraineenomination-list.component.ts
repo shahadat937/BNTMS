@@ -8,13 +8,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmService } from "src/app/core/service/confirm.service";
 import { MasterData } from "src/assets/data/master-data";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 
 @Component({
   selector: "app-foreigntraineenomination-list",
   templateUrl: "./foreigntraineenomination-list.component.html",
   styleUrls: ["./foreigntraineenomination-list.component.sass"],
 })
-export class ForeignTraineeNominationListComponent implements OnInit {
+export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeNomination[] = [];
@@ -46,7 +47,9 @@ export class ForeignTraineeNominationListComponent implements OnInit {
     private TraineeNominationService: TraineeNominationService,
     private router: Router,
     private confirmService: ConfirmService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.courseDurationId =

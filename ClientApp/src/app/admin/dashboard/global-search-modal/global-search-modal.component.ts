@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { delay, of, Subscription } from 'rxjs';
 import {GlobalSearchService} from '../services/global-search.service'
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-global-search-modal',
   templateUrl: './global-search-modal.component.html',
   styleUrls: ['./global-search-modal.component.sass'],
 })
-export class GlobalSearchModalComponent implements OnInit {
+export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   searchText: string;
   pageSize: number;
@@ -19,6 +20,7 @@ export class GlobalSearchModalComponent implements OnInit {
   constructor(
     private globalSearchService: GlobalSearchService
   ) { 
+    super();
     this.searchText= "";
     this.pageIndex = 1;
     this.pageSize = 5;

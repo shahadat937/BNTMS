@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-migrationdocument-list',
   templateUrl: './migrationdocument-list.component.html',
   styleUrls: ['./migrationdocument-list.component.sass']
 })
-export class MigrationDocumentListComponent implements OnInit {
+export class MigrationDocumentListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: MigrationDocument[] = [];
@@ -34,7 +35,9 @@ export class MigrationDocumentListComponent implements OnInit {
    selection = new SelectionModel<MigrationDocument>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private MigrationDocumentService: MigrationDocumentService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private MigrationDocumentService: MigrationDocumentService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getMigrationDocuments();

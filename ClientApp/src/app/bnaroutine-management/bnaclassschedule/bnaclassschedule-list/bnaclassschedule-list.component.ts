@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-bnaclassschedule-list',
   templateUrl: './bnaclassschedule-list.component.html',
   styleUrls: ['./bnaclassschedule-list.component.sass']
 })
-export class BnaClassScheduleListComponent implements OnInit {
+export class BnaClassScheduleListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BnaClassSchedule[] = [];
@@ -34,7 +35,9 @@ export class BnaClassScheduleListComponent implements OnInit {
    selection = new SelectionModel<BnaClassSchedule>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BnaClassScheduleService: BnaClassScheduleService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BnaClassScheduleService: BnaClassScheduleService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getBnaClassSchedules();

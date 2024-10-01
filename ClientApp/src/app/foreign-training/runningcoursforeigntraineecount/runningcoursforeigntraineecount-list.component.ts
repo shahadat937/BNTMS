@@ -11,13 +11,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-runningcoursforeigntraineecount-list',
   templateUrl: './runningcoursforeigntraineecount-list.component.html',
   styleUrls: ['./runningcoursforeigntraineecount-list.component.sass']
 })
-export class RunningCoursForeignRraineecountListComponent implements OnInit {
+export class RunningCoursForeignRraineecountListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -49,7 +50,9 @@ export class RunningCoursForeignRraineecountListComponent implements OnInit {
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private datepipe: DatePipe,private snackBar: MatSnackBar,private authService: AuthService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private snackBar: MatSnackBar,private authService: AuthService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

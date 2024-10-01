@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {WeekNameService} from '../../service/WeekName.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-weekname',
   templateUrl: './new-weekname.component.html',
   styleUrls: ['./new-weekname.component.sass']
 })
-export class NewWeekNameComponent implements OnInit {
+export class NewWeekNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewWeekNameComponent implements OnInit {
   WeekNameForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private WeekNameService: WeekNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private WeekNameService: WeekNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('weekNameId'); 

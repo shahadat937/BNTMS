@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-educational-qualification-list',
   templateUrl: './educational-qualification-list.component.html',
   styleUrls: ['./educational-qualification-list.component.sass']
 })
-export class EducationalQualificationListComponent implements OnInit {
+export class EducationalQualificationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -37,7 +38,9 @@ export class EducationalQualificationListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<EducationalQualification>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getEducationalQualifications();
   }

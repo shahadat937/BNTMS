@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-foreigncourse-list',
   templateUrl: './foreigncourse-list.component.html',
   styleUrls: ['./foreigncourse-list.component.sass']
 })
-export class ForeigncourseListComponent implements OnInit {
+export class ForeigncourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -36,7 +37,9 @@ export class ForeigncourseListComponent implements OnInit {
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
      this.getCourseDurationsByCourseType();

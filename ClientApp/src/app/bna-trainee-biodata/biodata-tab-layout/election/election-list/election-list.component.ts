@@ -8,13 +8,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-election',
   templateUrl: './election-list.component.html',
   styleUrls: ['./election-list.component.sass']
 })
-export class ElectionListComponent implements OnInit {
+export class ElectionListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -34,7 +35,9 @@ export class ElectionListComponent implements OnInit {
 
   selection = new SelectionModel<Election>(true, []);
 
-  constructor(private route: ActivatedRoute,private ElectionService: ElectionService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private ElectionService: ElectionService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getElections();
   }

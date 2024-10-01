@@ -8,13 +8,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-examinstructor-list',
   templateUrl: './examinstructor-list.component.html',
   styleUrls: ['./examinstructor-list.component.sass']
 })
-export class ExamInstructorListComponent implements OnInit {
+export class ExamInstructorListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNAExamInstructorAssign[] = [];
@@ -34,7 +35,9 @@ export class ExamInstructorListComponent implements OnInit {
 
   displayedColumns: string[]= ['ser','trainee','bnaSubjectName','classRoutine'];
   
-  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.onModuleSelectionChangeGetsubjectList();

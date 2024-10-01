@@ -10,13 +10,14 @@ import { InterServiceMark } from '../../models/interservicemark';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { TraineeListforForeignCourse } from '../../models/traineeListforforeigncourse';
 import { CourseDurationService } from '../../service/courseduration.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-interservicemark',
   templateUrl: './new-interservicemark.component.html',
   styleUrls: ['./new-interservicemark.component.sass']
 })
-export class NewInterServiceMarkComponent implements OnInit {
+export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText: string;
   pageTitle: string;
    masterData = MasterData;
@@ -55,7 +56,9 @@ export class NewInterServiceMarkComponent implements OnInit {
 
 
   displayedColumnsForTraineeList: string[] = ['sl', 'traineeName', 'coursePosition', 'obtaintMark', 'documentId', 'remarks'];
-  constructor(private snackBar: MatSnackBar, private courseDurationService: CourseDurationService , private traineeNominationService: TraineeNominationService, private InterServiceMarkService: InterServiceMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar, private courseDurationService: CourseDurationService , private traineeNominationService: TraineeNominationService, private InterServiceMarkService: InterServiceMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('interServiceMarkId');

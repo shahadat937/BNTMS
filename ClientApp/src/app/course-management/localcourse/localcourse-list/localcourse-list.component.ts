@@ -14,12 +14,13 @@ import { TraineeNominationService } from '../../service/traineenomination.servic
 import { DatePipe } from '@angular/common';
 import { dashboardService } from 'src/app/admin/dashboard/services/dashboard.service';
 import { ScrollService } from 'src/app/course-management/localcourse/scrole-restore/scrole-position.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-localcourse-list',
   templateUrl: './localcourse-list.component.html',
   styleUrls: ['./localcourse-list.component.sass']
 })
-export class LocalcourseListComponent implements OnInit,OnDestroy {
+export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit,OnDestroy {
   scrollPosition: number = 0;
     oldScrollPosition: number = 0;
   index:number;
@@ -52,7 +53,9 @@ export class LocalcourseListComponent implements OnInit,OnDestroy {
    
 
 
-  constructor(private datepipe: DatePipe, private dashboardService: dashboardService, private snackBar: MatSnackBar, private TraineeNominationService: TraineeNominationService, private CourseDurationService: CourseDurationService, private router: Router, private confirmService: ConfirmService, private scrollPositionService: ScrollService) { }
+  constructor(private datepipe: DatePipe, private dashboardService: dashboardService, private snackBar: MatSnackBar, private TraineeNominationService: TraineeNominationService, private CourseDurationService: CourseDurationService, private router: Router, private confirmService: ConfirmService, private scrollPositionService: ScrollService) {
+    super();
+  }
 
   @HostListener('window:scroll')
   onWindowScroll() {
