@@ -5,6 +5,7 @@ import { TraineeVisitedAboardService } from '../../../biodata-tab-layout/service
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
   templateUrl: './new-trainee-visited-abroad.component.html',
   styleUrls: ['./new-trainee-visited-abroad.component.sass']
 })
-export class NewTraineeVisitedAboardComponent implements OnInit, OnDestroy {
+export class NewTraineeVisitedAboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -24,7 +25,9 @@ export class NewTraineeVisitedAboardComponent implements OnInit, OnDestroy {
   selectCountry:SelectedModel[];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private TraineeVisitedAboardService: TraineeVisitedAboardService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private TraineeVisitedAboardService: TraineeVisitedAboardService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeVisitedAboardId'); 

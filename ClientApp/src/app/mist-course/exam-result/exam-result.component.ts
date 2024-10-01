@@ -19,6 +19,7 @@ import { TraineeNomination } from '../models/traineenomination';
 import { AuthService } from 'src/app/core/service/auth.service';
 
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 
@@ -27,7 +28,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './exam-result.component.html',
   styleUrls: ['./exam-result.component.sass']
 })
-export class ExamResultComponent implements OnInit {
+export class ExamResultComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -72,7 +73,9 @@ export class ExamResultComponent implements OnInit {
       private confirmService: ConfirmService,
       private CourseTermService: CourseTermService,
       private fb: FormBuilder, private router: Router, 
-      private route: ActivatedRoute) { }
+      private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
    
