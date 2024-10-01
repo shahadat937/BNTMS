@@ -14,13 +14,14 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-coursebudgetallocation',
   templateUrl: './new-coursebudgetallocation.component.html',
   styleUrls: ['./new-coursebudgetallocation.component.sass']
 }) 
-export class NewCourseBudgetAllocationComponent implements OnInit {
+export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -68,7 +69,9 @@ export class NewCourseBudgetAllocationComponent implements OnInit {
 
    selection = new SelectionModel<CourseBudgetAllocation>(true, []);
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private CourseWeekService: CourseWeekService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseBudgetAllocationService: CourseBudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private CourseWeekService: CourseWeekService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseBudgetAllocationService: CourseBudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

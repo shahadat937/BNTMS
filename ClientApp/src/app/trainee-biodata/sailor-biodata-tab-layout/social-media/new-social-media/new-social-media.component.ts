@@ -5,13 +5,14 @@ import { SocialMediaService } from '../../service/SocialMedia.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-social-media',
   templateUrl: './new-social-media.component.html',
   styleUrls: ['./new-social-media.component.sass']
 })
-export class NewSocialMediaComponent implements OnInit {
+export class NewSocialMediaComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -23,7 +24,9 @@ export class NewSocialMediaComponent implements OnInit {
   selectSocialMedia:SelectedModel[];
   traineeId: string;
 
-  constructor(private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('socialMediaId'); 

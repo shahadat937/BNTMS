@@ -15,6 +15,7 @@ import { CheckboxSelectedModel } from 'src/app/core/models/checkboxSelectedModel
 import { TraineeList } from '../../models/traineeList';
 import { DatePipe } from '@angular/common';
 import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { ClassRoutineService } from 'src/app/routine-management/service/classrou
   templateUrl: './attendance-approved.component.html',
   styleUrls: ['./attendance-approved.component.sass']
 })
-export class AttendanceApprovedComponent implements OnInit {
+export class AttendanceApprovedComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -56,7 +57,9 @@ export class AttendanceApprovedComponent implements OnInit {
   searchText="";
   displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   dataSource ;
-  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('attendanceId'); 

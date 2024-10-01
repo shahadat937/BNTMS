@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-family-info',
   templateUrl: './view-family-info.component.html',
   styleUrls: ['./view-family-info.component.sass']
 })
-export class ViewParentRelativeComponent implements OnInit {
+export class ViewParentRelativeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class ViewParentRelativeComponent implements OnInit {
   
   
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ParentRelativeService: ParentRelativeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ParentRelativeService: ParentRelativeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   
   

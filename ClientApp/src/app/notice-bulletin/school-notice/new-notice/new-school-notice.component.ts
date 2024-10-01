@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../service/notification.service';
@@ -17,7 +17,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './new-school-notice.component.html',
   styleUrls: ['./new-school-notice.component.sass']
 }) 
-export class NewSchoolNoticeComponent implements OnInit {
+export class NewSchoolNoticeComponent implements OnInit, OnDestroy {
   masterData = MasterData;
   userRole=Role;
   loading = false;
@@ -49,6 +49,7 @@ export class NewSchoolNoticeComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['ser','noticeHeading','noticeDetails','courseName','status','actions'];
+  subscription: any;
   constructor(
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
@@ -80,13 +81,18 @@ export class NewSchoolNoticeComponent implements OnInit {
       this.getSchoolListByBase(this.branchId);
     }else if (this.role == Role.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool || this.role == Role.SchoolOIC){
       this.getNotificationResponselistForSchool(this.branchId);
-      this.baseSchoolNameService.find(this.branchId).subscribe(res=>{
+      this.subscription = this.baseSchoolNameService.find(this.branchId).subscribe(res=>{
         this.headerSchoolName=res.schoolName;
       });
     }
     // this.getselectedbaseschools();
     // this.getselectedcoursedurationbyschoolname();
    // this.getNoticeBySchool();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.SchoolNoticeForm = this.fb.group({
@@ -103,7 +109,7 @@ export class NewSchoolNoticeComponent implements OnInit {
   }
 
   getSchoolListByBase(baseNameId){
-    this.notificationService.getNotificationReminderForAdmin(baseNameId,this.role).subscribe(res=>{
+    this.subscription = this.notificationService.getNotificationReminderForAdmin(baseNameId,this.role).subscribe(res=>{
       this.schoolByBaseList=res;
     });
   }
@@ -131,12 +137,12 @@ export class NewSchoolNoticeComponent implements OnInit {
 
 
   getNotificationListBySchool(filterRole,baseSchoolNameId,batchId){
-    this.notificationService.getNotificationsBySchool(filterRole,baseSchoolNameId,batchId).subscribe(res=>{
+    this.subscription = this.notificationService.getNotificationsBySchool(filterRole,baseSchoolNameId,batchId).subscribe(res=>{
       this.NotificationListBySchool=res;
     });
   }
   getNotificationResponselistForSchool(baseSchoolNameId){
-    this.notificationService.getNotificationResponselistForSchool(baseSchoolNameId).subscribe(res=>{
+    this.subscription = this.notificationService.getNotificationResponselistForSchool(baseSchoolNameId).subscribe(res=>{
       this.NotificationResponseListBySchool=res;
     });
   }
@@ -163,7 +169,7 @@ export class NewSchoolNoticeComponent implements OnInit {
   }
 
   updateSeenStatus(data){
-    this.notificationService.ChangeNotificationSeenStatus(data.notificationId,1).subscribe(res=>{
+    this.subscription = this.notificationService.ChangeNotificationSeenStatus(data.notificationId,1).subscribe(res=>{
       if(this.role == Role.SuperAdmin || this.role == Role.SchoolOIC){
         this.getNotificationResponselistForSchool(this.branchId);
         this.getNotificationListBySchool(data.senderRole,this.branchId,data.sendBaseSchoolNameId);
@@ -187,7 +193,7 @@ export class NewSchoolNoticeComponent implements OnInit {
     
     
       this.loading = true;
-      this.notificationService.submit(this.SchoolNoticeForm.value).subscribe(response => {
+      this.subscription = this.notificationService.submit(this.SchoolNoticeForm.value).subscribe(response => {
         // this.reloadCurrentRoute();
         this.SchoolNoticeForm.get('notes').setValue('');
         if(this.role == Role.SuperAdmin || this.role == Role.SchoolOIC){          

@@ -9,13 +9,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-update-traineenomination',
   templateUrl: './update-traineenomination.component.html',
   styleUrls: ['./update-traineenomination.component.sass']
 }) 
-export class UpdateTraineeNominationComponent implements OnInit {
+export class UpdateTraineeNominationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -39,7 +40,9 @@ export class UpdateTraineeNominationComponent implements OnInit {
   filteredOptions;
   
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
  
   ngOnInit(): void {
    

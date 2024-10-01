@@ -9,13 +9,14 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-school-list',
   templateUrl: './school-list.component.html',
   styleUrls: ['./school-list.component.sass']
 })
-export class SchoolListComponent implements OnInit {
+export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -40,7 +41,9 @@ export class SchoolListComponent implements OnInit {
   displayedColumns: string[] = ['ser','schoolName','courseCount'];
 
   
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
         

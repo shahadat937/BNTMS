@@ -8,12 +8,13 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-new-passwordchange',
   templateUrl: './new-passwordchange.component.html',
   styleUrls: ['./new-passwordchange.component.sass']
 })
-export class NewPasswordChangeComponent implements OnInit {
+export class NewPasswordChangeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   submitted = false;
   loading = false;
@@ -30,8 +31,8 @@ export class NewPasswordChangeComponent implements OnInit {
   role:any;
   traineeId:any;
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
-    // this.files = [];
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
   }
 
   @ViewChild('labelImport')  labelImport: ElementRef;

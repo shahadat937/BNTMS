@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-educational-qualification',
   templateUrl: './view-educational-qualification.component.html',
   styleUrls: ['./view-educational-qualification.component.sass']
 })
-export class ViewEducationalQualificationComponent implements OnInit {
+export class ViewEducationalQualificationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -43,7 +44,9 @@ export class ViewEducationalQualificationComponent implements OnInit {
   groupValues:SelectedModel[]; 
   boardValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   // getExamType(){    
   //   this.EducationalQualificationService.getselectedexamtype().subscribe(res=>{

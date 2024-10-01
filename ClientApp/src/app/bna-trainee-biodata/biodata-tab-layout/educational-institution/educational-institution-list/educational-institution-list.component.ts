@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-educational-institution-list',
   templateUrl: './educational-institution-list.component.html',
   styleUrls: ['./educational-institution-list.component.sass']
 })
-export class EducationalInstitutionListComponent implements OnInit {
+export class EducationalInstitutionListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class EducationalInstitutionListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<EducationalInstitution>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalInstitutionService: EducationalInstitutionService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalInstitutionService: EducationalInstitutionService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getEducationalInstitutions();
   }

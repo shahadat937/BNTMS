@@ -37,6 +37,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { SpOfficerDetails } from '../models/spofficerdetails';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 //import { MasterData } from 'src/assets/data/master-data';
 //import { CourseDuration } from '../models/courseduration';
 //import { CourseDurationService } from '../services/courseduration.service';
@@ -68,7 +69,7 @@ export type barChartOptions = {
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild('calendar', { static: false })
   calendar: Calendar | null;
   public addCusForm: FormGroup;
@@ -146,7 +147,9 @@ export class MainComponent implements OnInit {
   selection = new SelectionModel<CourseDuration>(true, []);
   
 
-  constructor(private datepipe: DatePipe, private authService: AuthService,private CourseDurationService: CourseDurationService,private dashboardService: dashboardService) {}
+  constructor(private datepipe: DatePipe, private authService: AuthService,private CourseDurationService: CourseDurationService,private dashboardService: dashboardService) {
+    super();
+  }
  
 
   ngOnInit() {

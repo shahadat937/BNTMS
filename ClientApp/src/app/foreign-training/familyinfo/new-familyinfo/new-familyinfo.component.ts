@@ -8,6 +8,7 @@ import { FamilyInfoService } from '../../service/familyinfo.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { FamilyInfo } from '../../models/familyinfo';
 import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/biodata-tab-layout/service/BIODataGeneralInfo.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 //import { BIODataGeneralInfoService } from '../../';
 
 @Component({
@@ -15,7 +16,7 @@ import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/biodata-tab-l
   templateUrl: './new-familyinfo.component.html',
   styleUrls: ['./new-familyinfo.component.sass']
 })
-export class NewFamilyInfoComponent implements OnInit {
+export class NewFamilyInfoComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText: string;
   pageTitle: string;
    masterData = MasterData;
@@ -47,7 +48,9 @@ export class NewFamilyInfoComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['sl', 'traineePNo', 'fullName', 'relationType', 'actions'];
-  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private FamilyInfoService: FamilyInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private FamilyInfoService: FamilyInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('familyInfoId');

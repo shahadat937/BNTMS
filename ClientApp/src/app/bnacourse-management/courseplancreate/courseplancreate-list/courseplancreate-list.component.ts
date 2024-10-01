@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-courseplancreate-list',
   templateUrl: './courseplancreate-list.component.html',
   styleUrls: ['./courseplancreate-list.component.sass'] 
 })
-export class CourseplanCreateListComponent implements OnInit {
+export class CourseplanCreateListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseplanCreate[] = [];
@@ -35,7 +36,9 @@ export class CourseplanCreateListComponent implements OnInit {
    selection = new SelectionModel<CourseplanCreate>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private CourseplanCreateService: CourseplanCreateService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CourseplanCreateService: CourseplanCreateService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getCourseplanCreates();

@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-group-list',
   templateUrl: './group-list.component.html',
   styleUrls: ['./group-list.component.sass']
 })
-export class GroupListComponent implements OnInit {
+export class GroupListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: Group[] = [];
@@ -32,7 +33,9 @@ export class GroupListComponent implements OnInit {
 
   selection = new SelectionModel<Group>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private groupService: GroupService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private groupService: GroupService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getGroups();
   }

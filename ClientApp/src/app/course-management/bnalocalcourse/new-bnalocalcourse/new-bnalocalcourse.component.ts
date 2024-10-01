@@ -8,13 +8,14 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnalocalcourse',
   templateUrl: './new-bnalocalcourse.component.html',
   styleUrls: ['./new-bnalocalcourse.component.sass']
 })
-export class NewBnaLocalcourseComponent implements OnInit {
+export class NewBnaLocalcourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -36,7 +37,9 @@ export class NewBnaLocalcourseComponent implements OnInit {
   options = [];
   filteredOptions;
 
-  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 

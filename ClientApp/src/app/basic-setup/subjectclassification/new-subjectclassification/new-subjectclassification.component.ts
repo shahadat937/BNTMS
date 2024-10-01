@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectClassificationService } from '../../service/SubjectClassification.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-subjectclassification',
   templateUrl: './new-subjectclassification.component.html',
   styleUrls: ['./new-subjectclassification.component.sass']
 })
-export class NewSubjectClassificationComponent implements OnInit {
+export class NewSubjectClassificationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewSubjectClassificationComponent implements OnInit {
   SubjectClassificationForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private SubjectClassificationService: SubjectClassificationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private SubjectClassificationService: SubjectClassificationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('subjectClassificationId'); 

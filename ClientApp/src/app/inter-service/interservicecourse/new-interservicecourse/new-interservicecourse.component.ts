@@ -10,13 +10,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { CourseNameService } from 'src/app/basic-setup/service/CourseName.service';
 import { OrganizationNameService } from 'src/app/basic-setup/service/organizationname.service';
 import { CourseDuration } from '../../models/courseduration';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-interservicecourse',
   templateUrl: './new-interservicecourse.component.html',
   styleUrls: ['./new-interservicecourse.component.sass']
 })
-export class NewInterservicecourseComponent implements OnInit {
+export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -49,7 +50,9 @@ export class NewInterservicecourseComponent implements OnInit {
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 

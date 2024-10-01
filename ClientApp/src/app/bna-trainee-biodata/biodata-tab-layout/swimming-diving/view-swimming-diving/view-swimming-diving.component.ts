@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-swimming-diving',
   templateUrl: './view-swimming-diving.component.html',
   styleUrls: ['./view-swimming-diving.component.sass']
 })
-export class ViewSwimmingDivingComponent implements OnInit {
+export class ViewSwimmingDivingComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -31,7 +32,9 @@ export class ViewSwimmingDivingComponent implements OnInit {
   //districtValues:SelectedModel[]; 
   //thanaValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   // getDistrict(){    
   //   this.SwimmingDivingService.getselecteddistrict().subscribe(res=>{

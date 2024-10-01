@@ -10,13 +10,14 @@ import {MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { dashboardService } from '../services/dashboard.service';
 import { TraineeNominationService } from '../../../staff-collage/service/traineenomination.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-centralexamnominated-list',
   templateUrl: './centralexamnominated-list.component.html',
   styleUrls: ['./centralexamnominated-list.component.sass']
 })
-export class CentralExamNominatedListComponent implements OnInit {
+export class CentralExamNominatedListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNAExamInstructorAssign[] = [];
@@ -38,7 +39,9 @@ export class CentralExamNominatedListComponent implements OnInit {
 
   displayedColumns: string[]= ['ser','course','duration','candidate','action'];
   
-  constructor(private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private dashboardService: dashboardService,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private dashboardService: dashboardService,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.onModuleSelectionChangeGetsubjectList();

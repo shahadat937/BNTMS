@@ -13,13 +13,14 @@ import { ClassRoutine } from '../../../../routine-management/models/classroutine
 import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
 import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
 import { number } from 'echarts';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-traineesectionassign-list',
   templateUrl: './traineesectionassign-list.component.html',
   styleUrls: ['./traineesectionassign-list.component.sass']
 }) 
-export class TraineeSectionAssignListComponent implements OnInit {
+export class TraineeSectionAssignListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   findLastCharacter;
   masterData = MasterData;
   loading = false;
@@ -74,7 +75,9 @@ export class TraineeSectionAssignListComponent implements OnInit {
     private traineeNominationService:TraineeNominationService,
     private fb: FormBuilder, private router: Router,  
     private route: ActivatedRoute,
-   ) { }
+   ) {
+    super();
+  }
 
   ngOnInit(): void {
     // 3136

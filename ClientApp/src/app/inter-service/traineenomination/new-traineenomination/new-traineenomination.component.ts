@@ -10,13 +10,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/service/BIODataGeneralInfo.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-traineenomination',
   templateUrl: './new-traineenomination.component.html',
   styleUrls: ['./new-traineenomination.component.sass']
 }) 
-export class NewTraineeNominationComponent implements OnInit {
+export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -39,7 +40,9 @@ export class NewTraineeNominationComponent implements OnInit {
   filteredOptions;
   
 
-  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
  
   ngOnInit(): void {
    

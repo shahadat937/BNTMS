@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -18,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './bnaservicetype-list.component.html',
   styleUrls: ['./bnaservicetype-list.component.sass']
 })
-export class BNAServiceTypeListComponent implements OnInit {
+export class BNAServiceTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -37,7 +38,9 @@ export class BNAServiceTypeListComponent implements OnInit {
 
   selection = new SelectionModel<BNAServiceType>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private BNAServiceTypeService: BNAServiceTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BNAServiceTypeService: BNAServiceTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getBNAServiceTypes();

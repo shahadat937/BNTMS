@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl,FormBuilder, FormGroup, Validators,ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   templateUrl: './new-passwordchange.component.html',
   styleUrls: ['./new-passwordchange.component.sass']
 })
-export class NewPasswordChangeComponent implements OnInit {
+export class NewPasswordChangeComponent implements OnInit, OnDestroy {
 
   submitted = false;
   loading = false;
@@ -29,6 +29,7 @@ export class NewPasswordChangeComponent implements OnInit {
   validationErrors: string[] = [];
   role:any;
   traineeId:any;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
     // this.files = [];
@@ -47,7 +48,7 @@ export class NewPasswordChangeComponent implements OnInit {
       this.destination='Edit';
       this.buttonText="Update";
  
-      this.BIODataGeneralInfoService.find(+id).subscribe(
+      this.subscription = this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
           if (res) {
             this.PasswordUpdateForm.patchValue(res);
@@ -60,6 +61,11 @@ export class NewPasswordChangeComponent implements OnInit {
       this.buttonText="Save";
     }
     this.intitializeForm();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   intitializeForm() {
@@ -116,11 +122,11 @@ matchValues(matchTo: string): ValidatorFn {
     
   //  if (id) {
     this.PasswordUpdateForm.get('userId').setValue(this.userId)
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         
         if (result) {
           this.loading = true;
-          this.BIODataGeneralInfoService.updatePassword(this.PasswordUpdateForm.value).subscribe(response => {
+          this.subscription = this.BIODataGeneralInfoService.updatePassword(this.PasswordUpdateForm.value).subscribe(response => {
             // this.router.navigateByUrl('/trainee-biodata/trainee-biodata-tab/biodata-general-Info-list');
             this.router.navigateByUrl('/instructor/profile-update');
             this.reloadCurrentRoute();

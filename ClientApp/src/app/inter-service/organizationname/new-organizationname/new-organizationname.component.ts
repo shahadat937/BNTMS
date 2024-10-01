@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { OrganizationNameService } from '../../service/organizationname.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-organizationname',
   templateUrl: './new-organizationname.component.html',
   styleUrls: ['./new-organizationname.component.sass']
 })
-export class NewOrganizationNameComponent implements OnInit {
+export class NewOrganizationNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -20,7 +21,9 @@ export class NewOrganizationNameComponent implements OnInit {
   validationErrors: string[] = [];
   selectedForceType:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('organizationNameId'); 

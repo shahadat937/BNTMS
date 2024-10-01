@@ -8,13 +8,14 @@ import { CourseSection } from '../../models/CourseSection';
 import { CourseSectionService } from '../../service/CourseSection.service';
 import { CourseNameService } from '../../service/CourseName.service';
 import { MasterData } from 'src/assets/data/master-data'; 
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-coursesection',
   templateUrl: './new-coursesection.component.html',
   styleUrls: ['./new-coursesection.component.sass']
 })
-export class NewCourseSectionComponent implements OnInit {
+export class NewCourseSectionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText :string;
   pageTitle : string;
   destination :string;
@@ -45,7 +46,9 @@ export class NewCourseSectionComponent implements OnInit {
 
   displayedColumns: string[] = ['sl','sectionName', 'sectionShortName','menuPosition','actions'];
 
-  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private courseSectionService: CourseSectionService, private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private courseSectionService: CourseSectionService, private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseSectionId'); 

@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {MasterData} from 'src/assets/data/master-data'
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
  
 
@@ -16,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './bnasemester-list.component.html',
   styleUrls: ['./bnasemester-list.component.sass']
 })
-export class BNASemesterListComponent implements OnInit {
+export class BNASemesterListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -36,7 +37,9 @@ export class BNASemesterListComponent implements OnInit {
 
   selection = new SelectionModel<BNASemester>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private BNASemesterService: BNASemesterService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private BNASemesterService: BNASemesterService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getBNASemesters();

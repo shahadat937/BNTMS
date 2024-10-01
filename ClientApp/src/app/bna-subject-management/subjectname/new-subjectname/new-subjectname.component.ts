@@ -11,13 +11,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-subjectname',
   templateUrl: './new-subjectname.component.html',
   styleUrls: ['./new-subjectname.component.sass']
 })
-export class NewSubjectnameComponent implements OnInit {
+export class NewSubjectnameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   pageTitle: string; 
@@ -55,7 +56,9 @@ export class NewSubjectnameComponent implements OnInit {
     length: 1
   }
   displayedColumns: string[] = ['ser','subjectName','subjectCode','subjectType','kindOfSubject','totalMark','passMarkBna',/*'bnaSemesterId','courseNameId','isActive',*/ 'actions'];
-  constructor(private snackBar: MatSnackBar,private authService:AuthService, private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService:CodeValueService,private BNASubjectNameService: BNASubjectNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private authService:AuthService, private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService:CodeValueService,private BNASubjectNameService: BNASubjectNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

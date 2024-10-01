@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from '../../service/branch.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-branch',
   templateUrl: './new-branch.component.html',
   styleUrls: ['./new-branch.component.sass']
 })
-export class NewBranchComponent implements OnInit {
+export class NewBranchComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -19,7 +20,9 @@ export class NewBranchComponent implements OnInit {
   branchForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private branchService: BranchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private branchService: BranchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('branchId'); 

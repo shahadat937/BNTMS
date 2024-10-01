@@ -7,13 +7,14 @@ import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service'
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-TraineeSectionSelection',
   templateUrl: './new-TraineeSectionSelection.component.html',
   styleUrls: ['./new-TraineeSectionSelection.component.sass']
 }) 
-export class NewTraineeSectionSelectionComponent implements OnInit {
+export class NewTraineeSectionSelectionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -32,7 +33,9 @@ export class NewTraineeSectionSelectionComponent implements OnInit {
   selectBNAbatch: SelectedModel[];
   selectSemesterId:SelectedModel[]
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeSectionSelectionService: TraineeSectionSelectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeSectionSelectionService: TraineeSectionSelectionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeSectionSelectionId'); 

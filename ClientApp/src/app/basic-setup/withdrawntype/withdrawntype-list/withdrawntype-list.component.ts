@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './withdrawntype-list.component.html',
   styleUrls: ['./withdrawntype-list.component.sass']
 })
-export class WithdrawnTypeListComponent implements OnInit {
+export class WithdrawnTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: WithdrawnType[] = [];
@@ -32,7 +33,9 @@ export class WithdrawnTypeListComponent implements OnInit {
   dataSource: MatTableDataSource<WithdrawnType> = new MatTableDataSource();
   selection = new SelectionModel<WithdrawnType>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private WithdrawnTypeService: WithdrawnTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private WithdrawnTypeService: WithdrawnTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getWithdrawnTypes();

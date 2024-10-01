@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-examcenterselection-list',
   templateUrl: './examcenterselection-list.component.html',
   styleUrls: ['./examcenterselection-list.component.sass']
 })
-export class ExamCenterSelectionListComponent implements OnInit {
+export class ExamCenterSelectionListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ExamCenterSelection[] = [];
@@ -34,7 +35,9 @@ export class ExamCenterSelectionListComponent implements OnInit {
    selection = new SelectionModel<ExamCenterSelection>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private ExamCenterSelectionService: ExamCenterSelectionService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ExamCenterSelectionService: ExamCenterSelectionService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getExamCenterSelections();

@@ -14,6 +14,7 @@ import { TraineeNominationService } from '../../../course-management/service/tra
 import { TraineeList } from '../../../attendance-management/models/traineeList';
 import {TraineeListForExamMark} from '../../../exam-management/models/traineeListforexammark';
 import {BNASubjectNameService} from '../../service/BNASubjectName.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 //import {BnaSubjectName} from '../../../central-exam/models/BNASubjectName';
 
 @Component({
@@ -21,7 +22,7 @@ import {BNASubjectNameService} from '../../service/BNASubjectName.service';
   templateUrl: './new-qexammark.component.html',
   styleUrls: ['./new-qexammark.component.sass']
 })
-export class NewQExamMarkComponent implements OnInit {
+export class NewQExamMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText: string;
@@ -63,7 +64,9 @@ export class NewQExamMarkComponent implements OnInit {
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
 
-  constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId');

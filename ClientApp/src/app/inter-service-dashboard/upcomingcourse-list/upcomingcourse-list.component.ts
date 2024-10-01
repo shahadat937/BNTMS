@@ -9,13 +9,14 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-upcomingcourse-list',
   templateUrl: './upcomingcourse-list.component.html',
   styleUrls: ['./upcomingcourse-list.component.sass']
 })
-export class upcomingcourseListComponent implements OnInit {
+export class upcomingcourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -43,7 +44,9 @@ export class upcomingcourseListComponent implements OnInit {
   displayedUpcomingInterServiceColumns: string[] = ['ser','courseName', 'orgName','durationFrom','durationTo', 'actions'];
 
   
-  constructor(private datepipe: DatePipe,private route: ActivatedRoute, private authService: AuthService,private snackBar: MatSnackBar,private interServiceDashboardService: InterServiceDashboardService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private route: ActivatedRoute, private authService: AuthService,private snackBar: MatSnackBar,private interServiceDashboardService: InterServiceDashboardService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

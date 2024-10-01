@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-education',
   templateUrl: './view-educational-institution.component.html',
   styleUrls: ['./view-educational-institution.component.sass']
 })
-export class ViewEducationalInstitutionComponent implements OnInit {
+export class ViewEducationalInstitutionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -39,7 +40,9 @@ export class ViewEducationalInstitutionComponent implements OnInit {
   districtValues:SelectedModel[]; 
   thanaValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalInstitutionService: EducationalInstitutionService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalInstitutionService: EducationalInstitutionService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   // getDistrict(){    
   //   this.EducationalInstitutionService.getselecteddistrict().subscribe(res=>{

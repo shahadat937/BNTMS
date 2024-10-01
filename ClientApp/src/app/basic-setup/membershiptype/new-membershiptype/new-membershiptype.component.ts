@@ -3,13 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MembershipTypeService } from '../../service/membership-type.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-membershiptype',
   templateUrl: './new-membershiptype.component.html',
   styleUrls: ['./new-membershiptype.component.sass']
 })
-export class NewMembershiptypeComponent implements OnInit {
+export class NewMembershiptypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -17,7 +18,9 @@ export class NewMembershiptypeComponent implements OnInit {
   membershipTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private membershipTypeService: MembershipTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private membershipTypeService: MembershipTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('membershipTypeId'); 

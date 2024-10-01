@@ -4,13 +4,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BNAAttendanceRemarksService } from '../../service/BNAAttendanceRemarks.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
+
 
 @Component({
   selector: 'app-new-bnaattendanceremarks',
   templateUrl: './new-bnaattendanceremarks.component.html',
   styleUrls: ['./new-bnaattendanceremarks.component.sass']
 })
-export class NewBNAAttendanceRemarksComponent implements OnInit {
+export class NewBNAAttendanceRemarksComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +20,9 @@ export class NewBNAAttendanceRemarksComponent implements OnInit {
   BNAAttendanceRemarksForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private BNAAttendanceRemarksService: BNAAttendanceRemarksService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BNAAttendanceRemarksService: BNAAttendanceRemarksService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+   }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaAttendanceRemarksId'); 

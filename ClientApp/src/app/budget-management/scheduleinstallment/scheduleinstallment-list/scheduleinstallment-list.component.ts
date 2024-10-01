@@ -12,13 +12,14 @@ import { CourseBudgetAllocation } from '../../models/CourseBudgetAllocation';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-scheduleinstallment-list.component',
   templateUrl: './scheduleinstallment-list.component.html',
   styleUrls: ['./scheduleinstallment-list.component.sass'] 
 }) 
-export class ScheduleInstallmentListComponent implements OnInit {
+export class ScheduleInstallmentListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -62,7 +63,9 @@ export class ScheduleInstallmentListComponent implements OnInit {
 
    selection = new SelectionModel<CourseBudgetAllocation>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private CourseWeekService: CourseWeekService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseBudgetAllocationService: CourseBudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private CourseWeekService: CourseWeekService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseBudgetAllocationService: CourseBudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseBudgetAllocationId'); 

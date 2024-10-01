@@ -7,13 +7,14 @@ import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service'
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-interservicecourse',
   templateUrl: './new-interservicecourse.component.html',
   styleUrls: ['./new-interservicecourse.component.sass']
 })
-export class NewInterservicecourseComponent implements OnInit {
+export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -30,7 +31,9 @@ export class NewInterservicecourseComponent implements OnInit {
   selectedSchool:SelectedModel[];
   selectedBaseName:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 

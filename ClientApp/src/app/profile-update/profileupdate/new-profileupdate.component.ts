@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl,FormBuilder, FormGroup, Validators,ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,7 +15,7 @@ import {AuthService} from '../../../app/core/service/auth.service';
   templateUrl: './new-profileupdate.component.html',
   styleUrls: ['./new-profileupdate.component.sass']
 })
-export class NewProfileUpdateComponent implements OnInit {
+export class NewProfileUpdateComponent implements OnInit, OnDestroy {
 
   submitted = false;
   loading = false;
@@ -31,6 +31,7 @@ export class NewProfileUpdateComponent implements OnInit {
   validationErrors: string[] = [];
   role:any;
   traineeId:any;
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private ProfileUpdateService: ProfileUpdateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
     // this.files = [];
@@ -48,7 +49,7 @@ export class NewProfileUpdateComponent implements OnInit {
       this.pageTitle = 'Profile Update';
       this.destination='Edit';
       this.buttonText="Update";
-      this.ProfileUpdateService.find(String(this.userId)).subscribe(
+      this.subscription = this.ProfileUpdateService.find(String(this.userId)).subscribe(
         res => {
           this.ProfileUpdateForm.patchValue({          
             userId:res.userId,
@@ -63,6 +64,11 @@ export class NewProfileUpdateComponent implements OnInit {
       this.buttonText="Save";
     }
     this.intitializeForm();
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   intitializeForm() {
@@ -91,11 +97,11 @@ matchValues(matchTo: string): ValidatorFn {
   //  const id = this.userId;
 
     this.ProfileUpdateForm.get('userId').setValue(this.userId)
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         
         if (result) {
           this.loading = true;
-          this.ProfileUpdateService.updateUserProfile(this.userId,this.ProfileUpdateForm.value).subscribe(response => {
+          this.subscription = this.ProfileUpdateService.updateUserProfile(this.userId,this.ProfileUpdateForm.value).subscribe(response => {
             this.router.navigateByUrl('/instructor/profile-update');
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully ', '', {

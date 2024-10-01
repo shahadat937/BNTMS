@@ -5,13 +5,14 @@ import { SaylorSubBranchService } from '../../service/SaylorSubBranch.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({ 
   selector: 'app-new-saylorsubbranch',
   templateUrl: './new-saylorsubbranch.component.html',
   styleUrls: ['./new-saylorsubbranch.component.sass']
 })
-export class NewSaylorSubBranchComponent implements OnInit {
+export class NewSaylorSubBranchComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,7 +22,9 @@ export class NewSaylorSubBranchComponent implements OnInit {
   selectedSaylorBranch:SelectedModel[]; 
   selectBranch:SelectedModel[]
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private SaylorSubBranchService: SaylorSubBranchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private SaylorSubBranchService: SaylorSubBranchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('saylorSubBranchId'); 

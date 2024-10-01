@@ -12,13 +12,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { bnaAttendanceList } from 'src/app/attendance-management/models/bnaAttendanceList';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-add-bna-classattendance',
   templateUrl: './add-bna-classattendance.component.html',
   styleUrls: ['./add-bna-classattendance.component.sass']
 })
-export class AddBnaClassattendanceComponent implements OnInit {
+export class AddBnaClassattendanceComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   loading = false;
   myModel = true;
@@ -68,7 +69,9 @@ export class AddBnaClassattendanceComponent implements OnInit {
 
 
 
-  constructor(private authService: AuthService, private AttendanceService: AttendanceService, private datepipe: DatePipe, private fb: FormBuilder, private snackBar: MatSnackBar, private confirmService: ConfirmService, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private authService: AuthService, private AttendanceService: AttendanceService, private datepipe: DatePipe, private fb: FormBuilder, private snackBar: MatSnackBar, private confirmService: ConfirmService, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
 

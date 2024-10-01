@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BNASubjectCurriculamService } from '../../service/BNASubjectCurriculam.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnasubjectcurriculam',
   templateUrl: './new-bnasubjectcurriculam.component.html',
   styleUrls: ['./new-bnasubjectcurriculam.component.sass']
 })
-export class NewBnasubjectcurriculamComponent implements OnInit {
+export class NewBnasubjectcurriculamComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewBnasubjectcurriculamComponent implements OnInit {
   BNASubjectCurriculamForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private BNASubjectCurriculamService: BNASubjectCurriculamService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private BNASubjectCurriculamService: BNASubjectCurriculamService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaSubjectCurriculumId'); 

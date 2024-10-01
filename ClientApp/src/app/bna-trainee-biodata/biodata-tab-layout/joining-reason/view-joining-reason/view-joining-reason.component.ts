@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-joining-reason',
   templateUrl: './view-joining-reason.component.html',
   styleUrls: ['./view-joining-reason.component.sass']
 })
-export class ViewJoiningReasonComponent implements OnInit {
+export class ViewJoiningReasonComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -31,7 +32,9 @@ export class ViewJoiningReasonComponent implements OnInit {
     menuPosition: number;
     isActive: true
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private JoiningReasonService: JoiningReasonService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private JoiningReasonService: JoiningReasonService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('joiningReasonId'); 
     this.JoiningReasonService.find(+id).subscribe( res => {

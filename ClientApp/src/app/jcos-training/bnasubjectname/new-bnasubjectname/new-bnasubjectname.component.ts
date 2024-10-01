@@ -10,6 +10,7 @@ import { ConnectedOverlayPositionChange } from '@angular/cdk/overlay';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { BNASubjectName } from '../../models/BNASubjectName';
   templateUrl: './new-bnasubjectname.component.html',
   styleUrls: ['./new-bnasubjectname.component.sass']
 })
-export class NewBNASubjectNameComponent implements OnInit {
+export class NewBNASubjectNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   pageTitle: string;
@@ -54,7 +55,9 @@ export class NewBNASubjectNameComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['paperNo', 'subjectName', 'totalMark', 'passMarkBna','qExamTime','menuPosition', 'actions'];
-  constructor(private snackBar: MatSnackBar, private CourseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNASubjectNameService: BNASubjectNameService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private CourseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNASubjectNameService: BNASubjectNameService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaSubjectNameId');

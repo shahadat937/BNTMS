@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDurationService } from '../../service/courseduration.service';
@@ -13,7 +13,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
   templateUrl: './new-nets.component.html',
   styleUrls: ['./new-nets.component.sass']
 })
-export class NewNETSComponent implements OnInit {
+export class NewNETSComponent implements OnInit, OnDestroy {
   masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -26,6 +26,7 @@ export class NewNETSComponent implements OnInit {
   selectedcoursename:SelectedModel[];
   selectCourse: SelectedModel[];
   selectedschoolname:SelectedModel[];
+  subscription: any;
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
@@ -36,7 +37,7 @@ export class NewNETSComponent implements OnInit {
       this.pageTitle = 'Edit NETS Course'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.CourseDurationService.find(+id).subscribe(
+      this.subscription = this.CourseDurationService.find(+id).subscribe(
         res => {
           this.CourseDurationForm.patchValue({          
             courseDurationId:res.courseDurationId, 
@@ -74,6 +75,11 @@ export class NewNETSComponent implements OnInit {
    this.CourseDurationForm.get('baseSchoolNameId').setValue(this.masterData.schoolName.NETS);
     this.getselectedcoursetype();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   intitializeForm() {
     this.CourseDurationForm = this.fb.group({
       courseDurationId: [0],
@@ -98,13 +104,13 @@ export class NewNETSComponent implements OnInit {
     this.selectedcoursename = this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getselectedcoursename(){
-    this.CourseDurationService. getSelectedCourseByType(this.courseTypeId).subscribe(res=>{
+    this.subscription = this.CourseDurationService. getSelectedCourseByType(this.courseTypeId).subscribe(res=>{
       this.selectedcoursename=res
       this.selectCourse=res
     });
   }
   getselectedcoursetype(){
-    this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
+    this.subscription = this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
       this.selectedcoursetype=res
     });
   } 
@@ -116,10 +122,10 @@ export class NewNETSComponent implements OnInit {
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
+          this.subscription = this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
             this.router.navigateByUrl('/nets-course/nets-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -134,7 +140,7 @@ export class NewNETSComponent implements OnInit {
       })
     }else {
       this.loading=true;
-      this.CourseDurationService.submit(this.CourseDurationForm.value).subscribe(response => {
+      this.subscription = this.CourseDurationService.submit(this.CourseDurationForm.value).subscribe(response => {
         this.router.navigateByUrl('/nets-course/nets-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,

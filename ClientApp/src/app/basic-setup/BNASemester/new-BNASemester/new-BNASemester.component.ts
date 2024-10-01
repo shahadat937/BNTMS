@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BNASemesterService } from '../../service/BNASemester.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnasemester',
   templateUrl: './new-bnasemester.component.html',
   styleUrls: ['./new-bnasemester.component.sass']
 })
-export class NewBNASemesterComponent implements OnInit {
+export class NewBNASemesterComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewBNASemesterComponent implements OnInit {
   BNASemesterForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private BNASemesterService: BNASemesterService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BNASemesterService: BNASemesterService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaSemesterId'); 

@@ -5,13 +5,14 @@ import { EducationalQualificationService } from '../../service/EducationalQualif
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-educational-qualification',
   templateUrl: './new-educational-qualification.component.html',
   styleUrls: ['./new-educational-qualification.component.sass']
 })
-export class NewEducationalQualificationComponent implements OnInit {
+export class NewEducationalQualificationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -26,7 +27,9 @@ export class NewEducationalQualificationComponent implements OnInit {
   boardValues:SelectedModel[]; 
   selectBoard:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('educationalQualificationId'); 

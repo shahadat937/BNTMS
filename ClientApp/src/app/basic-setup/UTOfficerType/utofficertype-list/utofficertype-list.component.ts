@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './utofficertype-list.component.html',
   styleUrls: ['./utofficertype-list.component.sass']
 })
-export class UTOfficerTypeListComponent implements OnInit {
+export class UTOfficerTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class UTOfficerTypeListComponent implements OnInit {
   selection = new SelectionModel<UTOfficerType>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private UTOfficerTypeService: UTOfficerTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private UTOfficerTypeService: UTOfficerTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   // ngOnInit() {
   //   this.dataSource2.paginator = this.paginator;
   // }

@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-trainee-visited-abroad',
   templateUrl: './trainee-visited-abroad-list.component.html',
   styleUrls: ['./trainee-visited-abroad-list.component.sass']
 })
-export class TraineeVisitedAboardListComponent implements OnInit {
+export class TraineeVisitedAboardListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class TraineeVisitedAboardListComponent implements OnInit {
 
   selection = new SelectionModel<TraineeVisitedAboard>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeVisitedAboardService: TraineeVisitedAboardService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeVisitedAboardService: TraineeVisitedAboardService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getTraineeVisitedAboards();
   }

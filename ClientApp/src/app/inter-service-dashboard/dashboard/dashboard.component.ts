@@ -33,6 +33,7 @@ import { DatePipe } from '@angular/common';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { SchoolDashboardService } from 'src/app/school/services/SchoolDashboard.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 //import { MasterData } from 'src/assets/data/master-data';
 //import { CourseDuration } from '../models/courseduration';
 //import { CourseDurationService } from '../services/courseduration.service';
@@ -64,7 +65,7 @@ export type barChartOptions = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild('calendar', { static: false })
   calendar: Calendar | null;
   public addCusForm: FormGroup;
@@ -123,7 +124,9 @@ export class DashboardComponent implements OnInit {
   displayedColumnsBudgetCode: string[] = ['sl', 'budgetCodes', 'availableAmount','targetAmount'];
   
 
-  constructor(private datepipe: DatePipe, private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private interServiceDashboardService: InterServiceDashboardService) {}
+  constructor(private datepipe: DatePipe, private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private interServiceDashboardService: InterServiceDashboardService) {
+    super();
+  }
  
 
   ngOnInit() {

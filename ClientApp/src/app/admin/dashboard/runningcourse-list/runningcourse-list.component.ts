@@ -13,13 +13,14 @@ import {dashboardService} from '../services/dashboard.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { environment } from 'src/environments/environment';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-runningcourse-list',
   templateUrl: './runningcourse-list.component.html',
   styleUrls: ['./runningcourse-list.component.sass']
 })
-export class RunningCourseListComponent implements OnInit {
+export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -56,7 +57,9 @@ export class RunningCourseListComponent implements OnInit {
   displayedColumns: string[] = ['ser','schoolName','course','noOfCandidates','professional','nbcd','durationFrom','durationTo', 'remark', 'actions'];
   displayedUpcomingForeignColumns: string[] = ['ser','courseTitle','courseName','durationFrom','durationTo', 'country', 'actions'];
   displayedUpcomingInterServiceColumns: string[] = ['ser','courseName', 'orgName','durationFrom','durationTo', 'actions'];
-  constructor(private datepipe: DatePipe,private authService: AuthService,private dashboardService: dashboardService,private snackBar: MatSnackBar,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private authService: AuthService,private dashboardService: dashboardService,private snackBar: MatSnackBar,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

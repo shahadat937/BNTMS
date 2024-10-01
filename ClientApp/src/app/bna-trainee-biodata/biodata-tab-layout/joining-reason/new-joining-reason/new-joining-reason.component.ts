@@ -5,13 +5,14 @@ import { JoiningReasonService } from '../../service/JoiningReason.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-joining-reason',
   templateUrl: './new-joining-reason.component.html',
   styleUrls: ['./new-joining-reason.component.sass']
 })
-export class NewJoiningReasonComponent implements OnInit {
+export class NewJoiningReasonComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -21,7 +22,9 @@ export class NewJoiningReasonComponent implements OnInit {
   traineeId: string;
   selectedReasonType:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private JoiningReasonService: JoiningReasonService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private JoiningReasonService: JoiningReasonService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('joiningReasonId'); 

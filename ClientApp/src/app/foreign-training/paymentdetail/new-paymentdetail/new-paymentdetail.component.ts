@@ -7,13 +7,14 @@ import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service'
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-paymentdetail',
   templateUrl: './new-paymentdetail.component.html',
   styleUrls: ['./new-paymentdetail.component.sass']
 }) 
-export class NewPaymentDetailComponent implements OnInit {
+export class NewPaymentDetailComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -25,7 +26,9 @@ export class NewPaymentDetailComponent implements OnInit {
    selectedcoursename:SelectedModel[];
     selectedcoursedurationbyschoolname:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private PaymentDetailService: PaymentDetailService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private PaymentDetailService: PaymentDetailService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('paymentDetailId'); 

@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.sass']
 })
-export class GameListComponent implements OnInit {
+export class GameListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class GameListComponent implements OnInit {
    selection = new SelectionModel<Game>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private gameService: GameService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private gameService: GameService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getGames();

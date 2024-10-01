@@ -8,13 +8,14 @@ import { GuestSpeakerQuationGroupService } from '../../service/GuestSpeakerQuati
  import { GuestSpeakerQuestionName } from '../../models/GuestSpeakerQuestionName';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-guestspeakerquationgroup-list',
   templateUrl: './guestspeakerquationgroup-list.component.html',
   styleUrls: ['./guestspeakerquationgroup-list.component.sass']
 })
-export class GuestSpeakerQuationGroupListComponent implements OnInit {
+export class GuestSpeakerQuationGroupListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText: string;
   loading = false;
   pageTitle: string;
@@ -46,7 +47,9 @@ export class GuestSpeakerQuationGroupListComponent implements OnInit {
   options = [];
   filteredOptions;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private GuestSpeakerQuationGroupService: GuestSpeakerQuationGroupService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private GuestSpeakerQuationGroupService: GuestSpeakerQuationGroupService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('guestSpeakerQuationGroupId');

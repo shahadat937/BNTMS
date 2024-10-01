@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -21,7 +21,7 @@ import { TraineeNomination } from '../../models/traineenomination';
   templateUrl: './new-traineenomination.component.html',
   styleUrls: ['./new-traineenomination.component.sass']
 }) 
-export class NewTraineeNominationComponent implements OnInit {
+export class NewTraineeNominationComponent implements OnInit, OnDestroy {
   masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -64,6 +64,7 @@ export class NewTraineeNominationComponent implements OnInit {
 
 
    selection = new SelectionModel<TraineeNomination>(true, []);
+  subscription: any;
 
   
 
@@ -75,13 +76,13 @@ export class NewTraineeNominationComponent implements OnInit {
     // this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');  
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
 
-    this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
+    this.subscription = this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
       this.courseNameId = res.courseNameId;
       this.schoolName = res.baseSchoolName;
       this.courseName = res.courseName;
       this.courseTitle = res.courseTitle;
     });
-    this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
+    this.subscription = this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
         this.TraineeNominationForm.patchValue({          
           traineeNominationId:res.traineeNominationId, 
@@ -108,7 +109,7 @@ export class NewTraineeNominationComponent implements OnInit {
       this.pageTitle = 'Edit Trainee Nomination'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
-      this.TraineeNominationService.find(+id).subscribe(
+      this.subscription = this.TraineeNominationService.find(+id).subscribe(
         res => {
           this.TraineeNominationForm.patchValue({          
             traineeNominationId:res.traineeNominationId, 
@@ -143,6 +144,11 @@ export class NewTraineeNominationComponent implements OnInit {
     this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
    // this.getSelectedTraineeByPno();
   }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   intitializeForm() {
     this.TraineeNominationForm = this.fb.group({
@@ -166,7 +172,7 @@ export class NewTraineeNominationComponent implements OnInit {
     })
 
     //autocomplete
-    this.TraineeNominationForm.get('traineeName').valueChanges
+    this.subscription = this.TraineeNominationForm.get('traineeName').valueChanges
     .subscribe(value => {
         this.getSelectedTraineeByPno(value,this.courseDurationId,this.courseNameId);
     })
@@ -182,7 +188,7 @@ export class NewTraineeNominationComponent implements OnInit {
   
 //autocomplete
 getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
-  this.TraineeNominationService.getSelectedTraineeByparameterRequest(pno,courseDurationId,courseNameId).subscribe(response => {
+  this.subscription = this.TraineeNominationService.getSelectedTraineeByparameterRequest(pno,courseDurationId,courseNameId).subscribe(response => {
     this.options = response;
     this.filteredOptions = response;
   })
@@ -197,25 +203,25 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
 
   getSelectedTrainee(){
-    this.TraineeNominationService.getSelectedTrainee().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getSelectedTrainee().subscribe(res=>{
       this.selectedTrainee=res
     });
   } 
 
   getselectedcoursename(){
-    this.TraineeNominationService.getselectedcoursename().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getselectedcoursename().subscribe(res=>{
       this.selectedcourse=res
     });
   } 
 
   getselectedWithdrawnDoc(){
-    this.TraineeNominationService.getselectedWithdrawnDoc().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getselectedWithdrawnDoc().subscribe(res=>{
       this.selecteddoc=res
     });
   } 
 
   getTraineeInfoByTraineeId(traineeId){
-    this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
+    this.subscription = this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
       this.traineeInfoById=res;
       this.TraineeNominationForm.get('saylorRankId').setValue(res.saylorRankId);
       this.TraineeNominationForm.get('rankId').setValue(res.rankId);
@@ -227,7 +233,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   
 
   getselectedTraineeCourseStatus(){
-    this.TraineeNominationService.getselectedTraineeCourseStatus().subscribe(res=>{
+    this.subscription = this.TraineeNominationService.getselectedTraineeCourseStatus().subscribe(res=>{
       this.selectedcoursestatus=res
     });
   }
@@ -241,10 +247,10 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   onSubmit() {
     const id = this.TraineeNominationForm.get('traineeNominationId').value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.TraineeNominationService.update(+id,this.TraineeNominationForm.value).subscribe(response => {
+          this.subscription = this.TraineeNominationService.update(+id,this.TraineeNominationForm.value).subscribe(response => {
 
             // this.router.navigateByUrl('/mist-course/traineenomination-list/'+this.courseDurationId);
             this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
@@ -263,7 +269,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       })
     }else {
       this.loading = true;
-      this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
+      this.subscription = this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         // this.router.navigateByUrl('/mist-course/traineenomination-list/'+this.courseDurationId);
         this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
         this.reloadCurrentRoute();
@@ -282,13 +288,13 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
   getTraineeNominationsByCourseDurationId(courseDurationId) {
     this.isLoading = true;
-    this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
+    this.subscription = this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
 
-    this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
+    this.subscription = this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
       this.nominatedPercentageList=response;
       this.nominatedPercentageListCount=response.length;
     });
@@ -308,9 +314,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
   deleteItem(row) {
     const id = row.traineeNominationId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
-        this.TraineeNominationService.delete(id).subscribe(() => {
+        this.subscription = this.TraineeNominationService.delete(id).subscribe(() => {
           this.getTraineeNominationsByCourseDurationId(this.courseDurationId)
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,

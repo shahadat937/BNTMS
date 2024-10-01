@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-update-BIODataGeneralInfo',
@@ -12,7 +13,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
   styleUrls: ['./update-traineebiodatageneralinfo.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
+export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -41,6 +42,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent implements OnInit {
   public files: any[];
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+    super();
     this.files = [];
   }
 

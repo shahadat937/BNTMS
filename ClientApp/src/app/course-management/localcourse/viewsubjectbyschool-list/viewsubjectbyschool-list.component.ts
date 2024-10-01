@@ -8,13 +8,14 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-viewsubjectbyschool',
   templateUrl: './viewsubjectbyschool-list.component.html',
   styleUrls: ['./viewsubjectbyschool-list.component.sass']
 })
-export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
+export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -36,7 +37,9 @@ export class ViewSubjectListBySchoolAndCourseComponent implements OnInit {
    selection = new SelectionModel<BNASubjectName>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.getSubjectNames();

@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-BnaCurriculumUpdate-list',
   templateUrl: './BnaCurriculumUpdate-list.component.html',
   styleUrls: ['./BnaCurriculumUpdate-list.component.sass']
 })
-export class BnaCurriculumUpdateListComponent implements OnInit {
+export class BnaCurriculumUpdateListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BnaCurriculumUpdate[] = [];
@@ -34,7 +35,9 @@ export class BnaCurriculumUpdateListComponent implements OnInit {
    selection = new SelectionModel<BnaCurriculumUpdate>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BnaCurriculumUpdateService: BnaCurriculumUpdateService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BnaCurriculumUpdateService: BnaCurriculumUpdateService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getBnaCurriculumUpdates();

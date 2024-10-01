@@ -11,13 +11,14 @@ import { CourseNameService } from 'src/app/basic-setup/service/CourseName.servic
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseDuration} from '../../models/courseduration'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-jcostraining',
   templateUrl: './new-jcostraining.component.html',
   styleUrls: ['./new-jcostraining.component.sass']
 })
-export class NewJCOsTrainingComponent implements OnInit {
+export class NewJCOsTrainingComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -45,7 +46,9 @@ export class NewJCOsTrainingComponent implements OnInit {
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
 
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { 
+    super()
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 

@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-trainee-biodata-other',
   templateUrl: './trainee-biodata-other-list.component.html',
   styleUrls: ['./trainee-biodata-other-list.component.sass']
 })
-export class TraineeBIODataOtherListComponent implements OnInit {
+export class TraineeBIODataOtherListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -37,7 +38,9 @@ export class TraineeBIODataOtherListComponent implements OnInit {
   dataSource: MatTableDataSource<TraineeBIODataOther> = new MatTableDataSource(); 
   selection = new SelectionModel<TraineeBIODataOther>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getTraineeBIODataOthers();
   }

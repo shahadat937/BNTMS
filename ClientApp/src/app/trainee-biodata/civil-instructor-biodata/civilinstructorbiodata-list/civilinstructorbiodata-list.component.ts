@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterData } from 'src/assets/data/master-data';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   templateUrl: './civilinstructorbiodata-list.component.html',
   styleUrls: ['./civilinstructorbiodata-list.component.sass']
 })
-export class CivilInstructorBioDataInfoListComponent implements OnInit {
+export class CivilInstructorBioDataInfoListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -36,7 +37,9 @@ export class CivilInstructorBioDataInfoListComponent implements OnInit {
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
 
   ngOnInit() {

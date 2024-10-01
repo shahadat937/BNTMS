@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-favorites-list',
   templateUrl: './favorites-list.component.html',
   styleUrls: ['./favorites-list.component.sass']
 })
-export class FavoritesListComponent implements OnInit {
+export class FavoritesListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class FavoritesListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<Favorites>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getFavorites();
   }

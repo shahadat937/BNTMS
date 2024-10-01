@@ -11,13 +11,14 @@ import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-viewsubjectbyqexam',
   templateUrl: './viewsubjectbyqexam-list.component.html',
   styleUrls: ['./viewsubjectbyqexam-list.component.sass']
 })
-export class ViewSubjectListByQExamComponent implements OnInit {
+export class ViewSubjectListByQExamComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNASubjectName[] = [];
@@ -41,7 +42,9 @@ export class ViewSubjectListByQExamComponent implements OnInit {
    selection = new SelectionModel<BNASubjectName>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     this.onSelectionChange();

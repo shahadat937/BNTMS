@@ -5,13 +5,14 @@ import { TraineeBIODataOtherService } from '../../service/TraineeBIODataOther.se
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-trainee-biodata-other',
   templateUrl: './new-trainee-biodata-other.component.html',
   styleUrls: ['./new-trainee-biodata-other.component.sass']
 })
-export class NewTraineeBIODataOtherComponent implements OnInit {
+export class NewTraineeBIODataOtherComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -46,7 +47,9 @@ export class NewTraineeBIODataOtherComponent implements OnInit {
   nationalityToggle:string;
 
 
-  constructor(private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeBioDataOtherId'); 

@@ -6,13 +6,14 @@ import { TraineeCourseStatusService } from '../../service/traineecoursestatus.se
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-traineecoursestatus',
   templateUrl: './new-traineecoursestatus.component.html',
   styleUrls: ['./new-traineecoursestatus.component.sass']
 })
-export class NewTraineeCourseStatusComponent implements OnInit {
+export class NewTraineeCourseStatusComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   loading = false;
   pageTitle: string;
   destination:string;
@@ -20,7 +21,9 @@ export class NewTraineeCourseStatusComponent implements OnInit {
   buttonText:string;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeCourseStatusService: TraineeCourseStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeCourseStatusService: TraineeCourseStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeCourseStatusId'); 

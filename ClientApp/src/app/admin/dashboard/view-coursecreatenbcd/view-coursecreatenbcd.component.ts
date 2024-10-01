@@ -14,13 +14,14 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-coursecreatenbcd',
   templateUrl: './view-coursecreatenbcd.component.html',
   styleUrls: ['./view-coursecreatenbcd.component.sass']
 })
-export class ViewCourseCreateNbcdComponent implements OnInit {
+export class ViewCourseCreateNbcdComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -51,7 +52,9 @@ export class ViewCourseCreateNbcdComponent implements OnInit {
   options = [];
   filteredOptions;
 
-  constructor(private route: ActivatedRoute,private fb: FormBuilder,private CourseNameService: CourseNameService,private authService: AuthService,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private fb: FormBuilder,private CourseNameService: CourseNameService,private authService: AuthService,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

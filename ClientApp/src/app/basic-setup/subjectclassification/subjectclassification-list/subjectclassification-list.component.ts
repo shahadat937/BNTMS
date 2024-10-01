@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -14,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './subjectclassification-list.component.html',
   styleUrls: ['./subjectclassification-list.component.sass']
 })
-export class SubjectClassificationListComponent implements OnInit {
+export class SubjectClassificationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -31,7 +32,9 @@ export class SubjectClassificationListComponent implements OnInit {
   displayedColumns: string[] = [ 'ser', 'subjectClassificationName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<SubjectClassification> = new MatTableDataSource();
   
-  constructor(private snackBar: MatSnackBar,private SubjectClassificationService: SubjectClassificationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private SubjectClassificationService: SubjectClassificationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getSubjectClassifications();

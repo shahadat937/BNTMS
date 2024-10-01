@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GenderService } from '../../service/gender.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-gender',
   templateUrl: './new-gender.component.html',
   styleUrls: ['./new-gender.component.sass']
 })
-export class NewGenderComponent implements OnInit {
+export class NewGenderComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewGenderComponent implements OnInit {
   genderForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private genderService: GenderService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private genderService: GenderService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('genderId'); 

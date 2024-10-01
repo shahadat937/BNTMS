@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ComplexionService } from '../../service/complexion.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({ 
   selector: 'app-new-complexion',
   templateUrl: './new-complexion.component.html',
   styleUrls: ['./new-complexion.component.sass']
 })
-export class NewComplexionComponent implements OnInit {
+export class NewComplexionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewComplexionComponent implements OnInit {
   complexionForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private complexionService: ComplexionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private complexionService: ComplexionService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('complexionId'); 

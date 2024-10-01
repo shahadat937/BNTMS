@@ -10,13 +10,14 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ClassRoutine } from '../../models/classroutine';
 import { ClassPeriodService } from '../../service/classperiod.service'
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-classroutine',
   templateUrl: './new-classroutine.component.html',
   styleUrls: ['./new-classroutine.component.sass']
 }) 
-export class NewClassRoutineComponent implements OnInit {
+export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -69,7 +70,9 @@ export class NewClassRoutineComponent implements OnInit {
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  constructor(private snackBar: MatSnackBar,private authService: AuthService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 

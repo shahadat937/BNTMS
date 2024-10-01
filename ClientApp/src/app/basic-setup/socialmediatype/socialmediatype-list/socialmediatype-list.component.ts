@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterData } from 'src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-socialmediatype-list',
   templateUrl: './socialmediatype-list.component.html',
   styleUrls: ['./socialmediatype-list.component.sass']
 })
-export class SocialmediatypeListComponent implements OnInit {
+export class SocialmediatypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: SocialMediaType[] = [];
@@ -32,7 +33,9 @@ export class SocialmediatypeListComponent implements OnInit {
 
   selection = new SelectionModel<SocialMediaType>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private socialMediaTypeService: SocialmediaTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private socialMediaTypeService: SocialmediaTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getSocialMediaTypes();
   }

@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GrandFatherTypeService } from '../../service/GrandFatherType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-grandfathertype',
   templateUrl: './new-grandfathertype.component.html',
   styleUrls: ['./new-grandfathertype.component.sass']
 })
-export class NewGrandFatherTypeComponent implements OnInit {
+export class NewGrandFatherTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewGrandFatherTypeComponent implements OnInit {
   GrandFatherTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private GrandFatherTypeService: GrandFatherTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private GrandFatherTypeService: GrandFatherTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('grandfatherTypeId'); 

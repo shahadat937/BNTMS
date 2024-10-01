@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-TraineeSectionSelection-list',
   templateUrl: './TraineeSectionSelection-list.component.html',
   styleUrls: ['./TraineeSectionSelection-list.component.sass']
 })
-export class TraineeSectionSelectionListComponent implements OnInit {
+export class TraineeSectionSelectionListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeSectionSelection[] = [];
@@ -34,7 +35,9 @@ export class TraineeSectionSelectionListComponent implements OnInit {
    selection = new SelectionModel<TraineeSectionSelection>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private TraineeSectionSelectionService: TraineeSectionSelectionService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private TraineeSectionSelectionService: TraineeSectionSelectionService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getTraineeSectionSelections();

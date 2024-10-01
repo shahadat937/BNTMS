@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
  
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './baseschoolname-list.component.html',
   styleUrls: ['./baseschoolname-list.component.sass']
 })
-export class BaseSchoolNameListComponent implements OnInit {
+export class BaseSchoolNameListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -34,7 +35,9 @@ export class BaseSchoolNameListComponent implements OnInit {
 
   selection = new SelectionModel<BaseSchoolName>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getBaseSchoolNames();

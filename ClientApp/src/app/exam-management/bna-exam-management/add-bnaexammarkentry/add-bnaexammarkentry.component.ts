@@ -6,13 +6,14 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-add-bnaexammarkentry',
   templateUrl: './add-bnaexammarkentry.component.html',
   styleUrls: ['./add-bnaexammarkentry.component.sass']
 })
-export class AddBnaexammarkentryComponent implements OnInit {
+export class AddBnaexammarkentryComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   BNAExamMarkEntryForm: FormGroup;
   pageTitle : string;
@@ -22,7 +23,9 @@ export class AddBnaexammarkentryComponent implements OnInit {
   selectedCourseSection:any;
   baseSchoolNameId:any;
   selectedcoursedurationbyschoolname:SelectedModel[];
-  constructor(private snackBar: MatSnackBar, private authService: AuthService, private confirmService: ConfirmService,  private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private BNAExamMarkService: BNAExamMarkService,) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService, private confirmService: ConfirmService,  private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private BNAExamMarkService: BNAExamMarkService,) {
+    super();
+  }
 
   ngOnInit(): void {
     this.pageTitle = 'Create BNA Exam Mark';

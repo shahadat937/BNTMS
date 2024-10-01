@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-view-election',
   templateUrl: './view-election.component.html',
   styleUrls: ['./view-election.component.sass']
 })
-export class ViewElectionComponent implements OnInit {
+export class ViewElectionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -32,7 +33,9 @@ export class ViewElectionComponent implements OnInit {
   durationTo: Date;
   additionalInformation: string;  
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ElectionService: ElectionService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ElectionService: ElectionService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   
   

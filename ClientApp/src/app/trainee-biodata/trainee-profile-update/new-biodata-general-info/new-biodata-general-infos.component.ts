@@ -9,13 +9,14 @@ import { AuthService } from 'src/app/core/service/auth.service';
 
 import { ViewChild, ElementRef } from '@angular/core';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 @Component({
   selector: 'app-new-BIODataGeneralInfos',
   templateUrl: './new-biodata-general-infos.component.html',
   styleUrls: ['./new-biodata-general-infos.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class NewBIODataGeneralInfosComponent implements OnInit {
+export class NewBIODataGeneralInfosComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -47,6 +48,7 @@ export class NewBIODataGeneralInfosComponent implements OnInit {
   userRole = Role;
 
   constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+    super();
     this.files = [];
   }
 

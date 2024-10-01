@@ -11,13 +11,14 @@ import { dashboardService } from '../services/dashboard.service';
 //import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-routinesoftcopytrainee.component',
   templateUrl: './routinesoftcopytrainee.component.html',
   styleUrls: ['./routinesoftcopytrainee.component.sass']
 })
-export class RoutineSoftcopyTraineeComponent implements OnInit {
+export class RoutineSoftcopyTraineeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -38,7 +39,9 @@ export class RoutineSoftcopyTraineeComponent implements OnInit {
   }
   searchText="";
   displayedReadingMaterialColumns: string[] = ['ser','course','documentName','documentLink'];
-  constructor(private datepipe: DatePipe,private authService: AuthService,private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private authService: AuthService,private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
   //  this.traineeId = this.route.snapshot.paramMap.get('traineeId');

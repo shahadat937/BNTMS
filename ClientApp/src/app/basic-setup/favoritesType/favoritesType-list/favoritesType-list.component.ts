@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './favoritesType-list.component.html',
   styleUrls: ['./favoritesType-list.component.sass']
 })
-export class FavoritesTypeListComponent implements OnInit {
+export class FavoritesTypeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class FavoritesTypeListComponent implements OnInit {
   selection = new SelectionModel<FavoritesType>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private favoritesTypeService: FavoritesTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private favoritesTypeService: FavoritesTypeService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   
   ngOnInit() {
     this.getFavoritesTypes();

@@ -12,13 +12,14 @@ import { environment } from 'src/environments/environment';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { MatSort } from '@angular/material/sort';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-religation-list',
   templateUrl: './religation-list.component.html',
   styleUrls: ['./religation-list.component.sass']
 })
-export class ReligationListComponent implements OnInit {
+export class ReligationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -52,7 +53,9 @@ export class ReligationListComponent implements OnInit {
   role:any;
 
   
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

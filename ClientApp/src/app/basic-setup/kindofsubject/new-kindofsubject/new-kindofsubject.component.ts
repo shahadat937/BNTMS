@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { KindOfSubjectService } from '../../service/KindOfSubject.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-kindofsubject',
   templateUrl: './new-kindofsubject.component.html',
   styleUrls: ['./new-kindofsubject.component.sass']
 })
-export class NewKindOfSubjectComponent implements OnInit {
+export class NewKindOfSubjectComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -18,7 +19,9 @@ export class NewKindOfSubjectComponent implements OnInit {
   KindOfSubjectForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private KindOfSubjectService: KindOfSubjectService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private KindOfSubjectService: KindOfSubjectService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('kindOfSubjectId'); 

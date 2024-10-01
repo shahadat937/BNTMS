@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-BnaClassTest-list',
   templateUrl: './BnaClassTest-list.component.html',
   styleUrls: ['./BnaClassTest-list.component.sass']
 })
-export class BnaClassTestListComponent implements OnInit {
+export class BnaClassTestListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BnaClassTest[] = [];
@@ -34,7 +35,9 @@ export class BnaClassTestListComponent implements OnInit {
    selection = new SelectionModel<BnaClassTest>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BnaClassTestService: BnaClassTestService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BnaClassTestService: BnaClassTestService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     this.getBnaClassTests();

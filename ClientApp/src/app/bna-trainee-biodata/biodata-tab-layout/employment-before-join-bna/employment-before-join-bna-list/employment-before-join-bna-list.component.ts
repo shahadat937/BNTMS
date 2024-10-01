@@ -9,13 +9,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-employment-before-join-bna-list',
   templateUrl: './employment-before-join-bna-list.component.html',
   styleUrls: ['./employment-before-join-bna-list.component.sass']
 })
-export class EmploymentBeforeJoinBNAListComponent implements OnInit {
+export class EmploymentBeforeJoinBNAListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -35,7 +36,9 @@ export class EmploymentBeforeJoinBNAListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<EmploymentBeforeJoinBNA>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EmploymentBeforeJoinBNAService: EmploymentBeforeJoinBNAService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EmploymentBeforeJoinBNAService: EmploymentBeforeJoinBNAService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getEmploymentBeforeJoinBNAs();
   }

@@ -17,13 +17,14 @@ import { MarkTypeService } from 'src/app/basic-setup/service/MarkType.service';
 import { SubjectMarkService } from 'src/app/subject-management/service/SubjectMark.service';
 import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-bnaexammark',
   templateUrl: './new-bnaexammark.component.html',
   styleUrls: ['./new-bnaexammark.component.sass']
 })
-export class NewBNAExamMarkComponent implements OnInit {
+export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -83,7 +84,9 @@ export class NewBNAExamMarkComponent implements OnInit {
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
 
-  constructor(private snackBar: MatSnackBar,private ClassRoutineService: ClassRoutineService, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar,private ClassRoutineService: ClassRoutineService, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+    super();
+  }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-budgetallocation-list',
   templateUrl: './budgetallocation-list.component.html',
   styleUrls: ['./budgetallocation-list.component.sass']
 })
-export class BudgetAllocationListComponent implements OnInit {
+export class BudgetAllocationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BudgetAllocation[] = [];
@@ -34,7 +35,9 @@ export class BudgetAllocationListComponent implements OnInit {
    selection = new SelectionModel<BudgetAllocation>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BudgetAllocationService: BudgetAllocationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BudgetAllocationService: BudgetAllocationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
     //this.getBudgetAllocations();

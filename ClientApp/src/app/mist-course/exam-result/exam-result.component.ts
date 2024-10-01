@@ -19,6 +19,7 @@ import { TraineeNomination } from '../models/traineenomination';
 import { AuthService } from 'src/app/core/service/auth.service';
 
 import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 
@@ -27,7 +28,7 @@ import { Role } from 'src/app/core/models/role';
   templateUrl: './exam-result.component.html',
   styleUrls: ['./exam-result.component.sass']
 })
-export class ExamResultComponent implements OnInit {
+export class ExamResultComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -59,6 +60,7 @@ export class ExamResultComponent implements OnInit {
 
   displayedColumns: string[] = [ 'ser', 'courseTermTitle', 'isActive', 'actions'];
   dataSource: MatTableDataSource<ExamResult> = new MatTableDataSource();
+  subscription: any;
 
 
   constructor(
@@ -71,7 +73,9 @@ export class ExamResultComponent implements OnInit {
       private confirmService: ConfirmService,
       private CourseTermService: CourseTermService,
       private fb: FormBuilder, private router: Router, 
-      private route: ActivatedRoute) { }
+      private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
    
@@ -87,6 +91,11 @@ export class ExamResultComponent implements OnInit {
     this.getSelectedCourseLevel();
 
    // this.getSelectedCourseTermByLevel(id);
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   intitializeForm() {
     this.ExamResultForm = this.fb.group({
@@ -147,7 +156,7 @@ export class ExamResultComponent implements OnInit {
   }
   getSelectedCourseduration(id){
     console.log('Course Duration ' + id);
-    this.examResultService.GetCourseDuration(id).subscribe(res=>{
+    this.subscription = this.examResultService.GetCourseDuration(id).subscribe(res=>{
       this.selectedCourseduration=res
     });
    }
@@ -164,7 +173,7 @@ export class ExamResultComponent implements OnInit {
       var courseNameArr = dropdown.source.value.value.split('_');
       var courseDurationId = courseNameArr[0]; 
       var courseNameId = courseNameArr[1];
-      this.TraineeNominationService.findByCourseDurationForMIST(+courseDurationId).subscribe(response => {
+      this.subscription = this.TraineeNominationService.findByCourseDurationForMIST(+courseDurationId).subscribe(response => {
       this.traineeNominationListForMIST=response;
       console.log(this.traineeNominationListForMIST);
       this.isShown=true;
@@ -201,7 +210,7 @@ export class ExamResultComponent implements OnInit {
   }
 
   getSelectedCourseTermByLevel (CourseLevelId){
-    this.CourseTermService.getselectedCourseTermByCourseLevel(CourseLevelId).subscribe(res=>{
+    this.subscription = this.CourseTermService.getselectedCourseTermByCourseLevel(CourseLevelId).subscribe(res=>{
       this.SelectedCourseTerm=res
     });
    }
@@ -209,7 +218,7 @@ export class ExamResultComponent implements OnInit {
   
   deleteItem(row) {
     const id = row.courseTermId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.examResultService.delete(id).subscribe(() => { 
           this.snackBar.open('Information Deleted Successfully ', '', {
@@ -225,7 +234,7 @@ export class ExamResultComponent implements OnInit {
 
 
   getSelectedbaseSchoolName(){
-    this.baseSchoolNameService.getselectedSchools().subscribe(res=>{
+    this.subscription = this.baseSchoolNameService.getselectedSchools().subscribe(res=>{
       this.selectedSchool=res
       console.log("this is base school " +   (res));
     });
@@ -234,7 +243,7 @@ export class ExamResultComponent implements OnInit {
 
 
    getSelectedCourseLevel(){
-    this.CourseLevelService.getselectedCourseLevel().subscribe(res=>{
+    this.subscription = this.CourseLevelService.getselectedCourseLevel().subscribe(res=>{
       this.SelectedCourseLevel=res
     });
    }
@@ -276,7 +285,7 @@ console.log('Submit Value',this.ExamResultForm.value)
 
 //</FormArray></FormArray>this.ExamResultForm.traineeListForm.get('courseTermId').setValue(id);
  
-      this.examResultService.submit(this.ExamResultForm.value).subscribe(response => {
+this.subscription = this.examResultService.submit(this.ExamResultForm.value).subscribe(response => {
         //this.router.navigateByUrl('/basic-setup/add-courseTerm');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {

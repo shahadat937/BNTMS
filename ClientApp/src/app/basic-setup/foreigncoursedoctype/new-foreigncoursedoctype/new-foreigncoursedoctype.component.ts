@@ -4,13 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ForeignCourseDocTypeService } from '../../service/ForeignCourseDocType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-foreigncoursedoctype',
   templateUrl: './new-foreigncoursedoctype.component.html',
   styleUrls: ['./new-foreigncoursedoctype.component.sass']
 })
-export class NewForeignCourseDocTypeComponent implements OnInit {
+export class NewForeignCourseDocTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
   destination:string;
@@ -18,7 +19,9 @@ export class NewForeignCourseDocTypeComponent implements OnInit {
   ForeignCourseDocTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ForeignCourseDocTypeService: ForeignCourseDocTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ForeignCourseDocTypeService: ForeignCourseDocTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('foreignCourseDocTypeId'); 

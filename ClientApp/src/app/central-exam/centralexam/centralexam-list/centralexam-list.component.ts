@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-centralexam-list',
   templateUrl: './centralexam-list.component.html',
   styleUrls: ['./centralexam-list.component.sass']
 })
-export class CentralExamListComponent implements OnInit {
+export class CentralExamListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -35,7 +36,9 @@ export class CentralExamListComponent implements OnInit {
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit() {
      this.getCourseDurationsByCourseType();

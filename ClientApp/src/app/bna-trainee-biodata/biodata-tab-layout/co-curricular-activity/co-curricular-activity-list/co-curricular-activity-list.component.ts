@@ -10,13 +10,14 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-co-curricular-activity-list',
   templateUrl: './co-curricular-activity-list.component.html',
   styleUrls: ['./co-curricular-activity-list.component.sass']
 })
-export class CoCurricularActivityListComponent implements OnInit {
+export class CoCurricularActivityListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -37,7 +38,9 @@ export class CoCurricularActivityListComponent implements OnInit {
 
   SelectionModel = new SelectionModel<CoCurricularActivity>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private CoCurricularActivityService: CoCurricularActivityService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private CoCurricularActivityService: CoCurricularActivityService,private router: Router,private confirmService: ConfirmService) {
+    super();
+  }
   ngOnInit() {
     this.getCoCurricularActivitys();
   }

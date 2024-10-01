@@ -5,13 +5,14 @@ import { GameSportService } from '../../service/GameSport.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-game-sport',
   templateUrl: './new-game-sport.component.html',
   styleUrls: ['./new-game-sport.component.sass']
 })
-export class NewGameSportComponent implements OnInit {
+export class NewGameSportComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -22,7 +23,9 @@ export class NewGameSportComponent implements OnInit {
   gameValues:SelectedModel[]; 
   selectGame:SelectedModel[]; 
 
-  constructor(private snackBar: MatSnackBar,private GameSportService: GameSportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private GameSportService: GameSportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('gameSportId'); 

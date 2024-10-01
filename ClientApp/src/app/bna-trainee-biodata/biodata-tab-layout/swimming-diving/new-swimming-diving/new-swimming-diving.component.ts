@@ -10,13 +10,14 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ThemePalette } from '@angular/material/core';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-swimming-diving',
   templateUrl: './new-swimming-diving.component.html',
   styleUrls: ['./new-swimming-diving.component.sass']
 })
-export class NewSwimmingDivingComponent implements OnInit {
+export class NewSwimmingDivingComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   buttonText:string;
   loading = false;
   hideRequiredControl = new FormControl(false);
@@ -34,7 +35,9 @@ export class NewSwimmingDivingComponent implements OnInit {
  
  // form: FormGroup;
 
-  constructor(private CodeValueService:CodeValueService,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private CodeValueService:CodeValueService,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
