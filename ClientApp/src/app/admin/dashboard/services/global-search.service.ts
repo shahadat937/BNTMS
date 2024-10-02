@@ -47,12 +47,12 @@ export class GlobalSearchService {
     );
   }
 
-  getInstructorDetail(instructorId:number): any {
+  getInstructorDetail(instructorId:number): Observable<any> {
     if(this.HaveCachedData(instructorId.toString(),SearchType.Instructor)) {
       return of (this.getCachedData(instructorId.toString(),SearchType.Instructor)["payload"]);
     }
 
-    this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedInstructorDetail/${instructorId}`).pipe(
+    return this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedInstructorDetail/${instructorId}`).pipe(
       map(response=> {
         let data = {
           creationDate: (new Date()).getTime(),

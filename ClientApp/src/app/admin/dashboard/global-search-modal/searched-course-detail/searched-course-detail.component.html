@@ -12,7 +12,9 @@
                         {{courseDetail.totalInstructor}}
                     </h4>
                     <div>
-                        <a href="#">View</a>
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
+                            View 
+                        </a>
                     </div>
                 </div>
             </div>
@@ -28,7 +30,7 @@
                         {{courseDetail.totalTrainee}}
                     </h4>
                     <div>
-                        <a href="#">View</a>
+                        <a mat-dialog-close [routerLink]="['/course-management/add-traineenomination', Payload.CourseDurationId]">View</a>
                     </div>
                 </div>
             </div>
@@ -44,7 +46,7 @@
                         {{courseDetail.totalSubject}}
                     </h4>
                     <div>
-                        <a [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
                             View 
                         </a>
                     </div>
