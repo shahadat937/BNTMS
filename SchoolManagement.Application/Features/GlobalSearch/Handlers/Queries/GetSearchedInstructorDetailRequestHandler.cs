@@ -44,7 +44,8 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
             var courseDurationIds = await _CourseInstructorRepo.Where(x => x.TraineeId == request.instructorId).Select(x => x.CourseDurationId).Distinct().ToListAsync();
 
-            var courseDurations = await _CourseDurationRepo.Where(x => courseDurationIds.Contains(x.CourseDurationId)).ToListAsync();
+            var courseDurations = await _CourseDurationRepo.Where(x => courseDurationIds.Contains(x.CourseDurationId))
+                .Include(x=>x.CourseName).ToListAsync();
 
             instructorDetail.CourseDurations = _mapper.Map<List<CourseDurationDto>>(courseDurations);
             instructorDetail.TotalCourse = instructorDetail.CourseDurations.Count();

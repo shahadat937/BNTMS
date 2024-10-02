@@ -79,6 +79,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { SearchedTraineeDetailComponent } from './global-search-modal/searched-trainee-detail/searched-trainee-detail.component';
 import {MatCardModule} from '@angular/material/card';
 import { SearchedCourseDetailComponent } from './global-search-modal/searched-course-detail/searched-course-detail.component'
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
@@ -167,7 +168,8 @@ FullCalendarModule.registerPlugins([
     MatDialogModule,
     MatExpansionModule,
     MatChipsModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressBarModule
   ],
 })
 export class DashboardModule {}
