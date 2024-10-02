@@ -77,7 +77,8 @@ import { SearchDetailComponent } from './global-search-modal/search-detail/searc
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { SearchedTraineeDetailComponent } from './global-search-modal/searched-trainee-detail/searched-trainee-detail.component';
-import {MatCardModule} from '@angular/material/card'
+import {MatCardModule} from '@angular/material/card';
+import { SearchedCourseDetailComponent } from './global-search-modal/searched-course-detail/searched-course-detail.component'
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
@@ -132,7 +133,8 @@ FullCalendarModule.registerPlugins([
     RoutineSoftcopyTraineeComponent,
     GlobalSearchModalComponent,
     SearchDetailComponent,
-    SearchedTraineeDetailComponent
+    SearchedTraineeDetailComponent,
+    SearchedCourseDetailComponent
   ],
   imports: [
     CommonModule,

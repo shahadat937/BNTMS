@@ -79,6 +79,20 @@ export class GlobalSearchService {
     );
   }
 
+  getCourseDetail(courseDurationId): Observable<any> {
+    if(this.HaveCachedData(courseDurationId.toString(),SearchType.Course)) {
+      return of (this.getCachedData(courseDurationId.toString(),SearchType.Course)['payload']);
+    }
+
+    return this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedCourseDetail/${courseDurationId}`).pipe(
+      map(response => {
+        let data = {creationDate: (new Date()).getDate(), payload: response}
+        this.setCachedData(courseDurationId.toString(),data,SearchType.Course);
+        return response;
+      })
+    )
+  }
+
 
   HaveCachedData(key:string,searchType:SearchType,pageSize?:number,pageIndex?:number) {
      let uniqueIdentifier = this.setUniqueIdentifier(key,searchType,pageSize,pageIndex);

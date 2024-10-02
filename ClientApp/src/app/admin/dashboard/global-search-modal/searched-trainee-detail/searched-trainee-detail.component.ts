@@ -9,21 +9,26 @@ import { nextSortDir } from '@swimlane/ngx-datatable';
 })
 export class SearchedTraineeDetailComponent implements OnInit {
   @Input() Payload: any;
+  columnNames = ["Course", "Action"]
+  traineeDetails :any ;
+
   constructor(
     private globalSearchService: GlobalSearchService
   ) { 
     this.Payload = null; 
+    this.traineeDetails;
   }
 
   ngOnInit(): void {
-    this.getTraineeDetail();
+    if(this.Payload!=null) {
+      this.getTraineeDetail();
+    }
   }
 
   getTraineeDetail() {
-    console.log("Hello World");
     this.globalSearchService.getTraineeDetail(this.Payload.TraineeId).subscribe({
       next: response => {
-        console.log(response);
+        this.traineeDetails = response;
       }
     })
   }
