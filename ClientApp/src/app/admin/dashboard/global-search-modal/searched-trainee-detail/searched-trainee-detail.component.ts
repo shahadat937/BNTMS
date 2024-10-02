@@ -11,12 +11,14 @@ export class SearchedTraineeDetailComponent implements OnInit {
   @Input() Payload: any;
   columnNames = ["Course", "Action"]
   traineeDetails :any ;
+  loading: boolean;
 
   constructor(
     private globalSearchService: GlobalSearchService
   ) { 
     this.Payload = null; 
-    this.traineeDetails;
+    this.traineeDetails = null;
+    this.loading = false;
   }
 
   ngOnInit(): void {
@@ -26,9 +28,16 @@ export class SearchedTraineeDetailComponent implements OnInit {
   }
 
   getTraineeDetail() {
+    this.loading = true;
     this.globalSearchService.getTraineeDetail(this.Payload.TraineeId).subscribe({
       next: response => {
         this.traineeDetails = response;
+      },
+      error: err => {
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
       }
     })
   }

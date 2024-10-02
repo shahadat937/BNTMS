@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
   selector: 'app-search-detail',
   templateUrl: './search-detail.component.html',
   styleUrls: ['./search-detail.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 export class SearchDetailComponent implements OnInit, OnDestroy {

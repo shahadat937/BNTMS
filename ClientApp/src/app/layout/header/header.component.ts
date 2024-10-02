@@ -184,9 +184,6 @@ this.userRole.SchoolOIC
 
   openSearchModal() {
     const dialogRef =  this.dialog.open(GlobalSearchModalComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog Result: ${result}`);
-    }) 
   }
 
   ngAfterViewInit() {

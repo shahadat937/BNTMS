@@ -1,4 +1,5 @@
-<div class="container">
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="courseDetail!=null&&!loading" class="container">
     <div class="row">
         <div class="col-sm">
             <div class="card">

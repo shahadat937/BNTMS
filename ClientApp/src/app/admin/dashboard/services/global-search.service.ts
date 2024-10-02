@@ -79,7 +79,7 @@ export class GlobalSearchService {
     );
   }
 
-  getCourseDetail(courseDurationId): Observable<any> {
+  getCourseDetail(courseDurationId:number): Observable<any> {
     if(this.HaveCachedData(courseDurationId.toString(),SearchType.Course)) {
       return of (this.getCachedData(courseDurationId.toString(),SearchType.Course)['payload']);
     }
@@ -121,7 +121,6 @@ export class GlobalSearchService {
 
   setCachedData(uniqueIdentifier:string, val:any, searchType: SearchType,pageSize?:number,pageIndex?:number) {
    uniqueIdentifier = this.setUniqueIdentifier(uniqueIdentifier, searchType,pageSize,pageIndex);
-   console.log(uniqueIdentifier);
    sessionStorage.setItem(uniqueIdentifier, JSON.stringify(val));
   }
 
@@ -132,7 +131,7 @@ export class GlobalSearchService {
     } else if(searchType == SearchType.Instructor) {
       uniqueIdentifier=val + "instructor"
     } else if(searchType == SearchType.Course) {
-      uniqueIdentifier= uniqueIdentifier+"course";
+      uniqueIdentifier= val+"course";
     } else if(searchType == SearchType.Search) {
       uniqueIdentifier= uniqueIdentifier+`${val}_search_${pageSize}_pageSize_${pageIndex}_pageIndex`;
     }
