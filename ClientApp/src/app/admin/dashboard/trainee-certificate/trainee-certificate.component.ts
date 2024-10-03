@@ -94,6 +94,10 @@ export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter
     
   }
 
+  backButton() {
+    history.back();
+  }
+
   loadData() {
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 

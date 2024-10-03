@@ -86,6 +86,11 @@ export class TraineePerformanceDetailsListComponent extends UnsubscribeOnDestroy
     this.getSubjectNames(); 
     
   }
+
+  backButton() {
+    history.back();
+  }
+
   toggle(){
     this.showHideDiv = !this.showHideDiv;
   }
