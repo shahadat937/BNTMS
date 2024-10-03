@@ -5,6 +5,9 @@
         </div>
         <mat-panel-title>
             {{getPanelTitle()}}
+            <span *ngIf="getCourseStatus()==0" class="text-primary">(Running)</span>
+            <span *ngIf="getCourseStatus()>1" class="text-success">(Upcoming)</span>
+            <span *ngIf="getCourseStatus()<0" class="text-danger">(Passing Out)</span>
         </mat-panel-title>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>

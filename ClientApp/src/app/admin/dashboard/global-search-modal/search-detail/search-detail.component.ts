@@ -24,7 +24,6 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
   }
 
   ngOnDestroy(): void {
@@ -54,6 +53,20 @@ export class SearchDetailComponent implements OnInit, OnDestroy {
       return this.Payload.Name + ` (${this.Payload.Pno})`;
     } else {
       return this.Payload.Course + ` (${this.Payload.CourseTitle})`;
+    }
+  }
+
+  getCourseStatus() {
+
+    const from = new Date(this.Payload.DurationFrom);
+    const to = new Date(this.Payload.DurationTo);
+    const curDate = new Date();
+    if(curDate>=from&&curDate<=to) {
+      return 0; // running course
+    } else if(to<curDate) {
+      return -1; // previous course
+    } else {
+      return 1; // upcoming course
     }
   }
 }

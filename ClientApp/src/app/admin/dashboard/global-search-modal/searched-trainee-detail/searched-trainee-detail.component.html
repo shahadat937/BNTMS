@@ -52,7 +52,11 @@
     <mat-table style="width:100%" [dataSource]="traineeDetails.courseDurations">
       <ng-container matColumnDef="Course">
         <th style="width:100%" mat-header-cell *matHeaderCellDef>Course</th>
-        <td mat-cell *matCellDef="let element">{{element.courseName + " (" + element.courseTitle + ")"}}</td>
+        <td mat-cell *matCellDef="let element">{{element.courseName + " (" + element.courseTitle + ")"}}
+            <span *ngIf="getCourseStatus(element)==0" class="text-primary">(Running)</span>
+            <span *ngIf="getCourseStatus(element)>1" class="text-success">(Upcoming)</span>
+            <span *ngIf="getCourseStatus(element)<0" class="text-danger">(Passing Out)</span>
+        </td>
       </ng-container>
       <ng-container matColumnDef="Action">
         <th style="width:100%" mat-header-cell *matHeaderCellDef>Action</th>
@@ -63,15 +67,17 @@
 
             <mat-icon aria-label="Delete" class="col-white">visibility</mat-icon> 
           </button>
+          <button matDialogClose *ngIf="Payload.Type=='Trainee'" mat-icon-button color="accent" title="Trainee Certificate" class="btn-tbl-view" (click)="$event.stopPropagation()"
+            [routerLink]="['/admin/dashboard/trainee-certificate/',element.baseSchoolNameId,element.courseDurationId,Payload.TraineeId]"
+                                >
+            <mat-icon aria-label="Delete" class="col-white">workspace_premium</mat-icon> 
+          </button>
           <button *ngIf="Payload.Type=='Trainee'" mat-icon-button color="accent" title="View Subject Mark" class="btn-tbl-view" (click)="$event.stopPropagation()"
             [routerLink]="['/admin/dashboard/viewobtainmark/',element.baseSchoolNameId,element.courseDurationId,Payload.TraineeId]"
                 >
             <mat-icon aria-label="Delete" class="col-white">wysiwyg</mat-icon> 
           </button>
-          <button *ngIf="Payload.Type=='Trainee'" mat-icon-button color="accent" title="Remove User From Course" class="btn-tbl-delete" (click)="$event.stopPropagation()"
-                                >
-            <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
-          </button>
+
         </td>
       </ng-container>
        <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
