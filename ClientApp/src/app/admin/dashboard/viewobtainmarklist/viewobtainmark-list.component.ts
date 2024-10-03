@@ -81,9 +81,12 @@ export class ViewObtainMarkListComponent extends UnsubscribeOnDestroyAdapter imp
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
 
-    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+
+    this.route.paramMap.subscribe(params => {
+      this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+      this.getSubjectNames(); 
+    })
     
-    this.getSubjectNames(); 
     
   }
   toggle(){

@@ -70,7 +70,9 @@ export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDest
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    this.getSubjectNames(); 
+    this.route.paramMap.subscribe(param => {
+      this.getSubjectNames()
+    })
   }
   toggle(){
     this.showHideDiv = !this.showHideDiv;
