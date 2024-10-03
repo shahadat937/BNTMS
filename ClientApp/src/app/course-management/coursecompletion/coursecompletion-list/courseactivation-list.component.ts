@@ -31,7 +31,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: 1000,
+    pageSize: 5,
     length: 1
   }
   searchText="";
