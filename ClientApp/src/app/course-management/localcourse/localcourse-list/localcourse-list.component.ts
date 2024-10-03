@@ -34,7 +34,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
   groupArrays:{ schoolName: string; courses: any; }[];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: 1000,
+    pageSize: 10,
     length: 1
   }
   searchText="";
@@ -121,7 +121,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
       this.dataSource.data = response.items; 
 
       // this gives an object with dates as keys
-      const groups = this.dataSource.data.reduce((groups, courses) => {
+    const groups = this.dataSource.data.reduce((groups, courses) => { 
         const schoolName = courses.baseSchoolName;
         if (!groups[schoolName]) {
           groups[schoolName] = [];

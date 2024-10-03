@@ -84,6 +84,14 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
       this.isLoading = false;
     })
   }
+  pageChanged(event: PageEvent) {
+  
+    this.paging.pageIndex = event.pageIndex
+    this.paging.pageSize = event.pageSize
+    this.paging.pageIndex = this.paging.pageIndex + 1
+    // this.getCourseDurationsByCourseType();
+    this.getBnaClassTests();
+  }
   toggle(){
     this.showHideDiv = !this.showHideDiv;
   }

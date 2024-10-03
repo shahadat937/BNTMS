@@ -43,7 +43,7 @@ export class ExamStatusBySubjectListComponent implements OnInit,OnDestroy {
   groupArrays:{ courseModule: string; courses: any; }[];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: this.masterData.paging.pageSize,
+    pageSize: 1000,
     length: 1
   }
   searchText="";
