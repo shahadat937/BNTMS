@@ -103,7 +103,11 @@
                     <div class="col-4">
                       <ul class="header-buttons">
                         <li>
+                          
                           <div class="icon-button-demo">
+                            <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
+                              <mat-icon class="col-white">print</mat-icon>
+                            </button>
                             <button class="btn-space"  mat-raised-button
                             color="warn"  (click)="goBack()" > 
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
@@ -198,11 +202,14 @@
                       </ng-container>
                     </tbody>
                   </table>
+                  <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                  [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                  (page)="pageChanged($event)">
+                  </mat-paginator>
+                  
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
-                  <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
-                    <mat-icon class="col-white">print</mat-icon>
-                  </button>
+                  
                 </div>
               </div>
             </div>
