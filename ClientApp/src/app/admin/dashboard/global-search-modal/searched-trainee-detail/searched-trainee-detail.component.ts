@@ -112,4 +112,18 @@ export class SearchedTraineeDetailComponent implements OnInit {
     
   }
 
+  getCourseStatus(data:any) {
+
+    const from = new Date(data.durationFrom);
+    const to = new Date(data.durationTo);
+    const curDate = new Date();
+    if(curDate>=from&&curDate<=to) {
+      return 0; // running course
+    } else if(to<curDate) {
+      return -1; // previous course
+    } else {
+      return 1; // upcoming course
+    }
+  }
+
 }
