@@ -88,6 +88,13 @@ export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
 
+    this.route.paramMap.subscribe(params => {
+      this.loadData();
+    })
+    
+  }
+
+  loadData() {
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
@@ -105,7 +112,6 @@ export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter
       this.traineePosition = res[0].position;
       this.isShown=true;
     }); 
-    
   }
 
 

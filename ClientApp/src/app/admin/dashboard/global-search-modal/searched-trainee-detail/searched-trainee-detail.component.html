@@ -63,15 +63,17 @@
 
             <mat-icon aria-label="Delete" class="col-white">visibility</mat-icon> 
           </button>
+          <button matDialogClose *ngIf="Payload.Type=='Trainee'" mat-icon-button color="accent" title="Trainee Certificate" class="btn-tbl-view" (click)="$event.stopPropagation()"
+            [routerLink]="['/admin/dashboard/trainee-certificate/',element.baseSchoolNameId,element.courseDurationId,Payload.TraineeId]"
+                                >
+            <mat-icon aria-label="Delete" class="col-white">workspace_premium</mat-icon> 
+          </button>
           <button *ngIf="Payload.Type=='Trainee'" mat-icon-button color="accent" title="View Subject Mark" class="btn-tbl-view" (click)="$event.stopPropagation()"
             [routerLink]="['/admin/dashboard/viewobtainmark/',element.baseSchoolNameId,element.courseDurationId,Payload.TraineeId]"
                 >
             <mat-icon aria-label="Delete" class="col-white">wysiwyg</mat-icon> 
           </button>
-          <button *ngIf="Payload.Type=='Trainee'" mat-icon-button color="accent" title="Remove User From Course" class="btn-tbl-delete" (click)="$event.stopPropagation()"
-                                >
-            <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
-          </button>
+
         </td>
       </ng-container>
        <tr mat-header-row *matHeaderRowDef="columnNames"></tr>

@@ -30,7 +30,8 @@
                         {{courseDetail.totalTrainee}}
                     </h4>
                     <div>
-                        <a mat-dialog-close [routerLink]="['/course-management/add-traineenomination', Payload.CourseDurationId]">View</a>
+                        <!--<a mat-dialog-close [routerLink]="['/course-management/add-traineenomination', Payload.CourseDurationId]">View</a>-->
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/traineenomination-list', Payload.CourseDurationId,Payload.CourseTypeId]">View</a>
                     </div>
                 </div>
             </div>
