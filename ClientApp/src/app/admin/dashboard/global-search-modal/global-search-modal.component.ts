@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, ViewChild } from '@angular/core';
 import { delay, of, Subscription } from 'rxjs';
 import {GlobalSearchService} from '../services/global-search.service'
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
@@ -17,6 +17,7 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
   subscription: Subscription = new Subscription();
   searchResults: any;
   totalResult : number;
+  previousKeywords: string;
   
   constructor(
     private globalSearchService: GlobalSearchService
@@ -42,6 +43,7 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
     }
 
     if(this.searchText.trim()=="") {
+      this.searchResults = [];
       return;
     }
     
@@ -50,6 +52,7 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
 
     if(delayed) {
       delayedAmount = 700
+      this.pageIndex = 1;
     }
 
 
