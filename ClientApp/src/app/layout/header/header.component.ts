@@ -176,9 +176,8 @@ this.userRole.SchoolOIC
 
   }
 
-  testFun(event:any) {
+  triggerSearch(event:any) {
     event.preventDefault();
-    console.log("Hello World");
     this.openSearchModal();
   }
 
