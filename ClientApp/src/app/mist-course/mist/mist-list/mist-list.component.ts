@@ -61,11 +61,15 @@ export class MistListComponent implements OnInit, OnDestroy {
     this.paging.pageIndex = this.paging.pageIndex + 1
     this.getCourseDurationsByCourseType();
   }
-  applyFilter(searchText: any){ 
-    this.searchText = searchText;
-    this.getCourseDurationsByCourseType();
-  } 
-
+  // applyFilter(searchText: any){ 
+  //   this.searchText = searchText;
+  //   this.getCourseDurationsByCourseType();
+  // } 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
+  }
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {

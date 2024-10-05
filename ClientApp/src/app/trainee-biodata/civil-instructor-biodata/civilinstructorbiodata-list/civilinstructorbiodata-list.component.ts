@@ -78,10 +78,15 @@ export class CivilInstructorBioDataInfoListComponent extends UnsubscribeOnDestro
     this.getBIODataGeneralInfos();
   }
 
-  applyFilter(searchText: any){ 
-    this.searchText = searchText;
-    this.getBIODataGeneralInfos();
-  } 
+  // applyFilter(searchText: any){ 
+  //   this.searchText = searchText;
+  //   this.getBIODataGeneralInfos();
+  // } 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
+  }
 
 
   deleteItem(row) {

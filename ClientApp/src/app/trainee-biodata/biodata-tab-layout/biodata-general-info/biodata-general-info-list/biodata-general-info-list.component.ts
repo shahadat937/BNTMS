@@ -81,12 +81,17 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
     this.getBIODataGeneralInfos();
   }
 
-  applyFilter(searchText: any){ 
-    this.searchText = searchText;
-    this.getBIODataGeneralInfos();
-  } 
+  // applyFilter(searchText: any){ 
+  //   this.searchText = searchText;
+  //   this.getBIODataGeneralInfos();
+  // } 
 
-
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
+  }
+  
   deleteItem(row) {
     const id = row.traineeId; 
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {

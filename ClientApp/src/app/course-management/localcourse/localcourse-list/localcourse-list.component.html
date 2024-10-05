@@ -30,8 +30,7 @@
                                             <li class="dropdown">
                                             </li>
                                             <li class="dropdown">
-                                                <input placeholder="Search" type="text" [(ngModel)]="searchText" #filter class="browser-default search-field"
-                                                       aria-label="Search box">
+                                                <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field" (input)="applyFilter($event.target.value)" aria-label="Search box">
                                             </li>
                                             <li>
                                                 <div class="icon-button-demo m-l-10">
@@ -64,9 +63,10 @@
                             <br>
                             <div class="row dash-cd-m-0">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 div-class div-left course-filter">
-                                    <button class="running-course" (click)="getCoursesByViewType(1)">Running</button>
-                                    <button class="passing-course" (click)="getCoursesByViewType(2)">Passing Out</button>
-                                    <button class="upcoming-course" (click)="getCoursesByViewType(3)">Upcoming</button>
+                                    <button [ngClass]="{'active-button': selectedFilter === 1}"
+                                     class="running-course btn" (click)="getCoursesByViewType(1)">Running</button>
+                                    <button [ngClass]="{'active-button': selectedFilter === 2}" class="passing-course btn" (click)="getCoursesByViewType(2)">Passing Out</button>
+                                    <button [ngClass]="{'active-button': selectedFilter === 3}" class="upcoming-course btn" (click)="getCoursesByViewType(3)">Upcoming</button>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 div-class div-right">
@@ -154,10 +154,10 @@
                                 </tbody>
                             </table>
 
-                            <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                            <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
                         [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
                         (page)="pageChanged($event)">
-                        </mat-paginator>
+                        </mat-paginator> -->
                         </div>
                     </div>
                 </div>

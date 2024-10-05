@@ -24,7 +24,7 @@ export class TdecActionStatusListComponent implements OnInit, OnDestroy {
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: this.masterData.paging.pageSize,
+    pageSize: 5,
     length: 1
   }
   searchText="";
