@@ -53,6 +53,7 @@ export class ReadingmaterialtitleListComponent implements OnInit, OnDestroy {
      
 
       this.dataSource.data = response.items; 
+      console.log(this.dataSource.data)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })

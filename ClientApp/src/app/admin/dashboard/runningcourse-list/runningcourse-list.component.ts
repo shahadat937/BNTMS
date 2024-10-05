@@ -18,7 +18,7 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 @Component({
   selector: 'app-runningcourse-list',
   templateUrl: './runningcourse-list.component.html',
-  styleUrls: ['./runningcourse-list.component.sass']
+  styleUrls: ['./style.component.css']
 })
 export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
@@ -57,6 +57,7 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
   displayedColumns: string[] = ['ser','schoolName','course','noOfCandidates','professional','nbcd','durationFrom','durationTo', 'remark', 'actions'];
   displayedUpcomingForeignColumns: string[] = ['ser','courseTitle','courseName','durationFrom','durationTo', 'country', 'actions'];
   displayedUpcomingInterServiceColumns: string[] = ['ser','courseName', 'orgName','durationFrom','durationTo', 'actions'];
+  selectedFilter: any;
   constructor(private datepipe: DatePipe,private authService: AuthService,private dashboardService: dashboardService,private snackBar: MatSnackBar,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
     super();
   }
@@ -129,12 +130,15 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     var courseTypeId = this.route.snapshot.paramMap.get('courseTypeId'); 
     if(viewStatus==1){
       this.courseListTitle="Runnung";
+      this.selectedFilter = viewStatus;
       this.masterData.coursetype.LocalCourse
       this.getSpRunningCourseDurations(courseTypeId,viewStatus)
     }else if(viewStatus==2){
+      this.selectedFilter = viewStatus;
       this.courseListTitle="Passing Out";
       this.getSpRunningCourseDurations(courseTypeId,viewStatus)
     }else if(viewStatus==3){
+      this.selectedFilter = viewStatus;
       this.courseListTitle="Upcomming";
       let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
       // this.getSpRunningCourseDurations(courseTypeId,viewStatus)
@@ -217,6 +221,12 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     this.showHideDiv= false;
     this.print();
   }
+  applyFilter(searchText: any){ 
+    this.searchText = searchText;
+    // this.getCourseDurations();
+    // getSpRunningCourseDurations();
+  } 
+
   print(){ 
     
     let printContents, popupWin;
