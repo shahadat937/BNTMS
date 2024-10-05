@@ -144,5 +144,12 @@ dataSource: any;
     }
 
   }
+  pageChanged(event: PageEvent) {
+  
+    this.paging.pageIndex = event.pageIndex
+    this.paging.pageSize = event.pageSize
+    this.paging.pageIndex = this.paging.pageIndex + 1
+    // this.getCourseDurationsByCourseType();
+  }
 
 }

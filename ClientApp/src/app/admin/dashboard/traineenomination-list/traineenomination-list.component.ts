@@ -72,8 +72,14 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
 
+    this.route.paramMap.subscribe(params => {
+      this.loadData();
+    })
     //this.getTraineeNominations();
     //var schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
+  }
+
+  loadData() {
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.courseDuration=courseDurationId; 

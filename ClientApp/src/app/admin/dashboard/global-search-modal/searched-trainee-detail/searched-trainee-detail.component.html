@@ -1,81 +1,87 @@
-<div class="d-flex flex-row-reverse">
-    <button class="btn btn-outline-primary" [routerLink]="['/trainee-biodata/sailor-biodata-tab/main-tab-layout/', Payload.TraineeId]">
+<div class="d-flex flex-row justify-content-end">
+    <button class="btn btn-outline-primary me-1" [routerLink]="['/trainee-biodata/sailor-biodata-tab/main-tab-layout/', Payload.TraineeId]">
         View
     </button>
-    <button class="btn btn-outline-primary">
-        Change Role
-    </button>
-    <button class="btn btn-outline-danger">
+    <button *ngIf="Payload.AspUserId!=null" (click)="PasswordUpdate(Payload.AspUserId)" class="btn btn-outline-danger">
         Reset Password
     </button>
 </div>
 
 <hr>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      <div class="card">
-        <div class="card-body text-center">
-          <h3><b>Total Course</b></h3>
-          <h4>{{traineeDetails.totalCourse}}</h4>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="traineeDetails!=null&&!loading">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <div class="card">
+          <div class="card-body text-center">
+            <h3><b>Total Course</b></h3>
+            <h4>{{traineeDetails.totalCourse}}</h4>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm">
-      <div class="card">
-        <div class="card-body text-center">
-          <h3><b>Previous Course</b></h3>
-          <h4>{{traineeDetails.previousCourse}}</h4>
+      <div class="col-sm">
+        <div class="card">
+          <div class="card-body text-center">
+            <h3><b>Previous Course</b></h3>
+            <h4>{{traineeDetails.previousCourse}}</h4>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm">
-      <div class="card">
-        <div class="card-body text-center">
-          <h3><b>Current Course</b></h3>
-          <h4>{{traineeDetails.runningCourse}}</h4>
+      <div class="col-sm">
+        <div class="card">
+          <div class="card-body text-center">
+            <h3><b>Current Course</b></h3>
+            <h4>{{traineeDetails.runningCourse}}</h4>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm">
-      <div class="card">
-        <div class="card-body text-center">
-          <h3><b>Upcoming Course</b></h3>
-          <h4>{{traineeDetails.upcomingCourse}}</h4>
+      <div class="col-sm">
+        <div class="card">
+          <div class="card-body text-center">
+            <h3><b>Upcoming Course</b></h3>
+            <h4>{{traineeDetails.upcomingCourse}}</h4>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="traineeDetails.courseDurations.length>0" style="overflow:auto">
-  <mat-table style="width:100%" [dataSource]="traineeDetails.courseDurations">
-    <ng-container matColumnDef="Course">
-      <th style="width:100%" mat-header-cell *matHeaderCellDef>Course</th>
-      <td mat-cell *matCellDef="let element">{{element.courseTitle}}</td>
-    </ng-container>
-    <ng-container matColumnDef="Action">
-      <th style="width:100%" mat-header-cell *matHeaderCellDef>Action</th>
-      <td class="d-flex" mat-cell *matCellDef="let element">
-        <button matDialogClose mat-icon-button color="accent" title="View Course" class="btn-tbl-view" (click)="$event.stopPropagation()" 
-        [routerLink]="['/admin/dashboard/runningcourse-details',element.courseDurationId,100]"
-                              >
+  <div *ngIf="traineeDetails.courseDurations.length>0" style="overflow:auto">
+    <mat-table style="width:100%" [dataSource]="traineeDetails.courseDurations">
+      <ng-container matColumnDef="Course">
+        <th style="width:100%" mat-header-cell *matHeaderCellDef>Course</th>
+        <td mat-cell *matCellDef="let element">{{element.courseName + " (" + element.courseTitle + ")"}}
+            <span *ngIf="getCourseStatus(element)==0" class="text-primary">(Running)</span>
+            <span *ngIf="getCourseStatus(element)>1" class="text-success">(Upcoming)</span>
+            <span *ngIf="getCourseStatus(element)<0" class="text-danger">(Passing Out)</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Action">
+        <th style="width:100%" mat-header-cell *matHeaderCellDef>Action</th>
+        <td class="d-flex" mat-cell *matCellDef="let element">
+          <button matDialogClose mat-icon-button color="accent" title="View Course" class="btn-tbl-view" (click)="$event.stopPropagation()" 
+          [routerLink]="['/admin/dashboard/runningcourse-details',element.courseDurationId,100]"
+                                >
 
-          <mat-icon aria-label="Delete" class="col-white">visibility</mat-icon> 
-        </button>
-        <button mat-icon-button color="accent" title="View Subject Mark" class="btn-tbl-view" (click)="$event.stopPropagation()"
-          [routerLink]="['/admin/dashboard/viewobtainmark/',element.baseSchoolNameId,element.courseDurationId,Payload.TraineeId]"
-              >
-          <mat-icon aria-label="Delete" class="col-white">wysiwyg</mat-icon> 
-        </button>
-        <button mat-icon-button color="accent" title="Remove User From Course" class="btn-tbl-delete" (click)="$event.stopPropagation()"
-                              >
-          <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
-        </button>
-      </td>
-    </ng-container>
-     <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
-  </mat-table>
+            <mat-icon aria-label="Delete" class="col-white">visibility</mat-icon> 
+          </button>
+          <button matDialogClose *ngIf="Payload.Type=='Trainee'" mat-icon-button color="accent" title="Trainee Certificate" class="btn-tbl-view" (click)="$event.stopPropagation()"
+            [routerLink]="['/admin/dashboard/trainee-certificate/',element.baseSchoolNameId,element.courseDurationId,Payload.TraineeId]"
+                                >
+            <mat-icon aria-label="Delete" class="col-white">workspace_premium</mat-icon> 
+          </button>
+          <button *ngIf="Payload.Type=='Trainee'" mat-icon-button color="accent" title="View Subject Mark" class="btn-tbl-view" (click)="$event.stopPropagation()"
+            [routerLink]="['/admin/dashboard/viewobtainmark/',element.baseSchoolNameId,element.courseDurationId,Payload.TraineeId]"
+                >
+            <mat-icon aria-label="Delete" class="col-white">wysiwyg</mat-icon> 
+          </button>
+
+        </td>
+      </ng-container>
+       <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
+    </mat-table>
+  </div>
 </div>

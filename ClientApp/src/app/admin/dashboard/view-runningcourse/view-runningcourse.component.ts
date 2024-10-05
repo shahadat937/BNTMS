@@ -65,29 +65,33 @@ export class ViewRunningCourseComponent extends UnsubscribeOnDestroyAdapter impl
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
 
-    const id = this.route.snapshot.paramMap.get('courseDurationId'); 
-    this.schoolDb = Number(this.route.snapshot.paramMap.get('schoolDb')); 
-    this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
-    this.CourseDurationService.find(+id).subscribe( res => {
-      this.courseDurationId = res.courseDurationId,
-      this.courseNameId = res.courseNameId,
-      this.courseName = res.courseName,
-      this.courseTitle = res.courseTitle,
-      this.courseName=res.courseName,
-      this.noOfCandidates = res.noOfCandidates,
-      this.baseSchoolNameId = res.baseSchoolNameId,
-      this.durationFrom = res.durationFrom,    
-      this.durationTo = res.durationTo,
-      this.professional = res.professional,
-      this.nbcd = res.nbcd,
-      this.remark = res.remark
-      // this.groupId = res.groupId,
-      // this.passingYear = res.passingYear,
-      // this.result = res.result,
-      // this.outOfResult = res.outOfResult,
-      // this.courseDuration = res.courseDuration,
-      // this.status = res.status,            
-      // this.additionaInformation = res.additionaInformation        
+
+    this.route.paramMap.subscribe(params => {
+      const id = this.route.snapshot.paramMap.get('courseDurationId'); 
+      this.schoolDb = Number(this.route.snapshot.paramMap.get('schoolDb')); 
+      this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
+      this.CourseDurationService.find(+id).subscribe( res => {
+        this.courseDurationId = res.courseDurationId,
+        this.courseNameId = res.courseNameId,
+        this.courseName = res.courseName,
+        this.courseTitle = res.courseTitle,
+        this.courseName=res.courseName,
+        this.noOfCandidates = res.noOfCandidates,
+        this.baseSchoolNameId = res.baseSchoolNameId,
+        this.durationFrom = res.durationFrom,    
+        this.durationTo = res.durationTo,
+        this.professional = res.professional,
+        this.nbcd = res.nbcd,
+        this.remark = res.remark
+        // this.groupId = res.groupId,
+        // this.passingYear = res.passingYear,
+        // this.result = res.result,
+        // this.outOfResult = res.outOfResult,
+        // this.courseDuration = res.courseDuration,
+        // this.status = res.status,            
+        // this.additionaInformation = res.additionaInformation        
+      })
+
     })
     // this.getExamType();
     // this.getBoard();

@@ -54,7 +54,7 @@
                   </div>
                 </div>
 
-              <mat-table #table [dataSource]="SelectedsubjectsBySchoolAndCourse" matSort class="mat-cell">
+              <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
                 <ng-container matColumnDef="ser">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                   <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
@@ -123,6 +123,10 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
+              <mat-paginator #InitialOrderMatPaginator="matPaginator"
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons >
+           </mat-paginator>
             
               </div>
             </div>

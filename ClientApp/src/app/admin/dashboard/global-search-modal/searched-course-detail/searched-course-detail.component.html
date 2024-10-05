@@ -1,4 +1,5 @@
-<div class="container">
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="courseDetail!=null&&!loading" class="container">
     <div class="row">
         <div class="col-sm">
             <div class="card">
@@ -11,7 +12,9 @@
                         {{courseDetail.totalInstructor}}
                     </h4>
                     <div>
-                        <a href="#">View</a>
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
+                            View 
+                        </a>
                     </div>
                 </div>
             </div>
@@ -27,7 +30,8 @@
                         {{courseDetail.totalTrainee}}
                     </h4>
                     <div>
-                        <a href="#">View</a>
+                        <!--<a mat-dialog-close [routerLink]="['/course-management/add-traineenomination', Payload.CourseDurationId]">View</a>-->
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/traineenomination-list', Payload.CourseDurationId,Payload.CourseTypeId]">View</a>
                     </div>
                 </div>
             </div>
@@ -43,7 +47,7 @@
                         {{courseDetail.totalSubject}}
                     </h4>
                     <div>
-                        <a [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
                             View 
                         </a>
                     </div>

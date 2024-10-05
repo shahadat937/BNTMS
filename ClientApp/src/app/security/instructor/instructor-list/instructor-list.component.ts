@@ -25,7 +25,7 @@ export class InstructorListComponent implements OnInit, OnDestroy {
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: 100,
+    pageSize: 5,
     length: 1
   }
   searchText="";

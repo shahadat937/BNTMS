@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -75,38 +75,47 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
  
   ngOnInit(): void {
    
-    const id = this.route.snapshot.paramMap.get('traineeNominationId');  
+    let id; 
+    this.route.paramMap.subscribe(param=> {
+      id = param.get('traineeNominationId')
+    })
+
+    this.route.paramMap.subscribe(param => {
+      this.courseDurationId = param.get('courseDurationId');
+
+      this.onUpdate();
+    })
     // this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');  
-    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    console.log( 'this.courseDurationId ',this.courseDurationId);
-    this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
-      this.courseNameId = res.courseNameId;
-      this.schoolName = res.baseSchoolName;
-      this.courseName = res.courseName;
-      this.courseTitle = res.courseTitle;
-    });
-    this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
-      res => {
-        this.TraineeNominationForm.patchValue({          
-          traineeNominationId:res.traineeNominationId, 
-          courseDurationId: res.courseDurationId, 
-          courseNameId:res.courseNameId, 
-          traineeId:res.traineeId, 
-          traineeCourseStatusId:res.traineeCourseStatusId, 
-          saylorRankId:res.saylorRankId,
-          rankId:res.rankId,
-          saylorBranchId:res.saylorBranchId,
-          saylorSubBranchId:res.saylorSubBranchId,
-          branchId:res.branchId,
-          withdrawnDocId:res.withdrawnDocId,
-          withdrawnRemarks:res.withdrawnRemarks,
-          withdrawnDate:res.withdrawnDate,
-          status:res.status,
-          menuPosition: res.menuPosition,
-          isActive: res.isActive,
-        });   
-      }
-    );
+    //this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+    //---------------------------------------------------------------------------
+    //this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
+    //  this.courseNameId = res.courseNameId;
+    //  this.schoolName = res.baseSchoolName;
+    //  this.courseName = res.courseName;
+    //  this.courseTitle = res.courseTitle;
+    //});
+    //this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
+    //  res => {
+    //    this.TraineeNominationForm.patchValue({          
+    //      traineeNominationId:res.traineeNominationId, 
+    //      courseDurationId: res.courseDurationId, 
+    //      courseNameId:res.courseNameId, 
+    //      traineeId:res.traineeId, 
+    //      traineeCourseStatusId:res.traineeCourseStatusId, 
+    //      saylorRankId:res.saylorRankId,
+    //      rankId:res.rankId,
+    //      saylorBranchId:res.saylorBranchId,
+    //      saylorSubBranchId:res.saylorSubBranchId,
+    //      branchId:res.branchId,
+    //      withdrawnDocId:res.withdrawnDocId,
+    //      withdrawnRemarks:res.withdrawnRemarks,
+    //      withdrawnDate:res.withdrawnDate,
+    //      status:res.status,
+    //      menuPosition: res.menuPosition,
+    //      isActive: res.isActive,
+    //    });   
+    //  }
+    //);
 
     if (id) {
       this.pageTitle = 'Edit Trainee Nomination'; 
@@ -139,14 +148,58 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
       this.destination = "Add"; 
       this.buttonText= "Save"
     } 
+    //this.intitializeForm();
+    //this.getselectedcoursename();
+    //this.getselectedTraineeCourseStatus();
+    //this.getselectedWithdrawnDoc();
+    //this.getSelectedTrainee();
+    //this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
+    //--------------------------------------------
+   // this.getSelectedTraineeByPno();
+  }
+
+
+
+  onUpdate() {
+    this.courseDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
+      this.courseNameId = res.courseNameId;
+      this.schoolName = res.baseSchoolName;
+      this.courseName = res.courseName;
+      this.courseTitle = res.courseTitle;
+    });
+    this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
+      res => {
+        this.TraineeNominationForm.patchValue({          
+          traineeNominationId:res.traineeNominationId, 
+          courseDurationId: res.courseDurationId, 
+          courseNameId:res.courseNameId, 
+          traineeId:res.traineeId, 
+          traineeCourseStatusId:res.traineeCourseStatusId, 
+          saylorRankId:res.saylorRankId,
+          rankId:res.rankId,
+          saylorBranchId:res.saylorBranchId,
+          saylorSubBranchId:res.saylorSubBranchId,
+          branchId:res.branchId,
+          withdrawnDocId:res.withdrawnDocId,
+          withdrawnRemarks:res.withdrawnRemarks,
+          withdrawnDate:res.withdrawnDate,
+          status:res.status,
+          menuPosition: res.menuPosition,
+          isActive: res.isActive,
+        });   
+      }
+    );
+
     this.intitializeForm();
     this.getselectedcoursename();
     this.getselectedTraineeCourseStatus();
     this.getselectedWithdrawnDoc();
     this.getSelectedTrainee();
     this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
-   // this.getSelectedTraineeByPno();
+
   }
+
+
 
   intitializeForm() {
     this.TraineeNominationForm = this.fb.group({

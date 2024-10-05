@@ -12,6 +12,7 @@ export class SearchedCourseDetailComponent implements OnInit, OnDestroy {
   @Input() Payload: any;
   courseDetail: any;
   subscription:Subscription = new Subscription();
+  loading: boolean
 
 
   constructor(
@@ -19,6 +20,7 @@ export class SearchedCourseDetailComponent implements OnInit, OnDestroy {
   ) { 
     this.Payload = null;
     this.courseDetail = null;
+    this.loading = false;
   }
 
   ngOnInit(): void {
@@ -34,10 +36,16 @@ export class SearchedCourseDetailComponent implements OnInit, OnDestroy {
   }
 
   getCourseDetail() {
-    console.log(this.Payload)
+    this.loading = true;
     this.globalSearchService.getCourseDetail(this.Payload.CourseDurationId).subscribe({
       next: response => {
-        this.courseDetail = response; 
+        this.courseDetail = response;
+      },
+      error: err => {
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
       }
     })
   }

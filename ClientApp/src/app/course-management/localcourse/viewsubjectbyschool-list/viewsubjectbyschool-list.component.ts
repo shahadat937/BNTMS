@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-viewsubjectbyschool',
@@ -22,7 +23,7 @@ export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDest
   isLoading = false;
   status=1;
   courseDurationId:any;
-  SelectedsubjectsBySchoolAndCourse:BNASubjectName[];
+  // dataSource:BNASubjectName[];
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -30,11 +31,15 @@ export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDest
     length: 1
   }
   searchText="";
+  @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
+  @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
+  dataSource = new MatTableDataSource();
 
   displayedColumns: string[] = ['ser','subjectName','subjectCode','subjectType','kindOfSubject','subjectClassification','totalMark','passMarkBna','passMarkBup','actions'];
 
 
    selection = new SelectionModel<BNASubjectName>(true, []);
+// dataSource: any;
 
   
   constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
@@ -52,7 +57,10 @@ export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDest
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourse(Number(baseSchoolNameId),Number(courseNameId)).subscribe(res=>{
-      this.SelectedsubjectsBySchoolAndCourse=res;  
+    
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator; 
     });
   }
 
