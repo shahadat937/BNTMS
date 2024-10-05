@@ -37,12 +37,13 @@
 
                     </div>
                     <div class="col-4 div-left course-filter master-running-course">
-                      <button class="running-course" (click)="getCoursesByViewType(1)">Running</button>
-                      <button class="passing-course" (click)="getCoursesByViewType(2)">Passing Out</button>
-                      <button class="upcoming-course" (click)="getCoursesByViewType(3)">Upcoming</button>
+                      <button [ngClass]="{'active-button': selectedFilter === 1}" class="running-course btn" (click)="getCoursesByViewType(1)">Running</button>
+                      <button [ngClass]="{'active-button': selectedFilter === 2}" class="passing-course btn" (click)="getCoursesByViewType(2)">Passing Out</button>
+                      <button [ngClass]="{'active-button': selectedFilter === 3}" class="upcoming-course btn" (click)="getCoursesByViewType(3)">Upcoming</button>
                     </div>
                     <div class="col-4">
                       <ul class="header-buttons">
+                        <li>
                         <li>
                           <div class="icon-button-demo">
                             <button  *ngIf="role != (userRole.InterSeeviceCourse || userRole.InterSeeviceDesk)"  class="btn-space"  mat-raised-button

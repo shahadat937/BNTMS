@@ -31,7 +31,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: 5,
+    pageSize: 1000,
     length: 1
   }
   searchText="";
@@ -72,6 +72,7 @@ userRole: any;
   getCourseDurations() {
     this.isLoading = true;
     this.CourseDurationService.getCourseDurations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+        console.log(response)
       this.dataSource.data = response.items; 
       // this gives an object with dates as keys
       const groups = this.dataSource.data.reduce((groups, courses) => {
@@ -105,14 +106,14 @@ userRole: any;
     })
   }
 
-  pageChanged(event: PageEvent) {
+  // pageChanged(event: PageEvent) {
   
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
-    this.getCourseDurations();
+  //   this.paging.pageIndex = event.pageIndex
+  //   this.paging.pageSize = event.pageSize
+  //   this.paging.pageIndex = this.paging.pageIndex + 1
+  //   this.getCourseDurations();
  
-  }
+  // }
   applyFilter(searchText: any){ 
     this.searchText = searchText;
     this.getCourseDurations();

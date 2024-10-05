@@ -15,10 +15,11 @@ import { DatePipe } from '@angular/common';
 import { dashboardService } from 'src/app/admin/dashboard/services/dashboard.service';
 import { ScrollService } from 'src/app/course-management/localcourse/scrole-restore/scrole-position.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { viewClassName } from '@angular/compiler';
 @Component({
   selector: 'app-localcourse-list',
   templateUrl: './localcourse-list.component.html',
-  styleUrls: ['./localcourse-list.component.sass']
+  styleUrls: ['./style.component.css']
 })
 export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit,OnDestroy {
   scrollPosition: number = 0;
@@ -34,7 +35,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
   groupArrays:{ schoolName: string; courses: any; }[];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: 10,
+    pageSize: this.masterData.paging.pageSize,
     length: 1
   }
   searchText="";
@@ -147,15 +148,18 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
   getCoursesByViewType(viewStatus){
 
     if(viewStatus==1){
+      this.selectedFilter = viewStatus;
      this.getCourseDurationFilterList(viewStatus)
      this.selectedFilter = 1;
     }
     else if(viewStatus==2){
+      this.selectedFilter = viewStatus;
       this.getCourseDurationFilterList(viewStatus)
       this.selectedFilter = 2;
     }
     else if(viewStatus==3){
       this.selectedFilter = 3;
+      this.selectedFilter = viewStatus;
       this.getCourseDurationFilterList(viewStatus)
     }
   }
@@ -238,16 +242,17 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
     // }
   }
 
-  pageChanged(event: PageEvent) {
+  // pageChanged(event: PageEvent) {
   
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
-    this.getCourseDurationsByCourseType();
-  }
+  //   this.paging.pageIndex = event.pageIndex
+  //   this.paging.pageSize = event.pageSize
+  //   this.paging.pageIndex = this.paging.pageIndex + 1
+  //   this.getCourseDurationsByCourseType();
+  // }
   applyFilter(searchText: any){ 
     this.searchText = searchText;
     this.getCourseDurationsByCourseType();
+   
   } 
 
   // getTraineeNominationsByCourseDurationId(courseDurationId) {

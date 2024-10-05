@@ -156,6 +156,7 @@ export class EditClassRoutineComponent implements OnInit, OnDestroy {
       attendanceComplete:[0],
       classTypeId:[],
       classCountPeriod:[],
+      totalClassPeriod:[],
       subjectCountPeriod:[],
       date:[], 
       classLocation:[''],
@@ -196,7 +197,7 @@ export class EditClassRoutineComponent implements OnInit, OnDestroy {
 
     this.subscription = this.classRoutineService.getClassRoutineCountByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId,this.durationId,this.sectionId).subscribe(res=>{
       this.routineCount=res;
-      (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
+      (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('totalClassPeriod').setValue(this.routineCount);
     });
   }
 

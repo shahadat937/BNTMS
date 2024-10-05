@@ -67,10 +67,15 @@ export class BnasemesterdurationListComponent implements OnInit, OnDestroy {
     this.getBNASemesterDurations();
  
   }
-  applyFilter(searchText: any){ 
-    this.searchText = searchText;
-    this.getBNASemesterDurations();
-  } 
+  // applyFilter(searchText: any){ 
+  //   this.searchText = searchText;
+  //   this.getBNASemesterDurations();
+  // } 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
+  }
 
   courseWeekGenerate(row){
     const id = row.bnaSemesterDurationId; 

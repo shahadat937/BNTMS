@@ -66,11 +66,15 @@ export class RoleFeatureListComponent implements OnInit, OnDestroy {
     this.getRoleFeatures();
  
   }
-  applyFilter(searchText: any){ 
-    this.searchText = searchText;
-    this.getRoleFeatures();
-  } 
-
+  // applyFilter(searchText: any){ 
+  //   this.searchText = searchText;
+  //   this.getRoleFeatures();
+  // } 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
+  }
   deleteItem(row) {
     const Roleid = row.roleId; 
     const Featureid = row.featureId;
