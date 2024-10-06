@@ -93,7 +93,7 @@ export class CountryListComponent extends UnsubscribeOnDestroyAdapter implements
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getCountries();
   } 
 
