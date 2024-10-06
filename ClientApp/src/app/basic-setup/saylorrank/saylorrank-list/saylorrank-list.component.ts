@@ -9,6 +9,8 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-saylorrank-list',
@@ -28,6 +30,8 @@ export class SaylorRankListComponent extends UnsubscribeOnDestroyAdapter impleme
     length: 1
   }
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
 
   displayedColumns: string[] = [ 'sl', 'name',  'actions'];
   dataSource: MatTableDataSource<SaylorRank> = new MatTableDataSource();
@@ -41,6 +45,16 @@ export class SaylorRankListComponent extends UnsubscribeOnDestroyAdapter impleme
   
   ngOnInit() {
     this.getSaylorRanks();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   
   getSaylorRanks() {
@@ -78,7 +92,7 @@ export class SaylorRankListComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getSaylorRanks();
   } 
 
