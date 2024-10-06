@@ -144,6 +144,9 @@ dataSource: any;
     }
 
   }
+  applyFilter(search:any){
+    
+  }
   pageChanged(event: PageEvent) {
   
     this.paging.pageIndex = event.pageIndex

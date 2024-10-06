@@ -3,7 +3,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {BNAExamInstructorAssign} from '../../../exam-management/models/bnaexaminstructorassign';
 import {BNAExamInstructorAssignService} from '../../../exam-management/service/bnaexaminstructorassign.service';
-import { SelectionModel } from '@angular/cdk/collections';
+import { SelectionModel, DataSource } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data';
@@ -21,7 +21,7 @@ export class CentralExamCourseListComponent extends UnsubscribeOnDestroyAdapter 
   loading = false;
   ELEMENT_DATA: BNAExamInstructorAssign[] = [];
   isLoading = false;
-  GetInstructorByParameters:BNAExamInstructorAssign[];
+  // dataSource:BNAExamInstructorAssign[];
   baseSchoolNameId:any;
   courseNameId:any;
   courseTypeId: number;
@@ -59,13 +59,15 @@ dataSource: any;
     if(courseNameId !=null){
       this.title = ""
       this.dashboardService.getSpCentralCourseList(courseNameId).subscribe(res=>{
-        this.GetInstructorByParameters=res;  
+        this.dataSource=res;  
       }); 
     }
     //this.applyFilter(courseNameId)
   }
   applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
     
   }
 }

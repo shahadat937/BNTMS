@@ -11,6 +11,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe, formatDate } from '@angular/common';
 import {Inject, LOCALE_ID } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-courseactivation-list',
@@ -27,6 +29,10 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
   completeStatus :boolean = false;
   btnText:string;
   currentDateTime:any;
+  
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   dateTo:any;
   
   paging = {
@@ -52,9 +58,17 @@ userRole: any;
   ngOnInit() {
     this.currentDateTime =this.datepipe.transform((new Date), 'dd/MM/YYYY');
     this.getCourseDurations();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
   }
- 
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
   getCourseStatus(data){
     this.currentDateTime =this.datepipe.transform((new Date), 'dd/MM/YYYY');
     this.dateTo =this.datepipe.transform(data.durationTo, 'dd/MM/YYYY');
