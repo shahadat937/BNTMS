@@ -70,7 +70,7 @@
                     </div>
                   </div>
                 </div>
-                <mat-table #table [dataSource]="GetInstructorByParameters" matSort class="mat-cell db-li-n db-li-s-in exm-ins">               
+                <mat-table #table [dataSource]="dataSource" matSort class="mat-cell db-li-n db-li-s-in exm-ins">               
                   <ng-container matColumnDef="ser">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                     <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>

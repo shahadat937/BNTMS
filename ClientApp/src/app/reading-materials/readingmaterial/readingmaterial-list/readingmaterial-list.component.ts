@@ -11,6 +11,8 @@ import {Role} from 'src/app/core/models/role'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-readingmaterial-list',
@@ -26,10 +28,12 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: this.masterData.paging.pageSize,
+    pageSize: 1000,
     length: 1
   }
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
 
   role:any;
   traineeId:any;
@@ -55,6 +59,12 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     if(this.role == this.userRole.MasterAdmin){
       this.branchId = 0;
     }
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
 
     this.getReadingMaterials();
     
@@ -63,6 +73,12 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
  
   getReadingMaterials() {
@@ -93,14 +109,14 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     })
   }
 
-  pageChanged(event: PageEvent) {
+  // pageChanged(event: PageEvent) {
   
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
-    this.getReadingMaterials();
+  //   this.paging.pageIndex = event.pageIndex
+  //   this.paging.pageSize = event.pageSize
+  //   this.paging.pageIndex = this.paging.pageIndex + 1
+  //   this.getReadingMaterials();
  
-  }
+  // }
   applyFilter(searchText: any){ 
     this.searchText = searchText;
     this.getReadingMaterials();

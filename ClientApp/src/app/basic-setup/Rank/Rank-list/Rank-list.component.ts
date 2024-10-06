@@ -9,6 +9,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
  
 
 @Component({
@@ -30,6 +32,10 @@ export class RankListComponent extends UnsubscribeOnDestroyAdapter implements On
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
+
   displayedColumns: string[] = [ 'select', 'sl',/*'rankId',*/ 'rankName','position', 'completeStatus','isActive', 'actions'];
   dataSource: MatTableDataSource<Rank> = new MatTableDataSource();
 
@@ -45,6 +51,13 @@ export class RankListComponent extends UnsubscribeOnDestroyAdapter implements On
   // }
   ngOnInit() {
     this.getRanks();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
   }
  
@@ -57,6 +70,9 @@ export class RankListComponent extends UnsubscribeOnDestroyAdapter implements On
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -81,7 +97,7 @@ export class RankListComponent extends UnsubscribeOnDestroyAdapter implements On
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getRanks();
   } 
 

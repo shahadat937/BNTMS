@@ -10,6 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterData } from 'src/assets/data/master-data';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 
 @Component({
@@ -23,6 +25,9 @@ export class CivilInstructorBioDataInfoListComponent extends UnsubscribeOnDestro
   loading = false;
   ELEMENT_DATA: BIODataGeneralInfo[] = [];
   isLoading = false;
+
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -44,6 +49,15 @@ export class CivilInstructorBioDataInfoListComponent extends UnsubscribeOnDestro
 
   ngOnInit() {
     this.getBIODataGeneralInfos();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      distinctUntilChanged() // Only emit if value is different from previous
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   
   getBIODataGeneralInfos() {
@@ -78,15 +92,15 @@ export class CivilInstructorBioDataInfoListComponent extends UnsubscribeOnDestro
     this.getBIODataGeneralInfos();
   }
 
-  // applyFilter(searchText: any){ 
-  //   this.searchText = searchText;
-  //   this.getBIODataGeneralInfos();
-  // } 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-    this.dataSource.filter = filterValue;
-  }
+  applyFilter(searchText: any){ 
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
+    this.getBIODataGeneralInfos();
+  } 
+  // applyFilter(filterValue: string) {
+  //   filterValue = filterValue.trim();
+  //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+  //   this.dataSource.filter = filterValue;
+  // }
 
 
   deleteItem(row) {

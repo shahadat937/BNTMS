@@ -10,6 +10,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterData } from 'src/assets/data/master-data';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 
 
 @Component({
@@ -20,8 +23,13 @@ import { AuthService } from 'src/app/core/service/auth.service';
 export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
  userRole= Role;
    masterData = MasterData;
+   searchTextChanged = new Subject<string>();
+   searchText:string='';
+   debounceTime: 300;
   loading = false;
   ELEMENT_DATA: BIODataGeneralInfo[] = [];
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription
   isLoading = false;
 
   paging = {
@@ -35,7 +43,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   role:any;
 
   
-  searchText="";
+  // searchText="";
 
   displayedColumns: string[] = [ 'sl','bnaPhotoUrl','pno','saylorRank','saylorBranch','mobile', 'actions'];
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
@@ -50,6 +58,12 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
     this.role = this.authService.currentUserValue.role.trim();
    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
    // this.branchId =  this.authService.currentUserValue.branchId.trim();
+   this.searchSubscription = this.searchSubject.pipe(
+    debounceTime(300), // Wait for 300ms pause in events
+    distinctUntilChanged() // Only emit if value is different from previous
+  ).subscribe(searchText => {
+    this.applyFilter(searchText);
+  });
    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
 
     this.getBIODataGeneralInfos();
@@ -58,7 +72,14 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
   }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
+  
   
   getBIODataGeneralInfos() {
     this.isLoading = true;
@@ -69,6 +90,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
       
     })
   }
+  
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.filteredData.length;
@@ -93,15 +115,15 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
     this.getBIODataGeneralInfos();
   }
 
-  // applyFilter(searchText: any){ 
-  //   this.searchText = searchText;
-  //   this.getBIODataGeneralInfos();
-  // } 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-    this.dataSource.filter = filterValue;
-  }
+  applyFilter(searchText: any){ 
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
+    this.getBIODataGeneralInfos();
+  } 
+  // applyFilter(filterValue: string) {
+    
+  //   this.dataSource.filter = filterValue.toLowerCase().replace(/\s/g,'');
+     
+  // }
 
 
   deleteItem(row) {
