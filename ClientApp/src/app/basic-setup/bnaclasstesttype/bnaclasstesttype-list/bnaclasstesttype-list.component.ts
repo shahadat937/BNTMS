@@ -9,6 +9,8 @@ import {MasterData} from 'src/assets/data/master-data'
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {Subject, Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged} from 'rxjs'
 
 
  
@@ -32,6 +34,9 @@ export class BnaClassTestTypeListComponent extends UnsubscribeOnDestroyAdapter i
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [  'sl', 'name', 'isActive', 'actions'];
   dataSource: MatTableDataSource<BnaClassTestType> = new MatTableDataSource();
 
@@ -44,7 +49,16 @@ export class BnaClassTestTypeListComponent extends UnsubscribeOnDestroyAdapter i
   
   ngOnInit() {
     this.getBnaClassTestTypes();
-    
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+
+  onSearchChange(seachValue:string){
+    this.searchSubject.next(seachValue);
   }
  
   getBnaClassTestTypes() {
@@ -78,7 +92,7 @@ export class BnaClassTestTypeListComponent extends UnsubscribeOnDestroyAdapter i
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBnaClassTestTypes();
   } 
 

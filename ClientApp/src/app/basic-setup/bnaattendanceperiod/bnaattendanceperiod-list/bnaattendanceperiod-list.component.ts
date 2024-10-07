@@ -9,6 +9,8 @@ import {MasterData} from 'src/assets/data/master-data'
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
+import {Subject, Subscription} from 'rxjs'
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
  
 
@@ -31,6 +33,9 @@ export class BnaAttendancePeriodListComponent extends UnsubscribeOnDestroyAdapte
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [  'sl', 'periodName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<BnaAttendancePeriod> = new MatTableDataSource();
 
@@ -43,7 +48,17 @@ export class BnaAttendancePeriodListComponent extends UnsubscribeOnDestroyAdapte
   
   ngOnInit() {
     this.getBnaAttendancePeriods();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
+  }
+  onSearchChange(searchValue:string){
+    this.searchSubject.next(searchValue);
   }
  
   getBnaAttendancePeriods() {
@@ -77,7 +92,7 @@ export class BnaAttendancePeriodListComponent extends UnsubscribeOnDestroyAdapte
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBnaAttendancePeriods();
   } 
 
