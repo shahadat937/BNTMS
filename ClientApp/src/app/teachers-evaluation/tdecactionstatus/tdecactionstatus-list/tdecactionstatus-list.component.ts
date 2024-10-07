@@ -8,6 +8,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -29,6 +31,9 @@ export class TdecActionStatusListComponent implements OnInit, OnDestroy {
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'sl','name', 'mark', 'actions'];
   dataSource: MatTableDataSource<TdecActionStatus> = new MatTableDataSource();
 
@@ -40,11 +45,24 @@ export class TdecActionStatusListComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     this.getTdecActionStatuses();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
   }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   
   getTdecActionStatuses() {
@@ -82,7 +100,7 @@ export class TdecActionStatusListComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getTdecActionStatuses();
   } 
 
