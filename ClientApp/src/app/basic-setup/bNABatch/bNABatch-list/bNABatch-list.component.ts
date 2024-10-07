@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 
@@ -30,6 +32,8 @@ export class BNABatchListComponent extends UnsubscribeOnDestroyAdapter implement
     length: 1
   }
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
 
   displayedColumns: string[] = [ 'sl',/*'bnaBatchId',*/ 'batchName', 'startDate', 'completeStatus', /*'menuPosition',*/ 'isActive', 'actions'];
   dataSource: MatTableDataSource<BNABatch> = new MatTableDataSource();
@@ -43,6 +47,15 @@ export class BNABatchListComponent extends UnsubscribeOnDestroyAdapter implement
   
   ngOnInit() {
     this.getBNABatchs();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   
   getBNABatchs() {
@@ -80,7 +93,7 @@ export class BNABatchListComponent extends UnsubscribeOnDestroyAdapter implement
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBNABatchs();
   } 
 
