@@ -11,6 +11,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-usermanual-list',
@@ -29,6 +32,8 @@ export class UserManualListComponent extends UnsubscribeOnDestroyAdapter impleme
     length: 1
   }
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
 
   role:any;
   traineeId:any;
@@ -54,7 +59,17 @@ export class UserManualListComponent extends UnsubscribeOnDestroyAdapter impleme
     this.branchId =  this.authService.currentUserValue.branchId.trim();
 
     this.getUserManuals();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
  
   getUserManuals() {
@@ -93,7 +108,7 @@ export class UserManualListComponent extends UnsubscribeOnDestroyAdapter impleme
  
   }
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getUserManuals();
   } 
 
