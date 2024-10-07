@@ -9,6 +9,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bnasubjectcurriculam',
@@ -28,6 +30,9 @@ export class BNASubjectCurriculamListComponent extends UnsubscribeOnDestroyAdapt
     length: 1
   }
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
 
   displayedColumns: string[] = ['ser','subjectCurriculumName','isActive', 'actions'];
   dataSource: MatTableDataSource<BNASubjectCurriculam> = new MatTableDataSource();
@@ -42,7 +47,16 @@ export class BNASubjectCurriculamListComponent extends UnsubscribeOnDestroyAdapt
 
   ngOnInit() {
     this.getBNASubjectCurriculams();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
  
   getBNASubjectCurriculams() {
@@ -65,7 +79,7 @@ export class BNASubjectCurriculamListComponent extends UnsubscribeOnDestroyAdapt
  
   }
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBNASubjectCurriculams();
   } 
 
