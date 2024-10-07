@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -29,6 +31,9 @@ export class WeekNameListComponent extends UnsubscribeOnDestroyAdapter implement
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'sl','name','remarks', 'actions'];
   dataSource: MatTableDataSource<WeekName> = new MatTableDataSource();
 
@@ -41,6 +46,17 @@ export class WeekNameListComponent extends UnsubscribeOnDestroyAdapter implement
   
   ngOnInit() {
     this.getWeekNames();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   
   getWeekNames() {
