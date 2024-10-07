@@ -9,6 +9,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -29,6 +31,9 @@ export class BNAClassScheduleStatusListComponent extends UnsubscribeOnDestroyAda
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = ['ser', 'name','isActive', 'actions'];
   dataSource: MatTableDataSource<BNAClassScheduleStatus> = new MatTableDataSource();
 
@@ -41,6 +46,16 @@ export class BNAClassScheduleStatusListComponent extends UnsubscribeOnDestroyAda
   
   ngOnInit() {
     this.getBNAClassScheduleStatus();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
  
   getBNAClassScheduleStatus() {
