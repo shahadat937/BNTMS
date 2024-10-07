@@ -153,9 +153,10 @@
                 <div class="body">                  
                   <div class="row dash-cd-m-0">
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 div-class div-left course-filter">
-                      <button class="running-course" (click)="getCoursesByViewType(1)">Running</button>
-                      <button class="passing-course" (click)="getCoursesByViewType(2)">Passing Out</button>
-                      <button class="upcoming-course" (click)="getCoursesByViewType(3)">Upcoming</button>
+                      <button [ngClass]="{'active-button': selectedFilter === 1}"
+                      class="running-course btn" (click)="getCoursesByViewType(1)">Running</button>
+                      <button [ngClass]="{'active-button': selectedFilter === 2}" class="passing-course btn" (click)="getCoursesByViewType(2)">Passing Out</button>
+                      <button [ngClass]="{'active-button': selectedFilter===3}" class="upcoming-course btn" (click)="getCoursesByViewType(3)">Upcoming</button>
                       <button *ngIf="schoolId == masterData.schoolName.BNA" class="combined-routine" routerLink="/admin/dashboard/view-combinedbnaroutine">Combined Routine</button>
                     </div>
 
