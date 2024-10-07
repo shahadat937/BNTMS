@@ -9,6 +9,8 @@ import {MasterData} from 'src/assets/data/master-data'
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {Subject, Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators'
 
  
 
@@ -31,6 +33,9 @@ export class BNASemesterListComponent extends UnsubscribeOnDestroyAdapter implem
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'select', 'sl',/*'bnaSemesterId',*/ 'semesterName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<BNASemester> = new MatTableDataSource();
 
@@ -43,8 +48,19 @@ export class BNASemesterListComponent extends UnsubscribeOnDestroyAdapter implem
   
   ngOnInit() {
     this.getBNASemesters();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
   }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
+
  
   getBNASemesters() {
     this.isLoading = true;
@@ -77,7 +93,7 @@ export class BNASemesterListComponent extends UnsubscribeOnDestroyAdapter implem
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBNASemesters();
   } 
 

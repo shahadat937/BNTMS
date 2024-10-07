@@ -30,15 +30,23 @@
                         <li class="dropdown">
                         </li>
                         <li class="dropdown">
-                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
-                          aria-label="Search box">
+                          <!-- <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box"> -->
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Search by Role</mat-label>
+                            <input matInput 
+                                   placeholder="Search" 
+                                   #filter 
+                                   (keyup)="onSearchChange(filter.value)" 
+                                   aria-label="Search box">
+                          </mat-form-field>
                         </li>
                         <li> 
-                          <div class="icon-button-demo m-l-10">
+                          <!-- <div class="icon-button-demo m-l-10">
                             <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
                               <mat-icon class="col-white">search</mat-icon>
                             </button>
-                          </div>
+                          </div> -->
                           
                         </li>
                       </ul>

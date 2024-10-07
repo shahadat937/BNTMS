@@ -61,7 +61,7 @@ export type pieChartOptions = {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.sass'],
+  styleUrls: ['./dashboard.component.css'],
 })
 
 
@@ -400,7 +400,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getCoursesByViewType(viewStatus) {
-    this.selectedFilter = viewStatus;
+  
     this.viewStatus = viewStatus;
 
     if (this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO) {
@@ -409,13 +409,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.viewCourseTitle = "Running";
         this.getRunningCourseDurationByBase(viewStatus);
         this.selectedFilter = 1;
+       
 
       } else if (viewStatus == 2) {
         this.viewCourseTitle = "Passing Out";
         this.getRunningCourseDurationByBase(viewStatus);
         this.selectedFilter = 2;
+       
       } else if (viewStatus = 3) {
         this.selectedFilter = 3;
+       
         let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
         this.viewCourseTitle = "Upcoming";
         this.schoolDashboardService.getUpcomingCourseListByBase(currentDateTime, this.schoolId).subscribe(response => {
@@ -447,16 +450,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
 
       if (viewStatus == 1) {
-
+        this.selectedFilter = viewStatus
         this.viewCourseTitle = "Running";
         this.getrunningCourseListBySchool(viewStatus);
       } else if (viewStatus == 2) {
+        this.selectedFilter = viewStatus
         this.viewCourseTitle = "Passing Out";
         this.getrunningCourseListBySchool(viewStatus);
       } else if (viewStatus = 3) {
+        this.selectedFilter = viewStatus
         let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
         this.viewCourseTitle = "Upcoming";
-
+      
         if (this.schoolId == this.masterData.schoolName.NBCDSchool || this.role == this.userRole.OICNBCDSchool) {
           this.schoolDashboardService.getUpcomingCourseListByNbcdSchool(currentDateTime, this.masterData.coursetype.LocalCourse, this.schoolId).subscribe(response => {
             this.UpcomingCourseCount = response.length;
