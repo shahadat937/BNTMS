@@ -216,6 +216,7 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
   getselectedcoursename(){
     this.CourseWeekService.getselectedcoursename().subscribe(res=>{
       this.selectedcoursename=res
+      this.selectCourseName=res
     });
   }
 
@@ -229,7 +230,7 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
     });
   }
   filterByCourseName(value:any){
-    this.selectedCourseDuration=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   filterByTrainee(value:any){
     this.selectedTrainee=this.selectTrainee.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
