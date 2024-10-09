@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-view-readingmaterial',
@@ -40,18 +41,20 @@ export class ViewReadingMaterialComponent implements OnInit,OnDestroy{
   role:any;
   traineeId:any;
   branchId:any;
+  baseSchoolNameId: any;
 
   groupArrays:{ readingMaterialTitle: string; courses: any; }[];
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar, private studentDashboardService:StudentDashboardService, private authService: AuthService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar, private studentDashboardService:StudentDashboardService, private authService: AuthService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();    
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
+    var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
 
     this.getReadingMaterials();
     
@@ -63,20 +66,21 @@ export class ViewReadingMaterialComponent implements OnInit,OnDestroy{
   }
  
   getReadingMaterials() {
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.books).subscribe(res=>{            
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.books, this.baseSchoolNameId).subscribe(res=>{            
       this.bookList=res; 
+      console.log(this.masterData);
       this.countbooks = this.bookList.length;    
     })
     ;
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.videos).subscribe(res=>{            
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.videos, this.baseSchoolNameId).subscribe(res=>{            
       this.videoList=res; 
       this.countvideos = this.videoList.length;    
     });
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.slides).subscribe(res=>{            
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.slides, this.baseSchoolNameId).subscribe(res=>{            
       this.slideList=res; 
       this.countslides = this.slideList.length;    
     });
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.materials).subscribe(res=>{            
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.materials, this.baseSchoolNameId).subscribe(res=>{            
       this.materialList=res; 
       this.countmaterial = this.materialList.length;    
     });

@@ -75,7 +75,7 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
       }else {
         this.pageTitle = "Material";
       }
-      this.getReadingMaterialList(this.documentTypeId);
+      this.getReadingMaterialList(this.documentTypeId, baseSchoolNameId);
     }else{
       this.pageTitle = "Course Material";
       this.getReadingMaterialBySchoolAndCourse(baseSchoolNameId, courseNameId);
@@ -87,8 +87,8 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getReadingMaterialList(documentTypeId){
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(documentTypeId).subscribe(res=>{   
+  getReadingMaterialList(documentTypeId, baseSchoolNameId){
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(documentTypeId, baseSchoolNameId).subscribe(res=>{   
       console.log('Res',res);         
       this.ReadingMaterialBySchoolAndCourse=res;     
     });
@@ -120,7 +120,6 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
           courses: groups[readingMaterialTitle]
         };
       });
-console.log(this.groupArrays)
     });
   }
 
