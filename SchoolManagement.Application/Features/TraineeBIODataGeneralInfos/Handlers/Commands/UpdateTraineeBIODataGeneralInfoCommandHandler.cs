@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo.Validators;
 using SchoolManagement.Domain;
+using Microsoft.Extensions.Configuration;
 
 namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handlers.Commands
 {
@@ -14,17 +15,21 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        public UpdateTraineeBioDataGeneralInfoCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public UpdateTraineeBioDataGeneralInfoCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _config = config;
         }
 
         public async Task<Unit> Handle(UpdateTraineeBioDataGeneralInfoCommand request, CancellationToken cancellationToken)
         {
             var validator = new CreateTraineeBioDataGeneralInfoDtoValidator();
             var validationResult = await validator.ValidateAsync(request.CreateTraineeBioDataGeneralInfoDto);
+
+            var apiUrl = _config["ApiUrl"];
 
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
@@ -68,7 +73,7 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
 
 
            // TraineeBioDataGeneralInfos.BnaPhotoUrl = request.TraineeBioDataGeneralInfoDto.BnaPhotoUrl ?? "images/profile/" + uniqueFileName;
-            TraineeBioDataGeneralInfos.BnaPhotoUrl = request.CreateTraineeBioDataGeneralInfoDto.Image != null ? "images/profile/" + uniqueFileName : TraineeBioDataGeneralInfos.BnaPhotoUrl.Replace("https://localhost:44395/Content/",String.Empty);
+            TraineeBioDataGeneralInfos.BnaPhotoUrl = request.CreateTraineeBioDataGeneralInfoDto.Image != null ? "images/profile/" + uniqueFileName : TraineeBioDataGeneralInfos.BnaPhotoUrl.Replace(apiUrl,String.Empty);
 
 
             await _unitOfWork.Repository<TraineeBioDataGeneralInfo>().Update(TraineeBioDataGeneralInfos);
