@@ -61,6 +61,7 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     this.documentTypeId = this.route.snapshot.paramMap.get('documentTypeId');
+  console.log(this.documentTypeId)
     var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     if(this.documentTypeId){
       if(this.documentTypeId == this.masterData.readingMaterial.books){
@@ -87,7 +88,8 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
   }
 
   getReadingMaterialList(documentTypeId){
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(documentTypeId).subscribe(res=>{            
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(documentTypeId).subscribe(res=>{   
+      console.log('Res',res);         
       this.ReadingMaterialBySchoolAndCourse=res;     
     });
   }
@@ -118,7 +120,7 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
           courses: groups[readingMaterialTitle]
         };
       });
-
+console.log(this.groupArrays)
     });
   }
 
