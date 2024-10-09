@@ -33,8 +33,12 @@
                           <!-- <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
                           aria-label="Search box"> -->
                           <mat-form-field class="example-full-width mb-3" appearance="outline">
-                            <mat-label>Search Here..</mat-label>
-                            <input matInput #filter (keyup)="applyFilter(filter.value)">
+                            <mat-label>Search</mat-label>
+                            <input matInput 
+                                   placeholder="Search" 
+                                   #filter 
+                                   (keyup)="onSearchChange(filter.value)" 
+                                   aria-label="Search box">
                           </mat-form-field>
                         </li>
                         <li> 

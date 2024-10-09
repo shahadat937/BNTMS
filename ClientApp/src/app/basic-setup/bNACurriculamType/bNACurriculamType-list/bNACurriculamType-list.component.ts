@@ -9,6 +9,8 @@ import { BNACurriculamTypeService } from '../../service/bNACurriculamType.servic
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {Subject, Subscription} from'rxjs';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 
 @Component({
@@ -30,6 +32,9 @@ export class BNACurriculamTypeListComponent extends UnsubscribeOnDestroyAdapter 
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'select','sl',/*'bnaCurriculumTypeId',*/ 'curriculumType',  'isActive', 'actions'];
   dataSource: MatTableDataSource<BNACurriculamType> = new MatTableDataSource();
 
@@ -44,7 +49,16 @@ export class BNACurriculamTypeListComponent extends UnsubscribeOnDestroyAdapter 
   // }
   ngOnInit() {
     this.getBNACurriculamTypes();
-    
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+
+  onSearchChange(searchValue:string){
+    this.searchSubject.next(searchValue)
   }
  
   getBNACurriculamTypes() {

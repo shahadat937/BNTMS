@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterData } from 'src/assets/data/master-data';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 
 
 @Component({
@@ -29,6 +32,8 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
     length: 1
   }
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
 
   displayedColumns: string[] = [ 'sl','bnaPhotoUrl','pno','bnaNo','bnaBatch','joiningDate', 'actions'];
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
@@ -37,26 +42,60 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) { 
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
   
 
   ngOnInit() {
     this.getBIODataGeneralInfos();
+
   }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
   }
-  
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
+  // getBIODataGeneralInfos() {
+  //   this.isLoading = true;
+  //   this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+  //     this.dataSource.data = response.items; 
+  //     this.paging.length = response.totalItemsCount    
+  //     this.isLoading = false;
+  //   })
+  // }
   getBIODataGeneralInfos() {
     this.isLoading = true;
-    this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText).subscribe(response => {
-      this.dataSource.data = response.items; 
-      this.paging.length = response.totalItemsCount    
-      this.isLoading = false;
-    })
+    this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize, this.searchText)
+      .subscribe(
+        response => {
+          this.dataSource.data = response.items; 
+          this.paging.length = response.totalItemsCount;    
+          this.isLoading = false;
+        },
+        error => {
+          this.isLoading = false;
+          this.snackBar.open('Error fetching data', '', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        }
+      );
   }
+  
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.filteredData.length;
@@ -81,16 +120,16 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
     this.getBIODataGeneralInfos();
   }
 
-  // applyFilter(searchText: any){ 
-  //   this.searchText = searchText;
-  //   this.getBIODataGeneralInfos();
-  // } 
+  applyFilter(searchText: any){ 
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
+    this.getBIODataGeneralInfos();
+  } 
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-    this.dataSource.filter = filterValue;
-  }
+  // applyFilter(filterValue: string) {
+  //   filterValue = filterValue.trim();
+  //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+  //   this.dataSource.filter = filterValue;
+  // }
   
   deleteItem(row) {
     const id = row.traineeId; 

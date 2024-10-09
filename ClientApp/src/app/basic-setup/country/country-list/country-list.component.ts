@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -30,6 +32,9 @@ export class CountryListComponent extends UnsubscribeOnDestroyAdapter implements
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'sl','shortName', 'countryName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<Country> = new MatTableDataSource();
 
@@ -42,8 +47,17 @@ export class CountryListComponent extends UnsubscribeOnDestroyAdapter implements
   
   ngOnInit() {
     this.getCountries();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
   }
-  
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
   getCountries() {
     this.isLoading = true;
     this.countryService.getCountries(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
@@ -79,7 +93,7 @@ export class CountryListComponent extends UnsubscribeOnDestroyAdapter implements
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getCountries();
   } 
 

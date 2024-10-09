@@ -12,6 +12,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {Subject, Subscription} from 'rxjs'
+import {debounceTime, distinctUntilChanged} from 'rxjs';
  
 
 @Component({
@@ -33,6 +35,9 @@ export class BNAServiceTypeListComponent extends UnsubscribeOnDestroyAdapter imp
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'ser', 'serviceName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<BNAServiceType> = new MatTableDataSource();
 
@@ -44,6 +49,13 @@ export class BNAServiceTypeListComponent extends UnsubscribeOnDestroyAdapter imp
   
   ngOnInit() {
     this.getBNAServiceTypes();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
   }
  
   getBNAServiceTypes() {
@@ -54,6 +66,9 @@ export class BNAServiceTypeListComponent extends UnsubscribeOnDestroyAdapter imp
       this.isLoading = false;
     })
   }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
   
   pageChanged(event: PageEvent) {
     this.paging.pageIndex = event.pageIndex
@@ -63,7 +78,7 @@ export class BNAServiceTypeListComponent extends UnsubscribeOnDestroyAdapter imp
   }
   
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBNAServiceTypes();
   }
 

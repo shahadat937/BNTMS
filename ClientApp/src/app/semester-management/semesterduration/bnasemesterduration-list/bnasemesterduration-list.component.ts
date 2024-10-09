@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bnasemesterduration-list',
@@ -28,6 +30,9 @@ export class BnasemesterdurationListComponent implements OnInit, OnDestroy {
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = ['ser','courseDuration','bnaSemesterName','batchName','startDate','endDate','locationType','location', 'actions'];
   dataSource: MatTableDataSource<BNASemesterDuration> = new MatTableDataSource();
 
@@ -40,12 +45,25 @@ export class BnasemesterdurationListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getBNASemesterDurations();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
   }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
  
   getBNASemesterDurations() {

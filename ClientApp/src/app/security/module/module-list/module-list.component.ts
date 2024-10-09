@@ -8,13 +8,16 @@ import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-module',
   templateUrl: './module-list.component.html',
   styleUrls: ['./module-list.component.sass']
 })
-export class ModuleListComponent implements OnInit {
+export class ModuleListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -27,6 +30,8 @@ export class ModuleListComponent implements OnInit {
     length: 1
   }
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
 
   displayedColumns: string[] = ['ser','title','moduleName','iconName','icon','isActive', 'actions'];
   dataSource: MatTableDataSource<Module> = new MatTableDataSource();
@@ -35,10 +40,19 @@ export class ModuleListComponent implements OnInit {
    selection = new SelectionModel<Module>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private ModuleService: ModuleService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private ModuleService: ModuleService,private router: Router,private confirmService: ConfirmService) { 
+    super();
+  }
 
   ngOnInit() {
     this.getModules();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
   }
  
@@ -52,6 +66,9 @@ export class ModuleListComponent implements OnInit {
       this.isLoading = false;
     })
   }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
 
   pageChanged(event: PageEvent) {
   
@@ -62,7 +79,7 @@ export class ModuleListComponent implements OnInit {
  
   }
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getModules();
   } 
 

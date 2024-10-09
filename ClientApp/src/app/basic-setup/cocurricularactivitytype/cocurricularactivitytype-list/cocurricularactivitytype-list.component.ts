@@ -9,6 +9,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
  
 
 @Component({
@@ -30,6 +32,9 @@ export class CoCurricularActivityTypeListComponent extends UnsubscribeOnDestroyA
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'ser', 'coCurricularActivityName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<CoCurricularActivityType> = new MatTableDataSource();
 
@@ -41,6 +46,17 @@ export class CoCurricularActivityTypeListComponent extends UnsubscribeOnDestroyA
   
   ngOnInit() {
     this.getCoCurricularActivityTypes();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
  
   getCoCurricularActivityTypes() {
@@ -61,7 +77,7 @@ export class CoCurricularActivityTypeListComponent extends UnsubscribeOnDestroyA
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLoweCase().trim().relace(/\s/g,'');
     this.getCoCurricularActivityTypes();
   } 
 

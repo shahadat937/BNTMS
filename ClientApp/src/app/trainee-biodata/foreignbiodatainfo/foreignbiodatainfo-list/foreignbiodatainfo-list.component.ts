@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterData } from 'src/assets/data/master-data';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -33,6 +35,9 @@ export class ForeignBIODataInfoListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [ 'sl','bnaPhotoUrl','pno','country', 'actions'];
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
   subscription: any;
 
@@ -42,11 +47,24 @@ export class ForeignBIODataInfoListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getBIODataGeneralInfos();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      distinctUntilChanged() // Only emit if value is different from previous
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
   }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   
   getBIODataGeneralInfos() {
@@ -81,15 +99,15 @@ export class ForeignBIODataInfoListComponent implements OnInit, OnDestroy {
     this.getBIODataGeneralInfos();
   }
 
-  // applyFilter(searchText: any){ 
-  //   this.searchText = searchText;
-  //   this.getBIODataGeneralInfos();
-  // } 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-    this.dataSource.filter = filterValue;
-  }
+  applyFilter(searchText: any){ 
+    this.searchText = searchText.trim().toLowerCase().replace(/\s/g,'');
+    this.getBIODataGeneralInfos();
+  } 
+  // applyFilter(filterValue: string) {
+  //   filterValue = filterValue.trim();
+  //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+  //   this.dataSource.filter = filterValue;
+  // }
 
 
   deleteItem(row) {

@@ -8,6 +8,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
  
 
 @Component({
@@ -28,7 +30,8 @@ export class AccountTypeListComponent extends UnsubscribeOnDestroyAdapter implem
     length: 1
   }
   searchText="";
-
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
   displayedColumns: string[] = [ 'ser', 'accoutType', 'isActive', 'actions'];
   dataSource: MatTableDataSource<AccountType> = new MatTableDataSource();
   
@@ -38,6 +41,16 @@ export class AccountTypeListComponent extends UnsubscribeOnDestroyAdapter implem
   
   ngOnInit() {
     this.getAdminAuthorities();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
  
   getAdminAuthorities() {
@@ -57,7 +70,7 @@ export class AccountTypeListComponent extends UnsubscribeOnDestroyAdapter implem
   }
   
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLoweCase().trim().replace(/\s/g,'');
     this.getAdminAuthorities();
   }
 

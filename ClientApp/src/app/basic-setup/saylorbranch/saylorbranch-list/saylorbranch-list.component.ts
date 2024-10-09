@@ -9,6 +9,8 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-saylorbranch-list',
@@ -29,6 +31,9 @@ export class SaylorBranchListComponent extends UnsubscribeOnDestroyAdapter imple
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'sl', 'name',  'actions'];
   dataSource: MatTableDataSource<SaylorBranch> = new MatTableDataSource();
 
@@ -41,6 +46,13 @@ export class SaylorBranchListComponent extends UnsubscribeOnDestroyAdapter imple
   
   ngOnInit() {
     this.getSaylorBranchs();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
   }
   
   getSaylorBranchs() {
@@ -53,6 +65,11 @@ export class SaylorBranchListComponent extends UnsubscribeOnDestroyAdapter imple
       this.isLoading = false;
     })
   }
+  
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
+
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.filteredData.length;

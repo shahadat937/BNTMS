@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { MatSort } from '@angular/material/sort';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -42,6 +44,9 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'sl','pno','bnaNo','bnaBatch','joiningDate', 'actions'];
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
 
@@ -61,9 +66,19 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
 
     this.getBIODataGeneralInfos();
     this.getTraineeListForUpdate();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
     
   }
   
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
+
   getBIODataGeneralInfos() {
     this.isLoading = true;
     this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {

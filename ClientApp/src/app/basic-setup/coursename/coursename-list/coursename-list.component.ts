@@ -9,6 +9,8 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
  
 
 @Component({
@@ -29,6 +31,8 @@ export class CourseNameListComponent extends UnsubscribeOnDestroyAdapter impleme
     length: 1
   }
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
 
   displayedColumns: string[] = [ 'ser', 'course','courseTypeName','shortName', 'courseSyllabus', 'actions'];
   dataSource: MatTableDataSource<CourseName> = new MatTableDataSource();
@@ -41,6 +45,12 @@ export class CourseNameListComponent extends UnsubscribeOnDestroyAdapter impleme
   
   ngOnInit() {
     this.getCourseNames();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
   }
  
   getCourseNames() {
@@ -52,6 +62,9 @@ export class CourseNameListComponent extends UnsubscribeOnDestroyAdapter impleme
       this.isLoading = false;
     })
   }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
 
   pageChanged(event: PageEvent) {
     this.paging.pageIndex = event.pageIndex
@@ -61,7 +74,7 @@ export class CourseNameListComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getCourseNames();
   } 
 

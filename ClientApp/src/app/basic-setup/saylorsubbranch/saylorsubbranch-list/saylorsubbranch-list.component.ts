@@ -9,6 +9,9 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-saylorsubbranch-list',
@@ -30,6 +33,9 @@ export class SaylorSubBranchListComponent extends UnsubscribeOnDestroyAdapter im
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'sl', 'saylorBranch', 'name',  'actions'];
   dataSource: MatTableDataSource<SaylorSubBranch> = new MatTableDataSource();
 
@@ -42,6 +48,16 @@ export class SaylorSubBranchListComponent extends UnsubscribeOnDestroyAdapter im
   
   ngOnInit() {
     this.getSaylorSubBranchs();
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+    
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   
   getSaylorSubBranchs() {

@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Role } from 'src/app/core/models/role';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-routinenote',
@@ -86,12 +88,20 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
   showHideDiv = false;
 
   searchText="";
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
   subscription: any;
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private classRoutineService:ClassRoutineService,private authService: AuthService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private routineNoteService: RoutineNoteService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('routineNoteId'); 
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
 
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
@@ -147,6 +157,12 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
 
   intitializeForm() {

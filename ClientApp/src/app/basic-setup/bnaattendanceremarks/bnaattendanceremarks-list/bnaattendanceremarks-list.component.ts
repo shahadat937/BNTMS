@@ -9,6 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
+import {Subject, Subscription} from 'rxjs'
+import {debounceTime, distinctUntilChanged} from 'rxjs'
+
 
 
 @Component({
@@ -30,6 +33,9 @@ export class BNAAttendanceRemarksListComponent extends UnsubscribeOnDestroyAdapt
   }
   searchText="";
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription;
+
   displayedColumns: string[] = [ 'sl',/*'bnaAttendanceRemarksId',*/ 'attendanceRemarksCause', /*'menuPosition',*/ 'isActive', 'actions'];
   dataSource: MatTableDataSource<BNAAttendanceRemarks> = new MatTableDataSource();
 
@@ -42,6 +48,17 @@ export class BNAAttendanceRemarksListComponent extends UnsubscribeOnDestroyAdapt
   
   ngOnInit() {
     this.getBNAAttendanceRemarkses();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged() 
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
   }
   
   getBNAAttendanceRemarkses() {
@@ -79,7 +96,7 @@ export class BNAAttendanceRemarksListComponent extends UnsubscribeOnDestroyAdapt
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText;
+    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBNAAttendanceRemarkses();
   } 
 
