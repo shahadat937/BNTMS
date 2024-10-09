@@ -1,3 +1,4 @@
+import { AddBudgetListComponent } from './budgetallocation/budgetadd/add-budget.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {NewBudgetAllocationComponent} from './budgetallocation/new-budgetallocation/new-budgetallocation.component';
@@ -42,6 +43,10 @@ const routes: Routes = [
     path: 'add-budgetallocation',
     component: NewBudgetAllocationComponent,
   }, 
+  {
+    path: 'add-budget',
+    component: AddBudgetListComponent,
+  }
 
 ];
 

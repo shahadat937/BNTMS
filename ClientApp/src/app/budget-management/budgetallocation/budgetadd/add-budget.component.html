@@ -1,0 +1,88 @@
+<section class="content">
+  <div class="containet-fluid">
+    <h3>Add Budget</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <form class="mb-4">
+          <div class="row">
+            <div>
+              <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Fiscal Year</mat-label>                        
+                  <mat-select formControlName="fiscalYearId">
+                    <input type="text" 
+                style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                  id="selectFiscalYear"
+                  (keydown.space)="$event.stopPropagation()"
+                  (input)="($event.target.value)"
+                  placeholder="Search">
+                    <mat-option  value="0">--Select--</mat-option >
+                      <mat-option (onSelectionChange)="onFiscalYearSelectionChange($event)" *ngFor="let dropdown of selectedFiscalYear" [value]="dropdown.value">
+                          {{dropdown.text}} 
+                        </mat-option>                          
+                  </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field class="example-full-width mb-3" appearance="outline">
+                <mat-label>Amount</mat-label>                        
+                <input matInput formControlName="amount" required>
+                
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Budget Type</mat-label>                        
+                  <mat-select formControlName="budgetTypeId">
+                    <input type="text" 
+                    style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      id="selectBudgetType"
+                      (keydown.space)="$event.stopPropagation()"
+                      (input)="($event.target.value)"
+                      placeholder="Search">
+                    <mat-option  value="0">--Select--</mat-option >
+                      <mat-option *ngFor="let dropdown of selectedBudgetType" [value]="dropdown.value">
+                          {{dropdown.text}} 
+                        </mat-option>                          
+                  </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field class="example-full-width mb-3" appearance="outline">
+                <mat-label>Description</mat-label>                        
+                <input matInput formControlName="descrition">
+                
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <!-- <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BudgetAllocationForm.valid " mat-raised-button
+                        color="primary">{{buttonText}}</button> -->
+        </form>
+      </div>
+      <div class="col-md-6">
+        <h4>Budget Head</h4>
+        <div>
+          <mat-form-field class="example-full-width mb-3" appearance="outline">
+              <mat-label>Budget Head</mat-label>                        
+              <mat-select formControlName="budgetHeadId">
+                <input type="text" 
+                style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                  id="selectBudgetType"
+                  (keydown.space)="$event.stopPropagation()"
+                  (input)="($event.target.value)"
+                  placeholder="Search">
+                <mat-option  value="0">--Select--</mat-option >
+                  <mat-option *ngFor="let dropdown of selectedBudgetType" [value]="dropdown.value">
+                      {{dropdown.text}} 
+                    </mat-option>                          
+              </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -21,6 +21,7 @@ import {CourseBudgetAllocationListComponent} from './coursebudgetallocation/cour
 import { BudgetManagementRoutingModule } from './budget-management-routing.module';
 import {NewBudgetAllocationComponent} from './budgetallocation/new-budgetallocation/new-budgetallocation.component';
 import {ScheduleInstallmentListComponent} from './scheduleinstallment/scheduleinstallment-list/scheduleinstallment-list.component';
+import { AddBudgetListComponent } from './budgetallocation/budgetadd/add-budget.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {ScheduleInstallmentListComponent} from './scheduleinstallment/schedulein
     CourseBudgetAllocationListComponent,
     NewBudgetAllocationComponent,
     BudgetAllocationListComponent,
+    AddBudgetListComponent,
     ScheduleInstallmentListComponent
   ],
   imports: [
