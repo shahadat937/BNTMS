@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
@@ -18,8 +18,8 @@ import { ActivatedRoute} from '@angular/router';
   styleUrls: ['./view-readingmaterial.component.sass']
 })
 
-export class ViewReadingMaterialComponent implements OnInit,OnDestroy{
-   masterData = MasterData;
+export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
+  masterData = MasterData;
   loading = false;
   isLoading = false;
   @ViewChild('videoPlayer') videoplayer: ElementRef;
@@ -28,88 +28,104 @@ export class ViewReadingMaterialComponent implements OnInit,OnDestroy{
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
+  searchText = "";
   fileIUrl = environment.fileUrl;
-  bookList:any =[];
-  countbooks:any;
-  videoList:any =[];
-  countvideos:any;
-  slideList:any =[];
-  countslides:any;
-  materialList:any =[];
-  countmaterial:any;
-  role:any;
-  traineeId:any;
-  branchId:any;
+  bookList: any = [];
+  countbooks: any;
+  videoList: any = [];
+  countvideos: any;
+  slideList: any = [];
+  countslides: any;
+  materialList: any = [];
+  countmaterial: any;
+  role: any;
+  traineeId: any;
+  branchId: any;
+
+  groupArrays: { readingMaterialTitle: string; courses: any; }[];
+  subscription: any;
   baseSchoolNameId: any;
 
-  groupArrays:{ readingMaterialTitle: string; courses: any; }[];
-  subscription: any;
 
-  
-  constructor(private snackBar: MatSnackBar, private studentDashboardService:StudentDashboardService, private authService: AuthService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService, private route: ActivatedRoute) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private studentDashboardService: StudentDashboardService,
+    private authService: AuthService,
+    private readonly sanitizer: DomSanitizer,
+    private router: Router,
+    private confirmService: ConfirmService
+  ) { }
 
   ngOnInit() {
-    
-    this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();    
-    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
 
-    this.getReadingMaterials();
-    
+    this.role = this.authService.currentUserValue.role.trim();
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
+
+    this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
+      if (res) {
+        let infoList = res
+        this.baseSchoolNameId = infoList[0].baseSchoolNameId;
+        console.log(this.baseSchoolNameId);
+        this.getReadingMaterials();
+
+      }
+
+    });
+
+   
+
   }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
- 
+
   getReadingMaterials() {
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.books, this.baseSchoolNameId).subscribe(res=>{            
-      this.bookList=res; 
-      console.log(this.masterData);
-      this.countbooks = this.bookList.length;    
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.books, this.baseSchoolNameId).subscribe(res => {
+      this.bookList = res;
+      this.countbooks = this.bookList.length;
     })
-    ;
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.videos, this.baseSchoolNameId).subscribe(res=>{            
-      this.videoList=res; 
-      this.countvideos = this.videoList.length;    
+      ;
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.videos, this.baseSchoolNameId).subscribe(res => {
+      this.videoList = res;
+      this.countvideos = this.videoList.length;
     });
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.slides, this.baseSchoolNameId).subscribe(res=>{            
-      this.slideList=res; 
-      this.countslides = this.slideList.length;    
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.slides, this.baseSchoolNameId).subscribe(res => {
+      this.slideList = res;
+      this.countslides = this.slideList.length;
     });
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.materials, this.baseSchoolNameId).subscribe(res=>{            
-      this.materialList=res; 
-      this.countmaterial = this.materialList.length;    
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.materials, this.baseSchoolNameId).subscribe(res => {
+      this.materialList = res;
+      this.countmaterial = this.materialList.length;
     });
   }
 
   pageChanged(event: PageEvent) {
-  
+
     this.paging.pageIndex = event.pageIndex
     this.paging.pageSize = event.pageSize
     this.paging.pageIndex = this.paging.pageIndex + 1
     this.getReadingMaterials();
- 
+
   }
-  applyFilter(searchText: any){ 
+  applyFilter(searchText: any) {
     this.searchText = searchText;
     this.getReadingMaterials();
-  } 
+  }
 
-  safeUrlPic(url: any){ 
-    var specifiedUrl = this.sanitizer.bypassSecurityTrustUrl(url); 
+  safeUrlPic(url: any) {
+    var specifiedUrl = this.sanitizer.bypassSecurityTrustUrl(url);
     return specifiedUrl;
   }
 
   toggleVideo(event: any) {
     this.videoplayer.nativeElement.play();
-}
+  }
 
   deleteItem(row) {
-    const id = row.readingMaterialId; 
+    const id = row.readingMaterialId;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         // this.ReadingMaterialService.delete(id).subscribe(() => {
@@ -123,6 +139,6 @@ export class ViewReadingMaterialComponent implements OnInit,OnDestroy{
         // })
       }
     })
-    
+
   }
 }
