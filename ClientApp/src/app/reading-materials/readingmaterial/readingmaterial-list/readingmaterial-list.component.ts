@@ -49,7 +49,16 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private ReadingMaterialService: ReadingMaterialService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
+  constructor
+  (
+    private snackBar: MatSnackBar, 
+    private authService: AuthService,
+    private ReadingMaterialService: ReadingMaterialService,
+    private readonly sanitizer: DomSanitizer,
+    private router: Router,
+    private confirmService: ConfirmService
+  ) 
+  { }
 
   ngOnInit() {
     
