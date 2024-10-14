@@ -139,8 +139,8 @@ export class StudentDashboardService {
   }
 
 
-  getReadingMaterialListByType(documentTypeId) {
-    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-readingMaterialByType?documentTypeId='+documentTypeId).pipe(
+  getReadingMaterialListByType(documentTypeId, baseSchoolNameId) {
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-readingMaterialsByType?documentTypeId='+documentTypeId+'&schoolId='+baseSchoolNameId).pipe(
       map(response => {        
         return response;
       })

@@ -190,6 +190,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.inputId = traineeId;   
     this.studentDashboardService.getSpStudentInfoByTraineeId(this.inputId).subscribe(res=>{
       if(res){
+        console.log("res",res);
         let infoList=res
         this.pno=infoList[0].pno,
         this.position=infoList[0].position,
