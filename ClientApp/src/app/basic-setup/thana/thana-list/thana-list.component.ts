@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
  
 
 @Component({
@@ -39,7 +40,7 @@ export class ThanaListComponent extends UnsubscribeOnDestroyAdapter implements O
 
   selection = new SelectionModel<Thana>(true, []);
   
-  constructor( private snackBar: MatSnackBar,private ThanaService: ThanaService,private router: Router,private confirmService: ConfirmService) {
+  constructor( private snackBar: MatSnackBar,private ThanaService: ThanaService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
   
