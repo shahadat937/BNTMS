@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild,ElementRef,Pipe, PipeTransform  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Pipe, PipeTransform } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { dashboardService } from '../services/dashboard.service';
@@ -12,9 +12,10 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
-import {TraineeNominationService} from '../../../course-management/service/traineenomination.service'
+import { TraineeNominationService } from '../../../course-management/service/traineenomination.service'
 import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 
@@ -24,21 +25,21 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
   styleUrls: ['./traineeattendance-list.component.sass']
 })
 export class TraineeAttendanceListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
   isLoading = false;
-  destination:string;
+  destination: string;
   AttendanceStatusForm: FormGroup;
-  groupArrays:{ attendanceDate: string; courses: any; }[];
-  RoutineByCourse:any;
-  sectionList:SelectedModel[];
-  courseType:any;
-  schoolId:any;
-  courseTypeId:any;
-  showHideDiv=false;
-  traineeAttendanceList:any;
-  courseDurationId:any;
+  groupArrays: { attendanceDate: string; courses: any; }[];
+  RoutineByCourse: any;
+  sectionList: SelectedModel[];
+  courseType: any;
+  schoolId: any;
+  courseTypeId: any;
+  showHideDiv = false;
+  traineeAttendanceList: any;
+  courseDurationId: any;
 
   displayedColumns: string[];
   paging = {
@@ -46,50 +47,61 @@ export class TraineeAttendanceListComponent extends UnsubscribeOnDestroyAdapter 
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
-  
-  branchId:any;
-  traineeId:any;
-  role:any;
+  searchText = "";
 
-  courseNameTitle:any;
-  trainee:any;
-  durationId:any;
+  branchId: any;
+  traineeId: any;
+  role: any;
 
-  constructor(private datepipe: DatePipe,private fb: FormBuilder,private studentDashboardService: StudentDashboardService, private authService: AuthService,private TraineeNominationService: TraineeNominationService, private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) {
+  courseNameTitle: any;
+  trainee: any;
+  durationId: any;
+
+  constructor(private datepipe: DatePipe,
+    private fb: FormBuilder,
+    private studentDashboardService: StudentDashboardService,
+    private authService: AuthService,
+    private TraineeNominationService: TraineeNominationService,
+    private dashboardService: dashboardService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+  ) {
     super();
   }
 
   ngOnInit() {
     //this.userRole.SuperAdmin
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId.trim();
-   
-    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId.trim();
+
+    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     //this.getTraineeNominations();
-    
+
 
     this.intitializeForm();
     this.getTraineeAttendanceList(100); // 100 for all data
   }
   intitializeForm() {
     this.AttendanceStatusForm = this.fb.group({
-      attendanceStatus:[],            
+      attendanceStatus: [],
     });
   }
 
-  getTraineeAttendanceList(attendanceStatus){
-    var inputId = this.route.snapshot.paramMap.get('traineeId'); 
+  getTraineeAttendanceList(attendanceStatus) {
+    var inputId = this.route.snapshot.paramMap.get('traineeId');
     this.durationId = this.route.snapshot.paramMap.get('courseDurationId');
-    this.studentDashboardService.getSpStudentInfoByTraineeId(Number(inputId)).subscribe(res=>{
+    this.studentDashboardService.getSpStudentInfoByTraineeId(Number(inputId)).subscribe(res => {
       var traineeSectionId = res[0].courseSectionId;
 
-      this.dashboardService.getTraineeAttendanceList(inputId,this.durationId,traineeSectionId,attendanceStatus).subscribe(res=>{
-        this.traineeAttendanceList=res;
+      this.dashboardService.getTraineeAttendanceList(inputId, this.durationId, traineeSectionId, attendanceStatus).subscribe(res => {
+        this.traineeAttendanceList = res;
         // this.trainee = res[0].traineeRank + " " + res[0].name + " ( P No " + res[0].pno +")";
         // this.courseNameTitle = res[0].course + " - " + res[0].courseTitle;
-  
+
         // this gives an object with dates as keys
         const groups = this.traineeAttendanceList.reduce((groups, courses) => {
           const attendanceDate = courses.attendanceDate;
@@ -99,7 +111,7 @@ export class TraineeAttendanceListComponent extends UnsubscribeOnDestroyAdapter 
           groups[attendanceDate].push(courses);
           return groups;
         }, {});
-  
+
         // Edit: to add it in the array format instead
         this.groupArrays = Object.keys(groups).map((attendanceDate) => {
           return {
@@ -107,31 +119,31 @@ export class TraineeAttendanceListComponent extends UnsubscribeOnDestroyAdapter 
             courses: groups[attendanceDate]
           };
         });
-  
+
       });
     });
 
-    
+
   }
 
-  onAttendanceStatusSelectionGet(){
+  onAttendanceStatusSelectionGet() {
 
-    
+
     var attendanceStatus = this.AttendanceStatusForm.value['attendanceStatus'];
 
     this.getTraineeAttendanceList(attendanceStatus);
   }
 
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
-  print(){ 
-    
-    this.trainee = this.traineeAttendanceList[0].traineeRank + " " + this.traineeAttendanceList[0].name + " ( P No " + this.traineeAttendanceList[0].pno +")";
+  print() {
+
+    this.trainee = this.traineeAttendanceList[0].traineeRank + " " + this.traineeAttendanceList[0].name + " ( P No " + this.traineeAttendanceList[0].pno + ")";
     this.courseNameTitle = this.traineeAttendanceList[0].course + " - " + this.traineeAttendanceList[0].courseTitle;
     let printContents, popupWin;
     printContents = document.getElementById('print-routine').innerHTML;
@@ -189,5 +201,5 @@ export class TraineeAttendanceListComponent extends UnsubscribeOnDestroyAdapter 
     );
     popupWin.document.close();
 
-}
+  }
 }

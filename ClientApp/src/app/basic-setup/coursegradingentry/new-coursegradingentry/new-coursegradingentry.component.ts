@@ -9,6 +9,7 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { CourseGradingEntry } from '../../models/CourseGradingEntry';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursegradingentry',
@@ -44,7 +45,14 @@ export class NewCourseGradingEntryComponent extends UnsubscribeOnDestroyAdapter 
   }
   
   displayedColumns: string[] = ['sl','markFrom', 'grade', 'assessment', 'actions'];
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseGradingEntryService: CourseGradingEntryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private CourseGradingEntryService: CourseGradingEntryService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) {
     super();
   }
 

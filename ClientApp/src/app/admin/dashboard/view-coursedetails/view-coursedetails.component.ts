@@ -13,6 +13,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-view-coursedetails',
@@ -59,7 +60,15 @@ export class ViewCourseDetailsComponent extends UnsubscribeOnDestroyAdapter impl
   // groupValues:SelectedModel[]; 
   // boardValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    private CourseDurationService: CourseDurationService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
   

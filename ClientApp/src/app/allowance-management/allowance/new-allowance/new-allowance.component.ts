@@ -6,6 +6,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { AllowanceService } from '../../service/allowance.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-allowance',
@@ -25,7 +26,15 @@ export class NewAllowanceComponent extends UnsubscribeOnDestroyAdapter implement
   selectedAllowanceType:SelectedModel[];
   selectedAllowanceNamebyFromRankIdandToRankId:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private AllowanceService: AllowanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private AllowanceService: AllowanceService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+  ) {
     super();
   }
 

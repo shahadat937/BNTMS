@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { dashboardService } from '../services/dashboard.service';
 import { TraineeNominationService } from '../../../staff-collage/service/traineenomination.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-centralexamnominated-list',
@@ -39,7 +40,14 @@ export class CentralExamNominatedListComponent extends UnsubscribeOnDestroyAdapt
 
   displayedColumns: string[]= ['ser','course','duration','candidate','action'];
   
-  constructor(private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private dashboardService: dashboardService,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,
+    private TraineeNominationService: TraineeNominationService,
+    private dashboardService: dashboardService,
+    private route: ActivatedRoute,
+    private BNAExamInstructorAssignService: BNAExamInstructorAssignService,
+    private router: Router,
+    private confirmService: ConfirmService,  
+    public sharedService: SharedServiceService,) {
     super();
   }
 

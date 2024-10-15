@@ -15,6 +15,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-view-coursecreatenbcd',
@@ -52,7 +53,17 @@ export class ViewCourseCreateNbcdComponent extends UnsubscribeOnDestroyAdapter i
   options = [];
   filteredOptions;
 
-  constructor(private route: ActivatedRoute,private fb: FormBuilder,private CourseNameService: CourseNameService,private authService: AuthService,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private CourseNameService: CourseNameService,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    private CourseDurationService: CourseDurationService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+  ) {
     super();
   }
   

@@ -9,6 +9,7 @@ import { CourseModuleService } from '../../service/CourseModule.service';
 import { CourseNameService } from '../../service/CourseName.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursemodule',
@@ -43,7 +44,15 @@ export class NewCourseModuleComponent extends UnsubscribeOnDestroyAdapter implem
 
   displayedColumns: string[] = ['sl','moduleName', 'nameOfModule','menuPosition','actions'];
 
-  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private CourseModuleService: CourseModuleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private CourseNameService: CourseNameService,
+    private CourseModuleService: CourseModuleService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService) {
     super();
   }
 

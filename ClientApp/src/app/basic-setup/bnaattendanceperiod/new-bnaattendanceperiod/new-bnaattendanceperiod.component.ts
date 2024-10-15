@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BnaAttendancePeriodService } from '../../service/BnaAttendancePeriod.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-BnaAttendancePeriod',
@@ -19,7 +20,14 @@ export class NewBnaAttendancePeriodComponent extends UnsubscribeOnDestroyAdapter
   BnaAttendancePeriodForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private BnaAttendancePeriodService: BnaAttendancePeriodService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private BnaAttendancePeriodService: BnaAttendancePeriodService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,) {
     super()
    }
 
