@@ -9,6 +9,7 @@ import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-group-list',
@@ -33,7 +34,13 @@ export class GroupListComponent extends UnsubscribeOnDestroyAdapter implements O
 
   selection = new SelectionModel<Group>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private groupService: GroupService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private groupService: GroupService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
   ngOnInit() {

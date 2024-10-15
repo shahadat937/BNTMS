@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class ReasonTypeListComponent extends UnsubscribeOnDestroyAdapter impleme
   selection = new SelectionModel<ReasonType>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private reasonTypeService: ReasonTypeService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private reasonTypeService: ReasonTypeService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
   
