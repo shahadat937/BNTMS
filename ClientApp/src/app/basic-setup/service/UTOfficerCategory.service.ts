@@ -8,6 +8,9 @@ import { map } from 'rxjs';
   providedIn: 'root'
 })
 export class UTOfficerCategoryService {
+  getDeskOfficer() {
+      throw new Error('Method not implemented.');
+  }
   baseUrl = environment.apiUrl;
   UTOfficerCategorys: UTOfficerCategory[] = [];
   UTOfficerCategoryPagination = new UTOfficerCategoryPagination();

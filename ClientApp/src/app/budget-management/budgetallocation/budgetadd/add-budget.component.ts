@@ -110,7 +110,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
         if (result) {
           this.loading = true;
           this.BudgetAllocationService.update(+id, this.BudgetAllocationForm.value).subscribe(response => {
-            this.router.navigateByUrl('/budget-management/add-budgetallocation');
+            this.router.navigateByUrl('/budget-management/transaction-type');
             this.snackBar.open('Information Updated Successfully', '', {
               duration: 2000,
               verticalPosition: 'bottom',
@@ -126,7 +126,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       this.loading = true;
       this.BudgetAllocationService.submit(this.BudgetAllocationForm.value).subscribe(response => {
         console.log(this.BudgetAllocationForm.value)
-        this.router.navigateByUrl('/budget-management/budgetallocation-list');
+        this.router.navigateByUrl('/budget-management/transaction-type');
         this.snackBar.open('Information Inserted Successfully', '', {
           duration: 2000,
           verticalPosition: 'bottom',

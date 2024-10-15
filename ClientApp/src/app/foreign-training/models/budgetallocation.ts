@@ -1,4 +1,5 @@
 export interface BudgetAllocation {
+    getselectedFiscalYear(): unknown;
     budgetAllocationId: number,
     budgetCodeId: number,
     budgetTypeId: number,
