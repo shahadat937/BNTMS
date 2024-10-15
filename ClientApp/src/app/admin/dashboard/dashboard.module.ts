@@ -72,8 +72,14 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import {RoutineSoftcopyTraineeComponent} from '../dashboard/routinesoftcopytrainee/routinesoftcopytrainee.component';
-import { GlobalSearchModalComponent } from './global-search-modal/global-search-modal.component'
-
+import { GlobalSearchModalComponent } from './global-search-modal/global-search-modal.component';
+import { SearchDetailComponent } from './global-search-modal/search-detail/search-detail.component'
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
+import { SearchedTraineeDetailComponent } from './global-search-modal/searched-trainee-detail/searched-trainee-detail.component';
+import {MatCardModule} from '@angular/material/card';
+import { SearchedCourseDetailComponent } from './global-search-modal/searched-course-detail/searched-course-detail.component'
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
@@ -126,7 +132,10 @@ FullCalendarModule.registerPlugins([
     JstiTraineeDetailsComponent,
     CourseOutlineListComponent,
     RoutineSoftcopyTraineeComponent,
-    GlobalSearchModalComponent
+    GlobalSearchModalComponent,
+    SearchDetailComponent,
+    SearchedTraineeDetailComponent,
+    SearchedCourseDetailComponent
   ],
   imports: [
     CommonModule,
@@ -156,7 +165,11 @@ FullCalendarModule.registerPlugins([
     MaterialFileInputModule,
     NgMarqueeModule, 
     MatAutocompleteModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatCardModule,
+    MatProgressBarModule
   ],
 })
 export class DashboardModule {}

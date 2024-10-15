@@ -26,7 +26,7 @@ export class GlobalSearchService {
   }
 
 
-  searchData(keywords:string, pageSize:number, pageIndex:number): Observable<any[]> {
+  searchData(keywords:string, pageSize:number, pageIndex:number): Observable<any> {
     let params = new HttpParams();
     params = params.set('keyword',keywords);
     params = params.set('PageSize',pageSize);
@@ -38,7 +38,7 @@ export class GlobalSearchService {
     }
     
 
-    return this.http.get<any[]>(this.baseUrl+"/globalSearch/searchAll",{params:params}).pipe(
+    return this.http.get<any>(this.baseUrl+"/globalSearch/searchAll",{params:params}).pipe(
       map(response => {
         let data = {creationDate: (new Date()).getTime(),payload:response}
         this.setCachedData(keywords,data,SearchType.Search,pageSize,pageIndex);
@@ -47,12 +47,12 @@ export class GlobalSearchService {
     );
   }
 
-  getInstructorDetail(instructorId:number): any {
+  getInstructorDetail(instructorId:number): Observable<any> {
     if(this.HaveCachedData(instructorId.toString(),SearchType.Instructor)) {
       return of (this.getCachedData(instructorId.toString(),SearchType.Instructor)["payload"]);
     }
 
-    this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedInstructorDetail/${instructorId}`).pipe(
+    return this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedInstructorDetail/${instructorId}`).pipe(
       map(response=> {
         let data = {
           creationDate: (new Date()).getTime(),
@@ -65,18 +65,32 @@ export class GlobalSearchService {
     );
   }
 
-  getTraineeDetail(traineeId: number): any {
+  getTraineeDetail(traineeId: number): Observable<any> {
     if(this.HaveCachedData(traineeId.toString(),SearchType.Trainee)) {
       return of (this.getCachedData(traineeId.toString(),SearchType.Trainee)["payload"]);
     }
 
-    this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedTraineeDetail/${traineeId}`).pipe(
+    return this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedTraineeDetail/${traineeId}`).pipe(
       map(response => {
         let data = {creationDate: (new Date()).getDate(),payload:response}
         this.setCachedData(traineeId.toString(),data,SearchType.Trainee);
         return response;
       })
     );
+  }
+
+  getCourseDetail(courseDurationId:number): Observable<any> {
+    if(this.HaveCachedData(courseDurationId.toString(),SearchType.Course)) {
+      return of (this.getCachedData(courseDurationId.toString(),SearchType.Course)['payload']);
+    }
+
+    return this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedCourseDetail/${courseDurationId}`).pipe(
+      map(response => {
+        let data = {creationDate: (new Date()).getDate(), payload: response}
+        this.setCachedData(courseDurationId.toString(),data,SearchType.Course);
+        return response;
+      })
+    )
   }
 
 
@@ -107,7 +121,6 @@ export class GlobalSearchService {
 
   setCachedData(uniqueIdentifier:string, val:any, searchType: SearchType,pageSize?:number,pageIndex?:number) {
    uniqueIdentifier = this.setUniqueIdentifier(uniqueIdentifier, searchType,pageSize,pageIndex);
-   console.log(uniqueIdentifier);
    sessionStorage.setItem(uniqueIdentifier, JSON.stringify(val));
   }
 
@@ -118,7 +131,7 @@ export class GlobalSearchService {
     } else if(searchType == SearchType.Instructor) {
       uniqueIdentifier=val + "instructor"
     } else if(searchType == SearchType.Course) {
-      uniqueIdentifier= uniqueIdentifier+"course";
+      uniqueIdentifier= val+"course";
     } else if(searchType == SearchType.Search) {
       uniqueIdentifier= uniqueIdentifier+`${val}_search_${pageSize}_pageSize_${pageIndex}_pageIndex`;
     }

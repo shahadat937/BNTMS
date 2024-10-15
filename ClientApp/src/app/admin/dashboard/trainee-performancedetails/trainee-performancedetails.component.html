@@ -53,7 +53,7 @@
                               <mat-icon class="col-white">print</mat-icon>
                             </button>
 
-                            <button *ngIf="role != 'Student' && courseType3 == 6" class="btn-space"  mat-raised-button
+                            <!--<button *ngIf="role != 'Student' && courseType3 == 6" class="btn-space"  mat-raised-button
                               color="warn" [routerLink]="['/admin/dashboard/upcomingcourses-list',baseSchoolNameId]"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
@@ -84,6 +84,10 @@
                             </button>
                             <button *ngIf="role === 'Student'" class="btn-space"  mat-raised-button
                               color="warn" [routerLink]="['/admin/dashboard/view-traineecourseprofile',traineeId]"> 
+                              <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                            </button> -->
+                            <button mat-raised-button
+                              color="warn" (click)="backButton()"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
 

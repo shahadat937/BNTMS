@@ -43,11 +43,16 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
                 throw new NotFoundException(nameof(courseDuration), request.CourseDurationId);
             }
 
-            
+
+            string totalInstructorQuery = $"EXEC [dbo].[spGetInstructorCountByCourse] @CourseDurationId={request.CourseDurationId}, @BaseSchoolNameId={courseDuration.BaseSchoolNameId}, @CourseNameId={courseDuration.CourseNameId}";
+
+
             var summary = new CourseSummaryDto();
             summary.TotalSubject = await _BnaSubjectRepo.Where(x => x.CourseNameId == courseDuration.CourseNameId && x.BaseSchoolNameId == courseDuration.BaseSchoolNameId).CountAsync();
             summary.TotalTrainee = await _TraineeNominationRepo.Where(x => x.CourseDurationId == request.CourseDurationId).CountAsync();
-            summary.TotalInstructor = await _CourseInstructorRepo.Where(x => x.CourseDurationId == request.CourseDurationId && x.BaseSchoolNameId == courseDuration.BaseSchoolNameId).Select(x => x.TraineeId).Distinct().CountAsync();
+            //summary.TotalInstructor = await _CourseInstructorRepo.Where(x => x.CourseDurationId == request.CourseDurationId && x.BaseSchoolNameId == courseDuration.BaseSchoolNameId).Select(x => x.TraineeId).Distinct().CountAsync();
+            summary.TotalInstructor = (int)_CourseDurationRepo.ExecWithSqlQuery(totalInstructorQuery).Rows[0]["TotalInstructor"];
+
             return summary;
         }
     }

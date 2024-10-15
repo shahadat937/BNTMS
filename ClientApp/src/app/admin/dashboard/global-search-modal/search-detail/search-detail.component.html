@@ -1,0 +1,21 @@
+<mat-expansion-panel hideToggle >
+    <mat-expansion-panel-header>
+        <div>
+            <mat-chip color="success">{{getSearchTag()}}</mat-chip>
+        </div>
+        <mat-panel-title>
+            {{getPanelTitle()}}
+            <span *ngIf="getCourseStatus()==0" class="text-primary">(Running)</span>
+            <span *ngIf="getCourseStatus()>1" class="text-success">(Upcoming)</span>
+            <span *ngIf="getCourseStatus()<0" class="text-danger">(Passing Out)</span>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+        <app-searched-trainee-detail *ngIf="this.Payload.Type=='Trainee'||this.Payload.Type=='Instructor'" [Payload]="Payload">
+
+        </app-searched-trainee-detail>
+        <app-searched-course-detail *ngIf="this.Payload.Type=='Course'" [Payload]="Payload">
+
+        </app-searched-course-detail>
+    </ng-template>
+</mat-expansion-panel>

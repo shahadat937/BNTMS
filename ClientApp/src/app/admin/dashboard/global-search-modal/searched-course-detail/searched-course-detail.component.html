@@ -1,0 +1,58 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="courseDetail!=null&&!loading" class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <mat-icon class="custom-icon-size">supervisor_account</mat-icon>
+                    <h4>
+                        <b>Total Instructor</b>
+                    </h4>
+                    <h4>
+                        {{courseDetail.totalInstructor}}
+                    </h4>
+                    <div>
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
+                            View 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <mat-icon class="custom-icon-size">person</mat-icon>
+                    <h4>
+                        <b>Total Student</b>
+                    </h4>
+                    <h4>
+                        {{courseDetail.totalTrainee}}
+                    </h4>
+                    <div>
+                        <!--<a mat-dialog-close [routerLink]="['/course-management/add-traineenomination', Payload.CourseDurationId]">View</a>-->
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/traineenomination-list', Payload.CourseDurationId,Payload.CourseTypeId]">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <mat-icon class="custom-icon-size">menu_book</mat-icon>
+                    <h4>
+                        <b>Total Subject</b>
+                    </h4>
+                    <h4>
+                        {{courseDetail.totalSubject}}
+                    </h4>
+                    <div>
+                        <a mat-dialog-close [routerLink]="['/admin/dashboard/view-subjectbyschoolandcourse', Payload.BaseSchoolNameId, Payload.CourseNameId,Payload.CourseDurationId,Payload.CourseTypeId]">
+                            View 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

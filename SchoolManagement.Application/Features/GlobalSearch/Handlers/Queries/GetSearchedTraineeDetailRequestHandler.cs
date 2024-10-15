@@ -45,7 +45,8 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
             List<int?> courseDurationIds = await _TraineeNominationRepo.Where(x => x.TraineeId == request.TraineeId && x.TraineeId != null).Select(x =>x.CourseDurationId).Distinct().ToListAsync();
 
-            var courseDurations = await _CourseDurationRepo.Where(x => courseDurationIds.Contains(x.CourseDurationId)).Distinct().ToListAsync();
+            var courseDurations = await _CourseDurationRepo.Where(x => courseDurationIds.Contains(x.CourseDurationId))
+                .Include(x=>x.CourseName).ToListAsync();
 
             traineeDetail.CourseDurations = _mapper.Map<List<CourseDurationDto>>(courseDurations);
             traineeDetail.TotalCourse = traineeDetail.CourseDurations.Count();

@@ -69,8 +69,6 @@ export class NewUserListComponent implements OnInit, OnDestroy {
   getTraineeList(searchPno) {
     this.isLoading = true;
     this.subscription = this.UserService.getTraineeList(searchPno).subscribe(response => {
-      //this.dataSource.data = response; 
-      console.log(response)
      this.dataSource=new MatTableDataSource(response);
      this.dataSource.sort = this.sort;
      this.dataSource.paginator = this.paginator;

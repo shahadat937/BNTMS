@@ -112,7 +112,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Commands
                     TraineeId = x.TraineeId,
                     CourseSectionId = x.CourseSectionId,
                     BaseSchoolNameId = x.baseSchoolNameId,
-                    ClassCountPeriod = query.Where(y => y.classRoutineId == x.classRoutineId && y.CourseSectionId == x.CourseSectionId).Select(y => y.countPeriod).FirstOrDefault(),
+                    ClassCountPeriod = x.classCountPeriod,
                     SubjectCountPeriod = subjectTotalPeriod.Where(y => y.BnaSubjectNameId == x.bnaSubjectNameId).Select(y => int.Parse(y.TotalPeriod)).FirstOrDefault(),
                     CourseNameId = x.courseNameId,
                     CourseWeekId = x.courseWeekId,

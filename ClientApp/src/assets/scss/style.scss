@@ -2320,7 +2320,7 @@ h5.m-t-21 {
     text-align: center;
 }
 .mat-header-row.cdk-header-row.ng-star-inserted .mat-header-cell:first-child, .mat-row.cdk-row.ng-star-inserted .mat-cell:first-child {
-    max-width: 35px;
+    max-width: 100%;
 }
 .upcoming-course-tbl .mat-header-row.cdk-header-row.ng-star-inserted .mat-header-cell.course-name-col, .upcoming-course-tbl .mat-row.cdk-row.ng-star-inserted .mat-cell.course-name-col {
     min-width: 450px;
@@ -3584,6 +3584,17 @@ app-main-tab-layout .table-bordered tbody tr td {
     
 }
 
+
+.custom-icon-size {
+    font-size: 50px;
+    width: 50px !important;
+    height: 50px !important;
+
+}
+
+.modal {
+    z-index: 100000 !important;
+}
 //Dashboard Notice Board Message End
 
 

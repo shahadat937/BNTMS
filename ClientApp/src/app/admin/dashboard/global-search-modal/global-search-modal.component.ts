@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, ViewChild } from '@angular/core';
 import { delay, of, Subscription } from 'rxjs';
 import {GlobalSearchService} from '../services/global-search.service'
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-global-search-modal',
   templateUrl: './global-search-modal.component.html',
   styleUrls: ['./global-search-modal.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
@@ -15,7 +15,9 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
   pageSize: number;
   pageIndex: number;
   subscription: Subscription = new Subscription();
-  searchResults: any[];
+  searchResults: any;
+  totalResult : number;
+  previousKeywords: string;
   
   constructor(
     private globalSearchService: GlobalSearchService
@@ -23,7 +25,8 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
     super();
     this.searchText= "";
     this.pageIndex = 1;
-    this.pageSize = 10;
+    this.pageSize = 5;
+    this.totalResult = 0;
     this.searchResults = [];
   }
 
@@ -34,31 +37,47 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
   }
 
 
-  onSearch() {
+  onSearch(delayed:boolean) {
     if(this.subscription) {
       this.subscription.unsubscribe();
     }
 
     if(this.searchText.trim()=="") {
+      this.searchResults = [];
       return;
     }
+    
+    
+    let delayedAmount = 0;
+
+    if(delayed) {
+      delayedAmount = 700
+      this.pageIndex = 1;
+    }
+
 
     let source$ = of (this.searchText);
     source$ = source$.pipe(
-      delay(700)
+      delay(delayedAmount)
     );
 
     this.subscription = source$.subscribe(data => {
       this.globalSearchService.searchData(data,this.pageSize,this.pageIndex).subscribe({
         next: response => {
-          console.log(response);
+          this.searchResults = response;
+          this.totalResult = response.totalResult;
+          console.log(this.searchResults);
         }
       })
     })
   }
 
-  updatePage(event: any) {
+  updatePage(event: PageEvent) {
+    console.log("Page Changed");
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex+1;
 
+    this.onSearch(false);
   }
 
 }
