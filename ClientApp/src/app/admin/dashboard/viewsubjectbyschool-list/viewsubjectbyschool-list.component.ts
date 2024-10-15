@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../../subject-management/models/BNASubjectName';
 import { BNASubjectNameService } from '../../../subject-management/service/BNASubjectName.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data'
+import { MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CourseInstructorService } from '../../../subject-management/service/courseinstructor.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-viewsubjectbyschool',
@@ -20,70 +21,80 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
   styleUrls: ['./viewsubjectbyschool-list.component.sass']
 })
 export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
   ELEMENT_DATA: BNASubjectName[] = [];
   isLoading = false;
-  status=1;
-  SelectedsubjectsBySchoolAndCourse:BNASubjectName[];
-  courseTypeId:number;
-  courseType3:any;
-  coursesTypes:any;
-  courseType:any;
-  traineeId:any;
-  branchId:any;
-  GetInstructorByParameters:any[];
-  GetTotalSubjectCalculation:any[];
-  dbType1:any;
-  traineeDb:any;
-  schoolDb:any;
-  schoolName:any;
-  courseName:any;
-  durationForm:Date;
-  durationTo:Date;
-  courseTitle:any;
-  courseDurationId:any;
-  courseListStatus:any;
-  baseSchoolNameId:any;
-  showHideDiv= false;
-  role:any;
-  groupArrays:{ courseModule: string; courses: any; }[];
+  status = 1;
+  SelectedsubjectsBySchoolAndCourse: BNASubjectName[];
+  courseTypeId: number;
+  courseType3: any;
+  coursesTypes: any;
+  courseType: any;
+  traineeId: any;
+  branchId: any;
+  GetInstructorByParameters: any[];
+  GetTotalSubjectCalculation: any[];
+  dbType1: any;
+  traineeDb: any;
+  schoolDb: any;
+  schoolName: any;
+  courseName: any;
+  durationForm: Date;
+  durationTo: Date;
+  courseTitle: any;
+  courseDurationId: any;
+  courseListStatus: any;
+  baseSchoolNameId: any;
+  showHideDiv = false;
+  role: any;
+  groupArrays: { courseModule: string; courses: any; }[];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
+  searchText = "";
 
-  displayedColumns: string[] = ['ser','subjectName','subjectType','totalPeriod','totalMark','passMarkBna','actions'];
+  displayedColumns: string[] = ['ser', 'subjectName', 'subjectType', 'totalPeriod', 'totalMark', 'passMarkBna', 'actions'];
 
-  displayedInstructorColumns: string[]= ['ser','trainee','shortCode','bnaSubjectName','subjectShortName'];
-   selection = new SelectionModel<BNASubjectName>(true, []);
+  displayedInstructorColumns: string[] = ['ser', 'trainee', 'shortCode', 'bnaSubjectName', 'subjectShortName'];
+  selection = new SelectionModel<BNASubjectName>(true, []);
 
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
+    private courseNameService: CourseNameService,
+    private CourseInstructorService: CourseInstructorService,
+    private BNASubjectNameService: BNASubjectNameService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
     this.route.paramMap.subscribe(param => {
       this.getSubjectNames()
     })
   }
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
 
-  print(){ 
-     
+  print() {
+
     let printContents, popupWin;
     printContents = document.getElementById('print-routine').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -149,44 +160,44 @@ export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDest
     );
     popupWin.document.close();
 
-}
+  }
 
   getSubjectNames() {
     this.isLoading = true;
-    this.courseListStatus = this.route.snapshot.paramMap.get('courseListStatus'); 
-    this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
-    var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
-    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    this.dbType1 = this.route.snapshot.paramMap.get('dbType1'); 
-    this.traineeDb = this.route.snapshot.paramMap.get('traineeDb'); 
-    this.schoolDb = this.route.snapshot.paramMap.get('schoolDb'); 
-    this.courseType = this.route.snapshot.paramMap.get('courseType'); 
+    this.courseListStatus = this.route.snapshot.paramMap.get('courseListStatus');
+    this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
+    var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
+    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
+    this.dbType1 = this.route.snapshot.paramMap.get('dbType1');
+    this.traineeDb = this.route.snapshot.paramMap.get('traineeDb');
+    this.schoolDb = this.route.snapshot.paramMap.get('schoolDb');
+    this.courseType = this.route.snapshot.paramMap.get('courseType');
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
-    this.coursesTypes=this.route.snapshot.paramMap.get('courseTypeId');
-    this.courseType3=this.route.snapshot.paramMap.get('courseType3');
+    this.coursesTypes = this.route.snapshot.paramMap.get('courseTypeId');
+    this.courseType3 = this.route.snapshot.paramMap.get('courseType3');
 
-    if(this.courseListStatus == 1){
-      this.courseNameService.find(Number(courseNameId)).subscribe(res=>{
-        this.courseName=res.course;
+    if (this.courseListStatus == 1) {
+      this.courseNameService.find(Number(courseNameId)).subscribe(res => {
+        this.courseName = res.course;
       });
 
-    } else{
-      this.CourseInstructorService.getCourseInfobySchoolAndCourse(this.baseSchoolNameId,courseNameId,this.courseDurationId).subscribe(res=>{       
-        this.courseName=res[0].course;
-        this.schoolName=res[0].schoolName;
-        this.courseTitle=res[0].courseTitle;
-        this.durationForm=res[0].durationFrom;
-        this.durationTo=res[0].durationTo;
-      }); 
-      this.CourseInstructorService.getInstructorListBySchoolAndCourse(this.baseSchoolNameId,courseNameId,this.courseDurationId).subscribe(res=>{
-        this.GetInstructorByParameters=res;   
-      }); 
-      
-    }
-    
+    } else {
+      this.CourseInstructorService.getCourseInfobySchoolAndCourse(this.baseSchoolNameId, courseNameId, this.courseDurationId).subscribe(res => {
+        this.courseName = res[0].course;
+        this.schoolName = res[0].schoolName;
+        this.courseTitle = res[0].courseTitle;
+        this.durationForm = res[0].durationFrom;
+        this.durationTo = res[0].durationTo;
+      });
+      this.CourseInstructorService.getInstructorListBySchoolAndCourse(this.baseSchoolNameId, courseNameId, this.courseDurationId).subscribe(res => {
+        this.GetInstructorByParameters = res;
+      });
 
-    this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourse(Number(this.baseSchoolNameId),Number(courseNameId)).subscribe(res=>{
-      this.SelectedsubjectsBySchoolAndCourse=res;  
+    }
+
+
+    this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourse(Number(this.baseSchoolNameId), Number(courseNameId)).subscribe(res => {
+      this.SelectedsubjectsBySchoolAndCourse = res;
 
       // this gives an object with dates as keys
       const groups = this.SelectedsubjectsBySchoolAndCourse.reduce((groups, courses) => {
@@ -208,10 +219,10 @@ export class ViewSubjectListBySchoolAndCourseComponent extends UnsubscribeOnDest
 
     });
 
-    this.CourseInstructorService.getSubjectTotalByCourseId(this.baseSchoolNameId,courseNameId).subscribe(res=>{
-      this.GetTotalSubjectCalculation=res;     
-    }); 
-    
+    this.CourseInstructorService.getSubjectTotalByCourseId(this.baseSchoolNameId, courseNameId).subscribe(res => {
+      this.GetTotalSubjectCalculation = res;
+    });
+
   }
 
 }

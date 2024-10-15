@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-subjectinstructor-list',
@@ -45,7 +46,15 @@ export class SubjectInstructorListComponent extends UnsubscribeOnDestroyAdapter 
 
   displayedColumns: string[]= ['ser','trainee','bnaSubjectName','courseName'];
   
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private route: ActivatedRoute,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private CourseInstructorService: CourseInstructorService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 

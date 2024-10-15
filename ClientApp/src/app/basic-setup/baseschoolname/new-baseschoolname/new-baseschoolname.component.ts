@@ -6,6 +6,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-baseschoolname',
@@ -21,7 +22,14 @@ export class NewBaseSchoolNameComponent extends UnsubscribeOnDestroyAdapter impl
   validationErrors: string[] = [];
   selectedBaseName:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { 
+  constructor(
+    private snackBar: MatSnackBar,
+    private BaseSchoolNameService: BaseSchoolNameService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService:ConfirmService,
+    public sharedService: SharedServiceService,) { 
     super();
   }
 

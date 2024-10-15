@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { DatePipe } from '@angular/common';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-courseweekbyduration-list',
@@ -47,7 +48,17 @@ export class CourseWeekByDurationListComponent extends UnsubscribeOnDestroyAdapt
 
   displayedColumns: string[]= ['ser','trainee','bnaSubjectName','courseName'];
   
-  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private authService: AuthService,private route: ActivatedRoute,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private datepipe: DatePipe,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private CourseInstructorService: CourseInstructorService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
+    
+  ) {
     super();
   }
 

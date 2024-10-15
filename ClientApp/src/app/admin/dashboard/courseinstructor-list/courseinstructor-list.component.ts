@@ -36,6 +36,7 @@ export class CourseInstructorListComponent extends UnsubscribeOnDestroyAdapter i
   searchText="";
 
   displayedColumns: string[]= ['ser','bnaSubjectName','trainee'];
+sharedService: any;
   
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private route: ActivatedRoute,private CourseInstructorService: CourseInstructorService,private router: Router,private confirmService: ConfirmService) {
     super();

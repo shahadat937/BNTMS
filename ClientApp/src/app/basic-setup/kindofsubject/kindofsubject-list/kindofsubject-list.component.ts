@@ -9,6 +9,7 @@ import { MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-kindofsubject',
@@ -36,7 +37,12 @@ export class KindOfSubjectListComponent extends UnsubscribeOnDestroyAdapter impl
    selection = new SelectionModel<KindOfSubject>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private KindOfSubjectService: KindOfSubjectService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private KindOfSubjectService: KindOfSubjectService,
+    private router: Router,
+    private confirmService: ConfirmService, 
+    public sharedService: SharedServiceService) {
     super();
   }
 

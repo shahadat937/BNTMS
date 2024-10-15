@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterData } from 'src/assets/data/master-data';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-socialmediatype-list',
@@ -33,7 +34,7 @@ export class SocialmediatypeListComponent extends UnsubscribeOnDestroyAdapter im
 
   selection = new SelectionModel<SocialMediaType>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private socialMediaTypeService: SocialmediaTypeService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private socialMediaTypeService: SocialmediaTypeService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
   ngOnInit() {

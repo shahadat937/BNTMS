@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ExamTypeService } from '../../service/examType.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-examType',
@@ -19,7 +20,16 @@ export class NewExamTypeComponent extends UnsubscribeOnDestroyAdapter implements
   examTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private examTypeService: ExamTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private examTypeService: ExamTypeService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+    
+  ) {
     super();
   }
 

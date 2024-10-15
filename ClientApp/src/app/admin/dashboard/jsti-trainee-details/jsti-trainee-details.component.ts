@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../../subject-management/models/BNASubjectName';
 import { BNASubjectNameService } from '../../../subject-management/service/BNASubjectName.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data'
+import { MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CourseInstructorService } from '../../../subject-management/service/courseinstructor.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
@@ -14,100 +14,112 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { Location } from '@angular/common';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-jsti-trainee-details',
   templateUrl: './jsti-trainee-details.component.html',
   styleUrls: ['./jsti-trainee-details.component.sass']
-//   styleUrls: [
-//     'http://example.com/external.css',
-//     'app/local.css'
-// ],
+  //   styleUrls: [
+  //     'http://example.com/external.css',
+  //     'app/local.css'
+  // ],
 })
 export class JstiTraineeDetailsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
   ELEMENT_DATA: BNASubjectName[] = [];
   isLoading = false;
-  status=1;
-  SelectedsubjectsBySchoolAndCourse:BNASubjectName[];
-  courseTypeId:number;
-  jstiTraineeDetails:any;
-  jstiTraineeChildrenDetails:any;
-  jstiChildrenData=false;
-  jstiTraineeSiblingDetails:any;
-  jstiSiblingData=false;
-  jstiTraineeEducations:any;
-  jstiEducationData=false;
-  jstiTraineeMilitaryTrainig:any;
-  jstiMilitaryData=false;
-  jstiTraineeRecordOfService:any;
-  jstiRecordData=false;
-  courseType3:any;
-  coursesTypes:any;
-  courseType:any;
-  traineeId:any;
-  branchId:any;
-  GetInstructorByParameters:any[];
-  GetTotalSubjectCalculation:any[];
-  dbType1:any;
-  traineeDb:any;
-  schoolDb:any;
-  schoolName:any;
-  courseName:any;
-  durationForm:Date;
-  durationTo:Date;
-  courseTitle:any;
-  courseDurationId:any;
-  courseListStatus:any;
-  baseSchoolNameId:any;
-  showHideDiv= false;
-  role:any;
-  groupArrays:{ courseModule: string; courses: any; }[];
+  status = 1;
+  SelectedsubjectsBySchoolAndCourse: BNASubjectName[];
+  courseTypeId: number;
+  jstiTraineeDetails: any;
+  jstiTraineeChildrenDetails: any;
+  jstiChildrenData = false;
+  jstiTraineeSiblingDetails: any;
+  jstiSiblingData = false;
+  jstiTraineeEducations: any;
+  jstiEducationData = false;
+  jstiTraineeMilitaryTrainig: any;
+  jstiMilitaryData = false;
+  jstiTraineeRecordOfService: any;
+  jstiRecordData = false;
+  courseType3: any;
+  coursesTypes: any;
+  courseType: any;
+  traineeId: any;
+  branchId: any;
+  GetInstructorByParameters: any[];
+  GetTotalSubjectCalculation: any[];
+  dbType1: any;
+  traineeDb: any;
+  schoolDb: any;
+  schoolName: any;
+  courseName: any;
+  durationForm: Date;
+  durationTo: Date;
+  courseTitle: any;
+  courseDurationId: any;
+  courseListStatus: any;
+  baseSchoolNameId: any;
+  showHideDiv = false;
+  role: any;
+  groupArrays: { courseModule: string; courses: any; }[];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
+  searchText = "";
 
-  displayedColumns: string[] = ['ser','subjectName','subjectType','totalPeriod','totalMark','passMarkBna','actions'];
+  displayedColumns: string[] = ['ser', 'subjectName', 'subjectType', 'totalPeriod', 'totalMark', 'passMarkBna', 'actions'];
 
-  displayedInstructorColumns: string[]= ['ser','trainee','shortCode','bnaSubjectName','subjectShortName'];
-   selection = new SelectionModel<BNASubjectName>(true, []);
+  displayedInstructorColumns: string[] = ['ser', 'trainee', 'shortCode', 'bnaSubjectName', 'subjectShortName'];
+  selection = new SelectionModel<BNASubjectName>(true, []);
 
 
-  constructor(private snackBar: MatSnackBar, private location:Location, private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,
+    private location: Location,
+    private authService: AuthService,
+    private courseNameService: CourseNameService,
+    private CourseInstructorService: CourseInstructorService,
+    private BNASubjectNameService: BNASubjectNameService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService,
+  
+  ) {
     super();
   }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
 
-    var traineeId = this.route.snapshot.paramMap.get('traineeId'); 
-    this.getJstiTraineeBasicInfoDetails(traineeId); 
-    this.getTraineeEducationalQualification(traineeId); 
-    this.getTraineeMilitaryTrainings(traineeId); 
-    this.getTraineeRecordOfServices(traineeId); 
-    this.getParentRelativeListType(traineeId,11); //for children
-    this.getParentRelativeListType(traineeId,22); //for brother/sister
+    var traineeId = this.route.snapshot.paramMap.get('traineeId');
+    this.getJstiTraineeBasicInfoDetails(traineeId);
+    this.getTraineeEducationalQualification(traineeId);
+    this.getTraineeMilitaryTrainings(traineeId);
+    this.getTraineeRecordOfServices(traineeId);
+    this.getParentRelativeListType(traineeId, 11); //for children
+    this.getParentRelativeListType(traineeId, 22); //for brother/sister
   }
-  backButton(){
+  backButton() {
     this.location.back();
   }
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
 
-  print(){ 
-     
+  print() {
+
     let printContents, popupWin;
     printContents = document.getElementById('print-routine').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -428,45 +440,45 @@ export class JstiTraineeDetailsComponent extends UnsubscribeOnDestroyAdapter imp
   }
 
   getJstiTraineeBasicInfoDetails(traineeId) {
-    this.CourseInstructorService.getJstiTraineeBasicInfoDetails(traineeId).subscribe(res=>{       
+    this.CourseInstructorService.getJstiTraineeBasicInfoDetails(traineeId).subscribe(res => {
       this.jstiTraineeDetails = res;
-    }); 
+    });
   }
   getNextChar(index) {
     var char = 'a';
     return String.fromCharCode(char.charCodeAt(0) + index);
   }
 
-  getParentRelativeListType(traineeId,groupType) {
-    this.CourseInstructorService.getParentRelativeListType(traineeId,groupType).subscribe(res=>{             
-      if(groupType == 11){
-        this.jstiChildrenData=true;
-        this.jstiTraineeChildrenDetails=res;
-        
-      }else if(groupType == 22){
-        this.jstiSiblingData=true;
-        this.jstiTraineeSiblingDetails=res;
+  getParentRelativeListType(traineeId, groupType) {
+    this.CourseInstructorService.getParentRelativeListType(traineeId, groupType).subscribe(res => {
+      if (groupType == 11) {
+        this.jstiChildrenData = true;
+        this.jstiTraineeChildrenDetails = res;
+
+      } else if (groupType == 22) {
+        this.jstiSiblingData = true;
+        this.jstiTraineeSiblingDetails = res;
       }
       // this.jstiTraineeDetails = res;
-    }); 
+    });
   }
 
   getTraineeEducationalQualification(traineeId) {
-    this.CourseInstructorService.getTraineeEducationalQualification(traineeId).subscribe(res=>{                   
-        this.jstiTraineeEducations=res;
-      
-    }); 
+    this.CourseInstructorService.getTraineeEducationalQualification(traineeId).subscribe(res => {
+      this.jstiTraineeEducations = res;
+
+    });
   }
   getTraineeMilitaryTrainings(traineeId) {
-    this.CourseInstructorService.getTraineeMilitaryTrainings(traineeId).subscribe(res=>{                   
-        this.jstiTraineeMilitaryTrainig=res;
-      
-    }); 
+    this.CourseInstructorService.getTraineeMilitaryTrainings(traineeId).subscribe(res => {
+      this.jstiTraineeMilitaryTrainig = res;
+
+    });
   }
   getTraineeRecordOfServices(traineeId) {
-    this.CourseInstructorService.getTraineeRecordOfServices(traineeId).subscribe(res=>{                   
-        this.jstiTraineeRecordOfService=res;
-      
-    }); 
+    this.CourseInstructorService.getTraineeRecordOfServices(traineeId).subscribe(res => {
+      this.jstiTraineeRecordOfService = res;
+
+    });
   }
 }

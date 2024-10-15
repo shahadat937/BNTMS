@@ -9,6 +9,7 @@ import { TraineeNominationService } from 'src/app/course-management/service/trai
 import { ForeignCourseOtherDocService } from '../../service/ForeignCourseOtherDoc.service';
 import {TraineeListForForeignCourseOtherDoc} from '../../../air-ticket/models/traineeListforforeigncourseotherdoc';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-foreigncourseotherdoc',
@@ -42,7 +43,15 @@ export class NewForeignCourseOtherDocComponent extends UnsubscribeOnDestroyAdapt
 
 
   //displayedColumns: string[] = ['countryGroup', 'country', 'currencyName', 'allowancePercentage', 'dailyPayment',   'actions'];
-  constructor(private snackBar: MatSnackBar,private traineeNominationService:TraineeNominationService,private ForeignCourseOtherDocService: ForeignCourseOtherDocService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private traineeNominationService:TraineeNominationService,
+    private ForeignCourseOtherDocService: ForeignCourseOtherDocService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService) {
     super();
   }
 

@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class QuestionTypeListComponent implements OnInit {
   selection = new SelectionModel<QuestionType>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private questionTypeService: QuestionTypeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private questionTypeService: QuestionTypeService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
   
   ngOnInit() {
     this.getQuestionTypes();

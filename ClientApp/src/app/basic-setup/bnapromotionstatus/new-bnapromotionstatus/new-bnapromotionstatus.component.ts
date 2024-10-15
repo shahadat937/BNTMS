@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BNAPromotionStatusService } from '../../service/BNAPromotionStatus.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bnapromotionstatus',
@@ -19,7 +20,14 @@ export class NewBNAPromotionStatusComponent extends UnsubscribeOnDestroyAdapter 
   BNAPromotionStatusForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private BNAPromotionStatusService: BNAPromotionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private BNAPromotionStatusService: BNAPromotionStatusService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService,) {
     super();
   }
 

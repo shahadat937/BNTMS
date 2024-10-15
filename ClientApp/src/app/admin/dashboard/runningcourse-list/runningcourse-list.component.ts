@@ -1,19 +1,20 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import {BNAExamInstructorAssign} from '../../../exam-management/models/bnaexaminstructorassign';
-import {BNAExamInstructorAssignService} from '../../../exam-management/service/bnaexaminstructorassign.service';
+import { BNAExamInstructorAssign } from '../../../exam-management/models/bnaexaminstructorassign';
+import { BNAExamInstructorAssignService } from '../../../exam-management/service/bnaexaminstructorassign.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data';
+import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-import {dashboardService} from '../services/dashboard.service';
+import { dashboardService } from '../services/dashboard.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { environment } from 'src/environments/environment';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-runningcourse-list',
@@ -21,30 +22,30 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
   styleUrls: ['./style.component.css']
 })
 export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
-  runningCourses:any;
-  upcomingCourses:any;
-  viewStatus:any;
+  runningCourses: any;
+  upcomingCourses: any;
+  viewStatus: any;
   isLoading = false;
-  baseSchoolNameId:any;
-  courseNameId:any;
+  baseSchoolNameId: any;
+  courseNameId: any;
   courseTitle: string;
   courseListTitle: any;
-  runningCourseType:number;
-  dbType:number;
-  courseTypeId:any;
-  showHideDiv= false;
-  groupArrays:{ schoolName: string; courses: any; }[];
-  runningForeignCourses:any;
-  interServiceCourses:any;
-  passOutStatus:any;
-  fileUrl:any = environment.fileUrl;
+  runningCourseType: number;
+  dbType: number;
+  courseTypeId: any;
+  showHideDiv = false;
+  groupArrays: { schoolName: string; courses: any; }[];
+  runningForeignCourses: any;
+  interServiceCourses: any;
+  passOutStatus: any;
+  fileUrl: any = environment.fileUrl;
 
-  branchId:any;
-  traineeId:any;
-  role:any;
+  branchId: any;
+  traineeId: any;
+  role: any;
 
 
   paging = {
@@ -52,24 +53,34 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
+  searchText = "";
 
-  displayedColumns: string[] = ['ser','schoolName','course','noOfCandidates','professional','nbcd','durationFrom','durationTo', 'remark', 'actions'];
-  displayedUpcomingForeignColumns: string[] = ['ser','courseTitle','courseName','durationFrom','durationTo', 'country', 'actions'];
-  displayedUpcomingInterServiceColumns: string[] = ['ser','courseName', 'orgName','durationFrom','durationTo', 'actions'];
+  displayedColumns: string[] = ['ser', 'schoolName', 'course', 'noOfCandidates', 'professional', 'nbcd', 'durationFrom', 'durationTo', 'remark', 'actions'];
+  displayedUpcomingForeignColumns: string[] = ['ser', 'courseTitle', 'courseName', 'durationFrom', 'durationTo', 'country', 'actions'];
+  displayedUpcomingInterServiceColumns: string[] = ['ser', 'courseName', 'orgName', 'durationFrom', 'durationTo', 'actions'];
   selectedFilter: any;
-  constructor(private datepipe: DatePipe,private authService: AuthService,private dashboardService: dashboardService,private snackBar: MatSnackBar,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private datepipe: DatePipe,
+    private authService: AuthService,
+    private dashboardService: dashboardService,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private BNAExamInstructorAssignService: BNAExamInstructorAssignService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+  ) {
     super();
   }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId.trim();
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId.trim();
 
-    this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId'); 
+    this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId');
     this.getCoursesByViewType(1);
-    
+
   }
 
   // onModuleSelectionChangeGetsubjectList(){
@@ -83,18 +94,18 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
   // }
 
 
-  getDateComparision(obj){
+  getDateComparision(obj) {
 
     var currentDate = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     //Date dateTime11 = Convert.ToDateTime(dateFrom);  
     var current = new Date(currentDate);
     // var date1 = new Date(obj.durationFrom); 
-	  var date2 =  new Date(obj.durationTo);
-    
+    var date2 = new Date(obj.durationTo);
 
-    if(current > date2){
+
+    if (current > date2) {
       this.passOutStatus = 1;
-    }else{
+    } else {
       this.passOutStatus = 0;
     }
     // else if(current >= date1 && current <= date2){
@@ -104,48 +115,48 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     // }else{
     // }
   }
-  getRemainingDays(getStartDate){
-    var date1 = new Date(getStartDate); 
-	  var date2 =  new Date();
-    var Time = date1.getTime() - date2.getTime(); 
+  getRemainingDays(getStartDate) {
+    var date1 = new Date(getStartDate);
+    var date2 = new Date();
+    var Time = date1.getTime() - date2.getTime();
     var Days = Time / (1000 * 3600 * 24);
-    var dayCount = Days+1;
+    var dayCount = Days + 1;
     return dayCount.toFixed(0);
   }
-  getDaysfromDate(dateFrom:any,dateTo:any){
+  getDaysfromDate(dateFrom: any, dateTo: any) {
     //Date dateTime11 = Convert.ToDateTime(dateFrom);  
-    var date1 = new Date(dateFrom); 
-	  var date2 =  new Date(dateTo);
-    var Time = date2.getTime() - date1.getTime(); 
+    var date1 = new Date(dateFrom);
+    var date2 = new Date(dateTo);
+    var Time = date2.getTime() - date1.getTime();
     var Days = Time / (1000 * 3600 * 24);
-    var dayCount = Days+1;
+    var dayCount = Days + 1;
     var totalWeeks = 0;
-    for(var start = 0; start <= dayCount; start = start+7){
-      totalWeeks +=1;
+    for (var start = 0; start <= dayCount; start = start + 7) {
+      totalWeeks += 1;
     }
     return totalWeeks;
   }
-  getCoursesByViewType(viewStatus){
+  getCoursesByViewType(viewStatus) {
     this.viewStatus = viewStatus;
-    var courseTypeId = this.route.snapshot.paramMap.get('courseTypeId'); 
-    if(viewStatus==1){
-      this.courseListTitle="Runnung";
+    var courseTypeId = this.route.snapshot.paramMap.get('courseTypeId');
+    if (viewStatus == 1) {
+      this.courseListTitle = "Runnung";
       this.selectedFilter = viewStatus;
       this.masterData.coursetype.LocalCourse
-      this.getSpRunningCourseDurations(courseTypeId,viewStatus)
-    }else if(viewStatus==2){
+      this.getSpRunningCourseDurations(courseTypeId, viewStatus)
+    } else if (viewStatus == 2) {
       this.selectedFilter = viewStatus;
-      this.courseListTitle="Passing Out";
-      this.getSpRunningCourseDurations(courseTypeId,viewStatus)
-    }else if(viewStatus==3){
+      this.courseListTitle = "Passing Out";
+      this.getSpRunningCourseDurations(courseTypeId, viewStatus)
+    } else if (viewStatus == 3) {
       this.selectedFilter = viewStatus;
-      this.courseListTitle="Upcomming";
-      let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+      this.courseListTitle = "Upcomming";
+      let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
       // this.getSpRunningCourseDurations(courseTypeId,viewStatus)
-      this.dashboardService.getUpcomingCourseListByBase(currentDateTime,0).subscribe(response => {         
-        
-        this.upcomingCourses=response;
-  
+      this.dashboardService.getUpcomingCourseListByBase(currentDateTime, 0).subscribe(response => {
+
+        this.upcomingCourses = response;
+
         // this gives an object with dates as keys
         const groups = this.upcomingCourses.reduce((groups, courses) => {
           const schoolName = courses.schoolName;
@@ -153,17 +164,17 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
             groups[schoolName] = [];
           }
           groups[schoolName].push(courses);
-            return groups;
-          }, {});
-    
-          // Edit: to add it in the array format instead
-          this.groupArrays = Object.keys(groups).map((schoolName) => {
-            return {
-              schoolName,
-              courses: groups[schoolName]
-            };
-          });
-  
+          return groups;
+        }, {});
+
+        // Edit: to add it in the array format instead
+        this.groupArrays = Object.keys(groups).map((schoolName) => {
+          return {
+            schoolName,
+            courses: groups[schoolName]
+          };
+        });
+
       })
     }
   }
@@ -171,14 +182,14 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
   getSpRunningCourseDurations(id, viewStatus) {
     this.isLoading = true;
     this.runningCourseType = id;
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.dbType=2;
-  
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
+    this.dbType = 2;
 
-    if(this.runningCourseType == this.masterData.coursetype.LocalCourse){
+
+    if (this.runningCourseType == this.masterData.coursetype.LocalCourse) {
       this.courseTitle = "Local ";
-      this.dashboardService.getSpRunningCourseDurationsByType(this.runningCourseType,currentDateTime,viewStatus).subscribe(response => {           
-        this.runningCourses=response;       
+      this.dashboardService.getSpRunningCourseDurationsByType(this.runningCourseType, currentDateTime, viewStatus).subscribe(response => {
+        this.runningCourses = response;
 
         // this gives an object with dates as keys
         const groups = this.runningCourses.reduce((groups, courses) => {
@@ -186,8 +197,8 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
           if (!groups[schoolName]) {
             groups[schoolName] = [];
           }
-          groups[schoolName].push(courses); 
-          return groups;   
+          groups[schoolName].push(courses);
+          return groups;
         }, {});
 
         // Edit: to add it in the array format instead
@@ -200,35 +211,35 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
 
 
       })
-    }else if(this.runningCourseType == this.masterData.coursetype.ForeignCourse){
+    } else if (this.runningCourseType == this.masterData.coursetype.ForeignCourse) {
       this.courseTitle = "Foreign ";
-      this.dashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime).subscribe(response => {   
-         
-        this.runningForeignCourses=response;
+      this.dashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType, currentDateTime).subscribe(response => {
+
+        this.runningForeignCourses = response;
       })
-    }else{
+    } else {
       this.courseTitle = "Inter Service ";
-      this.dashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime).subscribe(response => {   
-        
-        this.interServiceCourses=response;
+      this.dashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType, currentDateTime).subscribe(response => {
+
+        this.interServiceCourses = response;
       })
     }
   }
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
-  applyFilter(searchText: any){ 
+  applyFilter(searchText: any) {
     this.searchText = searchText;
     // this.getCourseDurations();
     // getSpRunningCourseDurations();
-  } 
+  }
 
-  print(){ 
-    
+  print() {
+
     let printContents, popupWin;
     printContents = document.getElementById('print-routine').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -290,11 +301,11 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
         
         
       </html>`
-      
+
     );
     popupWin.document.close();
 
-}
+  }
 
-  
+
 }

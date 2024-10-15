@@ -6,6 +6,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-caste',
@@ -21,7 +22,14 @@ export class NewCasteComponent extends UnsubscribeOnDestroyAdapter implements On
   validationErrors: string[] = [];
   selectedModel:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CasteService: CasteService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private CasteService: CasteService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService,) {
     super();
   }
 

@@ -32,6 +32,7 @@ import { Role } from 'src/app/core/models/role';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ScrollService } from 'src/app/course-management/localcourse/scrole-restore/scrole-position.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 export type avgLecChartOptions = {
   series: ApexAxisChartSeries;
@@ -149,7 +150,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   displayedInstructorColumns: string[] = ['ser', 'course', 'instructorCount', 'actions'];
   displayedUpcomingColumns: string[] = ['ser', 'course', 'durationFrom', 'durationTo', 'daysCalculate', 'actions'];
   displayedNbcdUpcomingColumns: string[] = ['ser', 'comeform', 'course', 'durationFrom', 'durationTo', 'daysCalculate', 'actions'];
-  constructor(private datepipe: DatePipe, private snackBar: MatSnackBar, private confirmService: ConfirmService, private authService: AuthService, private baseSchoolNameService: BaseSchoolNameService, private studentDashboardService: StudentDashboardService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private ReadingMaterialService: ReadingMaterialService, private schoolDashboardService: SchoolDashboardService, private scrollPositionService: ScrollService) { }
+  constructor(private datepipe: DatePipe, private snackBar: MatSnackBar, private confirmService: ConfirmService, private authService: AuthService, private baseSchoolNameService: BaseSchoolNameService, private studentDashboardService: StudentDashboardService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private ReadingMaterialService: ReadingMaterialService, private schoolDashboardService: SchoolDashboardService, private scrollPositionService: ScrollService, public sharedService: SharedServiceService) { }
 
 
   @HostListener('window:scroll')

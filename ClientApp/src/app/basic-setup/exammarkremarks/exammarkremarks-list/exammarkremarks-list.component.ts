@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -36,7 +37,13 @@ export class ExamMarkRemarksListComponent extends UnsubscribeOnDestroyAdapter im
   selection = new SelectionModel<ExamMarkRemarks>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private ExamMarkRemarksService: ExamMarkRemarksService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private ExamMarkRemarksService: ExamMarkRemarksService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService) {
     super();
   }
   

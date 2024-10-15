@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
  
 
 @Component({
@@ -32,7 +33,12 @@ export class ForceTypeListComponent extends UnsubscribeOnDestroyAdapter implemen
   displayedColumns: string[] = [ 'ser', 'forceTypeName', 'isActive', 'actions'];
   dataSource: MatTableDataSource<ForceType> = new MatTableDataSource();
   
-  constructor(private snackBar: MatSnackBar,private ForceTypeService: ForceTypeService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private ForceTypeService: ForceTypeService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService) {
     super();
   }
   
