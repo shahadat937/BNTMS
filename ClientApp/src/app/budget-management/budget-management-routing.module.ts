@@ -6,6 +6,7 @@ import {BudgetAllocationListComponent} from './budgetallocation/budgetallocation
 import {NewCourseBudgetAllocationComponent} from './coursebudgetallocation/new-coursebudgetallocation/new-coursebudgetallocation.component';
 import {CourseBudgetAllocationListComponent} from './coursebudgetallocation/coursebudgetallocation-list/coursebudgetallocation-list.component';
 import {ScheduleInstallmentListComponent} from './scheduleinstallment/scheduleinstallment-list/scheduleinstallment-list.component';
+import { BudgetTransaction } from './budgetallocation/budget-transaction/transaction.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'add-budget',
     component: AddBudgetListComponent,
+  },
+  {
+    path: 'transaction-type',
+    component: BudgetTransaction,
   }
 
 ];

@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
@@ -5,6 +6,7 @@ import { BudgetAllocationService } from '../../service/BudgetAllocation.service'
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-add-budget',
@@ -12,7 +14,7 @@ import { BudgetAllocation } from '../../models/BudgetAllocation';
   styleUrls: ['./add-budget.component.css']
 })
 
-export class AddBudgetListComponent implements OnInit {
+export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   BudgetAllocationForm: FormGroup;
   selectedFiscalYear: SelectedModel[];
@@ -30,15 +32,18 @@ export class AddBudgetListComponent implements OnInit {
     pageSize: 10,
     length: 1
   };
-  snackBar: any;
+  
 
   constructor(
+    private snackBar: MatSnackBar,
     private router: Router,
     private confirmService: ConfirmService,
     private BudgetAllocationService: BudgetAllocationService,
     private fb: FormBuilder,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('budgetAllocationId');
@@ -48,7 +53,9 @@ export class AddBudgetListComponent implements OnInit {
         this.BudgetAllocationForm.patchValue({
           fiscalYearId: res.fiscalYearId,
           budgetTypeId: res.budgetTypeId,
-          budgetAllocationId: id // Adding budgetAllocationId here
+          amount: +res.amount,
+          budgetAllocationId: id ,
+          
         });
       });
     } else {
@@ -63,12 +70,16 @@ export class AddBudgetListComponent implements OnInit {
 
   innitializeForm() {
     this.BudgetAllocationForm = this.fb.group({
-      fiscalYearId: [],
-      budgetTypeId: [],
-      amount: [],
-      description: [],
-      budgetHeadId: [],
-      budgetAllocationId: [] // Add this field here
+      budgetAllocationId: [0],
+      budgetCodeId:[''],
+      budgetTypeId:[],
+      fiscalYearId:[],
+      budgetCodeName:[''],
+      percentage:[''],
+      amount:[''],
+      remarks:[''],
+      menuPosition:[],
+      isActive: [true],
     });
   }
   onFiscalYearSelectionChange(dropdown){
@@ -114,6 +125,7 @@ export class AddBudgetListComponent implements OnInit {
     } else {
       this.loading = true;
       this.BudgetAllocationService.submit(this.BudgetAllocationForm.value).subscribe(response => {
+        console.log(this.BudgetAllocationForm.value)
         this.router.navigateByUrl('/budget-management/budgetallocation-list');
         this.snackBar.open('Information Inserted Successfully', '', {
           duration: 2000,
