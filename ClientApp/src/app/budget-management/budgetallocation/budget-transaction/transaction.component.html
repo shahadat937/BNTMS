@@ -1,0 +1,209 @@
+<section class="content">
+<div class="container">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ul class="breadcrumb breadcrumb-style ">
+                  <li class="breadcrumb-item">
+                    <h4 class="page-title">Budget Transaction</h4>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-1">
+                    <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+                  </li>
+                  <li class="breadcrumb-item bcrumb-2">
+                    <a href="#" onClick="return false;">Budget Transaction</a>
+                  </li>
+                  <li class="breadcrumb-item active">All</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="row">
+        <div class="card">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="body">
+              <form class="mb-4" [formGroup]="BudgetAllocationForm" (ngSubmit)="onSubmit()">
+                <div class="row clearfix">
+                <div class="col-md-8">
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <mat-label>Choose a date</mat-label>
+                            <input matInput [matDatepicker]="picker">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Budget Head</mat-label>                        
+                            <mat-select formControlName="fiscalYearId">
+                              <input type="text" 
+                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectFiscalYear"
+                            (keydown.space)="$event.stopPropagation()"
+                            (input)="($event.target.value)"
+                            placeholder="Search">
+                              <mat-option  value="0">--Select--</mat-option >
+                                <mat-option (onSelectionChange)="onFiscalYearSelectionChange($event)" *ngFor="let dropdown of selectedBudgetType" [value]="dropdown.value">
+                                    {{dropdown.text}} 
+                                  </mat-option>                          
+                            </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6 mb-2">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Budget Type</mat-label>                        
+                            <mat-select formControlName="budgetTypeId">
+                              <input type="text" 
+                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                id="approvingAuthority"
+                                (keydown.space)="$event.stopPropagation()"
+                                (input)="($event.target.value)"
+                                placeholder="Search" required>
+                              <mat-option  value="0">--Select--</mat-option >
+                                <mat-option *ngFor="let dropdown of selectedBudgetType" [value]="dropdown.value">
+                                    {{dropdown.text}} 
+                                  </mat-option>                          
+                            </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6 mb-2">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Approving Authority</mat-label>                        
+                            <mat-select formControlName="approvingAuthority">
+                              <input type="text" 
+                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                id="selectBudgetType"
+                                (keydown.space)="$event.stopPropagation()"
+                                (input)="($event.target.value)"
+                                placeholder="Search" required>
+                              <mat-option  value="0">--Select--</mat-option >
+                                <mat-option *ngFor="let dropdown of SelectAuthority" [value]="dropdown.value">
+                                    {{dropdown.text}} 
+                                  </mat-option>                          
+                            </mat-select>
+                        </mat-form-field>
+                      </div>
+                </div>
+      <div class="col-md-4">
+       <div class="mb-2">
+        <h4>Total Budget</h4>
+        <span>{{this.totalBudget}}</span>
+       </div>
+       <div class="mb-2">
+        <mat-form-field class="example-full-width mb-3" appearance="outline">
+            <mat-label>Selected Amount</mat-label>                        
+            <input matInput formControlName="amount" required>
+          </mat-form-field>
+       </div>
+       <div class="mb-2">
+        <mat-form-field class="example-full-width mb-3" appearance="outline">
+            <mat-label>Desk</mat-label>                        
+            <mat-select formControlName="budgetTypeId">
+              <input type="text" 
+              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                id="selectOfficer"
+                (keydown.space)="$event.stopPropagation()"
+                (input)="($event.target.value)"
+                placeholder="Search" required>
+              <mat-option  value="0">--Select--</mat-option >
+                <mat-option (onSelectionChange)="onBudgetCodeSelectionChange($event)" *ngFor="let dropdown of SelectAuthority" [value]="dropdown.value">
+                    {{dropdown.text}} 
+                  </mat-option>                          
+            </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field class="example-full-width mb-3" appearance="outline">
+            <mat-label>Subject</mat-label>                        
+            <mat-select formControlName="budgetTypeId">
+              <input type="text" 
+              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                id="selectBudgetType"
+                (keydown.space)="$event.stopPropagation()"
+                (input)="($event.target.value)"
+                placeholder="Search" required>
+              <!-- <mat-option  value="0">--Select--</mat-option >
+                <mat-option *ngFor="let dropdown of selectedBudgetType" [value]="dropdown.value">
+                    {{dropdown.text}} 
+                  </mat-option>                           -->
+            </mat-select>
+        </mat-form-field>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" mat-raised-button
+              color="primary">Save</button>
+          <!-- <button type="button" mat-button routerLink="/budget-management/budgetallocation-list">Cancel</button> -->
+        </div>
+        
+      </div>
+          
+        </div>
+       
+               
+                <!-- <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BudgetAllocationForm.valid " mat-raised-button
+                              color="primary">{{buttonText}}</button> -->
+              </form>
+
+              <mat-table *ngIf="isShow" #table [dataSource]="dataSource" matSort class="mat-cell">               
+                <ng-container matColumnDef="ser">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
+                  <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
+                </ng-container>    
+
+                <ng-container matColumnDef="budgetCode">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Budget Code </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.budgetCode}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="budgetType">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Budget Type</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.budgetType}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="fiscalYear">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Fiscal Year</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.fiscalYear}} </mat-cell>
+                </ng-container>
+                
+                <ng-container matColumnDef="percentage">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Percentage</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.percentage}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="amount">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+                </ng-container>
+                
+
+                
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                    <button mat-icon-button color="accent" class="btn-tbl-edit" 
+                    [routerLink]="['/budget-management/update-budgetallocation', row.budgetAllocationId]">
+                      <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
+                      (click)="deleteItem(row)">
+                      <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+               </mat-table>
+            </div>
+          </div>
+         
+        </div>
+        
+      </div>
+</div>
+</section>

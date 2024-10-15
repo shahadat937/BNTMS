@@ -198,7 +198,8 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
     }
 
   onSubmit() {
-    const id = this.BudgetAllocationForm.get('budgetAllocationId').value;   
+    const id = this.BudgetAllocationForm.get('budgetAllocationId').value; 
+    console.log(this.BudgetAllocationForm.value)  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
