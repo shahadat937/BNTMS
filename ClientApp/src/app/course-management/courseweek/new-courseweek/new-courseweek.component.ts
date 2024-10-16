@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-courseweek',
@@ -33,7 +34,7 @@ export class NewCourseWeekComponent extends UnsubscribeOnDestroyAdapter implemen
   traineeId:any;
   branchId:any;
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseWeekService: CourseWeekService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute ) {
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseWeekService: CourseWeekService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 
