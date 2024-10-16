@@ -9,6 +9,7 @@ import { GuestSpeakerQuationGroupService } from '../../service/GuestSpeakerQuati
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-guestspeakerquationgroup-list',
@@ -47,7 +48,7 @@ export class GuestSpeakerQuationGroupListComponent extends UnsubscribeOnDestroyA
   options = [];
   filteredOptions;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private GuestSpeakerQuationGroupService: GuestSpeakerQuationGroupService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private GuestSpeakerQuationGroupService: GuestSpeakerQuationGroupService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

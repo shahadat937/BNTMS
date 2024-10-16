@@ -9,6 +9,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MasterData } from 'src/assets/data/master-data';
 import { Subscription } from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
  
 @Component({
   selector: 'app-new-BIODataGeneralInfo',
@@ -62,7 +63,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
   public files: any[];
   selectedSailorRank: SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     super();
     this.files = [];
   }

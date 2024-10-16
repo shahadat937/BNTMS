@@ -9,6 +9,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { FamilyInfo } from '../../models/familyinfo';
 import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/biodata-tab-layout/service/BIODataGeneralInfo.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 //import { BIODataGeneralInfoService } from '../../';
 
 @Component({
@@ -48,7 +49,7 @@ export class NewFamilyInfoComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   displayedColumns: string[] = ['sl', 'traineePNo', 'fullName', 'relationType', 'actions'];
-  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private FamilyInfoService: FamilyInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private FamilyInfoService: FamilyInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

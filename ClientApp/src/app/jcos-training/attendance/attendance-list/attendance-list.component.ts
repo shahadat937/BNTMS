@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-attendance-list',
@@ -36,7 +37,7 @@ export class AttendanceListComponent extends UnsubscribeOnDestroyAdapter impleme
    selection = new SelectionModel<Attendance>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private AttendanceService: AttendanceService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private AttendanceService: AttendanceService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

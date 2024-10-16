@@ -12,6 +12,7 @@ import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 
@@ -52,7 +53,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
   
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

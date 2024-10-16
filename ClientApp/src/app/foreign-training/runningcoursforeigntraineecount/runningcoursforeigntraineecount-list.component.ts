@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-runningcoursforeigntraineecount-list',
@@ -50,7 +51,7 @@ export class RunningCoursForeignRraineecountListComponent extends UnsubscribeOnD
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private datepipe: DatePipe,private snackBar: MatSnackBar,private authService: AuthService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private datepipe: DatePipe,private snackBar: MatSnackBar,private authService: AuthService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

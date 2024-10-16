@@ -7,6 +7,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-add-bnaexammarkentry',
@@ -23,7 +24,7 @@ export class AddBnaexammarkentryComponent extends UnsubscribeOnDestroyAdapter im
   selectedCourseSection:any;
   baseSchoolNameId:any;
   selectedcoursedurationbyschoolname:SelectedModel[];
-  constructor(private snackBar: MatSnackBar, private authService: AuthService, private confirmService: ConfirmService,  private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private BNAExamMarkService: BNAExamMarkService,) {
+  constructor(private snackBar: MatSnackBar, private authService: AuthService, private confirmService: ConfirmService,  private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private BNAExamMarkService: BNAExamMarkService, public sharedService: SharedServiceService) {
     super();
   }
 

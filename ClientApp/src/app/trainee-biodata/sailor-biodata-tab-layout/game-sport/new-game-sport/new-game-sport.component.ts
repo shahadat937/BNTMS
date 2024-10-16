@@ -6,6 +6,7 @@ import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-game-sport',
@@ -23,7 +24,7 @@ export class NewGameSportComponent extends UnsubscribeOnDestroyAdapter implement
   gameValues:SelectedModel[]; 
   selectGame:SelectedModel[]; 
 
-  constructor(private snackBar: MatSnackBar,private GameSportService: GameSportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private GameSportService: GameSportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

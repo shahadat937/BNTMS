@@ -14,6 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-paymentschedule-list.component',
@@ -54,7 +55,7 @@ export class PaymentScheduleListComponent extends UnsubscribeOnDestroyAdapter im
   role:any;
   dbType:any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService, private courseBudgetAllocationService: CourseBudgetAllocationService ,private foreignDashboardService: ForeignDashboardService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private authService: AuthService, private courseBudgetAllocationService: CourseBudgetAllocationService ,private foreignDashboardService: ForeignDashboardService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

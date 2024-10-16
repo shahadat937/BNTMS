@@ -17,6 +17,7 @@ import {MarkTypeService} from '../../../../app/basic-setup/service/MarkType.serv
 import{SubjectMarkService} from '../../../../app/subject-management/service/SubjectMark.service'
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-reexammark',
@@ -85,7 +86,8 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
     private BNAExamMarkService: BNAExamMarkService, 
     private fb: FormBuilder,
     private router: Router, 
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService
   )
   {
     super();
