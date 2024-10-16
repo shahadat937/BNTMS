@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterData } from 'src/assets/data/master-data';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class BIODataGeneralInfoListComponent extends UnsubscribeOnDestroyAdapter
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
   

@@ -10,6 +10,7 @@ import { WithdrawnType } from '../../models/WithdrawnType';
 import { PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-withdrawntype',
@@ -36,7 +37,7 @@ export class NewWithdrawnTypeComponent extends UnsubscribeOnDestroyAdapter imple
   displayedColumns: string[] = ['ser', 'name','shortName', 'menuPosition','actions']
   dataSource: MatTableDataSource<WithdrawnType> = new MatTableDataSource();
   selection = new SelectionModel<WithdrawnType>(true, []);
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private WithdrawnTypeService: WithdrawnTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private WithdrawnTypeService: WithdrawnTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

@@ -10,6 +10,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
 import { delay, of, Subscription } from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-localcourse',
@@ -42,7 +43,7 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
   filteredOptions;
   filteredbaseSchoolFornbcd: SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

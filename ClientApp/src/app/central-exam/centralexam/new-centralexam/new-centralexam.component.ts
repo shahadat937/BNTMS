@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {CourseDuration} from '../../models/courseduration'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-centralexam',
@@ -46,7 +47,7 @@ export class NewCentralExamComponent extends UnsubscribeOnDestroyAdapter impleme
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
 
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

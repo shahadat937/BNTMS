@@ -11,6 +11,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
   budgetCodeId:any;
   fiscalYearId:any;
   isShow:boolean=false;
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BudgetAllocationService: BudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BudgetAllocationService: BudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

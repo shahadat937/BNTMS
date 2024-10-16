@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
@@ -28,7 +29,7 @@ export class NewReligationComponent extends UnsubscribeOnDestroyAdapter implemen
   traineePno:any;
   courseDurationId:any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

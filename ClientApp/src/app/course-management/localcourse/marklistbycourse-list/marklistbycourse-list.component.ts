@@ -10,6 +10,7 @@ import { CourseDurationService } from '../../service/courseduration.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-marklistbycourse',
@@ -62,7 +63,9 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     private BNAExamMarkService: BNAExamMarkService,
     private router: Router,
     private confirmService: ConfirmService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 

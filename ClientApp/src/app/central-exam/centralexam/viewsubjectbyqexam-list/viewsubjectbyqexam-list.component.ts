@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-viewsubjectbyqexam',
@@ -40,9 +41,10 @@ export class ViewSubjectListByQExamComponent extends UnsubscribeOnDestroyAdapter
 
 
    selection = new SelectionModel<BNASubjectName>(true, []);
+sharedService: any;
 
   
-  constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute, public sharedServiceService: SharedServiceService) {
     super();
   }
 

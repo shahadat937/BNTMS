@@ -18,6 +18,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAdapter';
 import {dashboardService} from '../../admin/dashboard/services/dashboard.service';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -56,7 +57,7 @@ export class CalendarComponent
   traineeId:any;
   role:any;
 
-  constructor( private fb: FormBuilder,private authService: AuthService, private dashboardService: dashboardService,private dialog: MatDialog, public calendarService: CalendarService, private snackBar: MatSnackBar) {
+  constructor( private fb: FormBuilder,private authService: AuthService, private dashboardService: dashboardService,private dialog: MatDialog, public calendarService: CalendarService, private snackBar: MatSnackBar, public sharedService: SharedServiceService) {
     super();
     this.dialogTitle = 'Add New Event';
     this.calendar = new Calendar({});

@@ -8,6 +8,7 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-grandfather',
@@ -28,7 +29,7 @@ export class NewGrandFatherComponent extends UnsubscribeOnDestroyAdapter impleme
   nationalityValues:SelectedModel[]; 
   selectedDeadStatus:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private GrandFatherService: GrandFatherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private GrandFatherService: GrandFatherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

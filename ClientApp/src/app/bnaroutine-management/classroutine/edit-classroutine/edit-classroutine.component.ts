@@ -16,6 +16,7 @@ import { TraineeListForExamMark } from '../../../exam-management/models/traineeL
 import { ClassRoutineService } from '../../service/classroutine.service';
 import { ClassRoutine } from '../../models/classroutine';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-edit-classroutine',
@@ -73,7 +74,7 @@ export class EditClassRoutineComponent extends UnsubscribeOnDestroyAdapter imple
       length: 1
     }
   
-  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

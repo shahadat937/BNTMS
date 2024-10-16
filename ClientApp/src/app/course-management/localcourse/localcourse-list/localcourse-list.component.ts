@@ -16,6 +16,7 @@ import { dashboardService } from 'src/app/admin/dashboard/services/dashboard.ser
 import { ScrollService } from 'src/app/course-management/localcourse/scrole-restore/scrole-position.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { viewClassName } from '@angular/compiler';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-localcourse-list',
   templateUrl: './localcourse-list.component.html',
@@ -54,7 +55,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
    
 
 
-  constructor(private datepipe: DatePipe, private dashboardService: dashboardService, private snackBar: MatSnackBar, private TraineeNominationService: TraineeNominationService, private CourseDurationService: CourseDurationService, private router: Router, private confirmService: ConfirmService, private scrollPositionService: ScrollService) {
+  constructor(private datepipe: DatePipe, private dashboardService: dashboardService, private snackBar: MatSnackBar, private TraineeNominationService: TraineeNominationService, private CourseDurationService: CourseDurationService, private router: Router, private confirmService: ConfirmService, private scrollPositionService: ScrollService, public sharedService: SharedServiceService) {
     super();
   }
 

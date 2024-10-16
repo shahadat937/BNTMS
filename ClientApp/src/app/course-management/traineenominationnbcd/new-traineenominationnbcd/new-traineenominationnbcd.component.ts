@@ -18,6 +18,7 @@ import { TraineeNomination } from '../../models/traineenomination';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-traineenominationnbcd',
@@ -73,7 +74,7 @@ export class NewTraineeNominationNbcdComponent extends UnsubscribeOnDestroyAdapt
 
   
 
-  constructor(private datepipe: DatePipe,private snackBar: MatSnackBar, private authService: AuthService,private bioDataGeneralInfoService: BIODataGeneralInfoService,private courseDurationService: CourseDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private datepipe: DatePipe,private snackBar: MatSnackBar, private authService: AuthService,private bioDataGeneralInfoService: BIODataGeneralInfoService,private courseDurationService: CourseDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
  

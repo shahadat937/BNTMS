@@ -14,6 +14,7 @@ import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeLi
 import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
 import { number } from 'echarts';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineesectionassign-list',
@@ -75,6 +76,7 @@ export class TraineeSectionAssignListComponent extends UnsubscribeOnDestroyAdapt
     private traineeNominationService:TraineeNominationService,
     private fb: FormBuilder, private router: Router,  
     private route: ActivatedRoute,
+    public sharedService: SharedServiceService
    ) {
     super();
   }
