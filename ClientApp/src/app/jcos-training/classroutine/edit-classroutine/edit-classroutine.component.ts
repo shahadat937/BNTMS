@@ -12,6 +12,7 @@ import { SubjectMark } from '../../../subject-management/models/SubjectMark';
 import {TraineeNominationService} from '../../../course-management/service/traineenomination.service'
 import { TraineeList } from '../../../attendance-management/models/traineeList';
 import { TraineeListForExamMark } from '../../../exam-management/models/traineeListforexammark';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 import { ClassRoutineService } from '../../service/classroutine.service';
 import { ClassRoutine } from '../../models/classroutine';
@@ -73,7 +74,7 @@ export class EditClassRoutineComponent extends UnsubscribeOnDestroyAdapter imple
       length: 1
     }
   
-  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private classRoutineService:ClassRoutineService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

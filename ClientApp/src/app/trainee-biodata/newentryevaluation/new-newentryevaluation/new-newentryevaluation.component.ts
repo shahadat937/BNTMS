@@ -11,6 +11,7 @@ import { BIODataGeneralInfoService } from '../../biodata-tab-layout/service/BIOD
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
 import { TraineeListNewEntryEvaluation } from '../../models/traineeList';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-newentryevaluation',
   templateUrl: './new-newentryevaluation.component.html',
@@ -58,7 +59,7 @@ export class NewNewEntryEvaluationComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['ser','traineePNo','noitikota', 'sahonsheelota','utsaho','samayanubartita', 'manovhab','udyam', 'khapKhawano','onyano'];
   subscription: any;
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService, private NewEntryEvaluationService: NewEntryEvaluationService,private fb: FormBuilder, private router: Router,private traineeNominationService:TraineeNominationService,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService, private NewEntryEvaluationService: NewEntryEvaluationService,private fb: FormBuilder, private router: Router,private traineeNominationService:TraineeNominationService,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
 

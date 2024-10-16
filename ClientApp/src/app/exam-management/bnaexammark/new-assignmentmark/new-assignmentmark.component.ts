@@ -19,6 +19,7 @@ import { ClassRoutineService } from 'src/app/routine-management/service/classrou
 import {BNASubjectNameService} from '../../../subject-management/service/BNASubjectName.service'
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-assignmentmark',
@@ -86,7 +87,7 @@ export class NewAssignmentMarkComponent extends UnsubscribeOnDestroyAdapter impl
   displayedColumns: string[] = ['sl', 'markType', 'passMark', 'mark'];
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
 
-  constructor(private snackBar: MatSnackBar,private BNASubjectNameService:BNASubjectNameService,private ClassRoutineService: ClassRoutineService, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+  constructor(private snackBar: MatSnackBar,private BNASubjectNameService:BNASubjectNameService,private ClassRoutineService: ClassRoutineService, private subjectMarkService: SubjectMarkService, private authService: AuthService, private markTypeService: MarkTypeService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

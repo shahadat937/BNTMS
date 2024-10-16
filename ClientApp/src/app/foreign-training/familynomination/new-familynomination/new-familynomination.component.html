@@ -8,8 +8,7 @@
               <h4 class="page-title">{{pageTitle}}</h4>
             </li>
             <li class="breadcrumb-item bcrumb-1">
-              <a routerLink="/admin/dashboard/main">
-                <i class="fas fa-home"></i> </a>
+              <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
             </li>
             <li class="breadcrumb-item bcrumb-2">
               <a href="#" onClick="return false;">Family Nomination</a>

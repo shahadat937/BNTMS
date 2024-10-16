@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { FamilyInfoListforFamilyNomination } from '../../models/familyinfoListforfamilynomination';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-familynomination',
@@ -30,7 +31,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   traineeList: FamilyInfoListforFamilyNomination[]
 
   displayedColumnsForFamilyInfoList: string[] = ['sl', 'fullName', 'relationType', 'status'];
-  constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private FamilyNominationService: FamilyNominationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+  constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private FamilyNominationService: FamilyNominationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

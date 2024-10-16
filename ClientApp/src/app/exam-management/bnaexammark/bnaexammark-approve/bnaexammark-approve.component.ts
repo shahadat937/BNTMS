@@ -16,6 +16,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { SubjectMarkService } from 'src/app/subject-management/service/SubjectMark.service';
 import { MarkTypeService } from 'src/app/basic-setup/service/MarkType.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-bnaexammark-approve',
@@ -70,7 +71,7 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
     displayedColumns: string[] = ['sl','markType','passMark', 'mark'];
     displayedColumnsForTraineeList: string[] = ['sl','traineePNo','traineeName', 'obtaintMark','examMarkRemarksId'];
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private markTypeService: MarkTypeService,private subjectMarkService: SubjectMarkService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private markTypeService: MarkTypeService,private subjectMarkService: SubjectMarkService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

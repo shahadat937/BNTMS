@@ -6,6 +6,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { OrganizationNameService } from '../../service/organizationname.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-organizationname',
@@ -21,7 +22,7 @@ export class NewOrganizationNameComponent extends UnsubscribeOnDestroyAdapter im
   validationErrors: string[] = [];
   selectedForceType:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

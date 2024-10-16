@@ -9,7 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
-
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-classroutine-list',
   templateUrl: './classroutine-list.component.html',
@@ -35,7 +35,7 @@ export class ClassRoutineListComponent extends UnsubscribeOnDestroyAdapter imple
    selection = new SelectionModel<ClassRoutine>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private ClassRoutineService: ClassRoutineService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private ClassRoutineService: ClassRoutineService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

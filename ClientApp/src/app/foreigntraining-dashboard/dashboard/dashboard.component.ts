@@ -29,6 +29,7 @@ import { BaseSchoolNameService } from 'src/app/basic-setup/service/BaseSchoolNam
 import { TraineeNominationService } from '../../course-management/service/traineenomination.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 export type avgLecChartOptions = {
@@ -125,7 +126,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
   displayedColumns: string[] = ['ser','course', 'duration', 'dayCount','country', 'goStatus','candidates','sanction','actions'];
   
-  constructor(private datepipe: DatePipe, private authService: AuthService,private TraineeNominationService: TraineeNominationService,private baseSchoolNameService:BaseSchoolNameService,private studentDashboardService:StudentDashboardService,private route: ActivatedRoute,private router: Router,private fb: FormBuilder,private foreignDashboardService: ForeignDashboardService) {
+  constructor(private datepipe: DatePipe, private authService: AuthService,private TraineeNominationService: TraineeNominationService,private baseSchoolNameService:BaseSchoolNameService,private studentDashboardService:StudentDashboardService,private route: ActivatedRoute,private router: Router,private fb: FormBuilder,private foreignDashboardService: ForeignDashboardService, public sharedService: SharedServiceService) {
     super();
   }
   ngOnInit() {

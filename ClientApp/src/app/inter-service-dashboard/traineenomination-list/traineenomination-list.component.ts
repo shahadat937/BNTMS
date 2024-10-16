@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { environment } from 'src/environments/environment';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineenomination-list',
@@ -55,7 +56,7 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
    selection = new SelectionModel<TraineeNomination>(true, []);
 
   
-  constructor(private route: ActivatedRoute, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private route: ActivatedRoute, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

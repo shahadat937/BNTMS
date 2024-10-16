@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-add-bnaassignmentmark',
@@ -9,7 +10,7 @@ export class AddBnaassignmentmarkComponent implements OnInit {
 
   
   pageTitle : string;
-  constructor() { }
+  constructor(public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     this.pageTitle = 'Create BNA Assignment Mark';

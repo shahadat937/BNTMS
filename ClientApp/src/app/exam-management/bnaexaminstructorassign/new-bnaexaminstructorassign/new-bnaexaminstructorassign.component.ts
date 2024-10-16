@@ -12,6 +12,7 @@ import { TraineeNominationService } from '../../../course-management/service/tra
 import { BNAExamInstructorAssign } from '../../models/bnaexaminstructorassign';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-bnaexaminstructorassign',
   templateUrl: './new-bnaexaminstructorassign.component.html',
@@ -62,7 +63,7 @@ export class NewBNAExamInstructorAssignComponent extends UnsubscribeOnDestroyAda
   }
 
   displayedColumns: string[] = ['ser','classRoutine','trainee','bnaInstructorType','examLocation', 'actions'];
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private TraineeNominationService: TraineeNominationService,private confirmService: ConfirmService,private ClassRoutineService: ClassRoutineService,private CodeValueService: CodeValueService,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private TraineeNominationService: TraineeNominationService,private confirmService: ConfirmService,private ClassRoutineService: ClassRoutineService,private CodeValueService: CodeValueService,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

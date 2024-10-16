@@ -12,6 +12,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-guestspeakerquestionname',
@@ -42,7 +43,7 @@ export class NewGuestSpeakerQuestionNameComponent extends UnsubscribeOnDestroyAd
   dataSource: MatTableDataSource<GuestSpeakerQuestionName> = new MatTableDataSource();
   selection = new SelectionModel<GuestSpeakerQuestionName>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private GuestSpeakerQuestionNameService: GuestSpeakerQuestionNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private GuestSpeakerQuestionNameService: GuestSpeakerQuestionNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 
