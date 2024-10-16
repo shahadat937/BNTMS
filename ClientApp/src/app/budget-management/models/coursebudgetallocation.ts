@@ -1,4 +1,6 @@
 export interface CourseBudgetAllocation {
+    budgetTypeId: any;
+    budgetAllocationId: number;
     courseBudgetAllocationId: number,
     courseTypeId: number,
     courseNameId: number,
