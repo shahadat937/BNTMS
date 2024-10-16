@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ClassRoutineService } from '../../service/classroutine.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-routinesoftcopyupload',
@@ -78,7 +79,7 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit, OnDestroy {
    selection = new SelectionModel<RoutineSoftCopyUpload>(true, []);
   subscription: any;
 
-  constructor(public dialog: MatDialog,private snackBar: MatSnackBar,private ClassRoutineService: ClassRoutineService, private authService: AuthService,private courseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private RoutineSoftCopyUploadService: RoutineSoftCopyUploadService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+  constructor(public dialog: MatDialog,private snackBar: MatSnackBar,private ClassRoutineService: ClassRoutineService, private authService: AuthService,private courseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private RoutineSoftCopyUploadService: RoutineSoftCopyUploadService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) {
     this.files = [];
   }
 

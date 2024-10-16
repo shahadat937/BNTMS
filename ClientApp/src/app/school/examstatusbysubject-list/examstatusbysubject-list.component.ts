@@ -9,7 +9,7 @@ import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
-
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-examstatusbysubject',
   templateUrl: './examstatusbysubject-list.component.html',
@@ -51,7 +51,7 @@ export class ExamStatusBySubjectListComponent implements OnInit,OnDestroy {
 
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     this.masterData.coursetype.CentralExam

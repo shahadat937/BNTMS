@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineeabsentdetail-list',
@@ -29,7 +30,7 @@ export class TraineeAbsentDetailListComponent implements OnInit, OnDestroy {
   displayedColumns: string[]= ['ser','moduleName','subjectName','attendanceDate', 'periodName',  'attendanceRemarksCause'];
   subscription: any;
   
-  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private schoolDashboardService: SchoolDashboardService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private schoolDashboardService: SchoolDashboardService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     this.onModuleSelectionChangeGetsubjectList();

@@ -14,6 +14,7 @@ import { MatOption } from '@angular/material/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-notice',
@@ -62,7 +63,8 @@ export class NewNoticeComponent implements OnInit, OnDestroy {
     private router: Router,  
     private route: ActivatedRoute, 
     private classRoutineService: ClassRoutineService,
-    private authService: AuthService
+    private authService: AuthService,
+    public sharedService: SharedServiceService
     ) { }
 
   ngOnInit(): void {

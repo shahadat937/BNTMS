@@ -24,6 +24,7 @@ import { environment } from 'src/environments/environment';
 import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 export type avgLecChartOptions = {
   series: ApexAxisChartSeries;
@@ -96,7 +97,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   subscription: any;
   
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private datepipe: DatePipe, private studentDashboardService: StudentDashboardService,private route: ActivatedRoute,private instructorDashboardService: InstructorDashboardService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private datepipe: DatePipe, private studentDashboardService: StudentDashboardService,private route: ActivatedRoute,private instructorDashboardService: InstructorDashboardService, public sharedService: SharedServiceService) {}
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();

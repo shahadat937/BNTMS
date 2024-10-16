@@ -9,6 +9,7 @@ import { ProfileUpdateService } from '../service/ProfileUpdate.service';
 import {ConfirmService} from '../../../app/core/service/confirm.service'
 import { ViewChild, ElementRef } from '@angular/core';
 import {AuthService} from '../../../app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 // import { AuthService } from 'src/app/core/service/auth.service';
 @Component({
   selector: 'app-new-profileupdate',
@@ -33,7 +34,7 @@ export class NewProfileUpdateComponent implements OnInit, OnDestroy {
   traineeId:any;
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private ProfileUpdateService: ProfileUpdateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private ProfileUpdateService: ProfileUpdateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     // this.files = [];
   }
 
