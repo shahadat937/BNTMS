@@ -15,6 +15,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Role } from 'src/app/core/models/role';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-routinenote',
@@ -92,7 +93,7 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private classRoutineService:ClassRoutineService,private authService: AuthService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private routineNoteService: RoutineNoteService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private classRoutineService:ClassRoutineService,private authService: AuthService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private routineNoteService: RoutineNoteService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('routineNoteId'); 

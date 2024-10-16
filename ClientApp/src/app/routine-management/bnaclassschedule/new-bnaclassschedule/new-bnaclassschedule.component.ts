@@ -7,6 +7,7 @@ import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service'
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bnaclassschedule',
@@ -33,7 +34,7 @@ export class NewBnaClassScheduleComponent implements OnInit, OnDestroy {
   selectedSubject:SelectedModel[];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BnaClassScheduleService: BnaClassScheduleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BnaClassScheduleService: BnaClassScheduleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,public sharedService: SharedServiceService ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaClassScheduleId'); 

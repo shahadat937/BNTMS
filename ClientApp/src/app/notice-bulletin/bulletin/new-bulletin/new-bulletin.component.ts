@@ -71,6 +71,7 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authService: AuthService,
     public sharedService: SharedServiceService,
+    
   ) { }
 
   ngOnInit(): void {

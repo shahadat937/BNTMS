@@ -20,6 +20,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 
@@ -73,7 +74,8 @@ export class ExamResultComponent extends UnsubscribeOnDestroyAdapter implements 
       private confirmService: ConfirmService,
       private CourseTermService: CourseTermService,
       private fb: FormBuilder, private router: Router, 
-      private route: ActivatedRoute) {
+      private route: ActivatedRoute,
+      public sharedService: SharedServiceService) {
     super();
   }
 

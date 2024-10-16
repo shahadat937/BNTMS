@@ -11,6 +11,7 @@ import { Event } from '../../models/event';
 import { MatOption } from '@angular/material/core';
 import { Role } from 'src/app/core/models/role';
 import { unix } from 'moment';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-event',
@@ -54,7 +55,8 @@ export class NewEventComponent implements OnInit {
     private fb: FormBuilder, 
     private router: Router,  
     private route: ActivatedRoute, 
-    private classRoutineService: ClassRoutineService
+    private classRoutineService: ClassRoutineService,
+    public sharedService: SharedServiceService
     ) { }
 
   ngOnInit(): void {

@@ -17,6 +17,7 @@ import { TraineeNominationService } from '../service/traineenomination.service';
 import { TraineeNomination } from '../models/traineenomination';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-exam-result-nomenee-list',
@@ -69,7 +70,8 @@ export class ExamResultNomeneeListComponent implements OnInit, OnDestroy {
     private confirmService: ConfirmService,
     private CourseTermService: CourseTermService,
     private fb: FormBuilder, private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     this.pageTitle = ' Course Result';

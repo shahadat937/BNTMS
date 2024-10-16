@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { MatSort } from '@angular/material/sort';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-pendingexamevaluationlist-dashboard',
@@ -44,7 +45,7 @@ export class PendingExamEvaluationlistDashboardComponent implements OnInit, OnDe
   subscription: any;
 // dataSource: any;
 
-  constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     //this.getTraineeNominations();

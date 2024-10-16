@@ -11,6 +11,7 @@ import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { MatSort } from '@angular/material/sort';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-countedofficers-list',
@@ -47,7 +48,7 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['ser','name','course','duration'];
   subscription: any;
 
-  constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnDestroy() {
     if (this.subscription) {
