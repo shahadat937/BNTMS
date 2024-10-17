@@ -12,6 +12,7 @@ import { BIODataGeneralInfo } from 'src/app/trainee-biodata/models/BIODataGenera
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Role } from '../../../core/models/role';
 import { MatSort } from '@angular/material/sort';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -54,7 +55,7 @@ export class NewUserListComponent implements OnInit, OnDestroy {
     private UserService: UserService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {      
     this.intitializeForm();

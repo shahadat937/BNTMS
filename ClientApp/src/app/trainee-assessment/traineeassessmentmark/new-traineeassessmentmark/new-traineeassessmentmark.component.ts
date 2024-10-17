@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeAssessmentMarkService } from '../../service/TraineeAssessmentMark.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-traineeassessmentmark',
@@ -21,7 +22,7 @@ export class NewTraineeAssessmentMarkComponent implements OnInit,OnDestroy {
   validationErrors: string[] = [];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeAssessmentMarkService: TraineeAssessmentMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private TraineeAssessmentMarkService: TraineeAssessmentMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeAssessmentMarkId'); 

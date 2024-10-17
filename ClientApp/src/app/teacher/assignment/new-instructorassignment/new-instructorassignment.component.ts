@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InstructorAssignmentService } from '../../services/InstructorAssignment.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-instructorassignment',
@@ -38,7 +39,7 @@ export class NewInstructorAssignmentComponent implements OnInit,OnDestroy {
   displayedColumns: string[] = ['ser', 'assignmentTopic','assignmentMark','remarks','duration', 'status', 'subList'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private AssignmentService: InstructorAssignmentService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private AssignmentService: InstructorAssignmentService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('instructorAssignmentId'); 

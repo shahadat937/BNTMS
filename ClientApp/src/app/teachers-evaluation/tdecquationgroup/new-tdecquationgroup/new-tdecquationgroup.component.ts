@@ -8,6 +8,7 @@ import { TdecQuationGroupService } from '../../service/TdecQuationGroup.service'
 import { TdecQuestionName } from '../../models/TdecQuestionName';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-tdecquationgroup',
@@ -48,7 +49,7 @@ export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
   filteredOptions;
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TdecQuationGroupService: TdecQuationGroupService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TdecQuationGroupService: TdecQuationGroupService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('tdecQuationGroupId');

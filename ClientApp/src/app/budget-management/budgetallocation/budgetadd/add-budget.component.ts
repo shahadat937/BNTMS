@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-add-budget',
@@ -40,7 +41,8 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     private confirmService: ConfirmService,
     private BudgetAllocationService: BudgetAllocationService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService
   ) {
     super();
   }

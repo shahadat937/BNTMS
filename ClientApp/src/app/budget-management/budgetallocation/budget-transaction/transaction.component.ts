@@ -10,6 +10,7 @@ import { AdminAuthorityService } from 'src/app/basic-setup/service/AdminAuthorit
 import { UTOfficerCategoryService } from 'src/app/basic-setup/service/UTOfficerCategory.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CourseBudgetAllocationService } from '../../service/courseBudgetAllocation.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-add-budget',
@@ -36,7 +37,7 @@ loading: any;
 totalBudget: any;
       
 
-  constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService) {
+  constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, public sharedService: SharedServiceService) {
    
   }
 

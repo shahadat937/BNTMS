@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import {Location} from '@angular/common';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineeassessmenttrainee-list',
@@ -49,7 +50,7 @@ export class TraineeAssessmentTraineeListComponent implements OnInit,OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar, private _location: Location,private authService: AuthService,  private route: ActivatedRoute,private TraineeAssessmentCreateService: TraineeAssessmentCreateService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar, private _location: Location,private authService: AuthService,  private route: ActivatedRoute,private TraineeAssessmentCreateService: TraineeAssessmentCreateService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     

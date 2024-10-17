@@ -10,6 +10,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Role } from '../../../core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-instructor',
@@ -39,7 +40,7 @@ export class InstructorListComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<User>(true, []);
   subscription: any;
   
-  constructor(private snackBar: MatSnackBar,private UserService: UserService,private fb: FormBuilder,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private UserService: UserService,private fb: FormBuilder,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
   // ngOnInit() {
   //   this.dataSource2.paginator = this.paginator;
   // }

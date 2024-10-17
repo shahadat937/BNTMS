@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { InstructorDashboardService } from '../../services/InstructorDashboard.service';
 import { environment } from 'src/environments/environment';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-submittedassignment-list',
@@ -42,7 +43,7 @@ export class SubmittedAssignmentComponent implements OnInit,OnDestroy {
   displayedSubmittedStudentsColumns: string[] = ['ser', 'trainee', 'status', 'file', 'remarks', 'marks'];
   subscription: any;
 
-  constructor(private datepipe: DatePipe,private fb: FormBuilder,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private fb: FormBuilder,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() { 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');

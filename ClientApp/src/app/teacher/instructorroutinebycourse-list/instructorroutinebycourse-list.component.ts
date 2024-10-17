@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { InstructorDashboardService } from '../services/InstructorDashboard.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-instructorroutinebycourse-list.component',
@@ -41,7 +42,7 @@ export class InstructorRoutinebyCourseComponent implements OnInit, OnDestroy {
   displayedRoutineCountColumns: string[] = ['ser','course','courseDuration','actions'];
   subscription: any;
 
-  constructor(private datepipe: DatePipe,private authService: AuthService,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private authService: AuthService,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
 

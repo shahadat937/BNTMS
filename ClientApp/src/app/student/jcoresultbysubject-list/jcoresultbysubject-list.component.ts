@@ -10,6 +10,7 @@ import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { CourseDurationService } from '../../course-management/service/courseduration.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class JcoResultBySubjectListComponent implements OnInit, OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar,private courseDurationService:CourseDurationService,private studentDashboardService: StudentDashboardService,private bNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private courseDurationService:CourseDurationService,private studentDashboardService: StudentDashboardService,private bNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');

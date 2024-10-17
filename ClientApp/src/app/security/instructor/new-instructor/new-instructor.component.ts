@@ -7,6 +7,7 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
 import {RoleService} from '../../service/role.service'
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-instructor',
@@ -37,7 +38,7 @@ export class NewInstructorComponent implements OnInit, OnDestroy {
   filteredOptions;
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private RoleService: RoleService,private BaseSchoolNameService: BaseSchoolNameService,private confirmService: ConfirmService,private UserService: UserService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private RoleService: RoleService,private BaseSchoolNameService: BaseSchoolNameService,private confirmService: ConfirmService,private UserService: UserService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('userId'); 

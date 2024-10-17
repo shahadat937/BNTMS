@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { TrainingObjective } from '../../models/TrainingObjective';
 import { TrainingObjectiveService } from '../../service/TrainingObjective.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-trainingobjective',
@@ -50,7 +51,7 @@ export class NewTrainingObjectiveComponent implements OnInit,OnDestroy {
   displayedColumns: string[] = ['sl', 'schoolName', 'courseName', 'subjectName', 'courseTask', 'trainingObjectDetail', 'actions'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService, private TrainingObjectiveService: TrainingObjectiveService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService, private TrainingObjectiveService: TrainingObjectiveService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('trainingObjectiveId');

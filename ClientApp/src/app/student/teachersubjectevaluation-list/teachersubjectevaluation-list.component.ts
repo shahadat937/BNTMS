@@ -14,6 +14,7 @@ import { TraineeList } from '../../attendance-management/models/traineeList';
 import { TraineeListForExamMark } from '../../exam-management/models/traineeListforexammark';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import {TdecGroupResultService} from '../services/tdecgroupresult.service'
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-teachersubjectevaluation-list',
@@ -72,7 +73,7 @@ export class TeacherSubjectEvaluationComponent implements OnInit, OnDestroy {
     displayedColumnsForTraineeList: string[] = ['sl','traineePNo','traineeName', 'obtaintMark','examMarkRemarksId'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private tdecGroupResultService:TdecGroupResultService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, private studentDashboardService: StudentDashboardService ) { }
+  constructor(private snackBar: MatSnackBar,private tdecGroupResultService:TdecGroupResultService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, private studentDashboardService: StudentDashboardService, public sharedService: SharedServiceService ) { }
 
   ngOnInit(): void {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');

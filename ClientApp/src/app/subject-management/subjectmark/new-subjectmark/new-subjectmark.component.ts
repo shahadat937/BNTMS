@@ -10,6 +10,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { BNASubjectNameService } from '../../service/BNASubjectName.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-subjectmark',
@@ -55,7 +56,7 @@ export class NewSubjectMarkComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [ 'ser', 'markType', 'mark', 'passMark', 'actions'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private bnaSubjectNameService:BNASubjectNameService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private bnaSubjectNameService:BNASubjectNameService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

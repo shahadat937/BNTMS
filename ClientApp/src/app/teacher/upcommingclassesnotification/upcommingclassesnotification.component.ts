@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { InstructorDashboardService } from '../services/InstructorDashboard.service';
 //import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { environment } from 'src/environments/environment';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-upcommingclassesnotification.component',
@@ -36,7 +37,7 @@ export class UpcommingClassesNotification implements OnInit,OnDestroy {
   searchText="";
   displayedRoutineColumns: string[] = ['ser', 'durationForm','durationTo','subjectName', 'classLocation'];
   subscription: any;
-  constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
    this.traineeId = this.route.snapshot.paramMap.get('traineeId');

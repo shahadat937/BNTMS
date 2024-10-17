@@ -11,6 +11,7 @@ import { CourseInstructor } from '../../../subject-management/models/courseinstr
 import { AuthService } from 'src/app/core/service/auth.service';
 import { BNAExamMarkService } from 'src/app/central-exam/service/bnaexammark.service';
 import { BNASubjectNameService } from 'src/app/central-exam/service/BNASubjectName.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-courseinstructor',
@@ -61,7 +62,7 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['ser','bnaSubjectName', 'trainee', 'status', 'actions'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private subjectNameService:BNASubjectNameService,  private BNAExamMarkService:BNAExamMarkService ,private authService: AuthService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar,private subjectNameService:BNASubjectNameService,  private BNAExamMarkService:BNAExamMarkService ,private authService: AuthService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

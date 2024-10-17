@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { RoleService } from '../../service/role.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-role',
@@ -19,7 +20,7 @@ export class NewRoleComponent implements OnInit, OnDestroy {
   validationErrors: string[] = [];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private roleService: RoleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private roleService: RoleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('roleId'); 

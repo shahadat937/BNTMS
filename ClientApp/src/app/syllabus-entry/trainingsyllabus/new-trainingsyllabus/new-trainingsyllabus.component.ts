@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { TrainingSyllabus } from '../../models/TrainingSyllabus';
 import { TrainingSyllabusService } from '../../service/TrainingSyllabus.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-trainingsyllabus',
@@ -52,7 +53,7 @@ export class NewTrainingSyllabusComponent implements OnInit,OnDestroy {
   displayedColumns: string[] = ['sl', 'schoolName', 'courseName', 'subjectName', 'courseTask', 'trainingObjective','syllabusDetail', 'actions'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService, private TrainingSyllabusService: TrainingSyllabusService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService, private TrainingSyllabusService: TrainingSyllabusService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('trainingSyllabusId');

@@ -68,7 +68,7 @@ export class NewCourseInstructorComponent implements OnInit,OnDestroy {
 
   displayedColumns: string[] = ['ser', 'courseModule', 'bnaSubjectName', 'trainee', 'markentry', 'status', 'actions'];
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private ClassRoutineService: ClassRoutineService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private ClassRoutineService: ClassRoutineService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService, ) { }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

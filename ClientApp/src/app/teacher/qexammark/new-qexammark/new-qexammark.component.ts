@@ -17,6 +17,7 @@ import {BNASubjectNameService} from '../../../bna-subject-management/service/BNA
 import {SubjectMarkService} from '../../../bna-subject-management/service/SubjectMark.service';
 import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
 import { MarkTypeService } from 'src/app/basic-setup/service/MarkType.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 //import {BnaSubjectName} from '../../../central-exam/models/BNASubjectName';
 
 @Component({
@@ -76,7 +77,7 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar, private markTypeService: MarkTypeService,private classRoutineService: ClassRoutineService,private subjectMarkService:SubjectMarkService,private BNASubjectNameService: BNASubjectNameService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private markTypeService: MarkTypeService,private classRoutineService: ClassRoutineService,private subjectMarkService:SubjectMarkService,private BNASubjectNameService: BNASubjectNameService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId');

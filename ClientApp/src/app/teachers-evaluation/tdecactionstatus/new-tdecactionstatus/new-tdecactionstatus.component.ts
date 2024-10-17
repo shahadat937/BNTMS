@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { TdecActionStatusService } from '../../service/TdecActionStatus.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-tdecactionstatus',
@@ -19,7 +20,7 @@ export class NewTdecActionStatusComponent implements OnInit,OnDestroy {
   validationErrors: string[] = [];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private TdecActionStatusService: TdecActionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private TdecActionStatusService: TdecActionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('tdecActionStatusId'); 

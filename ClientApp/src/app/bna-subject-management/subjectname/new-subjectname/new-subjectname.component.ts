@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-subjectname',
@@ -56,7 +57,7 @@ export class NewSubjectnameComponent extends UnsubscribeOnDestroyAdapter impleme
     length: 1
   }
   displayedColumns: string[] = ['ser','subjectName','subjectCode','subjectType','kindOfSubject','totalMark','passMarkBna',/*'bnaSemesterId','courseNameId','isActive',*/ 'actions'];
-  constructor(private snackBar: MatSnackBar,private authService:AuthService, private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService:CodeValueService,private BNASubjectNameService: BNASubjectNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,private authService:AuthService, private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService:CodeValueService,private BNASubjectNameService: BNASubjectNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 
