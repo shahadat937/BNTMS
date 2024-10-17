@@ -8,6 +8,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-add-budget',
@@ -73,7 +74,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
   innitializeForm() {
     this.BudgetAllocationForm = this.fb.group({
       budgetAllocationId: [0],
-      budgetCodeId:[''],
+      budgetCodeId:null,
       budgetTypeId:[],
       fiscalYearId:[],
       budgetCodeName:[''],
@@ -103,16 +104,24 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       this.selectedBudgetType = res;
     });
   }
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
 
   onSubmit() {
     const id = this.BudgetAllocationForm.get('budgetAllocationId').value;
-    console.log(this.BudgetAllocationForm.value)
+    
     if (id) {
       this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {
         if (result) {
           this.loading = true;
           this.BudgetAllocationService.update(+id, this.BudgetAllocationForm.value).subscribe(response => {
-            this.router.navigateByUrl('/budget-management/transaction-type');
+            // this.router.navigateByUrl('/budget-management/transaction-type');
+            this.router.navigate(['/budget-management/transaction-type'], { queryParams: { amount: this.BudgetAllocationForm.get('amount').value } });
+
             this.snackBar.open('Information Updated Successfully', '', {
               duration: 2000,
               verticalPosition: 'bottom',
@@ -126,9 +135,11 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       });
     } else {
       this.loading = true;
+      console.log('BudgetAllocationForm',this.BudgetAllocationForm.value)
       this.BudgetAllocationService.submit(this.BudgetAllocationForm.value).subscribe(response => {
-        console.log(this.BudgetAllocationForm.value)
-        this.router.navigateByUrl('/budget-management/transaction-type');
+        
+        console.log(this.BudgetAllocationForm.value)        
+        this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully', '', {
           duration: 2000,
           verticalPosition: 'bottom',
@@ -140,4 +151,5 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       });
     }
   }
+  
 }
