@@ -151,6 +151,7 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
     this.isLoading = true;
     this.BudgetAllocationService.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId).subscribe(response => {
       this.dataSource.data = response.items; 
+      console.log('budget', this.dataSource.data)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })

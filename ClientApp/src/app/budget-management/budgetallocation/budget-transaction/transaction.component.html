@@ -79,7 +79,7 @@
                           <mat-select formControlName="budgetTypeId">
                             <input type="text" 
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                              id="selectedBudgetType"
+                              id="budgetTypeId"
                               (keydown.space)="$event.stopPropagation()"
                               
                               (input)="($event.target.value)"
@@ -132,9 +132,9 @@
                     <form [formGroup]="CourseBudgetAllocationForm">
                       <div class="mb-2">
                         <mat-form-field class="example-full-width mb-3" appearance="outline">
-                          <mat-label>Amount/Installment Amount</mat-label>                        
-                          <input matInput formControlName="installmentAmount" required>
-                         
+                          <mat-label>Section Amount</mat-label>                        
+                          <input matInput formControlName="amount" required>
+                          
                         </mat-form-field>
                         
                       </div>

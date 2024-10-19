@@ -16,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 
@@ -24,12 +25,13 @@ import { MasterData } from 'src/assets/data/master-data';
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.css']
 })
-export class BudgetTransaction implements OnInit {
+export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements OnInit {
     selectFiscalYear: SelectedModel[];
     selectedBudgetType: SelectedModel[];
     selectedBudgetCode: SelectedModel[];
     SelectAuthority: SelectedModel[];
     CourseBudgetAllocationForm: FormGroup;
+   
     budgetCodeId: any;
     budgetTypeId: any;
     buttonText: string;
@@ -62,7 +64,7 @@ export class BudgetTransaction implements OnInit {
       
 
   constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, private CourseWeekService: CourseWeekService, private route: ActivatedRoute) {
-   
+   super();
   }
 
   ngOnInit(): void {
@@ -180,12 +182,12 @@ getselectedcoursename(){
       }
      onSubmit() {
     const id = this.CourseBudgetAllocationForm.get('budgetAllocationId').value;
-    console.log(this.CourseBudgetAllocationForm.value)
+   
     if (id) {
       this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {
         console.log('add')
         if (result) {
-          console.log(this.CourseBudgetAllocationForm.value)
+          
           this.loading = true;
           this.CourseBudgetAllocationService.update(+id, this.CourseBudgetAllocationForm.value).subscribe(response => {
             
@@ -206,8 +208,6 @@ getselectedcoursename(){
       this.CourseBudgetAllocationService.submit(this.CourseBudgetAllocationForm.value).subscribe(response => {
         console.log(this.CourseBudgetAllocationForm.value)
         this.reloadCurrentRoute();
-        // this.router.navigateByUrl('/budget-management/transaction-type');
-        // this.router.navigate(['/budget-management/transaction-type'], { queryParams: { amount: this.BudgetAllocationForm.get('amount').value } });
 
         this.snackBar.open('Information Inserted Successfully', '', {
           duration: 2000,

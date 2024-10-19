@@ -1719,6 +1719,8 @@ namespace SchoolManagement.Application.Profiles
 
             CreateMap<UniversityCourseResult, CreateUniversityCourseResultDto>().ReverseMap();
 
+
+
         }
     }
 
