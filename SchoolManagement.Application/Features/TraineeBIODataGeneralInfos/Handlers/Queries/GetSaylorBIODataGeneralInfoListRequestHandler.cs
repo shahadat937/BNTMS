@@ -16,7 +16,7 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
 {
     public class GetSaylorBioDataGeneralInfoListRequestHandler : IRequestHandler<GetSaylorBioDataGeneralInfoListRequest, PagedResult<TraineeBioDataGeneralInfoDto>>
     {
-
+        
         private readonly ISchoolManagementRepository<SchoolManagement.Domain.TraineeBioDataGeneralInfo> _TraineeBioDataGeneralInfoRepository;
 
         private readonly IMapper _mapper;

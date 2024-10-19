@@ -21,8 +21,6 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
   styleUrls: ['./new-userlist.component.sass']
 })
 export class NewUserListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   // pageTitle: string;
   // destination:string;
   UserForm: FormGroup;
@@ -37,7 +35,7 @@ export class NewUserListComponent implements OnInit, OnDestroy {
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: 1000,
+    pageSize:  this.masterData.paging.pageSize,
     length: 1
   }
   searchPno="";
@@ -47,6 +45,9 @@ export class NewUserListComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
   subscription: any;
+
+ 
+
 
   constructor(
     private snackBar: MatSnackBar,
@@ -69,10 +70,10 @@ export class NewUserListComponent implements OnInit, OnDestroy {
 
   getTraineeList(searchPno) {
     this.isLoading = true;
-    this.subscription = this.UserService.getTraineeList(searchPno).subscribe(response => {
-     this.dataSource=new MatTableDataSource(response);
-     this.dataSource.sort = this.sort;
-     this.dataSource.paginator = this.paginator;
+    this.subscription = this.UserService.getTraineeList(searchPno, this.paging.pageSize, this.paging.pageIndex).subscribe((response:any) => {
+     this.dataSource.data = response.items; 
+     this.paging.length = response.totalItemsCount    
+     this.isLoading = false;
     })
   }
   /** Whether the number of selected elements matches the total number of rows. */
