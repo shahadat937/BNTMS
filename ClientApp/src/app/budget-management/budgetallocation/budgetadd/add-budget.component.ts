@@ -1,3 +1,4 @@
+// import { CourseBudgetAllocationService } from './../../service/coursebudgetallocation.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -8,6 +9,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
+import { CourseBudgetAllocationService } from '../../service/courseBudgetAllocation.service';
 
 @Component({
   selector: 'app-add-budget',
@@ -20,6 +22,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
   BudgetAllocationForm: FormGroup;
   selectedFiscalYear: SelectedModel[];
   selectedBudgetType: SelectedModel[];
+  selectedBudgetCode: SelectedModel[];
   buttonText: string;
   pageTitle: string;
   fiscalYearId: any;
@@ -40,6 +43,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     private router: Router,
     private confirmService: ConfirmService,
     private BudgetAllocationService: BudgetAllocationService,
+   private CourseBudgetAllocationService: CourseBudgetAllocationService,
     private fb: FormBuilder,
     private route: ActivatedRoute
   ) {
@@ -67,6 +71,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     this.innitializeForm();
     this.getselectedFiscalYear();
     this.getselectedBudgetType();
+    this.getselectedBudgetCode();
   }
 
   innitializeForm() {
@@ -83,17 +88,23 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       isActive: [true],
     });
   }
-  onFiscalYearSelectionChange(dropdown){
-    if (dropdown.isUserInput) {
-      this.isShow=true;
-       this.fiscalYearId=dropdown.source.value;
+  // onFiscalYearSelectionChange(dropdown){
+  //   if (dropdown.isUserInput) {
+  //     this.isShow=true;
+  //      this.fiscalYearId=dropdown.source.value;
         
-     }
-  }
+  //    }
+  // }
 
   getselectedFiscalYear() {
     this.BudgetAllocationService.getselectedFiscalYear().subscribe(res => {
       this.selectedFiscalYear = res;
+    });
+  }
+  getselectedBudgetCode(){
+    this.CourseBudgetAllocationService.getselectedBudgetCode().subscribe(res=>{
+      this.selectedBudgetCode=res
+      
     });
   }
 

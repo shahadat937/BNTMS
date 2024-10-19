@@ -327,6 +327,7 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
       this.loading=true;
       this.CourseBudgetAllocationService.submit(this.CourseBudgetAllocationForm.value).subscribe(response => {
         // this.router.navigateByUrl('/budget-management/coursebudgetallocation-list');
+        console.log(this.CourseBudgetAllocationForm.value)
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
