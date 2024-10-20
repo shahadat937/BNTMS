@@ -9,7 +9,7 @@
                       <h4 class="page-title">Budget Transaction</h4>
                     </li>
                     <li class="breadcrumb-item bcrumb-1">
-                      <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
+                      <!-- <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a> -->
                     </li>
                     <li class="breadcrumb-item bcrumb-2">
                       <a href="#" onClick="return false;">Budget Transaction</a>
@@ -138,43 +138,44 @@
                           </mat-form-field>
                           
                         </div>
+                        <div class="mb-2">
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                              <mat-label>Desk</mat-label>                        
+                              <mat-select formControlName="budgetTypeId">
+                                <input type="text" 
+                                style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                  id="selectedBudgetType"
+                                  (keydown.space)="$event.stopPropagation()"
+                                  
+                                  (input)="($event.target.value)"
+                                  placeholder="Search" required>
+                                <mat-option  value="0">--Select--</mat-option >
+                                                           
+                              </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="mb-2">
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Course Name</mat-label>                        
+                            <mat-select formControlName="courseNamesId">
+                              <input type="text" 
+                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                id="selectCourseName"
+                                (keydown.space)="$event.stopPropagation()"
+                                (input)="($event.target.value)"
+                                placeholder="Search">
+                              <mat-option  value="0">--Select--</mat-option >
+                                
+                                <mat-option *ngFor="let dropdown of selectedCourseDuration" [value]="dropdown.value">
+                                    {{dropdown.text}} 
+                                  </mat-option>                          
+                            </mat-select>
+                        </mat-form-field>
+                        </div>
                       </form>
                     </div>
                   </div>
-                  <div class="mb-2">
-                    <mat-form-field class="example-full-width mb-3" appearance="outline">
-                        <mat-label>Desk</mat-label>                        
-                        <mat-select formControlName="budgetTypeId">
-                          <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                            id="selectedBudgetType"
-                            (keydown.space)="$event.stopPropagation()"
-                            
-                            (input)="($event.target.value)"
-                            placeholder="Search" required>
-                          <mat-option  value="0">--Select--</mat-option >
-                                                     
-                        </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="mb-2">
-                    <mat-form-field class="example-full-width mb-3" appearance="outline">
-                      <mat-label>Course Name</mat-label>                        
-                      <mat-select formControlName="courseNamesId">
-                        <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                          id="selectCourseName"
-                          (keydown.space)="$event.stopPropagation()"
-                          (input)="($event.target.value)"
-                          placeholder="Search">
-                        <mat-option  value="0">--Select--</mat-option >
-                          
-                          <mat-option *ngFor="let dropdown of selectedCourseDuration" [value]="dropdown.value">
-                              {{dropdown.text}} 
-                            </mat-option>                          
-                      </mat-select>
-                  </mat-form-field>
-                  </div>
+                 
                 </div>
                </div>
                <!-- <mat-table *ngIf="isShow" #table [dataSource]="dataSource" matSort class="mat-cell">               
