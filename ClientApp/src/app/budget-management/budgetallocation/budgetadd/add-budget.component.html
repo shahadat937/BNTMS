@@ -88,24 +88,7 @@
                
         <h4>Budget Head</h4>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
-              <mat-label>Budget Head</mat-label>                        
-              <mat-select formControlName="budgetCodeId">
-                <input type="number" 
-                style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                  id="budgetCodeId"
-                  (keydown.space)="$event.stopPropagation()"
-                  (input)="($event.target.value)"
-                  placeholder="Search" required>
-                <mat-option  value="0">--Select--</mat-option >
-                  <mat-option [value]=7>
-                      Foreign Training
-                    </mat-option> 
-                    <mat-option [value]=8>
-                      Local Training
-                    </mat-option>                          
-              </mat-select>
-          </mat-form-field> -->
+          
           <mat-form-field class="example-full-width mb-3" appearance="outline">
             <mat-label>Budget Head</mat-label>                        
             <mat-select formControlName="budgetCodeId" required>
@@ -127,13 +110,12 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BudgetAllocationForm.valid " mat-raised-button
               color="primary">{{buttonText}}</button>
-          <!-- <button type="button" mat-button routerLink="/budget-management/budgetallocation-list">Cancel</button> -->
+         
         </div>
         
       </div>
              
-              <!-- <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BudgetAllocationForm.valid " mat-raised-button
-                            color="primary">{{buttonText}}</button> -->
+           
             </form>
 
             <mat-table *ngIf="isShow" #table [dataSource]="dataSource" matSort class="mat-cell">               

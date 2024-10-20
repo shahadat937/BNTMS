@@ -26,18 +26,18 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
   selectedBudgetCode: SelectedModel[];
   buttonText: string;
   pageTitle: string;
-  fiscalYearId: any;
+  fiscalYearId: number = 0;
   isLoading = false;
   isShow: boolean = false;
   loading: any;
   validationErrors: any;
-  budgetCodeId: any;
-  searchText: any;
+  budgetCodeId: number = 0;
+  searchText: string = '';
   selectedBudgetCodeName: SelectedModel[];
   budgetCodeName: string;
 
   paging = {
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 10,
     length: 1
   };
@@ -101,7 +101,6 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     this.isLoading = true;
     this.BudgetAllocationService.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId).subscribe(response => {
       this.dataSource.data = response.items; 
-      console.log('Data loaded into dataSource:', this.dataSource.data);
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
@@ -111,14 +110,14 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     if (dropdown.isUserInput) {
       this.isShow=true;
        this.fiscalYearId=dropdown.source.value;
-        this.getBudgetAllocations();     
+       this.getBudgetAllocations();
      }
   }
 
   onBudgetCodeSelectionChange(dropdown){
     if (dropdown.isUserInput) {
      this.budgetCodeId = dropdown.source.value;
-     console.log('budet code id is',this.budgetCodeId)
+     this.getBudgetAllocations();
       this.BudgetAllocationService.getSelectedBudgetCodeNameByBudgetCodeId(dropdown.source.value).subscribe(res=>{
         this.selectedBudgetCodeName=res
         this.budgetCodeName = res[0].text;
@@ -160,6 +159,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
           this.loading = true;
           this.BudgetAllocationService.update(+id, this.BudgetAllocationForm.value).subscribe(response => {
             // this.router.navigateByUrl('/budget-management/transaction-type');
+            console.log('on confirm', this.BudgetAllocationForm.value)
             this.router.navigate(['/budget-management/transaction-type'], { queryParams: { amount: this.BudgetAllocationForm.get('amount').value } });
 
             this.snackBar.open('Information Updated Successfully', '', {
@@ -177,7 +177,8 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       this.loading = true;
      
       this.BudgetAllocationService.submit(this.BudgetAllocationForm.value).subscribe(response => { 
-              
+        console.log('on submit', this.BudgetAllocationForm.value)
+ 
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully', '', {
           duration: 2000,

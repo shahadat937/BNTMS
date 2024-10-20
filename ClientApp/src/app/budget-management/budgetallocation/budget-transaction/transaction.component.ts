@@ -32,18 +32,18 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     SelectAuthority: SelectedModel[];
     CourseBudgetAllocationForm: FormGroup;
    
-    budgetCodeId: any;
-    budgetTypeId: any;
+    budgetCodeId: number=0;
+    budgetTypeId: number=0;
     buttonText: string;
     pageTitle: string;
     selectDeskOfficer: SelectedModel[];
     SelectedCourse: SelectedModel[];
     paging = {
-        pageIndex: 10,
+        pageIndex: 1,
         pageSize: 10,
         length: 1
       };
-      searchText: any;
+    searchText: string='';
     isShow: any;
     loading: any;
     validationErrors: any;
@@ -54,13 +54,11 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     ];
     isLoading = false;
 
-    // displayedColumns: string[] = ['ser','budgetCode','budgetType','actions','courseNamesId'];
-    displayedColumns: string[] = ['ser', 'budgetCode', 'budgetType', 'date', 'amount', 'adminAuthority', 'courseName', 'actions'];
-
+    displayedColumns: string[] = ['ser','budgetCode','budgetType','amount','actions'];
 
     dataSource: MatTableDataSource<CourseBudgetAllocation> = new MatTableDataSource();
     selection = new SelectionModel<CourseBudgetAllocation>(true, []);
-  CourseBudgetAllocation: any;
+    CourseBudgetAllocation: any;
       
 
   constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, private CourseWeekService: CourseWeekService, private route: ActivatedRoute) {
@@ -95,12 +93,17 @@ initializeForm(){
     budgetAllocationId: [0],
       budgetCodeId: [],
       budgetTypeId:[],
+      courseNameId:[''],
+      courseNamesId:[''],
       fiscalYearId:[],
       budgetCodeName:[''],
       percentage:[''],
       amount:[''],
       remarks:[''],
-   
+      durationFrom: [''],
+      approveAuthority: [''],
+      deskId: [''],
+     
       menuPosition:[],
       isActive: [true],   
   })
@@ -150,6 +153,7 @@ getSelectedCourseDurationByCourseTypeId(){
 getBudgetAllocations() {
   this.isLoading = true;
   this.CourseBudgetAllocation.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.budgetTypeId).subscribe(response => {
+    console.log(response.items)
     this.dataSource.data = response.items; 
     this.paging.length = response.totalItemsCount    
     this.isLoading = false;
@@ -185,12 +189,11 @@ getselectedcoursename(){
    
     if (id) {
       this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {
-        console.log('add')
         if (result) {
           
           this.loading = true;
           this.CourseBudgetAllocationService.update(+id, this.CourseBudgetAllocationForm.value).subscribe(response => {
-            
+            console.log('on confirm',this.CourseBudgetAllocationForm.value)
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully', '', {
               duration: 2000,
