@@ -42,7 +42,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     length: 1
   };
   
-  displayedColumns: string[] = ['ser','budgetCode','budgetType','fiscalYear','amount','actions'];
+  displayedColumns: string[] = ['ser','budgetCode','budgetType','fiscalYear','amount'];
 
   dataSource: MatTableDataSource<BudgetAllocation> = new MatTableDataSource();
 

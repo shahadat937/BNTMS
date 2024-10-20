@@ -49,22 +49,22 @@
                               placeholder="Search">
                             <mat-option  value="0">--Select--</mat-option >
                               <mat-option (onSelectionChange)="onBudgetCodeSelectionChange($event)" 
-                              (onSelectionChange)="onBudgetChange($event)" *ngFor="let dropdown of selectedBudgetCode" [value]="dropdown.value">
+                               *ngFor="let dropdown of selectedBudgetCode" [value]="dropdown.value">
                                   {{dropdown.text}} 
                                 </mat-option>                          
                           </mat-select>
                       </mat-form-field>
                       
                     </div>
+                    
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                           <mat-label>Budget Type</mat-label>                        
                           <mat-select formControlName="budgetTypeId">
                             <input type="text" 
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                              id="budgetTypeId"
+                              id="selectBudgetType"
                               (keydown.space)="$event.stopPropagation()"
-                              
                               (input)="($event.target.value)"
                               placeholder="Search" required>
                             <mat-option  value="0">--Select--</mat-option >
@@ -74,7 +74,8 @@
                           </mat-select>
                       </mat-form-field>
                     </div>
-                    <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                           <mat-label>Approve Authority</mat-label>                        
                           <mat-select formControlName="approveAuthority">
@@ -91,7 +92,7 @@
                           </mat-select>
                       </mat-form-field>
                     
-                    </div>           -->
+                    </div>          
             
           </div>
           <div class="row">
@@ -106,7 +107,8 @@
                 
               </div>
               <div class="col-md-4">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                <form class="mb-4 col-xl-12 col-lg-12 col-md-12 col-sm-12" [formGroup]="CourseBudgetAllocationForm" (ngSubmit)="onSubmit()">
+<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                   <h5>Total Budget :  <span style="color: green;">{{this.totalBudget}}</span> </h5>
                 </div>
                 <div>
@@ -125,7 +127,7 @@
                   </div>
                 </div>
                 <div class="mb-2">
-                  <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Desk</mat-label>                        
                       <mat-select formControlName="deskId">
                         <input type="text" 
@@ -138,7 +140,7 @@
                         <mat-option  value="0">--Select--</mat-option >
                                                    
                       </mat-select>
-                  </mat-form-field> -->
+                  </mat-form-field>
                 </div>
                 <div class="mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
@@ -152,12 +154,14 @@
                         placeholder="Search">
                       <mat-option  value="0">--Select--</mat-option >
                         
-                        <mat-option  *ngFor="let dropdown of selectedCourseDuration" [value]="dropdown.value">
+                        <mat-option (onSelectionChange)="onBudgetChange($event)" *ngFor="let dropdown of selectedCourseDuration" [value]="dropdown.value">
                             {{dropdown.text}} 
                           </mat-option>                          
                     </mat-select>
                 </mat-form-field>
                 </div>
+                </form>
+                
               </div>
              </div>
           

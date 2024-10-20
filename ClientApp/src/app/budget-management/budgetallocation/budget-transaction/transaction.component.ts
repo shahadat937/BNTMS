@@ -31,7 +31,7 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     selectedBudgetCode: SelectedModel[];
     SelectAuthority: SelectedModel[];
     CourseBudgetAllocationForm: FormGroup;
-   
+    courseNameId: any;
     budgetCodeId: number=0;
     budgetTypeId: number=0;
     buttonText: string;
@@ -72,9 +72,9 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     if(id){
       this.CourseBudgetAllocationService.find(+id).subscribe(res =>{
         this.CourseBudgetAllocationForm.patchValue({
-        //  budgetCodeId: res.budgetCodeId,
+         budgetCodeId: res.budgetCodeId,
          budgetTypeId: res.budgetTypeId,
-          
+         courseNameId: res.courseNameId,
           budgetAllocationId: id ,
         })
       })
@@ -152,7 +152,7 @@ getSelectedCourseDurationByCourseTypeId(){
 
 getBudgetAllocations() {
   this.isLoading = true;
-  this.CourseBudgetAllocation.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.budgetTypeId).subscribe(response => {
+  this.CourseBudgetAllocation.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.courseNameId).subscribe(response => {
     console.log(response.items)
     this.dataSource.data = response.items; 
     this.paging.length = response.totalItemsCount    
@@ -194,6 +194,7 @@ getselectedcoursename(){
           this.loading = true;
           this.CourseBudgetAllocationService.update(+id, this.CourseBudgetAllocationForm.value).subscribe(response => {
             console.log('on confirm',this.CourseBudgetAllocationForm.value)
+            this.router.navigate(['/budget-management/transaction-type'], { queryParams: { amount: this.CourseBudgetAllocationForm.get('amount').value } });
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully', '', {
               duration: 2000,

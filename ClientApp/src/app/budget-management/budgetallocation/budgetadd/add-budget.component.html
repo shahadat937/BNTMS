@@ -24,23 +24,6 @@
           <div class="body">
             <form class="mb-4" [formGroup]="BudgetAllocationForm" (ngSubmit)="onSubmit()">
               <div class="row clearfix">
-                <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
-                      <mat-label>Fiscal Year</mat-label>                        
-                      <mat-select formControlName="fiscalYearId">
-                        <input type="text" 
-                    style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                      id="selectFiscalYear"
-                      (keydown.space)="$event.stopPropagation()"
-                      (input)="($event.target.value)"
-                      placeholder="Search">
-                        <mat-option  value="0">--Select--</mat-option >
-                          <mat-option (onSelectionChange)="onFiscalYearSelectionChange($event)" *ngFor="let dropdown of selectedFiscalYear" [value]="dropdown.value">
-                              {{dropdown.text}} 
-                            </mat-option>                          
-                      </mat-select>
-                  </mat-form-field>
-                </div> -->
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Fiscal Year</mat-label>                        
@@ -125,7 +108,7 @@
               </ng-container>    
 
               <ng-container matColumnDef="budgetCode">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Budget Code </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Budget Head </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{element.budgetCode}} </mat-cell>
               </ng-container>
 
@@ -143,22 +126,6 @@
               <ng-container matColumnDef="amount">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
-              </ng-container>
-              
-
-              
-              <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
-                <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                  <button mat-icon-button color="accent" class="btn-tbl-edit" 
-                  [routerLink]="['/budget-management/update-budgetallocation', row.budgetAllocationId]">
-                    <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
-                  </button>
-                  <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
-                    (click)="deleteItem(row)">
-                    <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
-                  </button>
-                </mat-cell>
               </ng-container>
 
               <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
