@@ -11,6 +11,7 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { CourseBudgetAllocationService } from '../../service/courseBudgetAllocation.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-add-budget',
@@ -26,18 +27,25 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
   selectedBudgetCode: SelectedModel[];
   buttonText: string;
   pageTitle: string;
-  fiscalYearId: any;
+  fiscalYearId: number = 0;
   isLoading = false;
   isShow: boolean = false;
   loading: any;
   validationErrors: any;
+  budgetCodeId: number = 0;
+  searchText: string = '';
+  selectedBudgetCodeName: SelectedModel[];
+  budgetCodeName: string;
 
   paging = {
-    pageIndex: 10,
+    pageIndex: 1,
     pageSize: 10,
     length: 1
   };
   
+  displayedColumns: string[] = ['ser','budgetCode','budgetType','fiscalYear','amount'];
+
+  dataSource: MatTableDataSource<BudgetAllocation> = new MatTableDataSource();
 
   constructor(
     private snackBar: MatSnackBar,
@@ -54,7 +62,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('budgetAllocationId');
-
+    this.innitializeForm();
     if (id) {
       this.BudgetAllocationService.find(+id).subscribe(res => {
         this.BudgetAllocationForm.patchValue({
@@ -62,24 +70,24 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
           budgetTypeId: res.budgetTypeId,
           amount: +res.amount,
           budgetAllocationId: id ,
-          
+          budgetCodeName: res.budgetCodeName,
+          budgetCodeId: res.budgetCodeId,
         });
       });
     } else {
       this.pageTitle = 'Create Budget';
       this.buttonText = 'Save';
     }
-
-    this.innitializeForm();
     this.getselectedFiscalYear();
     this.getselectedBudgetType();
     this.getselectedBudgetCode();
+    this.getBudgetAllocations();
   }
 
   innitializeForm() {
     this.BudgetAllocationForm = this.fb.group({
       budgetAllocationId: [0],
-      budgetCodeId:null,
+      budgetCodeId:[''],
       budgetTypeId:[],
       fiscalYearId:[],
       budgetCodeName:[''],
@@ -90,13 +98,35 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       isActive: [true],
     });
   }
-  // onFiscalYearSelectionChange(dropdown){
-  //   if (dropdown.isUserInput) {
-  //     this.isShow=true;
-  //      this.fiscalYearId=dropdown.source.value;
-        
-  //    }
-  // }
+
+  getBudgetAllocations() {
+    this.isLoading = true;
+    this.BudgetAllocationService.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId).subscribe(response => {
+      this.dataSource.data = response.items; 
+      this.paging.length = response.totalItemsCount    
+      this.isLoading = false;
+    })
+ }
+
+  onFiscalYearSelectionChange(dropdown){
+    if (dropdown.isUserInput) {
+      this.isShow=true;
+       this.fiscalYearId=dropdown.source.value;
+       this.getBudgetAllocations();
+     }
+  }
+
+  onBudgetCodeSelectionChange(dropdown){
+    if (dropdown.isUserInput) {
+     this.budgetCodeId = dropdown.source.value;
+     this.getBudgetAllocations();
+      this.BudgetAllocationService.getSelectedBudgetCodeNameByBudgetCodeId(dropdown.source.value).subscribe(res=>{
+        this.selectedBudgetCodeName=res
+        this.budgetCodeName = res[0].text;
+        this.BudgetAllocationForm.get('budgetCodeName').setValue(this.budgetCodeName);
+      });
+    }
+  } 
 
   getselectedFiscalYear() {
     this.BudgetAllocationService.getselectedFiscalYear().subscribe(res => {
@@ -131,6 +161,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
           this.loading = true;
           this.BudgetAllocationService.update(+id, this.BudgetAllocationForm.value).subscribe(response => {
             // this.router.navigateByUrl('/budget-management/transaction-type');
+            console.log('on confirm', this.BudgetAllocationForm.value)
             this.router.navigate(['/budget-management/transaction-type'], { queryParams: { amount: this.BudgetAllocationForm.get('amount').value } });
 
             this.snackBar.open('Information Updated Successfully', '', {
@@ -146,10 +177,10 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       });
     } else {
       this.loading = true;
-      console.log('BudgetAllocationForm',this.BudgetAllocationForm.value)
-      this.BudgetAllocationService.submit(this.BudgetAllocationForm.value).subscribe(response => {
-        
-        console.log(this.BudgetAllocationForm.value)        
+     
+      this.BudgetAllocationService.submit(this.BudgetAllocationForm.value).subscribe(response => { 
+        console.log('on submit', this.BudgetAllocationForm.value)
+ 
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully', '', {
           duration: 2000,
