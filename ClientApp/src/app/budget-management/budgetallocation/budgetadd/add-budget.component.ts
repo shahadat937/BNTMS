@@ -12,7 +12,6 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { CourseBudgetAllocationService } from '../../service/courseBudgetAllocation.service';
 
-
 @Component({
   selector: 'app-add-budget',
   templateUrl: './add-budget.component.html',
