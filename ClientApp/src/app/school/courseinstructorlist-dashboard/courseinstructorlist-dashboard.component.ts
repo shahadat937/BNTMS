@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { filter } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-courseinstructorlist-dashboard',
@@ -55,7 +56,7 @@ export class CourseInstructorListDashboardComponent implements OnInit, OnDestroy
   displayedInstructorColumns: string[] = ['ser','course','instructorCount','actions'];
   subscription: any;
 
-  constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

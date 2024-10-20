@@ -7,6 +7,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-paymenttype',
@@ -21,7 +22,14 @@ export class NewPaymentTypeComponent extends UnsubscribeOnDestroyAdapter impleme
   buttonText:string;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private PaymentTypeService: PaymentTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private PaymentTypeService: PaymentTypeService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) {
     super();
   }
 

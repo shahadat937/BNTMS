@@ -15,6 +15,7 @@ import { Role } from 'src/app/core/models/role';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 // @Pipe({name: 'groupByDate'})
 // export class GroupByPipe implements PipeTransform {
@@ -88,7 +89,7 @@ export class CombinedBnaRoutineListComponent implements OnInit, OnDestroy {
   displayedPeriodListColumns: string[] = ['ser','periodName','duration'];
   displayedSubjectListColumns: string[] = ['ser','instructorName','instructorShortCode'];
   subscription: any;
-  constructor(private datepipe: DatePipe, private _location: Location,private fb: FormBuilder, private courseWeekService: CourseWeekService,private authService: AuthService,private ClassPeriodService: ClassPeriodService, private classRoutineService:ClassRoutineService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private datepipe: DatePipe, private _location: Location,private fb: FormBuilder, private courseWeekService: CourseWeekService,private authService: AuthService,private ClassPeriodService: ClassPeriodService, private classRoutineService:ClassRoutineService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     //this.userRole.SuperAdmin

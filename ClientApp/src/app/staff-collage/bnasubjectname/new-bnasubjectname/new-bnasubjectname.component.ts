@@ -10,6 +10,7 @@ import { ConnectedOverlayPositionChange } from '@angular/cdk/overlay';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class NewBNASubjectNameComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['paperNo', 'subjectName', 'totalMark', 'passMarkBna', 'menuPosition', 'actions'];
   subscription: any;
-  constructor(private snackBar: MatSnackBar, private CourseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNASubjectNameService: BNASubjectNameService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private CourseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNASubjectNameService: BNASubjectNameService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
 

@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class UserManualListComponent extends UnsubscribeOnDestroyAdapter impleme
    selection = new SelectionModel<UserManual>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private UserManualService: UserManualService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private UserManualService: UserManualService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

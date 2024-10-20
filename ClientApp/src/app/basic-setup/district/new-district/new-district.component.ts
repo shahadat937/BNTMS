@@ -6,6 +6,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-district',
@@ -23,7 +24,14 @@ export class NewDistrictComponent extends UnsubscribeOnDestroyAdapter implements
   selectDivision:SelectedModel[];
   districtByDivision:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private DistrictService: DistrictService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private DistrictService: DistrictService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) {
     super();
   }
 

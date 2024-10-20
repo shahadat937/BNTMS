@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
 import { MasterData } from 'src/assets/data/master-data';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-grandfather',
@@ -31,7 +32,7 @@ export class NewGrandFatherComponent implements OnInit,OnDestroy {
   selectedDeadStatus:SelectedModel[];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private GrandFatherService: GrandFatherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private GrandFatherService: GrandFatherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('grandFatherId'); 

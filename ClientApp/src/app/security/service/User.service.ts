@@ -52,20 +52,16 @@ export class UserService {
   //   ); 
    
   // }
-  getTraineeList(pno: string): Observable<any[]> {
-    const cacheKey = `traineeList_${pno}`;
+  getTraineeList(pno: string, pageSize: number, pageNumber: number): Observable<any[]> {
+   
 
-    if (this.cache.has(cacheKey)) {
-      return this.cache.get(cacheKey)!;
-    }
-
-    const request$ = this.http.get<any[]>(`${this.dropDownUrl}/trainee-bio-data-general-info/get-traineeListForUserCreate?pno=${pno}`)
+    const request$ = this.http.get<any[]>(`${this.dropDownUrl}/trainee-bio-data-general-info/get-traineeListForUserCreate?pno=${pno}&pageSize=${pageSize}&pageNumber=${pageNumber}`)
       .pipe(
         map(response => response),
         shareReplay(1)
       );
 
-    this.cache.set(cacheKey, request$);
+
     return request$;
   }
 
@@ -73,7 +69,6 @@ export class UserService {
   getInstructors(pageNumber, pageSize,searchText) {
 
     let params = new HttpParams();
-
     params = params.append('searchText', searchText.toString());
     params = params.append('pageNumber', pageNumber.toString());
     params = params.append('pageSize', pageSize.toString());

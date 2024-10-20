@@ -20,6 +20,7 @@ import { ClassRoutineService } from 'src/app/routine-management/service/classrou
 import { MarkTypeService } from 'src/app/basic-setup/service/MarkType.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import {Location} from '@angular/common';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 //import {BnaSubjectName} from '../../../central-exam/models/BNASubjectName';
 
 @Component({
@@ -82,7 +83,7 @@ export class NewAssessmentMarkComponent implements OnInit, OnDestroy {
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar, private _location: Location, private authService: AuthService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private studentDashboardService: StudentDashboardService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar, private _location: Location, private authService: AuthService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private studentDashboardService: StudentDashboardService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

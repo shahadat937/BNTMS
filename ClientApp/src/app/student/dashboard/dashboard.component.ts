@@ -30,6 +30,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { environment } from 'src/environments/environment';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 export type barChartOptions = {
   series: ApexAxisChartSeries;
@@ -146,7 +147,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   displayedJcoSubjectColumns: string[] = ['paperNo', 'subjectName', 'totalMark', 'passMarkBna'];
   displayedJcoRoutineColumns: string[] = ['subject','date','time'];
   subscription: any;
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private confirmService: ConfirmService,private authService: AuthService , private datepipe: DatePipe,private route: ActivatedRoute,private BNASubjectNameService: BNASubjectNameService,private TraineeNominationService: TraineeNominationService,private studentDashboardService: StudentDashboardService) {}
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private confirmService: ConfirmService,private authService: AuthService , private datepipe: DatePipe,private route: ActivatedRoute,private BNASubjectNameService: BNASubjectNameService,private TraineeNominationService: TraineeNominationService,private studentDashboardService: StudentDashboardService, public sharedService: SharedServiceService) {}
 
   // Doughnut chart start
   public doughnutChartLabels: string[] = [

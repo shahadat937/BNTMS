@@ -8,5 +8,7 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Reque
     public class GetTraineeListForUserCreateRequest : IRequest<object>
     {
         public string Pno { get; set; }
+        public int PageSize { get; set; }
+        public int PageNumber { get; set; }
     }
 }

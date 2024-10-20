@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MembershipTypeService } from '../../service/membership-type.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-membershiptype',
@@ -18,7 +19,13 @@ export class NewMembershiptypeComponent extends UnsubscribeOnDestroyAdapter impl
   membershipTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private membershipTypeService: MembershipTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private membershipTypeService: MembershipTypeService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) {
     super();
   }
 

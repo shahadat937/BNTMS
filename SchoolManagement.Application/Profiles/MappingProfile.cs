@@ -1468,7 +1468,9 @@ namespace SchoolManagement.Application.Profiles
 
                 .ForMember(d => d.BnaPhotoUrl, o => o.MapFrom<PhotoUrlResolver>());
 
-           
+            
+
+
             CreateMap<TraineeBioDataGeneralInfo, CreateTraineeBioDataGeneralInfoDto>().ReverseMap()
                 .ForMember(d => d.JoiningDate, o => o.MapFrom(s => Convert.ToDateTime(s.JoiningDate)))
                 .ForMember(d => d.DateOfBirth, o => o.MapFrom(s => Convert.ToDateTime(s.DateOfBirth)));

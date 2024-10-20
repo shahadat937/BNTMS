@@ -7,6 +7,7 @@ import{ MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNAExamMarkService } from '../../../exam-management/service/bnaexammark.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-marklistbycourse',
@@ -40,7 +41,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
    selection = new SelectionModel<BNASubjectName>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

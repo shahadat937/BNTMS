@@ -11,6 +11,7 @@ import { CourseNameService } from '../../../basic-setup/service/CourseName.servi
 import { ClassPeriod } from '../../models/classperiod';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classperiod',
@@ -52,7 +53,7 @@ export class NewClassPeriodComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['ser', 'periodName','bnaClassScheduleStatus','durationForm','durationTo', 'menuPosition', 'actions'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService, private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassPeriodService: ClassPeriodService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService, private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassPeriodService: ClassPeriodService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('classPeriodId'); 

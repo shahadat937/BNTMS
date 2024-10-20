@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UTOfficerCategoryService } from '../../service/UTOfficerCategory.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-utofficercategory',
@@ -19,7 +20,7 @@ export class NewUTOfficerCategoryComponent extends UnsubscribeOnDestroyAdapter i
   UTOfficerCategoryForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private confirmService: ConfirmService,private snackBar: MatSnackBar,private UTOfficerCategoryService: UTOfficerCategoryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(private confirmService: ConfirmService,private snackBar: MatSnackBar,private UTOfficerCategoryService: UTOfficerCategoryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

@@ -6,6 +6,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { InterServiceCourseDocTypeService } from '../../service/InterServiceCourseDocType.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-interservicecoursedoctype',
@@ -21,7 +22,7 @@ export class NewInterServiceCourseDocTypeComponent extends UnsubscribeOnDestroyA
   validationErrors: string[] = [];
   selectedForceType:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private InterServiceCourseDocTypeService: InterServiceCourseDocTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private InterServiceCourseDocTypeService: InterServiceCourseDocTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

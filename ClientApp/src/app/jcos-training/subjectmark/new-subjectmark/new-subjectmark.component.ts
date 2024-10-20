@@ -8,6 +8,7 @@ import { SelectedModel } from '../../../core/models/selectedModel';
 import { SubjectMark } from '../../models/SubjectMark';
 import {MasterData} from '../../../../../src/assets/data/master-data';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-subjectmark',
@@ -49,7 +50,7 @@ export class NewSubjectMarkComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [ 'ser', 'markType', 'mark', 'passMark', 'actions'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('subjectMarkId'); 

@@ -11,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ThemePalette } from '@angular/material/core';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-swimming-diving',
@@ -35,7 +36,7 @@ export class NewSwimmingDivingComponent extends UnsubscribeOnDestroyAdapter impl
  
  // form: FormGroup;
 
-  constructor(private CodeValueService:CodeValueService,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private CodeValueService:CodeValueService,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

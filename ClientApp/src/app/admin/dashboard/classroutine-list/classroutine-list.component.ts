@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-classroutine-list',
@@ -33,7 +34,13 @@ export class ClassRoutineListComponent extends UnsubscribeOnDestroyAdapter imple
 
   displayedColumns: string[] = ['ser', 'date',  'courseModule', 'classPeriod', 'bnaSubjectName', 'totalPeriod'];
   
-  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private ClassRoutineService: ClassRoutineService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private ClassRoutineService: ClassRoutineService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,) {
     super();
   }
 

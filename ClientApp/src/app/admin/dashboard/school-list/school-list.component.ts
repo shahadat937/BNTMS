@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-school-list',
@@ -41,7 +42,13 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
   displayedColumns: string[] = ['ser','schoolName','courseCount'];
 
   
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
+    private dashboardService: dashboardService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService) {
     super();
   }
 

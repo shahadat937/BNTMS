@@ -14,7 +14,8 @@ import { Role } from 'src/app/core/models/role';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { FileDialogMessageComponent } from '../file-dialog-message/file-dialog-message.component';
 import { MatDialog } from '@angular/material/dialog';
-import { InstructorDashboardService } from '../../../teacher/services/InstructorDashboard.service';;
+import { InstructorDashboardService } from '../../../teacher/services/InstructorDashboard.service';import { SharedServiceService } from 'src/app/shared/shared-service.service';
+;
 
 @Component({
   selector: 'app-new-readingmaterial',
@@ -78,7 +79,8 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private instructorDashboardService: InstructorDashboardService) {
+    private instructorDashboardService: InstructorDashboardService,
+    public sharedService: SharedServiceService) {
     this.files = [];
   }
 

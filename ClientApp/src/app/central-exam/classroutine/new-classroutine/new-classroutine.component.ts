@@ -15,6 +15,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SubjectMarkService } from '../../service/SubjectMark.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classroutine',
@@ -85,7 +86,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
   // displayedSubjectListColumns: string[] = ['ser','subjectName','subjectShortName'];
   // displayedPeriodListColumns: string[] = ['ser','periodName','duration'];
 
-  constructor(private snackBar: MatSnackBar,private SubjectMarkService: SubjectMarkService,private subjectNameService: BNASubjectNameService, private BNAExamMarkService: BNAExamMarkService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private SubjectMarkService: SubjectMarkService,private subjectNameService: BNASubjectNameService, private BNAExamMarkService: BNAExamMarkService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

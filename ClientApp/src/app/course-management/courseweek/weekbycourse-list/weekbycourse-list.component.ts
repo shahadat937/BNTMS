@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-weekbycourse-list',
@@ -62,7 +63,7 @@ export class WeekByCourseListComponent extends UnsubscribeOnDestroyAdapter imple
    selection = new SelectionModel<CourseWeek>(true, []);
   
   
-  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private authService: AuthService,private CourseWeekService: CourseWeekService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private authService: AuthService,private CourseWeekService: CourseWeekService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

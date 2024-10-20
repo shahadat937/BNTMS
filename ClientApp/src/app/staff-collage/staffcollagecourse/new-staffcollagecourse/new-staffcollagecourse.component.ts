@@ -11,6 +11,7 @@ import { CourseNameService } from 'src/app/basic-setup/service/CourseName.servic
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseDuration} from '../../models/courseduration'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-staffcollagecourse',
@@ -46,7 +47,7 @@ export class NewStaffCollageCourseComponent implements OnInit, OnDestroy {
   subscription: any;
 
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseNameService: CourseNameService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 

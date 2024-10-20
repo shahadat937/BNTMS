@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute} from '@angular/router';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-view-readingmaterial',
@@ -53,7 +54,8 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private readonly sanitizer: DomSanitizer,
     private router: Router,
-    private confirmService: ConfirmService
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
   ) { }
 
   ngOnInit() {

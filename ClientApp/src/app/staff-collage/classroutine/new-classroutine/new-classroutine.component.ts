@@ -13,6 +13,7 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import {BNASubjectNameService} from '../../../central-exam/service/BNASubjectName.service'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classroutine',
@@ -75,7 +76,7 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
   groupArrays:{ date: string; games: any; }[];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private subjectNameService: BNASubjectNameService, private BNAExamMarkService: BNAExamMarkService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private subjectNameService: BNASubjectNameService, private BNAExamMarkService: BNAExamMarkService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 

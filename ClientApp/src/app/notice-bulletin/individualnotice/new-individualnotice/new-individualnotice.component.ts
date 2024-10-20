@@ -13,6 +13,7 @@ import { TraineeList } from 'src/app/attendance-management/models/traineeList';
 import {IndividualNoticeService} from '../../../notice-bulletin/service/individualnotice.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-individualnotice',
@@ -59,6 +60,7 @@ export class IndividualNoticeComponent implements OnInit, OnDestroy {
     private classRoutineService: ClassRoutineService,
     private traineeNominationService:TraineeNominationService,
     private authService: AuthService,
+    public sharedService: SharedServiceService
     ) { }
 
   ngOnInit(): void {

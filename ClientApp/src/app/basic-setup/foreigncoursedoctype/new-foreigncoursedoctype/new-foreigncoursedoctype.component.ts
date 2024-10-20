@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ForeignCourseDocTypeService } from '../../service/ForeignCourseDocType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-foreigncoursedoctype',
@@ -19,7 +20,14 @@ export class NewForeignCourseDocTypeComponent extends UnsubscribeOnDestroyAdapte
   ForeignCourseDocTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ForeignCourseDocTypeService: ForeignCourseDocTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private ForeignCourseDocTypeService: ForeignCourseDocTypeService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) {
     super();
   }
 

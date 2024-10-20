@@ -11,6 +11,7 @@ import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { MatSort } from '@angular/material/sort';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-examapprove-list',
@@ -49,7 +50,7 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
 
   displayedExamEvaluationColumns: string[] = ['ser', 'course','subject','date','examStatus', 'markStatus'];
 
-  constructor(private datepipe: DatePipe,private authService: AuthService,private BNAExamMarkService: BNAExamMarkService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) {
+  constructor(private datepipe: DatePipe,private authService: AuthService,private BNAExamMarkService: BNAExamMarkService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

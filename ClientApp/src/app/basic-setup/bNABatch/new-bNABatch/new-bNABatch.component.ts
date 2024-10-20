@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BNABatchService } from '../../service/bNABatch.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 //import {FormControl} from '@angular/forms';
 
 
@@ -24,7 +25,7 @@ export class NewBNABatchComponent extends UnsubscribeOnDestroyAdapter implements
   //serializedDate = new FormControl(new Date().toISOString());
 
 
-  constructor(private snackBar: MatSnackBar,private bNABatchService: BNABatchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+  constructor(private snackBar: MatSnackBar,private bNABatchService: BNABatchService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     super()
   }
 

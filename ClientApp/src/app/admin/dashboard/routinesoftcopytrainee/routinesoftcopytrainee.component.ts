@@ -12,6 +12,7 @@ import { dashboardService } from '../services/dashboard.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-routinesoftcopytrainee.component',
@@ -39,7 +40,17 @@ export class RoutineSoftcopyTraineeComponent extends UnsubscribeOnDestroyAdapter
   }
   searchText="";
   displayedReadingMaterialColumns: string[] = ['ser','course','documentName','documentLink'];
-  constructor(private datepipe: DatePipe,private authService: AuthService,private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private datepipe: DatePipe,
+    private authService: AuthService,
+    private dashboardService: dashboardService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+
+  ) {
     super();
   }
 

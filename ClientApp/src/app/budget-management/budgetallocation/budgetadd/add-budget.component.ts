@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { CourseBudgetAllocationService } from '../../service/courseBudgetAllocation.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -53,7 +54,8 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     private BudgetAllocationService: BudgetAllocationService,
    private CourseBudgetAllocationService: CourseBudgetAllocationService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService
   ) {
     super();
   }

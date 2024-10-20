@@ -6,6 +6,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { AllowancePercentageService } from '../../service/allowancepercentage.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-allowancepercentage',
@@ -20,7 +21,14 @@ export class NewAllowancePercentageComponent extends UnsubscribeOnDestroyAdapter
   AllowancePercentageForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private AllowancePercentageService: AllowancePercentageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private AllowancePercentageService: AllowancePercentageService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService) {
     super();
   }
 

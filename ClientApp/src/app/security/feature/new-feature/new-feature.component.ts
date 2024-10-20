@@ -5,6 +5,7 @@ import { FeatureService } from '../../service/feature.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-edit-Feature',
@@ -23,7 +24,7 @@ export class NewFeatureComponent implements OnInit, OnDestroy {
   selectModel:SelectedModel[];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private FeatureService: FeatureService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private FeatureService: FeatureService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('featureId'); 

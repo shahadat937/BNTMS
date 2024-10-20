@@ -6,6 +6,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-thana',
@@ -22,7 +23,7 @@ export class NewThanaComponent extends UnsubscribeOnDestroyAdapter implements On
   selectedModel:SelectedModel[]; 
   selectDistric:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ThanaService: ThanaService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ThanaService: ThanaService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

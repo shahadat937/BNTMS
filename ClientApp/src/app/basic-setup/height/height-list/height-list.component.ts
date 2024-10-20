@@ -9,6 +9,7 @@ import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-height-list',
@@ -34,7 +35,12 @@ export class HeightListComponent extends UnsubscribeOnDestroyAdapter implements 
 
   selection = new SelectionModel<Height>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private heightService: HeightService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private heightService: HeightService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService) {
     super();
   }
   ngOnInit() {

@@ -10,6 +10,7 @@ import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-installmentpaiddetail-list',
@@ -38,7 +39,7 @@ export class InstallmentPaidDetailListComponent extends UnsubscribeOnDestroyAdap
    selection = new SelectionModel<InstallmentPaidDetail>(true, []);
 
   
-  constructor(private route : ActivatedRoute,private snackBar: MatSnackBar,private InstallmentPaidDetailService: InstallmentPaidDetailService,private router: Router, private confirmService: ConfirmService) {
+  constructor(private route : ActivatedRoute,private snackBar: MatSnackBar,private InstallmentPaidDetailService: InstallmentPaidDetailService,private router: Router, private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

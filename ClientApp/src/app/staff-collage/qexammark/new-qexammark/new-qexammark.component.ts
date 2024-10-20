@@ -14,6 +14,7 @@ import { TraineeNominationService } from '../../../course-management/service/tra
 import { TraineeList } from '../../../attendance-management/models/traineeList';
 import {TraineeListForExamMark} from '../../../exam-management/models/traineeListforexammark';
 import {BNASubjectNameService} from '../../service/BNASubjectName.service'
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-qexammark',
   templateUrl: './new-qexammark.component.html',
@@ -60,7 +61,7 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId');

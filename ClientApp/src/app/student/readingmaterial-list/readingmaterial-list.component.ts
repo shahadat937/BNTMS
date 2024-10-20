@@ -12,6 +12,7 @@ import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-readingmaterial',
@@ -61,7 +62,8 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
       private BNASubjectNameService: BNASubjectNameService,
       private router: Router,
       private confirmService: ConfirmService,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      public sharedService: SharedServiceService
     ) { }
 
   ngOnInit() {

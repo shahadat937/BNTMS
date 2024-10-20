@@ -11,6 +11,7 @@ import { AttendanceService } from '../../service/attendance.service';
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
 import { TraineeList } from '../../models/traineeList';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bnaexamattendance',
@@ -55,6 +56,7 @@ export class NewBNAExamAttendanceComponent extends UnsubscribeOnDestroyAdapter i
     private fb: FormBuilder, 
     private router: Router,  
     private route: ActivatedRoute, 
+    public sharedService: SharedServiceService
     ) {
     super();
   }

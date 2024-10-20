@@ -6,6 +6,7 @@ import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-trainee-language',
@@ -23,7 +24,7 @@ export class NewTraineeLanguageComponent extends UnsubscribeOnDestroyAdapter imp
   districtValues:SelectedModel[]; 
   selectedLanguages:SelectedModel[]; 
 
-  constructor(private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

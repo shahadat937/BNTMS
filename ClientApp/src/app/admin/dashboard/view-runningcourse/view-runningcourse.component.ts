@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CourseDuration } from '../../../course-management/models/courseduration';
@@ -7,12 +7,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from '../../../core/service/confirm.service';
 //import{MasterData} from 'src/assets/data/master-data'
-import{MasterData} from '../../../../assets/data/master-data';
+import { MasterData } from '../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-view-runningcourse',
@@ -21,7 +22,7 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 })
 export class ViewRunningCourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
   ELEMENT_DATA: CourseDuration[] = [];
@@ -30,18 +31,18 @@ export class ViewRunningCourseComponent extends UnsubscribeOnDestroyAdapter impl
   courseNameId: number;
   courseTypeId: number;
   courseTitle: string;
-  courseName:string;
-  noOfCandidates:string;
+  courseName: string;
+  noOfCandidates: string;
   baseSchoolNameId: number;
-  durationFrom:Date;
-  durationTo:Date;
+  durationFrom: Date;
+  durationTo: Date;
   professional: string;
   nbcd: string;
   remark: string;
-  schoolDb:any;
-  branchId:any;
-  traineeId:any;
-  role:any;
+  schoolDb: any;
+  branchId: any;
+  traineeId: any;
+  role: any;
   showHideDiv = false;
   // instituteName: string;
   // groupId: number;
@@ -56,33 +57,41 @@ export class ViewRunningCourseComponent extends UnsubscribeOnDestroyAdapter impl
   // groupValues:SelectedModel[]; 
   // boardValues:SelectedModel[]; 
 
-  constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    private CourseDurationService: CourseDurationService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
-  
+
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId.trim();
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId.trim();
 
 
     this.route.paramMap.subscribe(params => {
-      const id = this.route.snapshot.paramMap.get('courseDurationId'); 
-      this.schoolDb = Number(this.route.snapshot.paramMap.get('schoolDb')); 
+      const id = this.route.snapshot.paramMap.get('courseDurationId');
+      this.schoolDb = Number(this.route.snapshot.paramMap.get('schoolDb'));
       this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
-      this.CourseDurationService.find(+id).subscribe( res => {
+      this.CourseDurationService.find(+id).subscribe(res => {
         this.courseDurationId = res.courseDurationId,
-        this.courseNameId = res.courseNameId,
-        this.courseName = res.courseName,
-        this.courseTitle = res.courseTitle,
-        this.courseName=res.courseName,
-        this.noOfCandidates = res.noOfCandidates,
-        this.baseSchoolNameId = res.baseSchoolNameId,
-        this.durationFrom = res.durationFrom,    
-        this.durationTo = res.durationTo,
-        this.professional = res.professional,
-        this.nbcd = res.nbcd,
-        this.remark = res.remark
+          this.courseNameId = res.courseNameId,
+          this.courseName = res.courseName,
+          this.courseTitle = res.courseTitle,
+          this.courseName = res.courseName,
+          this.noOfCandidates = res.noOfCandidates,
+          this.baseSchoolNameId = res.baseSchoolNameId,
+          this.durationFrom = res.durationFrom,
+          this.durationTo = res.durationTo,
+          this.professional = res.professional,
+          this.nbcd = res.nbcd,
+          this.remark = res.remark
         // this.groupId = res.groupId,
         // this.passingYear = res.passingYear,
         // this.result = res.result,
@@ -97,15 +106,15 @@ export class ViewRunningCourseComponent extends UnsubscribeOnDestroyAdapter impl
     // this.getBoard();
     // this.getGroup();
   }
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
-  print(){ 
-     
+  print() {
+
     let printContents, popupWin;
     printContents = document.getElementById('print-routine').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -159,7 +168,7 @@ export class ViewRunningCourseComponent extends UnsubscribeOnDestroyAdapter impl
     );
     popupWin.document.close();
 
-}
+  }
 
 
 }

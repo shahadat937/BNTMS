@@ -30,11 +30,13 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
 
     [HttpGet]
     [Route("get-traineeListForUserCreate")]
-    public async Task<ActionResult> GetTraineeListForUserCreate(string pno)
+    public async Task<ActionResult> GetTraineeListForUserCreate(string pno, int pageSize, int pageNumber)
     {
         var proceduredTrainee = await _mediator.Send(new GetTraineeListForUserCreateRequest
         {
-            Pno = pno
+            Pno = pno,
+            PageSize = pageSize,
+            PageNumber = pageNumber
         });
         return Ok(proceduredTrainee);
     }

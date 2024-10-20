@@ -5,6 +5,7 @@ import { TraineeLanguageService } from '../../service/TraineeLanguage.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-trainee-language',
@@ -24,7 +25,7 @@ export class NewTraineeLanguageComponent implements OnInit,OnDestroy {
   selectLanguage:SelectedModel[];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private TraineeLanguageService: TraineeLanguageService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeLanguageId'); 
