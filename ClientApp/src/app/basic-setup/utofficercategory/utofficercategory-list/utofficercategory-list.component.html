@@ -80,7 +80,7 @@
                 </ng-container>          
                 <ng-container matColumnDef="isActive">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.isActive}} </mat-cell>
+                  <mat-cell *matCellDef="let element"> {{element.isActive? "Active" : "Inactive"}} </mat-cell>
                 </ng-container>
                 <!--<ng-container matColumnDef="menuPosition">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Menu Position </mat-header-cell>
