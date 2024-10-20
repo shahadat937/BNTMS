@@ -8,7 +8,7 @@
                 <h4 class="page-title">Role Features</h4>
               </li>
               <li class="breadcrumb-item bcrumb-1">
-                <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+                <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
               </li>
               <li class="breadcrumb-item bcrumb-2">
                 <a href="#" onClick="return false;">Role Features</a>
@@ -107,16 +107,16 @@
 
                   <ng-container matColumnDef="add">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> add</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.add}} </mat-cell>
+                    <mat-cell *matCellDef="let element"> {{element.add ? "Yes" : "No"}} </mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="update">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> update</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.update}} </mat-cell>
+                    <mat-cell *matCellDef="let element"> {{element.update? "Yes" : "No"}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="delete">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>delete</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.delete}} </mat-cell> 
+                    <mat-cell *matCellDef="let element"> {{element.delete? "Yes" : "No"}} </mat-cell> 
                   </ng-container>
 <!--
  <ng-container matColumnDef="moduleId">
@@ -128,7 +128,7 @@
 
                   <ng-container matColumnDef="report">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>report</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.report}} </mat-cell> 
+                    <mat-cell *matCellDef="let element"> {{element.report? "Yes" : "No"}} </mat-cell> 
                   </ng-container>
 
                   

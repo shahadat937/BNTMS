@@ -6,6 +6,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { TdecQuestionNameService } from '../../service/TdecQuestionName.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-tdecquestionname',
@@ -25,7 +26,7 @@ export class NewTdecQuestionNameComponent implements OnInit,OnDestroy {
   userRole = Role;
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TdecQuestionNameService: TdecQuestionNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TdecQuestionNameService: TdecQuestionNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('tdecQuestionNameId'); 

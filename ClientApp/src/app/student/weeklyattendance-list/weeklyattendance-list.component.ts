@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-weeklyattendance',
@@ -39,7 +40,7 @@ export class WeeklyAttendanceListComponent implements OnInit, OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     var traineeId = this.route.snapshot.paramMap.get('traineeId');

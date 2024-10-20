@@ -7,6 +7,7 @@ import { ModuleService } from '../../service/module.service';
 import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { SelectedModel } from '../../../core/models/selectedModel';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({ 
   selector: 'app-edit-module',
@@ -24,7 +25,7 @@ export class NewModuleComponent implements OnInit {
   validationErrors: string[] = [];
   selectedIcons:SelectedModel[];
 
-  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private confirmService: ConfirmService,private ModuleService: ModuleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private CodeValueService: CodeValueService,private confirmService: ConfirmService,private ModuleService: ModuleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('moduleId'); 

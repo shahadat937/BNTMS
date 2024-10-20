@@ -16,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TraineeNomination } from '../../models/traineenomination';
 import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-traineenomination',
@@ -81,7 +82,7 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
 
   
 
-  constructor(private snackBar: MatSnackBar,private courseDurationService: CourseDurationService,private bioDataGeneralInfoService: BIODataGeneralInfoService,private BNASemesterDurationService: BNASemesterDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private courseDurationService: CourseDurationService,private bioDataGeneralInfoService: BIODataGeneralInfoService,private BNASemesterDurationService: BNASemesterDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
  
   ngOnInit(): void {
    
