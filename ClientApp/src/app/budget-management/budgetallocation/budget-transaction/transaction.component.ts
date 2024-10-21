@@ -1,10 +1,12 @@
+// import { BudgetAllocation } from './../../../foreign-training/models/budgetallocation';
 import { ConfirmService } from './../../../core/service/confirm.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { BudgetAllocation } from 'src/app/foreign-training/models/BudgetAllocation';
+// import { BudgetAllocation } from 'src/app/foreign-training/models/BudgetAllocation';
+import { BudgetAllocation } from '../../models/BudgetAllocation';
 import { BudgetAllocationService } from '../../service/BudgetAllocation.service';
 import { AdminAuthorityService } from 'src/app/basic-setup/service/AdminAuthority.service';
 import { UTOfficerCategoryService } from 'src/app/basic-setup/service/UTOfficerCategory.service';
@@ -17,7 +19,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -31,10 +33,13 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     selectedBudgetType: SelectedModel[];
     selectedBudgetCode: SelectedModel[];
     SelectAuthority: SelectedModel[];
+    selectedPaymentType: SelectedModel[];
     CourseBudgetAllocationForm: FormGroup;
-    courseNameId: any;
-    budgetCodeId: number=0;
-    budgetTypeId: number=0;
+    BudgetAllocationForm: FormGroup;
+    courseNameId: number=0;
+    budgetCodeId:number=0;
+    paymentTypeId: number=0;
+   
     buttonText: string;
     pageTitle: string;
     selectDeskOfficer: SelectedModel[];
@@ -48,22 +53,24 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     isShow: any;
     loading: any;
     validationErrors: any;
+    traineeId: number=0;
     selectedCourseDuration: SelectedModel[];
     totalBudget: any;
+    targetAmount: any;
     ELEMENT_DATA: CourseBudgetAllocation[] = [
       
     ];
     isLoading = false;
 
-    displayedColumns: string[] = ['ser','budgetCode','budgetType','amount','actions'];
+    displayedColumns: string[] = ['ser','budgetCode','budgetType','installmentAmount'];
 
     dataSource: MatTableDataSource<CourseBudgetAllocation> = new MatTableDataSource();
-    selection = new SelectionModel<CourseBudgetAllocation>(true, []);
+    
     CourseBudgetAllocation: any;
-sharedService: any;
+
       
 
-  constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, private CourseWeekService: CourseWeekService, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, private CourseWeekService: CourseWeekService, private route: ActivatedRoute, public sharedService: SharedServiceService) {
    super();
   }
 
@@ -75,8 +82,8 @@ sharedService: any;
       this.CourseBudgetAllocationService.find(+id).subscribe(res =>{
         this.CourseBudgetAllocationForm.patchValue({
          budgetCodeId: res.budgetCodeId,
-         budgetTypeId: res.budgetTypeId,
          courseNameId: res.courseNameId,
+         budgetTypeId: res.budgetTypeId,
           budgetAllocationId: id ,
         })
       })
@@ -88,29 +95,36 @@ sharedService: any;
     this.getselectedBudgetType();
     this.getselectedBudgetCode();
     this.getSelectedCourseDurationByCourseTypeId();
-   
+    this.getCourseBudgetAllocations();
+    this.getselectedPaymentType();
     }
 initializeForm(){
   this.CourseBudgetAllocationForm = this.fb.group({
     budgetAllocationId: [0],
-      budgetCodeId: [],
+      budgetCodeId: [''],
       budgetTypeId:[],
-      courseNameId:[''],
+      courseNameId:null,
       courseNamesId:[''],
+      paymentTypeId:[],
       fiscalYearId:[],
       budgetCodeName:[''],
       percentage:[''],
-      amount:[''],
+      installmentAmount:[''],
       remarks:[''],
-      durationFrom: [''],
+      paymentDate: [''],
       approveAuthority: [''],
       deskId: [''],
-     
+     traineeId:[''],
       menuPosition:[],
       isActive: [true],   
   })
 }
-
+getselectedPaymentType(){
+  this.CourseBudgetAllocationService.getselectedPaymentType().subscribe(res=>{
+    this.selectedPaymentType=res
+   
+  });
+}
    getSelectAuthority(){
     this.AdminAuthorityService.getselectedAdminAuthorities().subscribe(res =>{
         this.SelectAuthority = res;
@@ -141,22 +155,24 @@ getSelectedCourseDurationByCourseTypeId(){
   onBudgetCodeSelectionChange(dropdown) {
     if (dropdown.isUserInput) {
         var budgetCodeId = dropdown.source.value; 
-
+        this.getCourseBudgetAllocations();
         this.CourseBudgetAllocationForm.get('budgetCodeId').setValue(budgetCodeId);
 
-        this.CourseBudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res => {
-            this.totalBudget = res[0].text; 
-        });
-
+        this.CourseBudgetAllocationService.getTargetAmountByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
+          this.targetAmount=res[0].text; 
+         });
         
     }
 }
 
-getBudgetAllocations() {
+
+getCourseBudgetAllocations() {
   this.isLoading = true;
-  this.CourseBudgetAllocation.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.courseNameId).subscribe(response => {
-    console.log(response.items)
+  console.log(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.paymentTypeId)
+  this.CourseBudgetAllocationService.getCourseBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseNameId,this.traineeId).subscribe(response => {
+    console.log(response)
     this.dataSource.data = response.items; 
+    console.log(response.items)
     this.paging.length = response.totalItemsCount    
     this.isLoading = false;
   })
@@ -164,8 +180,8 @@ getBudgetAllocations() {
 onBudgetChange(dropdown){
   if (dropdown.isUserInput) {
     this.isShow=true;
-     this.budgetTypeId=dropdown.source.value;
-      this.getBudgetAllocations();
+     this.paymentTypeId=dropdown.source.value;
+      this.getCourseBudgetAllocations();
    }
 }
 
@@ -198,7 +214,7 @@ getselectedcoursename(){
           this.loading = true;
           this.CourseBudgetAllocationService.update(+id, this.CourseBudgetAllocationForm.value).subscribe(response => {
             console.log('on confirm',this.CourseBudgetAllocationForm.value)
-            this.router.navigate(['/budget-management/transaction-type'], { queryParams: { amount: this.CourseBudgetAllocationForm.get('amount').value } });
+            this.router.navigate(['/budget-management/transaction-type'], { queryParams: { installmentAmount: this.CourseBudgetAllocationForm.get('installmentAmount').value } });
             this.reloadCurrentRoute();
             this.snackBar.open('Information Updated Successfully', '', {
               duration: 2000,
