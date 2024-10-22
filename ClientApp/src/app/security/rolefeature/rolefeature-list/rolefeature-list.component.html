@@ -29,14 +29,24 @@
                       <ul class="header-buttons-left ml-0">
                         <li class="dropdown">
                         </li>
-                        <li class="dropdown">
+                        <!-- <li class="dropdown"> -->
                           <!-- <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
                           aria-label="Search box"> -->
-                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Search Here..</mat-label>
                             <input matInput #filter (keyup)="applyFilter(filter.value)">
                           </mat-form-field>
+                        </li> -->
+                        <li class="dropdown">
+                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
                         </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
                         <li> 
                           <!-- <div class="icon-button-demo m-l-10">
                             <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
@@ -95,27 +105,29 @@
                     <mat-cell *matCellDef="let element"> {{element.RoleFeatureId}} </mat-cell>
                   </ng-container>          
               -->
-              <ng-container matColumnDef="roleId">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>role Id</mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.roleId}} </mat-cell>
+                  
+              <ng-container matColumnDef="featureName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Feature Name</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.featureName}} </mat-cell>
               </ng-container>
 
-              <ng-container matColumnDef="featureId">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>featureId</mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.featureId}} </mat-cell>
+              
+              <ng-container matColumnDef="roleName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Role Name</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.roleName}} </mat-cell>
               </ng-container>
 
                   <ng-container matColumnDef="add">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> add</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Add</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.add ? "Yes" : "No"}} </mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="update">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> update</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Update</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.update? "Yes" : "No"}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="delete">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>delete</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Delete</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.delete? "Yes" : "No"}} </mat-cell> 
                   </ng-container>
 <!--
@@ -127,7 +139,7 @@
                  
 
                   <ng-container matColumnDef="report">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>report</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Report</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.report? "Yes" : "No"}} </mat-cell> 
                   </ng-container>
 
@@ -139,10 +151,10 @@
                   </ng-container>
                   -->
                  
-                  <ng-container matColumnDef="isActive">
+                  <!-- <ng-container matColumnDef="isActive">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.isActive}} </mat-cell>
-                  </ng-container>
+                  </ng-container> -->
                   <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">

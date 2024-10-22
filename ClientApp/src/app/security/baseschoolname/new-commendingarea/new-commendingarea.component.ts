@@ -131,7 +131,7 @@ export class NewCommendingAreaComponent implements OnInit, OnDestroy {
       address: [],
       telephone: [],
       cellphone: [],
-      email: [],
+      email: ['', [Validators.email]],
       fax: [],
       branchLevel: [2],
       firstLevel: [this.masterData.UserLevel.navy],
@@ -166,6 +166,7 @@ export class NewCommendingAreaComponent implements OnInit, OnDestroy {
               horizontalPosition: 'right',
               panelClass: 'snackbar-success'
             });
+            this.loading = false;
           }, error => {
             this.validationErrors = error;
           })
@@ -183,12 +184,16 @@ export class NewCommendingAreaComponent implements OnInit, OnDestroy {
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
         });
+        this.loading = false;
       }, error => {
         this.validationErrors = error;
       })
     }
  
   }
+
+  
+  
 
   deleteItem(row) {
     const id = row.baseSchoolNameId; 

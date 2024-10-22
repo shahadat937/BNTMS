@@ -146,7 +146,7 @@ export class NewBaseNameComponent implements OnInit, OnDestroy {
       address: [],
       telephone: [],
       cellphone: [],
-      email: [],
+      email: ['', [Validators.email]],
       fax: [],
       branchLevel: [3],
       firstLevel: [this.masterData.UserLevel.navy],
@@ -181,6 +181,7 @@ export class NewBaseNameComponent implements OnInit, OnDestroy {
               horizontalPosition: 'right',
               panelClass: 'snackbar-success'
             });
+            this.loading = false;
           }, error => {
             this.validationErrors = error;
           })
@@ -198,6 +199,7 @@ export class NewBaseNameComponent implements OnInit, OnDestroy {
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
         });
+        this.loading = false;
       }, error => {
         this.validationErrors = error;
       })

@@ -162,7 +162,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
       address: [],
       telephone: [],
       cellphone: [],
-      email: [],
+      email: ['', [Validators.email]],
       fax: [],
       branchLevel: [4],
       firstLevel: [this.masterData.UserLevel.navy],
@@ -197,6 +197,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
               horizontalPosition: 'right',
               panelClass: 'snackbar-success'
             });
+            this.loading = false;
           }, error => {
             this.validationErrors = error;
           })
@@ -214,6 +215,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
         });
+        this.loading = false;
       }, error => {
         this.validationErrors = error;
       })
