@@ -27,14 +27,21 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
 
         public async Task<object> Handle(GetTraineeListForUserCreateRequest request, CancellationToken cancellationToken)
         {
-          
-            //var spQuery = String.Format("exec [spGetTraineeListForUserCreate] '{0}', {1}",request.Pno);
-            string spQuery = $"EXEC [dbo].[spGetTraineeListForUserCreate] @pno={request.Pno?? "''"}, @pageSize={request.PageSize}, @pageNumber={request.PageNumber}";
-           
 
+            //var spQuery = String.Format("exec [spGetTraineeListForUserCreate] '{0}', {1}",request.Pno);
+            string pno = string.IsNullOrWhiteSpace(request.Pno) ? "''" : $"'{request.Pno}'";
+            string spQuery = $"EXEC [dbo].[spGetTraineeListForUserCreate] @pno={pno}, @pageSize={request.PageSize}, @pageNumber={request.PageNumber}";
+
+
+            var totalCount = 0;
 
             DataTable dataTable = _traineeBioDataGeneralInfoRepository.ExecWithSqlQuery(spQuery);
-            var totalCount = (int)dataTable.Rows[0]["TotalCount"];
+            if (dataTable.Rows.Count > 0 && dataTable.Rows[0]["TotalCount"] != DBNull.Value)
+            {
+                totalCount = Convert.ToInt32(dataTable.Rows[0]["TotalCount"]);
+            }
+
+
 
 
 

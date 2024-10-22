@@ -35,7 +35,7 @@
                       (input)="($event.target.value)"
                       placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
-                          <mat-option *ngFor="let dropdown of selectedFiscalYear" [value]="dropdown.value">
+                          <mat-option (onSelectionChange)="onFiscalYearSelectionChange($event)" *ngFor="let dropdown of selectedFiscalYear" [value]="dropdown.value">
                               {{dropdown.text}} 
                             </mat-option>                          
                       </mat-select>
@@ -56,7 +56,7 @@
                       <mat-select formControlName="budgetTypeId">
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                          id="budgetTypeId"
+                          id="selectBudgetType"
                           (keydown.space)="$event.stopPropagation()"
                           (input)="($event.target.value)"
                           placeholder="Search" required>
@@ -71,24 +71,7 @@
                
         <h4>Budget Head</h4>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
-              <mat-label>Budget Head</mat-label>                        
-              <mat-select formControlName="budgetCodeId">
-                <input type="number" 
-                style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                  id="budgetCodeId"
-                  (keydown.space)="$event.stopPropagation()"
-                  (input)="($event.target.value)"
-                  placeholder="Search" required>
-                <mat-option  value="0">--Select--</mat-option >
-                  <mat-option [value]=7>
-                      Foreign Training
-                    </mat-option> 
-                    <mat-option [value]=8>
-                      Local Training
-                    </mat-option>                          
-              </mat-select>
-          </mat-form-field> -->
+          
           <mat-form-field class="example-full-width mb-3" appearance="outline">
             <mat-label>Budget Head</mat-label>                        
             <mat-select formControlName="budgetCodeId" required>
@@ -110,14 +93,45 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BudgetAllocationForm.valid " mat-raised-button
               color="primary">{{buttonText}}</button>
-          <!-- <button type="button" mat-button routerLink="/budget-management/budgetallocation-list">Cancel</button> -->
+         
         </div>
         
       </div>
              
-              <!-- <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BudgetAllocationForm.valid " mat-raised-button
-                            color="primary">{{buttonText}}</button> -->
+           
             </form>
+
+            <mat-table *ngIf="isShow" #table [dataSource]="dataSource" matSort class="mat-cell">               
+              <ng-container matColumnDef="ser">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
+                <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
+              </ng-container>    
+
+              <ng-container matColumnDef="budgetCode">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Budget Head </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.budgetCode}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="budgetType">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Budget Type</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.budgetType}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="fiscalYear">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Fiscal Year</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.fiscalYear}} </mat-cell>
+              </ng-container>
+              
+            
+              <ng-container matColumnDef="amount">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+              </ng-container>
+
+              <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+             </mat-table>
+
           </div>
         </div>
        
