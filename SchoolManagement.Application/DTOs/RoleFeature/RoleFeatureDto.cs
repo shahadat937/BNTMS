@@ -1,4 +1,6 @@
-﻿using SchoolManagement.Application.DTOs.Common;
+﻿using SchoolManagement.Application.Contracts.Persistence;
+using SchoolManagement.Application.DTOs.Common;
+using SchoolManagement.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +16,8 @@ namespace SchoolManagement.Application.DTOs.RoleFeature
         public bool Update { get; set; }
         public bool Delete { get; set; }
         public bool Report { get; set; }
+        public string RoleName { get; set; }
+        public string FeatureName { get; set; }
         //public bool IsActive { get; set; }
     }
 }

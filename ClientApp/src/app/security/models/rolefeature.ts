@@ -6,4 +6,6 @@ export interface RoleFeature {
     delete: boolean
     report: boolean
     isActive: boolean
+    roleName : string,
+    FeatureName : string
 }

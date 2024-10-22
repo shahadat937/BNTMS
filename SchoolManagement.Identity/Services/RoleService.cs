@@ -124,10 +124,12 @@ namespace SchoolManagement.Identity.Services
 
             IQueryable<IdentityRole> roles =  _roleManager.Roles.AsQueryable();
 
+            roles = roles.Where(x => (x.Name.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
+
             var totalCount = roles.Count();
 
             roles = roles.OrderByDescending(x => x.Name).Skip((queryParams.PageNumber - 1) * queryParams.PageSize).Take(queryParams.PageSize);
-            roles = roles.Where(x => (x.Name.Contains(queryParams.SearchText))  || String.IsNullOrEmpty(queryParams.SearchText));
+           
 
             var roleDtos = roles.Select(q => new AspNetRoles
             {
@@ -148,31 +150,7 @@ namespace SchoolManagement.Identity.Services
            var  roles = await _roleManager.Roles.FirstOrDefaultAsync(x=> x.Id == id);
             return roles;
         }
-
-        //public async Task<BaseCommandResponse> Delete(string id)
-        //{
-        //    var response = new BaseCommandResponse();
-        //    if (string.IsNullOrWhiteSpace(id))
-        //    {
-        //        throw new BadRequestException("Invalide Request !!");
-        //    }
-        //    var role = await _roleManager.FindByIdAsync(id);
-
-        //    if (role == null)
-        //    {
-        //        throw new BadRequestException("User not found.");
-        //    }
-        //    else
-        //    {
-
-        //        var result = await _roleManager.DeleteAsync(role);
-        //        response.Success = result.Succeeded;
-        //        response.Message = "Deleted Successful";
-        //        return response;
-        //    }
-        
-           
-        //}
+  
 
         public async Task<BaseCommandResponse> Delete(string id)
         {

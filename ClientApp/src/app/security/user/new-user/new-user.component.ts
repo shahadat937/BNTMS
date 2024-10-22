@@ -123,7 +123,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
       thirdLevel:['',Validators.nullValidator],    
       fourthLevel:['',Validators.nullValidator],    
       phoneNumber : ['', Validators.required],
-      email : ['', Validators.required],
+      email : ['', [Validators.required, Validators.email]],
 
 
        traineeId:[''],
