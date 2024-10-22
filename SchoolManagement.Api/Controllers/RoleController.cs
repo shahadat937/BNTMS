@@ -53,8 +53,8 @@ public class RoleController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("update-role/{id}")]
-    public async Task<ActionResult> Put(string roleId, [FromBody] CreateRoleDto model)
+    [Route("update-role/{roleId}")]
+    public async Task<ActionResult> Put([FromRoute] string roleId, [FromBody] CreateRoleDto model)
     {
         await _roleService.Save(roleId, model);
 
@@ -101,6 +101,33 @@ public class RoleController : ControllerBase
         // var UserByRole = await _mediator.Send(new GetSelectedRoleRequest { });
         var UserByRole = await _roleService.GetSelectedRoleForTraineeList();
         return Ok(UserByRole);
+    }
+
+    [HttpGet]
+    [Route("get-roles")]
+    public async Task<ActionResult<object>> GetRols([FromQuery] QueryParams queryParams)
+    {
+        var Role = await _roleService.GetRoles(queryParams);
+        return Ok(Role);
+    }
+
+    [HttpGet]
+    [Route("get-roleDetail/{id}")]
+    public async Task<ActionResult<object>> GetRolById(string id)
+    {
+        var Role = await _roleService.GetRoleById(id);
+        return Ok(Role);
+    }
+
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [Route("delete-role/{id}")]
+    public async Task<ActionResult> Delete(string id)
+    {
+       await _roleService.Delete(id);
+        return NoContent();
     }
 
 }

@@ -24,18 +24,20 @@ export class NewRoleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('roleId'); 
+    console.log(this.route);
     if (id) {
       this.pageTitle = 'Edit Role';
       this.destination='Edit';
       this.buttonText="Update";
-      this.subscription = this.roleService.find(+id).subscribe(
+      this.subscription = this.roleService.find(id).subscribe(
         res => {
+          console.log(res)
           this.roleForm.patchValue({          
 
-            roleId: res.roleId,
-            roleName: res.roleName,
-            loweredRoleName:res.loweredRoleName,
-            description:res.description,
+            roleId: res.id,
+            roleName: res.name,
+            // loweredRoleName:res.loweredRoleName,
+            // description:res.description,
             //menuPosition: res.menuPosition,
           
           });          
@@ -57,7 +59,7 @@ export class NewRoleComponent implements OnInit, OnDestroy {
     this.roleForm = this.fb.group({
       roleId: [0],
       roleName: ['', Validators.required],
-      loweredRoleName:['', Validators.required],
+      loweredRoleName:[],
       description:[],
       //menuPosition: ['', Validators.required],
       isActive: [true],
@@ -66,12 +68,14 @@ export class NewRoleComponent implements OnInit, OnDestroy {
   }
   
   onSubmit() {
-    const id = this.roleForm.get('roleId').value;   
+    // const id = this.roleForm.get('roleId').value;   
+    const id = this.route.snapshot.paramMap.get('roleId'); 
+    
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.roleService.update(+id,this.roleForm.value).subscribe(response => {
+          this.roleService.update(id,this.roleForm.value).subscribe(response => {
             this.router.navigateByUrl('/security/role-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
