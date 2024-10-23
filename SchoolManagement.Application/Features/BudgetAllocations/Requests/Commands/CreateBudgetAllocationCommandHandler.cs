@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SchoolManagement.Application.Features.BudgetAllocations.Requests.Commands
 {
-    public class CreateBudgetAllocationCommand : IRequest<BaseCommandResponse>
+    public class CreateBudgetAllocationCommandHandler : IRequest<BaseCommandResponse>
     {
         public CreateBudgetAllocationDto BudgetAllocationDto { get; set; } 
 
