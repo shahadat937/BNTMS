@@ -74,8 +74,8 @@ namespace SchoolManagement.Domain
         public int? DivisionId { get; set; }
         public int? DistrictId { get; set; }
         public int? ThanaId { get; set; }
-        public int? HeightId { get; set; }
-        public int? WeightId { get; set; }
+        public string? HeightId { get; set; }
+        public string? WeightId { get; set; }
         public int? OfficerTypeId { get; set; }
         public int? ColorOfEyeId { get; set; }
         public int? GenderId { get; set; }
@@ -146,7 +146,7 @@ namespace SchoolManagement.Domain
         public virtual SaylorBranch? SaylorBranch { get; set; }
         public virtual SaylorRank? SaylorRank { get; set; }
         public virtual SaylorSubBranch? SaylorSubBranch { get; set; }
-        public virtual Height? Height { get; set; }
+        //public virtual Height? Height { get; set; }
         public virtual MaritalStatus? MaritalStatus { get; set; }
         public virtual Nationality? Nationality { get; set; }
         public virtual Country? Country { get; set; }

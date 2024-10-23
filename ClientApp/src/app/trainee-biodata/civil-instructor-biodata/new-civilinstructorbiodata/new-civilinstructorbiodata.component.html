@@ -309,7 +309,10 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>NID</mat-label>
-                      <input matInput formControlName="nid">
+                      <input matInput formControlName="nid"
+                      (keypress)="sharedService.validateNumberInput($event)" 
+                      (input)="sharedService.filterInput($event)"
+                      >
                       <!-- <mat-error *ngIf="BIODataGeneralInfoForm.get('nid').hasError('required')">
                         NID is required
                       </mat-error> -->
@@ -329,7 +332,10 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Mobile</mat-label>
-                      <input matInput formControlName="mobile" required>
+                      <input matInput formControlName="mobile" required
+                      (keypress)="sharedService.validateNumberInput($event)" 
+                      (input)="sharedService.filterInput($event)"
+                      >
                       <mat-error *ngIf="BIODataGeneralInfoForm.get('mobile').hasError('required')">
                         Gender is required
                       </mat-error>

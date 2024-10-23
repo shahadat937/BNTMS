@@ -8,7 +8,7 @@ namespace SchoolManagement.Api.Models
     {
         public Weight()
         {
-            TraineeBioDataGeneralInfos = new HashSet<TraineeBioDataGeneralInfo>();
+            //TraineeBioDataGeneralInfos = new HashSet<TraineeBioDataGeneralInfo>();
             TraineeBioDataOthers = new HashSet<TraineeBioDataOther>();
         }
 
@@ -21,7 +21,7 @@ namespace SchoolManagement.Api.Models
         public DateTime? LastModifiedDate { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual ICollection<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfos { get; set; }
+        //public virtual ICollection<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfos { get; set; }
         public virtual ICollection<TraineeBioDataOther> TraineeBioDataOthers { get; set; }
     }
 }

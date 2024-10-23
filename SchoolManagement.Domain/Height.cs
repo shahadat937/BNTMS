@@ -6,7 +6,7 @@ namespace SchoolManagement.Domain
     {
         public Height()
         {
-            TraineeBioDataGeneralInfos = new HashSet<TraineeBioDataGeneralInfo>();
+            //TraineeBioDataGeneralInfos = new HashSet<TraineeBioDataGeneralInfo>();
             TraineeBioDataOthers = new HashSet<TraineeBioDataOther>();
         }
 
@@ -15,7 +15,7 @@ namespace SchoolManagement.Domain
         public int? MenuPosition { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual ICollection<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfos { get; set; }
+        //public virtual ICollection<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfos { get; set; }
         public virtual ICollection<TraineeBioDataOther> TraineeBioDataOthers { get; set; }
     }
 }

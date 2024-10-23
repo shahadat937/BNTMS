@@ -1502,8 +1502,8 @@ namespace SchoolManagement.Application.Profiles
               .ForMember(d => d.Religion, o => o.MapFrom(s => s.Religion.ReligionName))
             //  .ForMember(d => d.TraineeBIODataGeneralInfo, o => o.MapFrom(s => s.TraineeBIODataGeneralInfo.nam))
               .ForMember(d => d.UtofficerCategory, o => o.MapFrom(s => s.UtofficerCategory.UtofficerCategoryName))
-              .ForMember(d => d.UtofficerType, o => o.MapFrom(s => s.UtofficerType.UtofficerTypeName))
-              .ForMember(d => d.Weight, o => o.MapFrom(s => s.Weight.WeightName));
+              .ForMember(d => d.UtofficerType, o => o.MapFrom(s => s.UtofficerType.UtofficerTypeName));
+              //.ForMember(d => d.Weight, o => o.MapFrom(s => s.Weight.WeightName));
 
             CreateMap<TraineeBioDataOther, CreateTraineeBioDataOtherDto>().ReverseMap();
             #endregion 

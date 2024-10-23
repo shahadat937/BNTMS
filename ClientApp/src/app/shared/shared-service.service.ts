@@ -47,4 +47,31 @@ export class SharedServiceService {
     // Remove any non-digit characters from the input
     input.value = input.value.replace(/[^0-9]/g, '');
   }
+
+  validateNumberInputWithDot(event: KeyboardEvent): void {
+    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', '.'];    
+    if (!/^[0-9]$/.test(event.key) && event.key !== '.' && !allowedKeys.includes(event.key)) {
+      event.preventDefault(); 
+    }
+  
+    const input = event.target as HTMLInputElement;
+  
+    if (event.key === '.' && input.value.includes('.')) {
+      event.preventDefault(); // Prevent another dot if one is already present
+    }
+  }
+
+  filterInputWithDot(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    
+    input.value = input.value.replace(/[^0-9.]/g, '');
+  
+    const parts = input.value.split('.');
+    if (parts.length > 2) {
+      input.value = parts[0] + '.' + parts.slice(1).join(''); 
+    }
+  }
+  
+  
+
 }

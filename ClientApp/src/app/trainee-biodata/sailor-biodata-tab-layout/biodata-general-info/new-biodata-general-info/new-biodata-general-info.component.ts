@@ -295,7 +295,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       closeRelative: [''],
       relativeRelation: [''],
       mobile: [''],
-      email: [''],
+      email: ['',[Validators.email]],
       pno: [''],
       dateOfBirth: [''],
       joiningDate: [],
