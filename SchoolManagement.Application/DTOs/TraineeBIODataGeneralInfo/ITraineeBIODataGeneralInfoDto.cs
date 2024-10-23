@@ -15,8 +15,8 @@ namespace SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo
         public int? DivisionId { get; set; }
         public int? DistrictId { get; set; }
         public int? ThanaId { get; set; }
-        public int? HeightId { get; set; }
-        public int? WeightId { get; set; }
+        public string? HeightId { get; set; }
+        public string? WeightId { get; set; }
         public int? ColorOfEyeId { get; set; }
         public int? GenderId { get; set; }
         public int? BloodGroupId { get; set; }
