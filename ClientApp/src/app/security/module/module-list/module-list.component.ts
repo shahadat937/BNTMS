@@ -80,7 +80,7 @@ export class ModuleListComponent extends UnsubscribeOnDestroyAdapter implements 
  
   }
   applyFilter(searchText: any){ 
-    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
+    this.searchText = searchText.toLowerCase().trim();
     this.getModules();
   } 
 

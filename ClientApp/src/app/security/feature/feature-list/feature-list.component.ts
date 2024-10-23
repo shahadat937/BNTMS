@@ -84,7 +84,7 @@ export class FeatureListComponent implements OnInit, OnDestroy {
  
   }
   applyFilter(searchText: any){     
-    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
+    this.searchText = searchText.toLowerCase().trim();
     this.getFeatures();
   } 
 
