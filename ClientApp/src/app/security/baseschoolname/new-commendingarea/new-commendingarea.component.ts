@@ -130,7 +130,7 @@ export class NewCommendingAreaComponent implements OnInit, OnDestroy {
       contactPerson: [],
       address: [],
       telephone: [],
-      cellphone: [],
+      cellphone: [''],
       email: ['', [Validators.email]],
       fax: [],
       branchLevel: [2],

@@ -23,15 +23,13 @@ export class NewRoleComponent implements OnInit, OnDestroy {
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private roleService: RoleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('roleId'); 
-    console.log(this.route);
+    const id = this.route.snapshot.paramMap.get('roleId');     
     if (id) {
       this.pageTitle = 'Edit Role';
       this.destination='Edit';
       this.buttonText="Update";
       this.subscription = this.roleService.find(id).subscribe(
-        res => {
-          console.log(res)
+        res => {          
           this.roleForm.patchValue({          
 
             roleId: res.id,
