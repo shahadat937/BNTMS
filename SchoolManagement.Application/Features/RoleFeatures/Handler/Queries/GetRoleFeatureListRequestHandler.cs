@@ -87,32 +87,26 @@ namespace SchoolManagement.Application.Features.RoleFeatures.Handler.Queries
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult.ToString());
 
-            // Step 1: Filter roles based on SearchText (RoleName)
             var rolesCollection = await _roleRepository.GetAll();
             var roles = rolesCollection
                         .Where(r => string.IsNullOrEmpty(request.QueryParams.SearchText) ||
                                     r.Name.Contains(request.QueryParams.SearchText)) // Filter by RoleName
                         .ToDictionary(r => r.Id, r => r.Name);
 
-            // Step 2: Get the matching role IDs from the filtered roles
             var roleIds = roles.Keys.ToList();
 
-            // Step 3: Filter RoleFeature by the role IDs
             IQueryable<RoleFeature> branches = _branchRepository.FilterWithInclude(x => roleIds.Contains(x.RoleId));
 
             var totalCount = branches.Count();
 
-            // Step 4: Apply pagination
             branches = branches.OrderByDescending(x => x.RoleId)
                                .Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize)
                                .Take(request.QueryParams.PageSize);
 
-            // Step 5: Extract features and map the data
             var featureKeys = branches.Select(x => x.FeatureKey).Distinct().ToList();
             var features = _featureRepository.Where(f => featureKeys.Contains(f.FeatureId))
                                              .ToDictionary(f => f.FeatureId, f => f.FeatureName);
 
-            // Map RoleFeatureDto with the RoleName and FeatureName
             var branchesDtos = branches.Select(x => new RoleFeatureDto
             {
                 RoleId = x.RoleId,
