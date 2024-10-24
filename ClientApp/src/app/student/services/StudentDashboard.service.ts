@@ -25,6 +25,7 @@ export class StudentDashboardService {
 
 
   getSpStudentInfoByTraineeId(id:number) {
+    console.log(id);
 
     return this.http.get<SpstudentInfoByTraineeId>(this.baseUrl + '/dashboard/get-studentInfoByTraineeId?TraineeId='+id).pipe(
       map(response => {
@@ -146,6 +147,23 @@ export class StudentDashboardService {
       })
     ); 
   }
+
+  getAllReadingMaterialList(documentTypeId) {
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-readingMaterialByType?documentTypeId='+documentTypeId).pipe(
+      map(response => {        
+        return response;
+      })
+    ); 
+  }
+
+  getAllReadingMaterialListByType(documentTypeId) {
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-readingMaterialsByType?documentTypeId='+documentTypeId).pipe(
+      map(response => {        
+        return response;
+      })
+    ); 
+  }
+
 
   getTdecQuationGroupByParams(schoolId,courseId,durationId,subjectId) {
 

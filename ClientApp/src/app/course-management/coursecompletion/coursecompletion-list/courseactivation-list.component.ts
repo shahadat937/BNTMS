@@ -86,8 +86,7 @@ userRole: any;
   }
   getCourseDurations() {
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-        console.log(response)
+    this.CourseDurationService.getCourseDurations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {       
       this.dataSource.data = response.items; 
       // this gives an object with dates as keys
       const groups = this.dataSource.data.reduce((groups, courses) => {

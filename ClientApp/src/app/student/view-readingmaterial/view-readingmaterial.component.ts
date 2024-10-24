@@ -64,18 +64,21 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
 
-    this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
-      if (res) {
-        let infoList = res
-        this.baseSchoolNameId = infoList[0].baseSchoolNameId;
-        console.log(this.baseSchoolNameId);
-        this.getReadingMaterials();
+    if(this.authService.currentUserValue.role!= 'Master Admin'){
+      this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
+        if (res) {
+          // console.log(this.traineeId);
+          let infoList = res
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId;
+          console.log(this.baseSchoolNameId);
+          this.getReadingMaterials();  
+        }
+  
+      });
 
-      }
-
-    });
-
-   
+    }   else{
+      this.getAllReadingMaterialList()
+    }
 
   }
   ngOnDestroy() {
@@ -99,6 +102,26 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
       this.countslides = this.slideList.length;
     });
     this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.materials, this.baseSchoolNameId).subscribe(res => {
+      this.materialList = res;
+      this.countmaterial = this.materialList.length;
+    });
+  }
+
+  getAllReadingMaterialList() {
+    this.subscription = this.studentDashboardService. getAllReadingMaterialList(this.masterData.readingMaterial.books).subscribe(res => {
+      this.bookList = res;
+      this.countbooks = this.bookList.length;
+    })
+      ;
+    this.subscription = this.studentDashboardService. getAllReadingMaterialList(this.masterData.readingMaterial.videos).subscribe(res => {
+      this.videoList = res;
+      this.countvideos = this.videoList.length;
+    });
+    this.subscription = this.studentDashboardService. getAllReadingMaterialList(this.masterData.readingMaterial.slides).subscribe(res => {
+      this.slideList = res;
+      this.countslides = this.slideList.length;
+    });
+    this.subscription = this.studentDashboardService. getAllReadingMaterialList(this.masterData.readingMaterial.materials).subscribe(res => {
       this.materialList = res;
       this.countmaterial = this.materialList.length;
     });

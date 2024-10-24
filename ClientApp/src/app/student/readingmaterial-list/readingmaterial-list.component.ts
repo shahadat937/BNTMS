@@ -71,38 +71,37 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     // const branchId =  this.authService.currentUserValue.branchId.trim();
     this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log('Route value', this.route)
+
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     this.documentTypeId = this.route.snapshot.paramMap.get('documentTypeId');
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
-    console.log(this.baseSchoolNameId)
 
-    this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
-      if (res) {
-        console.log("res", res);
-        let infoList = res
-        this.baseSchoolNameId = infoList[0].baseSchoolNameId;
 
-      }
-      if (this.documentTypeId) {
-        if (this.documentTypeId == this.masterData.readingMaterial.books) {
-          this.pageTitle = "Books";
-        } else if (this.documentTypeId == this.masterData.readingMaterial.videos) {
-          this.pageTitle = "Videos";
-        } else if (this.documentTypeId == this.masterData.readingMaterial.slides) {
-          this.pageTitle = "Slides";
-        } else if (this.documentTypeId == this.masterData.readingMaterial.materials) {
-          this.pageTitle = "Reading Material";
-        } else {
-          this.pageTitle = "Material";
+    if (this.role !== 'Master Admin') {
+      this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
+        if (res) {
+
+          let infoList = res
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId;
+
         }
-        this.getReadingMaterialList(this.documentTypeId);
-      } else {
-        this.pageTitle = "Course Material";
-        this.getReadingMaterialBySchoolAndCourse(this.baseSchoolNameId, courseNameId);
-      }
+        if (this.documentTypeId) {
+          this.setPageTitle(this.documentTypeId)
+          this.getReadingMaterialList(this.documentTypeId);
+        } else {
+          this.pageTitle = "Course Material";
+          this.getReadingMaterialBySchoolAndCourse(this.baseSchoolNameId, courseNameId);
+        }
 
-    });
+      });
+    }
+    else {
+      
+      this.setPageTitle(this.documentTypeId)
+      this.getAllReadingMaterialList(this.documentTypeId);
+    }
+
+
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -114,6 +113,27 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     this.subscription = this.studentDashboardService.getReadingMaterialListByType(documentTypeId, this.baseSchoolNameId).subscribe(res => {
       this.ReadingMaterialBySchoolAndCourse = res;
     });
+  }
+  getAllReadingMaterialList(documentTypeId) {
+    this.subscription = this.studentDashboardService.getAllReadingMaterialList(documentTypeId).subscribe(res => {
+      this.ReadingMaterialBySchoolAndCourse = res;
+    });
+  }
+
+  setPageTitle(documentTypeId) {
+
+    if (documentTypeId == this.masterData.readingMaterial.books) {
+      this.pageTitle = "Books";
+    } else if (documentTypeId == this.masterData.readingMaterial.videos) {
+      this.pageTitle = "Videos";
+    } else if (documentTypeId == this.masterData.readingMaterial.slides) {
+      this.pageTitle = "Slides";
+    } else if (this.documentTypeId == this.masterData.readingMaterial.materials) {
+      this.pageTitle = "Reading Material";
+    } else {
+      this.pageTitle = "Material";
+    }
+
   }
 
   // getCourseModuleByCourseName(courseNameId){
