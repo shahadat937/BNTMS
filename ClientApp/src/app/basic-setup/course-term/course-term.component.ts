@@ -152,7 +152,6 @@ export class CourseTermComponent extends UnsubscribeOnDestroyAdapter implements 
     this.baseSchoolNameService.getselectedSchools().subscribe(res=>{
       this.selectedSchool=res
       this.selectSchool=res
-      console.log("this is base school " +   (res));
     });
    }
 
