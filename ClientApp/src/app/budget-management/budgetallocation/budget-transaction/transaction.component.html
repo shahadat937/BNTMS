@@ -26,12 +26,12 @@
               <div class="body">
                <div class="row">
                 <div class="col-md-8">
-                  <form class="mb-4 col-xl-12 col-lg-12 col-md-12 col-sm-12" [formGroup]="CourseBudgetAllocationForm" (ngSubmit)="onSubmit()">
+                  <form class="mb-4 col-xl-12 col-lg-12 col-md-12 col-sm-12" [formGroup]="BudgetTransactionForm" (ngSubmit)="onSubmit()">
                     <div class="row clearfix">
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width mb-3" appearance="outline">
                           <mat-label>Pick Date</mat-label>
-                            <input matInput [matDatepicker]="frompicker" formControlName="paymentDate" >
+                            <input matInput [matDatepicker]="frompicker" formControlName="dateCreated" >
                             <mat-datepicker-toggle matSuffix [for]="frompicker"></mat-datepicker-toggle>
                            <mat-datepicker #frompicker></mat-datepicker>                                            
                         </mat-form-field>
@@ -54,47 +54,30 @@
                                   </mat-option>                          
                             </mat-select>
                         </mat-form-field>
-                        <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
-                          <mat-label>Budget Head</mat-label>                        
-                          <mat-select formControlName="budgetCodeId">
-                            <input type="number" 
-                            style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                              id="budgetCodeId"
-                              (keydown.space)="$event.stopPropagation()"
-                              (input)="($event.target.value)"
-                              placeholder="Search" required>
-                            <mat-option  value="0">--Select--</mat-option >
-                              <mat-option [value]=7>
-                                  Foreign Training
-                                </mat-option> 
-                                <mat-option [value]=8>
-                                  Local Training
-                                </mat-option>                          
-                          </mat-select>
-                      </mat-form-field> -->
+                       
                       </div>
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width mb-3" appearance="outline">
-                            <mat-label>Payment Type</mat-label>                        
-                            <mat-select formControlName="paymentTypeId" required>
+                            <mat-label>Budget Type</mat-label>                        
+                            <mat-select formControlName="budgetTypeId">
                               <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                                id="selectPayType"
+                                id="selectBudgetType"
                                 (keydown.space)="$event.stopPropagation()"
                                 (input)="($event.target.value)"
                                 placeholder="Search">
                               <mat-option  value="0">--Select--</mat-option >
-                                <mat-option (onSelectionChange)="onBudgetChange($event)" *ngFor="let dropdown of selectedPaymentType" [value]="dropdown.value">
+                                <mat-option *ngFor="let dropdown of selectedBudgetType" [value]="dropdown.value">
                                     {{dropdown.text}} 
                                   </mat-option>                          
                             </mat-select>
-                            
                         </mat-form-field>
                       </div>
+                      
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Approve Authority</mat-label>                        
-                            <mat-select formControlName="approveAuthority">
+                            <mat-select formControlName="adminAuthority">
                               <input type="text" 
                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                 id="SelectAuthority"
@@ -113,7 +96,7 @@
             </div>
             <div class="row">
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" mat-raised-button [disabled]="!CourseBudgetAllocationForm.valid "
+                <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" mat-raised-button [disabled]="!BudgetTransactionForm.valid "
                     color="primary">{{buttonText}}</button>
               
               </div>
@@ -129,11 +112,11 @@
                   <div>
                     <div class="mb-2">
                       <h5>Section Amount</h5>
-                      <form [formGroup]="CourseBudgetAllocationForm">
+                      <form [formGroup]="BudgetTransactionForm">
                         <div class="mb-2">
                           <mat-form-field class="example-full-width mb-3" appearance="outline">
                             <mat-label>Section Amount</mat-label>                        
-                            <input matInput formControlName="installmentAmount" required>
+                            <input matInput formControlName="amount" required>
                             
                           </mat-form-field>
                           
@@ -141,7 +124,7 @@
                         <div class="mb-2">
                           <mat-form-field class="example-full-width mb-3" appearance="outline">
                               <mat-label>Desk</mat-label>                        
-                              <mat-select formControlName="traineeId">
+                              <mat-select formControlName="deskAuthority">
                                 <input type="text" 
                                 style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                                   id="selectedBudgetType"
