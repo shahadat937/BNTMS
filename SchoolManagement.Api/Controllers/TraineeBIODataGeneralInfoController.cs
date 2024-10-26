@@ -29,6 +29,7 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
     }
 
     [HttpGet]
+    [ResponseCache(Duration = 10)]
     [Route("get-traineeListForUserCreate")]
     public async Task<ActionResult> GetTraineeListForUserCreate(string pno, int pageSize, int pageNumber)
     {
