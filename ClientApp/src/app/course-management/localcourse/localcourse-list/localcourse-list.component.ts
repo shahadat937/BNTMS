@@ -40,6 +40,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
     length: 1
   }
   searchText="";
+  viewStatus = 1;
   candidateCount:any;
   passOutStatus:any;
   localCourseList:any;
@@ -69,7 +70,8 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
     this.oldScrollPosition = this.scrollPositionService.getScrollPosition('localCourse');
     this.selectedFilter = this.scrollPositionService.getSelectedFilter('localCourse');
 
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.courseTypeId).subscribe(response => {
+    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.courseTypeId, this.viewStatus).subscribe(response => {
+      console.log(this.viewStatus);
         const endTime = performance.now();
 
         const dataLoadingTime = endTime - startTime;
@@ -119,7 +121,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
 
   getCourseDurationsByCourseType(){
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
+    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId, this.viewStatus).subscribe(response => {
       this.dataSource.data = response.items; 
 
       // this gives an object with dates as keys
@@ -149,19 +151,27 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
   getCoursesByViewType(viewStatus){
 
     if(viewStatus==1){
-      this.selectedFilter = viewStatus;
-     this.getCourseDurationFilterList(viewStatus)
-     this.selectedFilter = 1;
+    //   this.selectedFilter = viewStatus;
+    //  this.getCourseDurationFilterList(viewStatus)
+    //  this.selectedFilter = 1;
+    this.selectedFilter = 1;
+    this.viewStatus = 1;
+    this.getCourseDurationsByCourseType()
     }
     else if(viewStatus==2){
-      this.selectedFilter = viewStatus;
-      this.getCourseDurationFilterList(viewStatus)
+      // this.selectedFilter = viewStatus;
+      // this.getCourseDurationFilterList(viewStatus)
       this.selectedFilter = 2;
+      this.viewStatus = 2;
+      this.getCourseDurationsByCourseType()
     }
     else if(viewStatus==3){
+      // this.selectedFilter = 3;
+      // this.selectedFilter = viewStatus;
+      // this.getCourseDurationFilterList(viewStatus)
       this.selectedFilter = 3;
-      this.selectedFilter = viewStatus;
-      this.getCourseDurationFilterList(viewStatus)
+      this.viewStatus = 3;
+      this.getCourseDurationsByCourseType()
     }
   }
 
@@ -251,8 +261,10 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
   //   this.getCourseDurationsByCourseType();
   // }
   applyFilter(searchText: any){ 
+    
     this.searchText = searchText;
     this.getCourseDurationsByCourseType();
+    
    
   } 
 

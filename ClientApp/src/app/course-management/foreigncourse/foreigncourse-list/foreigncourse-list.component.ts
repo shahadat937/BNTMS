@@ -29,6 +29,7 @@ export class ForeigncourseListComponent extends UnsubscribeOnDestroyAdapter impl
     length: 1
   }
   searchText="";
+  viewStatus = 100;
 
   displayedColumns: string[] = ['ser','courseTitle','courseName','durationFrom','durationTo', 'country', 'nomination', 'actions'];
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
@@ -46,7 +47,7 @@ export class ForeigncourseListComponent extends UnsubscribeOnDestroyAdapter impl
   }
   getCourseDurationsByCourseType(){
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
+    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId, this.viewStatus).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;

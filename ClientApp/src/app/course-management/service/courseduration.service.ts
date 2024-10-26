@@ -88,7 +88,7 @@ activeCoursePlan(id : number){
   getCourseDurationFilterForBna(viewStatus,courseTypeId){ //course-duration/get-courseDurationListForBnaByCourseTypeFilter?viewStatus=1&courseTypeId=3
     return this.http.get<CourseDuration[]>(this.baseUrl + '/course-duration/get-courseDurationListForBnaByCourseTypeFilter?viewStatus='+viewStatus+'&courseTypeId='+courseTypeId+'')
   }
-  getCourseDurationsByCourseType(pageNumber, pageSize,searchText,courseTypeId:number) {
+  getCourseDurationsByCourseType(pageNumber, pageSize,searchText,courseTypeId:number, status:number) {
 
     let params = new HttpParams(); 
     
@@ -96,12 +96,15 @@ activeCoursePlan(id : number){
     params = params.append('pageNumber', pageNumber.toString());
     params = params.append('pageSize', pageSize.toString());
     params = params.append('courseTypeId', courseTypeId.toString());
+    params = params.append('status', status.toString());
    
     return this.http.get<ICourseDurationPagination>(this.baseUrl + '/course-duration/get-courseDurationByCourseType', { observe: 'response', params })
     .pipe(
       map(response => {
+       
         this.CourseDurations = [...this.CourseDurations, ...response.body.items];
         this.CourseDurationPagination = response.body;
+        console.log(this.CourseDurations)
         return this.CourseDurationPagination;
       })
     ); 

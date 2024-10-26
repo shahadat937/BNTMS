@@ -22,6 +22,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
   ELEMENT_DATA: CourseDuration[] = [];
   isLoading = false;
   courseTypeId=MasterData.coursetype.InterService;
+
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -29,6 +30,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
     length: 1
   }
   searchText="";
+  viewStatus = 0; // viewStatus not set 
 
   displayedColumns: string[] = ['ser','courseTitle','baseSchoolName','courseName','durationFrom','durationTo', 'actions'];
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
@@ -46,7 +48,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
   }
   getCourseDurationsByCourseType(){
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
+    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId, this.viewStatus).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;

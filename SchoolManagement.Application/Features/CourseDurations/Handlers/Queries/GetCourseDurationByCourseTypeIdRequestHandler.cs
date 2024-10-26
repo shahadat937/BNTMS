@@ -29,10 +29,37 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
            // if (validationResult.IsValid == false)
                // throw new ValidationException(validationResult);
 
-            IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(x => (x.CourseTitle.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "BaseSchoolName", "Country", "CourseName", "CourseType", "FiscalYear", "OrganizationName").Where(x => x.CourseTypeId == request.CourseTypeId);
+           IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(x => (x.BaseSchoolName.SchoolName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "BaseSchoolName", "Country", "CourseName", "CourseType", "FiscalYear", "OrganizationName").Where(x => x.CourseTypeId == request.CourseTypeId);
+
+            DateTime today = DateTime.Now;
+
+            if(request.Status == 1)
+            {
+                // Running Local Course
+                CourseDurations = CourseDurations.Where(x => x.CourseTypeId == request.CourseTypeId && x.IsCompletedStatus == 0 && x.DurationFrom <= today && x.DurationTo >= today).OrderBy(x => x.IsCompletedStatus).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
+            }
+            else if(request.Status == 2)
+            {
+                //Passing Out Course
+                CourseDurations = CourseDurations.Where(x => x.CourseTypeId == request.CourseTypeId && x.IsCompletedStatus == 0 && x.DurationTo < today).OrderBy(x => x.IsCompletedStatus).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
+            }
+            else if(request.Status == 3)
+            {
+                // UpComing Course
+                CourseDurations = CourseDurations.Where(x => x.CourseTypeId == request.CourseTypeId && x.IsCompletedStatus == 0 && x.DurationFrom > today).OrderBy(x => x.IsCompletedStatus).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
+
+            }
+            else
+            {
+                // All Course 
+                CourseDurations = CourseDurations.Where(x => x.CourseTypeId == request.CourseTypeId && x.IsCompletedStatus == 0).OrderBy(x => x.IsCompletedStatus).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
+
+            }
+
+
             var totalCount = CourseDurations.Count();
 
-            CourseDurations = CourseDurations.Where(x => x.CourseTypeId == request.CourseTypeId && x.IsCompletedStatus == 0).OrderBy(x => x.IsCompletedStatus).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
+            
 
 
             var CourseDurationDtos = _mapper.Map<List<CourseDurationDto>>(CourseDurations);
