@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import {dashboardService} from '../services/dashboard.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-countedofficers-list',
@@ -40,7 +41,16 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
   displayedColumns: string[] = ['ser','name','course','duration'];
 dataSource: any;
 
-  constructor(private datepipe: DatePipe,private dashboardService: dashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private datepipe: DatePipe,
+    private dashboardService: dashboardService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private TraineeNominationService: TraineeNominationService,
+    private router: Router,private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+  
+  ) {
     super();
   }
 

@@ -11,6 +11,7 @@ import { ClassRoutine } from '../../models/classroutine';
 import { ClassPeriodService } from '../../service/classperiod.service'
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classroutine',
@@ -70,7 +71,8 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  constructor(private snackBar: MatSnackBar,private authService: AuthService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+sharedService: any;
+  constructor(private snackBar: MatSnackBar,private authService: AuthService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedServiceService: SharedServiceService ) {
     super();
   }
 

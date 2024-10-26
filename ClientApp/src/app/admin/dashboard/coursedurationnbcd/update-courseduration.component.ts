@@ -6,6 +6,7 @@ import { CourseDurationService } from '../../../course-management/service/course
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-update-courseduration',
@@ -25,7 +26,15 @@ export class UpdateCourseDurationComponent extends UnsubscribeOnDestroyAdapter i
   nbcdCourseList:any;
   nbcdStatus:any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private CourseDurationService: CourseDurationService,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService,
+  ) {
     super();
   }
 

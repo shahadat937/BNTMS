@@ -13,6 +13,7 @@ import{MasterData} from 'src/assets/data/master-data';
 import { CourseTerm } from '../models/course-term';
 import { stringify } from '@angular/compiler/src/util';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-course-term',
@@ -47,7 +48,15 @@ export class CourseTermComponent extends UnsubscribeOnDestroyAdapter implements 
   dataSource: MatTableDataSource<CourseTerm> = new MatTableDataSource();
 
 
-  constructor(private baseSchoolNameService: BaseSchoolNameService , private CourseLevelService: CourseLevelService,private snackBar: MatSnackBar,private confirmService: ConfirmService,private CourseTermService: CourseTermService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private baseSchoolNameService: BaseSchoolNameService , 
+    private CourseLevelService: CourseLevelService,
+    private snackBar: MatSnackBar,private confirmService: ConfirmService,
+    private CourseTermService: CourseTermService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) {
     super();
   }
 
@@ -143,7 +152,6 @@ export class CourseTermComponent extends UnsubscribeOnDestroyAdapter implements 
     this.baseSchoolNameService.getselectedSchools().subscribe(res=>{
       this.selectedSchool=res
       this.selectSchool=res
-      console.log("this is base school " +   (res));
     });
    }
 

@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { RoleService } from '../../service/role.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-role',
@@ -19,22 +20,22 @@ export class NewRoleComponent implements OnInit, OnDestroy {
   validationErrors: string[] = [];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private roleService: RoleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private roleService: RoleService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('roleId'); 
+    const id = this.route.snapshot.paramMap.get('roleId');     
     if (id) {
       this.pageTitle = 'Edit Role';
       this.destination='Edit';
       this.buttonText="Update";
-      this.subscription = this.roleService.find(+id).subscribe(
-        res => {
+      this.subscription = this.roleService.find(id).subscribe(
+        res => {          
           this.roleForm.patchValue({          
 
-            roleId: res.roleId,
-            roleName: res.roleName,
-            loweredRoleName:res.loweredRoleName,
-            description:res.description,
+            roleId: res.id,
+            roleName: res.name,
+            // loweredRoleName:res.loweredRoleName,
+            // description:res.description,
             //menuPosition: res.menuPosition,
           
           });          
@@ -56,7 +57,7 @@ export class NewRoleComponent implements OnInit, OnDestroy {
     this.roleForm = this.fb.group({
       roleId: [0],
       roleName: ['', Validators.required],
-      loweredRoleName:['', Validators.required],
+      loweredRoleName:[],
       description:[],
       //menuPosition: ['', Validators.required],
       isActive: [true],
@@ -65,12 +66,14 @@ export class NewRoleComponent implements OnInit, OnDestroy {
   }
   
   onSubmit() {
-    const id = this.roleForm.get('roleId').value;   
+    // const id = this.roleForm.get('roleId').value;   
+    const id = this.route.snapshot.paramMap.get('roleId'); 
+    
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
           this.loading=true;
-          this.roleService.update(+id,this.roleForm.value).subscribe(response => {
+          this.roleService.update(id,this.roleForm.value).subscribe(response => {
             this.router.navigateByUrl('/security/role-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,

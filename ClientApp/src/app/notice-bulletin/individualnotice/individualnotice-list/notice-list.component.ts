@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 // import { ConfirmService } from 'src/app/core/service/confirm.service';
 // import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-notice-list',
@@ -34,7 +36,7 @@ export class NoticeListComponent implements OnInit, OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar,private NoticeService: NoticeService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private NoticeService: NoticeService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     this.getNotices();

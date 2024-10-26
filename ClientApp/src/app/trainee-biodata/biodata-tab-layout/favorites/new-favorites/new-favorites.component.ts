@@ -5,6 +5,7 @@ import { FavoritesService } from '../../service/Favorites.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-favorites',
@@ -24,7 +25,7 @@ export class NewFavoritesComponent implements OnInit, OnDestroy {
   traineeId: string;
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private FavoritesService: FavoritesService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('favoritesId'); 

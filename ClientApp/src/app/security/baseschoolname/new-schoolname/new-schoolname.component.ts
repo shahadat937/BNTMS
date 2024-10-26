@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BaseSchoolName } from '../../models/BaseSchoolName';
 import { MasterData } from 'src/assets/data/master-data';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-schoolname',
@@ -41,7 +42,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [ 'ser','schoolLogo', 'schoolName', 'shortName',  'actions'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
@@ -161,7 +162,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
       address: [],
       telephone: [],
       cellphone: [],
-      email: [],
+      email: ['', [Validators.email]],
       fax: [],
       branchLevel: [4],
       firstLevel: [this.masterData.UserLevel.navy],
@@ -196,6 +197,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
               horizontalPosition: 'right',
               panelClass: 'snackbar-success'
             });
+            this.loading = false;
           }, error => {
             this.validationErrors = error;
           })
@@ -213,6 +215,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
         });
+        this.loading = false;
       }, error => {
         this.validationErrors = error;
       })

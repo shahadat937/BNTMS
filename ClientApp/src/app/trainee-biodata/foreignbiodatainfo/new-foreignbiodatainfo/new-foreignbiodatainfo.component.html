@@ -8,7 +8,7 @@
                 <h4 class="page-title">{{pageTitle}}</h4>
               </li>
               <li class="breadcrumb-item bcrumb-1">
-                <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+                <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
               </li>
               <li class="breadcrumb-item bcrumb-2">
                 <a href="#" onClick="return false;"> Foreign Officer BIO Data</a>
@@ -75,7 +75,7 @@
                       </mat-error>                                         
                     </mat-form-field>
                   </div>
-                  <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
+                  <!-- <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Height</mat-label>
                       <mat-select formControlName="heightId" required>
@@ -88,8 +88,9 @@
                         Height is required
                       </mat-error>
                     </mat-form-field>
-                  </div>
-                  <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
+                  </div> -->
+                  
+                  <!-- <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Weight</mat-label>
                       <mat-select formControlName="weightId" required>
@@ -102,7 +103,27 @@
                         Weight is required
                       </mat-error>
                     </mat-form-field>
+                  </div> -->
+
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Height</mat-label>
+                      <input matInput formControlName="heightId" required
+                      (keypress)="sharedService.validateNumberInputWithDot($event)" 
+                      (input)="sharedService.filterInputWithDot($event)"  >
+                      <mat-error *ngIf="BIODataGeneralInfoForm.get('heightId').hasError('heightId')"></mat-error>
+                    </mat-form-field>
                   </div>
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Weight</mat-label>
+                      <input matInput formControlName="weightId" required
+                      (keypress)="sharedService.validateNumberInputWithDot($event)" 
+                      (input)="sharedService.filterInputWithDot($event)"  >
+                      <mat-error *ngIf="BIODataGeneralInfoForm.get('weightId').hasError('weightId')"></mat-error>
+                    </mat-form-field>
+                  </div>
+
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Color Of Eye</mat-label>
@@ -402,7 +423,10 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Mobile</mat-label>
-                      <input matInput formControlName="mobile" >
+                      <input matInput formControlName="mobile"
+                      (keypress)="sharedService.validateNumberInput($event)" 
+                      (input)="sharedService.filterInput($event)" 
+                       >
                       
                     </mat-form-field>
                   </div>

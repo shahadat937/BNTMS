@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-foreigncourse-list',
@@ -28,6 +29,7 @@ export class ForeigncourseListComponent extends UnsubscribeOnDestroyAdapter impl
     length: 1
   }
   searchText="";
+  viewStatus = 100;
 
   displayedColumns: string[] = ['ser','courseTitle','courseName','durationFrom','durationTo', 'country', 'nomination', 'actions'];
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
@@ -36,7 +38,7 @@ export class ForeigncourseListComponent extends UnsubscribeOnDestroyAdapter impl
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 
@@ -45,7 +47,7 @@ export class ForeigncourseListComponent extends UnsubscribeOnDestroyAdapter impl
   }
   getCourseDurationsByCourseType(){
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
+    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId, this.viewStatus).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;

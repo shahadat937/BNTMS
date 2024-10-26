@@ -8,7 +8,7 @@
                 <h4 class="page-title">{{pageTitle}} List</h4>
               </li>
               <li class="breadcrumb-item bcrumb-1"> 
-                <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+                <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
               </li>
               <li class="breadcrumb-item bcrumb-2">
                 <a href="#" onClick="return false;"> {{pageTitle}}</a>
@@ -58,7 +58,8 @@
                   </div>
                 </div>
 
-                <table *ngIf="role != userRole.Student && documentTypeId != masterData.readingMaterial.videos" class="table  tbl-by-group">
+                <!-- <table *ngIf="role == userRole.Student && documentTypeId != masterData.readingMaterial.videos" class="table  tbl-by-group"> -->
+                <table *ngIf="documentTypeId != masterData.readingMaterial.videos" class="table  tbl-by-group">
                   <thead>
                     <tr>
                       <th class="cl-srl"><h5>Ser</h5></th>
@@ -92,7 +93,8 @@
                   </tbody>
                 </table>
 
-                <table  *ngIf="role == userRole.Student && !documentTypeId" class="table  tbl-by-group">
+                <!-- <table  *ngIf="role == userRole.Student && !documentTypeId" class="table  tbl-by-group"> -->
+                <table  *ngIf="role ==!documentTypeId" class="table  tbl-by-group">
                   <thead>
                     <tr>
                       <th class="cl-srl"><h5>Material Title</h5></th>

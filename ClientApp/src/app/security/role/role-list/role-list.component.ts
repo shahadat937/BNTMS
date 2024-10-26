@@ -8,6 +8,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -29,14 +30,15 @@ export class RoleListComponent implements OnInit,OnDestroy {
   }
   searchText="";
 
-  displayedColumns: string[] = [ 'sl',/*'roleId',*/ 'roleName', 'loweredRoleName', 'description', /*'menuPosition',*/ 'isActive', 'actions'];
+  // displayedColumns: string[] = [ 'sl',/*'roleId',*/ 'roleName', 'loweredRoleName', 'description', /*'menuPosition',*/ 'isActive', 'actions'];
+  displayedColumns: string[] = [ 'sl','name', 'actions'];
   dataSource: MatTableDataSource<Role> = new MatTableDataSource();
 
   selection = new SelectionModel<Role>(true, []);
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar,private roleService: RoleService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private roleService: RoleService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
   
   ngOnInit() {
     this.getRoles();
@@ -87,7 +89,8 @@ export class RoleListComponent implements OnInit,OnDestroy {
 
 
   deleteItem(row) {
-    const id = row.roleId; 
+    const id = row.id; 
+    console.log(row.id);
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.roleService.delete(id).subscribe(() => {

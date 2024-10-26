@@ -21,6 +21,7 @@ import { TraineeListForExamMark } from '../../../exam-management/models/traineeL
 import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
 import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
 import { Location } from '@angular/common';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursesubjectsectionasign',
@@ -84,7 +85,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit, OnDestroy 
   subscription: any;
   // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   // dataSource ;
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private subjectNameService: BNASubjectNameService,private CoursesubjectsectionasignService:CoursesubjectsectionasignService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, private location: Location) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private subjectNameService: BNASubjectNameService,private CoursesubjectsectionasignService:CoursesubjectsectionasignService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, private location: Location, public sharedService: SharedServiceService) { }
 
   goBack() {
     this.location.back();

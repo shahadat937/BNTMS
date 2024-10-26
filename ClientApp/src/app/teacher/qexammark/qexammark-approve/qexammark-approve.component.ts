@@ -15,6 +15,7 @@ import { TraineeListForExamMark } from '../../../exam-management/models/traineeL
 import { AuthService } from 'src/app/core/service/auth.service';
 import { SubjectMarkService } from 'src/app/subject-management/service/SubjectMark.service';
 import { MarkTypeService } from 'src/app/basic-setup/service/MarkType.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-qexammark-approve',
@@ -75,7 +76,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     displayedColumnsForTraineeList: string[] = ['sl','traineePNo','traineeName', 'obtaintMark','examMarkRemarksId'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private markTypeService: MarkTypeService,private subjectMarkService: SubjectMarkService,private authService: AuthService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private markTypeService: MarkTypeService,private subjectMarkService: SubjectMarkService,private authService: AuthService,private traineeNominationService:TraineeNominationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BNAExamMarkService: BNAExamMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId'); 

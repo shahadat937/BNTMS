@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { ClassRoutineService } from '../../../routine-management/service/classroutine.service';
 import { Role } from 'src/app/core/models/role';
 import { delay, of, Subscription } from 'rxjs';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-courseinstructor',
@@ -67,7 +68,7 @@ export class NewCourseInstructorComponent implements OnInit,OnDestroy {
 
   displayedColumns: string[] = ['ser', 'courseModule', 'bnaSubjectName', 'trainee', 'markentry', 'status', 'actions'];
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private ClassRoutineService: ClassRoutineService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private ClassRoutineService: ClassRoutineService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService, ) { }
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();

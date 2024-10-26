@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StepRelationService } from '../../service/StepRelation.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-steprelation',
@@ -19,7 +20,7 @@ export class NewStepRelationComponent extends UnsubscribeOnDestroyAdapter implem
   StepRelationForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private StepRelationService: StepRelationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private StepRelationService: StepRelationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

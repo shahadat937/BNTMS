@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-first3',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class First3Component implements OnInit {
 
-  constructor() { }
+  constructor(public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
   }

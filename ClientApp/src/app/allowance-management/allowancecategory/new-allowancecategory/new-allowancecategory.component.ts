@@ -8,6 +8,7 @@ import { SelectedModel } from '../../../core/models/selectedModel';
 import { AllowanceCategory } from '../../models/allowancecategory';
 import { AllowanceCategoryService } from '../../service/allowancecategory.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-allowancecategory',
@@ -37,7 +38,14 @@ export class NewAllowanceCategoryComponent extends UnsubscribeOnDestroyAdapter i
 
 
   displayedColumns: string[] = ['countryGroup', 'country', 'currencyName', 'allowancePercentage', 'dailyPayment',   'actions'];
-  constructor(private snackBar: MatSnackBar,private AllowanceCategoryService: AllowanceCategoryService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private AllowanceCategoryService: AllowanceCategoryService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,) {
     super();
   }
 

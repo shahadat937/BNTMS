@@ -13,6 +13,7 @@ import {Inject, LOCALE_ID } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-courseactivation-list',
@@ -51,7 +52,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
 userRole: any;
 
   
-  constructor(@Inject(LOCALE_ID) public locale: string,private datepipe: DatePipe,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(@Inject(LOCALE_ID) public locale: string,private datepipe: DatePipe,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 
@@ -85,8 +86,7 @@ userRole: any;
   }
   getCourseDurations() {
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-        console.log(response)
+    this.CourseDurationService.getCourseDurations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {       
       this.dataSource.data = response.items; 
       // this gives an object with dates as keys
       const groups = this.dataSource.data.reduce((groups, courses) => {

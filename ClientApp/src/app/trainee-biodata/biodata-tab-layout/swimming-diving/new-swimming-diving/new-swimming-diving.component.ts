@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ThemePalette } from '@angular/material/core';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-swimming-diving',
@@ -35,7 +36,7 @@ export class NewSwimmingDivingComponent implements OnInit,OnDestroy {
  
  // form: FormGroup;
 
-  constructor(private CodeValueService:CodeValueService,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private CodeValueService:CodeValueService,private snackBar: MatSnackBar,private SwimmingDivingService: SwimmingDivingService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 

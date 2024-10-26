@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-module',
@@ -40,7 +41,7 @@ export class ModuleListComponent extends UnsubscribeOnDestroyAdapter implements 
    selection = new SelectionModel<Module>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private ModuleService: ModuleService,private router: Router,private confirmService: ConfirmService) { 
+  constructor(private snackBar: MatSnackBar,private ModuleService: ModuleService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     super();
   }
 
@@ -79,7 +80,7 @@ export class ModuleListComponent extends UnsubscribeOnDestroyAdapter implements 
  
   }
   applyFilter(searchText: any){ 
-    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
+    this.searchText = searchText.toLowerCase().trim();
     this.getModules();
   } 
 

@@ -13,6 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-readingmaterial-list',
@@ -49,7 +50,17 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private ReadingMaterialService: ReadingMaterialService,private readonly sanitizer: DomSanitizer,private router: Router,private confirmService: ConfirmService) { }
+  constructor
+  (
+    private snackBar: MatSnackBar, 
+    private authService: AuthService,
+    private ReadingMaterialService: ReadingMaterialService,
+    private readonly sanitizer: DomSanitizer,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
+  ) 
+  { }
 
   ngOnInit() {
     

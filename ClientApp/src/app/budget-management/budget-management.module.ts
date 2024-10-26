@@ -1,3 +1,4 @@
+import { BudgetTransaction } from './budgetallocation/budget-transaction/transaction.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,6 +22,8 @@ import {CourseBudgetAllocationListComponent} from './coursebudgetallocation/cour
 import { BudgetManagementRoutingModule } from './budget-management-routing.module';
 import {NewBudgetAllocationComponent} from './budgetallocation/new-budgetallocation/new-budgetallocation.component';
 import {ScheduleInstallmentListComponent} from './scheduleinstallment/scheduleinstallment-list/scheduleinstallment-list.component';
+import { AddBudgetListComponent } from './budgetallocation/budgetadd/add-budget.component';
+
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import {ScheduleInstallmentListComponent} from './scheduleinstallment/schedulein
     CourseBudgetAllocationListComponent,
     NewBudgetAllocationComponent,
     BudgetAllocationListComponent,
+    AddBudgetListComponent,
+    BudgetTransaction,
     ScheduleInstallmentListComponent
   ],
   imports: [

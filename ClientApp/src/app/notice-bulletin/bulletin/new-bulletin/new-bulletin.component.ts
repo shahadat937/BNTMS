@@ -16,6 +16,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
+import { SharedServiceService } from '../../../shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bulletin',
@@ -68,7 +69,9 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    public sharedService: SharedServiceService,
+    
   ) { }
 
   ngOnInit(): void {

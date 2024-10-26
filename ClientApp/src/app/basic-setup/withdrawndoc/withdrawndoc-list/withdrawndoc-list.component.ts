@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import{MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class WithdrawnDocListComponent extends UnsubscribeOnDestroyAdapter imple
 
   selection = new SelectionModel<WithdrawnDoc>(true, []);
   
-  constructor(private snackBar: MatSnackBar,private WithdrawnDocService: WithdrawnDocService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private WithdrawnDocService: WithdrawnDocService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
   

@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-guestspeakeractionstatus',
@@ -38,7 +39,7 @@ export class NewGuestSpeakerActionStatusComponent extends UnsubscribeOnDestroyAd
 
   selection = new SelectionModel<GuestSpeakerActionStatus>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private GuestSpeakerActionStatusService: GuestSpeakerActionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private GuestSpeakerActionStatusService: GuestSpeakerActionStatusService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

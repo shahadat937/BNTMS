@@ -19,6 +19,7 @@ import {RankService} from '../../../basic-setup/service/Rank.service';
 import {SaylorRankService} from '../../../basic-setup/service/SaylorRank.service';
 import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-trainee-certificate',
@@ -79,7 +80,24 @@ export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter
 
 // getExamMarkListByParameters
   
-  constructor(private snackBar: MatSnackBar,private baseSchoolNameService:BaseSchoolNameService,private BNAExamMarkService:BNAExamMarkService,private saylorRankService:SaylorRankService,private rankService:RankService,private courseDurationService:CourseDurationService,private biodataService:BIODataGeneralInfoService,private authService: AuthService,private courseNameService:CourseNameService,private CourseInstructorService: CourseInstructorService ,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private baseSchoolNameService:BaseSchoolNameService,
+    private BNAExamMarkService:BNAExamMarkService,
+    private saylorRankService:SaylorRankService,
+    private rankService:RankService,
+    private courseDurationService:CourseDurationService,
+    private biodataService:BIODataGeneralInfoService,
+    private authService: AuthService,
+    private courseNameService:CourseNameService,
+    private CourseInstructorService: CourseInstructorService ,
+    private BNASubjectNameService: BNASubjectNameService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService,
+
+  ) {
     super();
   }
 

@@ -15,6 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-foreigntrainingcoursereport',
@@ -66,7 +67,7 @@ export class NewForeignTrainingCourseReportComponent extends UnsubscribeOnDestro
 
 
   //displayedColumns: string[] = ['countryGroup', 'country', 'currencyName', 'allowancePercentage', 'dailyPayment',   'actions'];
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private CourseBudgetAllocationService:CourseBudgetAllocationService, private ForeignTrainingCourseReportService: ForeignTrainingCourseReportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private CourseBudgetAllocationService:CourseBudgetAllocationService, private ForeignTrainingCourseReportService: ForeignTrainingCourseReportService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

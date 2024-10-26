@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 
@@ -50,7 +51,7 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
   selection = new SelectionModel<CourseDuration>(true, []);
 
  
- constructor(private datepipe: DatePipe,private dashboardService:dashboardService,  private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+ constructor(private datepipe: DatePipe,private dashboardService:dashboardService,  private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
    super();
  }
 

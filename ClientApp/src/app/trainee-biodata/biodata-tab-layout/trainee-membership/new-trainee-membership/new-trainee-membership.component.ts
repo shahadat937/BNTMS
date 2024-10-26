@@ -5,6 +5,7 @@ import { TraineeMembershipService } from '../../../biodata-tab-layout/service/Tr
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class NewTraineeMembershipComponent implements OnInit,OnDestroy {
   selectMembership:SelectedModel[]
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private TraineeMembershipService: TraineeMembershipService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private TraineeMembershipService: TraineeMembershipService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('traineeMembershipId'); 

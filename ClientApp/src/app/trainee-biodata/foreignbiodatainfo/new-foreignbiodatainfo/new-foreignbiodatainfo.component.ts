@@ -7,6 +7,7 @@ import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.serv
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-foreignbiodatainfo',
   templateUrl: './new-foreignbiodatainfo.component.html',
@@ -56,6 +57,7 @@ export class NewForeignBIODataInfoComponent implements OnInit, OnDestroy {
     private BIODataGeneralInfoService: BIODataGeneralInfoService,
     private fb: FormBuilder, private router: Router, 
     private route: ActivatedRoute,private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
     
     ) { 
     this.files = [];
@@ -317,15 +319,15 @@ filterCountry(value:any){
       mobile: [''],
       passportNo:[''],
       fileAttr:[],
-      email: [''],
+      email: ['', [Validators.required, Validators.email]],
       bnaPhotoUrl: [''],
       image: [''],
       //bnaNo: [''],
       pno: [''],
       shortCode:[''],
       presentBillet:[''],
-      dateOfBirth: [now],
-      joiningDate: [now],
+      dateOfBirth: [],
+      joiningDate: [],
       identificationMark: [''],
       presentAddress: [''],
       permanentAddress: [''],

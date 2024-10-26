@@ -8,7 +8,7 @@
                 <h4 class="page-title">{{pageTitle}}</h4>
               </li>
               <li class="breadcrumb-item bcrumb-1">
-                <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+                <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
               </li>
               <li class="breadcrumb-item bcrumb-2">
                 <a href="#" onClick="return false;">User</a>
@@ -146,7 +146,8 @@
                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Phone Number</mat-label>
-                      <input matInput formControlName="phoneNumber" required>
+                      <input matInput formControlName="phoneNumber" required  (keypress)="sharedService.validateNumberInput($event)" 
+                      (input)="sharedService.filterInput($event)"  >
                       <mat-error *ngIf="UserForm.get('phoneNumber').hasError('required')">
                         Phone Number is required
                       </mat-error>
@@ -156,7 +157,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Email</mat-label>
-                      <input matInput formControlName="email" required>
+                      <input type="email" matInput formControlName="email" required>
                       <mat-error *ngIf="UserForm.get('email').hasError('required')">
                         Email is required
                       </mat-error>

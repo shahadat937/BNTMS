@@ -11,6 +11,7 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-saylorrank-list',
@@ -39,7 +40,7 @@ export class SaylorRankListComponent extends UnsubscribeOnDestroyAdapter impleme
   selection = new SelectionModel<SaylorRank>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private SaylorRankService: SaylorRankService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private SaylorRankService: SaylorRankService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
   

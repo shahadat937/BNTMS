@@ -9,6 +9,7 @@ import { SubjectMark } from '../../models/SubjectMark';
 import {MasterData} from '../../../../../src/assets/data/master-data';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-subjectmark',
@@ -46,7 +47,7 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
 
   displayedColumns: string[] = [ 'ser', 'markType', 'mark', 'passMark', 'actions'];
 
-  constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar,private BNAExamMarkService: BNAExamMarkService,private confirmService: ConfirmService,private SubjectMarkService: SubjectMarkService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 

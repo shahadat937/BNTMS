@@ -13,6 +13,7 @@ import { TraineeList } from 'src/app/attendance-management/models/traineeList';
 import {IndividualBulletinService} from '../../../notice-bulletin/service/individualbulletin.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-individualbulletin',
@@ -60,6 +61,7 @@ export class IndividualBulletinComponent implements OnInit, OnDestroy {
     private classRoutineService: ClassRoutineService,
     private traineeNominationService:TraineeNominationService,
     private authService: AuthService,
+    public sharedService: SharedServiceService
     ) { }
 
   ngOnInit(): void {

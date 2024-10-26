@@ -2731,10 +2731,10 @@ namespace SchoolManagement.Persistence
                     .HasForeignKey(d => d.HairColorId)
                     .HasConstraintName("FK_TraineeBioDataGeneralInfo_HairColor");
 
-                entity.HasOne(d => d.Height)
-                    .WithMany(p => p.TraineeBioDataGeneralInfos)
-                    .HasForeignKey(d => d.HeightId)
-                    .HasConstraintName("FK_TraineeBioDataGeneralInfo_Height");
+                //entity.HasOne(d => d.Height)
+                //    .WithMany(p => p.TraineeBioDataGeneralInfos)
+                //    .HasForeignKey(d => d.HeightId)
+                //    .HasConstraintName("FK_TraineeBioDataGeneralInfo_Height");
 
                 entity.HasOne(d => d.MaritalStatus)
                     .WithMany(p => p.TraineeBioDataGeneralInfos)
@@ -2792,10 +2792,10 @@ namespace SchoolManagement.Persistence
                     .HasConstraintName("FK_TraineeBioDataGeneralInfo_SaylorSubBranch");
 
 
-                entity.HasOne(d => d.Weight)
-                    .WithMany(p => p.TraineeBioDataGeneralInfos)
-                    .HasForeignKey(d => d.WeightId)
-                    .HasConstraintName("FK_TraineeBioDataGeneralInfo_Weight");
+                //entity.HasOne(d => d.Weight)
+                //    .WithMany(p => p.TraineeBioDataGeneralInfos)
+                //    .HasForeignKey(d => d.WeightId)
+                //    .HasConstraintName("FK_TraineeBioDataGeneralInfo_Weight");
             });
 
             modelBuilder.Entity<TraineeBioDataOther>(entity =>
@@ -2879,10 +2879,10 @@ namespace SchoolManagement.Persistence
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TraineeBioDataOther_FailureStatus");
 
-                entity.HasOne(d => d.Height)
-                    .WithMany(p => p.TraineeBioDataOthers)
-                    .HasForeignKey(d => d.HeightId)
-                    .HasConstraintName("FK_TraineeBioDataOther_BnaCurriculumType");
+                //entity.HasOne(d => d.Height)
+                //    .WithMany(p => p.TraineeBioDataOthers)
+                //    .HasForeignKey(d => d.HeightId)
+                //    .HasConstraintName("FK_TraineeBioDataOther_BnaCurriculumType");
 
                 entity.HasOne(d => d.MaritalStatus)
                     .WithMany(p => p.TraineeBioDataOthers)
@@ -3585,6 +3585,7 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<CourseTerm> CourseTerm { get; set; } = null!;
 
         public DbSet<UniversityCourseResult> UniversityCourseResult { get; set; } = null!;
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; } = null!;
 
     }
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ChildParameterService} from '../service/ChildParameter.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-main-tab-layout',
@@ -21,7 +22,7 @@ export class MainTabLayoutComponent implements OnInit,OnDestroy {
   traineeId:any;
   userRole = Role;
   subscription: any;
-  constructor(private router: Router,private authService: AuthService, private route: ActivatedRoute, private childParameterService: ChildParameterService) {
+  constructor(private router: Router,private authService: AuthService, private route: ActivatedRoute, private childParameterService: ChildParameterService, public sharedService: SharedServiceService) {
   
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();

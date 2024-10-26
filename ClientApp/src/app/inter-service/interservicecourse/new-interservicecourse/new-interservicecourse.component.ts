@@ -11,6 +11,7 @@ import { CourseNameService } from 'src/app/basic-setup/service/CourseName.servic
 import { OrganizationNameService } from 'src/app/basic-setup/service/organizationname.service';
 import { CourseDuration } from '../../models/courseduration';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-interservicecourse',
@@ -50,7 +51,7 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private CourseNameService: CourseNameService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 

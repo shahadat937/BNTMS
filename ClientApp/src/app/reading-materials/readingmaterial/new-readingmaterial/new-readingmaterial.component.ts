@@ -11,9 +11,11 @@ import { CourseNameService } from 'src/app/basic-setup/service/CourseName.servic
 import { ReadingMaterial } from '../../models/readingmaterial';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
-import { HttpEvent, HttpEventType  } from '@angular/common/http';
-import {FileDialogMessageComponent} from '../file-dialog-message/file-dialog-message.component';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { FileDialogMessageComponent } from '../file-dialog-message/file-dialog-message.component';
 import { MatDialog } from '@angular/material/dialog';
+import { InstructorDashboardService } from '../../../teacher/services/InstructorDashboard.service';import { SharedServiceService } from 'src/app/shared/shared-service.service';
+;
 
 @Component({
   selector: 'app-new-readingmaterial',
@@ -21,7 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./new-readingmaterial.component.sass']
 })
 export class NewReadingMaterialComponent implements OnInit, OnDestroy {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   roleList = Role;
   buttonText: string;
@@ -32,30 +34,30 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
   selectedcourse: SelectedModel[];
   selectedschool: SelectedModel[];
   selecteddocs: SelectedModel[];
-  selectDocument:SelectedModel[];
+  selectDocument: SelectedModel[];
   selectedLocationType: SelectedModel[];
   selecteddownload: SelectedModel[];
   selectedReadingMaterialTitle: SelectedModel[];
-  selectMaterials:SelectedModel[];
+  selectMaterials: SelectedModel[];
   selectSchool: SelectedModel[];
   isShown: boolean = false;
   options = [];
   courseNameId: number;
   traineeId: any;
-  role:any;
-  loggedTraineeId:any;
-  branchId:any;
+  role: any;
+  loggedTraineeId: any;
+  branchId: any;
   schoolId: any;
   baseSchoolNameId: number;
   readingMaterialTitleId: number;
   readingMaterialList: ReadingMaterial[];
   public files: any[];
   progress: number = 0;
-  btnShow=true;
-  showSpinner=false;
-  documentTypeId:any;
-  IsAuthorNameShow:boolean=false;
-  IsPublisherNameShow:boolean=false;
+  btnShow = true;
+  showSpinner = false;
+  documentTypeId: any;
+  IsAuthorNameShow: boolean = false;
+  IsPublisherNameShow: boolean = false;
   displayedColumns: string[] = ['ser', 'readingMaterialTitle', 'documentName', 'documentType', 'document', 'actions'];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -65,8 +67,20 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
 
   filteredOptions;
   subscription: any;
+  instractorData: any;
 
-  constructor(public dialog: MatDialog,private snackBar: MatSnackBar, private authService: AuthService,private courseNameService: CourseNameService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private ReadingMaterialService: ReadingMaterialService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) {
+  constructor(public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
+    private courseNameService: CourseNameService,
+    private confirmService: ConfirmService,
+    private CodeValueService: CodeValueService,
+    private ReadingMaterialService: ReadingMaterialService,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private instructorDashboardService: InstructorDashboardService,
+    public sharedService: SharedServiceService) {
     this.files = [];
   }
 
@@ -76,8 +90,19 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
     const id = this.route.snapshot.paramMap.get('readingMaterialId');
 
     this.role = this.authService.currentUserValue.role.trim();
-    this.loggedTraineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId.trim();
+    this.loggedTraineeId = this.authService.currentUserValue.traineeId.trim();
+
+
+    if (this.authService.currentUserValue.branchId) {
+      this.branchId = this.authService.currentUserValue.branchId.trim();
+    }
+    else {
+
+      this.branchId = this.schoolId;
+
+
+    }
+
 
 
     if (id) {
@@ -91,7 +116,7 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
             readingMaterialTitleId: res.readingMaterialTitleId,
             courseNameId: res.courseNameId,
             documentName: res.documentName,
-           // baseSchoolNameId: res.baseSchoolNameId,
+            // baseSchoolNameId: res.baseSchoolNameId,
             documentTypeId: res.documentTypeId,
             documentLink: res.documentLink,
             showRightId: res.showRightId,
@@ -113,7 +138,7 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
       this.buttonText = "Save"
     }
     this.intitializeForm();
-    if(this.role != this.roleList.MasterAdmin){
+    if (this.role != this.roleList.MasterAdmin) {
       this.ReadingMaterialForm.get('baseSchoolNameId').setValue(this.branchId);
       this.ReadingMaterialForm.get('showRightId').setValue(this.branchId);
     }
@@ -128,7 +153,7 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-  intitializeForm() { 
+  intitializeForm() {
     this.ReadingMaterialForm = this.fb.group({
       readingMaterialId: [0],
       readingMaterialTitleId: [''],
@@ -146,8 +171,8 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
       approvedUser: [''],
       status: [1],
       isActive: [true],
-      aurhorName:[''],
-      publisherName:['']
+      aurhorName: [''],
+      publisherName: ['']
     })
     //autocomplete
     this.subscription = this.ReadingMaterialForm.get('course').valueChanges
@@ -159,7 +184,7 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
   onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      if(file.size >2147483648){
+      if (file.size > 2147483648) {
         let tempDirection;
         if (localStorage.getItem('isRtl') === 'true') {
           tempDirection = 'rtl';
@@ -167,14 +192,14 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
           tempDirection = 'ltr';
         }
         const dialogRef = this.dialog.open(FileDialogMessageComponent, {
-         // data: this.spareStockBySpRequest,
+          // data: this.spareStockBySpRequest,
           direction: tempDirection,
         });
-         this.btnShow=false;
+        this.btnShow = false;
       }
 
-      else{
-        this.btnShow=true;
+      else {
+        this.btnShow = true;
       }
       this.ReadingMaterialForm.patchValue({
         doc: file,
@@ -189,18 +214,18 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
     this.ReadingMaterialForm.get('course').setValue(item.text);
     this.baseSchoolNameId = this.ReadingMaterialForm.get('baseSchoolNameId').value;
 
-    
+
   }
-  onDocumentTypeSelectionChange(event){
+  onDocumentTypeSelectionChange(event) {
     if (event.isUserInput) {
       this.documentTypeId = event.source.value;
-      if(this.documentTypeId == 2){
+      if (this.documentTypeId == 2) {
         this.IsAuthorNameShow = true;
-        this.IsPublisherNameShow =true;
+        this.IsPublisherNameShow = true;
       }
-      else{
+      else {
         this.IsAuthorNameShow = false;
-        this.IsPublisherNameShow =false;
+        this.IsPublisherNameShow = false;
       }
     }
   }
@@ -235,35 +260,35 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
   getSelectedReadingMaterial() {
     this.subscription = this.ReadingMaterialService.getSelectedReadingMaterial().subscribe(res => {
       this.selectedReadingMaterialTitle = res;
-      this.selectMaterials=res;
+      this.selectMaterials = res;
     });
   }
-  filterByMaterial(value:any){
-    this.selectedReadingMaterialTitle=this.selectMaterials.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  filterByMaterial(value: any) {
+    this.selectedReadingMaterialTitle = this.selectMaterials.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
   getselectedcoursename() {
     this.subscription = this.ReadingMaterialService.getselectedcoursename().subscribe(res => {
       this.selectedcourse = res;
     });
   }
-  filterSchool(value:any){
-    this.selectedschool=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+  filterSchool(value: any) {
+    this.selectedschool = this.selectSchool.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedschools() {
     this.subscription = this.ReadingMaterialService.getselectedschools().subscribe(res => {
       this.selectedschool = res;
-      this.selectSchool=res;
+      this.selectSchool = res;
     });
   }
 
   getselectedDocumentType() {
     this.subscription = this.ReadingMaterialService.getselectedDocumentType().subscribe(res => {
       this.selecteddocs = res
-      this.selectDocument=res
+      this.selectDocument = res
     });
   }
-  filterByDocs(value:any){
-    this.selecteddocs=this.selectDocument.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  filterByDocs(value: any) {
+    this.selecteddocs = this.selectDocument.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
 
   getselecteddownloadright() {
@@ -273,8 +298,8 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
   }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
     });
   }
   onSubmit() {
@@ -291,10 +316,10 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
         if (result) {
           this.loading = true;
           this.subscription = this.ReadingMaterialService.update(+id, formData).subscribe(response => {
-            if(this.traineeId){              
-              const url = '/admin/dashboard/readingmateriallistinstructor/'+this.traineeId+'/'+this.schoolId;          
+            if (this.traineeId) {
+              const url = '/admin/dashboard/readingmateriallistinstructor/' + this.traineeId + '/' + this.schoolId;
               this.router.navigateByUrl(url);
-            }else{
+            } else {
 
               this.router.navigateByUrl('/reading-materials/readingmaterial-list');
             }
@@ -320,7 +345,7 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
             break;
           case HttpEventType.UploadProgress:
             this.progress = Math.round(event.loaded / event.total * 100);
-            this.showSpinner=true;
+            this.showSpinner = true;
             break;
           case HttpEventType.Response:
 
@@ -333,11 +358,13 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
               horizontalPosition: 'right',
               panelClass: 'snackbar-success'
             });
-            this.showSpinner =false;
-            this.router.navigateByUrl('/reading-materials/readingmaterial-list');
+            this.showSpinner = false;
+            // this.router.navigateByUrl('/reading-materials/readingmaterial-list');
+            const url = '/admin/dashboard/readingmateriallistinstructor/' + this.traineeId + '/' + this.schoolId;
+            this.router.navigateByUrl(url);
         }
-      //  this.reloadCurrentRoute();
-        
+        //  this.reloadCurrentRoute();
+
         // }, error => {
         //   this.validationErrors = error;
         // })
@@ -361,31 +388,31 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
       //     this.router.navigateByUrl('/reading-materials/readingmaterial-list');
       //   }
 
-          // }, error => {
-          //   this.validationErrors = error;
-          // })
-    
-    // else {
-    //   this.ReadingMaterialService.submit(formData).subscribe(response => {
-    //     if(this.traineeId){  
-    //       const url = '/admin/dashboard/readingmateriallistinstructor/'+this.traineeId+'/'+this.schoolId;            
-    //       this.router.navigateByUrl(url);
-    //     }else{
+      // }, error => {
+      //   this.validationErrors = error;
+      // })
 
-    //       this.router.navigateByUrl('/reading-materials/readingmaterial-list');
-    //     }
-    //     this.snackBar.open('Information Inserted Successfully ', '', {
-    //       duration: 2000,
-    //       verticalPosition: 'bottom',
-    //       horizontalPosition: 'right',
-    //       panelClass: 'snackbar-success'
-    //     });
-    //   }, error => {
-    //     this.validationErrors = error;
-    //   })
-    // }
+      // else {
+      //   this.ReadingMaterialService.submit(formData).subscribe(response => {
+      //     if(this.traineeId){  
+      //       const url = '/admin/dashboard/readingmateriallistinstructor/'+this.traineeId+'/'+this.schoolId;            
+      //       this.router.navigateByUrl(url);
+      //     }else{
 
-  // }
+      //       this.router.navigateByUrl('/reading-materials/readingmaterial-list');
+      //     }
+      //     this.snackBar.open('Information Inserted Successfully ', '', {
+      //       duration: 2000,
+      //       verticalPosition: 'bottom',
+      //       horizontalPosition: 'right',
+      //       panelClass: 'snackbar-success'
+      //     });
+      //   }, error => {
+      //     this.validationErrors = error;
+      //   })
+      // }
+
+      // }
     }
   }
 }

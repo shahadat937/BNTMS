@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
 import {Subject, Subscription} from 'rxjs'
 import {debounceTime, distinctUntilChanged} from 'rxjs'
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 
@@ -42,7 +43,13 @@ export class BNAAttendanceRemarksListComponent extends UnsubscribeOnDestroyAdapt
   selection = new SelectionModel<BNAAttendanceRemarks>(true, []);
 
   
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private BNAAttendanceRemarksService: BNAAttendanceRemarksService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private BNAAttendanceRemarksService: BNAAttendanceRemarksService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,) {
     super()
    }
   

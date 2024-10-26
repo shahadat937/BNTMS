@@ -13,6 +13,7 @@ import { ClassRoutine } from '../../../../routine-management/models/classroutine
 import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
 import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineereligation-list',
@@ -68,7 +69,7 @@ export class TraineeReligationListComponent extends UnsubscribeOnDestroyAdapter 
   isShownForTraineeList:boolean=false;
   // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   // dataSource ;
-  constructor(private snackBar: MatSnackBar,private courseDutartionService: CourseDurationService, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private courseDutartionService: CourseDurationService, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,public sharedService: SharedServiceService ) {
     super();
   }
 

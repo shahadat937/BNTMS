@@ -6,6 +6,7 @@ import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-trainee-biodata-other',
@@ -64,7 +65,7 @@ export class NewTraineeBIODataOtherComponent extends UnsubscribeOnDestroyAdapter
   subscription: any;
 
 
-  constructor(private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private TraineeBIODataOtherService: TraineeBIODataOtherService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

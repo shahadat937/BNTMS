@@ -16,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ForeignCourseOtherDocument } from '../../models/ForeignCourseOtherDocument';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-foreigncourseotherdocument',
@@ -68,7 +69,15 @@ export class NewForeignCourseOtherDocumentComponent extends UnsubscribeOnDestroy
 
 
   //displayedColumns: string[] = ['countryGroup', 'country', 'currencyName', 'allowancePercentage', 'dailyPayment',   'actions'];
-  constructor(private snackBar: MatSnackBar,private CourseBudgetAllocationService:CourseBudgetAllocationService, private ForeignCourseOtherDocumentService: ForeignCourseOtherDocumentService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private CourseBudgetAllocationService:CourseBudgetAllocationService, 
+    private ForeignCourseOtherDocumentService: ForeignCourseOtherDocumentService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,) {
     super();
   }
 

@@ -11,6 +11,7 @@ import {BNASubjectName} from '../../../subject-management/models/BNASubjectName'
 import { SubjectMark } from '../../../subject-management/models/SubjectMark';
 import { TraineeNominationService } from '../../../course-management/service/traineenomination.service'
 import {TraineeListForExamMark} from '../../../exam-management/models/traineeListforexammark';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-jcostrainingmark',
   templateUrl: './new-jcostrainingmark.component.html',
@@ -59,7 +60,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit, OnDestroy {
   displayedColumnsForTraineeList: string[] = ['sl', 'traineePNo', 'traineeName', 'obtaintMark', 'examMarkRemarksId'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private snackBar: MatSnackBar, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId');

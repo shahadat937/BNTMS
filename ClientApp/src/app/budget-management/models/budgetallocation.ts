@@ -1,4 +1,6 @@
 export interface BudgetAllocation {
+    transactionDate: any;
+    approveAuthority: any;
     budgetAllocationId: number,
     budgetCodeId: number,
     budgetTypeId: number,

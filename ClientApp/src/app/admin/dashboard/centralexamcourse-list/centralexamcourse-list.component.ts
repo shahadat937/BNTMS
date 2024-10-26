@@ -10,6 +10,7 @@ import {MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { dashboardService } from '../services/dashboard.service'
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-centralexamcourse-list',
@@ -39,7 +40,16 @@ export class CentralExamCourseListComponent extends UnsubscribeOnDestroyAdapter 
   displayedColumns: string[]= ['ser','course','duration','candidate','action'];
 dataSource: any;
   
-  constructor(private snackBar: MatSnackBar,private dashboardService: dashboardService,private route: ActivatedRoute,private BNAExamInstructorAssignService: BNAExamInstructorAssignService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,
+    private dashboardService: dashboardService,
+    private route: ActivatedRoute,
+    private BNAExamInstructorAssignService: BNAExamInstructorAssignService,
+    private router: Router,
+    private confirmService: ConfirmService,    
+    public sharedService: SharedServiceService,
+
+  
+  ) {
     super();
   }
 

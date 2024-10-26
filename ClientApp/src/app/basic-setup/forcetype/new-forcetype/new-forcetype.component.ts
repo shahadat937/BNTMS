@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ForceTypeService } from '../../service/ForceType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-forcetype',
@@ -19,7 +20,14 @@ export class NewForceTypeComponent extends UnsubscribeOnDestroyAdapter implement
   ForceTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private ForceTypeService: ForceTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private ForceTypeService: ForceTypeService,
+    private fb: FormBuilder, 
+    private router: Router,  
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) {
     super();
   }
 

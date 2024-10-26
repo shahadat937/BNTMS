@@ -8,7 +8,7 @@
                 <h4 class="page-title">{{pageTitle}}</h4>
               </li>
               <li class="breadcrumb-item bcrumb-1">
-                <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+                <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
               </li>
               <li class="breadcrumb-item bcrumb-2">
                 <a href="#" onClick="return false;">Base Name</a>
@@ -110,14 +110,19 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Telephone</mat-label>
-                      <input matInput formControlName="telephone">                      
+                      <input matInput formControlName="telephone"
+                       (keypress)="sharedService.validateNumberInput($event)" 
+                      (input)="sharedService.filterInput($event)" 
+                      >                      
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-6  col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Cellphone</mat-label>
-                      <input matInput formControlName="cellphone">                      
+                      <input matInput formControlName="cellphone"
+                        (keypress)="sharedService.validateNumberInput($event)" 
+                        (input)="sharedService.filterInput($event)" >                      
                     </mat-form-field>
                   </div>
 

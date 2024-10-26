@@ -13,6 +13,7 @@ import {TraineeNominationService} from '../service/traineenomination.service'
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-coursecreatenbcd-list',
   templateUrl: './coursecreatenbcd-list.component.html',
@@ -50,7 +51,7 @@ showHideDiv= false;
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private datepipe: DatePipe, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private datepipe: DatePipe, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

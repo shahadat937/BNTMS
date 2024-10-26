@@ -11,6 +11,7 @@ import { Notice } from '../../models/notice';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-school-notice',
@@ -59,7 +60,8 @@ export class NewSchoolNoticeComponent implements OnInit, OnDestroy {
     private router: Router,  
     private route: ActivatedRoute, 
     private classRoutineService: ClassRoutineService,
-    private authService: AuthService
+    private authService: AuthService,
+    public sharedService: SharedServiceService
     ) { }
 
   ngOnInit(): void {

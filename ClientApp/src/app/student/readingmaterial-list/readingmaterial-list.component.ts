@@ -1,17 +1,18 @@
-import { Component, OnInit, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
 import { BNASubjectNameService } from '../../subject-management/service/BNASubjectName.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data'
+import { MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-readingmaterial',
@@ -19,66 +20,88 @@ import { Role } from 'src/app/core/models/role';
   styleUrls: ['./readingmaterial-list.component.sass']
 })
 export class ReadingMaterialListComponent implements OnInit, OnDestroy {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
   isLoading = false;
-  pageTitle:any;
+  pageTitle: any;
   fileIUrl = environment.fileUrl;
   ELEMENT_DATA: BNASubjectName[] = [];
-  ReadingMaterialBySchoolAndCourse:any;
-  documentTypeId:any;
-  status=1;
+  ReadingMaterialBySchoolAndCourse: any;
+  documentTypeId: any;
+  status = 1;
+  baseSchoolNameId: any;
 
-  role:any;
-  traineeId:any;
-  branchId:any;
+  role: any;
+  traineeId: any;
+  branchId: any;
 
 
-  groupArrays:{ readingMaterialTitle: string; courses: any; }[];
-  
+  groupArrays: { readingMaterialTitle: string; courses: any; }[];
+
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
+  searchText = "";
 
-  displayedReadingMaterialColumns: string[] = ['ser','readingMaterialTitle','documentName','documentLink'];
+  displayedReadingMaterialColumns: string[] = ['ser', 'readingMaterialTitle', 'documentName', 'documentLink'];
 
-  
-   selection = new SelectionModel<BNASubjectName>(true, []);
+
+  selection = new SelectionModel<BNASubjectName>(true, []);
   subscription: any;
 
-  
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+
+
+  constructor
+    (
+      private snackBar: MatSnackBar,
+      private authService: AuthService,
+      private studentDashboardService: StudentDashboardService,
+      private BNASubjectNameService: BNASubjectNameService,
+      private router: Router,
+      private confirmService: ConfirmService,
+      private route: ActivatedRoute,
+      public sharedService: SharedServiceService
+    ) { }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
     // const branchId =  this.authService.currentUserValue.branchId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    
+    this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
+
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId');
     this.documentTypeId = this.route.snapshot.paramMap.get('documentTypeId');
-    var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
-    if(this.documentTypeId){
-      if(this.documentTypeId == this.masterData.readingMaterial.books){
-        this.pageTitle = "Books";
-      }else if(this.documentTypeId == this.masterData.readingMaterial.videos){
-        this.pageTitle = "Videos";
-      }else if(this.documentTypeId == this.masterData.readingMaterial.slides){
-        this.pageTitle = "Slides";
-      }else if(this.documentTypeId == this.masterData.readingMaterial.materials){
-        this.pageTitle = "Reading Material";
-      }else {
-        this.pageTitle = "Material";
-      }
-      this.getReadingMaterialList(this.documentTypeId);
-    }else{
-      this.pageTitle = "Course Material";
-      this.getReadingMaterialBySchoolAndCourse(baseSchoolNameId, courseNameId);
+    this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
+
+
+    if (this.role !== 'Master Admin') {
+      this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
+        if (res) {
+
+          let infoList = res
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId;
+
+        }
+        if (this.documentTypeId) {
+          this.setPageTitle(this.documentTypeId)
+          this.getReadingMaterialList(this.documentTypeId);
+        } else {
+          this.pageTitle = "Course Material";
+          this.getReadingMaterialBySchoolAndCourse(this.baseSchoolNameId, courseNameId);
+        }
+
+      });
     }
+    else {
+      
+      this.setPageTitle(this.documentTypeId)
+      this.getAllReadingMaterialList(this.documentTypeId);
+    }
+
+
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -86,10 +109,31 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getReadingMaterialList(documentTypeId){
-    this.subscription = this.studentDashboardService.getReadingMaterialListByType(documentTypeId).subscribe(res=>{            
-      this.ReadingMaterialBySchoolAndCourse=res;     
+  getReadingMaterialList(documentTypeId) {
+    this.subscription = this.studentDashboardService.getReadingMaterialListByType(documentTypeId, this.baseSchoolNameId).subscribe(res => {
+      this.ReadingMaterialBySchoolAndCourse = res;
     });
+  }
+  getAllReadingMaterialList(documentTypeId) {
+    this.subscription = this.studentDashboardService.getAllReadingMaterialList(documentTypeId).subscribe(res => {
+      this.ReadingMaterialBySchoolAndCourse = res;
+    });
+  }
+
+  setPageTitle(documentTypeId) {
+
+    if (documentTypeId == this.masterData.readingMaterial.books) {
+      this.pageTitle = "Books";
+    } else if (documentTypeId == this.masterData.readingMaterial.videos) {
+      this.pageTitle = "Videos";
+    } else if (documentTypeId == this.masterData.readingMaterial.slides) {
+      this.pageTitle = "Slides";
+    } else if (this.documentTypeId == this.masterData.readingMaterial.materials) {
+      this.pageTitle = "Reading Material";
+    } else {
+      this.pageTitle = "Material";
+    }
+
   }
 
   // getCourseModuleByCourseName(courseNameId){
@@ -98,8 +142,8 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
   //   });
   // }
 
-  getReadingMaterialBySchoolAndCourse(baseSchoolNameId, courseNameId){    
-    this.subscription = this.studentDashboardService.getReadingMAterialInfoBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res=>{
+  getReadingMaterialBySchoolAndCourse(baseSchoolNameId, courseNameId) {
+    this.subscription = this.studentDashboardService.getReadingMAterialInfoBySchoolAndCourse(baseSchoolNameId, courseNameId).subscribe(res => {
       this.ReadingMaterialBySchoolAndCourse = res;
 
       const groups = this.ReadingMaterialBySchoolAndCourse.reduce((groups, courses) => {
@@ -118,7 +162,6 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
           courses: groups[readingMaterialTitle]
         };
       });
-
     });
   }
 

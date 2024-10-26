@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-viewsubjectmarkbysubject',
@@ -48,7 +49,14 @@ export class ViewSubjectMarkListBySubjectComponent extends UnsubscribeOnDestroyA
    selection = new SelectionModel<SubjectMark>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar, private authService: AuthService ,private SubjectMarkService: SubjectMarkService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar, 
+    private authService: AuthService ,
+    private SubjectMarkService: SubjectMarkService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService,) {
     super();
   }
 

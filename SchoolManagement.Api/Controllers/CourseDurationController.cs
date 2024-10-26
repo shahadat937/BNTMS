@@ -156,12 +156,13 @@ public class CourseDurationController : ControllerBase
 
     [HttpGet]
     [Route("get-courseDurationByCourseType")]
-    public async Task<ActionResult<List<CourseDurationDto>>> GetCourseDurationByCourseType([FromQuery] QueryParams queryParams, int courseTypeId)
+    public async Task<ActionResult<List<CourseDurationDto>>> GetCourseDurationByCourseType([FromQuery] QueryParams queryParams, int courseTypeId, int status)
     {
         var localCourses = await _mediator.Send(new GetCourseDurationByCourseTypeIdRequest 
         {
             CourseTypeId  = courseTypeId,
-            QueryParams = queryParams
+            QueryParams = queryParams,
+            Status = status
         });
         return Ok(localCourses); 
     }

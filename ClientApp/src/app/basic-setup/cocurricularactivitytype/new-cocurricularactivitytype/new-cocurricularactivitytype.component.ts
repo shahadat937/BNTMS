@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoCurricularActivityTypeService } from '../../service/CoCurricularActivityType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-cocurricularactivitytype',
@@ -14,30 +15,37 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 export class NewCoCurricularActivityTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   pageTitle: string;
   loading = false;
-  destination:string;
-  btnText:string;
+  destination: string;
+  btnText: string;
   CoCurricularActivityTypeForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CoCurricularActivityTypeService: CoCurricularActivityTypeService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
+    private CoCurricularActivityTypeService: CoCurricularActivityTypeService,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('coCurricularActivityTypeId'); 
+    const id = this.route.snapshot.paramMap.get('coCurricularActivityTypeId');
     if (id) {
       this.pageTitle = 'Edit Co Curricular Activity Type';
       this.destination = "Edit";
       this.btnText = 'Update';
       this.CoCurricularActivityTypeService.find(+id).subscribe(
         res => {
-          this.CoCurricularActivityTypeForm.patchValue({          
+          this.CoCurricularActivityTypeForm.patchValue({
 
             coCurricularActivityTypeId: res.coCurricularActivityTypeId,
             coCurricularActivityName: res.coCurricularActivityName,
             //menuPosition: res.menuPosition,
-          
-          });          
+
+          });
         }
       );
     } else {
@@ -53,18 +61,18 @@ export class NewCoCurricularActivityTypeComponent extends UnsubscribeOnDestroyAd
       coCurricularActivityName: ['', Validators.required],
       //menuPosition: ['', Validators.required],
       isActive: [true],
-    
+
     })
   }
-  
+
   onSubmit() {
-    const id = this.CoCurricularActivityTypeForm.get('coCurricularActivityTypeId').value;   
+    const id = this.CoCurricularActivityTypeForm.get('coCurricularActivityTypeId').value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-        
+
         if (result) {
-          this.loading=true;
-          this.CoCurricularActivityTypeService.update(+id,this.CoCurricularActivityTypeForm.value).subscribe(response => {
+          this.loading = true;
+          this.CoCurricularActivityTypeService.update(+id, this.CoCurricularActivityTypeForm.value).subscribe(response => {
             this.router.navigateByUrl('/basic-setup/cocurricularactivitytype-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -78,7 +86,7 @@ export class NewCoCurricularActivityTypeComponent extends UnsubscribeOnDestroyAd
         }
       })
     } else {
-      this.loading=true;
+      this.loading = true;
       this.CoCurricularActivityTypeService.submit(this.CoCurricularActivityTypeForm.value).subscribe(response => {
         this.router.navigateByUrl('/basic-setup/cocurricularactivitytype-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -91,7 +99,7 @@ export class NewCoCurricularActivityTypeComponent extends UnsubscribeOnDestroyAd
         this.validationErrors = error;
       })
     }
- 
+
   }
 
 }

@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-language-list',
@@ -38,7 +39,13 @@ export class LanguageListComponent extends UnsubscribeOnDestroyAdapter implement
 
   selection = new SelectionModel<Language>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private LanguageService: LanguageService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private LanguageService: LanguageService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
   ngOnInit() {

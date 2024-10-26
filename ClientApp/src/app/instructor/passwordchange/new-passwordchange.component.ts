@@ -9,6 +9,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-passwordchange',
   templateUrl: './new-passwordchange.component.html',
@@ -31,7 +32,7 @@ export class NewPasswordChangeComponent extends UnsubscribeOnDestroyAdapter impl
   role:any;
   traineeId:any;
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import {TraineeNomination} from '../../../course-management/models/traineenomination'
-import {TraineeNominationService} from '../../../course-management/service/traineenomination.service'
+import { TraineeNomination } from '../../../course-management/models/traineenomination'
+import { TraineeNominationService } from '../../../course-management/service/traineenomination.service'
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { environment } from 'src/environments/environment';
 import { CourseInstructorService } from 'src/app/subject-management/service/courseinstructor.service';
 import { Role } from 'src/app/core/models/role';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineenomination-list',
@@ -20,57 +21,66 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
   styleUrls: ['./traineenomination-list.component.sass']
 })
 export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
-   userRole = Role;
+  masterData = MasterData;
+  userRole = Role;
   loading = false;
   ELEMENT_DATA: TraineeNomination[] = [];
   isLoading = false;
-  fileUrl:any = environment.fileUrl;
-  courseDurationId:number;
-  courseDuration:any;
-  courseNameId:number;
-  courseTypeId:number;
-  baseSchoolNameId:any;
-  dbType:any;
-  dbType1:any;
-  schoolName:any;
-  durationForm:Date;
-  durationTo:Date;
-  courseType3:any;
-  showHideDiv= false;
+  fileUrl: any = environment.fileUrl;
+  courseDurationId: number;
+  courseDuration: any;
+  courseNameId: number;
+  courseTypeId: number;
+  baseSchoolNameId: any;
+  dbType: any;
+  dbType1: any;
+  schoolName: any;
+  durationForm: Date;
+  durationTo: Date;
+  courseType3: any;
+  showHideDiv = false;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
-  groupArrays:{ courseName: string; courses: any; }[];
-  branchId:any;
-  traineeId:any;
-  role:any;
+  searchText = "";
+  groupArrays: { courseName: string; courses: any; }[];
+  branchId: any;
+  traineeId: any;
+  role: any;
 
-  nominatedPercentageList:any;
-  TraineeReportSubmittedList:any;
+  nominatedPercentageList: any;
+  TraineeReportSubmittedList: any;
 
-  getCourse:any;
+  getCourse: any;
 
-  displayedColumns: string[] = ['ser','traineeName','attandanceParcentage'];
-  displayedInterServiceColumns: string[] = ['ser','traineeName', 'status', 'doc','attendance', 'remark'];
-  
+  displayedColumns: string[] = ['ser', 'traineeName', 'attandanceParcentage'];
+  displayedInterServiceColumns: string[] = ['ser', 'traineeName', 'status', 'doc', 'attendance', 'remark'];
+
   dataSource: MatTableDataSource<TraineeNomination> = new MatTableDataSource();
- 
 
-   selection = new SelectionModel<TraineeNomination>(true, []);
 
-  
-  constructor(private route: ActivatedRoute,private CourseInstructorService:CourseInstructorService, private authService: AuthService,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService) {
+  selection = new SelectionModel<TraineeNomination>(true, []);
+
+
+  constructor(
+    private route: ActivatedRoute,
+    private CourseInstructorService: CourseInstructorService,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    private TraineeNominationService: TraineeNominationService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+  ) {
     super();
   }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId.trim();
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId.trim();
 
     this.route.paramMap.subscribe(params => {
       this.loadData();
@@ -80,30 +90,30 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   }
 
   loadData() {
-    this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
+    this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
     var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
-    this.courseDuration=courseDurationId; 
-    this.dbType = this.route.snapshot.paramMap.get('dbType'); 
+    this.courseDuration = courseDurationId;
+    this.dbType = this.route.snapshot.paramMap.get('dbType');
     this.dbType1 = this.route.snapshot.paramMap.get('dbType1');
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
-    this.courseType3=this.route.snapshot.paramMap.get('courseType3'); 
+    this.courseType3 = this.route.snapshot.paramMap.get('courseType3');
     this.masterData.dbType.foreignTrainingDb
     this.TraineeNominationService.findByCourseDuration(+courseDurationId).subscribe(
       res => {
-          this.courseDurationId= res.courseDurationId, 
-          this.courseNameId = res.courseNameId 
+        this.courseDurationId = res.courseDurationId,
+          this.courseNameId = res.courseNameId
       }
     );
-    if(this.role === 'Inter Seevice Course'){
+    if (this.role === 'Inter Seevice Course') {
       this.gettraineeNominationListByTypeCourseDurationId(courseDurationId);
     }
     this.getTraineeNominationsByCourseDurationId(courseDurationId)
   }
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
   print() {
@@ -180,24 +190,24 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   }
 
 
-  
+
   gettraineeNominationListByTypeCourseDurationId(courseDurationId) {
-  
+
     this.isLoading = true;
     this.TraineeNominationService.gettraineeNominationListByTypeCourseDurationId(courseDurationId).subscribe(response => {
-      this.TraineeReportSubmittedList=response;
+      this.TraineeReportSubmittedList = response;
     });
   }
 
- getTraineeNominationsByCourseDurationId(courseDurationId) {
-  
+  getTraineeNominationsByCourseDurationId(courseDurationId) {
+
     this.isLoading = true;
     this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
-      this.nominatedPercentageList=response;
+      this.nominatedPercentageList = response;
     });
-    this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
-      this.dataSource.data = response.items; 
-      this.schoolName=this.dataSource.data[0].schoolName;
+    this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize, this.searchText, courseDurationId).subscribe(response => {
+      this.dataSource.data = response.items;
+      this.schoolName = this.dataSource.data[0].schoolName;
       this.getCourse = this.dataSource.data[0].courseName + '_' + this.dataSource.data[0].courseDuration;
       // this gives an object with dates as keys
       const groups = this.dataSource.data.reduce((groups, courses) => {
@@ -217,31 +227,31 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
         };
       });
 
-      this.paging.length = response.totalItemsCount    
+      this.paging.length = response.totalItemsCount
       this.isLoading = false;
     })
-    
+
   }
 
   pageChanged(event: PageEvent) {
-    var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+    var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.paging.pageIndex = event.pageIndex
     this.paging.pageSize = event.pageSize
     this.paging.pageIndex = this.paging.pageIndex + 1
     this.getTraineeNominationsByCourseDurationId(courseDurationId);
- 
+
   }
-  applyFilter(searchText: any){ 
+  applyFilter(searchText: any) {
     this.searchText = searchText;
     //this.getTraineeNominations();
-  } 
+  }
 
   deleteItem(row) {
-    const id = row.traineeNominationId; 
+    const id = row.traineeNominationId;
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.TraineeNominationService.delete(id).subscribe(() => {
-        //  this.getTraineeNominations();
+          //  this.getTraineeNominations();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,
             verticalPosition: 'bottom',
@@ -251,6 +261,6 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
         })
       }
     })
-    
+
   }
 }

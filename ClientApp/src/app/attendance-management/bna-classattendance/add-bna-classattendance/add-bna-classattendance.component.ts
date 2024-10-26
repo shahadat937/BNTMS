@@ -13,6 +13,7 @@ import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { bnaAttendanceList } from 'src/app/attendance-management/models/bnaAttendanceList';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-add-bna-classattendance',
@@ -69,7 +70,16 @@ export class AddBnaClassattendanceComponent extends UnsubscribeOnDestroyAdapter 
 
 
 
-  constructor(private authService: AuthService, private AttendanceService: AttendanceService, private datepipe: DatePipe, private fb: FormBuilder, private snackBar: MatSnackBar, private confirmService: ConfirmService, private router: Router, private route: ActivatedRoute,) {
+  constructor(
+    private authService: AuthService, 
+    private AttendanceService: AttendanceService, 
+    private datepipe: DatePipe, 
+    private fb: FormBuilder, 
+    private snackBar: MatSnackBar, 
+    private confirmService: ConfirmService, 
+    private router: Router, 
+    private route: ActivatedRoute,
+    public sharedService: SharedServiceService,) {
     super();
   }
 

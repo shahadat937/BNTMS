@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,7 +6,7 @@ import { dashboardService } from '../services/dashboard.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
@@ -14,6 +14,7 @@ import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.s
 import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
 import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-school-history',
@@ -21,74 +22,85 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
   styleUrls: ['./school-history.component.sass']
 })
 export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
-  schoolList:any;
-  showSchoolHistory:any;
+  schoolList: any;
+  showSchoolHistory: any;
   isLoading = false;
-  showHideDiv= false;
+  showHideDiv = false;
   BaseSchoolNameForm: FormGroup;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
+  searchText = "";
 
   isUpdateable = false;
-    
-  branchId:any;
-  traineeId:any;
-  role:any;
 
-  baseSchoolNameId:any;
+  branchId: any;
+  traineeId: any;
+  role: any;
+
+  baseSchoolNameId: any;
   validationErrors: string[] = [];
-  groupArrays:{ baseName: string; schools: any; }[];
+  groupArrays: { baseName: string; schools: any; }[];
 
-  displayedColumns: string[] = ['ser','schoolName','courseCount'];
+  displayedColumns: string[] = ['ser', 'schoolName', 'courseCount'];
 
-  
-  constructor(private snackBar: MatSnackBar,private fb: FormBuilder,private instructorDashboardService: InstructorDashboardService,private studentDashboardService: StudentDashboardService,private authService: AuthService,private baseSchoolNameService: BaseSchoolNameService,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) {
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+    private instructorDashboardService: InstructorDashboardService,
+    private studentDashboardService: StudentDashboardService,
+    private authService: AuthService,
+    private baseSchoolNameService: BaseSchoolNameService,
+    private dashboardService: dashboardService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,
+  ) {
     super();
   }
 
   ngOnInit() {
-        
+
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    if(this.role == this.userRole.SchoolOIC){
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
+    if (this.role == this.userRole.SchoolOIC) {
       this.isUpdateable = true;
     }
 
-    if(this.role == this.userRole.Student){
-      this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res=>{
-        if(res){
-          let infoList=res        
-          this.baseSchoolNameId=infoList[0].baseSchoolNameId;
+    if (this.role == this.userRole.Student) {
+      this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
+        if (res) {
+          let infoList = res
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId;
           this.loadSchoolDataById(this.baseSchoolNameId);
         }
       });
-    }else if(this.role == this.userRole.Instructor){
+    } else if (this.role == this.userRole.Instructor) {
       this.loadSchoolDataById(this.branchId);
-      this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res=>{
-        if(res){
-          let infoList=res;
-          this.baseSchoolNameId=infoList[0].baseSchoolNameId, 
-          this.loadSchoolDataById(this.baseSchoolNameId);
+      this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res => {
+        if (res) {
+          let infoList = res;
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId,
+            this.loadSchoolDataById(this.baseSchoolNameId);
         }
       });
-    }else{
+    } else {
       this.loadSchoolDataById(this.branchId);
     }
-    
+
     this.intitializeForm();
-    
+
   }
-  loadSchoolDataById(schoolId){
+  loadSchoolDataById(schoolId) {
     this.baseSchoolNameService.find(+schoolId).subscribe(res => {
-      this.BaseSchoolNameForm.patchValue({          
+      this.BaseSchoolNameForm.patchValue({
         baseSchoolNameId: res.baseSchoolNameId,
         schoolName: res.schoolName,
         shortName: res.shortName,
@@ -110,7 +122,7 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
         //fifthLevel: res.fifthLevel,
         serverName: res.serverName,
         schoolHistory: res.schoolHistory,
-      });  
+      });
       this.showSchoolHistory = res.schoolHistory;
     });
   }
@@ -121,7 +133,7 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
       schoolName: [''],
       shortName: [''],
       schoolLogo: [''],
-      image:[''],
+      image: [''],
       status: [''],
       menuPosition: [''],
       isActive: [],
@@ -138,19 +150,19 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
       fourthLevel: [""],
       fifthLevel: [""],
       serverName: [],
-      schoolHistory: [''],  
+      schoolHistory: [''],
     })
   }
- 
+
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
     });
   }
 
-  onSubmit(){
-    const id = this.BaseSchoolNameForm.get('baseSchoolNameId').value;   
+  onSubmit() {
+    const id = this.BaseSchoolNameForm.get('baseSchoolNameId').value;
 
     const formData = new FormData();
     for (const key of Object.keys(this.BaseSchoolNameForm.value)) {
@@ -158,24 +170,24 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
       formData.append(key, value);
     }
     // if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        if (result) {
-          this.loading=true;
-          this.baseSchoolNameService.update(+id,formData).subscribe(response => {
-            // this.router.navigateByUrl('/security/new-basename');
-            // this.getBaseNameList(this.commendingAreaId);
-            this.reloadCurrentRoute();
-              this.snackBar.open('Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
+    this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
+      if (result) {
+        this.loading = true;
+        this.baseSchoolNameService.update(+id, formData).subscribe(response => {
+          // this.router.navigateByUrl('/security/new-basename');
+          // this.getBaseNameList(this.commendingAreaId);
+          this.reloadCurrentRoute();
+          this.snackBar.open('Information Updated Successfully ', '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+        }, error => {
+          this.validationErrors = error;
+        })
+      }
+    })
     // }
   }
 }

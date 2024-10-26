@@ -11,6 +11,7 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { Role } from 'src/app/core/models/role';
 import { MasterData } from 'src/assets/data/master-data';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-biodata-general-info-jsti',
   templateUrl: './new-biodata-general-info-jsti.component.html',
@@ -50,7 +51,7 @@ export class NewBiodataGeneralInfoJstiComponent extends UnsubscribeOnDestroyAdap
   userRole = Role;
   masterData=MasterData
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     super();
     this.files = [];
   }

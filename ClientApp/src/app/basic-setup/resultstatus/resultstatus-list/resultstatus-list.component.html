@@ -8,8 +8,7 @@
                 <h4 class="page-title">Result Status</h4>
               </li>
               <li class="breadcrumb-item bcrumb-1">
-                <a routerLink="/admin/dashboard/main">
-                  <i class="fas fa-home"></i></a>
+                <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
               </li>
               <li class="breadcrumb-item bcrumb-2">
                 <a href="#" onClick="return false;">Result Status</a>
@@ -84,7 +83,7 @@
 
                   <ng-container matColumnDef="isActive">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.isActive}} </mat-cell>
+                    <mat-cell *matCellDef="let element"> {{element.isActive? "Active" : "Inactive"}} </mat-cell>
                   </ng-container>
                   
                   <ng-container matColumnDef="actions">

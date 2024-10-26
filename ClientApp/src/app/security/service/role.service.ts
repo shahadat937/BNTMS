@@ -33,18 +33,20 @@ export class RoleService {
       })
     );
   }
-  find(id: number) {
+  find(id: string) {
     return this.http.get<Role>(this.baseUrl + '/role/get-roleDetail/' + id);
   }
    
 
-  update(id: number,model: any) {
+  update(id: string,model: any) {
+    // console.log(id);
     return this.http.put(this.baseUrl + '/role/update-role/'+id, model);
   }
   submit(model: any) {
     return this.http.post(this.baseUrl + '/role/save-role', model);
   }
-  delete(id){
+  delete(id: string){
+    // console.log(id);
     return this.http.delete(this.baseUrl + '/role/delete-role/'+id);
   }
   getselectedrole(){

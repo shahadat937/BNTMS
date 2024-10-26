@@ -13,6 +13,7 @@ import { TraineeNominationService } from '../../service/traineenomination.servic
 import { AuthService } from 'src/app/core/service/auth.service';
 import { MatSort } from '@angular/material/sort';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-religation-list',
@@ -53,7 +54,7 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
   role:any;
 
   
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 

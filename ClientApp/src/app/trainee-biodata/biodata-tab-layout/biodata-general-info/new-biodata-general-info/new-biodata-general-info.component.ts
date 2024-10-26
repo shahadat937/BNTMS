@@ -8,6 +8,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
 import { isNull } from '@angular/compiler/src/output/output_ast';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-BIODataGeneralInfo',
   templateUrl: './new-biodata-general-info.component.html',
@@ -51,7 +52,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit, OnDestroy {
   public files: any[];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     this.files = [];
   }
 
@@ -296,15 +297,15 @@ filterByCaste(value:any){
       nameBangla: [''],
       mobile: [''],
       fileAttr:[],
-      email: [''],
+      email: ['', [Validators.email]],
       bnaPhotoUrl: [''],
       image: [''],
       bnaNo: ['',Validators.required],
       pno: ['',Validators.required],
       shortCode:[''],
       presentBillet:[''],
-      dateOfBirth: [now,Validators.required],
-      joiningDate: [now,Validators.required],
+      dateOfBirth: [Validators.required],
+      joiningDate: [Validators.required],
       identificationMark: [''],
       presentAddress: [''],
       permanentAddress: [''],

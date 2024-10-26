@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import {Subject, Subscription} from 'rxjs'
 import {debounceTime, distinctUntilChanged} from 'rxjs'
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-bnaclasssectionselection-list',
@@ -39,7 +40,12 @@ export class BnaclasssectionselectionListComponent extends UnsubscribeOnDestroyA
 
   selection = new SelectionModel<BNAClassSectionSelection>(true, []);
 
-  constructor(private snackBar: MatSnackBar,private BNAClassSectionSelectionService: BNAClassSectionSelectionService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private BNAClassSectionSelectionService: BNAClassSectionSelectionService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService,) {
     super();
   }
   ngOnInit() {

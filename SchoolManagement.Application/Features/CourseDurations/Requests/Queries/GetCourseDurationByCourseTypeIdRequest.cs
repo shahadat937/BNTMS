@@ -9,6 +9,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Requests.Queries
     {
         public QueryParams QueryParams { get; set; }
         public int CourseTypeId { get; set; }
+        public int Status { get; set; }
     }
 }
  

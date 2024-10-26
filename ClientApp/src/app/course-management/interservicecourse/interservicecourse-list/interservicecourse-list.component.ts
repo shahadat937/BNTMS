@@ -9,6 +9,7 @@ import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-interservicecourse-list',
@@ -21,6 +22,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
   ELEMENT_DATA: CourseDuration[] = [];
   isLoading = false;
   courseTypeId=MasterData.coursetype.InterService;
+
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -28,6 +30,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
     length: 1
   }
   searchText="";
+  viewStatus = 0; // viewStatus not set 
 
   displayedColumns: string[] = ['ser','courseTitle','baseSchoolName','courseName','durationFrom','durationTo', 'actions'];
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
@@ -36,7 +39,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 
@@ -45,7 +48,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
   }
   getCourseDurationsByCourseType(){
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
+    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId, this.viewStatus).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;

@@ -12,6 +12,7 @@ import { environment } from "src/environments/environment";
 import { AuthService } from "src/app/core/service/auth.service";
 import { Role } from "src/app/core/models/role";
 import { MatSort } from "@angular/material/sort";
+import { SharedServiceService } from "src/app/shared/shared-service.service";
 
 @Component({
   selector: "app-view-courselistbyschool.component",
@@ -54,7 +55,8 @@ export class ViewCourseListBySchoolComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private router: Router,
-    private confirmService: ConfirmService
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
   ) {}
 
   ngOnInit() {

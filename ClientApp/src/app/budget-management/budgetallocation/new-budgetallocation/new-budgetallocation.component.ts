@@ -11,6 +11,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
   budgetCodeId:any;
   fiscalYearId:any;
   isShow:boolean=false;
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BudgetAllocationService: BudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) {
+  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private BudgetAllocationService: BudgetAllocationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
   }
 
@@ -151,6 +152,7 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
     this.isLoading = true;
     this.BudgetAllocationService.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId).subscribe(response => {
       this.dataSource.data = response.items; 
+      console.log('budget', this.dataSource.data)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
@@ -198,7 +200,8 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
     }
 
   onSubmit() {
-    const id = this.BudgetAllocationForm.get('budgetAllocationId').value;   
+    const id = this.BudgetAllocationForm.get('budgetAllocationId').value; 
+    console.log(this.BudgetAllocationForm.value)  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {

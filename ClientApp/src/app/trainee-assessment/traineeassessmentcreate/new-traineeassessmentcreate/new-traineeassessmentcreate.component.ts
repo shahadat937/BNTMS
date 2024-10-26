@@ -12,6 +12,7 @@ import {TraineeAssessmentCreate} from '../../models/TraineeAssessmentCreate'
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-traineeassessmentcreate',
@@ -51,7 +52,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<TraineeAssessmentCreate> = new MatTableDataSource();
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private confirmService: ConfirmService,private TraineeAssessmentCreateService: TraineeAssessmentCreateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private authService: AuthService,private confirmService: ConfirmService,private TraineeAssessmentCreateService: TraineeAssessmentCreateService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

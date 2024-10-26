@@ -12,6 +12,7 @@ import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { ClassRoutineService } from '../../routine-management/service/classroutine.service';
 import { ClassPeriodService } from '../../routine-management/service/classperiod.service';
 import { DatePipe } from '@angular/common';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-weeklyprogram',
@@ -51,7 +52,7 @@ export class WeeklyProgramListComponent implements OnInit, OnDestroy {
    displayedRoutineNoteColumns: string[] = ['ser','routineName','routineNote'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private ClassPeriodService: ClassPeriodService,private ClassRoutineService: ClassRoutineService,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute) { }
+  constructor(private snackBar: MatSnackBar,private datepipe: DatePipe,private ClassPeriodService: ClassPeriodService,private ClassRoutineService: ClassRoutineService,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
     this.weekRoutine = "Weekly";

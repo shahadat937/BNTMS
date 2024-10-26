@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-tdecquestionname-list',
@@ -38,7 +39,7 @@ export class TdecQuestionNameListComponent implements OnInit,OnDestroy {
   subscription: any;
 
   
-  constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private TdecQuestionNameService: TdecQuestionNameService,private router: Router,private confirmService: ConfirmService) { }
+  constructor(private route: ActivatedRoute,private authService: AuthService,private snackBar: MatSnackBar,private TdecQuestionNameService: TdecQuestionNameService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
   
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();

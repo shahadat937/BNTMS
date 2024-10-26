@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BaseSchoolName } from '../../models/BaseSchoolName';
 import { MasterData } from 'src/assets/data/master-data';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-commendingarea',
@@ -36,7 +37,7 @@ export class NewCommendingAreaComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [ 'ser','schoolLogo', 'schoolName', 'shortName',  'actions'];
   subscription: any;
 
-  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService) { }
+  constructor(private snackBar: MatSnackBar,private BaseSchoolNameService: BaseSchoolNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService:ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
@@ -129,8 +130,8 @@ export class NewCommendingAreaComponent implements OnInit, OnDestroy {
       contactPerson: [],
       address: [],
       telephone: [],
-      cellphone: [],
-      email: [],
+      cellphone: [''],
+      email: ['', [Validators.email]],
       fax: [],
       branchLevel: [2],
       firstLevel: [this.masterData.UserLevel.navy],
@@ -165,6 +166,7 @@ export class NewCommendingAreaComponent implements OnInit, OnDestroy {
               horizontalPosition: 'right',
               panelClass: 'snackbar-success'
             });
+            this.loading = false;
           }, error => {
             this.validationErrors = error;
           })
@@ -182,12 +184,16 @@ export class NewCommendingAreaComponent implements OnInit, OnDestroy {
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
         });
+        this.loading = false;
       }, error => {
         this.validationErrors = error;
       })
     }
  
   }
+
+  
+  
 
   deleteItem(row) {
     const id = row.baseSchoolNameId; 

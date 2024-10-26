@@ -10,6 +10,7 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { MasterData } from 'src/assets/data/master-data';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-profileupdate',
   templateUrl: './new-profileupdate.component.html',
@@ -52,7 +53,7 @@ export class NewProfileUpdateComponent extends UnsubscribeOnDestroyAdapter imple
   saylorRankId:any;
   traineeStatusId:any;
 
-  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService) { 
+  constructor(private snackBar: MatSnackBar, private authService: AuthService,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     super();
     this.files = [];
   }

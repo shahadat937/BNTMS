@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute,Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-coursebyschool-list',
@@ -34,7 +35,15 @@ export class CoursebySchoolListComponent extends UnsubscribeOnDestroyAdapter imp
   displayedColumns: string[] = ['ser','course','duration', 'officer','mid','cadet','sailor','civil','foreign', 'total'];
 
   
-  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute,private datepipe: DatePipe,private dashboardService: dashboardService,private router: Router,private confirmService: ConfirmService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private datepipe: DatePipe,
+    private dashboardService: dashboardService,
+    private router: Router,
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService  
+  ) {
     super();
   }
 
