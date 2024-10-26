@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.BudgetAllocations.Handler.Commands
 {
-    public class DeleteBudgetAllocationCommandHandler : IRequestHandler<DeleteBudgetAllocationCommand>
+    public class DeleteBudgetAllocationCommandHandler : IRequestHandler<Requests.Commands.DeleteBudgetAllocationCommandHandler>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace SchoolManagement.Application.Features.BudgetAllocations.Handler.Comman
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(DeleteBudgetAllocationCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(Requests.Commands.DeleteBudgetAllocationCommandHandler request, CancellationToken cancellationToken)
         {
             var BudgetAllocation = await _unitOfWork.Repository<BudgetAllocation>().Get(request.BudgetAllocationId);
 

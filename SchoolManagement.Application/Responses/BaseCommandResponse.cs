@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SchoolManagement.Application.Responses
 {
-    public class BaseCommandResponse
+    public   class BaseCommandResponse
     {
         public int Id { get; set; }
         public bool Success { get; set; } = true;

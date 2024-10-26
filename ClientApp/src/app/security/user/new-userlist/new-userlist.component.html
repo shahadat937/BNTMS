@@ -53,7 +53,9 @@
                           </li>
     
                           <li class="dropdown">
-                            <input placeholder="Search" type="text" [(ngModel)]="searchPno"  #filter class="browser-default search-field"
+                            <input placeholder="Search" type="text" [(ngModel)]="searchPno"  #filter 
+                            (keydown.enter)="applyFilter(searchPno)"
+                            class="browser-default search-field"
                             aria-label="Search box">
                           </li>
                           <li> 

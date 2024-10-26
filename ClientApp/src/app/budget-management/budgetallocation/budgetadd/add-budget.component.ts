@@ -52,7 +52,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     private router: Router,
     private confirmService: ConfirmService,
     private BudgetAllocationService: BudgetAllocationService,
-   private CourseBudgetAllocationService: CourseBudgetAllocationService,
+    private CourseBudgetAllocationService: CourseBudgetAllocationService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     public sharedService: SharedServiceService
@@ -101,7 +101,9 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
 
   getBudgetAllocations() {
     this.isLoading = true;
+    console.log(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId)
     this.BudgetAllocationService.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId).subscribe(response => {
+
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
