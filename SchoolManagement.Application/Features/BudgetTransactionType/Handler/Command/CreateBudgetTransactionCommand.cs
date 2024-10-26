@@ -45,8 +45,7 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
                 budgetTransaction.Status = 0;
 
                 budgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Add(budgetTransaction);
-                await _unitOfWork.Save(); // Ensure transaction is saved before budget code adjustments
-
+                await _unitOfWork.Save(); 
                 var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.BudgetTransactionDto.BudgetCodeId);
 
                 if (budgetCode != null)
