@@ -86,7 +86,7 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
       courseDurationId: [0],
       courseNameId:['',Validators.required],
       courseTitle:['',Validators.required],
-      baseSchoolNameId:['',Validators.required],
+      baseSchoolNameId:[''],
       baseNameId:[],
       durationFrom:[],
       durationTo:[],    

@@ -90,7 +90,7 @@ const routes:Routes =[
     path: 'rolefeature-list',
     component: RoleFeatureListComponent,
   },
-  { path: 'update-rolefeature/:roleId/:featureId', 
+  { path: 'update-rolefeature/:roleId/:featureKey', 
   component: NewRoleFeatureComponent 
   },
   {
