@@ -65,7 +65,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Base School Name</mat-label>                        
-                        <mat-select formControlName="baseSchoolNameId" required>
+                        <mat-select formControlName="baseSchoolNameId">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let school of selectedSchool" [value]="school.value">
                                 {{school.text}}  

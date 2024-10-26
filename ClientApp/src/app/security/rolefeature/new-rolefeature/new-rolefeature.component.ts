@@ -17,7 +17,7 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
   loading = false;
   destination:string;
   btnText:string;
-  Roleid:number;
+  Roleid:string;
   Featureid:number;
   RoleFeatureForm: FormGroup;
   buttonText:string;
@@ -32,19 +32,21 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private RoleFeatureService: RoleFeatureService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
-    const rid = this.route.snapshot.paramMap.get('roleId'); 
-    this.Roleid = Number(rid);
-    const fid = this.route.snapshot.paramMap.get('featureId'); 
+    this.Roleid = this.route.snapshot.paramMap.get('roleId'); 
+    // this.Roleid = Number(rid);
+    const fid = this.route.snapshot.paramMap.get('featureKey'); 
     this.Featureid = Number(fid)
+   console.log(this.Roleid , this.Featureid )
     if (this.Roleid && this.Featureid) {
       this.pageTitle = 'Edit RoleFeature';
       this.destination = "Edit";
       this.buttonText= "Update"
       this.subscription =  this.RoleFeatureService.find(this.Roleid, this.Featureid).subscribe(
-        res => {
+        (res : any) => {
+          
           this.RoleFeatureForm.patchValue({          
             roleId: res.roleId,
-            featureId: res.featureId,
+            featureKey: res.featureKey,
             add: res.add,
             update:res.update,
             delete:res.delete,
@@ -71,7 +73,7 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
   intitializeForm() {
     this.RoleFeatureForm = this.fb.group({
       roleId:['', Validators.required],
-      featureId: ['', Validators.required],
+      featureKey: ['', Validators.required],
       add: [true],
       update: [true],
       delete: [true],
@@ -87,6 +89,7 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
     this.subscription = this.RoleFeatureService.getselectedrole().subscribe(res=>{
       this.selectedrole=res
       this.selectRole=res
+     
     });
   }
   filterByFeature(value:any){
@@ -96,13 +99,14 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
     this.subscription = this.RoleFeatureService.getselectedfeature().subscribe(res=>{
       this.selectedfeature=res
       this.selectFeature=res
+      console.log(this.selectedfeature);
     });
   }
 
   onSubmit() {
     const rid = this.route.snapshot.paramMap.get('roleId'); 
-    this.Roleid = Number(rid);
-    const fid = this.route.snapshot.paramMap.get('featureId'); 
+    //this.Roleid = Number(rid);
+    const fid = this.route.snapshot.paramMap.get('featureKey'); 
     this.Featureid = Number(fid)
     if (this.Roleid && this.Featureid) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
@@ -122,8 +126,10 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
         }
       })
     } else {
+      console.log(this.RoleFeatureForm.value)
       this.loading=true;
       this.subscription = this.RoleFeatureService.submit(this.RoleFeatureForm.value).subscribe(response => {
+        
         this.router.navigateByUrl('/security/rolefeature-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
