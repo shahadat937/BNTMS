@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.BudgetAllocations.Handler.Commands
 {
-    public class CreateBudgetAllocationCommandHandler : IRequestHandler<CreateBudgetAllocationCommand, BaseCommandResponse>
+    public class CreateBudgetAllocationCommandHandler : IRequestHandler<Requests.Commands.CreateBudgetAllocationCommandHandler, BaseCommandResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ namespace SchoolManagement.Application.Features.BudgetAllocations.Handler.Comman
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<BaseCommandResponse> Handle(CreateBudgetAllocationCommand request, CancellationToken cancellationToken)
+        public async Task<BaseCommandResponse> Handle(Requests.Commands.CreateBudgetAllocationCommandHandler request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
             var validator = new CreateBudgetAllocationDtoValidator();

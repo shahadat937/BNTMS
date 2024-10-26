@@ -207,6 +207,7 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
   getCourseBudgetAllocationList(){
     this.isLoading = true;
       this.CourseBudgetAllocationService.getCourseBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseNameId,this.traineeId).subscribe(response => {
+        console.log('api response',response)
         this.dataSource.data = response.items; 
         this.paging.length = response.totalItemsCount    
         this.isLoading = false;

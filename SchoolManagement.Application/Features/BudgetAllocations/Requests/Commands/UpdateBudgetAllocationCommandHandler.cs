@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SchoolManagement.Application.Features.BudgetAllocations.Requests.Commands
 {
-    public class UpdateBudgetAllocationCommand : IRequest<Unit>
+    public class UpdateBudgetAllocationCommandHandler : IRequest<Unit>
     {
         public BudgetAllocationDto BudgetAllocationDto { get; set; } 
     }

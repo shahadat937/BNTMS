@@ -47,7 +47,7 @@ public class BudgetAllocationController : ControllerBase
     [Route("save-BudgetAllocation")]
     public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateBudgetAllocationDto BudgetAllocation)
     {
-        var command = new CreateBudgetAllocationCommand { BudgetAllocationDto = BudgetAllocation };
+        var command = new CreateBudgetAllocationCommandHandler { BudgetAllocationDto = BudgetAllocation };
         var response = await _mediator.Send(command);
         return Ok(response);
     }
@@ -59,7 +59,7 @@ public class BudgetAllocationController : ControllerBase
     [Route("update-BudgetAllocation/{id}")]
     public async Task<ActionResult> Put([FromBody] BudgetAllocationDto BudgetAllocation)
     {
-        var command = new UpdateBudgetAllocationCommand { BudgetAllocationDto = BudgetAllocation };
+        var command = new UpdateBudgetAllocationCommandHandler { BudgetAllocationDto = BudgetAllocation };
         await _mediator.Send(command);
         return NoContent();
     }
@@ -71,7 +71,7 @@ public class BudgetAllocationController : ControllerBase
     [Route("delete-BudgetAllocation/{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var command = new DeleteBudgetAllocationCommand { BudgetAllocationId = id };
+        var command = new DeleteBudgetAllocationCommandHandler { BudgetAllocationId = id };
         await _mediator.Send(command);
         return NoContent();
     }
