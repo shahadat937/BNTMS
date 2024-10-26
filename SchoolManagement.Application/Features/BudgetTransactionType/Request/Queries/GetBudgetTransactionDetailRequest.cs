@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.BudgetTransactionType.Request.Queries
 {
-    public class BudgetTransactionDetailRequest : IRequest<BudgetTransactionDto>
+    public class GetBudgetTransactionDetailRequest : IRequest<BudgetTransactionDto>
     {
         public int BudgetTransactionId { get;set; }
     }

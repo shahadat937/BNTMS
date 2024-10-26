@@ -2,37 +2,33 @@
 using MediatR;
 using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.DTOs.BudgetTransaction;
-using SchoolManagement.Application.DTOs.Common.Validators;
 using SchoolManagement.Application.Features.BudgetTransactionType.Request.Queries;
-using SchoolManagement.Application.Models;
 using SchoolManagement.Domain;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Queries
 {
-    public class GetBudgetTransactionListRequestHandler : IRequestHandler<GetBudgetTransactionDetailRequest>
+    public class GetBudgetTransactionListRequestHandler : IRequestHandler<GetBudgetTransactionListRequest, List<BudgetTransactionDto>>
     {
-        private readonly ISchoolManagementRepository<BudgetTransaction> _BudgetTransactionRepository;
-        private readonly IMapper mapper;
+        private readonly ISchoolManagementRepository<BudgetTransaction> _budgetTransactionRepository;
+        private readonly IMapper _mapper;
 
         public GetBudgetTransactionListRequestHandler(ISchoolManagementRepository<BudgetTransaction> budgetTransactionRepository, IMapper mapper)
         {
-            _BudgetTransactionRepository = budgetTransactionRepository;
-            this.mapper = mapper;
+            _budgetTransactionRepository = budgetTransactionRepository;
+            _mapper = mapper;
         }
-        public async Task<PagedResult<BudgetTransactionDto>> Handle(GetBudgetTransactionDetailRequest request, CancellationToken cancellationToken)
+
+        public async Task<List<BudgetTransactionDto>> Handle(GetBudgetTransactionListRequest request, CancellationToken cancellationToken)
         {
-            var validator = new QueryParamsValidator();
-            var validationResult = await validator.ValidateAsync(request.QueryParams);
+            IQueryable<BudgetTransaction> budgetTransactions = _budgetTransactionRepository.Where(x => x.BudgetCodeId == request.BudgetCodeId && x.BudgetTypeId == request.BudgetTypeId);
 
-            if (validationResult.IsValid == false)
-                throw new ValidationException(validationResult.ToString());
+            var result = _mapper.Map<List<BudgetTransactionDto>>(budgetTransactions);
 
-            IQueryable<BudgetTransaction> BudgetTransaction = _BudgetTransactionRepository.FilterWithInclude(x => String.IsNullOrEmpty(request.QueryParams.SearchText), "BudgetCode", "BudgetType", "CourseName");
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SchoolManagement.Application.DTOs.BudgetTransaction;
+﻿using MediatR;
+using SchoolManagement.Application.DTOs.BudgetTransaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.BudgetTransactionType.Request.Command
 {
-    public class UpdateBudgetTransactionCommandHandler
+    public class UpdateBudgetTransactionCommand :IRequest<Unit>
     {
         public BudgetTransactionDto BudgetTransactionDto { get; set; }
     }

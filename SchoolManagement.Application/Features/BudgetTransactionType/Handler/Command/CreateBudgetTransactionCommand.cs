@@ -18,8 +18,8 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
 {
     public class CreateBudgetTransactionCommand : IRequestHandler<CreateBudgetTransactionCommandHandler, BaseCommandResponse>
     {
-         private readonly IUnitOfWork _unitOfWork;
-         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public CreateBudgetTransactionCommand(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -27,59 +27,57 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
             _mapper = mapper;
         }
 
-        public Task<BaseCommandResponse> Handle(CreateBudgetTransactionCommandHandler request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<BaseCommandResponse> Handler(CreateBudgetTransactionCommandHandler request, CancellationToken cancellationToken)
+        public async Task<BaseCommandResponse> Handle(CreateBudgetTransactionCommandHandler request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
             var validator = new CreateBudgetTransactionDtoValidator();
             var validationResult = await validator.ValidateAsync(request.BudgetTransactionDto);
 
-            if (validationResult.IsValid == false)
+            if (!validationResult.IsValid)
             {
                 response.Success = false;
                 response.Message = "Creation Failed";
                 response.Errors = validationResult.Errors.Select(q => q.ErrorMessage).ToList();
             }
-           else
+            else
             {
-                var BudgetTransaction = _mapper.Map<BudgetTransaction>(request.BudgetTransactionDto);
-                BudgetTransaction.Status = 0;
+                var budgetTransaction = _mapper.Map<BudgetTransaction>(request.BudgetTransactionDto);
+                budgetTransaction.Status = 0;
 
-                BudgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Add(BudgetTransaction);
-                await _unitOfWork.Save();
+                budgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Add(budgetTransaction);
+                await _unitOfWork.Save(); // Ensure transaction is saved before budget code adjustments
 
-                if (BudgetTransaction.BudgetTypeId == 3)
+                var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.BudgetTransactionDto.BudgetCodeId);
+
+                if (budgetCode != null)
                 {
-                    var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.BudgetTransactionDto.BudgetCodeId);
-                    budgetCode.TotalBudget += BudgetTransaction.Amount;
-                }
-                else if (BudgetTransaction.BudgetTypeId == 2)
-                {
-                    var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.BudgetTransactionDto.BudgetCodeId);
-                    budgetCode.TotalBudget += BudgetTransaction.Amount;
-
-                    if (budgetCode.TotalBudget >= 0)
+                    if (budgetTransaction.BudgetTypeId == 3)
                     {
-                        await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
-                        await _unitOfWork.Save();
+                        budgetCode.TotalBudget += budgetTransaction.Amount;
                     }
+                    else if (budgetTransaction.BudgetTypeId == 2)
+                    {
+                        budgetCode.TotalBudget -= budgetTransaction.Amount;
+
+                        if (budgetCode.TotalBudget < 0)
+                        {
+                            // Handle insufficient budget scenario
+                            response.Success = false;
+                            response.Message = "Insufficient Budget. Transaction cannot be created.";
+                            return response;
+                        }
+                    }
+
+                    await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
+                    await _unitOfWork.Save(); // Save the updated budget code
                 }
+
                 response.Success = true;
                 response.Message = "Creation Successful";
-                response.Id = BudgetTransaction.BudgetTransactionId;
-
+                response.Id = budgetTransaction.BudgetTransactionId;
             }
             return response;
-            
         }
-
-        //Task<BaseCommandResponse> IRequestHandler<CreateBudgetTransactionCommandHandler, BaseCommandResponse>.Handle(CreateBudgetTransactionCommandHandler request, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
+
 }

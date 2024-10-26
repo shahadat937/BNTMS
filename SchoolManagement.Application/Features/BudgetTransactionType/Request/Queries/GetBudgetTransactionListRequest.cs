@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.BudgetTransactionType.Request.Queries
 {
-    public class GetBudgetTransactionListRequest:IRequest<BudgetTransactionDto>
+    public class GetBudgetTransactionListRequest:IRequest<List<BudgetTransactionDto>>
     {
-        public QueryParams QueryParams { get; set; }
-        public int BudgetCodeID { get; set; }
+        public QueryParams? QueryParams { get; set; }
+        public int BudgetCodeId { get; set; }
         public int BudgetTypeId { get; set; }
     }
 }

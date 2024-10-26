@@ -197,6 +197,8 @@ using SchoolManagement.Application.DTOs.BnaClassAttrendance;
 using SchoolManagement.Application.DTOs.CourseLevel;
 using SchoolManagement.Application.DTOs.CourseTerm;
 using SchoolManagement.Application.DTOs.UniversityCourseResult;
+using SchoolManagement.Application.DTOs.BudgetTransaction;
+
 
 namespace SchoolManagement.Application.Profiles
 {
@@ -1717,10 +1719,16 @@ namespace SchoolManagement.Application.Profiles
             #endregion
 
 
+
             CreateMap<UniversityCourseResult, UniversityCourseResultDto>().ReverseMap();
 
             CreateMap<UniversityCourseResult, CreateUniversityCourseResultDto>().ReverseMap();
 
+
+            CreateMap<BudgetTransactionDto, BudgetTransaction>().ReverseMap();
+
+            //.ForMember(d => d.Bud, o => o.MapFrom(s => s.BudgetCodeId.BudgetCodeName));
+            CreateMap<BudgetTransaction, CreateBudgetTransactionDto>().ReverseMap();
 
 
         }

@@ -17,7 +17,7 @@ namespace SchoolManagement.Api.Models
         public int? Status { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime DataCreated { get; set; }
+        public DateTime DateCreated { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime LastModifiedDate { get; set; }
 
