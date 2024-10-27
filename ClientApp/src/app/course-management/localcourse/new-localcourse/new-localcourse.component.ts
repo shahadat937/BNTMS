@@ -131,7 +131,7 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   filterBaseName(value:any) {
-    console.log(value);
+    
     this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
