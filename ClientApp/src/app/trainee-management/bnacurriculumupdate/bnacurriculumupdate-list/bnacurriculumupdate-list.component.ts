@@ -65,6 +65,8 @@ export class BnaCurriculumUpdateListComponent extends UnsubscribeOnDestroyAdapte
  
   }
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1; 
     this.searchText = searchText;
     this.getBnaCurriculumUpdates();
   } 

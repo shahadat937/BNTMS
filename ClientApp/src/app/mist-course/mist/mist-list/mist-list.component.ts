@@ -67,6 +67,8 @@ export class MistListComponent implements OnInit, OnDestroy {
   //   this.getCourseDurationsByCourseType();
   // } 
   applyFilter(filterValue: string) {
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1; 
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase().replace(/\s/g,'');
     this.dataSource.filter = filterValue;

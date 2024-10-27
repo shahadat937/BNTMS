@@ -71,7 +71,7 @@ export class NewUserListComponent implements OnInit, OnDestroy {
   getTraineeList(searchPno) {
     this.isLoading = true;
       this.subscription = this.UserService.getTraineeList(searchPno, this.paging.pageSize, this.paging.pageIndex).subscribe((response:any) => {
-        this.paging.length = response[0].totalCount;
+        this.paging.length = response[0]?.totalCount? response[0].totalCount : 0;
        this.dataSource.data = response; 
        this.isLoading = false;
       })
