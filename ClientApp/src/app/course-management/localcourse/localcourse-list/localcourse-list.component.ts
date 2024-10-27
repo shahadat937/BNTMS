@@ -71,7 +71,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
     this.selectedFilter = this.scrollPositionService.getSelectedFilter('localCourse');
 
     this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.courseTypeId, this.viewStatus).subscribe(response => {
-      console.log(this.viewStatus);
+      
         const endTime = performance.now();
 
         const dataLoadingTime = endTime - startTime;

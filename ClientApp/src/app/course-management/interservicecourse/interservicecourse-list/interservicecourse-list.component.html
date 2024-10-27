@@ -60,21 +60,37 @@
                     </div>
                   </div>
                 </div>
-                <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">               
+                
+                <div class="row dash-cd-m-0">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 div-class div-left course-filter">
+                      <button [ngClass]="{'active-button': selectedFilter === 1}"
+                       class="running-course btn p-2" (click)="getCoursesByViewType(1)">Running</button>
+                      <button [ngClass]="{'active-button': selectedFilter === 2}" class="passing-course btn p-2" (click)="getCoursesByViewType(2)">Passing Out</button>
+                      <button [ngClass]="{'active-button': selectedFilter === 3}" class="upcoming-course btn p-2" (click)="getCoursesByViewType(3)">Upcoming</button>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 div-class div-right">
+                      <h4 class="rnc"> Courses</h4>
+                  </div>
+
+              </div>
+                <mat-table #table [dataSource]="dataSource" matSort class="mat-cell my-2">               
                   <ng-container matColumnDef="ser">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                     <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
                   </ng-container>    
+
+                  
+                  <ng-container matColumnDef="courseTitle">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Course Title</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.courseTitle}} </mat-cell>
+                  </ng-container>
 
                   <ng-container matColumnDef="courseName">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Course Name </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.courseName}} </mat-cell>
                   </ng-container>
 
-                  <ng-container matColumnDef="courseTitle">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Course Title</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.courseTitle}} </mat-cell>
-                  </ng-container>
 
                   <ng-container matColumnDef="baseSchoolName">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Base School Name </mat-header-cell>

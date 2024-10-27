@@ -39,13 +39,20 @@ namespace SchoolManagement.Application.Features.RoleFeatures.Handler.Commands
             else
             {
                 var RoleFeature = _mapper.Map<RoleFeature>(request.RoleFeatureDto);
+                try
+                {
 
-                RoleFeature = await _unitOfWork.Repository<RoleFeature>().Add(RoleFeature);
-                await _unitOfWork.Save();
+                    RoleFeature = await _unitOfWork.Repository<RoleFeature>().Add(RoleFeature);
+                    await _unitOfWork.Save();
 
-                response.Success = true;
-                response.Message = "Creation Successful";
-                //response.Id = RoleFeature.RoleId;
+                    response.Success = true;
+                    response.Message = "Creation Successful";
+                    //response.Id = RoleFeature.RoleId;
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
 
             return response;
