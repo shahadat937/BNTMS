@@ -118,6 +118,8 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBIODataGeneralInfos();
   } 

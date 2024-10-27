@@ -38,6 +38,7 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
    length: 1
  }
  searchText="";
+ viewStatus = 1;
  candidateCount:any;
  passOutStatus:any;
  localCourseList:any;

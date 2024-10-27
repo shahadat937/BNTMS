@@ -96,7 +96,7 @@
                     <tr *ngFor="let number of data.courses;">
                       <td class="course-name-col">
                         {{getDateComparision(number)}}
-                        {{number.course}} - {{number.courseTitle}}
+                        {{number.course? number.course : number.courseName }} - {{number.courseTitle}}
                         <span *ngIf="passOutStatus === 1" style="color:red;font-weight:bold;"> (Passing Out)</span>
                       </td>
                       <!-- <td>

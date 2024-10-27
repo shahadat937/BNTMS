@@ -79,7 +79,9 @@ export class ModuleListComponent extends UnsubscribeOnDestroyAdapter implements 
     this.getModules();
  
   }
-  applyFilter(searchText: any){ 
+  applyFilter(searchText: any){
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1; 
     this.searchText = searchText.toLowerCase().trim();
     this.getModules();
   } 

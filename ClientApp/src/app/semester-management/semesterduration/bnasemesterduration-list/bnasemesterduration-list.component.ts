@@ -92,6 +92,8 @@ export class BnasemesterdurationListComponent implements OnInit, OnDestroy {
   // } 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1; 
     filterValue = filterValue.toLowerCase().replace(/\s/g,'');
     this.dataSource.filter = filterValue;
   }

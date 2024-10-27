@@ -81,6 +81,8 @@ export class ClassTypeListComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText;
     this.getClassType();
   } 

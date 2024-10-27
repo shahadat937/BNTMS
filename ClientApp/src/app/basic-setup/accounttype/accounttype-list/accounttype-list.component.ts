@@ -76,6 +76,8 @@ export class AccountTypeListComponent extends UnsubscribeOnDestroyAdapter implem
   }
   
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1; 
     this.searchText = searchText.toLoweCase().trim().replace(/\s/g,'');
     this.getAdminAuthorities();
   }

@@ -69,6 +69,8 @@ export class RoleFeatureListComponent implements OnInit, OnDestroy {
   }
   applyFilter(searchText: any){ 
     this.searchText = searchText;
+    this.paging.pageIndex = 1
+    this.paging.pageSize = 10
     this.getRoleFeatures();
   } 
   // applyFilter(filterValue: string) {
@@ -78,7 +80,7 @@ export class RoleFeatureListComponent implements OnInit, OnDestroy {
   // }
   deleteItem(row) {
     const Roleid = row.roleId; 
-    const Featureid = row.featureId;
+    const Featureid = row.featureKey;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.subscription = this.RoleFeatureService.delete(Roleid,Featureid).subscribe(() => {

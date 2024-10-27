@@ -96,6 +96,8 @@ export class BNAClassScheduleStatusListComponent extends UnsubscribeOnDestroyAda
   }
 
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1; 
     this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getBNAClassScheduleStatus();
   } 

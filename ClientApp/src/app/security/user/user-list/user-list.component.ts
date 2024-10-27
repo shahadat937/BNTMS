@@ -104,6 +104,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText;
     this.getUsers();
   } 

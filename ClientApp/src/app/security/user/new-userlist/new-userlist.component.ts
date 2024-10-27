@@ -70,22 +70,11 @@ export class NewUserListComponent implements OnInit, OnDestroy {
 
   getTraineeList(searchPno) {
     this.isLoading = true;
-    if(searchPno){
-      this.paging.pageSize = 10;
-      this.paging.pageIndex = 1;
       this.subscription = this.UserService.getTraineeList(searchPno, this.paging.pageSize, this.paging.pageIndex).subscribe((response:any) => {
-        this.paging.length = response[0].totalCount;
+        this.paging.length = response[0]?.totalCount? response[0].totalCount : 0;
        this.dataSource.data = response; 
        this.isLoading = false;
       })
-    }
-    else{
-      this.subscription = this.UserService.getTraineeList(searchPno, this.paging.pageSize, this.paging.pageIndex).subscribe((response:any) => {
-        this.paging.length = response[0].totalCount;
-       this.dataSource.data = response; 
-       this.isLoading = false;
-      })
-    }
     
   }
   /** Whether the number of selected elements matches the total number of rows. */
@@ -122,6 +111,8 @@ export class NewUserListComponent implements OnInit, OnDestroy {
 
   applyFilter(searchText: any){
     this.searchPno = searchText;
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.getTraineeList(this.searchPno);
   } 
 
