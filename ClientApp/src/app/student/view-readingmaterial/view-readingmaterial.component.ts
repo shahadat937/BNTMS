@@ -10,8 +10,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { environment } from 'src/environments/environment';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
 
 @Component({
   selector: 'app-view-readingmaterial',
@@ -43,9 +44,11 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
   traineeId: any;
   branchId: any;
 
+
   groupArrays: { readingMaterialTitle: string; courses: any; }[];
   subscription: any;
   baseSchoolNameId: any;
+  instractor: any;
 
 
   constructor(
@@ -55,7 +58,8 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
     private readonly sanitizer: DomSanitizer,
     private router: Router,
     private confirmService: ConfirmService,
-    public sharedService: SharedServiceService
+    public sharedService: SharedServiceService,
+    private instructorDashboardService: InstructorDashboardService
   ) { }
 
   ngOnInit() {
@@ -64,20 +68,34 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
 
-    if(this.authService.currentUserValue.role!= 'Master Admin'){
+    if (this.authService.currentUserValue.role === 'Student') {
       this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
         if (res) {
-          // console.log(this.traineeId);
           let infoList = res
-          this.baseSchoolNameId = infoList[0].baseSchoolNameId;
-          console.log(this.baseSchoolNameId);
-          this.getReadingMaterials();  
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId;         
+          this.getReadingMaterials();
         }
-  
+
       });
 
-    }   else{
+    }
+    else if (this.authService.currentUserValue.role === 'Master Admin') {
       this.getAllReadingMaterialList()
+    }
+    else if (this.authService.currentUserValue.role === 'Instructor') {
+      this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res => {
+        if (res) {
+          let infoList = res;
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId          
+          this.getReadingMaterials();
+        }
+      });
+
+    }
+    else if (this.authService.currentUserValue.role === 'Super Admin') {
+      this.baseSchoolNameId = this.branchId = this.authService.currentUserValue.branchId
+      this.getReadingMaterials();
+
     }
 
   }
@@ -108,20 +126,20 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
   }
 
   getAllReadingMaterialList() {
-    this.subscription = this.studentDashboardService. getAllReadingMaterialList(this.masterData.readingMaterial.books).subscribe(res => {
+    this.subscription = this.studentDashboardService.getAllReadingMaterialList(this.masterData.readingMaterial.books).subscribe(res => {
       this.bookList = res;
       this.countbooks = this.bookList.length;
     })
       ;
-    this.subscription = this.studentDashboardService. getAllReadingMaterialList(this.masterData.readingMaterial.videos).subscribe(res => {
+    this.subscription = this.studentDashboardService.getAllReadingMaterialList(this.masterData.readingMaterial.videos).subscribe(res => {
       this.videoList = res;
       this.countvideos = this.videoList.length;
     });
-    this.subscription = this.studentDashboardService. getAllReadingMaterialList(this.masterData.readingMaterial.slides).subscribe(res => {
+    this.subscription = this.studentDashboardService.getAllReadingMaterialList(this.masterData.readingMaterial.slides).subscribe(res => {
       this.slideList = res;
       this.countslides = this.slideList.length;
     });
-    this.subscription = this.studentDashboardService. getAllReadingMaterialList(this.masterData.readingMaterial.materials).subscribe(res => {
+    this.subscription = this.studentDashboardService.getAllReadingMaterialList(this.masterData.readingMaterial.materials).subscribe(res => {
       this.materialList = res;
       this.countmaterial = this.materialList.length;
     });
@@ -166,4 +184,9 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
     })
 
   }
+
+
+
+
+
 }
