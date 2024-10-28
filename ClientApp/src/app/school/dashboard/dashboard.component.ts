@@ -177,6 +177,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.getNominetedForeignTraineeListByBase(this.branchId);
       this.geCourseTotalOfficerListByBase(this.branchId);
       this.getNotificationReminderForDashboard();
+ 
 
       this.isShown = true;
 
@@ -218,10 +219,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.baseSchoolNameService.find(this.schoolId).subscribe(response => {
       this.schoolName = response.schoolName;
     })
-
-
+    
     this.baseSchoolNameService.getUserManualByRole(this.role).subscribe(response => {
-      this.userManual = response[0].doc;
+      
+      this.userManual = response[0]?.doc;
     })
 
 

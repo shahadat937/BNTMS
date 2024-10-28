@@ -271,16 +271,16 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       //rankId: [],
       heightId: [''],
       weightId: [''],
-      colorOfEyeId: [],
-      genderId: [],
-      bloodGroupId: [],
-      religionId: [],
+      colorOfEyeId: [''],
+      genderId: [''],
+      bloodGroupId: [''],
+      religionId: [''],
       saylorBranchId:[''],
       saylorRankId:[''],
       saylorSubBranchId:[''],
-      casteId: [],
-      maritalStatusId: [],
-      hairColorId: [],
+      casteId: [''],
+      maritalStatusId: [''],
+      hairColorId: [''],
       bnaPhotoUrl:[''],
       image: [''],
       name: [''],
@@ -297,7 +297,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       mobile: [''],
       email: ['',[Validators.email]],
       pno: [''],
-      dateOfBirth: [''],
+      dateOfBirth: [null],
       joiningDate: [],
       identificationMark: [''],
       presentAddress: [''],
@@ -344,10 +344,10 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       // mobile:[],
       // email:[],
       // bnaPhotoUrl:[],
-      bnaNo:[],
+      bnaNo:[''],
       // pno:[],
-      shortCode:[],
-      presentBillet:[],
+      shortCode:[''],
+      presentBillet:[''],
       // dateOfBirth:[],
       // joiningDate:[],
       // identificationMark:[],
@@ -383,17 +383,22 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       // this.BIODataGeneralInfoForm.get('rankId').setValue("NULL");
       // this.BIODataGeneralInfoForm.get('thanaId').setValue(504);
     }
-
+    console.log(this.BIODataGeneralInfoForm.value.dateOfBirth)
     const formData = new FormData();
     for (const key of Object.keys(this.BIODataGeneralInfoForm.value)) {
-      const value = this.BIODataGeneralInfoForm.value[key];
+      let value = this.BIODataGeneralInfoForm.value[key];
+      if(value === null || value === undefined){
+        value = ""
+      }
       formData.append(key, value);
     }
+    console.log(this.BIODataGeneralInfoForm.value);
 
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         if (result) {
           this.loading = true;
+          console.log();
           this.BIODataGeneralInfoService.update(+id,formData).subscribe(response => {
             this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -409,6 +414,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       })
     }else {
       this.loading = true;
+      
       this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
