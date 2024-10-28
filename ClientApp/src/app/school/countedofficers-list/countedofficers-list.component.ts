@@ -66,6 +66,7 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
     this.schoolId = this.route.snapshot.paramMap.get('schoolId'); 
     this.officerTypeId = this.route.snapshot.paramMap.get('officerTypeId'); 
     var traineeStatusId = this.route.snapshot.paramMap.get('traineeStatusId'); 
+
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     if(this.role == this.userRole.MasterAdmin ||this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO){
       if(Number(this.officerTypeId) == this.masterData.OfficerType.Foreign){
@@ -213,7 +214,9 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
             });
   
         })
+        console.log(this.groupArrays)
       }
+
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.officer){
         this.destination = "Officer";
         this.schoolDashboardService.getrunningCourseTotalOfficerListBySchoolRequest(currentDateTime, this.subscription = this.masterData.TraineeStatus.officer, this.schoolId).subscribe(response => {         

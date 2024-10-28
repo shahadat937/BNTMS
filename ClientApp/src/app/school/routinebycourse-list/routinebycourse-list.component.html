@@ -158,7 +158,7 @@
                       </tr>
                     </table>
                   </div>
-                  <div *ngIf="routineNotesList.length" class="only-for-print" style="width:60%;float:left;">
+                  <div *ngIf="routineNotesList?.length" class="only-for-print" style="width:60%;float:left;">
                     <table class="no-border-table">
                       <tr>
                         <th  colspan="2">Routine Note List</th>
@@ -226,7 +226,7 @@
                   </button>
                 </div>
                 <div class="row">
-                  <div *ngIf="routineNotesList.length" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 routine">
+                  <div *ngIf="routineNotesList?.length" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 routine">
                     
                     <div class="card">
                       <div class="header">
