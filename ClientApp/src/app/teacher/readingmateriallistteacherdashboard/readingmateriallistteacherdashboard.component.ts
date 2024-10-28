@@ -50,6 +50,7 @@ export class ReadingMaterialListTeacherDashboardComponent implements OnInit,OnDe
   }
   getReadingMetarialByInstructor(id){
     this.subscription = this.instructorDashboardService.getSpReadingMaterialByTraineeId(id).subscribe(res=>{
+      console.log(res);
       this.materialList = res;
     });
   }

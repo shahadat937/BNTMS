@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
 
 @Component({
   selector: 'app-readingmaterial',
@@ -63,7 +64,8 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
       private router: Router,
       private confirmService: ConfirmService,
       private route: ActivatedRoute,
-      public sharedService: SharedServiceService
+      public sharedService: SharedServiceService,
+      private instructorDashboardService: InstructorDashboardService
     ) { }
 
   ngOnInit() {
@@ -77,7 +79,26 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
 
 
-    if (this.role !== 'Master Admin') {
+    if (this.role === 'Master Admin') {      
+      this.setPageTitle(this.documentTypeId)
+      this.getAllReadingMaterialList(this.documentTypeId);
+    }
+    else if (this.role === 'Super Admin') {
+      this.setPageTitle(this.documentTypeId)
+      this.baseSchoolNameId = this.branchId;
+      this.getReadingMaterialList(this.documentTypeId);
+    }
+    else if (this.role === 'Instructor') {
+      this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res => {
+        if (res) {
+          let infoList = res;
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId;
+          this.setPageTitle(this.documentTypeId)
+          this.getReadingMaterialList(this.documentTypeId);
+        }
+      });
+    }
+    else if (this.role === 'Student') {
       this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
         if (res) {
 
@@ -88,17 +109,13 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
         if (this.documentTypeId) {
           this.setPageTitle(this.documentTypeId)
           this.getReadingMaterialList(this.documentTypeId);
+          console.log(courseNameId);
         } else {
           this.pageTitle = "Course Material";
           this.getReadingMaterialBySchoolAndCourse(this.baseSchoolNameId, courseNameId);
         }
 
       });
-    }
-    else {
-      
-      this.setPageTitle(this.documentTypeId)
-      this.getAllReadingMaterialList(this.documentTypeId);
     }
 
 
