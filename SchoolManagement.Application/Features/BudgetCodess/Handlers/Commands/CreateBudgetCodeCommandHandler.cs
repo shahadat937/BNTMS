@@ -41,7 +41,7 @@ namespace SchoolManagement.Application.Features.BudgetCodess.Handlers.Commands
 
                 response.Success = true;
                 response.Message = "Creation Successful";
-                response.Id = BudgetCode.BudgetCodeId;
+                response.Id = (int)BudgetCode.BudgetCodeId;
             }
 
             return response;

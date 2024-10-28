@@ -75,6 +75,8 @@ export class ThanaListComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
     this.getThanas();
   } 

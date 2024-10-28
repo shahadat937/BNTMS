@@ -101,6 +101,9 @@ export class ForeignBIODataInfoListComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(searchText: any){ 
+    
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText.trim().toLowerCase().replace(/\s/g,'');
     this.getBIODataGeneralInfos();
   } 

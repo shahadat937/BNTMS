@@ -21,7 +21,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-nets-list',
   templateUrl: './nets-list.component.html',
-  styleUrls: ['./nets-list.component.sass']
+  styleUrls: ['./net-list.component.css']
 })
 export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
@@ -29,6 +29,7 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
  ELEMENT_DATA: CourseDuration[] = [];
  isLoading = false;
  fileUrl = environment.fileUrl;
+ selectedFilter: any;
  courseTypeId=MasterData.coursetype.LocalCourse;
  groupArrays:{ schoolName: string; courses: any; }[];
  paging = {
@@ -37,6 +38,7 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
    length: 1
  }
  searchText="";
+ viewStatus = 1;
  candidateCount:any;
  passOutStatus:any;
  localCourseList:any;
@@ -92,13 +94,18 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
 
  getCoursesByViewType(viewStatus){
 
+  
+
    if(viewStatus==1){
+    this.selectedFilter = viewStatus;
     this.getCourseDurationFilterList(viewStatus)
    }
    else if(viewStatus==2){
+    this.selectedFilter = viewStatus;
      this.getCourseDurationFilterList(viewStatus)
    }
    else if(viewStatus==3){
+    this.selectedFilter=viewStatus;
      let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
      this.dashboardService.getUpcomingCourseListByBase(currentDateTime,0).subscribe(response => {         
        

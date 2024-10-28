@@ -30,7 +30,8 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
     length: 1
   }
   searchText="";
-  viewStatus = 0; // viewStatus not set 
+  viewStatus = 1;
+  selectedFilter: number
 
   displayedColumns: string[] = ['ser','courseTitle','baseSchoolName','courseName','durationFrom','durationTo', 'actions'];
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
@@ -82,5 +83,32 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
         })
       }
     }) 
+  }
+
+  getCoursesByViewType(viewStatus){
+
+    if(viewStatus==1){
+    //   this.selectedFilter = viewStatus;
+    //  this.getCourseDurationFilterList(viewStatus)
+    //  this.selectedFilter = 1;
+    this.selectedFilter = 1;
+    this.viewStatus = 1;
+    this.getCourseDurationsByCourseType()
+    }
+    else if(viewStatus==2){
+      // this.selectedFilter = viewStatus;
+      // this.getCourseDurationFilterList(viewStatus)
+      this.selectedFilter = 2;
+      this.viewStatus = 2;
+      this.getCourseDurationsByCourseType()
+    }
+    else if(viewStatus==3){
+      // this.selectedFilter = 3;
+      // this.selectedFilter = viewStatus;
+      // this.getCourseDurationFilterList(viewStatus)
+      this.selectedFilter = 3;
+      this.viewStatus = 3;
+      this.getCourseDurationsByCourseType()
+    }
   }
 }

@@ -36,12 +36,15 @@ export class RoleFeatureService {
 
   
 
-  find(Roleid:number,Featureid:number) {
-    return this.http.get<RoleFeature>(this.baseUrl + '/RoleFeature/get-RoleFeatureDetail?RoleId='+Roleid+'&FeatureId='+Featureid);
+  find(Roleid:string,Featureid:number) {
+
+    const result = this.http.get<RoleFeature>(this.baseUrl + '/RoleFeature/get-RoleFeatureDetail?RoleId='+Roleid+'&FeatureId='+Featureid);
+    console.log(result);
+    return result;
   }
    
 
-  update(Roleid:number,Featureid:number,model: any) { 
+  update(Roleid:string,Featureid:number,model: any) { 
     //return this.http.put(this.baseUrl + '/RoleFeature/update-RoleFeature/'+id, model);
     return this.http.put(this.baseUrl + '/RoleFeature/update-RoleFeature?RoleId='+Roleid+'&FeatureId='+Featureid, model);
   }

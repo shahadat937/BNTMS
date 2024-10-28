@@ -17,8 +17,8 @@ export class CourseDurationService {
   CourseDurationPagination = new CourseDurationPagination(); 
   constructor(private http: HttpClient) { }
 
-getSelectedBaseName(){
-  return this.http.get<SelectedModel[]>(this.baseUrl + '/base-name/get-selectedBases');
+getSelectedBaseName(branchLevel){
+  return this.http.get<SelectedModel[]>(this.baseUrl + '/base-School-name/get-selectedBaseNamesForCourse?branchLevel='+branchLevel);
 }
 
 getselectedBaseNamesForCourse(branchLevel){
@@ -34,10 +34,11 @@ activeCoursePlan(id : number){
 }
 
   getSchoolByBaseId(id:number){
-    return this.http.get<SelectedModel[]>(this.baseUrl + '/base-School-name/get-selectedBaseSchoolByBase?baseNameId=' + id);
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/base-School-name/get-selectedSchoolNames?thirdLevel=' + id);
   }
   
   getSelectedSchoolsForCourse(id:number){
+    console.log(id);
     return this.http.get<SelectedModel[]>(this.baseUrl + '/base-School-name/get-selectedSchoolNames?thirdLevel=' + id);
   }
 
@@ -104,7 +105,7 @@ activeCoursePlan(id : number){
        
         this.CourseDurations = [...this.CourseDurations, ...response.body.items];
         this.CourseDurationPagination = response.body;
-        console.log(this.CourseDurations)
+      
         return this.CourseDurationPagination;
       })
     ); 

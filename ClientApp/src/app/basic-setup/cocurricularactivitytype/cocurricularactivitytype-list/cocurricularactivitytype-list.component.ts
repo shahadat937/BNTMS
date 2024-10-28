@@ -83,6 +83,8 @@ export class CoCurricularActivityTypeListComponent extends UnsubscribeOnDestroyA
   }
 
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText.toLoweCase().trim().relace(/\s/g,'');
     this.getCoCurricularActivityTypes();
   } 

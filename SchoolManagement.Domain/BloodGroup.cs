@@ -8,6 +8,7 @@ namespace SchoolManagement.Domain
         {
             TraineeBioDataGeneralInfos = new HashSet<TraineeBioDataGeneralInfo>();
             TraineeBioDataOthers = new HashSet<TraineeBioDataOther>();
+            
         }
 
         public int BloodGroupId { get; set; }

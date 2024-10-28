@@ -38,13 +38,20 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
-     this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
+     this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId'); 
+
+     if(!this.courseTypeId){
+      this.courseTypeId = MasterData.coursetype.InterService.toString();
+     }
+     
+    
     if (id) {
       this.pageTitle = 'Edit Interservice Course'; 
       this.destination = "Edit"; 
       this.buttonText= "Update" 
       this.CourseDurationService.find(+id).subscribe(
         res => {
+                   
           this.CourseDurationForm.patchValue({          
             courseDurationId:res.courseDurationId, 
             courseNameId: res.courseNameId, 
@@ -86,7 +93,7 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
       courseDurationId: [0],
       courseNameId:['',Validators.required],
       courseTitle:['',Validators.required],
-      baseSchoolNameId:['',Validators.required],
+      baseSchoolNameId:[''],
       baseNameId:[],
       durationFrom:[],
       durationTo:[],    
@@ -95,7 +102,7 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
       remark:[''],
       courseTypeId:[this.masterData.coursetype.InterService],
       countryId:[this.masterData.country.bangladesh],
-      // isCompletedStatus:[],
+      isCompletedStatus:[0],
       // isApproved:[],
       // approvedBy:[],
       // approvedDate:[],
@@ -105,17 +112,20 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
   }
   
   getselectedbasesName(){
-    this.CourseDurationService.getSelectedBaseName().subscribe(res=>{
+    const branchLevel : number = 3;
+    this.CourseDurationService.getSelectedBaseName(branchLevel).subscribe(res=>{
       this.selectedBaseName=res
     });
   }
   onBaseNameSelectionChangeGetSchool(baseNameId){
     this.CourseDurationService.getSchoolByBaseId(baseNameId).subscribe(res=>{
       this.selectedSchool=res
+      console.log(baseNameId);
     });
    }
 
   getselectedcoursename(){
+    
     this.CourseDurationService.getCourseByType(this.courseTypeId).subscribe(res=>{
       this.selectedcourse=res
     });

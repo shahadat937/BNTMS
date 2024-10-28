@@ -26,7 +26,7 @@ export class InstructorListComponent implements OnInit, OnDestroy {
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
-    pageSize: 5,
+    pageSize: this.masterData.paging.pageSize,
     length: 1
   }
   searchText="";
@@ -87,6 +87,8 @@ export class InstructorListComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText;
     this.getInstructors();
   } 

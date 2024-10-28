@@ -104,7 +104,8 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
   }
   
   getselectedbasesName(){
-    this.CourseDurationService.getSelectedBaseName().subscribe(res=>{
+    const branchLevel = 3;
+    this.CourseDurationService.getSelectedBaseName(branchLevel).subscribe(res=>{
       this.selectedBaseName=res
     });
   }

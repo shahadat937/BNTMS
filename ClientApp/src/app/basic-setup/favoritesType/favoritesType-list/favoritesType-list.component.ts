@@ -86,6 +86,8 @@ export class FavoritesTypeListComponent extends UnsubscribeOnDestroyAdapter impl
   }
 
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText;
     this.getFavoritesTypes();
   } 

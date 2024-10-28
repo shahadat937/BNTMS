@@ -83,7 +83,9 @@ export class BranchListComponent extends UnsubscribeOnDestroyAdapter implements 
  
   }
   applyFilter(searchText: any){ 
-    this.searchText = searchText.toLoweCase().trim().replace(/\s/g,'');
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
+    this.searchText = searchText.toLowerCase().trim();
     this.getBranchs();
   } 
 
