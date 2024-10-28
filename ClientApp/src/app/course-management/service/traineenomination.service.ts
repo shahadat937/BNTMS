@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ITraineeNominationPagination,TraineeNominationPagination } from '../models/traineenominationPagination';
 import { TraineeNomination } from '../models/traineenomination';
 import { SelectedModel } from '../../core/models/selectedModel';
-import { map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { PostResponse } from 'src/app/core/models/PostResponse';
 import { TraineeList} from '../../attendance-management/models/traineeList'
 import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
@@ -199,4 +199,21 @@ export class TraineeNominationService {
   delete(id:number){
     return this.http.delete(this.baseUrl + '/trainee-nomination/delete-traineeNomination/'+id);
   }
+  
+  uploadFile(file: File, courseDurationId: number, courseNameId: number) {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    // Add the missing '&' between courseDurationId and courseNameId
+    const url = `${this.baseUrl}/trainee-nomination/get-uploadTraineeNomineeListfile?courseDurationId=${courseDurationId}&courseNameId=${courseNameId}`;
+  
+    return this.http.post(url, formData)
+      .pipe(
+        catchError(error => {
+          console.error('Upload failed:', error);
+          return throwError(() => new Error('File upload failed, see console for details.'));
+        })
+      );
+  }
+  
 }
