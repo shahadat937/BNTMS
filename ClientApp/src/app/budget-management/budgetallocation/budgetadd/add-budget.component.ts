@@ -156,7 +156,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
 
   onSubmit() {
     const id = this.BudgetAllocationForm.get('budgetAllocationId').value;
-    
+    console.log(id)
     if (id) {
       this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {
         if (result) {

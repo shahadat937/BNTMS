@@ -1,3 +1,4 @@
+// import { BudgetTransaction } from './../../models/budgettransaction';
 import { BudgetTransactionService } from './../../service/budgettransaction.service';
 // import { BudgetAllocation } from './../../../foreign-training/models/budgetallocation';
 import { ConfirmService } from './../../../core/service/confirm.service';
@@ -41,7 +42,7 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     courseNameId: number=0;
     budgetCodeId:number=0;
     paymentTypeId: number=0;
-   
+    courseName: number;
     buttonText: string;
     pageTitle: string;
     selectDeskOfficer: SelectedModel[];
@@ -56,7 +57,7 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     loading: any;
     validationErrors: any;
     deskAuthority: any;
-    // traineeId: number=0;
+    
     selectedCourseDuration: SelectedModel[];
     totalBudget: any;
     targetAmount: any;
@@ -66,12 +67,16 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     ];
     isLoading = false;
 
-    displayedColumns: string[] = ['ser','budgetCode','budgetType','installmentAmount'];
+    displayedColumns: string[] = ['ser','budgetCode','budgetType','amount','adminAuthority'];
 
-    dataSource: MatTableDataSource<CourseBudgetAllocation> = new MatTableDataSource();
+    dataSource: MatTableDataSource<BudgetTransaction> = new MatTableDataSource();
     
     CourseBudgetAllocation: any;
    budgetTypeId: any;
+   budgetCodeName: string;
+   selectedBudgetCodeName: SelectedModel[];
+
+   
 
       
 
@@ -80,14 +85,17 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
   }
 
   ngOnInit(): void {
-
-    this.initializeForm()
     const id = this.route.snapshot.paramMap.get('budgetTransactionId');
+    this.initializeForm()
     if(id){
       this.BudgetTransactionService.find(+id).subscribe(res =>{
         this.BudgetTransactionForm.patchValue({
-         budgetCodeId: res.budgetCodeId,
-         budgetTypeId: res.budgetTypeId,
+          budgetTransactionId: res.budgetTransactionId,
+          fiscalYearId: res.fiscalYearId,
+          budgetTypeId: res.budgetTypeId,
+          amount: +res.amount,
+
+          budgetCodeId: res.budgetCodeId,
          
         })
       })
@@ -104,19 +112,20 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     }
 initializeForm(){
   this.BudgetTransactionForm = this.fb.group({
-    budgetTransactionId: [null],
+    budgetTransactionId: [0],
       budgetCodeId: [''],
       budgetTypeId:[],
-      courseName: [''],
-      fiscalYearId:[],
+      courseName: [0],
+      fiscalYearId:[''],
       adminAuthority: [''],
       deskAuthority: [''],
       amount:[''],
       dateCreated:[''],
-      menuPosition:[],
+      menuPosition:[''],
       isActive: [true],   
   })
 }
+
 
    getSelectAuthority(){
     this.AdminAuthorityService.getselectedAdminAuthorities().subscribe(res =>{
@@ -144,18 +153,30 @@ getSelectedCourseDurationByCourseTypeId(){
 }
 
 
- 
-  onBudgetCodeSelectionChange(dropdown) {
-    if (dropdown.isUserInput) {
-        var budgetCodeId = dropdown.source.value; 
-        this.getBudgetTransaction();
-        this.BudgetTransactionForm.get('budgetCodeId').setValue(budgetCodeId);
+onBudgetCodeSelectionChange(dropdown) {
+  if (dropdown.isUserInput) {
+    this.budgetCodeId = dropdown.source.value;
+    this.isShow = true; 
+    this.BudgetTransactionService.getSelectedBudgetCodeNameByBudgetCodeId(dropdown.source.value).subscribe(res => {
+      this.selectedBudgetCodeName = res;
+      this.budgetCodeName = res[0].text;
+      this.BudgetTransactionForm.get('budgetCodeName').setValue(this.budgetCodeName);
+    });
+  }
+}
 
-        this.BudgetTransactionService.getTargetAmountByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
-          this.targetAmount=res[0].text; 
-         });
-        
-    }
+onBudgetHeadCodeSelectionChange(dropdown){
+  if (dropdown.isUserInput) {
+     var budgetCodeId = dropdown.source.value.value; 
+    console.log(budgetCodeId,'Budget Code Id')
+     this.BudgetTransactionForm.get('budgetCodeId').setValue(budgetCodeId);
+
+     this.BudgetTransactionService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
+     this.totalBudget=res[0].text; 
+    });
+
+    
+   }
 }
 
 
@@ -172,7 +193,7 @@ getBudgetTransaction() {
 onBudgetChange(dropdown){
   if (dropdown.isUserInput) {
     this.isShow=true;
-     this.paymentTypeId=dropdown.source.value;
+     this.budgetTypeId=dropdown.source.value;
       this.getBudgetTransaction();
    }
 }
@@ -196,18 +217,15 @@ getselectedcoursename(){
         });
       }
 
-onSubmit() {
-  const id = this.BudgetTransactionForm.get('budgetTransactionId')?.value; // Use optional chaining
-  console.log(id);
 
+onSubmit() {
+  const id = this.BudgetTransactionForm.get('budgetTransactionId').value;
+  
   if (id) {
-    // Proceed with the update logic
     this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {
       if (result) {
-        this.loading = true;
-        this.BudgetTransactionService.update(id, this.BudgetTransactionForm.value).subscribe(response => {
-          this.router.navigate(['/budget-management/transaction-type'], { queryParams: { installmentAmount: this.BudgetTransactionForm.get('installmentAmount')?.value } });
-          this.reloadCurrentRoute();
+        this.loading = false;
+        this.BudgetTransactionService.update(+id, this.BudgetTransactionForm.value).subscribe(response => {
           this.snackBar.open('Information Updated Successfully', '', {
             duration: 2000,
             verticalPosition: 'bottom',
@@ -220,8 +238,11 @@ onSubmit() {
       }
     });
   } else {
-    // Proceed with the create logic
-    this.BudgetTransactionService.submit(this.BudgetTransactionForm.value).subscribe(response => {
+    this.loading = false;
+   
+    this.BudgetTransactionService.submit(this.BudgetTransactionForm.value).subscribe(response => { 
+      console.log('on submit - budget transaction', this.BudgetTransactionForm.value, response)
+
       this.reloadCurrentRoute();
       this.snackBar.open('Information Inserted Successfully', '', {
         duration: 2000,
@@ -234,8 +255,7 @@ onSubmit() {
     });
   }
 }
-
-   
+  
   }
 
 

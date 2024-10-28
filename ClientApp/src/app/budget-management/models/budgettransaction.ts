@@ -1,4 +1,5 @@
 export interface BudgetTransaction{
+    budgetTransactionId: number;
     adminAuthority: any;
     deskAuthority: any;
     budgetAllocationId: number,

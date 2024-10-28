@@ -31,8 +31,11 @@ export class BudgetTransactionService{
         return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-type/get-selectedBudgetTypes')
       }
 
-      getTargetAmountByBudgetCodeIdRequest(budgetCodeId){
-        return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-code/get-targetAmountByBudgetCodeIdRequest?budgetCodeId='+budgetCodeId+'');
+      getTotalBudgetByBudgetCodeIdRequest(budgetCodeId){
+        return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-code/get-totalBudgetByBudgetCodeIdRequest?budgetCodeId='+budgetCodeId+'');
+      }
+      getSelectedBudgetCodeNameByBudgetCodeId(budgetCodeId){
+        return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-code/get-selectedBudgetCodeByBudgetCodeIdRequest?budgetCodeId='+budgetCodeId+'')
       }
 
       getBudgetTransaction(pageSize,pageNumber,searchText, budgetCodeId, budgetTypeId)
@@ -43,38 +46,43 @@ export class BudgetTransactionService{
         params = params.append('pageNumber', pageNumber.toString());
         params = params.append('pageSize', pageSize.toString()); 
         params = params.append('budgetCodeId', budgetCodeId.toString()); 
-        params = params.append('fiscalYearId', budgetTypeId.toString()); 
+        params = params.append('budgetTypeId', budgetTypeId.toString()); 
 
-        return this.http.get<IBudgetTransactionPagination>(this.baseUrl + '/transaction-type/get-BudgetTransaction', { observe: 'response', params })
+        console.log('params', params)
+
+        return this.http.get<IBudgetTransactionPagination>(this.baseUrl + '/budget-transaction/get-BudgetTransaction', { observe: 'response', params })
     .pipe(
       map(response => {
+        console.log('http response',response)
         this.BudgetTransaction = [...this.BudgetTransaction, ...response.body.items];
         this.BudgetTransactionPagination = response.body;
-        console.log(response)
+        
         return this.BudgetTransactionPagination;
       })
     );
       }
 
       find(id: number){
-        return this.http.get<BudgetTransaction>(this.baseUrl + '/transaction-type/get-BudgetTransactionDetails' + id);
+        return this.http.get<BudgetTransaction>(this.baseUrl + '/budget-transaction/get-BudgetTransactionDetails' + id);
       }
 
       update(id: number, model: any){
-        return this.http.put<BudgetTransaction>(this.baseUrl + '/transaction-type/update-BudgetTransaction' + id,model);
+        return this.http.put<BudgetTransaction>(this.baseUrl + '/budget-transaction/update-BudgetTransaction' + id,model);
       }
 
       submit(model:any){
-        return this.http.post<PostResponse>(this.baseUrl + '/transaction-type/save-BudgetTransaction', model).pipe(
+        console.log('Submitting Budget Transaction:', model);
+        return this.http.post<PostResponse>(this.baseUrl + '/budget-transaction/save-BudgetTransaction', model).pipe(
            map((BudgetTransaction:PostResponse)=> {
+            
             if(BudgetTransaction){
                 return BudgetTransaction;
             }
            })
         )
+        
       }
 
-      
       delete(id:number){
         return this.http.delete<BudgetTransaction>(this.baseUrl + '/transaction-type'+ id)
       }

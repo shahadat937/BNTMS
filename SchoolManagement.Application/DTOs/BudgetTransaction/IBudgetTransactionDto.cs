@@ -13,7 +13,7 @@ namespace SchoolManagement.Application.DTOs.BudgetTransaction
         public double? Amount { get; set; }
         public int? AdminAuthority { get; set; }
         public int? DeskAuthority { get; set; }
-        public int? CourseName { get; set; }
+        public string? CourseName { get; set; }
         public int? MenuPosition { get; set; }
         public int? Status { get; set; }
         public bool IsActive { get; set; }
