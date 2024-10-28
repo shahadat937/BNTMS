@@ -65,6 +65,8 @@ export class MembershiptypeListComponent extends UnsubscribeOnDestroyAdapter imp
  
   }
   applyFilter(searchText: any){ 
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
     this.searchText = searchText;
     this.getMembershipTypes();
   } 

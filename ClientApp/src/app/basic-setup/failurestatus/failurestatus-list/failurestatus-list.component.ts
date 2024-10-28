@@ -66,7 +66,9 @@ export class FailureStatusListComponent extends UnsubscribeOnDestroyAdapter impl
     this.getFailureStatuss();
   }
 
-  applyFilter(searchText: any){ 
+  applyFilter(searchText: any){
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1; 
     this.searchText = searchText;
     this.getFailureStatuss();
   } 

@@ -98,7 +98,9 @@ export class RankListComponent extends UnsubscribeOnDestroyAdapter implements On
   }
 
   applyFilter(searchText: any){ 
-    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
+    this.paging.pageSize = 10;
+    this.paging.pageIndex = 1;
+    this.searchText = searchText.toLowerCase().trim();
     this.getRanks();
   } 
 
