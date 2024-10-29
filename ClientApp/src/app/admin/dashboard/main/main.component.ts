@@ -38,6 +38,8 @@ import { DatePipe } from '@angular/common';
 import { SpOfficerDetails } from '../models/spofficerdetails';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { environment } from 'src/environments/environment';
+import { BaseSchoolNameService } from 'src/app/basic-setup/service/BaseSchoolName.service';
 //import { MasterData } from 'src/assets/data/master-data';
 //import { CourseDuration } from '../models/courseduration';
 //import { CourseDurationService } from '../services/courseduration.service';
@@ -101,6 +103,8 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
   traineeId:any;
   role:any;
 
+  fileUrl: any = environment.fileUrl;
+  userManual: any;
 
   filterItems: string[] = [
     'work',
@@ -147,13 +151,14 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
   selection = new SelectionModel<CourseDuration>(true, []);
   
 
-  constructor(private datepipe: DatePipe, private authService: AuthService,private CourseDurationService: CourseDurationService,private dashboardService: dashboardService) {
+  constructor(private datepipe: DatePipe, private authService: AuthService,private CourseDurationService: CourseDurationService,private dashboardService: dashboardService, private baseSchoolNameService: BaseSchoolNameService,) {
     super();
   }
  
 
   ngOnInit() {
     //  this.calendarEvents = INITIAL_EVENTS;
+
   
    // this.calendarEvents=INITIAL_EVENTS;
    this.role = this.authService.currentUserValue.role.trim();
@@ -164,6 +169,9 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
 
   this.dashboardService.getCourseDurationForEventCalendar().subscribe(res=>{
    
+  this.baseSchoolNameService.getUserManualByRole(this.role).subscribe(response => {
+    this.userManual = response[0].doc;
+  })
   //  this.calendarEvents=INITIAL_EVENTS;
   this.calendarEvents= res;
   this.calendarOptions = {
