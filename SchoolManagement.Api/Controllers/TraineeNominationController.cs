@@ -355,6 +355,20 @@ public class TraineeNominationController : ControllerBase
         });
         return Ok(trainee);
     }
+
+
+    [HttpPost]
+    [Route("get-uploadTraineeNomineeListfile")]
+    public async Task<ActionResult> UploadTraineeNomineeList([FromForm] IFormFile file, int courseDurationId, int courseNameId)
+    {
+        var trainee = await _mediator.Send(new UploadTraineeNominationFileCommand
+        {
+            TraineeNominationFile = file,
+            CourseDurationId = courseDurationId,
+            CourseNameId = courseNameId
+        });
+        return Ok(trainee);
+    }
 }
 
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -9,7 +9,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { Observable, of, Subscription } from 'rxjs';
-import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map, delay } from 'rxjs/operators';
+import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map, delay, concatMap } from 'rxjs/operators';
 import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/service/BIODataGeneralInfo.service';
 import { CourseDurationService } from '../../service/courseduration.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,6 +18,7 @@ import { TraineeNomination } from '../../models/traineenomination';
 import { Location } from '@angular/common';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-new-traineenomination',
@@ -60,6 +61,7 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
   //formGroup : FormGroup;
 
   options = [];
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   filteredOptions;
   displayedColumns: string[] = ['ser','traineeName','courseName', 'actions'];
@@ -232,6 +234,7 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
 
   //autocomplete
   onTraineeSelectionChanged(item) {
+    console.log("Filter : ", item)
     this.traineeId = item.value
     this.TraineeNominationForm.get('traineeId').setValue(item.value);
     this.TraineeNominationForm.get('traineeName').setValue(item.text);
@@ -299,8 +302,52 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       this.TraineeNominationForm.get('branchId').setValue(res.branchId);
       this.TraineeNominationForm.get('courseDurationId').setValue(this.courseDurationId);
       this.TraineeNominationForm.get('courseNameId').setValue(this.courseNameId);
-      
     });
+  }
+
+  downloadExcelFile(){
+    const url = environment.fileUrl + '/files/trainee-nominee-file/Trainee Nomination.xlsx'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Trainee Nomination.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+  triggerFileSelect() {
+    this.fileInput.nativeElement.click(); // Triggers the file selection dialog
+  }
+
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const courseDurationId = Number(this.courseDurationId)
+      this.TraineeNominationService.uploadFile(file, courseDurationId, this.courseNameId).subscribe(
+        (response: any) => {
+        (event.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+          this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        }
+      },
+        (error) => {
+          (event.target as HTMLInputElement).value = '';
+        }
+      );
+    }
   }
   
   goBack() {
