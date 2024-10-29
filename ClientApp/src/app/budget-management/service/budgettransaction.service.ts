@@ -1,12 +1,8 @@
 import { PostResponse } from './../../core/models/PostResponse';
-
-import { environment } from './../../../environments/environment';
-
+// import { environment } from './../../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpParams } from '@angular/common/http';
-
-// import { IBudgetAllocationPagination,BudgetAllocationPagination } from '../models/BudgetAllocationPagination';
 import { BudgetTransaction } from '../models/budgettransaction';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { map } from 'rxjs';
@@ -34,36 +30,37 @@ export class BudgetTransactionService{
       getTotalBudgetByBudgetCodeIdRequest(budgetCodeId){
         return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-code/get-totalBudgetByBudgetCodeIdRequest?budgetCodeId='+budgetCodeId+'');
       }
+
       getSelectedBudgetCodeNameByBudgetCodeId(budgetCodeId){
         return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-code/get-selectedBudgetCodeByBudgetCodeIdRequest?budgetCodeId='+budgetCodeId+'')
       }
 
-      getBudgetTransaction(pageSize,pageNumber,searchText, budgetCodeId, budgetTypeId)
+      getBudgetTransaction(pageNumber, pageSize,searchText,budgetCodeId,budgetTypeId)
       {
+        console.log('budget code',budgetCodeId)
         let params = new HttpParams();
 
         params = params.append('searchText', searchText.toString());
         params = params.append('pageNumber', pageNumber.toString());
-        params = params.append('pageSize', pageSize.toString()); 
+        params = params.append('pageSize', pageSize.toString());
+        
         params = params.append('budgetCodeId', budgetCodeId.toString()); 
         params = params.append('budgetTypeId', budgetTypeId.toString()); 
 
-        console.log('params', params)
-
         return this.http.get<IBudgetTransactionPagination>(this.baseUrl + '/budget-transaction/get-BudgetTransaction', { observe: 'response', params })
     .pipe(
-      map(response => {
-        console.log('http response',response)
-        this.BudgetTransaction = [...this.BudgetTransaction, ...response.body.items];
-        this.BudgetTransactionPagination = response.body;
-        
-        return this.BudgetTransactionPagination;
-      })
+        map(response => {
+            console.log('Full API Response:', response);
+            console.log('Response Body:', response.body);
+            this.BudgetTransaction = [...this.BudgetTransaction, ...response.body?.items || []];
+            this.BudgetTransactionPagination = response.body;
+            return this.BudgetTransactionPagination;
+        })
     );
       }
 
       find(id: number){
-        return this.http.get<BudgetTransaction>(this.baseUrl + '/budget-transaction/get-BudgetTransactionDetails' + id);
+        return this.http.get<BudgetTransaction>(this.baseUrl + '/budget-transaction/get-BudgetTransactionDetail' + id);
       }
 
       update(id: number, model: any){

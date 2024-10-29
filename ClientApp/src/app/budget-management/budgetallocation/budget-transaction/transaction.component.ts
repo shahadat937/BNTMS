@@ -22,6 +22,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MasterData } from 'src/assets/data/master-data';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { CourseGradingEntryService } from 'src/app/basic-setup/service/CourseGradingEntry.service';
 
 
 @Component({
@@ -36,51 +37,42 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     selectedBudgetCode: SelectedModel[];
     SelectAuthority: SelectedModel[];
     selectedPaymentType: SelectedModel[];
-    // CourseBudgetAllocationForm: FormGroup;
-    // BudgetAllocationForm: FormGroup;
     BudgetTransactionForm: FormGroup;
     courseNameId: number=0;
     budgetCodeId:number=0;
-    paymentTypeId: number=0;
-    courseName: number;
+    courseName: number = 0;
+    courseNames: string;
+    fiscalYearId: number = 0;
     buttonText: string;
     pageTitle: string;
     selectDeskOfficer: SelectedModel[];
     SelectedCourse: SelectedModel[];
     paging = {
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 5,
         length: 1
       };
     searchText: string='';
-    isShow: any;
+    isShow: boolean = false;
     loading: any;
     validationErrors: any;
-    deskAuthority: any;
+    deskAuthority: number = 0;
     
     selectedCourseDuration: SelectedModel[];
     totalBudget: any;
-    targetAmount: any;
-    deskId: any;
-    ELEMENT_DATA: CourseBudgetAllocation[] = [
-      
-    ];
     isLoading = false;
 
-    displayedColumns: string[] = ['ser','budgetCode','budgetType','amount','adminAuthority'];
+    displayedColumns: string[] = ['ser','dateCreated','budgetCodeName','amount','adminAuthority'];
 
     dataSource: MatTableDataSource<BudgetTransaction> = new MatTableDataSource();
     
     CourseBudgetAllocation: any;
-   budgetTypeId: any;
+   budgetTypeId: number=0;
    budgetCodeName: string;
    selectedBudgetCodeName: SelectedModel[];
-
-   
-
-      
-
-  constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, private CourseWeekService: CourseWeekService, private route: ActivatedRoute, public sharedService: SharedServiceService, private BudgetTransactionService: BudgetTransactionService) {
+   selectedCourseNames: SelectedModel[];
+ 
+  constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, private CourseWeekService: CourseWeekService, private route: ActivatedRoute, public sharedService: SharedServiceService, private BudgetTransactionService: BudgetTransactionService, private CourseGradingEntryService: CourseGradingEntryService) {
    super();
   }
 
@@ -94,8 +86,10 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
           fiscalYearId: res.fiscalYearId,
           budgetTypeId: res.budgetTypeId,
           amount: +res.amount,
-
+          budgetCodeName: res.budgetCodeName,
           budgetCodeId: res.budgetCodeId,
+          couresName: +res.courseName,
+          courseNames: res.courseNames,
          
         })
       })
@@ -106,7 +100,8 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     this.getSelectAuthority();
     this.getSelecetedBudgetType();
     this.getselectedBudgetCode();
-    this.getSelectedCourseDurationByCourseTypeId();
+    // this.getSelectedCourseDurationByCourseTypeId();
+    this.getselectedCourseNames();
     this.getBudgetTransaction();
 
     }
@@ -120,8 +115,10 @@ initializeForm(){
       adminAuthority: [''],
       deskAuthority: [''],
       amount:[''],
+      budgetCodeName:[''],
       dateCreated:[''],
       menuPosition:[''],
+      courseNames:[''],
       isActive: [true],   
   })
 }
@@ -139,24 +136,44 @@ initializeForm(){
     });
   }
   
- getTotalBudgetByBudgetCodeIdRequest(){
-  this.CourseBudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(MasterData.coursetype.ForeignCourse).subscribe(res=>{
-    this.selectedCourseDuration=res
+//  getTotalBudgetByBudgetCodeIdRequest(){
+//   this.CourseBudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(MasterData.coursetype.ForeignCourse).subscribe(res=>{
+//     this.selectedCourseDuration=res
+//   });
+// }
+
+getselectedCourseNames(){
+  this.CourseGradingEntryService.getselectedCourseNames().subscribe(res=>{
+    this.selectedCourseNames=res
+   
   });
 }
 
-getSelectedCourseDurationByCourseTypeId(){
-  this.CourseBudgetAllocationService.getSelectedCourseDurationByCourseTypeId(MasterData.coursetype.ForeignCourse).subscribe(res=>{
-    this.selectedCourseDuration=res
+// getSelectedCourseDurationByCourseTypeId(){
+//   this.CourseBudgetAllocationService.getSelectedCourseDurationByCourseTypeId(MasterData.coursetype.ForeignCourse).subscribe(res=>{
+//     this.selectedCourseDuration=res
    
-  });
+//   });
+// }
+
+onBudgetTypeChange(dropdown){
+  if (dropdown.isUserInput) {
+    var budgetCodeId = dropdown.source.value; 
+
+    this.BudgetTransactionForm.get('budgetCodeId').setValue(budgetCodeId);
+
+    this.BudgetTransactionService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
+    this.totalBudget=res[0].text; 
+    console.log(this.totalBudget)
+   });
+  }
 }
 
 
 onBudgetCodeSelectionChange(dropdown) {
   if (dropdown.isUserInput) {
     this.budgetCodeId = dropdown.source.value;
-    this.isShow = true; 
+    this.getBudgetTransaction(); 
     this.BudgetTransactionService.getSelectedBudgetCodeNameByBudgetCodeId(dropdown.source.value).subscribe(res => {
       this.selectedBudgetCodeName = res;
       this.budgetCodeName = res[0].text;
@@ -165,36 +182,38 @@ onBudgetCodeSelectionChange(dropdown) {
   }
 }
 
-onBudgetHeadCodeSelectionChange(dropdown){
-  if (dropdown.isUserInput) {
-     var budgetCodeId = dropdown.source.value.value; 
-    console.log(budgetCodeId,'Budget Code Id')
-     this.BudgetTransactionForm.get('budgetCodeId').setValue(budgetCodeId);
-
-     this.BudgetTransactionService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
-     this.totalBudget=res[0].text; 
-    });
-
-    
-   }
-}
-
 
 getBudgetTransaction() {
   this.isLoading = true;
+  // 
+  // this.budgetCodeId = 7;
+  // this.budgetTypeId = 3;
+  // console.log(this.budgetCodeId)
   this.BudgetTransactionService.getBudgetTransaction(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.budgetTypeId).subscribe(response => {
+    console.log(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.budgetTypeId)
     this.dataSource.data = response.items; 
-    console.log(response.items)
-    this.paging.length = response.totalItemsCount    
+    this.paging.length = response.totalItemsCount;    
     this.isLoading = false;
-  })
+  });
 }
-  
+
+
 onBudgetChange(dropdown){
+  console.log("hello")
   if (dropdown.isUserInput) {
     this.isShow=true;
      this.budgetTypeId=dropdown.source.value;
-      this.getBudgetTransaction();
+     this.getBudgetTransaction();
+     console.log('budget type',this.budgetTypeId)
+   }
+   
+}
+
+onFiscalYearSelectionChange(dropdown){
+  if (dropdown.isUserInput) {
+    this.isShow=true;
+     this.budgetTypeId=dropdown.source.value;
+     this.getBudgetTransaction();
    }
 }
 
@@ -242,7 +261,7 @@ onSubmit() {
    
     this.BudgetTransactionService.submit(this.BudgetTransactionForm.value).subscribe(response => { 
       console.log('on submit - budget transaction', this.BudgetTransactionForm.value, response)
-
+      
       this.reloadCurrentRoute();
       this.snackBar.open('Information Inserted Successfully', '', {
         duration: 2000,

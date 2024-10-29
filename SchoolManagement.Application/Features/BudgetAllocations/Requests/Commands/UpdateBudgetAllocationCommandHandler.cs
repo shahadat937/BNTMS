@@ -8,6 +8,6 @@ namespace SchoolManagement.Application.Features.BudgetAllocations.Requests.Comma
 {
     public class UpdateBudgetAllocationCommandHandler : IRequest<Unit>
     {
-        public BudgetAllocationDto BudgetAllocationDto { get; set; } 
+        public BudgetAllocationDto BudgetAllocationDto { get; set; }
     }
 }

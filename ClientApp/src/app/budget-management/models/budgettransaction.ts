@@ -1,4 +1,5 @@
 export interface BudgetTransaction{
+    courseNames: string;
     budgetTransactionId: number;
     adminAuthority: any;
     deskAuthority: any;

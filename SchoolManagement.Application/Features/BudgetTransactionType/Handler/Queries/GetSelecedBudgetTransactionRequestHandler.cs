@@ -20,9 +20,15 @@
 //            _BudgetTransactionRepository = BudgetTransactionRepository;
 //        }
 
-//        public Task<List<SelectedModel>> Handle(GetSelectedBudgetTransactionRequest request, CancellationToken cancellationToken)
+//        public async Task<List<SelectedModel>> Handle(GetSelectedBudgetTransactionRequest request, CancellationToken cancellationToken)
 //        {
-//            throw new NotImplementedException();
+//            ICollection<BudgetTransaction> budgetTransactions = await _BudgetTransactionRepository.FilterAsync(x => x.BudgetTransactionId != 17);
+//            List<SelectedModel> selectModels = budgetTransactions.Select(x => new SelectedModel
+//            {
+//                Text = x.BudgetTransactionId,
+//                Value = x.BudgetTransactionId
+//            }).ToList();
+//            return selectModels;
 //        }
 //    }
 //}
