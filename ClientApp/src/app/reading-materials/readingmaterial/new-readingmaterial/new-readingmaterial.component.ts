@@ -317,7 +317,7 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
           this.loading = true;
           this.subscription = this.ReadingMaterialService.update(+id, formData).subscribe(response => {
             if (this.traineeId) {
-              const url = '/admin/dashboard/readingmateriallistinstructor/' + this.traineeId + '/' + this.schoolId;
+              const url = '/admin/dashboard/view-readingmaterial';
               this.router.navigateByUrl(url);
             } else {
 
@@ -360,7 +360,7 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
             });
             this.showSpinner = false;
             // this.router.navigateByUrl('/reading-materials/readingmaterial-list');
-            const url = '/admin/dashboard/readingmateriallistinstructor/' + this.traineeId + '/' + this.schoolId;
+            const url = '/reading-materials/readingmaterial-list';
             this.router.navigateByUrl(url);
         }
         //  this.reloadCurrentRoute();

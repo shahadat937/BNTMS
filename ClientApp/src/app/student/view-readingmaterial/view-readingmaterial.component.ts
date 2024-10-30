@@ -74,7 +74,9 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
         if (res) {
           let infoList = res
           this.baseSchoolNameId = infoList[0].baseSchoolNameId;
-          this.cousrseId = infoList[0].courseNameId;                  
+          
+          this.cousrseId = infoList[0].courseNameId;     
+                   
           this.getReadingMaterialsForStudents();
         }
 
@@ -149,7 +151,6 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
 
   getReadingMaterialsForStudents(){
     this.subscription = this.studentDashboardService.getReadingMaterialListForStudens(this.masterData.readingMaterial.books, this.baseSchoolNameId,this.cousrseId).subscribe(res => {
-      console.log(res);
       this.bookList = res;
       this.countbooks = this.bookList.length;
     })
