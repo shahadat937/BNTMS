@@ -36,6 +36,7 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
   role: any;
   traineeId: any;
   branchId: any;
+  courseId : number;
 
 
   groupArrays: { readingMaterialTitle: string; courses: any; }[];
@@ -104,16 +105,18 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
 
           let infoList = res
           this.baseSchoolNameId = infoList[0].baseSchoolNameId;
+          this.courseId = infoList[0].courseNameId;
 
         }
         if (this.documentTypeId) {
           this.setPageTitle(this.documentTypeId)
-          this.getReadingMaterialList(this.documentTypeId);
+          this.getReadingMaterialsForStudent(this.documentTypeId);
           console.log(courseNameId);
-        } else {
-          this.pageTitle = "Course Material";
-          this.getReadingMaterialBySchoolAndCourse(this.baseSchoolNameId, courseNameId);
-        }
+        } 
+        // else {
+        //   this.pageTitle = "Course Material";
+        //   this.getReadingMaterialBySchoolAndCourse(this.baseSchoolNameId, courseNameId);
+        // }
 
       });
     }
@@ -131,8 +134,15 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
       this.ReadingMaterialBySchoolAndCourse = res;
     });
   }
+  
   getAllReadingMaterialList(documentTypeId) {
     this.subscription = this.studentDashboardService.getAllReadingMaterialList(documentTypeId).subscribe(res => {
+      this.ReadingMaterialBySchoolAndCourse = res;
+    });
+  }
+
+  getReadingMaterialsForStudent(documentTypeId) {
+    this.subscription = this.studentDashboardService.getReadingMaterialListForStudens(documentTypeId, this.baseSchoolNameId, this.courseId).subscribe(res => {
       this.ReadingMaterialBySchoolAndCourse = res;
     });
   }

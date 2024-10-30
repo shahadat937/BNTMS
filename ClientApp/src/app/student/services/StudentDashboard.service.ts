@@ -25,7 +25,7 @@ export class StudentDashboardService {
 
 
   getSpStudentInfoByTraineeId(id:number) {
-    console.log(id);
+   
 
     return this.http.get<SpstudentInfoByTraineeId>(this.baseUrl + '/dashboard/get-studentInfoByTraineeId?TraineeId='+id).pipe(
       map(response => {

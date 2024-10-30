@@ -968,10 +968,12 @@ public class DashboardController : ControllerBase
     [Route("get-readingMaterialsForStudents")]
     public async Task<ActionResult> GetReadingMaterialsForStudents(int documentTypeId, int schoolId, int courseId)
     {
-        var proceduredCourses = await _mediator.Send(new GetReadingMaterialsByTypeListSpRequest
+        var proceduredCourses = await _mediator.Send(new GetReadingMaterialsForStudentsSpRequest
         {
             DocumentTypeId = documentTypeId,
-            SchoolId = schoolId
+            SchoolId = schoolId,
+            courseId = courseId
+           
             
         });
         return Ok(proceduredCourses);
