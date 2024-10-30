@@ -180,13 +180,16 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
             //Attendance For Sick
             if (BnaExamMarks.IsAbsent == true)
             {
+
+
+
                 //var attendanceStatus = BnaExamMarks.traineeListForm.Select(x => new Attendance()
                 //{
                 //    AttendanceStatus = x.AttendanceStatus,
                 //    AttendanceId = x.AttendanceId.Value
                 //}).Where(x => x.AttendanceStatus == false && BnaExamMarks.ReExamStatus == 0);
                 var attendanceStatus = BnaExamMarks.traineeListForm
-    .Where(x => x.AttendanceStatus == false && x.AttendanceId != null && BnaExamMarks.ReExamStatus == 0 && (BnaExamMarks.ObtaintMark == 0 || BnaExamMarks.ObtaintMark == null))
+    .Where(x => x.AttendanceStatus == false && x.AttendanceId != null && BnaExamMarks.ReExamStatus == 0 && (BnaExamMarks.ObtaintMark == 0 || BnaExamMarks.ObtaintMark == null) && x.ObtaintMark !=null)
     .Select(x => new Attendance()
     {
         AttendanceStatus = x.AttendanceStatus,
@@ -199,6 +202,7 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
                     {
                         var attendance = await _unitOfWork.Repository<Attendance>().Get(item.AttendanceId);
                         attendance.AbsentForExamStatus = false;
+                        attendance.AttendanceStatus = true;
                         //_mapper.Map(request.AllowanceDto, Allowance);
 
                         await _unitOfWork.Repository<Attendance>().Update(attendance);

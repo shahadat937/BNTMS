@@ -49,6 +49,7 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
   subscription: any;
   baseSchoolNameId: any;
   instractor: any;
+  cousrseId : number;
 
 
   constructor(
@@ -72,8 +73,9 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
       this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
         if (res) {
           let infoList = res
-          this.baseSchoolNameId = infoList[0].baseSchoolNameId;         
-          this.getReadingMaterials();
+          this.baseSchoolNameId = infoList[0].baseSchoolNameId;
+          this.cousrseId = infoList[0].courseNameId;                  
+          this.getReadingMaterialsForStudents();
         }
 
       });
@@ -143,6 +145,30 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
       this.materialList = res;
       this.countmaterial = this.materialList.length;
     });
+  }
+
+  getReadingMaterialsForStudents(){
+    this.subscription = this.studentDashboardService.getReadingMaterialListForStudens(this.masterData.readingMaterial.books, this.baseSchoolNameId,this.cousrseId).subscribe(res => {
+      console.log(res);
+      this.bookList = res;
+      this.countbooks = this.bookList.length;
+    })
+
+    this.subscription = this.studentDashboardService.getReadingMaterialListForStudens(this.masterData.readingMaterial.videos, this.baseSchoolNameId,this.cousrseId).subscribe(res => {
+      this.videoList = res;
+      this.countvideos = this.videoList.length;
+    });
+
+    this.subscription = this.studentDashboardService.getReadingMaterialListForStudens(this.masterData.readingMaterial.slides, this.baseSchoolNameId,this.cousrseId).subscribe(res => {
+      this.slideList = res;
+      this.countslides = this.slideList.length;
+    });
+
+    this.subscription = this.studentDashboardService.getReadingMaterialListForStudens(this.masterData.readingMaterial.materials, this.baseSchoolNameId,this.cousrseId).subscribe(res => {
+      this.materialList = res;
+      this.countmaterial = this.materialList.length;
+    });
+
   }
 
   pageChanged(event: PageEvent) {

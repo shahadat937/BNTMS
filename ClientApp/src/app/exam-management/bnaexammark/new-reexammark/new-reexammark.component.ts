@@ -333,7 +333,6 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
       this.BNAExamMarkService.GetSubjectMarkByBaseSchoolNameIdCourseNameAndSubjectNameId(baseSchoolNameId, courseNameId, 
         this.bnaSubjectNameId).subscribe(res => {
         this.subjectMarkList = res;
-        console.log(this.subjectMarkList)
       });
 
       this.markTypeService.find(markTypeId).subscribe(res => {
@@ -392,7 +391,6 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
 
   getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,courseNameId,subjectNameId,classRoutineId){
     this.traineeNominationService.getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,0,baseSchoolNameId,courseNameId,subjectNameId,classRoutineId).subscribe(res => {
-      console.log(res)
       this.traineeList = res.filter(x=>x.withdrawnTypeId == null);
       this.clearList()
       this.getTraineeListonClick();
@@ -450,7 +448,7 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
      //   console.log(result)
         if (result) {
-          console.log('ban form value',this.BNAExamMarkForm.value)
+      
           this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
             //this.router.navigateByUrl('/exam-management/bnaexammark-list');
             this.reloadCurrentRoute();

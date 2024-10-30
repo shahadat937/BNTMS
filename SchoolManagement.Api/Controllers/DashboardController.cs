@@ -965,6 +965,21 @@ public class DashboardController : ControllerBase
 
 
     [HttpGet]
+    [Route("get-readingMaterialsForStudents")]
+    public async Task<ActionResult> GetReadingMaterialsForStudents(int documentTypeId, int schoolId, int courseId)
+    {
+        var proceduredCourses = await _mediator.Send(new GetReadingMaterialsByTypeListSpRequest
+        {
+            DocumentTypeId = documentTypeId,
+            SchoolId = schoolId
+            
+        });
+        return Ok(proceduredCourses);
+    }
+
+
+
+    [HttpGet]
     [Route("get-notificationReminderForDashboard")]
     public async Task<ActionResult> GetNotificationReminderForDashboard(string userRole, int receiverId)
     {
