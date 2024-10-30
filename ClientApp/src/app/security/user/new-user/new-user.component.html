@@ -175,7 +175,7 @@
                                 (keydown.space)="$event.stopPropagation()"
                                 (input)="filterRoles($event.target.value)"
                                 placeholder="Search">
-                        <mat-option *ngFor="let code of roleValues" [value]="code.value">
+                        <mat-option *ngFor="let code of roleValues" [value]="code.text">
                           {{code.text}}
                         </mat-option>                          
                       </mat-select>

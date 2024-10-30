@@ -164,6 +164,15 @@ export class StudentDashboardService {
     ); 
   }
 
+  getReadingMaterialListForStudens(documentTypeId, schoolId, courseId){
+    return this.http.get<any[]>(this.baseUrl+ `/dashboard/get-readingMaterialsForStudents?documentTypeId=${documentTypeId}&schoolId=${schoolId}&courseId=${courseId}`).pipe(
+      map(response => {
+        
+        return response;
+      })
+    )
+  }
+
 
   getTdecQuationGroupByParams(schoolId,courseId,durationId,subjectId) {
 
