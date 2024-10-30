@@ -51,7 +51,10 @@ const routes: Routes = [
   {
     path: 'transaction-type',
     component: BudgetTransaction,
-  }
+  },
+  { path: 'update-budgettransaction/:budgetTransactionId',  
+    component: BudgetTransaction, 
+    },
 
 ];
 

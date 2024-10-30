@@ -28,7 +28,7 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
             var BudgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Get(request.BudgetTransactionId);
 
             if (BudgetTransaction == null)
-                throw new NotFoundException(nameof(BudgetAllocation), request.BudgetTransactionId);
+                throw new NotFoundException(nameof(BudgetTransaction), request.BudgetTransactionId);
 
             await _unitOfWork.Repository<BudgetTransaction>().Delete(BudgetTransaction);
             await _unitOfWork.Save();

@@ -35,6 +35,11 @@ export class BudgetTransactionService{
         return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-code/get-selectedBudgetCodeByBudgetCodeIdRequest?budgetCodeId='+budgetCodeId+'')
       }
 
+      getDeskAuthorityName(deskAuthority){
+        return this.http.get<SelectedModel[]>(this.baseUrl + '/desk-authority/get-deskAuthorityRequest'+deskAuthority+'');
+      }
+
+
       getBudgetTransaction(pageNumber, pageSize,searchText,budgetCodeId,budgetTypeId)
       {
         console.log('budget code',budgetCodeId)

@@ -23,6 +23,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { CourseGradingEntryService } from 'src/app/basic-setup/service/CourseGradingEntry.service';
+import { PageEvent } from '@angular/material/paginator';
 
 
 @Component({
@@ -32,6 +33,8 @@ import { CourseGradingEntryService } from 'src/app/basic-setup/service/CourseGra
 })
 
 export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements OnInit {
+
+  masterData = MasterData;
     selectFiscalYear: SelectedModel[];
     selectedBudgetType: SelectedModel[];
     selectedBudgetCode: SelectedModel[];
@@ -41,17 +44,17 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     courseNameId: number=0;
     budgetCodeId:number=0;
     courseName: number = 0;
-    courseNames: string;
+    deskAuthorityName: string;
     fiscalYearId: number = 0;
     buttonText: string;
     pageTitle: string;
     selectDeskOfficer: SelectedModel[];
     SelectedCourse: SelectedModel[];
     paging = {
-        pageIndex: 1,
-        pageSize: 5,
-        length: 1
-      };
+      pageIndex: this.masterData.paging.pageIndex,
+      pageSize: this.masterData.paging.pageSize,
+      length: 1
+    }
     searchText: string='';
     isShow: boolean = false;
     loading: any;
@@ -62,7 +65,7 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     totalBudget: any;
     isLoading = false;
 
-    displayedColumns: string[] = ['ser','dateCreated','budgetCodeName','amount','adminAuthority'];
+    displayedColumns: string[] = ['ser','dateCreated','budgetCodeName','amount','actions'];
 
     dataSource: MatTableDataSource<BudgetTransaction> = new MatTableDataSource();
     
@@ -71,6 +74,7 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
    budgetCodeName: string;
    selectedBudgetCodeName: SelectedModel[];
    selectedCourseNames: SelectedModel[];
+  destination: string;
  
   constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, private CourseWeekService: CourseWeekService, private route: ActivatedRoute, public sharedService: SharedServiceService, private BudgetTransactionService: BudgetTransactionService, private CourseGradingEntryService: CourseGradingEntryService) {
    super();
@@ -80,6 +84,9 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     const id = this.route.snapshot.paramMap.get('budgetTransactionId');
     this.initializeForm()
     if(id){
+      this.pageTitle = 'Edit Budget Transaction'; 
+      this.destination = "Edit"; 
+      this.buttonText= "Update"
       this.BudgetTransactionService.find(+id).subscribe(res =>{
         this.BudgetTransactionForm.patchValue({
           budgetTransactionId: res.budgetTransactionId,
@@ -89,13 +96,14 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
           budgetCodeName: res.budgetCodeName,
           budgetCodeId: res.budgetCodeId,
           couresName: +res.courseName,
-          courseNames: res.courseNames,
+          deskAuthorityName: res.deskAuthorityName,
          
         })
       })
     }else {
-      this.pageTitle = 'Create Budget';
-      this.buttonText = 'Save';
+      this.pageTitle = 'Create Budget Transaction';
+      this.destination = "Add"; 
+      this.buttonText= "Save";
     }
     this.getSelectAuthority();
     this.getSelecetedBudgetType();
@@ -118,7 +126,7 @@ initializeForm(){
       budgetCodeName:[''],
       dateCreated:[''],
       menuPosition:[''],
-      courseNames:[''],
+      deskAuthorityName:[''],
       isActive: [true],   
   })
 }
@@ -136,11 +144,7 @@ initializeForm(){
     });
   }
   
-//  getTotalBudgetByBudgetCodeIdRequest(){
-//   this.CourseBudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(MasterData.coursetype.ForeignCourse).subscribe(res=>{
-//     this.selectedCourseDuration=res
-//   });
-// }
+
 
 getselectedCourseNames(){
   this.CourseGradingEntryService.getselectedCourseNames().subscribe(res=>{
@@ -149,12 +153,7 @@ getselectedCourseNames(){
   });
 }
 
-// getSelectedCourseDurationByCourseTypeId(){
-//   this.CourseBudgetAllocationService.getSelectedCourseDurationByCourseTypeId(MasterData.coursetype.ForeignCourse).subscribe(res=>{
-//     this.selectedCourseDuration=res
-   
-//   });
-// }
+
 
 onBudgetTypeChange(dropdown){
   if (dropdown.isUserInput) {
@@ -177,18 +176,20 @@ onBudgetCodeSelectionChange(dropdown) {
     this.BudgetTransactionService.getSelectedBudgetCodeNameByBudgetCodeId(dropdown.source.value).subscribe(res => {
       this.selectedBudgetCodeName = res;
       this.budgetCodeName = res[0].text;
+      
       this.BudgetTransactionForm.get('budgetCodeName').setValue(this.budgetCodeName);
+      
     });
   }
 }
 
 
+
+
+
 getBudgetTransaction() {
   this.isLoading = true;
-  // 
-  // this.budgetCodeId = 7;
-  // this.budgetTypeId = 3;
-  // console.log(this.budgetCodeId)
+
   this.BudgetTransactionService.getBudgetTransaction(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.budgetTypeId).subscribe(response => {
     console.log(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.budgetTypeId)
     this.dataSource.data = response.items; 
@@ -236,6 +237,39 @@ getselectedcoursename(){
         });
       }
 
+      // pageChanged(event: PageEvent) {
+  
+      //   this.paging.pageIndex = event.pageIndex
+      //   this.paging.pageSize = event.pageSize
+      //   this.paging.pageIndex = this.paging.pageIndex + 1
+      //   this.getBudgetTransaction();
+     
+      // }
+      pageChanged(event: PageEvent) {
+        this.paging.pageIndex = event.pageIndex; // Directly set the pageIndex without incrementing
+        this.paging.pageSize = event.pageSize;
+        this.getBudgetTransaction();
+      }
+      
+
+      deleteItem(row) {
+        const id = row.budgetTransactionId; 
+        this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+          if (result) {
+            this.BudgetAllocationService.delete(id).subscribe(() => {
+            //  this.getBudgetAllocations();
+            this.reloadCurrentRoute();
+              this.snackBar.open('Information Deleted Successfully ', '', {
+                duration: 3000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'right',
+                panelClass: 'snackbar-danger'
+              });
+            })
+          }
+        })
+        
+      }
 
 onSubmit() {
   const id = this.BudgetTransactionForm.get('budgetTransactionId').value;

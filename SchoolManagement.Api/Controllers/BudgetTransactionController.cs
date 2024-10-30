@@ -61,7 +61,7 @@ namespace SchoolManagement.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [Route("update-BudgetAllocation/{id}")]
+        [Route("update-BudgetTransaction/{id}")]
         public async Task<ActionResult> Put([FromBody] BudgetTransactionDto BudgetTransaction)
         {
             var command = new UpdateBudgetTransactionCommand { BudgetTransactionDto = BudgetTransaction };
