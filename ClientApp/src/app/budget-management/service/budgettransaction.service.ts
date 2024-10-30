@@ -65,11 +65,11 @@ export class BudgetTransactionService{
       }
 
       find(id: number){
-        return this.http.get<BudgetTransaction>(this.baseUrl + '/budget-transaction/get-BudgetTransactionDetail' + id);
+        return this.http.get<BudgetTransaction>(this.baseUrl + '/budget-transaction/get-BudgetTransactionDetail/' + id);
       }
 
       update(id: number, model: any){
-        return this.http.put<BudgetTransaction>(this.baseUrl + '/budget-transaction/update-BudgetTransaction' + id,model);
+        return this.http.put<BudgetTransaction>(this.baseUrl + '/budget-transaction/update-BudgetTransaction/' + id,model);
       }
 
       submit(model:any){
@@ -86,7 +86,7 @@ export class BudgetTransactionService{
       }
 
       delete(id:number){
-        return this.http.delete<BudgetTransaction>(this.baseUrl + '/transaction-type'+ id)
+        return this.http.delete<BudgetTransaction>(this.baseUrl + '/budget-transaction/delete-BudgetTransaction/'+ id)
       }
  
 }

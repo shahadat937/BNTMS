@@ -96,7 +96,6 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
           budgetCodeName: res.budgetCodeName,
           budgetCodeId: res.budgetCodeId,
           couresName: +res.courseName,
-          deskAuthorityName: res.deskAuthorityName,
          
         })
       })
@@ -126,7 +125,6 @@ initializeForm(){
       budgetCodeName:[''],
       dateCreated:[''],
       menuPosition:[''],
-      deskAuthorityName:[''],
       isActive: [true],   
   })
 }
@@ -256,8 +254,7 @@ getselectedcoursename(){
         const id = row.budgetTransactionId; 
         this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
           if (result) {
-            this.BudgetAllocationService.delete(id).subscribe(() => {
-            //  this.getBudgetAllocations();
+            this.BudgetTransactionService.delete(id).subscribe(() => {
             this.reloadCurrentRoute();
               this.snackBar.open('Information Deleted Successfully ', '', {
                 duration: 3000,
