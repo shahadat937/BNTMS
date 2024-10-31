@@ -40,13 +40,13 @@
                         <li>
                           <div class="icon-button-demo">
                             <button *ngIf="schoolId != 0" class="btn-space"  mat-raised-button
-                              color="warn" routerLink="/admin/dashboard/school-dashboard"> 
+                              color="warn" (click)="sharedService.goBack()"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
-                            <button *ngIf="schoolId == 0" class="btn-space"  mat-raised-button
+                            <!-- <button *ngIf="schoolId == 0" class="btn-space"  mat-raised-button
                               color="warn" routerLink="/admin/dashboard/main"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
-                            </button>
+                            </button> -->
                           </div>
                         </li>
                        
@@ -104,13 +104,14 @@
                   showFirstLastButtons >
                  </mat-paginator>
                 </div>
-                
+                <app-loader *ngIf="showSpinner"></app-loader>  
+                 
                 <div *ngIf="this.role == this.userRole.MasterAdmin ||this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO" id="print-routine">
-                  <!-- <table class="table  tbl-by-group">
+                   <table class="table  tbl-by-group">
                     <thead>
-                      <tr> -->
-                        <!-- <th class="cl-srl"><h5>Ser</h5></th> -->
-                        <!-- <th class="cl-srl"><h5> School </h5></th>
+                      <tr> 
+                         <!-- <th class="cl-srl"><h5>Ser</h5></th>  -->
+                         <th class="cl-srl"><h5> School </h5></th>
                         <th class="cl-srl"><h5> Course </h5></th>
                         <th class="course-col"><h5>O.No/P.No </h5></th>
                         <th class="course-col"><h5>name </h5></th>
@@ -127,15 +128,15 @@
                           <td class="course-name-col">{{number.course}} - {{number.courseTitle}}</td>
                           <td class="course-col">{{number.pno}}</td>
                           <td class="course-col">{{number.name}} </td>
-                          <td class="course-col">{{number.position}}</td> -->
-                          <!-- <td>{{number.durationFrom | date:'mediumDate'}} - {{number.durationTo | date:'mediumDate'}}</td> -->
+                          <td class="course-col">{{number.position}}</td> 
+                           <!-- <td>{{number.durationFrom | date:'mediumDate'}} - {{number.durationTo | date:'mediumDate'}}</td>  -->
                           
-                          <!-- <td *ngIf="officerTypeId == masterData.OfficerType.Foreign">{{number.countryName}}</td> -->
-                          <!-- <td>{{number.nbcd}}</td>
+                           <!-- <td *ngIf="officerTypeId == masterData.OfficerType.Foreign">{{number.countryName}}</td> 
+                           <td>{{number.nbcd}}</td>
                           <td>{{number.durationFrom | date:'mediumDate'}}</td>
-                          <td>{{number.durationTo | date:'mediumDate'}}</td> -->
+                          <td>{{number.durationTo | date:'mediumDate'}}</td>  -->
                           
-                          <!-- <td>
+                           <!-- <td>
                             <button mat-icon-button color="accent" title="Edit" class="btn-custom btn-tbl-edit" 
                               [routerLink]="['/course-management/update-courseweek', number.courseDurationId, number.courseTypeId]">
                               <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
@@ -146,11 +147,11 @@
                               <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
                             </button>
                             
-                          </td> -->
-                        <!-- </tr>
+                          </td>  -->
+                         </tr>
                       </ng-container>
                     </tbody>
-                  </table> -->
+                  </table> 
                   
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">

@@ -101,6 +101,9 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
       this.getReadingMaterials();
 
     }
+    else{
+      this.getAllReadingMaterialList()
+    }
 
   }
   ngOnDestroy() {
