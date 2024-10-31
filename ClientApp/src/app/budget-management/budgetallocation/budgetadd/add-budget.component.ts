@@ -36,6 +36,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
   searchText: string = '';
   selectedBudgetCodeName: SelectedModel[];
   budgetCodeName: string;
+  totalBudget: any;
 
   paging = {
     pageIndex: 1,
@@ -131,6 +132,18 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       });
     }
   } 
+
+  onBudgetTypeChange(dropdown){
+  if (dropdown.isUserInput) {
+    var budgetCodeId = dropdown.source.value; 
+
+    this.BudgetAllocationForm.get('budgetCodeId').setValue(budgetCodeId);
+
+    this.BudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
+    this.totalBudget=res[0].text; 
+   });
+  }
+}
 
   getselectedFiscalYear() {
     this.BudgetAllocationService.getselectedFiscalYear().subscribe(res => {
