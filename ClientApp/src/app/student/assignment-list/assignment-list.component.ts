@@ -11,13 +11,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { DatePipe } from '@angular/common';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-assignment-list',
   templateUrl: './assignment-list.component.html',
   styleUrls: ['./assignment-list.component.sass']
 })
-export class AssignmentListComponent implements OnInit, OnDestroy {
+export class AssignmentListComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   isLoading = false;
@@ -34,19 +35,19 @@ export class AssignmentListComponent implements OnInit, OnDestroy {
   searchText="";
 
   displayedColumns: string[]= ['ser','bnaSubjectName', 'endDate', 'assignmentMark','assignmentTopic','actions'];
-  subscription: any;
+  subscription: any = null;
   
-  constructor(private snackBar: MatSnackBar, private datepipe: DatePipe ,private route: ActivatedRoute,private studentDashboardService: StudentDashboardService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
+  constructor(private snackBar: MatSnackBar, private datepipe: DatePipe ,private route: ActivatedRoute,private studentDashboardService: StudentDashboardService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { super()}
 
   ngOnInit() {
     this.onModuleSelectionChangeGetsubjectList();
     
   }
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.subscription) {
+  //     this.subscription.unsubscribe();
+  //   }
+  // }
 
   onModuleSelectionChangeGetsubjectList(){
     this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
@@ -63,4 +64,5 @@ export class AssignmentListComponent implements OnInit, OnDestroy {
       })
     }
   }
+  
 }

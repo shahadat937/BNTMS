@@ -92,14 +92,14 @@
                             </button> -->
 
                             <button *ngIf="role == userRole.Student" class="btn-space"  mat-raised-button
-                            color="warn" [routerLink]="['/admin/dashboard/trainee-dashboard']"> 
+                            color="warn" (click)="sharedService.goBack()"> 
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
 
-                            <button *ngIf="role != userRole.MasterAdmin && role != userRole.Student && role != userRole.SuperAdmin || role != userRole.BNASchool || role != userRole.JSTISchool && role != userRole.CO" class="btn-space"  mat-raised-button
+                            <!-- <button *ngIf="role != userRole.MasterAdmin && role != userRole.Student && role != userRole.SuperAdmin || role != userRole.BNASchool || role != userRole.JSTISchool && role != userRole.CO" class="btn-space"  mat-raised-button
                             color="warn" [routerLink]="['/admin/dashboard/weeklyprogramdashboard',schoolId]"> 
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
-                            </button>
+                            </button> -->
                             
                             <!-- <button *ngIf="role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.CO" class="btn-space"  mat-raised-button
                             color="warn" [routerLink]="['/admin/dashboard/school-dashboard']"> 
