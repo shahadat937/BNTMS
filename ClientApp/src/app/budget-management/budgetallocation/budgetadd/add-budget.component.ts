@@ -198,7 +198,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
         if (result) {
           this.loading = false;
           this.BudgetAllocationService.update(+id, this.BudgetAllocationForm.value).subscribe(response => {
-           
+            this.router.navigateByUrl('/budget-management/add-budget');
             this.snackBar.open('Information Updated Successfully', '', {
               duration: 2000,
               verticalPosition: 'bottom',

@@ -273,7 +273,7 @@ onSubmit() {
       if (result) {
         this.loading = false;
         this.BudgetTransactionService.update(+id, this.BudgetTransactionForm.value).subscribe(response => {
-          this.router.navigateByUrl('/budget-management/add-budget');
+          this.router.navigateByUrl('/budget-management/transaction-type');
           this.snackBar.open('Information Updated Successfully', '', {
             duration: 2000,
             verticalPosition: 'bottom',
