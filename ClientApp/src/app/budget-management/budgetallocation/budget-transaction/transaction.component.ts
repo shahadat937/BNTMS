@@ -96,6 +96,7 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
           budgetCodeName: res.budgetCodeName,
           budgetCodeId: res.budgetCodeId,
           couresName: +res.courseName,
+          dateCreated: res.dateCreated,
          
         })
       })
@@ -107,7 +108,6 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     this.getSelectAuthority();
     this.getSelecetedBudgetType();
     this.getselectedBudgetCode();
-    // this.getSelectedCourseDurationByCourseTypeId();
     this.getselectedCourseNames();
     this.getBudgetTransaction();
 
@@ -187,9 +187,8 @@ onBudgetCodeSelectionChange(dropdown) {
 
 getBudgetTransaction() {
   this.isLoading = true;
-
   this.BudgetTransactionService.getBudgetTransaction(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.budgetTypeId).subscribe(response => {
-    console.log(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.budgetTypeId)
+   
     this.dataSource.data = response.items; 
     this.paging.length = response.totalItemsCount;    
     this.isLoading = false;
@@ -198,7 +197,6 @@ getBudgetTransaction() {
 
 
 onBudgetChange(dropdown){
-  console.log("hello")
   if (dropdown.isUserInput) {
     this.isShow=true;
      this.budgetTypeId=dropdown.source.value;
@@ -208,7 +206,7 @@ onBudgetChange(dropdown){
    
 }
 
-onFiscalYearSelectionChange(dropdown){
+onTypeSelectionChange(dropdown){
   if (dropdown.isUserInput) {
     this.isShow=true;
      this.budgetTypeId=dropdown.source.value;
@@ -235,16 +233,8 @@ getselectedcoursename(){
         });
       }
 
-      // pageChanged(event: PageEvent) {
-  
-      //   this.paging.pageIndex = event.pageIndex
-      //   this.paging.pageSize = event.pageSize
-      //   this.paging.pageIndex = this.paging.pageIndex + 1
-      //   this.getBudgetTransaction();
-     
-      // }
       pageChanged(event: PageEvent) {
-        this.paging.pageIndex = event.pageIndex; // Directly set the pageIndex without incrementing
+        this.paging.pageIndex = event.pageIndex;
         this.paging.pageSize = event.pageSize;
         this.getBudgetTransaction();
       }

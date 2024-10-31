@@ -49,8 +49,9 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
 
             
                     await _unitOfWork.Save();
-               
-                
+
+                budgetTransaction.DateCreated = request.BudgetTransactionDto.DateCreated;
+
 
                 var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.BudgetTransactionDto.BudgetCodeId);
 

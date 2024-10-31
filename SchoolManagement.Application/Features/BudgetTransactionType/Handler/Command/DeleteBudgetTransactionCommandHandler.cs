@@ -25,15 +25,35 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
 
         public async Task<Unit> Handle(DeleteBudgetTransactionCommand request, CancellationToken cancellationToken)
         {
-            var BudgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Get(request.BudgetTransactionId);
+            var budgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Get(request.BudgetTransactionId);
 
-            if (BudgetTransaction == null)
+            if (budgetTransaction == null)
                 throw new NotFoundException(nameof(BudgetTransaction), request.BudgetTransactionId);
 
-            await _unitOfWork.Repository<BudgetTransaction>().Delete(BudgetTransaction);
+            var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(budgetTransaction.BudgetCodeId);
+
+            if (budgetCode != null)
+            {
+                if (budgetTransaction.BudgetTypeId == 3)
+                {
+                    budgetCode.TotalBudget -= budgetTransaction.Amount;
+                }
+                else if (budgetTransaction.BudgetTypeId == 2)
+                {
+                    budgetCode.TotalBudget += budgetTransaction.Amount;
+                }
+
+                if (budgetCode.TotalBudget < 0)
+                    throw new InvalidOperationException("Budget would go negative.");
+
+                await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
+            }
+
+            await _unitOfWork.Repository<BudgetTransaction>().Delete(budgetTransaction);
             await _unitOfWork.Save();
 
             return Unit.Value;
         }
+
     }
 }
