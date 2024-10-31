@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.DTOs.BudgetTransaction;
 using SchoolManagement.Application.DTOs.BudgetTransaction.Validators;
@@ -28,7 +29,7 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
         }
 
         public async Task<BaseCommandResponse> Handle(CreateBudgetTransactionCommandHandler request, CancellationToken cancellationToken)
-        {
+            {
             var response = new BaseCommandResponse();
             var validator = new CreateBudgetTransactionDtoValidator();
             var validationResult = await validator.ValidateAsync(request.BudgetTransactionDto);
@@ -45,7 +46,13 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
                 budgetTransaction.Status = 0;
 
                 budgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Add(budgetTransaction);
-                await _unitOfWork.Save(); 
+
+            
+                    await _unitOfWork.Save();
+
+                budgetTransaction.DateCreated = request.BudgetTransactionDto.DateCreated;
+
+
                 var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.BudgetTransactionDto.BudgetCodeId);
 
                 if (budgetCode != null)
@@ -60,7 +67,7 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
 
                         if (budgetCode.TotalBudget < 0)
                         {
-                            // Handle insufficient budget scenario
+                            
                             response.Success = false;
                             response.Message = "Insufficient Budget. Transaction cannot be created.";
                             return response;
@@ -68,7 +75,7 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
                     }
 
                     await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
-                    await _unitOfWork.Save(); // Save the updated budget code
+                    await _unitOfWork.Save(); 
                 }
 
                 response.Success = true;

@@ -1725,7 +1725,7 @@ namespace SchoolManagement.Application.Profiles
             CreateMap<UniversityCourseResult, CreateUniversityCourseResultDto>().ReverseMap();
 
 
-            CreateMap<BudgetTransactionDto, BudgetTransaction>().ReverseMap();
+            CreateMap<BudgetTransaction, BudgetTransactionDto>().ReverseMap();
 
             //.ForMember(d => d.Bud, o => o.MapFrom(s => s.BudgetCodeId.BudgetCodeName));
             CreateMap<BudgetTransaction, CreateBudgetTransactionDto>().ReverseMap();

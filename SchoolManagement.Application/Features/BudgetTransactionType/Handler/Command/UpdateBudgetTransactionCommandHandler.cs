@@ -26,29 +26,63 @@ namespace SchoolManagement.Application.Features.BudgetTransactionType.Handler.Co
 
         public async Task<Unit> Handle(UpdateBudgetTransactionCommand request, CancellationToken cancellationToken)
         {
-            //throw new NotImplementedException();
             var validator = new UpdateBudgetTransactionDtoValidator();
             var validationResult = await validator.ValidateAsync(request.BudgetTransactionDto);
 
-            if (validationResult.IsValid == false)
+            if (!validationResult.IsValid)
                 throw new ValidationException(validationResult);
 
-            var BudgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Get(request.BudgetTransactionDto.BudgetTransactionId);
+            var budgetTransaction = await _unitOfWork.Repository<BudgetTransaction>().Get(request.BudgetTransactionDto.BudgetTransactionId);
 
-            if (BudgetTransaction is null)
+            if (budgetTransaction == null)
                 throw new NotFoundException(nameof(BudgetTransaction), request.BudgetTransactionDto.BudgetTransactionId);
 
-            _mapper.Map(request.BudgetTransactionDto, BudgetTransaction);
+            var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(budgetTransaction.BudgetCodeId);
 
-            await _unitOfWork.Repository<BudgetTransaction>().Update(BudgetTransaction);
+            if (budgetCode != null)
+            {
+                if (budgetTransaction.BudgetTypeId == 3)
+                {
+                    budgetCode.TotalBudget -= budgetTransaction.Amount;
+                }
+                else if (budgetTransaction.BudgetTypeId == 2)
+                {
+                    budgetCode.TotalBudget += budgetTransaction.Amount;
+                }
+
+ 
+                if (request.BudgetTransactionDto.BudgetTypeId == 3)
+                {
+                    budgetCode.TotalBudget += request.BudgetTransactionDto.Amount;
+                }
+                else if (request.BudgetTransactionDto.BudgetTypeId == 2)
+                {
+                    budgetCode.TotalBudget -= request.BudgetTransactionDto.Amount;
+
+
+                    if (budgetCode.TotalBudget < 0)
+                        throw new InvalidOperationException("Insufficient budget. Update cannot be completed.");
+                }
+
+                await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
+            }
+
+         
+            _mapper.Map(request.BudgetTransactionDto, budgetTransaction);
+            budgetTransaction.DateCreated = request.BudgetTransactionDto.DateCreated;
+
+
+
+            await _unitOfWork.Repository<BudgetTransaction>().Update(budgetTransaction);
             await _unitOfWork.Save();
 
             return Unit.Value;
         }
 
+
         //public async Task<Unit> Handler(UpdateBudgetTransactionCommand request, CancellationToken cancellationToken)
         //{
-            
+
         //}
 
 
