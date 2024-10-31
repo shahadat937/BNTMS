@@ -5,7 +5,7 @@ namespace SchoolManagement.Domain
     public class BudgetAllocation: BaseDomainEntity 
     {
         public int BudgetAllocationId { get; set; }
-        public int? BudgetCodeId { get; set; }
+        public int BudgetCodeId { get; set; }
         public int? BudgetTypeId { get; set; }
         public int? FiscalYearId { get; set; }
         public string? BudgetCodeName { get; set; }

@@ -89,6 +89,9 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
       this.destination = "Edit"; 
       this.buttonText= "Update"
       this.BudgetTransactionService.find(+id).subscribe(res =>{
+        this.BudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(res.budgetCodeId).subscribe(res=>{
+          this.totalBudget=res[0].text; 
+         });
         this.BudgetTransactionForm.patchValue({
           budgetTransactionId: res.budgetTransactionId,
           fiscalYearId: res.fiscalYearId,
@@ -270,6 +273,7 @@ onSubmit() {
       if (result) {
         this.loading = false;
         this.BudgetTransactionService.update(+id, this.BudgetTransactionForm.value).subscribe(response => {
+          this.router.navigateByUrl('/budget-management/add-budget');
           this.snackBar.open('Information Updated Successfully', '', {
             duration: 2000,
             verticalPosition: 'bottom',

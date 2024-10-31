@@ -66,8 +66,11 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     this.innitializeForm();
     if (id) {
       this.pageTitle = 'Edit Budget Allocation'; 
-      this.buttonText= "Update" 
+      this.buttonText= "Update";
       this.BudgetAllocationService.find(+id).subscribe(res => {
+      this.BudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(res.budgetCodeId).subscribe(res=>{
+        this.totalBudget=res[0].text; 
+       });
         this.BudgetAllocationForm.patchValue({
           fiscalYearId: res.fiscalYearId,
           budgetTypeId: res.budgetTypeId,
