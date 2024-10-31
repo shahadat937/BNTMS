@@ -37,9 +37,9 @@ const routes: Routes = [
     path: 'budgetallocation-list', 
     component: BudgetAllocationListComponent,
   },
-  { path: 'update-budgetallocation/:budgetAllocationId',  
-  component: NewBudgetAllocationComponent, 
-  },
+  // { path: 'update-budgetallocation/:budgetAllocationId',  
+  // component: NewBudgetAllocationComponent, 
+  // },
   {
     path: 'add-budgetallocation',
     component: NewBudgetAllocationComponent,
@@ -55,6 +55,9 @@ const routes: Routes = [
   { path: 'update-budgettransaction/:budgetTransactionId',  
     component: BudgetTransaction, 
     },
+    { path: 'update-budgetallocation/:budgetAllocationId',  
+      component: AddBudgetListComponent, 
+      },
 
 ];
 

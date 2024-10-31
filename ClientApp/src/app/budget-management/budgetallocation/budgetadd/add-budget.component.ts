@@ -43,7 +43,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     length: 1
   };
   
-  displayedColumns: string[] = ['ser','budgetCode','budgetType','fiscalYear','amount'];
+  displayedColumns: string[] = ['ser','budgetCode','budgetType','fiscalYear','amount','actions'];
 
   dataSource: MatTableDataSource<BudgetAllocation> = new MatTableDataSource();
 
@@ -64,6 +64,8 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     const id = this.route.snapshot.paramMap.get('budgetAllocationId');
     this.innitializeForm();
     if (id) {
+      this.pageTitle = 'Edit Budget Allocation'; 
+      this.buttonText= "Update" 
       this.BudgetAllocationService.find(+id).subscribe(res => {
         this.BudgetAllocationForm.patchValue({
           fiscalYearId: res.fiscalYearId,
@@ -154,18 +156,33 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
     });
   }
 
+  deleteItem(row) {
+    const id = row.budgetAllocationId; 
+    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
+      if (result) {
+        this.BudgetAllocationService.delete(id).subscribe(() => {
+        this.reloadCurrentRoute();
+          this.snackBar.open('Information Deleted Successfully ', '', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        })
+      }
+    })
+    
+  }
+
   onSubmit() {
     const id = this.BudgetAllocationForm.get('budgetAllocationId').value;
-    console.log(id)
+   
     if (id) {
       this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {
         if (result) {
-          this.loading = true;
+          this.loading = false;
           this.BudgetAllocationService.update(+id, this.BudgetAllocationForm.value).subscribe(response => {
-            // this.router.navigateByUrl('/budget-management/transaction-type');
-            console.log('on confirm', this.BudgetAllocationForm.value)
-            this.router.navigate(['/budget-management/transaction-type'], { queryParams: { amount: this.BudgetAllocationForm.get('amount').value } });
-
+           
             this.snackBar.open('Information Updated Successfully', '', {
               duration: 2000,
               verticalPosition: 'bottom',
@@ -181,7 +198,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       this.loading = true;
      
       this.BudgetAllocationService.submit(this.BudgetAllocationForm.value).subscribe(response => { 
-        console.log('on submit', this.BudgetAllocationForm.value)
+        
  
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully', '', {

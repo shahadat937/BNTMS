@@ -50,6 +50,7 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     pageTitle: string;
     selectDeskOfficer: SelectedModel[];
     SelectedCourse: SelectedModel[];
+    selectCourse: SelectedModel[];
     paging = {
       pageIndex: this.masterData.paging.pageIndex,
       pageSize: this.masterData.paging.pageSize,
@@ -147,8 +148,11 @@ initializeForm(){
 getselectedCourseNames(){
   this.CourseGradingEntryService.getselectedCourseNames().subscribe(res=>{
     this.selectedCourseNames=res
-   
+   this.selectCourse = res
   });
+}
+filterByCourseName(value:any){
+  this.selectedCourseNames=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
 }
 
 
