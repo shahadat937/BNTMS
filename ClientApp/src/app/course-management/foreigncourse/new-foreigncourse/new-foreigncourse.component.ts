@@ -28,7 +28,7 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
   selectedcountry:SelectedModel[];
   selectedLocationType:SelectedModel[];
   selectedcoursetype:SelectedModel[];
-  courseTypeId:string;
+  courseTypeId:any;
   selectedSchool:SelectedModel[];
   selectedBaseName:SelectedModel[];
 
@@ -38,7 +38,10 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('courseDurationId'); 
-     this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
+    //  this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
+     this.courseTypeId= MasterData.coursetype.ForeignCourse;  
+     
+     console.log(this.route.snapshot.paramMap);
     if (id) {
       this.pageTitle = 'Edit Foreign Course'; 
       this.destination = "Edit"; 
@@ -94,7 +97,7 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
       remark:[''],
       courseTypeId:[this.courseTypeId],
       countryId:[],
-      // isCompletedStatus:[],
+      isCompletedStatus:[0],
       // isApproved:[],
       // approvedBy:[],
       // approvedDate:[],
