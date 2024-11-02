@@ -234,7 +234,7 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    console.log("Filter : ", item)
+   
     this.traineeId = item.value
     this.TraineeNominationForm.get('traineeId').setValue(item.value);
     this.TraineeNominationForm.get('traineeName').setValue(item.text);
@@ -367,7 +367,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
   onSubmit() {
     const id = this.TraineeNominationForm.get('traineeNominationId').value;   
-    console.log('traineeNominationId',id)
+  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
@@ -394,7 +394,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     }
     else {
       this.loading = true;
-      console.log('TraineeNominationForm value',this.TraineeNominationForm.value)
+    
       this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         // this.router.navigateByUrl('/course-management/traineenomination-list/'+this.courseDurationId);
         this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
@@ -421,10 +421,8 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
-
     this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {    
       this.nominatedPercentageList=response;
-      console.log(this.nominatedPercentageList)
     });
   }
 
