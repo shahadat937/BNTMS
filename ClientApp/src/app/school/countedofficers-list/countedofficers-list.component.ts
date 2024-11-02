@@ -12,13 +12,14 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { MatSort } from '@angular/material/sort';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-countedofficers-list',
   templateUrl: './countedofficers-list.component.html',
   styleUrls: ['./countedofficers-list.component.sass']
 })
-export class CountedOfficersListComponent implements OnInit, OnDestroy {
+export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
   @ViewChild("InitialOrderMatPaginator", { static: true }) InitialOrderpaginator: MatPaginator;
   dataSource = new MatTableDataSource();
@@ -33,6 +34,7 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
   branchId:any;
   traineeId:any;
   role:any;
+  showSpinner = true;
   
 
   showHideDiv= false;
@@ -48,13 +50,13 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['ser','name','course','duration'];
   subscription: any;
 
-  constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
+  constructor(private datepipe: DatePipe,private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { super() }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.subscription) {
+  //     this.subscription.unsubscribe();
+  //   }
+  // }
   
   ngOnInit() {
     //this.getTraineeNominations();
@@ -66,6 +68,7 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
     this.schoolId = this.route.snapshot.paramMap.get('schoolId'); 
     this.officerTypeId = this.route.snapshot.paramMap.get('officerTypeId'); 
     var traineeStatusId = this.route.snapshot.paramMap.get('traineeStatusId'); 
+
 
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     if(this.role == this.userRole.MasterAdmin ||this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO){
@@ -97,6 +100,7 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
         this.destination = "Officer";
         this.subscription = this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.officer, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
+          this.showSpinner = true;
   
           // this gives an object with dates as keys
           const groups = this.Countedlist.reduce((groups, courses) => {
@@ -107,6 +111,8 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
             groups[schoolName].push(courses);
             return groups;
           }, {});
+
+          console.log(groups);
     
           // Edit: to add it in the array format instead
           this.groupCOArrays = Object.keys(groups).map((schoolName) => {
@@ -115,7 +121,9 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
               courses: groups[schoolName]
             };
           });
+          console.log(this.groupCOArrays)
         })
+      
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.sailor){
         this.destination = "Sailor";
@@ -214,7 +222,7 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
             });
   
         })
-        console.log(this.groupArrays)
+        
       }
 
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.officer){
@@ -265,6 +273,7 @@ export class CountedOfficersListComponent implements OnInit, OnDestroy {
               courses: groups[courseName]
               };
               });
+
     
   
         })

@@ -186,7 +186,7 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
     });
 
     this.subscription = this.courseWeekService.find(courseWeekId).subscribe(res=>{
-      var weekStartDate = res.dateFrom;
+      var weekStartDate = res?.dateFrom;
       this.weekStartDate =this.datepipe.transform(weekStartDate, 'dd/MM/yyyy');
     });
 
@@ -196,8 +196,12 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
       for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
       }
+    
+      if(this.selectedRoutineByParametersAndDate.length){
+        this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
+      }
 
-      this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
+     
       
 
 
