@@ -116,6 +116,43 @@ export class UserService {
       )
   }
 
+  getAllTrainee(pageNumber, pageSize,searchText) {
+
+    let params = new HttpParams();
+
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+
+    return this.http.get<IUserPagination>(this.baseUrl + '/Users/get-traineeList', { observe: 'response', params })
+    .pipe(
+      map(response => {
+        this.Users = [...this.Users, ...response.body.items];
+        this.UserPagination = response.body;
+        return this.UserPagination;
+      })
+    );
+   
+  }
+  getAllInstructor(pageNumber, pageSize,searchText) {
+
+    let params = new HttpParams();
+
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+
+    return this.http.get<IUserPagination>(this.baseUrl + '/Users/get-instructorList', { observe: 'response', params })
+    .pipe(
+      map(response => {
+        this.Users = [...this.Users, ...response.body.items];
+        this.UserPagination = response.body;
+        return this.UserPagination;
+      })
+    );
+   
+  }
+
 
   find(id: string) {
     return this.http.get<User>(this.baseUrl + '/users/get-userDetail/' + id);

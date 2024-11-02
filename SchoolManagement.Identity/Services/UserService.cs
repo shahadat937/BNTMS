@@ -154,10 +154,15 @@ namespace SchoolManagement.Identity.Services
             {
                 BaseSchoolName baseSchoolName = await _BaseSchoolNameRepository.Where(x => x.BaseSchoolNameId == Convert.ToInt16(user.BranchId)).FirstOrDefaultAsync();
 
-                userDto.FirstLevel = baseSchoolName.FirstLevel;
-                userDto.SecondLevel = baseSchoolName.SecondLevel;
-                userDto.ThirdLevel = baseSchoolName.ThirdLevel;
-                userDto.FourthLevel = baseSchoolName.FourthLevel;
+                if(baseSchoolName != null)
+                {
+                    userDto.FirstLevel = baseSchoolName.FirstLevel;
+                    userDto.SecondLevel = baseSchoolName.SecondLevel;
+                    userDto.ThirdLevel = baseSchoolName.ThirdLevel;
+                    userDto.FourthLevel = baseSchoolName.FourthLevel;
+
+                }
+                
             }
 
             if (user.PNo != null && !String.IsNullOrEmpty(user.PNo))

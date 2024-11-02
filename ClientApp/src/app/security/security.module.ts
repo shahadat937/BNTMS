@@ -33,6 +33,8 @@ import { NewCommendingAreaComponent } from './baseschoolname/new-commendingarea/
 import { NewBaseNameComponent } from './baseschoolname/new-basename/new-basename.component';
 import { NewSchoolNameComponent } from './baseschoolname/new-schoolname/new-schoolname.component';
 import { NewUserListComponent } from './user/new-userlist/new-userlist.component';
+import { TraineeListComponent } from './trainee/trainee-list/trainee-list.component';
+import { InstructorsListComponent } from './instructor/instructors-list/instructors-list.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { NewUserListComponent } from './user/new-userlist/new-userlist.component
     NewSchoolNameComponent,
     InstructorListComponent,
     NewInstructorComponent,
-    NewUserListComponent
+    NewUserListComponent,
+    TraineeListComponent,
+    InstructorsListComponent
     //  FirstLevelListComponent,
     //  SecondLevelListComponent,
     //  ThirdLevelListComponent,
