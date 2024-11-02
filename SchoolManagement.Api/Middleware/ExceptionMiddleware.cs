@@ -26,7 +26,7 @@ namespace SchoolManagement.Api.Middleware
             {
                 await HandleExceptionAsync(httpContext, ex);
             }
-        }
+    }
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";

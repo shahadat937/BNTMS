@@ -24,79 +24,50 @@ namespace SchoolManagement.Application.Features.CourseBudgetAllocations.Handler.
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         public async Task<BaseCommandResponse> Handle(CreateCourseBudgetAllocationCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
             var validator = new CreateCourseBudgetAllocationDtoValidator();
             var validationResult = await validator.ValidateAsync(request.CourseBudgetAllocationDto);
 
-            if (validationResult.IsValid == false)
+            if (!validationResult.IsValid)
             {
                 response.Success = false;
                 response.Message = "Creation Failed";
                 response.Errors = validationResult.Errors.Select(q => q.ErrorMessage).ToList();
+                return response;
             }
-            else
+
+            var courseBudgetAllocation = _mapper.Map<CourseBudgetAllocation>(request.CourseBudgetAllocationDto);
+            courseBudgetAllocation = await _unitOfWork.Repository<CourseBudgetAllocation>().Add(courseBudgetAllocation);
+
+            var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.CourseBudgetAllocationDto.BudgetCodeId.Value);
+
+            if (courseBudgetAllocation.PaymentTypeId == 2)
             {
-                var CourseBudgetAllocation = _mapper.Map<CourseBudgetAllocation>(request.CourseBudgetAllocationDto);
-
-                //CourseBudgetAllocation = await _unitOfWork.Repository<CourseBudgetAllocation>().Add(CourseBudgetAllocation);
-                //CourseBudgetAllocation.Status = 0;
-                //await _unitOfWork.Save();
-
-                //if (CourseBudgetAllocation.PaymentTypeId == 1)
-                //{
-                //    CourseBudgetAllocation = await _unitOfWork.Repository<CourseBudgetAllocation>().Add(CourseBudgetAllocation);
-                //    CourseBudgetAllocation.Status = 1;
-                //    CourseBudgetAllocation.PaymentDate = CourseBudgetAllocation.NextInstallmentDate;
-                //    await _unitOfWork.Save();
-                //}
-                //else
-                //{
-                //    CourseBudgetAllocation = await _unitOfWork.Repository<CourseBudgetAllocation>().Add(CourseBudgetAllocation);
-                //    CourseBudgetAllocation.Status = 0;
-                //    await _unitOfWork.Save();
-                //}
-
-
-                if (CourseBudgetAllocation.PaymentTypeId == 2)
-                {
-                    CourseBudgetAllocation = await _unitOfWork.Repository<CourseBudgetAllocation>().Add(CourseBudgetAllocation);
-                    CourseBudgetAllocation.Status = 0;
-                    await _unitOfWork.Save();
-
-                    var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.CourseBudgetAllocationDto.BudgetCodeId.Value);
-                    budgetCode.TargetAmount += CourseBudgetAllocation.InstallmentAmount;
-
-                    await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
-                    await _unitOfWork.Save();
-                }
-
-                else if (CourseBudgetAllocation.PaymentTypeId == 1)
-                {
-                    CourseBudgetAllocation = await _unitOfWork.Repository<CourseBudgetAllocation>().Add(CourseBudgetAllocation);
-                    CourseBudgetAllocation.Status = 1;
-                    CourseBudgetAllocation.PaymentDate = CourseBudgetAllocation.NextInstallmentDate;
-                    await _unitOfWork.Save();
-
-
-                    var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(request.CourseBudgetAllocationDto.BudgetCodeId.Value);
-                    budgetCode.AvailableAmount -= CourseBudgetAllocation.InstallmentAmount;
-
-                    if (budgetCode.AvailableAmount >= 0)
-                    {
-                        await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
-                        await _unitOfWork.Save();
-                    }
-                }
-
-
-                response.Success = true;
-                response.Message = "Creation Successful";
-                response.Id = CourseBudgetAllocation.CourseBudgetAllocationId;
+                courseBudgetAllocation.Status = 0;
+                budgetCode.TargetAmount += courseBudgetAllocation.InstallmentAmount;
             }
+            else if (courseBudgetAllocation.PaymentTypeId == 1)
+            {
+                courseBudgetAllocation.Status = 1;
+                courseBudgetAllocation.PaymentDate = courseBudgetAllocation.NextInstallmentDate;
+                budgetCode.TargetAmount -= courseBudgetAllocation.InstallmentAmount;
+                budgetCode.AvailableAmount -= courseBudgetAllocation.InstallmentAmount;
+            }
+
+            // Save updated CourseBudgetAllocation and BudgetCode
+            await _unitOfWork.Save();
+            await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
+            await _unitOfWork.Save();
+
+            response.Success = true;
+            response.Message = "Creation Successful";
+            response.Id = courseBudgetAllocation.CourseBudgetAllocationId;
 
             return response;
         }
+
     }
 }
