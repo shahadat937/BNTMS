@@ -35,6 +35,22 @@ public class UsersController : ControllerBase
         return Ok(Users);
     }
 
+    [HttpGet]
+    [Route("get-traineeList")]
+    public async Task<ActionResult> GetTraineeList([FromQuery] QueryParams queryParams)
+    {
+        var Users = await _userService.GetTraineeList(queryParams);
+        return Ok(Users);
+    }
+    [HttpGet]
+    [Route("get-instructorList")]
+    public async Task<ActionResult> GetInstructorList([FromQuery] QueryParams queryParams)
+    {
+        var Users = await _userService.GetInstructorList(queryParams);
+        return Ok(Users);
+    }
+
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
