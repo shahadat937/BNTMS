@@ -395,16 +395,26 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     else {
       this.loading = true;
       console.log('TraineeNominationForm value',this.TraineeNominationForm.value)
-      this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
+      this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe((response: any) => {
         // this.router.navigateByUrl('/course-management/traineenomination-list/'+this.courseDurationId);
         this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
         //this.reloadCurrentRoute();
-        this.snackBar.open('Information Inserted Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
-        });
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        }
         this.loading = false;
       }, error => {
         this.validationErrors = error;

@@ -65,17 +65,30 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Comm
                             traineeNomination.SaylorSubBranchId = traineeInformation.SaylorSubBranchId;
                             traineeNomination.TraineeId = traineeInformation.TraineeId;
 
-                            await _unitOfWork.Repository<TraineeNomination>().Add(traineeNomination);
+                            var getTraineeNomination = _unitOfWork.Repository<TraineeNomination>().Where(x => x.CourseDurationId == traineeNomination.CourseDurationId && x.TraineeId == traineeNomination.TraineeId).FirstOrDefault();
 
-                            try
+                            if (getTraineeNomination != null)
                             {
-                                await _unitOfWork.Save();
-                                successCount++;
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex);
+                                response.Success = false;
+                                response.Message = "Creation Failed, Trainee already exist";
+                                response.Id = traineeNomination.TraineeNominationId;
                                 errorCount++;
+                            }
+                            else
+                            {
+                                await _unitOfWork.Repository<TraineeNomination>().Add(traineeNomination);
+
+                                try
+                                {
+                                    await _unitOfWork.Save();
+                                    successCount++;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex);
+                                    errorCount++;
+                                }
+
                             }
                         }
                         else
