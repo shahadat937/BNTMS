@@ -429,17 +429,35 @@
                       <textarea matInput formControlName="permanentAddress" ></textarea>
                     </mat-form-field>
                   </div>
-
-                  
-                 
-                  
                 </div>
             
                 <div class="row">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile"
+                        <input #fileInput type="file" class="custom-file-input" id="customFile"
                                (change)="onFileChanged($event)" accept=".jpg,.png,.gif">
+                               
+                               <div *ngIf="traineePhoto" style="position: relative; display: inline-block;">
+                                <button 
+                                  (click)="removeImage($event)"
+                                  style="
+                                    position: absolute;
+                                    top: -5px;
+                                    right: -5px;
+                                    background-color: rgba(255,0,0, .7);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 50%;
+                                    padding: 2px;
+                                    cursor: pointer;
+                                    font-size: 10px;
+                                    line-height: 1;
+                                  ">
+                                  X
+                                </button>
+                                <img [src]="traineePhoto" alt="User Image" style="width: 80px; height: auto;"
+                                (error)="handleImageError()">
+                              </div>
                       </div>
                   </div>
                 </div>

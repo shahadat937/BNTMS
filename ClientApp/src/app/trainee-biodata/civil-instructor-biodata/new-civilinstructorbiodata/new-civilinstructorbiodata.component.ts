@@ -16,6 +16,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
   //providers:[BIODataGeneralInfoService]
 })
 export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -42,6 +43,7 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
   fileAttr = 'Choose File';
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
+  traineePhoto: string;
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     super();
@@ -62,6 +64,7 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
           }   
+          this.traineePhoto = res.bnaPhotoUrl;
           this.onDivisionSelectionChangeGetDistrict(res.divisionId);
           this.onDistrictSelectionChangeGetThana(res.districtId);
           this.onReligionSelectionChangeGetCastes(res.religionId);
@@ -160,14 +163,35 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
     });
   }
 
-  onFileChanged(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      // this.labelImport.nativeElement.value = file.name;
-    // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
-      this.BIODataGeneralInfoForm.patchValue({
-        image: file,
-      });
+  // onFileChanged(event) {
+  //   if (event.target.files.length > 0) {
+  //     const file = event.target.files[0];
+  //     // this.labelImport.nativeElement.value = file.name;
+  //   // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
+  //     this.BIODataGeneralInfoForm.patchValue({
+  //       image: file,
+  //     });
+  //   }
+  // }
+
+  onFileChanged(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
+      };
+  
+      reader.readAsDataURL(file); // Read file as data URL
+  
+      // Update form control with the file
+      if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
+        this.BIODataGeneralInfoForm.patchValue({
+          image: file,
+        });
+      }
     }
   }
   getDivisions(){
@@ -287,8 +311,15 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
     this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
 
     const formData = new FormData();
+    if(!this.traineePhoto){
+      this.BIODataGeneralInfoForm.value.bnaPhotoUrl = null;
+    }
     for (const key of Object.keys(this.BIODataGeneralInfoForm.value)) {
-      const value = this.BIODataGeneralInfoForm.value[key];
+      let value = this.BIODataGeneralInfoForm.value[key];
+      if(value === null || value === undefined){
+      value = ""
+
+      }
       formData.append(key, value);
     }
 
@@ -328,4 +359,21 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
   whiteSpaceRemove(value){
     this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
    }
+
+   removeImage(event: Event) {
+    event.preventDefault(); 
+
+   
+    this.traineePhoto = '';
+
+   
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = ''; 
+    }
+  }
+
+  handleImageError() {
+    this.traineePhoto = ''; 
+  }
+
 }
