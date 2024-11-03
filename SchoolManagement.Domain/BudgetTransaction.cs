@@ -4,9 +4,11 @@ namespace SchoolManagement.Domain
 {
     public class BudgetTransaction:BaseDomainEntity
     {
+        //public readonly object SomeField;
+
         public int BudgetTransactionId { get; set; }
         public int BudgetCodeId { get; set; }
-        //public string BudgetCodeName { get; set; }
+        public string? BudgetCodeName { get; set; }
         public int BudgetTypeId { get; set; }
         public int? FiscalYearId { get; set; }
         public double? Amount { get; set; }

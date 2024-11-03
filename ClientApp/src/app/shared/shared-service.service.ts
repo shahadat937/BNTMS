@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../core/service/auth.service';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ export class SharedServiceService {
 
   constructor(private router: Router,
     private authService: AuthService,
+    private location: Location
   ) { }
 
   redirectDashboard(){
@@ -70,6 +72,10 @@ export class SharedServiceService {
     if (parts.length > 2) {
       input.value = parts[0] + '.' + parts.slice(1).join(''); 
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
   
   

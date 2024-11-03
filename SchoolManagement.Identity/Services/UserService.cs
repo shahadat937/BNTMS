@@ -154,10 +154,15 @@ namespace SchoolManagement.Identity.Services
             {
                 BaseSchoolName baseSchoolName = await _BaseSchoolNameRepository.Where(x => x.BaseSchoolNameId == Convert.ToInt16(user.BranchId)).FirstOrDefaultAsync();
 
-                userDto.FirstLevel = baseSchoolName.FirstLevel;
-                userDto.SecondLevel = baseSchoolName.SecondLevel;
-                userDto.ThirdLevel = baseSchoolName.ThirdLevel;
-                userDto.FourthLevel = baseSchoolName.FourthLevel;
+                if(baseSchoolName != null)
+                {
+                    userDto.FirstLevel = baseSchoolName.FirstLevel;
+                    userDto.SecondLevel = baseSchoolName.SecondLevel;
+                    userDto.ThirdLevel = baseSchoolName.ThirdLevel;
+                    userDto.FourthLevel = baseSchoolName.FourthLevel;
+
+                }
+                
             }
 
             if (user.PNo != null && !String.IsNullOrEmpty(user.PNo))
@@ -467,6 +472,72 @@ namespace SchoolManagement.Identity.Services
             IQueryable<ApplicationUser> userQuery = _userManager.Users.AsQueryable();
 
             string[] searchingRoles = { CustomRoleTypes.Instructor, CustomRoleTypes.Student };
+            var userQueryRoleFilter = userQuery.Where(x => searchingRoles.Contains(x.RoleName));
+            userQuery = userQueryRoleFilter.Where(x => searchingRoles.Contains(x.RoleName) && (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
+            //userQuery = userQuery.Where(x => (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
+            var totalCount = userQuery.Count();
+            userQuery = userQuery.OrderByDescending(x => x.UserName).Skip((queryParams.PageNumber - 1) * queryParams.PageSize).Take(queryParams.PageSize);
+
+            var UsersDtos = userQuery.Select(q => new UserDto
+            {
+                Id = q.Id,
+                Email = q.Email,
+                FirstName = q.FirstName,
+                LastName = q.LastName,
+                UserName = q.UserName,
+                PhoneNumber = q.PhoneNumber,
+                RoleName = q.RoleName
+            }).ToList();
+
+            var result = new PagedResult<UserDto>(UsersDtos, totalCount, queryParams.PageNumber, queryParams.PageSize);
+
+            return result;
+        }
+
+        public async Task<PagedResult<UserDto>> GetTraineeList(QueryParams queryParams)
+        {
+            var validator = new QueryParamsValidator();
+            var validationResult = await validator.ValidateAsync(queryParams);
+
+            if (validationResult.IsValid == false)
+                throw new FluentValidation.ValidationException(validationResult.ToString());
+
+            IQueryable<ApplicationUser> userQuery = _userManager.Users.AsQueryable();
+
+            string[] searchingRoles = {CustomRoleTypes.Student };
+            var userQueryRoleFilter = userQuery.Where(x => searchingRoles.Contains(x.RoleName));
+            userQuery = userQueryRoleFilter.Where(x => searchingRoles.Contains(x.RoleName) && (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
+            //userQuery = userQuery.Where(x => (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
+            var totalCount = userQuery.Count();
+            userQuery = userQuery.OrderByDescending(x => x.UserName).Skip((queryParams.PageNumber - 1) * queryParams.PageSize).Take(queryParams.PageSize);
+
+            var UsersDtos = userQuery.Select(q => new UserDto
+            {
+                Id = q.Id,
+                Email = q.Email,
+                FirstName = q.FirstName,
+                LastName = q.LastName,
+                UserName = q.UserName,
+                PhoneNumber = q.PhoneNumber,
+                RoleName = q.RoleName
+            }).ToList();
+
+            var result = new PagedResult<UserDto>(UsersDtos, totalCount, queryParams.PageNumber, queryParams.PageSize);
+
+            return result;
+        }
+
+        public async Task<PagedResult<UserDto>> GetInstructorList(QueryParams queryParams)
+        {
+            var validator = new QueryParamsValidator();
+            var validationResult = await validator.ValidateAsync(queryParams);
+
+            if (validationResult.IsValid == false)
+                throw new FluentValidation.ValidationException(validationResult.ToString());
+
+            IQueryable<ApplicationUser> userQuery = _userManager.Users.AsQueryable();
+
+            string[] searchingRoles = { CustomRoleTypes.Instructor };
             var userQueryRoleFilter = userQuery.Where(x => searchingRoles.Contains(x.RoleName));
             userQuery = userQueryRoleFilter.Where(x => searchingRoles.Contains(x.RoleName) && (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
             //userQuery = userQuery.Where(x => (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));

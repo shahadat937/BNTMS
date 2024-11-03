@@ -34,6 +34,12 @@ export class BudgetAllocationService {
     return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-code/get-selectedBudgetCodeByBudgetCodeIdRequest?budgetCodeId='+budgetCodeId+'')
   }
 
+  getTotalBudgetByBudgetCodeIdRequest(budgetCodeId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/budget-code/get-totalBudgetByBudgetCodeIdRequest?budgetCodeId='+budgetCodeId+'');
+  }
+
+  
+
   getBudgetAllocations(pageNumber, pageSize,searchText,budgetCodeId,fiscalYearId) {
 
     let params = new HttpParams(); 
@@ -49,6 +55,7 @@ export class BudgetAllocationService {
     return this.http.get<IBudgetAllocationPagination>(this.baseUrl + '/budget-allocation/get-BudgetAllocations', { observe: 'response', params })
     .pipe(
       map(response => {
+        console.log('http response', response)
         this.BudgetAllocations = [...this.BudgetAllocations, ...response.body.items];
         this.BudgetAllocationPagination = response.body;
         return this.BudgetAllocationPagination;

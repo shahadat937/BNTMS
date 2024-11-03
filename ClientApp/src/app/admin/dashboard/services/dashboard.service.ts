@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SpCourseDuration } from '../models/spcourseduration';
 import { SpTotalTrainee } from '../models/sptotaltrainee';
 import { SpOfficerDetails } from '../models/spofficerdetails';
 
 import { map } from 'rxjs';
+import { ICourseDurationPagination,  CourseDurationPagination} from '../models/coursedurationPagination';
+
+import { CourseDuration } from '../models/courseduration';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +19,8 @@ export class dashboardService {
   SpCourseDurations: SpCourseDuration[] = [];
   SpTotalTrainees: SpTotalTrainee[] = [];
   constructor(private http: HttpClient) { }
+  CourseDurationPagination = new CourseDurationPagination(); 
+  CourseDurations: CourseDuration[] = [];
 
 
  
@@ -130,6 +135,29 @@ export class dashboardService {
       })
     ); 
   }
+
+  getCourseDurationsByCourseType(pageNumber, pageSize,searchText,courseTypeId:number, status:number) {
+
+    let params = new HttpParams(); 
+    
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+    params = params.append('courseTypeId', courseTypeId.toString());
+    params = params.append('status', status.toString());
+   
+    return this.http.get<ICourseDurationPagination>(this.baseUrl + '/course-duration/get-courseDurationByCourseType', { observe: 'response', params })
+    .pipe(
+      map(response => {
+       
+        this.CourseDurations = [...this.CourseDurations, ...response.body.items];
+        this.CourseDurationPagination = response.body;
+      
+        return this.CourseDurationPagination;
+      })
+    ); 
+  }
+
 
   getTrainingSyllabusListByParams(baseSchoolNameId,courseNameId,bnaSubjectNameId) {
 

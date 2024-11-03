@@ -27,8 +27,23 @@ namespace SchoolManagement.Application.Features.BudgetAllocations.Handler.Comman
         {
             var BudgetAllocation = await _unitOfWork.Repository<BudgetAllocation>().Get(request.BudgetAllocationId);
 
+           
             if (BudgetAllocation == null)
                 throw new NotFoundException(nameof(BudgetAllocation), request.BudgetAllocationId);
+
+            var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(BudgetAllocation.BudgetCodeId);
+
+            if (budgetCode != null)
+            {
+           
+                budgetCode.TotalBudget -= BudgetAllocation.Amount;
+
+              
+                if (budgetCode.TotalBudget < 0)
+                    throw new InvalidOperationException("Total budget would go negative after deletion.");
+
+                await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
+            }
 
             await _unitOfWork.Repository<BudgetAllocation>().Delete(BudgetAllocation);
             await _unitOfWork.Save();

@@ -120,6 +120,12 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
 
       });
     }
+    else{
+      {      
+        this.setPageTitle(this.documentTypeId)
+        this.getAllReadingMaterialList(this.documentTypeId);
+      }
+    }
 
 
   }

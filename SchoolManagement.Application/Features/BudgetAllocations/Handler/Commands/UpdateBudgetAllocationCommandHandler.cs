@@ -34,8 +34,24 @@ namespace SchoolManagement.Application.Features.BudgetAllocations.Handler.Comman
 
             var BudgetAllocation = await _unitOfWork.Repository<BudgetAllocation>().Get(request.BudgetAllocationDto.BudgetAllocationId);
 
-            if (BudgetAllocation is null)
+            if (BudgetAllocation == null)
                 throw new NotFoundException(nameof(BudgetAllocation), request.BudgetAllocationDto.BudgetAllocationId);
+
+            var budgetCode = await _unitOfWork.Repository<BudgetCode>().Get(BudgetAllocation.BudgetCodeId);
+
+            if (budgetCode != null)
+            {
+               
+                budgetCode.TotalBudget -= BudgetAllocation.Amount;
+
+              
+                budgetCode.TotalBudget += request.BudgetAllocationDto.Amount;
+
+                if (budgetCode.TotalBudget < 0)
+                    throw new InvalidOperationException("Insufficient budget. Update cannot be completed.");
+
+                await _unitOfWork.Repository<BudgetCode>().Update(budgetCode);
+            }
 
             _mapper.Map(request.BudgetAllocationDto, BudgetAllocation);
 

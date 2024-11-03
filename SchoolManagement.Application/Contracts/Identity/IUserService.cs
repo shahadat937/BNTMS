@@ -26,5 +26,8 @@ namespace SchoolManagement.Application.Contracts.Identity
         Task<BaseCommandResponse> DeleteUser(string id);
         //Task<PagedResult<UserDto>> GetStudentUsers(QueryParams queryParams);
         Task<PagedResult<UserDto>> GetTeacherUsers(QueryParams queryParams);
+        Task<PagedResult<UserDto>> GetTraineeList(QueryParams queryParams);
+        Task<PagedResult<UserDto>> GetInstructorList(QueryParams queryParams);
+
     }
 }
