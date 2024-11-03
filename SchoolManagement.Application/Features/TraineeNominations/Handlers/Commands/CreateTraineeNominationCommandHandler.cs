@@ -42,25 +42,36 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Comm
             {
                 var TraineeNominations = _mapper.Map<TraineeNomination>(request.TraineeNominationDto);
 
-                TraineeNominations = await _unitOfWork.Repository<TraineeNomination>().Add(TraineeNominations);
+                var getTraineeNomination = _unitOfWork.Repository<TraineeNomination>().Where(x => x.CourseDurationId == request.TraineeNominationDto.CourseDurationId && x.TraineeId == request.TraineeNominationDto.TraineeId).FirstOrDefault();
 
-                var traineeBiodata = await _unitOfWork.Repository<TraineeBioDataGeneralInfo>().Get(request.TraineeNominationDto.TraineeId ?? 0);
-                traineeBiodata.LocalNominationStatus = 1;
-
-                await _unitOfWork.Repository<TraineeBioDataGeneralInfo>().Update(traineeBiodata);
-                try
+                if (getTraineeNomination != null)
                 {
-                    await _unitOfWork.Save();
+                    response.Success = false;
+                    response.Message = "Creation Failed, Trainee already exist";
+                    response.Id = TraineeNominations.TraineeNominationId;
                 }
-                catch (Exception ex)
+                else
                 {
+                    TraineeNominations = await _unitOfWork.Repository<TraineeNomination>().Add(TraineeNominations);
 
-                    Console.WriteLine(ex);
+                    var traineeBiodata = await _unitOfWork.Repository<TraineeBioDataGeneralInfo>().Get(request.TraineeNominationDto.TraineeId ?? 0);
+                    traineeBiodata.LocalNominationStatus = 1;
+
+                    await _unitOfWork.Repository<TraineeBioDataGeneralInfo>().Update(traineeBiodata);
+                    try
+                    {
+                        await _unitOfWork.Save();
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine(ex);
+                    }
+
+                    response.Success = true;
+                    response.Message = "Creation Successful";
+                    response.Id = TraineeNominations.TraineeNominationId;
                 }
-
-                response.Success = true;
-                response.Message = "Creation Successful";
-                response.Id = TraineeNominations.TraineeNominationId;
             }
 
             return response;
