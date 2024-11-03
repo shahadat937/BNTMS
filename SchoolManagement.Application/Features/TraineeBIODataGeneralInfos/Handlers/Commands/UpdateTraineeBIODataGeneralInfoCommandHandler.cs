@@ -58,22 +58,33 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
                         await request.CreateTraineeBioDataGeneralInfoDto.Image.CopyToAsync(fileSteam);
                     }
 
-                   // request.UpdateTraineeBIODataGeneralInfoDto.BnaPhotoUrl = "images/profile/" + uniqueFileName;
+                   
                 }
-
-            ////
-            //  DateTime? d = request.TraineeBioDataGeneralInfoDto.DateOfBirth.ConvertToDateTime();
-
-
 
            
             _mapper.Map(request.CreateTraineeBioDataGeneralInfoDto, TraineeBioDataGeneralInfos);
 
-          //  request.TraineeBioDataGeneralInfoDto.BnaPhotoUrl = request.TraineeBioDataGeneralInfoDto.BnaPhotoUrl ?? TraineeBioDataGeneralInfos.BnaPhotoUrl;
+            //  request.TraineeBioDataGeneralInfoDto.BnaPhotoUrl = request.TraineeBioDataGeneralInfoDto.BnaPhotoUrl ?? TraineeBioDataGeneralInfos.BnaPhotoUrl;
 
 
-           // TraineeBioDataGeneralInfos.BnaPhotoUrl = request.TraineeBioDataGeneralInfoDto.BnaPhotoUrl ?? "images/profile/" + uniqueFileName;
-            TraineeBioDataGeneralInfos.BnaPhotoUrl = request.CreateTraineeBioDataGeneralInfoDto.Image != null ? "images/profile/" + uniqueFileName : TraineeBioDataGeneralInfos.BnaPhotoUrl.Replace(apiUrl,String.Empty);
+            // TraineeBioDataGeneralInfos.BnaPhotoUrl = request.TraineeBioDataGeneralInfoDto.BnaPhotoUrl ?? "images/profile/" + uniqueFileName;
+            if ((request.CreateTraineeBioDataGeneralInfoDto.BnaPhotoUrl != null && request.CreateTraineeBioDataGeneralInfoDto.Image !=null)|| request.CreateTraineeBioDataGeneralInfoDto.BnaPhotoUrl == null && request.CreateTraineeBioDataGeneralInfoDto.Image != null)
+            {               
+                    TraineeBioDataGeneralInfos.BnaPhotoUrl = request.CreateTraineeBioDataGeneralInfoDto.Image != null ? "images/profile/" + uniqueFileName : TraineeBioDataGeneralInfos.BnaPhotoUrl.Replace(apiUrl, String.Empty);
+                           
+               
+            }           
+            else if(request.CreateTraineeBioDataGeneralInfoDto.BnaPhotoUrl != null)
+            {
+                TraineeBioDataGeneralInfos.BnaPhotoUrl = TraineeBioDataGeneralInfos.BnaPhotoUrl.Replace(apiUrl, string.Empty);
+            }
+            else
+            {
+                TraineeBioDataGeneralInfos.BnaPhotoUrl = "";
+            }
+           
+           
+           
 
 
             await _unitOfWork.Repository<TraineeBioDataGeneralInfo>().Update(TraineeBioDataGeneralInfos);
