@@ -67,7 +67,7 @@ export class NewProfileUpdateComponent extends UnsubscribeOnDestroyAdapter imple
     const id = this.traineeId;
     
     if (id) {
-      this.pageTitle = 'Edit Officer BIO Data';
+      this.pageTitle = 'Edit BIO Data';
       this.destination='Edit';
       this.buttonText="Update";
  
@@ -230,25 +230,25 @@ export class NewProfileUpdateComponent extends UnsubscribeOnDestroyAdapter imple
     let now = new Date();
       this.BIODataGeneralInfoForm = this.fb.group({
         traineeId: [0],
-        bnaBatchId: [],
-        rankId: [],
-        saylorRankId: [],
-        branchId: [],
-        countryId: [],
-        divisionId: [],
-        districtId: [],
-        thanaId: [],
-        heightId: [],
-        weightId: [],
-        colorOfEyeId: [],
-        genderId: [],
-        bloodGroupId: [],
-        maritalStatusId: [],
-        nationalityId: [],
-        religionId: [],
-        casteId: [],
-        officerTypeId:[],
-        hairColorId: [],
+        bnaBatchId: [''],
+        rankId: [''],
+        saylorRankId: [''],
+        branchId: [''],
+        countryId: [''],
+        divisionId: [''],
+        districtId: [''],
+        thanaId: [''],
+        heightId: [''],
+        weightId: [''],
+        colorOfEyeId: [''],
+        genderId: [''],
+        bloodGroupId: [''],
+        maritalStatusId: [''],
+        nationalityId: [''],
+        religionId: [''],
+        casteId: [''],
+        officerTypeId:[''],
+        hairColorId: [''],
         traineeStatusId:[],
         name: [''],
         nameBangla: [''],
@@ -351,7 +351,11 @@ export class NewProfileUpdateComponent extends UnsubscribeOnDestroyAdapter imple
 
     const formData = new FormData();
     for (const key of Object.keys(this.BIODataGeneralInfoForm.value)) {
-      const value = this.BIODataGeneralInfoForm.value[key];
+      
+      let value = this.BIODataGeneralInfoForm.value[key];
+      if(value === null || value === undefined){
+        value = ""
+      }
       formData.append(key, value);
     }
 
