@@ -16,6 +16,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
   //providers:[BIODataGeneralInfoService]
 })
 export class NewBIODataGeneralInfoComponent implements OnInit, OnDestroy {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 
   buttonText:string;
   loading = false;
   pageTitle: string;
@@ -51,6 +52,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit, OnDestroy {
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
   subscription: any;
+  traineePhoto: string;
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     this.files = [];
@@ -70,6 +72,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit, OnDestroy {
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
           }   
+          this.traineePhoto = res.bnaPhotoUrl;
           this.onDivisionSelectionChangeGetDistrict(res.divisionId);
           this.onDistrictSelectionChangeGetThana(res.districtId);
           this.onReligionSelectionChangeGetCastes(res.religionId);
@@ -184,16 +187,38 @@ export class NewBIODataGeneralInfoComponent implements OnInit, OnDestroy {
     });
   }
 
-  onFileChanged(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      // this.labelImport.nativeElement.value = file.name;
-    // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
-      this.BIODataGeneralInfoForm.patchValue({
-        image: file,
-      });
+  // onFileChanged(event) {
+  //   if (event.target.files.length > 0) {
+  //     const file = event.target.files[0];
+  //     // this.labelImport.nativeElement.value = file.name;
+  //   // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
+  //     this.BIODataGeneralInfoForm.patchValue({
+  //       image: file,
+  //     });
+  //   }
+  // }
+
+  onFileChanged(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
+      };
+  
+      reader.readAsDataURL(file); // Read file as data URL
+  
+      // Update form control with the file
+      if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
+        this.BIODataGeneralInfoForm.patchValue({
+          image: file,
+        });
+      }
     }
   }
+
 
   filterDivision(value:any){
       this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
@@ -274,21 +299,21 @@ filterByCaste(value:any){
       
 
       traineeId: [0],
-      bnaBatchId: ['', Validators.required],
+      bnaBatchId: [''],
       rankId: ['',Validators.required],
-      branchId: ['',Validators.required],
+      branchId: [''],
       divisionId: [''],
       districtId: [''],
       thanaId: [''],
       countryId:[1],
-      heightId: ['',Validators.required],
-      weightId: ['',Validators.required],
-      colorOfEyeId: ['',Validators.required],
-      genderId: ['',Validators.required],
-      bloodGroupId: ['',Validators.required],
+      heightId: [''],
+      weightId: [''],
+      colorOfEyeId: [''],
+      genderId: [''],
+      bloodGroupId: [''],
       //nationalityId: [''],
-      religionId: ['',Validators.required],
-      casteId: ['',Validators.required],
+      religionId: [''],
+      casteId: [''],
       //maritalStatusId: [],
       hairColorId: [],
       officerTypeId: [1], //officerTypeId 1 For Bangladesh
@@ -304,12 +329,12 @@ filterByCaste(value:any){
       pno: ['',Validators.required],
       shortCode:[''],
       presentBillet:[''],
-      dateOfBirth: [Validators.required],
-      joiningDate: [Validators.required],
+      dateOfBirth: [],
+      joiningDate: [],
       identificationMark: [''],
       presentAddress: [''],
       permanentAddress: [''],
-      nid: ['',Validators.required],
+      nid: [''],
       remarks: [''],
       localNominationStatus:[0],
       isActive: [true],
@@ -380,9 +405,18 @@ filterByCaste(value:any){
     this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
     this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
     this.BIODataGeneralInfoForm.get('countryId').setValue(1);
+
     const formData = new FormData();
+
+    if(!this.traineePhoto){
+      this.BIODataGeneralInfoForm.value.bnaPhotoUrl = null;
+    }
+
     for (const key of Object.keys(this.BIODataGeneralInfoForm.value)) {
-      const value = this.BIODataGeneralInfoForm.value[key];
+      let value = this.BIODataGeneralInfoForm.value[key];
+      if(value=== null || value === undefined){
+        value = ""
+      }
       formData.append(key, value);
     }
 
@@ -422,4 +456,20 @@ filterByCaste(value:any){
   whiteSpaceRemove(value){
     this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
    }
+   removeImage(event: Event) {
+    event.preventDefault(); 
+
+   
+    this.traineePhoto = '';
+
+   
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = ''; 
+    }
+  }
+
+  handleImageError() {
+    this.traineePhoto = ''; 
+  }
+
 }
