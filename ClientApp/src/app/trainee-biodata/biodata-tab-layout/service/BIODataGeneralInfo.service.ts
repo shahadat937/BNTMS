@@ -36,7 +36,7 @@ export class BIODataGeneralInfoService {
     params = params.append('pageSize', pageSize.toString());
     return this.http.get<IBIODataGeneralInfoPagination>(this.baseUrl + '/trainee-bio-data-general-info/get-traineeBioDataGeneralInfoes', { observe: 'response', params })
     .pipe(
-      map(response => {
+      map(response => { 
         this.BIODataGeneralInfos = [...this.BIODataGeneralInfos, ...response.body.items];
         this.BIODataGeneralInfoPagination = response.body;
         return this.BIODataGeneralInfoPagination;

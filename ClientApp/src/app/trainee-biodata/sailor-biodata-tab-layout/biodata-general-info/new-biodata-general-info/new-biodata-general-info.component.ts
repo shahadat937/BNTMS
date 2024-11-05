@@ -58,6 +58,8 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
   filterByReligion: SelectedModel[];
   selectedReligion: SelectedModel[];
   selectRank: SelectedModel[];
+  selectrank: SelectedModel[];
+  saylorRankId : number;
 
   private subscription: Subscription;
   imageUrl: string = "/assets/img/icon.png";
@@ -80,7 +82,9 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
 
       this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
+          console.log(res);
           if (res) {
+            this.saylorRankId = res.saylorRankId
             this.BIODataGeneralInfoForm.patchValue(res);
           }
           this.traineePhoto = res.bnaPhotoUrl;
@@ -197,6 +201,12 @@ onFileChanged(event: Event) {
       this.selectedWeight = res
     });
   }
+  filterByRank(value:any){
+    this.rankValues=this.selectrank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  }
+
+ 
+
   filterSaylorRank(value: any) {
     this.selectedSailorRank = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')));
   }
@@ -238,8 +248,6 @@ onFileChanged(event: Event) {
       this.selectBloodGroup = res
     });
   }
-
-
   getRanks() {
     this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res => {
       this.rankValues = res
@@ -304,7 +312,7 @@ onFileChanged(event: Event) {
     this.BIODataGeneralInfoForm = this.fb.group({
       traineeId: [0],
       traineeStatusId: ['5'],
-      //rankId: [],
+      rankId: [''],
       heightId: [''],
       weightId: [''],
       colorOfEyeId: [''],
@@ -438,7 +446,8 @@ onFileChanged(event: Event) {
         if (result) {
           this.loading = true;
           this.BIODataGeneralInfoService.update(+id, formData).subscribe(response => {
-            this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
+            // this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
+            this.sharedService.goBack(); // Navigate to Privious Page
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 3000,
               verticalPosition: 'bottom',

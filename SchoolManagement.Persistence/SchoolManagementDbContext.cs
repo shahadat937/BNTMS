@@ -3588,6 +3588,7 @@ namespace SchoolManagement.Persistence
 
         public DbSet<UniversityCourseResult> UniversityCourseResult { get; set; } = null!;
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; } = null!;
+        //public virtual DbSet<Instructor> Instructors { get; set; } = null!;
 
 
 

@@ -100,6 +100,7 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
     this.masterData.dbType.foreignTrainingDb
     this.TraineeNominationService.findByCourseDuration(+courseDurationId).subscribe(
       res => {
+
         this.courseDurationId = res.courseDurationId,
           this.courseNameId = res.courseNameId
       }
@@ -203,6 +204,7 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
 
     this.isLoading = true;
     this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
+      console.log(response)
       this.nominatedPercentageList = response;
     });
     this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize, this.searchText, courseDurationId).subscribe(response => {
