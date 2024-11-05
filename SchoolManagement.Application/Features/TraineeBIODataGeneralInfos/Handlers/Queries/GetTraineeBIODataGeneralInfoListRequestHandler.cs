@@ -35,7 +35,8 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            IQueryable<SchoolManagement.Domain.TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfos = _TraineeBioDataGeneralInfoRepository.FilterWithInclude(x => (x.TraineeStatusId == 4 && x.OfficerTypeId ==1) && ((x.Pno.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText))), "BnaBatch", "TraineeStatus", "Rank");
+            //IQueryable<SchoolManagement.Domain.TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfos = _TraineeBioDataGeneralInfoRepository.FilterWithInclude(x => (x.TraineeStatusId == 4 && x.OfficerTypeId ==1) && ((x.Pno.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText))), "BnaBatch", "TraineeStatus", "Rank");
+            IQueryable<SchoolManagement.Domain.TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfos = _TraineeBioDataGeneralInfoRepository.FilterWithInclude(x => (x.TraineeStatusId == 4) && ((x.Pno.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText))), "BnaBatch", "TraineeStatus", "Rank");
             var totalCount = TraineeBioDataGeneralInfos.Count();
             TraineeBioDataGeneralInfos = TraineeBioDataGeneralInfos.OrderByDescending(x => x.TraineeId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 
