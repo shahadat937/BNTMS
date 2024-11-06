@@ -31,6 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NewBnaClassRoutineComponent } from './classroutine/new-bnaclassroutine/new-bnaclassroutine.component'
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NewBnaclassroutinesecondpartComponent } from './classroutine/new-bnaclassroutinesecondpart/new-bnaclassroutinesecondpart.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     ClassRoutineListComponent,
@@ -67,6 +68,7 @@ import { NewBnaclassroutinesecondpartComponent } from './classroutine/new-bnacla
     MaterialFileInputModule,
     RoutineManagementRoutingModule,
     MatDialogModule,
+    MatTooltipModule,
     NgMultiSelectDropDownModule.forRoot(),
   ]
 })

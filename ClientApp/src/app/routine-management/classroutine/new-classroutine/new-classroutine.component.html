@@ -66,7 +66,7 @@
                   
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Title</mat-label>                        
-                      <mat-select formControlName=" ">
+                      <!-- <mat-select formControlName=" ">
                         <input type="text" 
                             style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                             id="selectMark" 
@@ -74,16 +74,35 @@
                             (input)="filterByCourseTitle($event.target.value)"
                             placeholder="Search">
                         <mat-option  value="">--Select--</mat-option >
-                          <mat-option *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value" (onSelectionChange)="getselectedbnasubjectname(dropdown)">
-                              {{dropdown.text}}  
+                          <mat-option *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value" (onSelectionChange)="getselectedbnasubjectname(dropdown)" [matTooltip]="dropdown.text">
+                              {{dropdown.text}} 
+
                             </mat-option>                          
+                      </mat-select> -->
+                      <mat-select formControlName="courseDuration">
+                        <input type="text" 
+                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                               id="selectMark" 
+                               (keydown.space)="$event.stopPropagation()"
+                               (input)="filterByCourseTitle($event.target.value)"
+                               placeholder="Search">
+                        
+                        <!-- <mat-option value="">--Select--</mat-option> -->
+                        
+                        <mat-option *ngFor="let dropdown of selectedcoursedurationbyschoolname" 
+                                    [value]="dropdown.value" 
+                                    (onSelectionChange)="getselectedbnasubjectname(dropdown)" 
+                                    matTooltip="{{dropdown.text}}"
+                                    matTooltipPosition="above">
+                          {{ dropdown.text }}
+                        </mat-option>                          
                       </mat-select>
+                      
                       <mat-error *ngIf="ClassRoutineForm.get('courseName').hasError('required')">
                         Course Title is Required!
                       </mat-error>
                   </mat-form-field>
                 </div>
-                
 
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
