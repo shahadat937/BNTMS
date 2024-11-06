@@ -18,11 +18,13 @@ import { Subject } from 'rxjs';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 
+
 @Component({
   selector: 'app-new-classroutine',
   templateUrl: './new-classroutine.component.html',
   styleUrls: ['./new-classroutine.component.sass']
 }) 
+
 export class NewClassRoutineComponent implements OnInit, OnDestroy {
   copy: boolean = true;
    masterData = MasterData;
@@ -68,7 +70,7 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
   traineeId:any;
   branchId:any;
   baseSchoolId:any;
-
+  tooltipText: string;
   schoolId:any;
   durationId:any;
   courseId:any;
@@ -676,6 +678,7 @@ filterBymarkType(value:any){
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
       this.subscription = this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedcoursedurationbyschoolname=res;
+        console.log(this.selectedcoursedurationbyschoolname)
         this.selectCourseTitle=res;
       });
   } 
