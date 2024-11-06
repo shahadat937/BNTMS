@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\Content\files\base-school-name\" />
     <Folder Include="wwwroot\Content\files\course-names\" />
     <Folder Include="wwwroot\Content\files\foreign-course-other-documents\" />
@@ -48,6 +47,7 @@
     <Folder Include="wwwroot\Content\files\foreign-course-other-documents\" />
     <Folder Include="wwwroot\Content\files\foreign-training-course-report\" />
     <Folder Include="wwwroot\Content\files\interservice-course-report\" />
+    <Folder Include="wwwroot\Content\files\online-library\" />
     <Folder Include="wwwroot\Content\files\user-manuals\" />
     <Folder Include="wwwroot\Content\files\routinesoftcopy-upload\" />
     <Folder Include="wwwroot\Content\files\religation-doc\" />

@@ -199,6 +199,7 @@ using SchoolManagement.Application.DTOs.CourseTerm;
 using SchoolManagement.Application.DTOs.UniversityCourseResult;
 using SchoolManagement.Application.DTOs.BudgetTransaction;
 using SchoolManagement.Application.DTOs.Instructor;
+using SchoolManagement.Application.DTOs.OnlineLibrary;
 
 
 namespace SchoolManagement.Application.Profiles
@@ -1215,6 +1216,19 @@ namespace SchoolManagement.Application.Profiles
             CreateMap<Occupation, OccupationDto>().ReverseMap();
             CreateMap<Occupation, CreateOccupationDto>().ReverseMap();
             #endregion
+
+            #region OnlineLibrary Mapings
+             CreateMap<OnlineLibraryDto, OnlineLibrary>().ReverseMap()
+            .ForMember(d => d.BaseSchoolName, o => o.MapFrom(s => s.BaseSchoolName.SchoolName))
+            .ForMember(d => d.DocumentType, o => o.MapFrom(s => s.DocumentType.DocumentTypeName))
+            .ForMember(d => d.DownloadRight, o => o.MapFrom(s => s.DownloadRight.DownloadRightName))
+            .ForMember(d => d.ShowRight, o => o.MapFrom(s => s.ShowRight.SchoolName))
+            .ForMember(d => d.DocumentIcon, o => o.MapFrom(s => s.DocumentType.IconName))
+            .ForMember(d => d.DocumentLink, o => o.MapFrom<OnlineLiraryFileResolver>());
+             CreateMap<OnlineLibrary, CreateOnlineLibraryDto>().ReverseMap();
+            #endregion
+
+
 
             #region OrganizationName Mappings 
             CreateMap<OrganizationNameDto,OrganizationName >().ReverseMap()

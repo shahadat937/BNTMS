@@ -210,5 +210,6 @@ namespace SchoolManagement.Application
         public const string GlobalSearch = SMSRoutePrefixBase + "globalSearch";
 
         public const string BudgetTransaction = SMSRoutePrefixBase + "budget-transaction";
+        public const string OnlineLibrary = SMSRoutePrefixBase + "online-library";
     }
 } 
