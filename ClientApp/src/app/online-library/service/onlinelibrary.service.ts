@@ -47,6 +47,22 @@ export class OnlinelibraryService {
     ); 
   }
 
+  getOnlineLibraryMaterialsByUser(pageNumber, pageSize, searchText, userId){
+    let params = new HttpParams(); 
+    
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+    return this.http.get<IOnlineLibraryPagination>(this.baseUrl + `/online-library/get-online-librarys-meterials-by-user/${userId}`, { observe: 'response', params })
+    .pipe(
+      map(response => {
+        this.OnlineLibraryMaterial = [...this.OnlineLibraryMaterial, ...response.body.items];
+        this.OnlineLibraryMaterialPagination = response.body;
+        return this.OnlineLibraryMaterialPagination;
+      })
+    ); 
+  }
+
   submit(model: any) {
     
     return this.http.post<any>(this.baseUrl + '/online-library/save-OnlineLibrary', model,{

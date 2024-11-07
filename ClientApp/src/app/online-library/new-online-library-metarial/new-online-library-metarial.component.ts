@@ -14,6 +14,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { OnlinelibraryService } from '../service/onlinelibrary.service';
 import { FileDialogMessageComponent } from 'src/app/reading-materials/readingmaterial/file-dialog-message/file-dialog-message.component';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-new-online-library-metarial',
@@ -49,7 +50,7 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
   schoolId: any;
   baseSchoolNameId: number;
   readingMaterialTitleId: number;
-  readingMaterialList: OnlineLibraryMaterial[];
+  onlineLibraryMaterial: any;
   public files: any[];
   progress: number = 0;
   btnShow = true;
@@ -57,16 +58,24 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
   documentTypeId: any;
   IsAuthorNameShow: boolean = false;
   IsPublisherNameShow: boolean = false;
-  displayedColumns: string[] = ['ser', 'readingMaterialTitle', 'documentName', 'documentType', 'document', 'actions'];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
+  userId : string;
+
 
   filteredOptions;
   subscription: any;
   instractorData: any;
+  searchText : string = "";
+
+  displayedColumns: string[] = ['ser','documentName','aurhorName','documentLink','actions'];
+
+  dataSource: MatTableDataSource<OnlineLibraryMaterial> = new MatTableDataSource();
+
+
 
   constructor(public dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -89,6 +98,8 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
 
     this.role = this.authService.currentUserValue.role.trim();
     this.loggedTraineeId = this.authService.currentUserValue.traineeId.trim();
+    this.userId = this.authService.currentUserValue.id.trim();;
+
 
     if (this.authService.currentUserValue.branchId) {
       this.branchId = this.authService.currentUserValue.branchId.trim();
@@ -132,19 +143,19 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
     this.intitializeForm();
     if (this.role != this.roleList.MasterAdmin) {
       this.onlineLibraryForm.get('baseSchoolNameId').setValue(this.branchId);
-      
+
     }
 
 
     this.getselectedDocumentType();
     this.getselecteddownloadright();
-    // this.getSelectedReadingMaterial();
+    this.getOnlineLibraryMaterialsByUser();
 
   }
 
   intitializeForm() {
     this.onlineLibraryForm = this.fb.group({
-      onlineLibraryId: [0],     
+      onlineLibraryId: [0],
       documentName: [''],
       baseSchoolNameId: [''],
       documentTypeId: [],
@@ -168,7 +179,6 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.onlineLibraryForm.value)
     const id = this.onlineLibraryForm.get('onlineLibraryId').value;
     this.onlineLibraryForm.get('approvedDate').setValue((new Date(this.onlineLibraryForm.get('approvedDate').value)).toUTCString());
     const formData = new FormData();
@@ -202,7 +212,6 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
       // })
     } else {
       this.loading = true;
-      console.log(formData);
       this.subscription = this.onlineLibraryService.submit(formData).subscribe((event: HttpEvent<any>) => {
 
         switch (event.type) {
@@ -226,14 +235,14 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
               panelClass: 'snackbar-success'
             });
             this.showSpinner = false;
-           this.sharedService.goBack();
+            this.sharedService.goBack();
         }
-        
+
       }, error => {
         this.validationErrors = error;
       });
 
-     
+
     }
   }
 
@@ -263,7 +272,6 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
           tempDirection = 'ltr';
         }
         const dialogRef = this.dialog.open(FileDialogMessageComponent, {
-          // data: this.spareStockBySpRequest,
           direction: tempDirection,
         });
         this.btnShow = false;
@@ -291,6 +299,12 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
       }
     }
   }
-  
+  getOnlineLibraryMaterialsByUser() {
+    this.onlineLibraryService.getOnlineLibraryMaterialsByUser(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.userId).subscribe(response => {
+      this.dataSource.data = response.items;
+      this.dataSource.data = response.items; 
+      this.paging.length = response.totalItemsCount    
+    } )
+  }
 
 }

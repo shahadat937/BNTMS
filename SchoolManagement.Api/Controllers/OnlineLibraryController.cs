@@ -3,6 +3,7 @@ using SchoolManagement.Application.DTOs.OnlineLibrary;
 using SchoolManagement.Application.Features.ClassRoutines.Requests.Queries;
 using SchoolManagement.Application.Features.OnlineLibrary.Requests.Commands;
 using SchoolManagement.Application.Features.OnlineLibrary.Requests.Queries;
+using System.Runtime.CompilerServices;
 //using SchoolManagement.Application.Features.OnlineLibrary.Requests.Queries;
 
 namespace SchoolManagement.Api.Controllers;
@@ -18,25 +19,6 @@ public class OnlineLibraryController : ControllerBase
     {
         _mediator = mediator;
     }
-
-    //[HttpGet]
-    //[Route("get-OnlineLibrarys")]
-    //public async Task<ActionResult<List<OnlineLibraryDto>>> Get([FromQuery] QueryParams queryParams, int baseSchoolNameId)
-    //{
-    //    var OnlineLibrarys = await _mediator.Send(new GetOnlineLibraryListRequest { 
-    //        QueryParams = queryParams,
-    //        BaseSchoolNameId = baseSchoolNameId
-    //    });
-    //    return Ok(OnlineLibrarys);
-    //}
-
-    //[HttpGet]
-    //[Route("get-OnlineLibraryDetail/{id}")]
-    //public async Task<ActionResult<OnlineLibraryDto>> Get(int id)
-    //{
-    //    var OnlineLibrary = await _mediator.Send(new GetOnlineLibraryDetailRequest { OnlineLibraryId = id });
-    //    return Ok(OnlineLibrary);
-    //}
 
     [HttpPost]
     [ProducesResponseType(200)]
@@ -63,6 +45,31 @@ public class OnlineLibraryController : ControllerBase
         });
         return Ok(OnlineLibrarys);
     }
+
+    [HttpGet]
+    [ProducesResponseType(200)]
+    [Route("get-online-librarys-meterials-by-user/{userId}")]
+    public async Task<ActionResult<List<OnlineLibraryDto>>> GetOnlineLibraryMaterialByUser([FromQuery] QueryParams queryParams, string userId)
+    {
+        var OnlineLibrarys = await _mediator.Send(new GetOnlineLibraryMaterialByUserRequest
+        {
+            UserId = userId,
+            QueryParams = queryParams,
+
+        });
+        return Ok(OnlineLibrarys);
+    }
+
+    [HttpDelete]
+    [Route("delete-online-library-materials")]
+
+    public async Task<ActionResult> Delete(int id)
+    {
+        var command = new DeleteOnlineLibraryMaterialRequest { OnlineLibraryId = id };
+       await _mediator.Send(command);
+        return NoContent();
+    }
+
 
     //[HttpPut]
     //[ProducesResponseType(StatusCodes.Status204NoContent)]
