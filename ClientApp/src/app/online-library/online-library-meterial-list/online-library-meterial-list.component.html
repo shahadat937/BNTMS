@@ -1,0 +1,114 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Online Library</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Online Library</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table reading-materials">
+                <div class="materialTableHeader"> 
+                  <div class="row">
+                    <div class="col-8">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                        </li>
+                        <li class="dropdown">
+                         <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field" (input)="applyFilter($event.target.value)"
+                          aria-label="Search box"> 
+                     
+                        </li>
+                        <li> 
+                        
+                          
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                           
+                            <button class="btn-space"  mat-raised-button
+                            color="primary" routerLink="/online-library/new-online-library-materials"> Add
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                
+
+                <table class="table  tbl-by-group">
+                  <thead>
+                    <tr>
+                      <th class="cl-srl"><h5>Post By</h5></th>                   
+                      <th class="cl-mrk"><h5>Document Name</h5></th>
+                      <th class="cl-mrk"><h5>Doc</h5></th>
+                      
+                      <th *ngIf="role=== 'Master Admin'" class="cl-mrk-rmrk"><h5>Actions</h5></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let data of groupArrays;let i= index;">
+                      <tr>
+                        <td [attr.rowspan]="data.documentsName.length + 1">{{data.schoolName}}</td>
+                      </tr>
+                      <tr *ngFor="let number of data.documentsName;">                      
+                        <td>
+                          {{number.documentName}}
+                        </td>
+                        <td>
+                          <mat-label *ngIf="number.documentLink"><a target="_blank" [href]="number.documentLink"><mat-icon>{{number.documentIcon}}</mat-icon></a></mat-label>
+                        </td>
+                         
+                        <td *ngIf="role === 'Master Admin'">
+                          <button mat-icon-button color="accent" class="btn-tbl-edit" 
+                            [routerLink]="['/reading-materials/update-readingmaterial', number.readingMaterialId]">
+                            <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                          </button>
+                          <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
+                            (click)="deleteItem(number)">
+                            <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+            
+                 <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                (page)="pageChanged($event)">
+                </mat-paginator> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  
+   
+

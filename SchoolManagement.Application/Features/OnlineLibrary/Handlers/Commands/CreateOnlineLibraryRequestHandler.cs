@@ -60,10 +60,11 @@ namespace SchoolManagement.Application.Features.OnlineLibrary.Handlers.Commands
                 }
 
 
-                var OnlineLibraryMaterials = _mapper.Map<SchoolManagement.Domain.OnlineLibrary>(request.OnlineLibraryDto);
-               
+                var onlineLibraryMaterials = _mapper.Map<SchoolManagement.Domain.OnlineLibrary>(request.OnlineLibraryDto);
 
-                OnlineLibraryMaterials = await _unitOfWork.Repository<SchoolManagement.Domain.OnlineLibrary>().Add(OnlineLibraryMaterials);
+                onlineLibraryMaterials.DocumentLink = request.OnlineLibraryDto.DocumentLink ?? "files/online-library/" + uniqueFileName;
+
+                onlineLibraryMaterials = await _unitOfWork.Repository<SchoolManagement.Domain.OnlineLibrary>().Add(onlineLibraryMaterials);
                 try
                 {
                     await _unitOfWork.Save();
@@ -75,7 +76,7 @@ namespace SchoolManagement.Application.Features.OnlineLibrary.Handlers.Commands
                 }
                 response.Success = true;
                 response.Message = "Creation Successful";
-                response.Id = OnlineLibraryMaterials.OnlineLibraryId;
+                response.Id = onlineLibraryMaterials.OnlineLibraryId;
             }
 
             return response;
