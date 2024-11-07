@@ -1,4 +1,5 @@
-import { ReadingMaterialTitle } from './readingmaterialtitle';
+import { ReadingMaterialTitle } from "./ReadingMaterialTitle";
+
 
 export interface IReadingMaterialTitlePagination {
     totalPages:number;

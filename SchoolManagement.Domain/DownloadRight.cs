@@ -7,6 +7,7 @@ namespace SchoolManagement.Domain
         public DownloadRight()
         {
             ReadingMaterials = new HashSet<ReadingMaterial>();
+            OnlineLibraries = new HashSet<OnlineLibrary>();
         }
 
         public int DownloadRightId { get; set; }
@@ -15,5 +16,6 @@ namespace SchoolManagement.Domain
         public bool IsActive { get; set; }
 
         public virtual ICollection<ReadingMaterial> ReadingMaterials { get; set; }
+        public virtual ICollection<OnlineLibrary> OnlineLibraries { get; set; } 
     }
 }
