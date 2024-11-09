@@ -78,16 +78,38 @@ export class SharedServiceService {
     this.location.back();
   }
 
-  formatDateTime(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
-    const day = date.getDate().toString().padStart(2, '0');           // Ensure 2-digit day
-    const hours = date.getHours().toString().padStart(2, '0');        // Ensure 2-digit hours
-    const minutes = date.getMinutes().toString().padStart(2, '0');    // Ensure 2-digit minutes
-    const seconds = date.getSeconds().toString().padStart(2, '0');    // Ensure 2-digit seconds
+  formatDateTime(date: any): string {
 
+    console.log(typeof date , date)
+
+    let validDate: Date;
+    if (date instanceof Date) {
+      validDate = date;
+    } 
+    else if (typeof date === 'string') {
+
+      validDate = new Date(date);
+
+      if (isNaN(validDate.getTime())) {
+        validDate = new Date(date.replace('T', ' '));
+      }
+    } else {
+      throw new Error('Invalid date type');
+    }
+
+
+    // Format the date components
+    const year = validDate.getFullYear();
+    const month = (validDate.getMonth() + 1).toString().padStart(2, '0'); //  2-digit month
+    const day = validDate.getDate().toString().padStart(2, '0');           //  2-digit day
+    const hours = validDate.getHours().toString().padStart(2, '0');        //  2-digit hours
+    const minutes = validDate.getMinutes().toString().padStart(2, '0');    //  2-digit minutes
+    const seconds = validDate.getSeconds().toString().padStart(2, '0');    //  2-digit seconds
+
+    // Return the formatted date string
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
+
 
 
 
