@@ -18,7 +18,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
   //providers:[BIODataGeneralInfoService]
 })
 export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   masterData = MasterData;
   buttonText: string;
   loading = false;
@@ -59,13 +59,15 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
   selectedReligion: SelectedModel[];
   selectRank: SelectedModel[];
   selectrank: SelectedModel[];
-  saylorRankId : number;
+  saylorRankId: number;
 
   private subscription: Subscription;
   imageUrl: string = "/assets/img/icon.png";
   public files: any[];
   selectedSailorRank: SelectedModel[];
   traineePhoto: string;
+  dateTime: string;
+  now: any;
 
   constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
@@ -73,7 +75,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
   }
 
   ngOnInit(): void {
-
+    console.log(this.getDateTime())
     const id = this.route.snapshot.paramMap.get('traineeId');
     if (id) {
       this.pageTitle = 'Edit Sailor BIO Data';
@@ -119,47 +121,47 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
     }
   }
 
-//   onFileChanged(event: Event) {
-//     const input = event.target as HTMLInputElement;
-//     if (input.files && input.files.length > 0) {
-//         const file = input.files[0];
-//         const reader = new FileReader();
+  //   onFileChanged(event: Event) {
+  //     const input = event.target as HTMLInputElement;
+  //     if (input.files && input.files.length > 0) {
+  //         const file = input.files[0];
+  //         const reader = new FileReader();
 
-//         reader.onload = () => {
-//             this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
-//         };
+  //         reader.onload = () => {
+  //             this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
+  //         };
 
-//         reader.readAsDataURL(file); // Read file as data URL
+  //         reader.readAsDataURL(file); // Read file as data URL
 
-//         // Update form control with the file (only if form control is defined)
-//         if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
-//             this.BIODataGeneralInfoForm.patchValue({
-//                 image: file,
-//             });
-//         }
-//     }
-// }
+  //         // Update form control with the file (only if form control is defined)
+  //         if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
+  //             this.BIODataGeneralInfoForm.patchValue({
+  //                 image: file,
+  //             });
+  //         }
+  //     }
+  // }
 
-onFileChanged(event: Event) {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files.length > 0) {
-    const file = input.files[0];
-    const reader = new FileReader();
+  onFileChanged(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
 
-    reader.onload = () => {
-      this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
-    };
+      reader.onload = () => {
+        this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
+      };
 
-    reader.readAsDataURL(file); // Read file as data URL
+      reader.readAsDataURL(file); // Read file as data URL
 
-    // Update form control with the file
-    if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
-      this.BIODataGeneralInfoForm.patchValue({
-        image: file,
-      });
+      // Update form control with the file
+      if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
+        this.BIODataGeneralInfoForm.patchValue({
+          image: file,
+        });
+      }
     }
   }
-}
 
 
   getreligions() {
@@ -201,11 +203,11 @@ onFileChanged(event: Event) {
       this.selectedWeight = res
     });
   }
-  filterByRank(value:any){
-    this.rankValues=this.selectrank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  filterByRank(value: any) {
+    this.rankValues = this.selectrank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
 
- 
+
 
   filterSaylorRank(value: any) {
     this.selectedSailorRank = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')));
@@ -408,11 +410,23 @@ onFileChanged(event: Event) {
     })
   }
 
+  getDateTime() {
+    this.now = new Date()
+    this.dateTime = this.now.getFullYear() + "-" + (this.now.getMonth() + 1) + "-" + this.now.getDate() + " " +
+      this.now.getHours() + ":" + this.now.getMinutes() + ":" + this.now.getSeconds();
+    return this.dateTime;
+  }
+
   onSubmit() {
 
     const id = this.BIODataGeneralInfoForm.get('traineeId').value;
 
-    this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString());
+    //this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString());
+    
+    const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth').value)
+    this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
+    
+
     this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString());
 
     var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId').value;
@@ -427,9 +441,9 @@ onFileChanged(event: Event) {
       // this.BIODataGeneralInfoForm.get('rankId').setValue("NULL");
       // this.BIODataGeneralInfoForm.get('thanaId').setValue(504);
     }
-   
+
     const formData = new FormData();
-    if(!this.traineePhoto){
+    if (!this.traineePhoto) {
       this.BIODataGeneralInfoForm.value.bnaPhotoUrl = null;
     }
     for (const key of Object.keys(this.BIODataGeneralInfoForm.value)) {
@@ -478,22 +492,22 @@ onFileChanged(event: Event) {
   whiteSpaceRemove(value) {
     this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
   }
-  
+
 
   removeImage(event: Event) {
-    event.preventDefault(); 
+    event.preventDefault();
 
-   
+
     this.traineePhoto = '';
 
-   
+
     if (this.fileInput && this.fileInput.nativeElement) {
-      this.fileInput.nativeElement.value = ''; 
+      this.fileInput.nativeElement.value = '';
     }
   }
 
   handleImageError() {
-    this.traineePhoto = ''; 
+    this.traineePhoto = '';
   }
 
 }

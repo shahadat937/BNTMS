@@ -13,11 +13,11 @@ export class SharedServiceService {
     private location: Location
   ) { }
 
-  redirectDashboard(){
+  redirectDashboard() {
     const role = this.authService.currentUserValue.role.trim();
-    const traineeId =  this.authService.currentUserValue.traineeId.trim();
-    if(traineeId != null && traineeId != "") {
-      if(role == "Instructor"){
+    const traineeId = this.authService.currentUserValue.traineeId.trim();
+    if (traineeId != null && traineeId != "") {
+      if (role == "Instructor") {
         return '/admin/dashboard/instructor-dashboard';
       }
       else {
@@ -25,7 +25,7 @@ export class SharedServiceService {
       }
     }
     else {
-      if(role == "Master Admin"){
+      if (role == "Master Admin") {
         return '/admin/dashboard/main';
       }
       else {
@@ -36,28 +36,28 @@ export class SharedServiceService {
 
   validateNumberInput(event: KeyboardEvent): void {
     const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
-  
+
     // Allow only number keys and specified control keys
     if (!/^[0-9]$/.test(event.key) && !allowedKeys.includes(event.key)) {
       event.preventDefault(); // Prevent non-numeric characters
     }
   }
-  
+
   filterInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    
+
     // Remove any non-digit characters from the input
     input.value = input.value.replace(/[^0-9]/g, '');
   }
 
   validateNumberInputWithDot(event: KeyboardEvent): void {
-    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', '.'];    
+    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', '.'];
     if (!/^[0-9]$/.test(event.key) && event.key !== '.' && !allowedKeys.includes(event.key)) {
-      event.preventDefault(); 
+      event.preventDefault();
     }
-  
+
     const input = event.target as HTMLInputElement;
-  
+
     if (event.key === '.' && input.value.includes('.')) {
       event.preventDefault(); // Prevent another dot if one is already present
     }
@@ -65,19 +65,30 @@ export class SharedServiceService {
 
   filterInputWithDot(event: Event): void {
     const input = event.target as HTMLInputElement;
-    
+
     input.value = input.value.replace(/[^0-9.]/g, '');
-  
+
     const parts = input.value.split('.');
     if (parts.length > 2) {
-      input.value = parts[0] + '.' + parts.slice(1).join(''); 
+      input.value = parts[0] + '.' + parts.slice(1).join('');
     }
   }
 
   goBack() {
     this.location.back();
   }
-  
-  
+
+  formatDateTime(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
+    const day = date.getDate().toString().padStart(2, '0');           // Ensure 2-digit day
+    const hours = date.getHours().toString().padStart(2, '0');        // Ensure 2-digit hours
+    const minutes = date.getMinutes().toString().padStart(2, '0');    // Ensure 2-digit minutes
+    const seconds = date.getSeconds().toString().padStart(2, '0');    // Ensure 2-digit seconds
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+
 
 }
