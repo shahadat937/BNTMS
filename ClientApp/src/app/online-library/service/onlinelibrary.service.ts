@@ -76,5 +76,8 @@ export class OnlinelibraryService {
       })
     );
   }
+  delete(id:number){
+    return this.http.delete(this.baseUrl + '/online-library/delete-online-library-materials/'+id);
+  }
  
 }

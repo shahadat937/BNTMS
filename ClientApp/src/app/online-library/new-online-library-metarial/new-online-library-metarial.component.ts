@@ -307,4 +307,23 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
     } )
   }
 
+  deleteItem(row) {
+    const id = row.onlineLibraryId; 
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+      if (result) {
+        this.subscription = this.onlineLibraryService.delete(id).subscribe(() => {
+          this.getOnlineLibraryMaterialsByUser();
+
+          this.snackBar.open('Online Library Information Deleted Successfully ', '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        })
+      }
+    })
+    
+  }
+
 }

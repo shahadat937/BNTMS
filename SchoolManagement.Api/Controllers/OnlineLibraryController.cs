@@ -61,7 +61,7 @@ public class OnlineLibraryController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("delete-online-library-materials")]
+    [Route("delete-online-library-materials/{id}")]
 
     public async Task<ActionResult> Delete(int id)
     {
