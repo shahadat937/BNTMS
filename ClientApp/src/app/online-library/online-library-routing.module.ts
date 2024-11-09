@@ -18,6 +18,11 @@ const routes: Routes = [
     path: 'new-online-library-materials',
     component: NewOnlineLibraryMetarialComponent,
   },
+  {
+    path: 'update-online-library-materials/: onlineLibraryId',
+    component: NewOnlineLibraryMetarialComponent,
+  },
+ 
 ]
 
 @NgModule({

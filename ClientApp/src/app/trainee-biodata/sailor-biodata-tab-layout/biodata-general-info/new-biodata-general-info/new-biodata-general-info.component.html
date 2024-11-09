@@ -60,7 +60,7 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Sailor Rank</mat-label>
                       
-                      <mat-select formControlName="saylorRankId" [required]="saylorRankId" >
+                      <mat-select formControlName="saylorRankId" [required]="saylorRankId || buttonText ==='Save'" >
                         <input type="text" 
                           style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                           (keydown.space)="$event.stopPropagation()"
