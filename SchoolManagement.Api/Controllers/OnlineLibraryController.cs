@@ -1,10 +1,11 @@
 ﻿using SchoolManagement.Application;
 using SchoolManagement.Application.DTOs.OnlineLibrary;
 using SchoolManagement.Application.Features.ClassRoutines.Requests.Queries;
+using SchoolManagement.Application.Features.OnlineLibrary.Handlers.Queries;
 using SchoolManagement.Application.Features.OnlineLibrary.Requests.Commands;
 using SchoolManagement.Application.Features.OnlineLibrary.Requests.Queries;
 using System.Runtime.CompilerServices;
-//using SchoolManagement.Application.Features.OnlineLibrary.Requests.Queries;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SchoolManagement.Api.Controllers;
 
@@ -41,7 +42,7 @@ public class OnlineLibraryController : ControllerBase
         var OnlineLibrarys = await _mediator.Send(new GetAllOnlineLibraryMaterielRequest
         {
             QueryParams = queryParams,
-         
+
         });
         return Ok(OnlineLibrarys);
     }
@@ -66,46 +67,32 @@ public class OnlineLibraryController : ControllerBase
     public async Task<ActionResult> Delete(int id)
     {
         var command = new DeleteOnlineLibraryMaterialRequest { OnlineLibraryId = id };
-       await _mediator.Send(command);
+        await _mediator.Send(command);
+        return NoContent();
+    }
+
+    [HttpGet]
+    [Route("get-online-library-material-by-id/{id}")]
+
+    public async Task<ActionResult> getOnlineLibraryMaterialById(int id)
+    {
+        var OnlineLibraryMaterial = await _mediator.Send(new GetOnlineLibraryMaterialDetailsByIdRequest { Id = id });
+        return Ok(OnlineLibraryMaterial);
+    }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [Route("update-OnlineLibrary/{id}")]
+    public async Task<ActionResult> Put([FromForm] CreateOnlineLibraryDto createOnlineLibrary)
+    {
+        var command = new UpdateOnlineLibraryRequest { CreateOnlineLibraryDto = createOnlineLibrary };
+        await _mediator.Send(command);
         return NoContent();
     }
 
 
-    //[HttpPut]
-    //[ProducesResponseType(StatusCodes.Status204NoContent)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[ProducesDefaultResponseType]
-    //[Route("update-OnlineLibrary/{id}")]
-    //public async Task<ActionResult> Put([FromForm] CreateOnlineLibraryDto createOnlineLibrary)
-    //{
-    //    var command = new UpdateOnlineLibraryCommand { CreateOnlineLibraryDto = createOnlineLibrary };
-    //    await _mediator.Send(command);
-    //    return NoContent();
-    //}
 
-    //[HttpDelete]
-    //[ProducesResponseType(StatusCodes.Status204NoContent)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[ProducesDefaultResponseType]
-    //[Route("delete-OnlineLibrary/{id}")]
-    //public async Task<ActionResult> Delete(int id)
-    //{
-    //    var command = new DeleteOnlineLibraryCommand { OnlineLibraryId = id };
-    //    await _mediator.Send(command);
-    //    return NoContent();
-    //}
-
-    //[HttpGet]
-    //[Route("get-selectedOnlineLibraryByMaterialTitleIdBaseSchoolIdAndCourseNameId")]
-    //public async Task<ActionResult<List<OnlineLibraryDto>>> GetOnlineLibrarysByMaterialTitleIdBaseSchoolIdAndCourseNameId(int baseSchoolNameId, int courseNameId,int materialTitleId)
-    //{ 
-    //    var OnlineLibrary = await _mediator.Send(new GetOnlineLibrarysByMaterialTitleIdBaseSchoolIdAndCourseNameIdRequest
-    //    {
-    //        BaseSchoolNameId = baseSchoolNameId,
-    //        OnlineLibraryTitleId = materialTitleId,
-    //        CourseNameId = courseNameId
-    //    });
-    //    return Ok(OnlineLibrary); 
-    //}
 }
 

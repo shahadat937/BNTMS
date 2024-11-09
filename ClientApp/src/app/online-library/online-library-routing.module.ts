@@ -19,7 +19,7 @@ const routes: Routes = [
     component: NewOnlineLibraryMetarialComponent,
   },
   {
-    path: 'update-online-library-materials/: onlineLibraryId',
+    path: 'update-online-library-materials/:onlineLibraryId',
     component: NewOnlineLibraryMetarialComponent,
   },
  

@@ -73,7 +73,7 @@ export class OnlineLibraryMeterialListComponent implements OnInit {
 
        // this gives an object with dates as keys
     const groups = this.dataSource.data.reduce((groups, courses) => { 
-      const schoolName = courses.baseSchoolName;
+      const schoolName = courses.baseSchoolName ? courses.baseSchoolName : "Admin";
       if (!groups[schoolName]) {
         groups[schoolName] = [];
       }
@@ -102,6 +102,25 @@ export class OnlineLibraryMeterialListComponent implements OnInit {
   applyFilter(searchText: any){ 
     this.searchText = searchText;
     this.getOnlineLibraryMetarials();
+  }
+
+  deleteItem(row) {
+    const id = row.onlineLibraryId; 
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
+      if (result) {
+        this.subscription = this.onlineLibraryService.delete(id).subscribe(() => {
+          this.getOnlineLibraryMetarials();
+
+          this.snackBar.open('Online Library Information Deleted Successfully ', '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        })
+      }
+    })
+    
   }
 
 

@@ -82,7 +82,7 @@
                          
                         <td *ngIf="role === 'Master Admin'">
                           <button mat-icon-button color="accent" class="btn-tbl-edit" 
-                            [routerLink]="['update-online-library-materials/: onlineLibraryId', number.onlineLibraryId]">
+                            [routerLink]="['/online-library/update-online-library-materials/', number.onlineLibraryId]">
                             <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
                           </button>
                           <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"

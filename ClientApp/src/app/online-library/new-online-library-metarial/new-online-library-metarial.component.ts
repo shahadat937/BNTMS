@@ -63,15 +63,16 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  userId : string;
+  userId: string;
+  onlineLibraryId: any
 
 
   filteredOptions;
   subscription: any;
   instractorData: any;
-  searchText : string = "";
+  searchText: string = "";
 
-  displayedColumns: string[] = ['ser','documentName','aurhorName','documentLink','actions'];
+  displayedColumns: string[] = ['ser', 'documentName', 'aurhorName', 'documentLink', 'actions'];
 
   dataSource: MatTableDataSource<OnlineLibraryMaterial> = new MatTableDataSource();
 
@@ -94,7 +95,8 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
   ngOnInit(): void {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
-    const id = this.route.snapshot.paramMap.get('onlineLibraryId');
+    this.onlineLibraryId = this.route.snapshot.paramMap.get('onlineLibraryId');
+    console.log(this.route.snapshot.paramMap.get('onlineLibraryId'));
 
     this.role = this.authService.currentUserValue.role.trim();
     this.loggedTraineeId = this.authService.currentUserValue.traineeId.trim();
@@ -108,33 +110,37 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
       this.branchId = this.schoolId;
     }
 
-    if (id) {
+    if (this.onlineLibraryId) {
       this.pageTitle = 'Edit Reading Material';
       this.destination = "Edit";
       this.buttonText = "Update"
-      // this.subscription = this.onlineLibraryService.find(+id).subscribe(
-      //   res => {
-      //     this.onlineLibraryForm.patchValue({
-      //       readingMaterialId: res.readingMaterialId,
-      //       readingMaterialTitleId: res.readingMaterialTitleId,
-      //       courseNameId: res.courseNameId,
-      //       documentName: res.documentName,
-      //       // baseSchoolNameId: res.baseSchoolNameId,
-      //       documentTypeId: res.documentTypeId,
-      //       documentLink: res.documentLink,
-      //       showRightId: res.showRightId,
-      //       downloadRightId: res.downloadRightId,
-      //       isApproved: res.isApproved,
-      //       approvedDate: res.approvedDate,
-      //       approvedUser: res.approvedUser,
-      //       status: res.status,
-      //       menuPosition: res.menuPosition,
-      //       isActive: res.isActive,
-      //       course: res.courseName,
-      //     });
-      //     this.courseNameId = res.courseNameId;
-      //   }
-      // );
+      this.subscription = this.onlineLibraryService.find(+this.onlineLibraryId).subscribe(
+        res => {
+          console.log(this.getselectedDocumentType())
+          this.onlineLibraryForm.patchValue({
+            onlineLibraryId: res.onlineLibraryId,
+            documentName: res.documentName,
+            documentTypeId: res.documentTypeId,
+            documentLink: res.documentLink,
+            showRightId: res.showRightId,
+            downloadRightId: res.downloadRightId,
+            isApproved: res.isApproved,
+            approvedDate: res.approvedDate,
+            approvedUser: res.approvedUser,
+            status: res.status,
+            menuPosition: res.menuPosition,
+            isActive: res.isActive,
+            aurhorName : res.aurhorName,
+            publisherName : res.publisherName
+        
+          });
+          
+          if (res.documentTypeId == 2){
+            this.IsAuthorNameShow = true;
+            this.IsPublisherNameShow = true;
+          }
+        }
+      );
     } else {
       this.pageTitle = 'Post to E-Library';
       this.destination = "Add";
@@ -161,7 +167,7 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
       documentTypeId: [],
       documentLink: [''],
       doc: [''],
-      showRightId: [''],
+      showRightId: [0],
       downloadRightId: [''],
       isApproved: [true],
       approvedDate: [],
@@ -171,45 +177,40 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
       aurhorName: [''],
       publisherName: ['']
     })
-    //autocomplete
-    // this.subscription = this.onlineLibraryForm.get('course').valueChanges
-    //   .subscribe(value => {
-    //     this.getSelectedCourseByName(value);
-    //   })
   }
 
   onSubmit() {
-    const id = this.onlineLibraryForm.get('onlineLibraryId').value;
+    
+    console.log(this.onlineLibraryId);
     this.onlineLibraryForm.get('approvedDate').setValue((new Date(this.onlineLibraryForm.get('approvedDate').value)).toUTCString());
     const formData = new FormData();
     for (const key of Object.keys(this.onlineLibraryForm.value)) {
-      const value = this.onlineLibraryForm.value[key];
+      let value = this.onlineLibraryForm.value[key];
+      if (value == null || value === undefined){
+        value = ""
+      }
       formData.append(key, value);
     }
 
-    if (id) {
-      // this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
-      //   if (result) {
-      //     this.loading = true;
-      //     this.subscription = this.onlineLibraryService.update(+id, formData).subscribe(response => {
-      //       if (this.traineeId) {
-      //         const url = '/admin/dashboard/view-readingmaterial';
-      //         this.router.navigateByUrl(url);
-      //       } else {
+    if (this.onlineLibraryId) {
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+        if (result) {
+          this.loading = true;
+          this.subscription = this.onlineLibraryService.update(+this.onlineLibraryId, formData).subscribe(response => {
 
-      //         this.router.navigateByUrl('/reading-materials/readingmaterial-list');
-      //       }
-      //       this.snackBar.open('Information Updated Successfully ', '', {
-      //         duration: 2000,
-      //         verticalPosition: 'bottom',
-      //         horizontalPosition: 'right',
-      //         panelClass: 'snackbar-success'
-      //       });
-      //     }, error => {
-      //       this.validationErrors = error;
-      //     })
-      //   }
-      // })
+            this.sharedService.goBack();
+
+            this.snackBar.open('Information Updated Successfully ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-success'
+            });
+          }, error => {
+            this.validationErrors = error;
+          })
+        }
+      })
     } else {
       this.loading = true;
       this.subscription = this.onlineLibraryService.submit(formData).subscribe((event: HttpEvent<any>) => {
@@ -302,13 +303,15 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
   getOnlineLibraryMaterialsByUser() {
     this.onlineLibraryService.getOnlineLibraryMaterialsByUser(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.userId).subscribe(response => {
       this.dataSource.data = response.items;
-      this.dataSource.data = response.items; 
-      this.paging.length = response.totalItemsCount    
-    } )
+      this.dataSource.data = response.items;
+      this.paging.length = response.totalItemsCount
+    })
   }
 
+
+
   deleteItem(row) {
-    const id = row.onlineLibraryId; 
+    const id = row.onlineLibraryId;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.subscription = this.onlineLibraryService.delete(id).subscribe(() => {
@@ -323,7 +326,7 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
         })
       }
     })
-    
+
   }
 
 }
