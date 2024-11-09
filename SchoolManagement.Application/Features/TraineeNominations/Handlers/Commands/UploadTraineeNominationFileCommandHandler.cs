@@ -41,7 +41,7 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Comm
                 {
                     var worksheet = package.Workbook.Worksheets[0];
                     var rowCount = worksheet.Dimension.Rows;
-                    for (int row = 2; row < rowCount; row++)
+                    for (int row = 2; row <= rowCount; row++)
                     {
                         var cellValue = worksheet.Cells[row, 2].Text;
 
