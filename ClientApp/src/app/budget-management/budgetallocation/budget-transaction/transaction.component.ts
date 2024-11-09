@@ -76,13 +76,17 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
    selectedBudgetCodeName: SelectedModel[];
    selectedCourseNames: SelectedModel[];
   destination: string;
+  dateTime: any;
+  now: any;
  
   constructor(private fb: FormBuilder, private router: Router, private confirmService: ConfirmService, private BudgetAllocationService: BudgetAllocationService, private AdminAuthorityService: AdminAuthorityService, private UTOfficerCategoryService: UTOfficerCategoryService, private snackBar: MatSnackBar, private CourseBudgetAllocationService: CourseBudgetAllocationService, private CourseWeekService: CourseWeekService, private route: ActivatedRoute, public sharedService: SharedServiceService, private BudgetTransactionService: BudgetTransactionService, private CourseGradingEntryService: CourseGradingEntryService) {
    super();
   }
 
   ngOnInit(): void {
+    
     const id = this.route.snapshot.paramMap.get('budgetTransactionId');
+  
     this.initializeForm()
     if(id){
       this.pageTitle = 'Edit Budget Transaction'; 
@@ -114,7 +118,6 @@ export class BudgetTransaction extends UnsubscribeOnDestroyAdapter implements On
     this.getselectedBudgetCode();
     this.getselectedCourseNames();
     this.getBudgetTransaction();
-
     }
 initializeForm(){
   this.BudgetTransactionForm = this.fb.group({
@@ -168,7 +171,6 @@ onBudgetTypeChange(dropdown){
 
     this.BudgetTransactionService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
     this.totalBudget=res[0].text; 
-    console.log(this.totalBudget)
    });
   }
 }
@@ -208,7 +210,6 @@ onBudgetChange(dropdown){
     this.isShow=true;
      this.budgetTypeId=dropdown.source.value;
      this.getBudgetTransaction();
-     console.log('budget type',this.budgetTypeId)
    }
    
 }
@@ -267,10 +268,13 @@ getselectedcoursename(){
 
 onSubmit() {
   const id = this.BudgetTransactionForm.get('budgetTransactionId').value;
-  
+  const dateCreated = this.sharedService.formatDateTime(this.BudgetTransactionForm.get('dateCreated').value)
+    this.BudgetTransactionForm.get('dateCreated')?.setValue(dateCreated);
   if (id) {
-    this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {
+    
+     this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {
       if (result) {
+
         this.loading = false;
         this.BudgetTransactionService.update(+id, this.BudgetTransactionForm.value).subscribe(response => {
           this.router.navigateByUrl('/budget-management/transaction-type');
@@ -287,11 +291,9 @@ onSubmit() {
     });
   } else {
     this.loading = false;
-   
+   console.log(this.BudgetTransactionForm)
     this.BudgetTransactionService.submit(this.BudgetTransactionForm.value).subscribe(response => { 
-      console.log('on submit - budget transaction', this.BudgetTransactionForm.value, response)
-      
-      this.reloadCurrentRoute();
+  this.reloadCurrentRoute();
       this.snackBar.open('Information Inserted Successfully', '', {
         duration: 2000,
         verticalPosition: 'bottom',
@@ -303,8 +305,7 @@ onSubmit() {
     });
   }
 }
-  
-  }
+}
 
 
 
