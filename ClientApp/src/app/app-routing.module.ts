@@ -304,7 +304,7 @@ const routes: Routes = [
         path: 'online-library',
         canActivate: [AuthGuard],
         data: {
-          role: [Role.MasterAdmin,Role.SuperAdmin,Role.BNASchool, Role.JSTISchool,Role.DataEntry,Role.Instructor,Role.DDNT, Role.InterSeeviceCourse,Role.InterSeeviceDesk],
+          role: [Role.MasterAdmin,Role.SuperAdmin,Role.BNASchool, Role.JSTISchool,Role.DataEntry,Role.Instructor,Role.DDNT, Role.InterSeeviceCourse,Role.InterSeeviceDesk, Role.TrainingOffice],
         },
         loadChildren: () =>
           import('./online-library/online-library.module').then((m) => m.OnlineLibraryModule),

@@ -76,8 +76,16 @@ export class OnlinelibraryService {
       })
     );
   }
+
+  update(id: number,model: any) {
+    return this.http.put(this.baseUrl + '/online-library/update-OnlineLibrary/'+id, model);
+  }
+
   delete(id:number){
     return this.http.delete(this.baseUrl + '/online-library/delete-online-library-materials/'+id);
+  }
+  find(id: number) {
+    return this.http.get<OnlineLibraryMaterial>(this.baseUrl + '/online-library/get-online-library-material-by-id/' + id);
   }
  
 }
