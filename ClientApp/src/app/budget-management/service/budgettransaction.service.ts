@@ -42,7 +42,6 @@ export class BudgetTransactionService{
 
       getBudgetTransaction(pageNumber, pageSize,searchText,budgetCodeId,budgetTypeId)
       {
-        console.log('budget code',budgetCodeId)
         let params = new HttpParams();
 
         params = params.append('searchText', searchText.toString());
@@ -55,8 +54,6 @@ export class BudgetTransactionService{
         return this.http.get<IBudgetTransactionPagination>(this.baseUrl + '/budget-transaction/get-BudgetTransaction', { observe: 'response', params })
     .pipe(
         map(response => {
-            console.log('Full API Response:', response);
-            console.log('Response Body:', response.body);
             this.BudgetTransaction = [...this.BudgetTransaction, ...response.body?.items || []];
             this.BudgetTransactionPagination = response.body;
             return this.BudgetTransactionPagination;
@@ -73,7 +70,6 @@ export class BudgetTransactionService{
       }
 
       submit(model:any){
-        console.log('Submitting Budget Transaction:', model);
         return this.http.post<PostResponse>(this.baseUrl + '/budget-transaction/save-BudgetTransaction', model).pipe(
            map((BudgetTransaction:PostResponse)=> {
             
