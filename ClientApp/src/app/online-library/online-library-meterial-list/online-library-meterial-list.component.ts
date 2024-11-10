@@ -54,6 +54,7 @@ export class OnlineLibraryMeterialListComponent implements OnInit {
 
   ngOnInit(): void {
     this.role = this.authService.currentUserValue.role.trim();
+    this.branchId = this.authService.currentUserValue.branchId.trim();
     this.getOnlineLibraryMetarials()
     this.searchSubscription = this.searchSubject.pipe(
       debounceTime(300), 
@@ -69,8 +70,7 @@ export class OnlineLibraryMeterialListComponent implements OnInit {
     this.onlineLibraryService.getOnlineLibraryMaterials(this.paging.pageIndex, this.paging.pageSize, this.subscription = this.searchText).subscribe(response => {
 
       this.dataSource.data = response.items;
-      console.log(response.items);
-
+     
        // this gives an object with dates as keys
     const groups = this.dataSource.data.reduce((groups, courses) => { 
       const schoolName = courses.baseSchoolName ? courses.baseSchoolName : "Admin";
@@ -88,7 +88,7 @@ export class OnlineLibraryMeterialListComponent implements OnInit {
         documentsName: groups[schoolName]
       };
     });
-    console.log(this.groupArrays)
+    
       this.paging.length = response.totalItemsCount
      
     })

@@ -1262,6 +1262,11 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
 .sidebar .menu .list .sms-icons.semester {
     background-image: url(/assets/images/icons/semester.png);
 }
+
+.sidebar .menu .list .sms-icons.library {
+    background-image: url(/assets/images/icons/online-library.png);
+}
+
 .sidebar .menu .list .sms-icons.logout {
     background-image: url(/assets/images/icons/logout.png);
 }
@@ -1292,6 +1297,8 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
 .sidebar .menu .list .sms-icons.interservice {
     background-image: url(/assets/images/icons/interservice.png);
 }
+
+
 // custom icon end
 .db-tbl.foreign-db .mat-header-row.cdk-header-row.ng-star-inserted .mat-header-cell.go-col, .db-tbl.foreign-db .mat-row.cdk-row.ng-star-inserted .mat-cell.go-col {
     max-width: 50px;

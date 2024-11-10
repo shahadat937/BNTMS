@@ -15,13 +15,15 @@ import { OnlinelibraryService } from '../service/onlinelibrary.service';
 import { FileDialogMessageComponent } from 'src/app/reading-materials/readingmaterial/file-dialog-message/file-dialog-message.component';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-new-online-library-metarial',
   templateUrl: './new-online-library-metarial.component.html',
   styleUrls: ['./new-online-library-metarial.component.sass']
 })
-export class NewOnlineLibraryMetarialComponent implements OnInit {
+export class NewOnlineLibraryMetarialComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   masterData = MasterData;
   loading = false;
@@ -87,78 +89,52 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
     private route: ActivatedRoute,
     private instructorDashboardService: InstructorDashboardService,
     public sharedService: SharedServiceService,
-    private onlineLibraryService: OnlinelibraryService
+    private onlineLibraryService: OnlinelibraryService,
+
   ) {
+    super();
     this.files = [];
+
   }
 
   ngOnInit(): void {
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId');
-    this.onlineLibraryId = this.route.snapshot.paramMap.get('onlineLibraryId');
-    console.log(this.route.snapshot.paramMap.get('onlineLibraryId'));
-
     this.role = this.authService.currentUserValue.role.trim();
     this.loggedTraineeId = this.authService.currentUserValue.traineeId.trim();
-    this.userId = this.authService.currentUserValue.id.trim();;
-
+    this.userId = this.authService.currentUserValue.id.trim();
 
     if (this.authService.currentUserValue.branchId) {
       this.branchId = this.authService.currentUserValue.branchId.trim();
-    }
-    else {
+    } else {
       this.branchId = this.schoolId;
     }
 
-    if (this.onlineLibraryId) {
-      this.pageTitle = 'Edit Reading Material';
-      this.destination = "Edit";
-      this.buttonText = "Update"
-      this.subscription = this.onlineLibraryService.find(+this.onlineLibraryId).subscribe(
-        res => {
-          console.log(this.getselectedDocumentType())
-          this.onlineLibraryForm.patchValue({
-            onlineLibraryId: res.onlineLibraryId,
-            documentName: res.documentName,
-            documentTypeId: res.documentTypeId,
-            documentLink: res.documentLink,
-            showRightId: res.showRightId,
-            downloadRightId: res.downloadRightId,
-            isApproved: res.isApproved,
-            approvedDate: res.approvedDate,
-            approvedUser: res.approvedUser,
-            status: res.status,
-            menuPosition: res.menuPosition,
-            isActive: res.isActive,
-            aurhorName : res.aurhorName,
-            publisherName : res.publisherName
-        
-          });
-          
-          if (res.documentTypeId == 2){
-            this.IsAuthorNameShow = true;
-            this.IsPublisherNameShow = true;
-          }
-        }
-      );
-    } else {
-      this.pageTitle = 'Post to E-Library';
-      this.destination = "Add";
-      this.buttonText = "Save"
-    }
+    this.route.paramMap.subscribe(params => {
+      this.onlineLibraryId = params.get('onlineLibraryId');
+
+      if (this.onlineLibraryId) {
+        this.pageTitle = 'Edit Online Library Post';
+        this.destination = "Edit";
+        this.buttonText = "Update";
+        this.loadData(this.onlineLibraryId);
+      } else {
+        this.pageTitle = 'Post to E-Library';
+        this.destination = "Add";
+        this.buttonText = "Save";
+      }
+    });
+
     this.intitializeForm();
+
     if (this.role != this.roleList.MasterAdmin) {
       this.onlineLibraryForm.get('baseSchoolNameId').setValue(this.branchId);
-
     }
-
 
     this.getselectedDocumentType();
     this.getselecteddownloadright();
     this.getOnlineLibraryMaterialsByUser();
-
   }
-
   intitializeForm() {
     this.onlineLibraryForm = this.fb.group({
       onlineLibraryId: [0],
@@ -180,13 +156,11 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
   }
 
   onSubmit() {
-    
-    console.log(this.onlineLibraryId);
     this.onlineLibraryForm.get('approvedDate').setValue((new Date(this.onlineLibraryForm.get('approvedDate').value)).toUTCString());
     const formData = new FormData();
     for (const key of Object.keys(this.onlineLibraryForm.value)) {
       let value = this.onlineLibraryForm.value[key];
-      if (value == null || value === undefined){
+      if (value == null || value === undefined) {
         value = ""
       }
       formData.append(key, value);
@@ -197,9 +171,7 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
         if (result) {
           this.loading = true;
           this.subscription = this.onlineLibraryService.update(+this.onlineLibraryId, formData).subscribe(response => {
-
             this.sharedService.goBack();
-
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
               verticalPosition: 'bottom',
@@ -242,10 +214,9 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
       }, error => {
         this.validationErrors = error;
       });
-
-
     }
   }
+
 
   getselectedDocumentType() {
     this.subscription = this.onlineLibraryService.getselectedDocumentType().subscribe(res => {
@@ -253,6 +224,7 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
       this.selectDocument = res
     });
   }
+
   getselecteddownloadright() {
     this.subscription = this.onlineLibraryService.getselecteddownloadright().subscribe(res => {
       this.selecteddownload = res
@@ -262,7 +234,8 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
   filterByDocs(value: any) {
     this.selecteddocs = this.selectDocument.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
-  onFileChanged(event) {
+
+    onFileChanged(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       if (file.size > 2147483648) {
@@ -308,8 +281,6 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
     })
   }
 
-
-
   deleteItem(row) {
     const id = row.onlineLibraryId;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
@@ -327,6 +298,41 @@ export class NewOnlineLibraryMetarialComponent implements OnInit {
       }
     })
 
+  }
+
+  pageChanged(event: PageEvent) {
+    this.paging.pageIndex = event.pageIndex;
+    this.paging.pageSize = event.pageSize;
+    this.paging.pageIndex = this.paging.pageIndex + 1;
+    this.getOnlineLibraryMaterialsByUser();
+  }
+
+  loadData(onlineLibraryId) {
+    this.subscription = this.onlineLibraryService.find(+onlineLibraryId).subscribe(
+      res => {
+        this.onlineLibraryForm.patchValue({
+          onlineLibraryId: res.onlineLibraryId,
+          documentName: res.documentName,
+          documentTypeId: res.documentTypeId,
+          documentLink: res.documentLink,
+          showRightId: res.showRightId,
+          downloadRightId: res.downloadRightId,
+          isApproved: res.isApproved,
+          approvedDate: res.approvedDate,
+          approvedUser: res.approvedUser,
+          status: res.status,
+          menuPosition: res.menuPosition,
+          isActive: res.isActive,
+          aurhorName: res.aurhorName,
+          publisherName: res.publisherName
+        });
+
+        if (res.documentTypeId == MasterData.readingMaterial.books) {
+          this.IsAuthorNameShow = true;
+          this.IsPublisherNameShow = true;
+        }
+      }
+    );
   }
 
 }
