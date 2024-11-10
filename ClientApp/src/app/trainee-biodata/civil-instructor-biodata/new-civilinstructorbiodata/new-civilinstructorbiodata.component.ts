@@ -307,8 +307,18 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
 
     const id = this.BIODataGeneralInfoForm.get('traineeId').value; 
 
-    this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
+    if(this.BIODataGeneralInfoForm.get('dateOfBirth').value){
+      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth').value)
+      this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
+    }
+
+    if(this.BIODataGeneralInfoForm.get('joiningDate').value){
+      const joiningDate = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('joiningDate').value)
+      this.BIODataGeneralInfoForm.get('joiningDate')?.setValue(joiningDate);
+    }
+
+    // this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
+    // this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
 
     const formData = new FormData();
     if(!this.traineePhoto){

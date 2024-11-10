@@ -177,7 +177,10 @@ filterByCourse(value:any){
   }
 
   onSubmit() {
-    const id = this.BNASemesterDurationForm.get('bnaSemesterDurationId').value;   
+    const id = this.BNASemesterDurationForm.get('bnaSemesterDurationId').value;  
+    
+    const startDate = this.sharedService.formatDateTime(this.BNASemesterDurationForm.get('startDate').value)
+      this.BNASemesterDurationForm.get('startDate')?.setValue(startDate);
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
