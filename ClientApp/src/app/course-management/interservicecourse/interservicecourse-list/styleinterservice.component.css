@@ -6,6 +6,10 @@
     border: 1px solid rgb(187, 186, 186);
     margin-bottom: 5px;
 }
+.running-course .btn{
+    background-color: #1d75fa; 
+    color: white;
+}
 
 .btn.active-button {
     background-color: #1d75fa; 
@@ -27,7 +31,7 @@
     width: 50px;
     height: 50px;
     border: 5px solid rgba(0, 0, 0, 0.1); 
-    border-top: 5px solid #3498db; 
+    border-top: 5px solid #00b135; 
     border-radius: 50%;
     animation: spin 1s linear infinite; 
   }

@@ -67,10 +67,11 @@ export type pieChartOptions = {
 
 
 
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
 
   newStatus: string = "";
   newStatusCount: number = 0;
+  
 
   @ViewChild('chart') chart: ChartComponent;
   public avgLecChartOptions: Partial<avgLecChartOptions>;
@@ -160,6 +161,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.oldScrollPosition = this.scrollPositionService.getScrollPosition('schoolDashboard');
+    this.selectedFilter = this.scrollPositionService.getSelectedFilter('schoolDashboard');
     this.index = this.scrollPositionService.getSelectedIndex('schoolDashboard');
 
 
@@ -248,7 +251,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   GetIndexValue(index: number) {
     this.scrollPositionService.setSelectedIndex('schoolDashboard', index);
   }
-
 
   getActiveBulletins(baseSchoolNameId) {
     this.studentDashboardService.getActiveBulletinList(baseSchoolNameId).subscribe(res => {
@@ -567,6 +569,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.schoolDashboardService.getUpcomingCourseListByBase(currentDateTime, baseId).subscribe(response => {
       this.UpcomingCourseCount = response.length;
       this.upcomingCourses = response;
+
+      setTimeout(() => {
+        window.scrollTo(0, this.oldScrollPosition);
+      }, 500); 
     })
   }
 

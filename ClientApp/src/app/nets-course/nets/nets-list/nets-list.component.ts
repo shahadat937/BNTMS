@@ -24,12 +24,13 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
   styleUrls: ['./net-list.component.css']
 })
 export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+  selectedFilter = 1;
   masterData = MasterData;
  loading = false;
  ELEMENT_DATA: CourseDuration[] = [];
  isLoading = false;
  fileUrl = environment.fileUrl;
- selectedFilter: any;
+
  courseTypeId=MasterData.coursetype.LocalCourse;
  groupArrays:{ schoolName: string; courses: any; }[];
  paging = {
@@ -93,9 +94,6 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
  }
 
  getCoursesByViewType(viewStatus){
-
-  
-
    if(viewStatus==1){
     this.selectedFilter = viewStatus;
     this.getCourseDurationFilterList(viewStatus)
