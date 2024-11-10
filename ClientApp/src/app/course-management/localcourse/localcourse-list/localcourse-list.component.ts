@@ -149,8 +149,8 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
 
   
   getCoursesByViewType(viewStatus){
-
     if(viewStatus==1){
+      this.isLoading = true;
     //   this.selectedFilter = viewStatus;
     //  this.getCourseDurationFilterList(viewStatus)
     //  this.selectedFilter = 1;
@@ -159,6 +159,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
     this.getCourseDurationsByCourseType()
     }
     else if(viewStatus==2){
+      this.isLoading = true;
       // this.selectedFilter = viewStatus;
       // this.getCourseDurationFilterList(viewStatus)
       this.selectedFilter = 2;
@@ -166,6 +167,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
       this.getCourseDurationsByCourseType()
     }
     else if(viewStatus==3){
+      this.isLoading = true;
       // this.selectedFilter = 3;
       // this.selectedFilter = viewStatus;
       // this.getCourseDurationFilterList(viewStatus)

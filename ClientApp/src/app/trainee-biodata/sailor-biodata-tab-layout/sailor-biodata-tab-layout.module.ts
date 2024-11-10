@@ -42,6 +42,7 @@ import { ViewParentRelativeComponent } from './family-info/view-family-info/view
 import { NewSocialMediaComponent } from './social-media/new-social-media/new-social-media.component';
 import { SocialMediaListComponent } from './social-media/social-media-list/social-media-list.component';
 import { ViewSocialMediaComponent } from './social-media/view-social-media/view-social-media.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { ViewSocialMediaComponent } from './social-media/view-social-media/view-
     MaterialFileInputModule,
     MatProgressSpinnerModule,
     HttpClientModule,
+    MatTooltipModule,
     MatCheckboxModule
   ]
 })

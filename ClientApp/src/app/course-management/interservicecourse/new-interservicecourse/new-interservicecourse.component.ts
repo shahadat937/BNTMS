@@ -151,6 +151,8 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
 
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
+    // const dateCreated = this.sharedService.formatDateTime(this.CourseDurationForm.get('dateCreated').value)
+
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

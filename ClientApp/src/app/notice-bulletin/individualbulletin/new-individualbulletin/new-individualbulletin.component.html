@@ -73,7 +73,8 @@
                         (input)="filterCourse($event.target.value)"
                         placeholder="Search">
                         <mat-option  value="0">--Select--</mat-option >
-                        <mat-option *ngFor="let dropdown of filteredCourse" [value]="dropdown" (onSelectionChange)="getSelectedCourseName(dropdown)">
+                        <mat-option *ngFor="let dropdown of filteredCourse" [value]="dropdown" (onSelectionChange)="getSelectedCourseName(dropdown)" matTooltip="{{dropdown.text}}"
+                        matTooltipPosition="above">
                           {{dropdown.text}} 
                         </mat-option>                          
                       </mat-select>

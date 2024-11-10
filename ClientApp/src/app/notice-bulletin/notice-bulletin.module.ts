@@ -29,6 +29,7 @@ import { NewEventComponent } from './event/new-event/new-event.component';
 import { NewSchoolNoticeComponent } from './school-notice/new-notice/new-school-notice.component';
 
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     BulletinListComponent,
@@ -59,6 +60,7 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
     MatSelectModule,
     MatDatepickerModule,
     MaterialFileInputModule,
+    MatTooltipModule,
     MatCheckboxModule,
     NgMultiSelectDropDownModule.forRoot()
     

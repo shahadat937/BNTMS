@@ -37,7 +37,8 @@
                               id="selectSection" 
                               (input)="filterBySchool($event.target.value)"
                               placeholder="Search">
-                            <mat-option *ngFor="let dropdown of selectedbaseschool" [value]="dropdown.value">
+                            <mat-option *ngFor="let dropdown of selectedbaseschool" [value]="dropdown.value" matTooltip="{{dropdown.text}}"
+                            matTooltipPosition="above">
                                 {{dropdown.text}} 
                               </mat-option>                          
                         </mat-select>
