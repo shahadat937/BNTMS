@@ -199,6 +199,10 @@ export class TraineeNominationService {
   delete(id:number){
     return this.http.delete(this.baseUrl + '/trainee-nomination/delete-traineeNomination/'+id);
   }
+
+  deleteMultiple(model:any){
+    return this.http.post(this.baseUrl + '/trainee-nomination/delete-muptipletraineeNomination', model);
+  }
   
   uploadFile(file: File, courseDurationId: number, courseNameId: number) {
     const formData = new FormData();

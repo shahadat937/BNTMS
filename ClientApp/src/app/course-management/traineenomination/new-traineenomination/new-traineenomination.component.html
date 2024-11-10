@@ -173,11 +173,24 @@
                 (page)="pageChanged($event)">
                 </mat-paginator> -->
 
+                <div class="d-flex justify-content-end mt-2 mb-2">
+                  <button class="btn-space" [disabled]="selectedItems.length == 0" mat-raised-button color="warn" (click)="deleteSelectedItems()">
+                    Delete Selected Nominee
+                  </button>
+                </div>
+
                 <div id="print-routine">
                   <table  class="tblinterserviceList">
                     <thead>
                       <tr>
-                        <th class="th-cell-ser th-cell-durationform">S. No</th>
+                        <th class="th-cell-ser th-cell-durationform">
+                          <input type="checkbox" 
+                                class="form-check-input" 
+                                [checked]="isAllSelected()" 
+                                (change)="toggleSelectAll($event)"
+                          />  
+                        </th>
+                        <th class="th-cell-durationform">S. No</th>
                         <th class="th-cell-durationform">P. No </th>
                         <th class="th-cell-durationform">Name </th>
                         <th class="th-cell-durationform">Rank </th>
@@ -189,6 +202,13 @@
                       <ng-container *ngFor="let data of nominatedPercentageList; let i = index" >
                       
                         <tr >
+                          <td class="td-cell">
+                            <input type="checkbox" 
+                                  class="form-check-input" 
+                                  [checked]="isSelected(data.traineeNominationId)" 
+                                  (change)="updateSelectedItems(data.traineeNominationId, $event)"
+                            />
+                          </td>
                           <td class="td-cell">
                             {{i+1}}
                           </td>
