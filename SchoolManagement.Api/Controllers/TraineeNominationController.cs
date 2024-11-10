@@ -369,6 +369,18 @@ public class TraineeNominationController : ControllerBase
         });
         return Ok(trainee);
     }
+
+
+    [HttpPost]
+    [Route("delete-muptipletraineeNomination")]
+    public async Task<ActionResult> DeleteMultiple([FromBody] List<int> ids)
+    {
+        var trainee = await _mediator.Send(new DeleteMultipleTraineeNominationCommand
+        {
+            TraineeIds = ids
+        });
+        return Ok(trainee);
+    }
 }
 
 
