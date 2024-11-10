@@ -58,6 +58,7 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
   courseTitle:any;
   runningWeek:any;
   totalWeek:any;
+  selectedItems: any[] = [];
   //formGroup : FormGroup;
 
   options = [];
@@ -362,6 +363,45 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
+    });
+  }
+
+  isAllSelected(): boolean {
+    return this.nominatedPercentageList && this.selectedItems.length === this.nominatedPercentageList.length;
+  }
+
+  isSelected(id: any): boolean {
+    return this.selectedItems.includes(id);
+  }
+
+  updateSelectedItems(id: any, event: any): void {
+    if (event.target.checked) {
+      this.selectedItems.push(id);
+    } else {
+      const index = this.selectedItems.indexOf(id);
+      if (index > -1) {
+        this.selectedItems.splice(index, 1);
+      }
+    }
+  }
+
+  toggleSelectAll(event: any): void {
+    if (event.target.checked) {
+      this.selectedItems = this.nominatedPercentageList.map(data => data.traineeNominationId);
+    } else {
+      this.selectedItems = [];
+    }
+  }
+
+  deleteSelectedItems(): void {
+    this.TraineeNominationService.deleteMultiple(this.selectedItems).subscribe((res: any) => {
+      this.snackBar.open(res.message, '', {
+        duration: 2000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'right',
+        panelClass: 'snackbar-danger'
+      });
+      this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
     });
   }
 
