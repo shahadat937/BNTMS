@@ -28,6 +28,7 @@ import { NewBnaSubjectMarkComponent } from './bnasubjectmark/new-bnasubjectmark/
 import { BnaSubjectMarkListComponent } from './bnasubjectmark/bnasubjectmark-list/bnasubjectmark-list.component';
 import { BnaCourseInstructorListComponent } from './bnacourseinstructor/bnacourseinstructor-list/bnacourseinstructor-list.component';
 import { NewBnaCourseInstructorComponent } from './bnacourseinstructor/new-bnacourseinstructor/new-bnacourseinstructor.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 
@@ -64,6 +65,7 @@ import { NewBnaCourseInstructorComponent } from './bnacourseinstructor/new-bnaco
     MatSelectModule,
     MatAutocompleteModule,
     MaterialFileInputModule,
+    MatTooltipModule,
     MatCheckboxModule
   ]
 })

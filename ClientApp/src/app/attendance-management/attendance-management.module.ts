@@ -24,6 +24,7 @@ import {AttendanceApprovedComponent} from './attendance/attendance-approved/atte
 import {AttendanceInstructorComponent} from './attendance/attendance-instructor/attendance-instructor.component';
 import { AddBnaClassattendanceComponent } from './bna-classattendance/add-bna-classattendance/add-bna-classattendance.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MatSelectModule,
     MatDatepickerModule,
     MaterialFileInputModule,
+    MatTooltipModule,
     MatCheckboxModule,
     NgMultiSelectDropDownModule.forRoot(),
   ]

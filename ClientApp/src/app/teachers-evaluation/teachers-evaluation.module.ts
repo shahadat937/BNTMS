@@ -22,6 +22,7 @@ import { NewTdecQuestionNameComponent } from './tdecquestionname/new-tdecquestio
 import { TdecQuationGroupListComponent } from './tdecquationgroup/tdecquationgroup-list/tdecquationgroup-list.component';
 import { NewTdecQuationGroupComponent } from './tdecquationgroup/new-tdecquationgroup/new-tdecquationgroup.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSelectModule,
     MatDatepickerModule,
     MaterialFileInputModule,
+    MatTooltipModule,
     MatAutocompleteModule
   ]
 })
