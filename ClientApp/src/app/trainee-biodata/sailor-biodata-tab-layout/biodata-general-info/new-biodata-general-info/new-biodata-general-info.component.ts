@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,41 +10,42 @@ import { MasterData } from 'src/assets/data/master-data';
 import { Subscription } from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
- 
+
 @Component({
   selector: 'app-new-BIODataGeneralInfo',
   templateUrl: './new-biodata-general-info.component.html',
   styleUrls: ['./new-biodata-general-info.component.sass']
   //providers:[BIODataGeneralInfoService]
 })
-export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter implements OnInit,OnDestroy {
+export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   masterData = MasterData;
-  buttonText:string;
+  buttonText: string;
   loading = false;
   pageTitle: string;
-  destination:string;
+  destination: string;
   BIODataGeneralInfoForm: FormGroup;
   validationErrors: string[] = [];
-  rankValues:SelectedModel[]; 
-  selectedSaylorBranch:SelectedModel[]; 
-  sailorBranch:SelectedModel[];
-  selectedSaylorRank:SelectedModel[];
-  selectedSaylorSubBranch:SelectedModel[];
-  selectSubBranch:SelectedModel[];
-  genderValues:SelectedModel[];
-  heightValues:SelectedModel[]; 
-  weightValues:SelectedModel[]; 
-  colorOfEyeValues:SelectedModel[]; 
-  selectEyeColor:SelectedModel[];
+  rankValues: SelectedModel[];
+  selectedSaylorBranch: SelectedModel[];
+  sailorBranch: SelectedModel[];
+  selectedSaylorRank: SelectedModel[];
+  selectedSaylorSubBranch: SelectedModel[];
+  selectSubBranch: SelectedModel[];
+  genderValues: SelectedModel[];
+  heightValues: SelectedModel[];
+  weightValues: SelectedModel[];
+  colorOfEyeValues: SelectedModel[];
+  selectEyeColor: SelectedModel[];
   bloodValues: SelectedModel[];
   religionValues: SelectedModel[];
-  casteValues:SelectedModel[];
-  hairColorValues:SelectedModel[];
-  selectHairColor:SelectedModel[];
-  maritialStatusValues:SelectedModel[];
-  selectedCastes:SelectedModel[];
-  selectCastes:SelectedModel[];
-  selectedBaseName:SelectedModel[];
+  casteValues: SelectedModel[];
+  hairColorValues: SelectedModel[];
+  selectHairColor: SelectedModel[];
+  maritialStatusValues: SelectedModel[];
+  selectedCastes: SelectedModel[];
+  selectCastes: SelectedModel[];
+  selectedBaseName: SelectedModel[];
   filteredSelectedBaseName: SelectedModel[];
   filterSailorRank: SelectedModel[];
   filterSailorBranch: SelectedModel[];
@@ -56,39 +57,46 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
   filterbloodgroup: SelectedModel[];
   filterByReligion: SelectedModel[];
   selectedReligion: SelectedModel[];
-  selectRank:SelectedModel[];
+  selectRank: SelectedModel[];
+  selectrank: SelectedModel[];
+  saylorRankId: number;
 
   private subscription: Subscription;
-  imageUrl:string="/assets/img/icon.png";
+  imageUrl: string = "/assets/img/icon.png";
   public files: any[];
   selectedSailorRank: SelectedModel[];
+  traineePhoto: string;
+  dateTime: string;
+  now: any;
 
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
+  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
     this.files = [];
   }
 
   ngOnInit(): void {
-
-    const id = this.route.snapshot.paramMap.get('traineeId'); 
+    const id = this.route.snapshot.paramMap.get('traineeId');
     if (id) {
       this.pageTitle = 'Edit Sailor BIO Data';
-      this.destination='Edit';
-      this.buttonText="Update";
- 
+      this.destination = 'Edit';
+      this.buttonText = "Update";
+
       this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
+          console.log(res);
           if (res) {
+            this.saylorRankId = res.saylorRankId
             this.BIODataGeneralInfoForm.patchValue(res);
-          }  
-          this.onReligionSelectionChangeGetCastes(res.religionId);  
-          this.onBranchSelectionChangegetSubBranch(res.saylorBranchId)  
+          }
+          this.traineePhoto = res.bnaPhotoUrl;
+          this.onReligionSelectionChangeGetCastes(res.religionId);
+          this.onBranchSelectionChangegetSubBranch(res.saylorBranchId)
         }
       );
     } else {
       this.pageTitle = 'Create Sailor BIO Data';
-      this.destination='Add';
-      this.buttonText="Save";
+      this.destination = 'Add';
+      this.buttonText = "Save";
     }
     this.intitializeForm();
     this.getRanks();
@@ -111,177 +119,214 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       this.subscription.unsubscribe();
     }
   }
-  onFileChanged(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      // this.labelImport.nativeElement.value = file.name;
-    // this.BIODataGeneralInfoForm.controls["picture"].setValue(event.target.files[0]);
-      this.BIODataGeneralInfoForm.patchValue({
-        image: file,
-      });
+
+  //   onFileChanged(event: Event) {
+  //     const input = event.target as HTMLInputElement;
+  //     if (input.files && input.files.length > 0) {
+  //         const file = input.files[0];
+  //         const reader = new FileReader();
+
+  //         reader.onload = () => {
+  //             this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
+  //         };
+
+  //         reader.readAsDataURL(file); // Read file as data URL
+
+  //         // Update form control with the file (only if form control is defined)
+  //         if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
+  //             this.BIODataGeneralInfoForm.patchValue({
+  //                 image: file,
+  //             });
+  //         }
+  //     }
+  // }
+
+  onFileChanged(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
+      };
+
+      reader.readAsDataURL(file); // Read file as data URL
+
+      // Update form control with the file
+      if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
+        this.BIODataGeneralInfoForm.patchValue({
+          image: file,
+        });
+      }
     }
   }
 
-  getreligions(){
-    this.subscription =this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
-      this.religionValues=res
-      this.selectedReligion=res
+
+  getreligions() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedreligion().subscribe(res => {
+      this.religionValues = res
+      this.selectedReligion = res
     });
   }
-  gethaircolors(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
-      this.hairColorValues=res
-      this.selectHairColor=res
-    
+  gethaircolors() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res => {
+      this.hairColorValues = res
+      this.selectHairColor = res
+
     });
   }
-  filterByHairColor(value:any){
-    this.hairColorValues=this.selectHairColor.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  filterByHairColor(value: any) {
+    this.hairColorValues = this.selectHairColor.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
-  getselectedcaste(){
-    this.BIODataGeneralInfoService.getselectedcaste().subscribe(res=>{
-      this.casteValues=res
-    
+  getselectedcaste() {
+    this.BIODataGeneralInfoService.getselectedcaste().subscribe(res => {
+      this.casteValues = res
+
     });
   }
-  filterBaseName(value:any) {
-    console.log(value);
-    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+  filterBaseName(value: any) {
+
+    this.filteredSelectedBaseName = this.selectedBaseName.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')));
   }
-  getselectedheight(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
-      this.heightValues=res
-    
+  getselectedheight() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res => {
+      this.heightValues = res
+
     });
   }
 
-  getselectedweight(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
-      this.weightValues=res
-      this.selectedWeight=res
+  getselectedweight() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res => {
+      this.weightValues = res
+      this.selectedWeight = res
     });
   }
-  filterSaylorRank(value:any) {
-    this.selectedSailorRank = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+  filterByRank(value: any) {
+    this.rankValues = this.selectrank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
 
-  filterSaylorBranch(value:any){
-    this.sailorBranch = this.selectedSaylorBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+
+
+  filterSaylorRank(value: any) {
+    this.selectedSailorRank = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')));
+  }
+
+  filterSaylorBranch(value: any) {
+    this.sailorBranch = this.selectedSaylorBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
 
   // filterWeight(value:any){
   //   this.weightValues = this.selectedWeight.filter(x=>x.value)
   // }
-  
+
   // filterHeight(value:any){
   //   this.filterheight = this.selectedWeight.filter(x=>x.value)
   // }
-  
-  filterBloodgroup(value:any){
-    this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+
+  filterBloodgroup(value: any) {
+    this.bloodValues = this.selectBloodGroup.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
 
-  filterbyReligion(value:any){
-    this.religionValues = this.selectedReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().filter(/\s/g,'')))
+  filterbyReligion(value: any) {
+    this.religionValues = this.selectedReligion.filter(x => x.text.toLowerCase().includes(value.toLowerCase().filter(/\s/g, '')))
   }
 
-  getselectedcolorofeye(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
-      this.colorOfEyeValues=res
-      this.selectEyeColor=res
-    
+  getselectedcolorofeye() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res => {
+      this.colorOfEyeValues = res
+      this.selectEyeColor = res
+
     });
   }
-  filterByEyeCoor(value:any){
-    this.colorOfEyeValues=this.selectEyeColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  filterByEyeCoor(value: any) {
+    this.colorOfEyeValues = this.selectEyeColor.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
 
-  getselectedbloodgroup(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
-      this.bloodValues=res
-      this.selectBloodGroup=res
+  getselectedbloodgroup() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res => {
+      this.bloodValues = res
+      this.selectBloodGroup = res
     });
   }
-
-  
-  getRanks(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
-      this.rankValues=res
-      this.selectRank=res 
+  getRanks() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res => {
+      this.rankValues = res
+      this.selectRank = res
     });
   }
 
-  getGenders(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
-      this.genderValues=res
-     
+  getGenders() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res => {
+      this.genderValues = res
+
     });
   }
-  getselectedSaylorBranch(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorBranch().subscribe(res=>{
-      this.sailorBranch=res
-      this.selectedSaylorBranch=res
-     
+  getselectedSaylorBranch() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorBranch().subscribe(res => {
+      this.sailorBranch = res
+      this.selectedSaylorBranch = res
+
     });
   }
-  getselectedSaylorRank(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorRank().subscribe(res=>{
-      this.selectedSaylorRank=res
-     
+  getselectedSaylorRank() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorRank().subscribe(res => {
+      this.selectedSaylorRank = res
+
     });
   }
-  getselectedSailorRank(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedSailorRank().subscribe(res=>{
-      this.selectedSailorRank=res
-     this.selectRank=res
+  getselectedSailorRank() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedSailorRank().subscribe(res => {
+      this.selectedSailorRank = res
+      this.selectRank = res
     });
   }
-  onBranchSelectionChangegetSubBranch(saylorBranchId){
+  onBranchSelectionChangegetSubBranch(saylorBranchId) {
     var saylorBranchId
-    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
-      this.selectedSaylorSubBranch=res
-      this.selectSubBranch=res
+    this.subscription = this.BIODataGeneralInfoService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res => {
+      this.selectedSaylorSubBranch = res
+      this.selectSubBranch = res
     });
   }
-  filterBySubBranch(value:any){
-    this.selectedSaylorSubBranch=this.selectSubBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  filterBySubBranch(value: any) {
+    this.selectedSaylorSubBranch = this.selectSubBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
 
-  getMaritialStatus(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedmaritialstatus().subscribe(res=>{
-      this.maritialStatusValues=res
-     
+  getMaritialStatus() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedmaritialstatus().subscribe(res => {
+      this.maritialStatusValues = res
+
     });
   }
 
-  onReligionSelectionChangeGetCastes(religionId){
-    this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
-      this.selectedCastes=res
-      this.selectCastes=res
+  onReligionSelectionChangeGetCastes(religionId) {
+    this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res => {
+      this.selectedCastes = res
+      this.selectCastes = res
     });
-  } 
+  }
 
-  filterByCastes(value:any){
-    this.selectedCastes=this.selectCastes.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  filterByCastes(value: any) {
+    this.selectedCastes = this.selectCastes.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
   intitializeForm() {
     this.BIODataGeneralInfoForm = this.fb.group({
       traineeId: [0],
       traineeStatusId: ['5'],
-      //rankId: [],
+      rankId: [''],
       heightId: [''],
       weightId: [''],
       colorOfEyeId: [''],
       genderId: [''],
       bloodGroupId: [''],
       religionId: [''],
-      saylorBranchId:[''],
-      saylorRankId:[''],
-      saylorSubBranchId:[''],
+      saylorBranchId: [''],
+      saylorRankId: [''],
+      saylorSubBranchId: [''],
       casteId: [''],
       maritalStatusId: [''],
       hairColorId: [''],
-      bnaPhotoUrl:[''],
+      bnaPhotoUrl: [''],
       image: [''],
       name: [''],
       nameBangla: [''],
@@ -295,7 +340,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       closeRelative: [''],
       relativeRelation: [''],
       mobile: [''],
-      email: ['',[Validators.email]],
+      email: ['', [Validators.email]],
       pno: [''],
       dateOfBirth: [null],
       joiningDate: [],
@@ -305,7 +350,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       passportNo: [''],
       nid: [''],
       remarks: [''],
-      localNominationStatus:[0],
+      localNominationStatus: [0],
       isActive: [true],
 
       // traineeId:[],
@@ -321,7 +366,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       // genderId:[],
       // bloodGroupId:[],
       //nationalityId:[],
-       //countryId:[],    // countryId = 1 for Bangladesh
+      //countryId:[],    // countryId = 1 for Bangladesh
       // religionId:[],
       // casteId:[],
       // maritalStatusId:[''],
@@ -344,10 +389,10 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       // mobile:[],
       // email:[],
       // bnaPhotoUrl:[],
-      bnaNo:[''],
+      bnaNo: [''],
       // pno:[],
-      shortCode:[''],
-      presentBillet:[''],
+      shortCode: [''],
+      presentBillet: [''],
       // dateOfBirth:[],
       // joiningDate:[],
       // identificationMark:[],
@@ -360,19 +405,30 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       // menuPosition :[],
       // isActive :[],
       // localNominationStatus:[],
-    
+
     })
   }
-  
+
+
   onSubmit() {
 
-    const id = this.BIODataGeneralInfoForm.get('traineeId').value; 
+    const id = this.BIODataGeneralInfoForm.get('traineeId').value;
 
-    this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
+    //this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString());
+
     
-    var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId').value; 
-    if(traineeStatusId == this.masterData.TraineeStatus.sailor){
+    if(this.BIODataGeneralInfoForm.get('dateOfBirth').value){
+      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('da eOfBirth').value)
+      this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
+    }
+      
+    
+
+
+    this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString());
+
+    var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId').value;
+    if (traineeStatusId == this.masterData.TraineeStatus.sailor) {
       // this.BIODataGeneralInfoForm.get('bnaBatchId').setValue(282);
       // this.BIODataGeneralInfoForm.get('branchId').setValue(17);
       // this.BIODataGeneralInfoForm.get('countryId').setValue(217);
@@ -383,24 +439,27 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       // this.BIODataGeneralInfoForm.get('rankId').setValue("NULL");
       // this.BIODataGeneralInfoForm.get('thanaId').setValue(504);
     }
-    console.log(this.BIODataGeneralInfoForm.value.dateOfBirth)
+
     const formData = new FormData();
+    if (!this.traineePhoto) {
+      this.BIODataGeneralInfoForm.value.bnaPhotoUrl = null;
+    }
     for (const key of Object.keys(this.BIODataGeneralInfoForm.value)) {
       let value = this.BIODataGeneralInfoForm.value[key];
-      if(value === null || value === undefined){
+      if (value === null || value === undefined) {
         value = ""
       }
       formData.append(key, value);
     }
-    console.log(this.BIODataGeneralInfoForm.value);
+
 
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          console.log();
-          this.BIODataGeneralInfoService.update(+id,formData).subscribe(response => {
-            this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
+          this.BIODataGeneralInfoService.update(+id, formData).subscribe(response => {
+            // this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
+            this.sharedService.goBack(); // Navigate to Privious Page
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 3000,
               verticalPosition: 'bottom',
@@ -412,9 +471,9 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
           })
         }
       })
-    }else {
+    } else {
       this.loading = true;
-      
+
       this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
         this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -428,8 +487,25 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       })
     }
   }
-  whiteSpaceRemove(value){
+  whiteSpaceRemove(value) {
     this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
-   }
-   
+  }
+
+
+  removeImage(event: Event) {
+    event.preventDefault();
+
+
+    this.traineePhoto = '';
+
+
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  handleImageError() {
+    this.traineePhoto = '';
+  }
+
 }

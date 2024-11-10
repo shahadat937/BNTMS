@@ -34,6 +34,7 @@ import { AddBnaassignmentmarkComponent } from './bna-exam-management/add-bnaassi
 import { BnaexammarkapproveListComponent } from './bna-exam-management/bnaexammarkapprove-list/bnaexammarkapprove-list.component';
 import { AddBnaabsentreexammarkComponent } from './bna-exam-management/add-bnaabsentreexammark/add-bnaabsentreexammark.component';
 import { AddBnareexamComponent } from './bna-exam-management/add-bnareexam/add-bnareexam.component';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { AddBnareexamComponent } from './bna-exam-management/add-bnareexam/add-b
     MatSelectModule,
     MatDatepickerModule,
     MaterialFileInputModule  ,
+    MatTooltipModule,
     MatAutocompleteModule
   ]
 })

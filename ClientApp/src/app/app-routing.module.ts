@@ -300,6 +300,15 @@ const routes: Routes = [
         loadChildren: () =>
           import('./reading-materials/reading-materials.module').then((m) => m.ReadingMaterialsModule),
       },
+      {
+        path: 'online-library',
+        canActivate: [AuthGuard],
+        data: {
+          role: [Role.MasterAdmin,Role.SuperAdmin,Role.BNASchool, Role.JSTISchool,Role.DataEntry,Role.Instructor,Role.DDNT, Role.InterSeeviceCourse,Role.InterSeeviceDesk, Role.TrainingOffice],
+        },
+        loadChildren: () =>
+          import('./online-library/online-library.module').then((m) => m.OnlineLibraryModule),
+      },
 
       {
         path: 'user-manual',
@@ -467,6 +476,7 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+ 
   { path: '**', component: Page404Component },
 ];
 @NgModule({

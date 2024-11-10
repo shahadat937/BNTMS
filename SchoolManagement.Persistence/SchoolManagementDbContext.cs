@@ -3385,6 +3385,31 @@ namespace SchoolManagement.Persistence
 
             });
 
+            modelBuilder.Entity<OnlineLibrary>(entity =>
+            {
+
+
+                entity.HasOne(d => d.BaseSchoolName)
+                    .WithMany(p => p.OnlineLibraries)
+                    .HasForeignKey(d => d.BaseSchoolNameId)
+                    .HasConstraintName("FK_ReadingMaterial_BaseSchoolName");              
+
+                entity.HasOne(d => d.DocumentType)
+                    .WithMany(p => p.OnlineLibraries)
+                    .HasForeignKey(d => d.DocumentTypeId)
+                    .HasConstraintName("FK_ReadingMaterial_DocumentType");
+
+                entity.HasOne(d => d.DownloadRight)
+                    .WithMany(p => p.OnlineLibraries)
+                    .HasForeignKey(d => d.DownloadRightId)
+                    .HasConstraintName("FK_ReadingMaterial_DownloadRight");              
+
+                //entity.HasOne(d => d.ShowRight)
+                //    .WithMany(p => p.ReadingMaterials)
+                //    .HasForeignKey(d => d.ShowRightId)
+                //    .HasConstraintName("FK_ReadingMaterial_RightSchoolName");
+            });
+
 
         }
 
@@ -3588,6 +3613,8 @@ namespace SchoolManagement.Persistence
 
         public DbSet<UniversityCourseResult> UniversityCourseResult { get; set; } = null!;
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; } = null!;
+        //public virtual DbSet<Instructor> Instructors { get; set; } = null!;
+        public virtual DbSet<OnlineLibrary> OnlineLibrary { get; set;} = null!;
 
 
 

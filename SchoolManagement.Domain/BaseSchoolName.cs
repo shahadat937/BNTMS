@@ -41,6 +41,8 @@ namespace SchoolManagement.Domain
             Notifications = new HashSet<Notification>();
             RoutineSoftCopyUploads = new HashSet<RoutineSoftCopyUpload>();
             GuestSpeakerQuationGroups = new HashSet<GuestSpeakerQuationGroup>();
+            OnlineLibraries = new HashSet<OnlineLibrary>();
+            //Instructors = new HashSet<Instructor>();
             // GuestSpeakerQuestionNames = new HashSet<GuestSpeakerQuestionName>();
         }
 
@@ -104,6 +106,8 @@ namespace SchoolManagement.Domain
         public virtual ICollection<TrainingSyllabus> TrainingSyllabus { get; set; }
         public virtual ICollection<TraineeAssignmentSubmit> TraineeAssignmentSubmits { get; set; }
         public virtual ICollection<GuestSpeakerQuationGroup> GuestSpeakerQuationGroups { get; set; }
+        public virtual ICollection<OnlineLibrary> OnlineLibraries { get; set; }
+        //public virtual ICollection<Instructor> Instructors { get; set; }
       //  public virtual ICollection<GuestSpeakerQuestionName> GuestSpeakerQuestionNames { get; set; }
     }
 }

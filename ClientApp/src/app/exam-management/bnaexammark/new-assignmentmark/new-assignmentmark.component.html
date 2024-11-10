@@ -31,7 +31,7 @@
                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
                         <div class="row left-row">
                           <div *ngIf="role != userRole.SuperAdmin && role != userRole.BNASchool && role != userRole.JSTISchool" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                            <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                                 <mat-label>Base School Name</mat-label>   
                                 <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
                                 <mat-option  value="0">--Select--</mat-option >                      
@@ -42,7 +42,7 @@
                                 <mat-error *ngIf="BNAExamMarkForm.get('baseSchoolNameId').hasError('required')">
                                   Base School Name is Required!
                                 </mat-error>
-                            </mat-form-field>
+                            </mat-form-field> -->
                           </div>
         
                           <div class="col-xl-9 col-lg-9 col-md-6 col-sm-12 mb-2">
@@ -55,7 +55,8 @@
                                   (keydown.space)="$event.stopPropagation()"
                                   (input)="filterByCourseName($event.target.value)" placeholder="Search">
                                   <mat-option  value="0">--Select--</mat-option >
-                                    <mat-option (onSelectionChange)="onCourseNameSelectionChangeGetSubjectAndTraineeList($event)" *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown">
+                                    <mat-option (onSelectionChange)="onCourseNameSelectionChangeGetSubjectAndTraineeList($event)" *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown" matTooltip="{{dropdown.text}}"
+                                    matTooltipPosition="above">
                                         {{dropdown.text}} 
                                       </mat-option>                          
                                 </mat-select>

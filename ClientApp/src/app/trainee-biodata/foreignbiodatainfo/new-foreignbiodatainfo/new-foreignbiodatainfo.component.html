@@ -67,12 +67,10 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Date Of Birth</mat-label>
-                        <input matInput [matDatepicker]="birthpicker" formControlName="dateOfBirth" required>
+                        <input matInput [matDatepicker]="birthpicker" formControlName="dateOfBirth">
                         <mat-datepicker-toggle matSuffix [for]="birthpicker"></mat-datepicker-toggle>
                        <mat-datepicker #birthpicker></mat-datepicker>   
-                       <mat-error *ngIf="BIODataGeneralInfoForm.get('dateOfBirth').hasError('required')">
-                        Date Of Birth is required
-                      </mat-error>                                         
+                                                           
                     </mat-form-field>
                   </div>
                   <!-- <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
@@ -108,26 +106,26 @@
                   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Height</mat-label>
-                      <input matInput formControlName="heightId" required
+                      <input matInput formControlName="heightId" 
                       (keypress)="sharedService.validateNumberInputWithDot($event)" 
                       (input)="sharedService.filterInputWithDot($event)"  >
-                      <mat-error *ngIf="BIODataGeneralInfoForm.get('heightId').hasError('heightId')"></mat-error>
+                      
                     </mat-form-field>
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Weight</mat-label>
-                      <input matInput formControlName="weightId" required
+                      <input matInput formControlName="weightId" 
                       (keypress)="sharedService.validateNumberInputWithDot($event)" 
                       (input)="sharedService.filterInputWithDot($event)"  >
-                      <mat-error *ngIf="BIODataGeneralInfoForm.get('weightId').hasError('weightId')"></mat-error>
+                      
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Color Of Eye</mat-label>
-                      <mat-select formControlName="colorOfEyeId" required>
+                      <mat-select formControlName="colorOfEyeId">
                         
                           <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
@@ -140,15 +138,13 @@
                             {{code.text}}
                         </mat-option>                          
                       </mat-select>
-                      <mat-error *ngIf="BIODataGeneralInfoForm.get('colorOfEyeId').hasError('required')">
-                        Color Of Eye is required
-                      </mat-error>
+                     
                     </mat-form-field>
                   </div>
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Hair Color</mat-label>
-                      <mat-select formControlName="hairColorId" required>
+                      <mat-select formControlName="hairColorId">
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
@@ -180,7 +176,7 @@
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Blood Group</mat-label>
-                      <mat-select formControlName="bloodGroupId" required>
+                      <mat-select formControlName="bloodGroupId">
                         <input type="text" 
                         (keydown.space)="$event.stopPropagation()"
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
@@ -201,7 +197,7 @@
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Religion</mat-label>
-                      <mat-select formControlName="religionId" required (selectionChange)="onReligionSelectionChangeGetCastes($event.value)">
+                      <mat-select formControlName="religionId" (selectionChange)="onReligionSelectionChangeGetCastes($event.value)">
                         
                           <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
@@ -222,7 +218,7 @@
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Caste</mat-label>
-                      <mat-select formControlName="casteId" required>
+                      <mat-select formControlName="casteId">
                         <input type="text" 
                         style="width:100%;height:50px;padding:10px; border: 1px solid white;"
                         id="selectRank" 
@@ -242,12 +238,10 @@
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Joining Date</mat-label>
-                        <input matInput [matDatepicker]="joiningpicker" formControlName="joiningDate" required>
+                        <input matInput [matDatepicker]="joiningpicker" formControlName="joiningDate">
                         <mat-datepicker-toggle matSuffix [for]="joiningpicker"></mat-datepicker-toggle>
                        <mat-datepicker #joiningpicker></mat-datepicker>   
-                       <mat-error *ngIf="BIODataGeneralInfoForm.get('joiningDate').hasError('required')">
-                        Joining Date is required
-                      </mat-error>                                          
+                                                                 
                     </mat-form-field>
                   </div>
                   
@@ -311,7 +305,7 @@
                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Gender</mat-label>
-                      <mat-select formControlName="genderId" required>
+                      <mat-select formControlName="genderId">
                         <mat-option  value="0">--Select--</mat-option >
                         <mat-option *ngFor="let code of genderValues" [value]="code.value">
                             {{code.text}}
@@ -403,7 +397,7 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>NID</mat-label>
-                      <input matInput formControlName="nid" required>
+                      <input matInput formControlName="nid">
                       <mat-error *ngIf="BIODataGeneralInfoForm.get('nid').hasError('required')">
                         NID is required
                       </mat-error>
@@ -413,7 +407,7 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Passport</mat-label>
-                      <input matInput formControlName="passportNo" required>
+                      <input matInput formControlName="passportNo">
                       <mat-error *ngIf="BIODataGeneralInfoForm.get('passportNo').hasError('required')">
                         Passport ID is required
                       </mat-error>
@@ -483,10 +477,32 @@
             
                 <div class="row">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile"
-                               (change)="onFileChanged($event)" accept=".jpg,.png,.gif,.jpeg">
-                      </div>
+                    <div class="custom-file">
+                      <input #fileInput type="file" class="custom-file-input" id="customFile"
+                             (change)="onFileChanged($event)" accept=".jpg,.png,.gif">
+                             
+                             <div *ngIf="traineePhoto" style="position: relative; display: inline-block;">
+                              <button 
+                                (click)="removeImage($event)"
+                                style="
+                                  position: absolute;
+                                  top: -5px;
+                                  right: -5px;
+                                  background-color: rgba(255,0,0, .7);
+                                  color: white;
+                                  border: none;
+                                  border-radius: 50%;
+                                  padding: 2px;
+                                  cursor: pointer;
+                                  font-size: 10px;
+                                  line-height: 1;
+                                ">
+                                X
+                              </button>
+                              <img [src]="traineePhoto" alt="User Image" style="width: 80px; height: auto;"
+                              (error)="handleImageError()">
+                            </div>
+                    </div>
                   </div>
                 </div>
                

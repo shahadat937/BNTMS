@@ -11,19 +11,16 @@
     <Compile Remove="DTOs\NewFolder2\**" />
     <Compile Remove="DTOs\NewFolder\**" />
     <Compile Remove="DTOs\User\Validators\**" />
-    <Compile Remove="Features\NewFolder\**" />
     <Compile Remove="Features\Users\**" />
     <EmbeddedResource Remove="DTOs\NewFolder1\**" />
     <EmbeddedResource Remove="DTOs\NewFolder2\**" />
     <EmbeddedResource Remove="DTOs\NewFolder\**" />
     <EmbeddedResource Remove="DTOs\User\Validators\**" />
-    <EmbeddedResource Remove="Features\NewFolder\**" />
     <EmbeddedResource Remove="Features\Users\**" />
     <None Remove="DTOs\NewFolder1\**" />
     <None Remove="DTOs\NewFolder2\**" />
     <None Remove="DTOs\NewFolder\**" />
     <None Remove="DTOs\User\Validators\**" />
-    <None Remove="Features\NewFolder\**" />
     <None Remove="Features\Users\**" />
   </ItemGroup>
 
@@ -62,6 +59,8 @@
     <Folder Include="Features\BnaExamManagements\Requests\Commands\" />
     <Folder Include="Features\GlobalSearch\Handlers\Commands\" />
     <Folder Include="Features\GlobalSearch\Requests\Commands\" />
+    <Folder Include="Features\Instructor\Handlers\Commands\" />
+    <Folder Include="Features\Instructor\Requests\Commands\" />
   </ItemGroup>
 
 </Project>
