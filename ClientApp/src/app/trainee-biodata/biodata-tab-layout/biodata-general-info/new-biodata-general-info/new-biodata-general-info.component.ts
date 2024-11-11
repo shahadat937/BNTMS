@@ -401,10 +401,19 @@ filterByCaste(value:any){
     const id = this.BIODataGeneralInfoForm.get('traineeId').value; 
 
     //this.BIODataGeneralInfoForm.get('MaritalStatusId').setValue(0);
+    if(this.BIODataGeneralInfoForm.get('joiningDate').value){
+      const joiningDate = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('joiningDate').value)
+      this.BIODataGeneralInfoForm.get('joiningDate')?.setValue(joiningDate);
+    }
+    if(this.BIODataGeneralInfoForm.get('dateOfBirth').value){
+      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth').value)
+      this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
+    }
+    
 
-    this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('countryId').setValue(1);
+    // this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
+    // this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
+    // this.BIODataGeneralInfoForm.get('countryId').setValue(1);
 
     const formData = new FormData();
 

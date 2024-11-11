@@ -67,10 +67,11 @@ export type pieChartOptions = {
 
 
 
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
 
   newStatus: string = "";
   newStatusCount: number = 0;
+  
 
   @ViewChild('chart') chart: ChartComponent;
   public avgLecChartOptions: Partial<avgLecChartOptions>;
@@ -122,7 +123,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   role: any;
   userRoleFornotification: any;
   notificationCount: any;
-
+  isLoading = false;
   //For Restoring
   scrollPosition: number = 0;
   oldScrollPosition: number = 0;
@@ -160,6 +161,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.oldScrollPosition = this.scrollPositionService.getScrollPosition('schoolDashboard');
+    this.selectedFilter = this.scrollPositionService.getSelectedFilter('schoolDashboard');
     this.index = this.scrollPositionService.getSelectedIndex('schoolDashboard');
 
 
@@ -248,7 +251,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   GetIndexValue(index: number) {
     this.scrollPositionService.setSelectedIndex('schoolDashboard', index);
   }
-
 
   getActiveBulletins(baseSchoolNameId) {
     this.studentDashboardService.getActiveBulletinList(baseSchoolNameId).subscribe(res => {
@@ -446,20 +448,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
               courses: groups[schoolName]
             };
           });
-
+          this.isLoading = false;
         })
       }
     } else {
 
       if (viewStatus == 1) {
+        // this.isLoading = true;
         this.selectedFilter = viewStatus
         this.viewCourseTitle = "Running";
         this.getrunningCourseListBySchool(viewStatus);
       } else if (viewStatus == 2) {
+        // this.isLoading = true;
         this.selectedFilter = viewStatus
         this.viewCourseTitle = "Passing Out";
         this.getrunningCourseListBySchool(viewStatus);
       } else if (viewStatus = 3) {
+        // this.isLoading = true;
         this.selectedFilter = viewStatus
         let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
         this.viewCourseTitle = "Upcoming";
@@ -481,7 +486,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getrunningCourseListBySchool(viewStatus) {
-
+    // this.isLoading = true;
     const startTime = performance.now();
     let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
 
@@ -567,6 +572,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.schoolDashboardService.getUpcomingCourseListByBase(currentDateTime, baseId).subscribe(response => {
       this.UpcomingCourseCount = response.length;
       this.upcomingCourses = response;
+
+      setTimeout(() => {
+        window.scrollTo(0, this.oldScrollPosition);
+      }, 500); 
     })
   }
 

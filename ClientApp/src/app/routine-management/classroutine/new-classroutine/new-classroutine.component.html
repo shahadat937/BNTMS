@@ -51,7 +51,8 @@
                             (input)="filterBySchool($event.target.value)"
                             placeholder="Search">
                         <mat-option  value="">--Select--</mat-option >
-                          <mat-option *ngFor="let school of selectedbaseschool" [value]="school.value">
+                          <mat-option *ngFor="let school of selectedbaseschool" [value]="school.value" matTooltip="{{school.text}}"
+                          matTooltipPosition="above">
                               {{school.text}} 
                             </mat-option>                           
                       </mat-select>
@@ -292,7 +293,8 @@
                             (keydown.space)="$event.stopPropagation()"
                             placeholder="Search">
                               <mat-option value="">--Select--</mat-option>
-                              <mat-option *ngFor="let dropdown of selectedsubjectname" [value]="dropdown.value" (onSelectionChange)="onSubjectNameSelectionChangeGet(dropdown,i)">
+                              <mat-option *ngFor="let dropdown of selectedsubjectname" [value]="dropdown.value" (onSelectionChange)="onSubjectNameSelectionChangeGet(dropdown,i)" matTooltip="{{dropdown.text}}"
+                              matTooltipPosition="above">
                                 {{dropdown.text}}
                               </mat-option>
                             </mat-select>

@@ -14,7 +14,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-interservicecourse-list',
   templateUrl: './interservicecourse-list.component.html',
-  styleUrls: ['./interservicecourse-list.component.sass']
+  styleUrls: ['./interservicecourse-list.component.sass','./styleinterservice.component.css']
 })
 export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
@@ -31,7 +31,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
   }
   searchText="";
   viewStatus = 1;
-  selectedFilter: number
+  selectedFilter = 1;
 
   displayedColumns: string[] = ['ser','courseTitle','baseSchoolName','courseName','durationFrom','durationTo', 'actions'];
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();

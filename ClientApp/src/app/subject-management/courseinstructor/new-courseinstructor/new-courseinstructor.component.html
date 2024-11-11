@@ -55,7 +55,8 @@
                         placeholder="Search">
                         
                           <mat-option  value="0">--Select--</mat-option>
-                            <mat-option (onSelectionChange)="onBaseNameSelectionChangeGetModule($event)"  *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value">
+                            <mat-option (onSelectionChange)="onBaseNameSelectionChangeGetModule($event)"  *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value" matTooltip="{{dropdown.text}}"
+                            matTooltipPosition="above">
                                 {{dropdown.text}}  
                             </mat-option>                           
                         </mat-select> 
