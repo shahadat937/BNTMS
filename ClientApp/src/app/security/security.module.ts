@@ -14,6 +14,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { SecurityRoutingModule } from './security-routing.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { RoleFeatureListComponent } from './rolefeature/rolefeature-list/rolefeature-list.component';
 import { NewRoleFeatureComponent } from './rolefeature/new-rolefeature/new-rolefeature.component';
@@ -35,6 +36,7 @@ import { NewSchoolNameComponent } from './baseschoolname/new-schoolname/new-scho
 import { NewUserListComponent } from './user/new-userlist/new-userlist.component';
 import { TraineeListComponent } from './trainee/trainee-list/trainee-list.component';
 import { InstructorsListComponent } from './instructor/instructors-list/instructors-list.component';
+import { RolePermissionComponent } from './role-permission/role-permission.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { InstructorsListComponent } from './instructor/instructors-list/instruct
     NewInstructorComponent,
     NewUserListComponent,
     TraineeListComponent,
-    InstructorsListComponent
+    InstructorsListComponent,
+    RolePermissionComponent
     //  FirstLevelListComponent,
     //  SecondLevelListComponent,
     //  ThirdLevelListComponent,
@@ -81,7 +84,8 @@ import { InstructorsListComponent } from './instructor/instructors-list/instruct
     MatIconModule,
     MatSelectModule,
     MaterialFileInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatCheckboxModule
   ]
 })
 export class SecurityModule { }

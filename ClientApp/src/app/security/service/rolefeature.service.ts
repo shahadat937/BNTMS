@@ -5,12 +5,16 @@ import {IRoleFeaturePagination, RoleFeaturePagination } from '../models/RoleFeat
 import { map } from 'rxjs';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { RoleFeature } from '../models/rolefeature';
+import { IFeaturePagination } from '../models/featurePagination';
+import { Feature } from '../models/feature';
 @Injectable({
   providedIn: 'root'
 })
 export class RoleFeatureService {
   baseUrl = environment.securityUrl;
   RoleFeatures: RoleFeature[] = [];
+  Features: any[] = [];
+  FeaturePagination : any;
   RoleFeaturePagination = new RoleFeaturePagination();
   constructor(private http: HttpClient) { }
 
@@ -34,6 +38,12 @@ export class RoleFeatureService {
    
   }
 
+  getFeaturesbyModule(moduleId: number){
+    return this.http.get<Feature>(this.baseUrl+ '/Feature/get-features-by-module-id/'+moduleId)
+    .pipe(response => {
+      return response;
+    })
+  }
   
 
   find(Roleid:string,Featureid:number) {
@@ -63,6 +73,30 @@ export class RoleFeatureService {
 
   getselectedfeature(){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/Feature/get-selectedfeatures') 
+  }
+
+  getFeatures(pageNumber, pageSize,searchText) {
+
+    let params = new HttpParams();
+    
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+   
+
+    return this.http.get<IFeaturePagination>(this.baseUrl + '/feature/get-features', { observe: 'response', params })
+    .pipe(
+      map(response => {
+        this.Features = [...this.Features, ...response.body.items];
+        this.FeaturePagination = response.body;
+        return this.FeaturePagination;
+      })
+    );
+   
+  }
+
+  getselectedmodule(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/module/get-selectedModules') 
   }
   
 }

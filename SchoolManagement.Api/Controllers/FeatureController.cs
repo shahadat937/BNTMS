@@ -35,6 +35,14 @@ public class FeatureController : ControllerBase
         return Ok(Feature);
     }
 
+    [HttpGet]
+    [Route("get-features-by-module-id/{moduleId}")]
+    public async Task<ActionResult<FeatureDto>> GetFeaturesbyModeleId(int moduleId)
+    {
+        var Feature = await _mediator.Send(new GetFeaturesbyModeleIdRequest { ModuleId = moduleId });
+        return Ok(Feature);
+    }
+
     [HttpPost]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
