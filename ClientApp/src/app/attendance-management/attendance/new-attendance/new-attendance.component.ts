@@ -104,6 +104,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
       this.buttonText= "Update" 
       this.AttendanceService.find(+id).subscribe(
         res => {
+          
           this.AttendanceForm.patchValue({          
             attendanceId:res.attendanceId, 
             classRoutineId: res.classRoutineId, 
@@ -204,6 +205,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
       this.AttendanceForm.get('courseSectionId').setValue(courseSectionId);
 
       this.classRoutineService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
+        
         this.selectedCourseSection=res;
         
       });
@@ -214,7 +216,9 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
       })
 
       this.classRoutineService.getSelectedMarkTypeByRoutineId(this.classRoutineId).subscribe(res=>{
-        this.selectedMarkType=res[0].text;
+        
+         this.selectedMarkType=res[0]?.text;
+        
       });
 
       
@@ -234,15 +238,20 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
 
        if(baseSchoolNameId != null && courseNameId != null && this.courseDurationId !=null && classPeriodId !=null){
         this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId,courseSectionId).subscribe(res=>{
+         
           this.traineeNominationListForAttendance=res.filter(x=>x.withdrawnTypeId === null);
-
-          for(let i=0;i<=this.traineeNominationListForAttendance.length;i++)
-          {
-            this.traineeNominationListForAttendance[i].attendanceStatus=true;
-            this.traineeNominationListForAttendance[i].absentForExamStatus=false;
+        
+          if(this.traineeNominationListForAttendance.length){
+            for(let i=0;i<=this.traineeNominationListForAttendance.length;i++)
+              {
+                this.traineeNominationListForAttendance[i].attendanceStatus=true;
+                this.traineeNominationListForAttendance[i].absentForExamStatus=false;
+              }
           }
+         
          });
-      }  
+      } 
+     
      }
 
      onDateSelectionChange(event){
@@ -261,10 +270,12 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
             }  
      }
      filterByPeriod(value:any){
-      this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=this.selectPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    
+      this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=this.selectPeriod.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+     
      }
 
-     filterByCourse(value:any){
+     filterByCourse(value:any){     
         this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
      }
 

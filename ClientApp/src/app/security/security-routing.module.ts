@@ -22,6 +22,7 @@ import { NewSchoolNameComponent } from './baseschoolname/new-schoolname/new-scho
 import { NewUserListComponent } from './user/new-userlist/new-userlist.component';
 import { TraineeListComponent } from './trainee/trainee-list/trainee-list.component';
 import { InstructorsListComponent } from './instructor/instructors-list/instructors-list.component';
+import { RolePermissionComponent } from './role-permission/role-permission.component';
 
 const routes:Routes =[
   {
@@ -155,6 +156,10 @@ const routes:Routes =[
   {
     path: 'instructors-list',
     component: InstructorsListComponent
+  },
+  {
+    path: 'role-permission',
+    component: RolePermissionComponent
   }
 ];
 

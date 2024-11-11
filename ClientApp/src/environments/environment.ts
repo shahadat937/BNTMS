@@ -8,6 +8,12 @@ export const environment = {
   securityUrl: 'https://localhost:44395/api',
   fileUrl: 'https://localhost:44395/Content/'
 };
+// export const environment = {
+//   production: false,
+//   apiUrl: 'http://114.130.68.170:7775/api/sms',
+//   securityUrl: 'http://114.130.68.170:7775/api',
+//   fileUrl: 'http://114.130.68.170:7775/Content/'
+// };
 
 /*
  * For easier debugging in development mode, you can import the following file

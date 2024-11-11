@@ -112,6 +112,7 @@
 
                 <div *ngIf="isShown" class="container mt-2 att-tbl">
                   <h4 class="text-center">Trainee List</h4>
+                  <p class="text-danger text-center" style="font-size: 2rem;">{{!traineeNominationListForAttendance ? "" : "Trainees are not assigned to this course section."}}</p>
                   <mat-table #table [dataSource]="traineeNominationListForAttendance" matSort class="mat-cell db-li-n">
                     <ng-container matColumnDef="ser">
                       <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
@@ -155,6 +156,7 @@
                     </mat-table>
                   </div>
                 </div>
+           
 
                 <div *ngIf="isShownForTraineeList" class="container mt-2 att-tbl">
                   <h4 class="text-center">Trainee List</h4>
@@ -200,7 +202,6 @@
                     </mat-table>
                 </div>
                 
-
               <div class="row mt-2">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                   <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!AttendanceForm.valid " mat-raised-button
@@ -219,6 +220,12 @@
                 </div>
               </div>
             </form>
+
+            <!-- <div *ngIf="isShown && traineeNominationListForAttendance === undefined">
+              <p>Dnskldfnlf</p>
+           </div> -->
+            
+           
           </div>
         </div>
       </div>
