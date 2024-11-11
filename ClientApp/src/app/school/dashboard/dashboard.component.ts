@@ -123,7 +123,7 @@ export class DashboardComponent implements OnInit {
   role: any;
   userRoleFornotification: any;
   notificationCount: any;
-
+  isLoading = false;
   //For Restoring
   scrollPosition: number = 0;
   oldScrollPosition: number = 0;
@@ -448,20 +448,23 @@ export class DashboardComponent implements OnInit {
               courses: groups[schoolName]
             };
           });
-
+          this.isLoading = false;
         })
       }
     } else {
 
       if (viewStatus == 1) {
+        // this.isLoading = true;
         this.selectedFilter = viewStatus
         this.viewCourseTitle = "Running";
         this.getrunningCourseListBySchool(viewStatus);
       } else if (viewStatus == 2) {
+        // this.isLoading = true;
         this.selectedFilter = viewStatus
         this.viewCourseTitle = "Passing Out";
         this.getrunningCourseListBySchool(viewStatus);
       } else if (viewStatus = 3) {
+        // this.isLoading = true;
         this.selectedFilter = viewStatus
         let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
         this.viewCourseTitle = "Upcoming";
@@ -483,7 +486,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getrunningCourseListBySchool(viewStatus) {
-
+    // this.isLoading = true;
     const startTime = performance.now();
     let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
 
