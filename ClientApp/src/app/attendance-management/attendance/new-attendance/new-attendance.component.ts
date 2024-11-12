@@ -63,6 +63,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
   baseSchoolId:any;
   traineeNominationListForAttendanceNew:any;
   traineeNominationListForAttendanceFilter:any;
+  totalAssignedTrainee : number
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -238,19 +239,21 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
 
        if(baseSchoolNameId != null && courseNameId != null && this.courseDurationId !=null && classPeriodId !=null){
         this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId,courseSectionId).subscribe(res=>{
-         
+          
           this.traineeNominationListForAttendance=res.filter(x=>x.withdrawnTypeId === null);
         
           if(this.traineeNominationListForAttendance.length){
-            for(let i=0;i<=this.traineeNominationListForAttendance.length;i++)
+            for(let i=0;i<this.traineeNominationListForAttendance.length;i++)
               {
                 this.traineeNominationListForAttendance[i].attendanceStatus=true;
                 this.traineeNominationListForAttendance[i].absentForExamStatus=false;
               }
           }
+          this.totalAssignedTrainee = res.length;
          
          });
       } 
+     
      
      }
 
