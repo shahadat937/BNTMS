@@ -253,7 +253,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
          
          });
       } 
-      console.log(this.traineeNominationListForAttendance);
+     
      
      }
 
