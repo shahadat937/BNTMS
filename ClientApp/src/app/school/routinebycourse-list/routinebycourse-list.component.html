@@ -133,6 +133,9 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                   </table>
+                  <div *ngIf="isShow">
+                   <p class="text-danger text-center my-3" style="font-size: 2rem;"> {{selectedRoutineByParametersAndDate?.length ? "" : "No routine available for this week."}} </p>
+                  </div>
                   <!-- <div>
                     <p class="sub-short-list">
                       <span *ngFor="let number of getSubjectsByRoutineList;">{{number.subjectName}}-{{number.subjectShortName}}, </span>

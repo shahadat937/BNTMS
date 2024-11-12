@@ -84,6 +84,7 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
   weekFromDate:any;
   courseSection:any;
   weekFromTo:any;
+  isShow = false;
 
   displayedRoutineCountColumns: string[] = ['ser','name','shortCode'];
   displayedRoutineNoteColumns: string[] = ['ser','routineName','routineNote'];
@@ -146,8 +147,8 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
     var courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
     var schoolId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
     var durationId = this.route.snapshot.paramMap.get('courseDurationId');
-    var weekId=this.RoutineBySectionForm.value['courseWeekId'];
-    
+    var weekId=this.RoutineBySectionForm.value['courseWeekId'];    
+
     this.subscription = this.classRoutineService.getRoutineNotesForWeeklyRoutine(schoolId,courseNameId,durationId,weekId).subscribe(res=>{
       this.routineNotesList=res;
     });
@@ -156,7 +157,13 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
       var sectionId=this.route.snapshot.paramMap.get('courseSectionId');
       this.RoutineBySectionForm.get('courseSectionId').setValue(sectionId);
       this.onCourseSelectionGet()
+    } else{
+      var CoursesectionId = this.RoutineBySectionForm.value['courseSectionId'];
+      if(CoursesectionId){
+        this.onCourseSelectionGet()
+      }
     }
+    
   }
 
   onCourseSelectionGet(){
@@ -165,7 +172,9 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
     var durationId = this.route.snapshot.paramMap.get('courseDurationId');
     var courseWeekId = this.RoutineBySectionForm.value['courseWeekId'];
     var sectionId = this.RoutineBySectionForm.value['courseSectionId'];
-
+    
+    if(courseWeekId){
+      this.isShow = true;
     this.subscription = this.classRoutineService.getSubjectlistBySchoolAndCourse(this.schoolId,courseNameId,durationId,courseWeekId,sectionId).subscribe(res=>{
       this.subjectlistBySchoolAndCourse=res;
     });
@@ -174,6 +183,7 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
     });
 
     this.classRoutineService.getClassRoutineHeaderByParams(this.schoolId,courseNameId,durationId,sectionId).subscribe(res=>{
+      if(res.length){
       this.courseSection = res[0].sectionName;
       this.schoolName = res[0].schoolName;
       this.courseNameTitle = res[0].courseNameTitle;
@@ -183,6 +193,7 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
       this.durationFrom =this.datepipe.transform(durationFrom, 'dd/MM/yyyy');
       var durationTo = res[0].durationTo;
       this.durationTo =this.datepipe.transform(durationTo, 'dd/MM/yyyy');
+    }
     });
 
     this.subscription = this.courseWeekService.find(courseWeekId).subscribe(res=>{
@@ -193,22 +204,21 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
     this.subscription = this.classRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(this.schoolId,courseNameId,courseWeekId,sectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
       
-      for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
+      // for(let i=0;i<=this.selectedRoutineByParametersAndDate.length;i++){
 
-      }
+      // }
     
       if(this.selectedRoutineByParametersAndDate.length){
         this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
       }
-
-     
-      
-
-
-      
+      console.log(this.selectedRoutineByParametersAndDate)
     });
+
+  }
+ 
   }
   filterByWeek(value:any){
+    console.log(value)
     this.selectedWeek = this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 

@@ -99,6 +99,7 @@ export class NewEventComponent implements OnInit {
       courseDurationId: [''],
       baseSchoolNameId: [''],
       courseNameId: [''],
+      
      // courseNameIds: [''],
       courseName:[''],
       eventHeading:[''],
