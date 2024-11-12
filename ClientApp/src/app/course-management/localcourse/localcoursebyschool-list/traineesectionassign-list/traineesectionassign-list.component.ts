@@ -102,6 +102,7 @@ export class TraineeSectionAssignListComponent extends UnsubscribeOnDestroyAdapt
       courseNameId:[''],
       courseNameIds:[''],
       courseDurationId:[''],
+      // courseSectionId: [trainee.courseSectionId],
       classPeriodId:[''], 
       attendanceDate:[], 
       classLeaderName:[''],
@@ -129,6 +130,7 @@ export class TraineeSectionAssignListComponent extends UnsubscribeOnDestroyAdapt
       status: [],
       traineePNo: [],
       courseDurationId:[],
+      
       presentBillet:[],
       examCenterId:[],
       dateCreated:[],
@@ -172,13 +174,27 @@ export class TraineeSectionAssignListComponent extends UnsubscribeOnDestroyAdapt
       
     }
   }
-  onChangeourseSection(courseSectionId:number){
+  // onChangeourseSection(courseSectionId:number){
+  //   const control = this.AttendanceForm.get('traineeListForm') as FormArray;
+  //   for (let i = 0; i < control.length; i++) {
+  //     const traineeFormGroup = control.at(i) as FormGroup;
+  //         traineeFormGroup.get('courseSectionId').setValue(courseSectionId);
+  //   }
+  onChangeourseSection(courseSectionId: number, index?: number) {
     const control = this.AttendanceForm.get('traineeListForm') as FormArray;
-    for (let i = 0; i < control.length; i++) {
-      const traineeFormGroup = control.at(i) as FormGroup;
-          traineeFormGroup.get('courseSectionId').setValue(courseSectionId);
+    if (index === undefined || index === 0) {
+      for (let i = 0; i < control.length; i++) {
+        const traineeFormGroup = control.at(i) as FormGroup;
+        traineeFormGroup.get('courseSectionId').setValue(courseSectionId);
+      }
+    } else {
+      const traineeFormGroup = control.at(index) as FormGroup;
+      traineeFormGroup.get('courseSectionId').setValue(courseSectionId);
     }
   }
+  
+  
+  
       
   getTraineeListonClick() {
     const control = <FormArray>this.AttendanceForm.controls["traineeListForm"];
