@@ -24,7 +24,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
          
         public async Task<List<SelectedModel>> Handle(GetSelectedMarkTypeFromClassRoutineRequest request, CancellationToken cancellationToken)
         {
-            var codeValues = _ClassRoutineRepository.FilterWithInclude(x => x.IsActive && x.ClassRoutineId == request.ClassRoutineId ,"MarkType");
+            var codeValues = _ClassRoutineRepository.FilterWithInclude(x =>  x.ClassRoutineId == request.ClassRoutineId ,"MarkType");
             List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
             {
                 Text = x.MarkType.ShortName,
