@@ -80,8 +80,6 @@ export class SharedServiceService {
 
   formatDateTime(date: any): string {
 
-    console.log(typeof date , date)
-
     let validDate: Date;
     if (date instanceof Date) {
       validDate = date;
@@ -93,10 +91,7 @@ export class SharedServiceService {
       if (isNaN(validDate.getTime())) {
         validDate = new Date(date.replace('T', ' '));
       }
-    } else {
-      throw new Error('Invalid date type');
-    }
-
+    } 
 
     // Format the date components
     const year = validDate.getFullYear();

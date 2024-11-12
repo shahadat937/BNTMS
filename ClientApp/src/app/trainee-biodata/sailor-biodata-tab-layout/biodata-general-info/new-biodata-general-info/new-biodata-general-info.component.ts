@@ -82,8 +82,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       this.buttonText = "Update";
 
       this.BIODataGeneralInfoService.find(+id).subscribe(
-        res => {
-          console.log(res);
+        res => {        
           if (res) {
             this.saylorRankId = res.saylorRankId
             this.BIODataGeneralInfoForm.patchValue(res);
@@ -418,7 +417,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
 
     
     if(this.BIODataGeneralInfoForm.get('dateOfBirth').value){
-      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('da eOfBirth').value)
+      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth').value)
       this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
     }
       

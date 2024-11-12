@@ -28,7 +28,9 @@
               <div class="row">
                 <div class="form-border-design col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                   <div class="row">
-                    <div *ngIf="role != userRole.SuperAdmin && role != userRole.BNASchool && role != userRole.JSTISchool" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <div
+                      *ngIf="role != userRole.SuperAdmin && role != userRole.BNASchool && role != userRole.JSTISchool"
+                      class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>School Name</mat-label>
                         <mat-select formControlName="baseSchoolNameId"
@@ -44,15 +46,12 @@
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Course Name</mat-label>
                         <mat-select formControlName="courseNameId">
-                          <input type="text" 
-                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                              id="selectSection" 
-                              (keydown.space)="$event.stopPropagation()"
-                              (input)="filterByCourse($event.target.value)"
-                              placeholder="Search">
+                          <input type="text" style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectSection" (keydown.space)="$event.stopPropagation()"
+                            (input)="filterByCourse($event.target.value)" placeholder="Search">
                           <mat-option value="0">--Select--</mat-option>
-                          <mat-option *ngFor="let dropdown of selectedCourse" [value]="dropdown.value" matTooltip="{{dropdown.text}}"
-                          matTooltipPosition="above">
+                          <mat-option *ngFor="let dropdown of selectedCourse" [value]="dropdown.value"
+                            matTooltip="{{dropdown.text}}" matTooltipPosition="above">
                             {{dropdown.text}}
                           </mat-option>
                         </mat-select>
@@ -74,15 +73,14 @@
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Class Period / Section</mat-label>
-                        <mat-select formControlName="classPeriod" (selectionChange)="onClassPeriodSelectionChangeGetCourseDuration()">
-                          <input type="text" 
-                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
-                              id="selectSection" 
-                              (keydown.space)="$event.stopPropagation()"
-                              (input)="filterByPeriod($event.target.value)"
-                              placeholder="Search">
+                        <mat-select formControlName="classPeriod"
+                          (selectionChange)="onClassPeriodSelectionChangeGetCourseDuration()">
+                          <input type="text" style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            id="selectSection" (keydown.space)="$event.stopPropagation()"
+                            (input)="filterByPeriod($event.target.value)" placeholder="Search">
                           <mat-option value="0">--Select--</mat-option>
-                          <mat-option *ngFor="let dropdown of selectedClassPeriodByBaseSchoolNameIdAndCourseNameId" [value]="dropdown.value">
+                          <mat-option *ngFor="let dropdown of selectedClassPeriodByBaseSchoolNameIdAndCourseNameId"
+                            [value]="dropdown.value">
                             {{dropdown.text}}
                           </mat-option>
                         </mat-select>
@@ -100,20 +98,19 @@
                           </mat-select>
                       </mat-form-field>
                     </div> -->
-               
+
 
                     <div *ngIf="isShowSubjectName" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                      <h5   class="cls-header">Subject Name :
+                      <h5 class="cls-header">Subject Name :
                         <span>{{subjectNamefromClassRoutine}}({{this.selectedMarkType}})</span>
                       </h5>
                     </div>
                   </div>
- 
+
                 </div>
 
                 <div *ngIf="isShown" class="container mt-2 att-tbl">
                   <h4 class="text-center">Trainee List</h4>
-                  <p class="text-danger text-center" style="font-size: 2rem;">{{totalAssignedTrainee ? "" : "Trainees are not assigned to this course section."}}</p>
                   <mat-table #table [dataSource]="traineeNominationListForAttendance" matSort class="mat-cell db-li-n">
                     <ng-container matColumnDef="ser">
                       <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
@@ -124,8 +121,12 @@
                     <ng-container matColumnDef="traineePNo">
                       <mat-header-cell class="t-nm-cl" *matHeaderCellDef mat-sort-header>Rank & Name</mat-header-cell>
                       <mat-cell class="t-nm-cl" *matCellDef="let element">
-                        <span *ngIf="element.traineeStatusId != masterData.TraineeStatus.sailor">{{element.rankPosition}}{{element.saylorRank}}{{element.traineeName}} <span class="t-n-pno-d"> - ( P No {{element.traineePNo}})</span></span>
-                        <span *ngIf="element.traineeStatusId == masterData.TraineeStatus.sailor"><span class="t-n-pno-d"> (O No {{element.traineePNo}}) - </span>{{element.traineeName}},{{element.rankPosition}}{{element.saylorRank}}</span>
+                        <span
+                          *ngIf="element.traineeStatusId != masterData.TraineeStatus.sailor">{{element.rankPosition}}{{element.saylorRank}}{{element.traineeName}}
+                          <span class="t-n-pno-d"> - ( P No {{element.traineePNo}})</span></span>
+                        <span *ngIf="element.traineeStatusId == masterData.TraineeStatus.sailor"><span
+                            class="t-n-pno-d"> (O No {{element.traineePNo}}) -
+                          </span>{{element.traineeName}},{{element.rankPosition}}{{element.saylorRank}}</span>
                       </mat-cell>
                     </ng-container>
 
@@ -154,70 +155,74 @@
                     </ng-container>
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                    </mat-table>
-                  </div>
+                  </mat-table>
                 </div>
-           
+              </div>
 
-                <div *ngIf="isShownForTraineeList" class="container mt-2 att-tbl">
-                  <h4 class="text-center">Trainee List</h4>
-                  <mat-table #table [dataSource]="traineeNominationListForAttendance" matSort class="mat-cell db-li-n">
-                    <ng-container matColumnDef="ser">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
-                      <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) * paging.pageSize) +
-                        i+1}} </mat-cell>
-                    </ng-container>
 
-                    <ng-container matColumnDef="traineePNo">
-                      <mat-header-cell class="t-nm-cl" *matHeaderCellDef mat-sort-header>Rank & Name</mat-header-cell>
-                      <mat-cell class="t-nm-cl" *matCellDef="let element">{{element.rankPosition}}
-                        {{element.traineeName}} <span class="t-n-pno-d"> - ( P No {{element.traineePNo}})</span>
-                      </mat-cell>
-                    </ng-container>
+              <div *ngIf="isShownForTraineeList" class="container mt-2 att-tbl">
+                <h4 class="text-center">Trainee List</h4>
+                <mat-table #table [dataSource]="traineeNominationListForAttendance" matSort class="mat-cell db-li-n">
+                  <ng-container matColumnDef="ser">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) * paging.pageSize) +
+                      i+1}} </mat-cell>
+                  </ng-container>
 
-                    <ng-container matColumnDef="bnaAttendanceRemarksId">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header>Attendance Remarks</mat-header-cell>
-                      <mat-cell *matCellDef="let element; let i = index;">
-                        <mat-form-field class="example-full-width mb-3" appearance="outline">
-                          <mat-select (selectionChange)="onOptionsSelected(i,$event.value)">
-                            <mat-option value="0">--Select--</mat-option>
-                            <mat-option *ngFor="let dropdown of selectedbnaattendanceremark" [value]="dropdown.value">
-                              {{dropdown.text}}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </mat-cell>
-                    </ng-container>
+                  <ng-container matColumnDef="traineePNo">
+                    <mat-header-cell class="t-nm-cl" *matHeaderCellDef mat-sort-header>Rank & Name</mat-header-cell>
+                    <mat-cell class="t-nm-cl" *matCellDef="let element">{{element.rankPosition}}
+                      {{element.traineeName}} <span class="t-n-pno-d"> - ( P No {{element.traineePNo}})</span>
+                    </mat-cell>
+                  </ng-container>
 
-                    <ng-container matColumnDef="attendanceStatus">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header>Attendance</mat-header-cell>
-                      <mat-cell *matCellDef="let element; let i = index;">
-                        <mat-checkbox #checkBox [checked]="element.attendanceStatus"
-                          (change)="onCheckboxChange(i,$event)" [ngClass]="'tbl-checkbox'">
+                  <ng-container matColumnDef="bnaAttendanceRemarksId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Attendance Remarks</mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = index;">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-select (selectionChange)="onOptionsSelected(i,$event.value)">
+                          <mat-option value="0">--Select--</mat-option>
+                          <mat-option *ngFor="let dropdown of selectedbnaattendanceremark" [value]="dropdown.value">
+                            {{dropdown.text}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </mat-cell>
+                  </ng-container>
 
-                        </mat-checkbox>
-                      </mat-cell>
-                    </ng-container>
-                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                    </mat-table>
-                </div>
-                
+                  <ng-container matColumnDef="attendanceStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Attendance</mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = index;">
+                      <mat-checkbox #checkBox [checked]="element.attendanceStatus" (change)="onCheckboxChange(i,$event)"
+                        [ngClass]="'tbl-checkbox'">
+
+                      </mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+              </div>
+              <div *ngIf="isShown" class="my-3">
+                <p class="text-danger text-center" style="font-size: 2rem;">
+                  {{totalAssignedTrainee ? "" : "Trainees are not assigned to this course section."}}
+                </p>
+              </div>
               <div class="row mt-2">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!AttendanceForm.valid " mat-raised-button
-                    color="primary">{{buttonText}}</button>
+                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading"
+                    [disabled]="!AttendanceForm.valid " mat-raised-button color="primary">{{buttonText}}</button>
 
-                    <!-- <div class="icon-button-demo"> -->
-                      <button class="btn-space"  mat-raised-button
-                        color="warn" routerLink="/admin/dashboard/school-dashboard"> 
-                        <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
-                      </button>
-                      <!-- <button *ngIf="schoolId == 0" class="btn-space"  mat-raised-button
+                  <!-- <div class="icon-button-demo"> -->
+                  <button class="btn-space" mat-raised-button color="warn"
+                    routerLink="/admin/dashboard/school-dashboard">
+                    <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                  </button>
+                  <!-- <button *ngIf="schoolId == 0" class="btn-space"  mat-raised-button
                         color="warn" routerLink="/admin/dashboard/main"> 
                         <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                       </button> -->
-                    <!-- </div> -->
+                  <!-- </div> -->
                 </div>
               </div>
             </form>
@@ -225,8 +230,8 @@
             <!-- <div *ngIf="isShown && traineeNominationListForAttendance === undefined">
               <p>Dnskldfnlf</p>
            </div> -->
-            
-           
+
+
           </div>
         </div>
       </div>
