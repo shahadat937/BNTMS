@@ -113,7 +113,7 @@
 
                 <div *ngIf="isShown" class="container mt-2 att-tbl">
                   <h4 class="text-center">Trainee List</h4>
-                  <p class="text-danger text-center" style="font-size: 2rem;">{{!traineeNominationListForAttendance ? "" : "Trainees are not assigned to this course section."}}</p>
+                  <p class="text-danger text-center" style="font-size: 2rem;">{{totalAssignedTrainee ? "" : "Trainees are not assigned to this course section."}}</p>
                   <mat-table #table [dataSource]="traineeNominationListForAttendance" matSort class="mat-cell db-li-n">
                     <ng-container matColumnDef="ser">
                       <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
