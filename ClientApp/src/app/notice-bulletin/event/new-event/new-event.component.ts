@@ -97,10 +97,9 @@ export class NewEventComponent implements OnInit {
     this.eventForm = this.fb.group({
       eventId: [0],
       courseDurationId: [''],
-      // baseSchoolNameId: [''],
-      // courseNameId: [''],
-      baseSchoolNameId: [{ value: '', disabled: true }], // Start as disabled
-      courseNameId: [{ value: '', disabled: this.isShowCourseName }],
+      baseSchoolNameId: [''],
+      courseNameId: [''],
+      
      // courseNameIds: [''],
       courseName:[''],
       eventHeading:[''],
