@@ -14,6 +14,7 @@ import {IndividualBulletinService} from '../../../notice-bulletin/service/indivi
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-new-individualbulletin',
@@ -61,6 +62,7 @@ export class IndividualBulletinComponent implements OnInit, OnDestroy {
     private classRoutineService: ClassRoutineService,
     private traineeNominationService:TraineeNominationService,
     private authService: AuthService,
+    private cdr: ChangeDetectorRef,
     public sharedService: SharedServiceService
     ) { }
 
@@ -294,6 +296,10 @@ stopNotices(element){
 //     });
 //   })
 // }
+ngAfterViewInit() {
+  this.cdr.detectChanges();
+}
+
 
   getselectedbaseschools(){
     this.subscription = this.individualBulletinService.getselectedbaseschools().subscribe(res=>{
