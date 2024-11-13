@@ -15,7 +15,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-marklistbycourse',
   templateUrl: './marklistbycourse-list.component.html',
-  styleUrls: ['./marklistbycourse-list.component.sass']
+  styleUrls: ['./marklistbycourse-list.component.sass','./marklistbycourse-list.component.css']
 })
 export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
@@ -70,6 +70,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
   }
 
   ngOnInit() {
+   
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
@@ -181,7 +182,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     this.courseType = Number(this.route.snapshot.paramMap.get('courseTypeId')); 
 
     this.courseDurationService.find(Number(courseDurationId)).subscribe(res=>{
-      
+     
       this.course = res.courseName+"_"+res.courseTitle;
     });
     if(this.courseNameId == this.masterData.courseName.StaffCollage){
@@ -189,18 +190,21 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
       this.BNAExamMarkService.getTraineeMarkListByDurationForStuffClg(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
+        this.isLoading = false;
       });
     }else if(this.courseNameId == this.masterData.courseName.JCOsTraining){
       this.title = "JCO's Exam Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForStuffClg(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
+        this.isLoading = false;
       });
     }else if(this.courseNameId == this.masterData.courseName.QExam){
       this.title = " Q-Exam Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForQexam(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
+        this.isLoading = false;
       });
     }else{
       this.title = "Course Subject";
@@ -208,6 +212,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         console.log('marklistbycourse',res)
         this.marklistbycourse=res;   
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
+        this.isLoading = false;
       });
     }
     

@@ -14,6 +14,7 @@ import {IndividualNoticeService} from '../../../notice-bulletin/service/individu
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Role } from 'src/app/core/models/role';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-new-individualnotice',
@@ -60,6 +61,7 @@ export class IndividualNoticeComponent implements OnInit, OnDestroy {
     private classRoutineService: ClassRoutineService,
     private traineeNominationService:TraineeNominationService,
     private authService: AuthService,
+    private cdr: ChangeDetectorRef,
     public sharedService: SharedServiceService
     ) { }
 
@@ -187,7 +189,6 @@ export class IndividualNoticeComponent implements OnInit, OnDestroy {
   this.courseName=dropdown.text;
 
   this.subscription = this.traineeNominationService.getTraineeNominationByCourseDurationId(courseDurationId).subscribe(res=>{
-    console.log(res)
     this.traineeNominationListForNotice=res; 
 
     for(let i=0;i < this.traineeNominationListForNotice.length;i++ ){
@@ -283,6 +284,10 @@ stopNotices(element){
 //     });
 //   })
 // }
+ngAfterViewInit() {
+  this.cdr.detectChanges();
+}
+
 
   getselectedbaseschools(){
     this.subscription = this.individualNoticeService.getselectedbaseschools().subscribe(res=>{

@@ -15,6 +15,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-new-notice',
@@ -64,6 +65,7 @@ export class NewNoticeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute, 
     private classRoutineService: ClassRoutineService,
     private authService: AuthService,
+    private cdr: ChangeDetectorRef,
     public sharedService: SharedServiceService
     ) { }
 
@@ -119,7 +121,8 @@ export class NewNoticeComponent implements OnInit, OnDestroy {
     this.NoticeForm = this.fb.group({
       noticeId: [0],
       courseDurationId: [''],
-      baseSchoolNameId: [''],
+      // baseSchoolNameId: [''],
+      baseSchoolNameId: [{ value: '', disabled: false }],
       courseNameId: [''],
      // courseNameIds: [''],
       courseName:[''],
@@ -368,9 +371,14 @@ stopNotices(element){
     }
  
   }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+  
   toggleAllSelection() {
     
     if (this.allSelected.selected) {
+      this.NoticeForm.controls.baseSchoolNameId.enable();
   this.isShowCourseName=true;
 
       this.NoticeForm.controls.baseSchoolNameId
@@ -383,6 +391,7 @@ stopNotices(element){
   }
   toggleAllSelectionCourse() {
     if (this.allSelectedCourse.selected) {
+      this.NoticeForm.controls.baseSchoolNameId.disable();
       this.NoticeForm.controls.courseName
         .patchValue([...this.selectedCourse.map(item => item.value), 0]);
     } else {

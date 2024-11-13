@@ -64,7 +64,7 @@
                                 
                                 <td class="cl-mrk">
                                   <mat-form-field class="example-full-width mb-3" appearance="outline">
-                                    <mat-select formControlName="courseSectionId"   (selectionChange)="onChangeourseSection(unit.value.courseSectionId)">
+                                    <mat-select formControlName="courseSectionId" (selectionChange)="onChangeourseSection($event.value, i)">
                                       <mat-option  value="">--Select--</mat-option >
                                       <mat-option *ngFor="let dropdown of courseSectionList" [value]="dropdown.value">
                                         {{dropdown.text}} 
