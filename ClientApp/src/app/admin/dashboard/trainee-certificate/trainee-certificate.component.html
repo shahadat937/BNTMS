@@ -101,7 +101,7 @@
 
               
 
-                <div *ngIf="isShown" id="print-routine">
+                <div *ngIf="isShown && traineeCertificateDetails?.length > 0; else noCertificate" id="print-routine">
                   
                 
                   <div class="container-fluid pm-certificate-container">
@@ -208,7 +208,10 @@
                   </div>
                 
                 </div>
-
+                <ng-template #noCertificate>
+                  <h1 class="certificate-message">Certificate not found</h1>
+                  <img class="not-found" src="assets/images/bg/not-found.svg" />
+                </ng-template>
                 
 
               </div>

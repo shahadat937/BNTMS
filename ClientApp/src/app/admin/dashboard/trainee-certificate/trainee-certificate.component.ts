@@ -24,7 +24,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-trainee-certificate',
   templateUrl: './trainee-certificate.component.html',
-  styleUrls: ['./trainee-certificate.component.sass']
+  styleUrls: ['./trainee-certificate.component.sass','./trainee-certificate.component.css']
 })
 export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
