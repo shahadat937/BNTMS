@@ -66,14 +66,12 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
         next: response => {
           this.searchResults = response;
           this.totalResult = response.totalResult;
-          console.log(this.searchResults);
         }
       })
     })
   }
 
   updatePage(event: PageEvent) {
-    console.log("Page Changed");
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex+1;
 

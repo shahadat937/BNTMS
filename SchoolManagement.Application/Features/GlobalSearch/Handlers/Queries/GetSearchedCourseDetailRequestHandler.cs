@@ -52,6 +52,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
             summary.TotalTrainee = await _TraineeNominationRepo.Where(x => x.CourseDurationId == request.CourseDurationId).CountAsync();
             //summary.TotalInstructor = await _CourseInstructorRepo.Where(x => x.CourseDurationId == request.CourseDurationId && x.BaseSchoolNameId == courseDuration.BaseSchoolNameId).Select(x => x.TraineeId).Distinct().CountAsync();
             summary.TotalInstructor = (int)_CourseDurationRepo.ExecWithSqlQuery(totalInstructorQuery).Rows[0]["TotalInstructor"];
+            summary.TotalCourseTraineeAllTime = await _TraineeNominationRepo.Where(x => x.CourseNameId == courseDuration.CourseNameId).CountAsync();
 
             return summary;
         }

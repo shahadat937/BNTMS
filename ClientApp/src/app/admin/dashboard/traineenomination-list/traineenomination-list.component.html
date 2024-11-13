@@ -28,7 +28,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ml-0">
                         <div class="align-center course-name">
-                          <p>Course:- {{getCourse}}</p>
+                          <p>Course:- {{getCourse? getCourse : courseName}}</p>
                         </div>
                         <!-- <li class="dropdown">
                           <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
