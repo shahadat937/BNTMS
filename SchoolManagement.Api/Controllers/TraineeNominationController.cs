@@ -54,7 +54,7 @@ public class TraineeNominationController : ControllerBase
     [HttpPost]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
-    [Route("save-traineeNomination")]   
+    [Route("save-traineeNomination")]
     public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateTraineeNominationDto TraineeNomination)
     {
         var command = new CreateTraineeNominationCommand { TraineeNominationDto = TraineeNomination };
@@ -267,7 +267,7 @@ public class TraineeNominationController : ControllerBase
 
     [HttpGet]
     [Route("get-traineeAttendanceByCourseDurationIdSpRequest")]
-    public async Task<ActionResult> GetTraineeAttendanceByCourseDurationIdSpRequest(int traineeId,int courseDurationId)
+    public async Task<ActionResult> GetTraineeAttendanceByCourseDurationIdSpRequest(int traineeId, int courseDurationId)
     {
         var trainee = await _mediator.Send(new GetTraineeAttendanceByCourseDurationIdSpRequest
         {
@@ -279,7 +279,7 @@ public class TraineeNominationController : ControllerBase
 
     [HttpGet]
     [Route("get-traineeattendanceListByCourseDurationIdspRequest")]
-    public async Task<ActionResult> GetTraineeAttendanceListByCourseDurationIdSpRequest(int baseSchoolNameId,int courseNameId,int courseDurationId,int subjectNameId,int courseSectionId,int classRoutineId, int attendanceStatus)
+    public async Task<ActionResult> GetTraineeAttendanceListByCourseDurationIdSpRequest(int baseSchoolNameId, int courseNameId, int courseDurationId, int subjectNameId, int courseSectionId, int classRoutineId, int attendanceStatus)
     {
         var trainee = await _mediator.Send(new GetTraineeAttendanceListByCourseDurationIdSpRequest
         {
@@ -289,14 +289,14 @@ public class TraineeNominationController : ControllerBase
             BnaSubjectNameId = subjectNameId,
             CourseSectionId = courseSectionId,
             ClassRoutineId = classRoutineId,
-            AttendanceStatus =attendanceStatus
+            AttendanceStatus = attendanceStatus
         });
         return Ok(trainee);
     }
 
     [HttpGet]
     [Route("get-traineeattendanceListForReExamSpRequest")]
-    public async Task<ActionResult> GetTraineeAttendanceListForReExamSpRequest(int baseSchoolNameId,int courseNameId,int courseDurationId,int subjectNameId,int courseSectionId,int classRoutineId, int attendanceStatus)
+    public async Task<ActionResult> GetTraineeAttendanceListForReExamSpRequest(int baseSchoolNameId, int courseNameId, int courseDurationId, int subjectNameId, int courseSectionId, int classRoutineId, int attendanceStatus)
     {
         var trainee = await _mediator.Send(new GetTraineeAttendanceListForReExamSpRequest
         {
@@ -306,14 +306,14 @@ public class TraineeNominationController : ControllerBase
             BnaSubjectNameId = subjectNameId,
             CourseSectionId = courseSectionId,
             ClassRoutineId = classRoutineId,
-            AttendanceStatus =attendanceStatus
+            AttendanceStatus = attendanceStatus
         });
         return Ok(trainee);
     }
 
     [HttpGet]
     [Route("get-traineeListForAssignmentsSpRequest")]
-    public async Task<ActionResult> GetTraineeListForAssignmentsSpRequest(int courseDurationId, int courseNameId,int courseSectionId)
+    public async Task<ActionResult> GetTraineeListForAssignmentsSpRequest(int courseDurationId, int courseNameId, int courseSectionId)
     {
         var trainee = await _mediator.Send(new GetTraineeListForAssignmentSpRequest
         {
@@ -356,6 +356,17 @@ public class TraineeNominationController : ControllerBase
         return Ok(trainee);
     }
 
+    [HttpGet]
+    [Route("get-traineeNomination-list-by-course-name-id/{courseNameId}")]
+    public async Task<ActionResult> GetTraineeListByCourseNameId(int courseNameId)
+    {
+        var trainee = await _mediator.Send(new GetTraineeListByCourseNameIdRequest
+        {
+            CourseNameId = courseNameId
+        });
+        return Ok(trainee);
+    }
+
 
     [HttpPost]
     [Route("get-uploadTraineeNomineeListfile")]
@@ -384,4 +395,3 @@ public class TraineeNominationController : ControllerBase
 }
 
 
- 

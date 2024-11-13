@@ -53,18 +53,18 @@
                               <mat-icon class="col-white">print</mat-icon>
                             </button>
 
-                            <button *ngIf="role === userRole.Director" class="btn-space"  mat-raised-button
-                            color="warn" [routerLink]="['/admin/dashboard/traineenomination-list',courseDurationId,0]"> 
+                            <button class="btn-space"  mat-raised-button
+                            color="warn" (click)="sharedService.goBack()"> 
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
 
-                            <button *ngIf="role != 'Student' && courseType3 == 6" class="btn-space"  mat-raised-button
-                              color="warn" [routerLink]="['/admin/dashboard/upcomingcourses-list',baseSchoolNameId]"> 
+                            <!-- <button *ngIf="role != 'Student' && courseType3 == 6" class="btn-space"  mat-raised-button
+                              color="warn" (click)="sharedService.goBack()"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
 
                             <button *ngIf="schoolDb !=5 && !courseListStatus && (role === userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role === userRole.CO || role === userRole.SchoolOIC || role === userRole.TrainingOffice || role === userRole.TC || role === userRole.AreaCommander)" class="btn-space"  mat-raised-button
-                              color="warn" [routerLink]="['/admin/dashboard/school-dashboard']"> 
+                              color="warn" (click)="sharedService.goBack()"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
                             <button *ngIf="schoolDb == 5 && (role === userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role === userRole.CO || role === userRole.TC || role === userRole.AreaCommander)" class="btn-space"  mat-raised-button
@@ -90,7 +90,7 @@
                             <button *ngIf="role === 'Student'" class="btn-space"  mat-raised-button
                               color="warn" [routerLink]="['/admin/dashboard/view-traineecourseprofile',traineeId]"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
-                            </button>
+                            </button> -->
 
                           </div>
                       </ul>

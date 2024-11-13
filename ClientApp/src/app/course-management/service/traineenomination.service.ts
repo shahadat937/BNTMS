@@ -115,6 +115,10 @@ export class TraineeNominationService {
   gettraineeNominationListByTypeCourseDurationId(courseDurationId){
     return this.http.get<any[]>(this.baseUrl + '/trainee-nomination/get-traineeNominationListByTypeCourseDurationIdspRequest?courseDurationId='+courseDurationId)
   }
+  
+  gettraineeNominationListByCourseNameId(courseNameId){
+    return this.http.get<any[]>(this.baseUrl + '/trainee-nomination/get-traineeNomination-list-by-course-name-id/'+courseNameId)
+  }
  
   getTraineeNominationsByCourseDurationId(pageNumber, pageSize,searchText,courseDurationId) {
 

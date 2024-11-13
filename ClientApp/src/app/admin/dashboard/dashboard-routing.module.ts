@@ -677,6 +677,10 @@ const routes: Routes = [
   
   
   {
+    path: 'traineenomination-list/:courseNameId', 
+    component: TraineeNominationListComponent,
+  },
+  {
     path: 'traineenomination-list/:courseDurationId/:courseTypeId', 
     component: TraineeNominationListComponent,
   },

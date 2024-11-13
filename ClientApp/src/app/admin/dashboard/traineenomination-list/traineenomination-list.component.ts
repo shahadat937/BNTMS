@@ -49,9 +49,9 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   branchId: any;
   traineeId: any;
   role: any;
-
   nominatedPercentageList: any;
   TraineeReportSubmittedList: any;
+  courseName : string
 
   getCourse: any;
 
@@ -98,17 +98,22 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.courseType3 = this.route.snapshot.paramMap.get('courseType3');
     this.masterData.dbType.foreignTrainingDb
-    this.TraineeNominationService.findByCourseDuration(+courseDurationId).subscribe(
-      res => {
-
-        this.courseDurationId = res.courseDurationId,
+    if (courseDurationId) {
+      this.TraineeNominationService.findByCourseDuration(+courseDurationId).subscribe(
+        res => {
+          this.courseDurationId = res.courseDurationId,
           this.courseNameId = res.courseNameId
+        }
+      );
+      if (this.role === 'Inter Seevice Course') {
+        this.gettraineeNominationListByTypeCourseDurationId(courseDurationId);
       }
-    );
-    if (this.role === 'Inter Seevice Course') {
-      this.gettraineeNominationListByTypeCourseDurationId(courseDurationId);
+      this.getTraineeNominationsByCourseDurationId(courseDurationId)
     }
-    this.getTraineeNominationsByCourseDurationId(courseDurationId)
+    var courseId = this.route.snapshot.paramMap.get("courseNameId");
+    if(courseId){
+      this.getTraineeNominationsByCourseId(courseId);
+    }
   }
   toggle() {
     this.showHideDiv = !this.showHideDiv;
@@ -177,8 +182,8 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
           <div class="header-text">
           <span class="header-warning top">CONFIDENTIAL</span>
           <h3>NOMINAL ROLL</h3>
-          <h3> ${this.getCourse}</h3>
-          <h3> ${this.schoolName}</h3>
+          <h3> ${this.getCourse? this.getCourse : this.courseName}</h3>
+          <h3> ${this.schoolName? this.schoolName : ""}</h3>
           
           </div>
           <br>
@@ -200,11 +205,19 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
     });
   }
 
+  getTraineeNominationsByCourseId (courseId){
+    this.TraineeNominationService.gettraineeNominationListByCourseNameId(courseId).subscribe(
+      response => {
+        this.courseName = response[0].course;
+        this.nominatedPercentageList = response;
+      } )
+  }
+
+
   getTraineeNominationsByCourseDurationId(courseDurationId) {
 
     this.isLoading = true;
     this.TraineeNominationService.gettraineeNominationListByCourseDurationId(courseDurationId).subscribe(response => {
-      console.log(response)
       this.nominatedPercentageList = response;
     });
     this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize, this.searchText, courseDurationId).subscribe(response => {
