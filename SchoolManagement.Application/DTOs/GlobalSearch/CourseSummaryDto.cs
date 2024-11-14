@@ -11,5 +11,6 @@ namespace SchoolManagement.Application.DTOs.GlobalSearch
         public int TotalTrainee { get; set; }
         public int TotalInstructor { get; set; }
         public int TotalSubject {  get; set; }
+        public int TotalCourseTraineeAllTime { get; set; }
     }
 }

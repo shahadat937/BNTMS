@@ -28,7 +28,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ml-0">
                         <div class="align-center course-name">
-                          <p>Course:- {{getCourse}}</p>
+                          <p>Course:- {{getCourse? getCourse : courseName}}</p>
                         </div>
                         <!-- <li class="dropdown">
                           <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
@@ -62,7 +62,7 @@
                             <!-- <mat-icon aria-label="Edit" class="col-white">supervisor_account</mat-icon> -->
                             <mat-icon class="col-white">add</mat-icon>
                           </button>
-                            <button *ngIf="role === 'Inter Seevice Course'" class="btn-space"  mat-raised-button
+                            <!-- <button *ngIf="role === 'Inter Seevice Course'" class="btn-space"  mat-raised-button
                               color="warn" [routerLink]="['/admin/dashboard/interservice-dashboard']"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
@@ -93,12 +93,14 @@
                             <button *ngIf="courseTypeId && courseTypeId !==5 && role != 'Inter Seevice Course' && dbType != this.masterData.dbType.foreignTrainingDb" class="btn-space"  mat-raised-button
                               color="warn" [routerLink]="['/admin/dashboard/view-runningcourses',courseTypeId]"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
-                            </button>
-
-                           
+                            </button>                            -->
                           
-                            <button *ngIf="!dbType1 && courseTypeId === 0 && !courseType3 && role != 'Foreign Training'" class="btn-space"  mat-raised-button
+                            <!-- <button *ngIf="!dbType1 && courseTypeId === 0 && !courseType3 && role != 'Foreign Training'" class="btn-space"  mat-raised-button
                               color="warn" [routerLink]="['/admin/dashboard/upcomingcourse-list']"> 
+                              <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                            </button> -->
+                            <button  class="btn-space"  mat-raised-button
+                              color="warn" (click)="sharedService.goBack()"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
 
