@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.DTOs.Common.Validators;
 using SchoolManagement.Application.DTOs.CourseDurations;
@@ -29,7 +30,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
            // if (validationResult.IsValid == false)
                // throw new ValidationException(validationResult);
 
-           IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(x => (x.BaseSchoolName.SchoolName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "BaseSchoolName", "Country", "CourseName", "CourseType", "FiscalYear", "OrganizationName").Where(x => x.CourseTypeId == request.CourseTypeId);
+           IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(x => EF.Functions.Like(x.CourseName.Course + " - " + x.CourseTitle.Trim(), $"%{request.QueryParams.SearchText}%") || (x.BaseSchoolName.SchoolName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "BaseSchoolName", "Country", "CourseName", "CourseType", "FiscalYear", "OrganizationName").Where(x => x.CourseTypeId == request.CourseTypeId);
 
             DateTime today = DateTime.Now;
 

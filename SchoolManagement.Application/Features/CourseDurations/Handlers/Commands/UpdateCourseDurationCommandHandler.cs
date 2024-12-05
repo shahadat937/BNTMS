@@ -37,8 +37,8 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Command
             _mapper.Map(request.CourseDurationDto, CourseDuration);
 
             await _unitOfWork.Repository<CourseDuration>().Update(CourseDuration);
-            CourseDuration.DurationFrom = CourseDuration.DurationFrom.Value.AddDays(1.0);
-            CourseDuration.DurationTo = CourseDuration.DurationTo.Value.AddDays(1.0);
+            //CourseDuration.DurationFrom = CourseDuration.DurationFrom.Value.AddDays(1.0);
+            //CourseDuration.DurationTo = CourseDuration.DurationTo.Value.AddDays(1.0);
             await _unitOfWork.Save();
 
             return Unit.Value;

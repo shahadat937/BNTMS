@@ -46,6 +46,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     length: 1
   }
   searchText="";
+  warningMessage = ''
   
   displayedColumns: string[] ;
   //displayedColumns: string[] = ['ser','pno','name','rankposition','course','courseTitle','subjectName','totalMark','passMarkBna', 'obtaintMark'];
@@ -210,13 +211,17 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         this.isLoading = false;
       });
     }else{
-      console.log('@222222')
       this.title = "Course Subject";
       this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res=>{
         console.log('marklistbycourse',res)
         this.marklistbycourse=res;   
-        if(this.marklistbycourse && this.marklistbycourse.length)
-        this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
+        if(this.marklistbycourse && this.marklistbycourse.length){
+          this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
+        }
+        else{
+          this.warningMessage = "Trainee Mark has not been assigned yet";
+        }
+   
         this.isLoading = false;
       });
     }
