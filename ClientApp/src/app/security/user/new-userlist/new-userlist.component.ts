@@ -89,8 +89,6 @@ export class NewUserListComponent implements OnInit, OnDestroy {
       id: [0],
       userName: ['', Validators.required],
       roleName: [this.userRole.Student],
-      // password:[],
-      // confirmPassword:[],
       password: ['Admin@123'],
       confirmPassword: ['Admin@123'],
       firstName: ['na'],

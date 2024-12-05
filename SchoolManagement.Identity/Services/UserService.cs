@@ -21,6 +21,7 @@ using SchoolManagement.Application.Constants;
 using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Domain;
 using Microsoft.EntityFrameworkCore;
+using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo;
 
 namespace SchoolManagement.Identity.Services
 {
@@ -220,6 +221,8 @@ namespace SchoolManagement.Identity.Services
             return response;
         }
 
+
+
         public bool DeleteUserRoles(ApplicationUser user)
         {
            
@@ -378,6 +381,192 @@ namespace SchoolManagement.Identity.Services
             
             return response;
         }
+
+
+        //public async Task<BaseCommandResponse> CreateUser(string userId, List<CreateTraineeBioDataGeneralInfoDto> userDto)
+        //{
+        //    var response = new BaseCommandResponse();
+
+        //    var successCount = 0;
+        //    var errorCount = 0;
+
+        //    foreach (var item in userDto)
+        //    {
+        //        var User = new ApplicationUser();
+        //        bool isNotSameRole = false;
+        //        if (!string.IsNullOrWhiteSpace(userId))
+        //        {
+        //            User = _userManager.Users.FirstOrDefault(x => x.Id == userId);
+        //            isNotSameRole = User.RoleName != item.RoleName;
+        //        }
+
+        //        User.Email = item.Email;
+        //        User.FirstName = item.FirstName;
+        //        User.PhoneNumber = item.Mobile;
+        //        User.LastName = item.LastName;
+        //        User.UserName = item.UserName;
+        //        User.RoleName = item.RoleName;
+        //        User.BranchId = !String.IsNullOrWhiteSpace(item.FourthLevel) ? item.FourthLevel : !String.IsNullOrWhiteSpace(item.ThirdLevel) ? item.ThirdLevel : !String.IsNullOrWhiteSpace(item.SecondLevel) ? item.SecondLevel : item.FirstLevel;
+        //        User.PNo =  item.TraineeId.ToString();
+        //        User.CreatedBy = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Uid)?.Value;
+        //        User.CreatedDate = DateTime.Now;
+        //        User.InActiveBy = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Uid)?.Value;
+        //        User.InActiveDate = DateTime.Now;
+        //        User.IsActive = true;
+        //        User.EmailConfirmed = true;
+
+        //        if (!string.IsNullOrWhiteSpace(userId))
+        //        {
+        //            await _userManager.UpdateAsync(User);
+        //            if (isNotSameRole)
+        //            {
+        //                IList<string> userRoles = await _userManager.GetRolesAsync(User);
+        //                if (userRoles.Any())
+        //                {
+        //                    await _userManager.RemoveFromRolesAsync(User, userRoles);
+        //                }
+        //                //  await _userManager.RemoveFromRoleAsync(User, userDto.RoleName);
+        //                await _userManager.AddToRoleAsync(User, item.RoleName);
+        //            }
+        //            response.Success = true;
+        //            response.Message = "Updated Successful";
+        //            return response;
+        //        }
+        //        var existingUser = await _userManager.FindByNameAsync(item.UserName);
+
+        //        if (existingUser != null)
+        //        {
+        //            throw new BadRequestException($"Username '{item.UserName}' already exists.");
+        //        }
+
+        //        var existingEmailFound = false;
+        //        if (item.Email != null)
+        //        {
+        //            var existingEmail = await _userManager.FindByEmailAsync(item.Email);
+        //            if (existingEmail != null)
+        //            {
+        //                existingEmailFound = true;
+        //            }
+        //        }
+
+        //        if (existingEmailFound == false)
+        //        {
+        //            var result = await _userManager.CreateAsync(User, item.Password);
+
+        //            if (result.Succeeded)
+        //            {
+        //                await _userManager.AddToRoleAsync(User, item.RoleName);
+        //                successCount++;
+        //            }
+        //            else
+        //            {
+        //                errorCount++;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new BadRequestException($"Email {item.Email} already exists.");
+        //        }
+        //    }
+
+        //    if (successCount > 0)
+        //    {
+        //        response.Success = true;
+        //        response.Message = $"{successCount} Users Created and {errorCount} Users Faild";
+        //    }
+
+        //    return response;
+        //}
+
+        public async Task<BaseCommandResponse> CreateUser(string userId, string traineeId, CreateTraineeBioDataGeneralInfoDto userDto)
+        {
+            var response = new BaseCommandResponse();
+
+            var user = new ApplicationUser();
+            bool isNotSameRole = false;
+
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                if (!string.IsNullOrWhiteSpace(userId))
+                {
+                    user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
+                    isNotSameRole = user.RoleName != userDto.RoleName;
+                }
+            }
+
+            // Update or set user properties
+            user.Email = userDto.Email;
+            user.FirstName = userDto.FirstName;
+            user.PhoneNumber = userDto.Mobile;
+            user.LastName = userDto.LastName;
+            user.UserName = userDto.Pno;
+            user.RoleName = userDto.RoleName;
+            user.BranchId = !string.IsNullOrWhiteSpace(userDto.FourthLevel) ? userDto.FourthLevel
+                         : !string.IsNullOrWhiteSpace(userDto.ThirdLevel) ? userDto.ThirdLevel
+                         : !string.IsNullOrWhiteSpace(userDto.SecondLevel) ? userDto.SecondLevel
+                         : userDto.FirstLevel;
+            user.PNo = traineeId;
+            user.CreatedBy = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Uid)?.Value;
+            user.CreatedDate = DateTime.Now;
+            user.InActiveBy = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Uid)?.Value;
+            user.InActiveDate = DateTime.Now;
+            user.IsActive = true;
+            user.EmailConfirmed = true;
+
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                // Update the user
+                await _userManager.UpdateAsync(user);
+
+                if (isNotSameRole)
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    if (userRoles.Any())
+                    {
+                        await _userManager.RemoveFromRolesAsync(user, userRoles);
+                    }
+                    await _userManager.AddToRoleAsync(user, userDto.RoleName);
+                }
+
+                response.Success = true;
+                response.Message = "User updated successfully.";
+                return response;
+            }
+
+            // Check if username already exists
+            var existingUser = await _userManager.FindByNameAsync(userDto.Pno);
+            if (existingUser != null)
+            {
+                throw new BadRequestException($"Username '{userDto.UserName}' already exists.");
+            }
+
+            // Check if email already exists
+            if (!string.IsNullOrWhiteSpace(userDto.Email))
+            {
+                var existingEmail = await _userManager.FindByEmailAsync(userDto.Email);
+                if (existingEmail != null)
+                {
+                    throw new BadRequestException($"Email '{userDto.Email}' already exists.");
+                }
+            }
+
+            // Create a new user
+            var result = await _userManager.CreateAsync(user, userDto.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, userDto.RoleName);
+                response.Success = true;
+                response.Message = "User created successfully.";
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "Failed to create user.";
+            }
+
+            return response;
+        }
+
 
         public async Task<BaseCommandResponse> Update(string userId, CreateUserDto userDto)
         {

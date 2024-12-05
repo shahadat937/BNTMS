@@ -1,5 +1,7 @@
 ﻿using SchoolManagement.Application;
+using SchoolManagement.Application.Contracts.Identity;
 using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo;
+using SchoolManagement.Application.DTOs.User;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Commands;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Queries;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Queries;
@@ -14,10 +16,12 @@ namespace SchoolManagement.Api.Controllers;
 public class TraineeBioDataGeneralInfoController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IUserService _userService;
 
-    public TraineeBioDataGeneralInfoController(IMediator mediator)
+    public TraineeBioDataGeneralInfoController(IMediator mediator, IUserService userService)
     {
         _mediator = mediator;
+        _userService = userService;
     }
 
     [HttpGet]
@@ -96,6 +100,8 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
     {
         var command = new CreateTraineeBioDataGeneralInfoCommand { TraineeBioDataGeneralInfoDto = createTraineeBioDataGeneralInfo };
         var response = await _mediator.Send(command);
+
+        await _userService.CreateUser("", response.Id.ToString(), createTraineeBioDataGeneralInfo);
         return Ok(response);
 
     }
@@ -123,6 +129,7 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
     {
         var command = new DeleteTraineeBioDataGeneralInfoCommand { TraineeId = id };
         await _mediator.Send(command);
+        await _userService.DeleteUser(id.ToString());
         return NoContent();
     }
 

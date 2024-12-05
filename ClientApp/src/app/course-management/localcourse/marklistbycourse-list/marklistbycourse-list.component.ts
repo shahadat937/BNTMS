@@ -76,7 +76,6 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
 
     this.baseSchoolNameService.find(this.branchId).subscribe(res=>{
-      console.log(res)
       this.schoolName = res.schoolName;
     });
 
@@ -182,17 +181,19 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     this.courseType = Number(this.route.snapshot.paramMap.get('courseTypeId')); 
 
     this.courseDurationService.find(Number(courseDurationId)).subscribe(res=>{
-     
       this.course = res.courseName+"_"+res.courseTitle;
     });
     if(this.courseNameId == this.masterData.courseName.StaffCollage){
+      console.log("Test 1")
       this.title = "Staff Collage Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForStuffClg(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
+        if(this.marklistbycourse && this.marklistbycourse.length)
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
         this.isLoading = false;
       });
     }else if(this.courseNameId == this.masterData.courseName.JCOsTraining){
+      console.log("Test 2")
       this.title = "JCO's Exam Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForStuffClg(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
@@ -200,17 +201,21 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         this.isLoading = false;
       });
     }else if(this.courseNameId == this.masterData.courseName.QExam){
+      console.log("Test 3")
       this.title = " Q-Exam Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForQexam(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
+        if(this.marklistbycourse && this.marklistbycourse.length)
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
         this.isLoading = false;
       });
     }else{
+      console.log('@222222')
       this.title = "Course Subject";
       this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res=>{
         console.log('marklistbycourse',res)
         this.marklistbycourse=res;   
+        if(this.marklistbycourse && this.marklistbycourse.length)
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
         this.isLoading = false;
       });
