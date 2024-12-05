@@ -10,6 +10,7 @@ import { MasterData } from 'src/assets/data/master-data';
 import { Subscription } from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from 'src/app/core/models/role';
 
 @Component({
   selector: 'app-new-BIODataGeneralInfo',
@@ -60,6 +61,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
   selectRank: SelectedModel[];
   selectrank: SelectedModel[];
   saylorRankId: number;
+ userRole = Role
 
   private subscription: Subscription;
   imageUrl: string = "/assets/img/icon.png";
@@ -351,7 +353,13 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       remarks: [''],
       localNominationStatus: [0],
       isActive: [true],
-
+      id: [0],
+      userName: [''],
+      roleName: [this.userRole.Student],
+      password: ['Admin@123'],
+      confirmPassword: ['Admin@123'],
+      firstName: ['na'],
+      lastName:['na'],
       // traineeId:[],
       //bnaBatchId:[],
       //rankId:[],

@@ -1,4 +1,5 @@
 ﻿using SchoolManagement.Application.DTOs.Common;
+using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo;
 using SchoolManagement.Application.DTOs.User;
 using SchoolManagement.Application.Models;
 using SchoolManagement.Application.Models.Identity;
@@ -19,6 +20,7 @@ namespace SchoolManagement.Application.Contracts.Identity
         Task<Employee> GetEmployee(string userId); 
         Task<PagedResult<UserDto>> GetUsers(QueryParams queryParams);
         Task<BaseCommandResponse> Save(string userId,List<CreateUserDto> user);
+        Task<BaseCommandResponse> CreateUser(string userId,string traineeId, CreateTraineeBioDataGeneralInfoDto user);
         Task<BaseCommandResponse> Update(string userId,CreateUserDto user);
         Task<BaseCommandResponse> UpdateUser(string userId, UpdateEmailPhoneDto user);
         Task<BaseCommandResponse> ResetPassword(string userId,CreateUserDto user);

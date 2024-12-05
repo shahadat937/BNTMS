@@ -93,6 +93,8 @@
                 </div>
                 <div *ngIf="!isLoading">
                   <div id="print-routine" class="table-container">
+
+                    <p class="text-danger text-center my-2" style="font-size: 2rem;">{{warningMessage}}</p>
                   <table  mat-table [dataSource]="marklistbycourse" class="mat-elevation-z8 demo-table dynamic-tbl">
                     <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
                       <th class="rotate "  mat-header-cell *matHeaderCellDef>                          

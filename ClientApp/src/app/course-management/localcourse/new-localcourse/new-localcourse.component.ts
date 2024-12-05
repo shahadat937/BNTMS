@@ -220,10 +220,17 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
 
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
+    const durationFrom = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationFrom').value)
+    console.log(durationFrom)
+    this.CourseDurationForm.get('durationFrom')?.setValue(durationFrom);
+    const durationTo = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationTo').value)
+    this.CourseDurationForm.get('durationTo')?.setValue(durationTo);
+    console.log(durationTo)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
+          console.log('Test',this.CourseDurationForm.value);
           this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
             this.router.navigateByUrl('/course-management/localcourse-list');
             this.snackBar.open('Information Updated Successfully ', '', {
@@ -239,6 +246,7 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
       })
     }else {
       this.loading = true;
+  
       this.CourseDurationService.submit(this.CourseDurationForm.value).subscribe(response => {
         this.router.navigateByUrl('/course-management/localcourse-list');
         this.snackBar.open('Information Inserted Successfully ', '', {

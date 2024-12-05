@@ -73,5 +73,17 @@ namespace SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo
         public string? Sports { get; set; }
         //
         public IFormFile? Image { get; set; }
+        public string? UserName { get; set; }
+        public string? RoleName { get; set; }
+        public string? Password { get; set; }
+        public string? ConfirmPassword { get; set; }
+        public string? FirstName { get; set; }
+        public string?  LastName { get; set; }
+        public string? FirstLevel { get; set; }
+        public string? SecondLevel { get; set; }
+        public string? ThirdLevel { get; set; }
+        public string? FourthLevel { get; set; }
+
+
     }
 }
