@@ -30,7 +30,10 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
   selectedcoursetype:SelectedModel[];
   courseTypeId:string;
   selectedSchool:SelectedModel[];
+  selectSchoolName: SelectedModel[];
   selectedBaseName:SelectedModel[];
+  selectBaseName: SelectedModel[]
+  selectCourse: SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
     super();
@@ -115,19 +118,30 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
     const branchLevel : number = 3;
     this.CourseDurationService.getSelectedBaseName(branchLevel).subscribe(res=>{
       this.selectedBaseName=res
+      this.selectBaseName=res
     });
   }
   onBaseNameSelectionChangeGetSchool(baseNameId){
     this.CourseDurationService.getSchoolByBaseId(baseNameId).subscribe(res=>{
       this.selectedSchool=res
-      console.log(baseNameId);
+      this.selectSchoolName=res
     });
    }
+   filterBySchool(value:any){
+    this.selectedSchool = this.selectSchoolName.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+   }
+   filterByCourse(value: any) {
+    this.selectedcourse = this.selectCourse.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+  }
+  filterByBaseName(value:any){
+    this.selectedBaseName = this.selectBaseName.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+  }
 
   getselectedcoursename(){
     
     this.CourseDurationService.getCourseByType(this.courseTypeId).subscribe(res=>{
       this.selectedcourse=res
+      this.selectCourse=res
     });
   } 
 
