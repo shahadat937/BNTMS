@@ -32,7 +32,7 @@
                         <mat-select required multiple formControlName="baseSchoolNameId"  (selectionChange)="getselectedcoursedurationbyschoolname()">
                           <!-- <input matInput (input)="filterOptions($event.target.value)" placeholder="Search options"> -->
                           <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                           id="selectSearch" 
                           (input)="filterBaseSchools($event.target.value)"
                           [disabled]="allSelected.selected"
@@ -74,7 +74,7 @@
                       <mat-select multiple formControlName="courseName">
                         <!-- <mat-option  value="0">--Select--</mat-option > -->
                           <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                           id="selectSearch" 
                           (input)="filterCourse($event.target.value)"
                           [disabled]="allSelectedCourse.selected"
