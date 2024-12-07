@@ -26,6 +26,9 @@ const routes: Routes = [
    { path: 'main-tab-layout/:traineeId', 
    component: MainTabLayoutComponent, 
    },
+   { path: 'main-tab-layout', 
+   component: MainTabLayoutComponent, 
+   },
   
    {
     path: 'main-tab-layout/main-tab',
@@ -36,6 +39,10 @@ const routes: Routes = [
       
       { 
         path: 'family-info-details/:traineeId', 
+        component: ParentRelativeListComponent
+      },
+      { 
+        path: 'family-info-details', 
         component: ParentRelativeListComponent
       },
       { 
