@@ -38,7 +38,7 @@ namespace SchoolManagement.Application.Features.ReadingMaterials.Handlers.Querie
 
             if(request.BaseSchoolNameId == 0)
             {
-                IQueryable<ReadingMaterial> ReadingMaterials = _ReadingMaterialRepository.FilterWithInclude(x => (String.IsNullOrEmpty(request.QueryParams.SearchText) || x.DocumentName.Contains(request.QueryParams.SearchText)), "CourseName", "BaseSchoolName", "DocumentType", "DownloadRight", "ReadingMaterialTitle", "ShowRight");
+                IQueryable<ReadingMaterial> ReadingMaterials = _ReadingMaterialRepository.FilterWithInclude(x => (String.IsNullOrEmpty(request.QueryParams.SearchText) || x.CourseName.Course.Contains(request.QueryParams.SearchText) || x.DocumentName.Contains(request.QueryParams.SearchText)), "CourseName", "BaseSchoolName", "DocumentType", "DownloadRight", "ReadingMaterialTitle", "ShowRight");
                 var totalCount = ReadingMaterials.Count();
                 ReadingMaterials = ReadingMaterials.OrderByDescending(x => x.ReadingMaterialId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 
