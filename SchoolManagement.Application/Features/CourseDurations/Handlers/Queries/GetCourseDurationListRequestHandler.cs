@@ -15,6 +15,7 @@ using SchoolManagement.Application.Models;
 using SchoolManagement.Application.DTOs.Common.Validators;
 using SchoolManagement.Application.Exceptions;
 using SchoolManagement.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 {
@@ -39,7 +40,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(x => (x.CourseTitle.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "CourseName", "BaseSchoolName", "OrganizationName");
+            IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(x => EF.Functions.Like (x.CourseName.Course +" - "+ x.CourseTitle.Trim(), $"%{request.QueryParams.SearchText}%") || (x.BaseSchoolName.SchoolName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "CourseName", "BaseSchoolName", "OrganizationName");
             var totalCount = CourseDurations.Count();
             CourseDurations = CourseDurations.OrderByDescending(x => x.CourseDurationId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize).Where(x=>x.IsCompletedStatus==0);
 
