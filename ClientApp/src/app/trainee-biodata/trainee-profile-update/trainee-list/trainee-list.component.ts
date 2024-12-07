@@ -65,8 +65,14 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
 
-    this.getBIODataGeneralInfos();
-    this.getTraineeListForUpdate();
+
+    if(this.role === this.userRole.SuperAdmin){
+      this.getTraineeListForUpdate();
+    }
+    else{
+      this.getBIODataGeneralInfos();
+    }
+
     this.searchSubscription = this.searchSubject.pipe(
       debounceTime(300), 
       distinctUntilChanged() 
@@ -83,6 +89,7 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
   getBIODataGeneralInfos() {
     this.isLoading = true;
     this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
+      console.log(response);
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -93,6 +100,7 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
     this.BIODataGeneralInfoService.getTraineeListForUpdate(this.branchId,this.searchText).subscribe(response => {
 
       this.dataSource = new MatTableDataSource(response);
+      console.log(this.dataSource)
       
       this.dataSource.sort = this.InitialOrdersort;
       this.dataSource.paginator = this.InitialOrderpaginator;

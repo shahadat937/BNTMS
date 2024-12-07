@@ -67,6 +67,7 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
     const id = this.route.snapshot.paramMap.get('traineeNominationId');  
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');  
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+    console.log(this.courseNameId, this.courseDurationId)
     this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
         this.TraineeNominationForm.patchValue({          
@@ -467,6 +468,12 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       })
     }else {
       this.loading=true;
+      if(!this.TraineeNominationForm.value.courseDurationId && !this.TraineeNominationForm.value.courseNameId ){
+        this.TraineeNominationForm.value.courseDurationId = this.courseDurationId 
+        this.TraineeNominationForm.value.courseNameId = this.courseNameId 
+        
+      }
+      console.log(this.TraineeNominationForm.value); 
       this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         // this.router.navigateByUrl('/central-exam/traineenomination-list/'+this.courseDurationId);
         this.reloadCurrentRoute();
