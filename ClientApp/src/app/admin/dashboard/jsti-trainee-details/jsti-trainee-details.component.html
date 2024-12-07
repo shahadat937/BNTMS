@@ -37,6 +37,9 @@
                             <button class="btn-space"  mat-raised-button color="warn" (click)="backButton()"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
+                            <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
+                              <mat-icon class="col-white">print</mat-icon>
+                            </button>
                           </div>
                       </ul>
                     </div>
@@ -55,8 +58,7 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                           <div class="img-box">
-                            <img src='/Content/{{jstiTraineeDetails[0].bnaPhotoUrl}}' alt="Trainee Image" />
-                            <!-- <span class="img-txt">Photo</span> -->
+                            <img src='{{jstiTraineeDetails[0]?.bnaPhotoUrl}}' alt="Trainee Image" />
                           </div>
                         </div>
                       </div>
@@ -66,13 +68,13 @@
                             <div class="row">
                               <div class="counting"><span class="txt">1.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">P NO</span> <span class="pno-space solid-border">{{jstiTraineeDetails[0].pno}}</span><span class="txt"> RANK </span> <span class="rank-space solid-border">{{jstiTraineeDetails[0].rankPosition}}</span><span class="txt"> SENIORITY </span> <span class="seniority-space solid-border">{{jstiTraineeDetails[0].seniority}}</span>
+                                <span class="txt">P NO</span> <span class="pno-space solid-border">{{jstiTraineeDetails[0]?.pno}}</span><span class="txt"> RANK </span> <span class="rank-space solid-border">{{jstiTraineeDetails[0]?.rankPosition}}</span><span class="txt"> SENIORITY </span> <span class="seniority-space solid-border">{{jstiTraineeDetails[0]?.seniority}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">2.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">FULL NAME</span> <span class="name-space solid-border">{{jstiTraineeDetails[0].name}}</span>
+                                <span class="txt">FULL NAME</span> <span class="name-space solid-border">{{jstiTraineeDetails[0]?.name}}</span>
                               </div>
                             </div>
                             <div class="row m-2 full-width-txt">
@@ -84,13 +86,13 @@
                             <div class="row">
                               <div class="counting"><span class="txt">3.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">DATE OF COMMISSION</span> <span class="commission-date-space solid-border">{{jstiTraineeDetails[0].dateOfCommission | date:'mediumDate'}}</span><span class="txt"> BRANCH </span> <span class="  branch-space solid-border">{{jstiTraineeDetails[0].branchName}}</span>
+                                <span class="txt">DATE OF COMMISSION</span> <span class="commission-date-space solid-border">{{jstiTraineeDetails[0]?.dateOfCommission | date:'mediumDate'}}</span><span class="txt"> BRANCH </span> <span class="  branch-space solid-border">{{jstiTraineeDetails[0]?.branchName}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">4.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">DATE OF BIRTH</span> <span class="birth-date-space solid-border">{{jstiTraineeDetails[0].dateOfBirth | date:'mediumDate'}}</span><span class="txt"> PLACE </span> <span class="place-space solid-border">{{jstiTraineeDetails[0].birthPlace}}</span>
+                                <span class="txt">DATE OF BIRTH</span> <span class="birth-date-space solid-border">{{jstiTraineeDetails[0]?.dateOfBirth | date:'mediumDate'}}</span><span class="txt"> PLACE </span> <span class="place-space solid-border">{{jstiTraineeDetails[0]?.birthPlace}}</span>
                               </div>
                             </div>
                             <br class="only-for-print">
@@ -103,25 +105,25 @@
                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
                                     <div class="counting"><span class="txt">a.</span></div>
                                     <div class="inner-txt">
-                                      <span class="txt">HEIGHT</span> <span class="heignt-space solid-border">{{jstiTraineeDetails[0].heightName}}</span>
+                                      <span class="txt">HEIGHT</span> <span class="heignt-space solid-border">{{jstiTraineeDetails[0]?.heightName}}</span>
                                     </div>
                                   </div>
                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
                                     <div class="counting"><span class="txt">b.</span></div>
                                     <div class="inner-txt">
-                                      <span class="txt">WEIGHT</span> <span class="weight-space solid-border">{{jstiTraineeDetails[0].weightName}}</span>
+                                      <span class="txt">WEIGHT</span> <span class="weight-space solid-border">{{jstiTraineeDetails[0]?.weightName}}</span>
                                     </div>
                                   </div>
                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
                                     <div class="counting"><span class="txt">c.</span></div>
                                     <div class="inner-txt">
-                                      <span class="txt">BLOOD GROUP</span> <span class="blood-grp-space solid-border">{{jstiTraineeDetails[0].bloodGroupName}}</span>
+                                      <span class="txt">BLOOD GROUP</span> <span class="blood-grp-space solid-border">{{jstiTraineeDetails[0]?.bloodGroupName}}</span>
                                     </div>
                                   </div>
                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
                                     <div class="counting"><span class="txt">d.</span></div>
                                     <div class="inner-txt">
-                                      <span class="txt">MEDICAL CATEGORY</span> <span class="medical-cat-space solid-border">{{jstiTraineeDetails[0].medicalCategory}}</span>
+                                      <span class="txt">MEDICAL CATEGORY</span> <span class="medical-cat-space solid-border">{{jstiTraineeDetails[0]?.medicalCategory}}</span>
                                     </div>
                                   </div>
                                 </div>
@@ -130,22 +132,22 @@
                             <div class="row mt-3">
                               <div class="counting"><span class="txt">6.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">RELIGION</span> <span class="religion-space solid-border">{{jstiTraineeDetails[0].religionName}}</span>
+                                <span class="txt">RELIGION</span> <span class="religion-space solid-border">{{jstiTraineeDetails[0]?.religionName}}</span>
                               </div>
                             </div>
                             <br class="only-for-print">
                             <div class="row">
                               <div class="counting"><span class="txt">7.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">MARITIAL STATUS(Married/Single)</span> <span class="maritial-status-space solid-border">{{jstiTraineeDetails[0].maritalStatusName}}</span><span class="txt"> DATE </span> <span class="maritial-date-space solid-border">{{jstiTraineeDetails[0].marriedDate | date:'mediumDate'}}</span>
+                                <span class="txt">MARITIAL STATUS(Married/Single)</span> <span class="maritial-status-space solid-border">{{jstiTraineeDetails[0]?.maritalStatusName}}</span><span class="txt"> DATE </span> <span class="maritial-date-space solid-border">{{jstiTraineeDetails[0]?.marriedDate | date:'mediumDate'}}</span>
                                 <div class="row">
                                   <div class="counting"><span class="txt">a.</span></div>
                                   <div class="inner-txt">
-                                    <span class="txt">FAMILY LOCATION</span> <span class="family-location-space solid-border">{{jstiTraineeDetails[0].familyLocation}}</span>
+                                    <span class="txt">FAMILY LOCATION</span> <span class="family-location-space solid-border">{{jstiTraineeDetails[0]?.familyLocation}}</span>
                                   </div>
                                   <div class="counting"><span class="txt">b.</span></div>
                                   <div class="inner-txt">
-                                    <span class="txt">NAME OF WIFE</span> <span class="wife-name-space solid-border">{{jstiTraineeDetails[0].wifeName}}</span>
+                                    <span class="txt">NAME OF WIFE</span> <span class="wife-name-space solid-border">{{jstiTraineeDetails[0]?.wifeName}}</span>
                                   </div>
                                   <div class="counting"><span class="txt">c.</span></div>
                                   <div class="inner-txt children">
@@ -195,47 +197,47 @@
                             <div class="row">
                               <div class="counting"><span class="txt">8.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">FATHER</span> <span class="father-space solid-border">{{jstiTraineeDetails[0].fatherName}}</span>
+                                <span class="txt">FATHER</span> <span class="father-space solid-border">{{jstiTraineeDetails[0]?.fatherName}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">9.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">OCCUPATION</span> <span class="occupation-space solid-border">{{jstiTraineeDetails[0].fatherOccupation}}</span>
+                                <span class="txt">OCCUPATION</span> <span class="occupation-space solid-border">{{jstiTraineeDetails[0]?.fatherOccupation}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">10.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">MOTHER</span> <span class="mother-space solid-border">{{jstiTraineeDetails[0].motherName}}</span>
+                                <span class="txt">MOTHER</span> <span class="mother-space solid-border">{{jstiTraineeDetails[0]?.motherName}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">11.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">PRESENT ADDRESS (WITH TEL)</span> <span class="prsnt-add-line-1-space solid-border">{{jstiTraineeDetails[0].presentAddress}}</span>
+                                <span class="txt">PRESENT ADDRESS (WITH TEL)</span> <span class="prsnt-add-line-1-space solid-border">{{jstiTraineeDetails[0]?.presentAddress}}</span>
                               </div>
                               <!-- <span class="prsnt-add-line-2-space solid-border">.</span> -->
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">12.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">PERMANENT ADDRESS (WITH TEL)</span> <span class="prament-add-line-1-space solid-border">{{jstiTraineeDetails[0].permanentAddress}}</span>
+                                <span class="txt">PERMANENT ADDRESS (WITH TEL)</span> <span class="prament-add-line-1-space solid-border">{{jstiTraineeDetails[0]?.permanentAddress}}</span>
                               </div>
                               <!-- <span class="prament-add-line-2-space solid-border">.</span> -->
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">13.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">TRUST BANK ACCOUNT NUMBER WITH NAME AND BRANCH (FOR DEPOSITING IRP BILL)</span> <span class="trast-acc-line-1-space solid-border not-print">{{jstiTraineeDetails[0].bankAccount}}</span>
+                                <span class="txt">TRUST BANK ACCOUNT NUMBER WITH NAME AND BRANCH (FOR DEPOSITING IRP BILL)</span> <span class="trast-acc-line-1-space solid-border not-print">{{jstiTraineeDetails[0]?.bankAccount}}</span>
                               </div>
-                              <span class="trast-acc-line-2-space solid-border only-for-print">{{jstiTraineeDetails[0].bankAccount}}</span>
+                              <span class="trast-acc-line-2-space solid-border only-for-print">{{jstiTraineeDetails[0]?.bankAccount}}</span>
                               <!-- <span class="trast-acc-line-2-space solid-border">.</span> -->
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">14.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">PERSON TO BE COMMUNICATED IN EMERGENCY WITH ADDRESS</span> <span class="emrgncy-line-1-space solid-border">{{jstiTraineeDetails[0].emergencyCommunicatePerson}}</span>
+                                <span class="txt">PERSON TO BE COMMUNICATED IN EMERGENCY WITH ADDRESS</span> <span class="emrgncy-line-1-space solid-border">{{jstiTraineeDetails[0]?.emergencyCommunicatePerson}}</span>
                               </div>
                               <!-- <span class="emrgncy-line-2-space solid-border">.</span> -->
                             </div>
@@ -377,31 +379,31 @@
                             <div class="row">
                               <div class="counting"><span class="txt">19.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">SPORTS</span> <span class="sports-space solid-border">{{jstiTraineeDetails[0].sports}}</span>
+                                <span class="txt">SPORTS</span> <span class="sports-space solid-border">{{jstiTraineeDetails[0]?.sports}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">20.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">HOBBIES</span> <span class="hobbies-space solid-border">{{jstiTraineeDetails[0].hobbies}}</span>
+                                <span class="txt">HOBBIES</span> <span class="hobbies-space solid-border">{{jstiTraineeDetails[0]?.hobbies}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">21.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">LIKENESS</span> <span class="likeness-space solid-border">{{jstiTraineeDetails[0].likeness}}</span>
+                                <span class="txt">LIKENESS</span> <span class="likeness-space solid-border">{{jstiTraineeDetails[0]?.likeness}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">22.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">DISLIKENESS</span> <span class="dislikeness-space solid-border">{{jstiTraineeDetails[0].dislikeness}}</span>
+                                <span class="txt">DISLIKENESS</span> <span class="dislikeness-space solid-border">{{jstiTraineeDetails[0]?.dislikeness}}</span>
                               </div>
                             </div>
                             <div class="row">
                               <div class="counting"><span class="txt">23.</span></div>
                               <div class="inner-txt">
-                                <span class="txt">COUNTRY VISITED</span> <span class="visited-country-line-1-space solid-border">{{jstiTraineeDetails[0].countryVisited}}</span>
+                                <span class="txt">COUNTRY VISITED</span> <span class="visited-country-line-1-space solid-border">{{jstiTraineeDetails[0]?.countryVisited}}</span>
                               </div>
                               <!-- <span class="visited-country-line-2-space solid-border">.</span> -->
                             </div>
@@ -436,9 +438,7 @@
             </div>
      
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
-              <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
-                <mat-icon class="col-white">print</mat-icon>
-              </button>
+              
             </div>
           </div>
         </div>

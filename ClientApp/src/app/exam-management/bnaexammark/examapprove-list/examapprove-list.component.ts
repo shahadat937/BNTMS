@@ -30,6 +30,7 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
   examList:any;
   courseNameId:any;
   courseTypeId:any;
+  // groupArrays:{ key: string; courses: any; }[];
 
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator)
@@ -50,6 +51,9 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
 
   displayedExamEvaluationColumns: string[] = ['ser', 'course','subject','date','examStatus', 'markStatus'];
 
+  groupArrays: any[] = [];         // Filtered array
+  originalGroupArrays: any[] = [];
+
   constructor(private datepipe: DatePipe,private authService: AuthService,private BNAExamMarkService: BNAExamMarkService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
@@ -61,26 +65,98 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
     this.branchId =  this.authService.currentUserValue.branchId.trim();
 
     this.getQexamApproveList(this.branchId)
+
     
     
   }
 
   
   
-  getQexamApproveList(baseSchoolId){
-    this.destination="Exam"
-    this.BNAExamMarkService.getSchoolExamApproveList(baseSchoolId).subscribe(res=>{
-      this.examList=res;  
-      this.dataSource = new MatTableDataSource(res);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.matSort;
+  // getQexamApproveList(baseSchoolId){
+  //   this.destination="Exam"
+  //   this.BNAExamMarkService.getSchoolExamApproveList(baseSchoolId).subscribe(res=>{
+  //     this.examList=res;  
+  //     const group = this.examList.reduce((groups, item) => {
+       
+  //       const key = `${item.course} - ${item.courseTitle}`; 
+    
+  //       if (!groups[key]) {
+  //         groups[key] = [];
+  //       }
+    
+  //       groups[key].push(item);
+  //       return groups;
+  //     }, {});
+    
+  //     this.groupArrays = Object.keys(group).map((key) => {
+  //       return {
+  //         key,
+  //         courses: group[key]
+  //       };
+  //     });
+  //     // this.dataSource = new MatTableDataSource(res);
+  //     // this.dataSource.paginator = this.paginator;
+  //     // this.dataSource.sort = this.matSort;       
+  //   });
+  // }
+
+
+  // applyFilter(filterValue: string) {
+    
+  //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+  //   this.dataSource.filter = filterValue;
+  //   this.searchText = filterValue;
+  // }
+
+  getQexamApproveList(baseSchoolId: string) {
+    this.destination = "Exam";
+    this.BNAExamMarkService.getSchoolExamApproveList(baseSchoolId).subscribe(res => {
+      this.examList = res;
+
+      // Group data by composite key
+      const group = this.examList.reduce((groups, item) => {
+        const key = `${item.course} - ${item.courseTitle}`; // Composite key
+        if (!groups[key]) {
+          groups[key] = [];
+        }
+        groups[key].push(item);
+        return groups;
+      }, {});
+
+      // Transform grouped data into an array
+      this.groupArrays = Object.keys(group).map((key) => ({
+        key,
+        courses: group[key]
+      }));
+
+      // Store the original data for resetting the filter
+      this.originalGroupArrays = [...this.groupArrays];  // Keep a copy of the original data
     });
   }
 
-
+  
   applyFilter(filterValue: string) {
+    const processedFilter = this.normalizeString(filterValue); // Normalize the filter input
     
-    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-    this.dataSource.filter = filterValue;
+    // If the filter value is empty, show all records
+    if (!processedFilter) {
+      this.groupArrays = [...this.originalGroupArrays]; // Reset to original data
+    } else {
+      // Filter groups by normalized key if there's a filter value
+      this.groupArrays = this.originalGroupArrays.filter(group =>
+        this.normalizeString(group.key).includes(processedFilter) // Compare normalized key
+      );
+    }
+    
+    // Log to check the filtered result
+    console.log("Filtered Group Arrays:", this.groupArrays);
   }
+
+  // Utility function to normalize strings by removing spaces and unwanted characters
+  normalizeString(str: string): string {
+    return str.toLowerCase().replace(/\s/g, '').replace(/[^a-z0-9]/g, ''); // Remove spaces and non-alphanumeric characters
+  }
+  
+
+  
 }
