@@ -96,7 +96,8 @@
                         placeholder="Search">
                       <mat-option value="0">--Select--</mat-option>
                       <!-- (onSelectionChange)="onCourseNameSelectionChangeGetSubjectAndTraineeList($event)" -->
-                      <mat-option  (onSelectionChange)="onSubjectSelectionChangeGetinstructorNameByParams($event)" *ngFor="let code of selectedSubjectNamebyschoolnameAndCourse" [value]="code">
+                      <mat-option  (onSelectionChange)="onSubjectSelectionChangeGetinstructorNameByParams($event)" *ngFor="let code of selectedSubjectNamebyschoolnameAndCourse" [value]="code" matTooltip="{{code.text}}"
+                      matTooltipPosition="above">
                         {{code.text}}
                       </mat-option>
                     </mat-select>
