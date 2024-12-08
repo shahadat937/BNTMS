@@ -11,6 +11,9 @@ import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Role } from 'src/app/core/models/role';
+import { AuthService } from 'src/app/core/service/auth.service';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-educational-qualification-list',
@@ -24,6 +27,8 @@ export class EducationalQualificationListComponent extends UnsubscribeOnDestroyA
   ELEMENT_DATA: EducationalQualification[];
   isLoading = false;
   traineeId: string;
+  role : string;
+  userRoles = Role;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -38,16 +43,19 @@ export class EducationalQualificationListComponent extends UnsubscribeOnDestroyA
 
   SelectionModel = new SelectionModel<EducationalQualification>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private EducationalQualificationService: EducationalQualificationService,private router: Router,private confirmService: ConfirmService, private authService : AuthService, private sharedService: SharedServiceService) {
     super();
   }
   ngOnInit() {
+    this.role = this.authService.currentUserValue.role;
     this.getEducationalQualifications();
   }
  
   getEducationalQualifications() {
     this.isLoading = true;
-    this.traineeId = this.route.snapshot.paramMap.get('traineeId');
+    // if user is trainee then trineeId will recived from  authService.currentUserValue.traineeId
+    this.traineeId = this.route.snapshot.paramMap.get('traineeId') || this.authService.currentUserValue.traineeId;
+    this.checkTraineeId(this.traineeId);
     this.EducationalQualificationService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
@@ -64,6 +72,12 @@ export class EducationalQualificationListComponent extends UnsubscribeOnDestroyA
   //   this.searchText = searchText;
   //   this.getEducationalQualifications();
   // } 
+  checkTraineeId(traineeId){
+    if (this.role === this.userRoles.Student && traineeId !== this.authService.currentUserValue.traineeId) {
+      this.sharedService.goBack(); 
+    }
+  }
+  
 
   deleteItem(row) {
     const id = row.educationalQualificationId; 

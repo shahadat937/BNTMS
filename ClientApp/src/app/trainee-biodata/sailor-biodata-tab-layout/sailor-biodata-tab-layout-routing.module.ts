@@ -63,6 +63,10 @@ const routes: Routes = [
         component: EducationalQualificationListComponent
       },
       { 
+        path: 'educational-qualification-details', 
+        component: EducationalQualificationListComponent
+      },
+      { 
         path: 'add-educational-qualification-details/:traineeId', 
         component: NewEducationalQualificationComponent
       },
@@ -73,6 +77,10 @@ const routes: Routes = [
       { 
         path: 'view-educational-qualification-details/:traineeId/:educationalQualificationId', 
         component: ViewEducationalQualificationComponent
+      },
+      { 
+        path: 'game-sport-details', 
+        component: GameSportListComponent
       },
       { 
         path: 'game-sport-details/:traineeId', 
@@ -95,8 +103,16 @@ const routes: Routes = [
         path: 'update-traineebiodatageneralinfo/:traineeId', 
         component: UpdateTraineeBIODataGeneralInfoComponent 
       },
+      { 
+        path: 'update-traineebiodatageneralinfo', 
+        component: UpdateTraineeBIODataGeneralInfoComponent 
+      },
 
  
+      { 
+        path: 'social-media-details',  
+        component: SocialMediaListComponent
+      },
       { 
         path: 'social-media-details/:traineeId',  
         component: SocialMediaListComponent

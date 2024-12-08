@@ -405,7 +405,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                     <mat-label>P No</mat-label>
-                    <input matInput formControlName="pno" required>
+                    <input  [readonly]="role === userRoles.Student" matInput formControlName="pno" required>
                     <mat-error *ngIf="BIODataGeneralInfoForm.get('pno').hasError('required')">
                       P No is required
                     </mat-error>

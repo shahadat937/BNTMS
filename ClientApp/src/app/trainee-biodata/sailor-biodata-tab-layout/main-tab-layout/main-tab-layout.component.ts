@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ChildParameterService} from '../service/ChildParameter.service'
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from 'src/app/core/service/auth.service';
+import { Role } from 'src/app/core/models/role';
 
 @Component({
   selector: 'app-main-tab-layout',
@@ -17,40 +19,44 @@ export class MainTabLayoutComponent extends UnsubscribeOnDestroyAdapter implemen
   navLinks: any[];
   id: any;
   activeLinkIndex = -1; 
-  constructor(private router: Router, private route: ActivatedRoute, private childParameterService: ChildParameterService, public sharedService: SharedServiceService) {
+  role : string;
+  userRoles = Role;
+  constructor(private router: Router, private route: ActivatedRoute, private childParameterService: ChildParameterService, public sharedService: SharedServiceService, private authService : AuthService) {
     
     super();
     this.navLinks = [
-        {
-          label: 'General Information',
-          link: '../main-tab/update-traineebiodatageneralinfo/',
-          index: 0
-        },
-
-        {
-          label: 'Educational Qualification',
-          link: '../main-tab/educational-qualification-details',
-          index: 1
-        }, 
-        {
-          label: 'Game and Sports',
-          link: '../main-tab/game-sport-details',
-          index: 2
-        },  
-        {
-          label: 'Family Info',
-          link: '../main-tab/family-info-details',
-          index: 3
-        },
-        {
-          label: 'Social Media',
-          link: '../main-tab/social-media-details',
-          index: 4
-        }, 
-      ];
+      {
+        label: 'General Information',
+        link: '/trainee-biodata/sailor-biodata-tab/main-tab-layout/main-tab/update-traineebiodatageneralinfo',
+        index: 0
+      },
+      {
+        label: 'Educational Qualification',
+        link: '/trainee-biodata/sailor-biodata-tab/main-tab-layout/main-tab/educational-qualification-details',
+        index: 1
+      },
+      {
+        label: 'Game and Sports',
+        link: '/trainee-biodata/sailor-biodata-tab/main-tab-layout/main-tab/game-sport-details',
+        index: 2
+      },
+      {
+        label: 'Family Info',
+        link: '/trainee-biodata/sailor-biodata-tab/main-tab-layout/main-tab/family-info-details',
+        index: 3
+      },
+      {
+        label: 'Social Media',
+        link: '/trainee-biodata/sailor-biodata-tab/main-tab-layout/main-tab/social-media-details',
+        index: 4
+      },
+    ];
+    
+    
+    
   }
   ngOnInit(): void {
-   
+   this.role = this.authService.currentUserValue.role;
     this.id = this.route.snapshot.paramMap.get('traineeId');
     //this.id = 17;
     if (this.id) {

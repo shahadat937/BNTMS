@@ -10,6 +10,9 @@ import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { AuthService } from 'src/app/core/service/auth.service';
+import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-game-sport-list',
@@ -23,6 +26,8 @@ export class GameSportListComponent extends UnsubscribeOnDestroyAdapter implemen
   ELEMENT_DATA: GameSport[] = [];
   isLoading = false;
   traineeId: string;
+  role : string;
+  userRoles = Role;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -36,17 +41,24 @@ export class GameSportListComponent extends UnsubscribeOnDestroyAdapter implemen
 
   SelectionModel = new SelectionModel<GameSport>(true, []);
 
-  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private GameSportService: GameSportService,private router: Router,private confirmService: ConfirmService) {
+  constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private GameSportService: GameSportService,private router: Router,private confirmService: ConfirmService, private authService : AuthService, private sharedService : SharedServiceService) {
     super();
   }
   ngOnInit() {
+    this.role = this.authService.currentUserValue.role;
     this.getGameSports();
   }
  
   getGameSports() {
     this.isLoading = true;
 
-    this.traineeId = this.route.snapshot.paramMap.get('traineeId');
+    this.traineeId = this.route.snapshot.paramMap.get('traineeId') || this.authService.currentUserValue.traineeId;
+
+    // If a trainee tries to view another trainee's information, it will be prevented.
+    if(this.role === this.userRoles.Student && this.traineeId !== this.authService.currentUserValue.traineeId){
+      this.sharedService.goBack();
+    }
+
     this.GameSportService.getdatabytraineeid(+this.traineeId).subscribe(response => {     
      this.dataSource.data=response;
     })
