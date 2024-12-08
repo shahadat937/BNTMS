@@ -170,7 +170,7 @@
                         
                       <mat-select formControlName="roleName" required>
                         <input type="text" 
-                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                              style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
 	                              id="selectRoles" 
                                 (keydown.space)="$event.stopPropagation()"
                                 (input)="filterRoles($event.target.value)"
@@ -205,7 +205,7 @@
                         <mat-select formControlName="secondLevel" (selectionChange)="onCommendingAreaSelectionChangeGetBaseName()">
                           <input type="text"
                           (keydown.space)="$event.stopPropagation()" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectCommendingArea" 
                             (input)="filterCommendingArea($event.target.value)"
                             placeholder="Search">
@@ -224,7 +224,7 @@
                         <mat-select formControlName="thirdLevel" (selectionChange)="onBaseNameSelectionChangeGetBaseSchoolName()">
                           <input type="text" 
                           (keydown.space)="$event.stopPropagation()"
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectBase" 
                            (input)="filterByBase($event.target.value)"
                             placeholder="Search">
@@ -243,7 +243,7 @@
                         <mat-label>School Name</mat-label>                       
                         <mat-select formControlName="fourthLevel">
                           <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectSchool" 
                             (keydown.space)="$event.stopPropagation()"
                            (input)="filterBySchoolName($event.target.value)"

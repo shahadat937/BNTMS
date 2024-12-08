@@ -46,7 +46,7 @@
                     <mat-label>School Name</mat-label>
                     <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
                       <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectSchoolName"
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterSchoolName($event.target.value)"
@@ -68,7 +68,7 @@
                     <mat-label>Course Name</mat-label>
                     <mat-select formControlName="courseName" required>
                       <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectCourseName"
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByCourse($event.target.value)"
@@ -89,14 +89,15 @@
                     <mat-label>Subject Name</mat-label>
                     <mat-select formControlName="bnaSubjectNameId" required >
                       <input type="text" 
-                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         id="selectSubjectName"
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterBySubject($event.target.value)"
                         placeholder="Search">
                       <mat-option value="0">--Select--</mat-option>
                       <!-- (onSelectionChange)="onCourseNameSelectionChangeGetSubjectAndTraineeList($event)" -->
-                      <mat-option  (onSelectionChange)="onSubjectSelectionChangeGetinstructorNameByParams($event)" *ngFor="let code of selectedSubjectNamebyschoolnameAndCourse" [value]="code">
+                      <mat-option  (onSelectionChange)="onSubjectSelectionChangeGetinstructorNameByParams($event)" *ngFor="let code of selectedSubjectNamebyschoolnameAndCourse" [value]="code" matTooltip="{{code.text}}"
+                      matTooltipPosition="above">
                         {{code.text}}
                       </mat-option>
                     </mat-select>
