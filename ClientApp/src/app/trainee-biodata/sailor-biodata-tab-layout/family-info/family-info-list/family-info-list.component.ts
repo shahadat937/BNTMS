@@ -93,7 +93,7 @@ export class ParentRelativeListComponent extends UnsubscribeOnDestroyAdapter imp
   }
 
   checkTraineeId(traineeId) {
-    if (this.role === this.userRoles.Student && traineeId !== this.authService.currentUserValue.traineeId) {
+    if ((this.role === this.userRoles.Student || this.role === this.userRoles.Instructor) && traineeId !== this.authService.currentUserValue.traineeId) {
       this.sharedService.goBack();     
     }
   }

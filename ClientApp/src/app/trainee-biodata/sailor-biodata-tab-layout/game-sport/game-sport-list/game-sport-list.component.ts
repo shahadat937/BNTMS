@@ -55,7 +55,7 @@ export class GameSportListComponent extends UnsubscribeOnDestroyAdapter implemen
     this.traineeId = this.route.snapshot.paramMap.get('traineeId') || this.authService.currentUserValue.traineeId;
 
     // If a trainee tries to view another trainee's information, it will be prevented.
-    if(this.role === this.userRoles.Student && this.traineeId !== this.authService.currentUserValue.traineeId){
+    if((this.role === this.userRoles.Student || this.role === this.userRoles.Instructor) && this.traineeId !== this.authService.currentUserValue.traineeId){
       this.sharedService.goBack();
     }
 

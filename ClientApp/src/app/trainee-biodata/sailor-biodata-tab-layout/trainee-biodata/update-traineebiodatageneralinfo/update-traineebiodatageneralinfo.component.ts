@@ -605,7 +605,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   }
   // If a trainee tries to view another trainee's information, it will be prevented
   checkTraineeId(traineeId) {
-    if (this.role === this.userRoles.Student && traineeId !== this.authService.currentUserValue.traineeId)
+    if ((this.role === this.userRoles.Student || this.role === this.userRoles.Instructor) && traineeId !== this.authService.currentUserValue.traineeId)
       this.sharedService.goBack();
   }
 

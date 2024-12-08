@@ -74,7 +74,7 @@ export class SocialMediaListComponent extends UnsubscribeOnDestroyAdapter implem
   }
 
   checkTraineeId(traineeId) {
-    if (this.role === this.userRoles.Student && traineeId !== this.authService.currentUserValue.traineeId)
+    if ((this.role === this.userRoles.Student || this.role === this.userRoles.Instructor)  && traineeId !== this.authService.currentUserValue.traineeId)
       this.sharedService.goBack(); // Navigate back
 
   }

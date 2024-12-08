@@ -89,7 +89,7 @@ export class NewGameSportComponent extends UnsubscribeOnDestroyAdapter implement
 
   // If a trainee tries to view another trainee's information, it will be prevent.
   checkTraineeId(traineeId): boolean {
-    if (this.role === this.userRoles.Student && traineeId !== this.authService.currentUserValue.traineeId) {
+    if ((this.role === this.userRoles.Student || this.role === this.userRoles.Instructor)&& traineeId !== this.authService.currentUserValue.traineeId) {
       this.sharedService.goBack();
       return true;
     }
