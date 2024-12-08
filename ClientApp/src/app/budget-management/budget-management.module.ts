@@ -23,6 +23,7 @@ import { BudgetManagementRoutingModule } from './budget-management-routing.modul
 import {NewBudgetAllocationComponent} from './budgetallocation/new-budgetallocation/new-budgetallocation.component';
 import {ScheduleInstallmentListComponent} from './scheduleinstallment/scheduleinstallment-list/scheduleinstallment-list.component';
 import { AddBudgetListComponent } from './budgetallocation/budgetadd/add-budget.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { AddBudgetListComponent } from './budgetallocation/budgetadd/add-budget.
     BudgetManagementRoutingModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatTooltipModule
   ]
 })
 export class BudgetManagementModule { }
