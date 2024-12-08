@@ -42,14 +42,30 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
             string trimmedSearchText = request.QueryParams.SearchText?.Trim() ?? string.Empty;
 
+            // Normalize the search text: Remove extra spaces and convert to lowercase
+            string normalizedSearchText = trimmedSearchText.Replace(" ", "").ToLower();
+
             IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(
-                x => EF.Functions.Like(x.CourseName.Course + " - " + x.CourseTitle, $"%{trimmedSearchText}%") ||
-                     x.CourseTitle.Contains(trimmedSearchText) ||
-                     string.IsNullOrEmpty(trimmedSearchText),
+                x =>
+                 
+                    EF.Functions.Like(
+                        (x.CourseName.Course + " - " + x.CourseTitle).Replace(" ", "").ToLower(),
+                        $"%{normalizedSearchText}%") ||
+
+                    x.CourseTitle.Contains(trimmedSearchText) ||
+
+                  
+                    string.IsNullOrEmpty(trimmedSearchText) ||
+
+                    
+                    EF.Functions.Like(
+                        x.CourseName.Course.Trim() + " - " + x.CourseTitle.Trim(),
+                        $"%{trimmedSearchText}%"),
                 "CourseName",
                 "BaseSchoolName",
                 "OrganizationName"
             );
+
 
 
             var totalCount = CourseDurations.Count();
