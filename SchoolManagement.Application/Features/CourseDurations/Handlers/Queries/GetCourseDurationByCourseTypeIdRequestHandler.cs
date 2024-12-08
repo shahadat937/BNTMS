@@ -27,10 +27,25 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
             var validator = new QueryParamsValidator();
             var validationResult = await validator.ValidateAsync(request.QueryParams);
 
-           // if (validationResult.IsValid == false)
-               // throw new ValidationException(validationResult);
+            // if (validationResult.IsValid == false)
+            // throw new ValidationException(validationResult);
 
-           IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(x => EF.Functions.Like(x.CourseName.Course.Trim() + " - " + x.CourseTitle.Trim(), $"%{request.QueryParams.SearchText}%") || (x.BaseSchoolName.SchoolName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "BaseSchoolName", "Country", "CourseName", "CourseType", "FiscalYear", "OrganizationName").Where(x => x.CourseTypeId == request.CourseTypeId);
+
+            string trimmedSearchText = request.QueryParams.SearchText?.Trim() ?? string.Empty;
+
+            
+            string normalizedSearchText = System.Text.RegularExpressions.Regex.Replace(trimmedSearchText, @"\s+", "").ToLower();
+
+            IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(x =>
+                EF.Functions.Like((x.CourseName.Course.Trim() + " - " + x.CourseTitle.Trim()).Replace(" ", "").ToLower(), $"%{normalizedSearchText}%") ||
+                x.BaseSchoolName.SchoolName.Contains(trimmedSearchText) ||
+                string.IsNullOrEmpty(trimmedSearchText),
+                "BaseSchoolName", "CourseName", "OrganizationName")
+                .Where(x => x.CourseTypeId == request.CourseTypeId);
+
+
+
+
 
             DateTime today = DateTime.Now;
 
