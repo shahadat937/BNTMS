@@ -9,6 +9,8 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { Subscription } from 'rxjs';
 import { MasterData } from 'src/assets/data/master-data';
+import { AuthService } from 'src/app/core/service/auth.service';
+import { Role } from 'src/app/core/models/role';
 
 @Component({
   selector: 'app-update-BIODataGeneralInfo',
@@ -55,7 +57,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   //     this.pageTitle = 'Update General Information';
   //     this.destination='Update';
   //     this.buttonText="Update";
- 
+
   //     this.BIODataGeneralInfoService.find(+id).subscribe(
   //       res => {
   //         if (res) {
@@ -94,33 +96,33 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   // gethaircolors(){
   //   this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
   //     this.hairColorValues=res
-    
+
   //   });
   // }
   // getselectedcaste(){
   //   this.BIODataGeneralInfoService.getselectedcaste().subscribe(res=>{
   //     this.casteValues=res
-    
+
   //   });
   // }
   // getselectedheight(){
   //   this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
   //     this.heightValues=res
-    
+
   //   });
   // }
 
   // getselectedweight(){
   //   this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
   //     this.weightValues=res
-    
+
   //   });
   // }
 
   // getselectedcolorofeye(){
   //   this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
   //     this.colorOfEyeValues=res
-    
+
   //   });
   // }
 
@@ -135,12 +137,12 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   //   this.bloodValues=this.selectBlood.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   // }
 
-  
+
   // getRanks(){
   //   this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
   //     this.rankValues=res
   //     this.selectRank=res
-    
+
   //   });
   // }
   // filterByRank(value:any){
@@ -150,7 +152,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   // getGenders(){
   //   this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
   //     this.genderValues=res
-     
+
   //   });
   // }
 
@@ -158,7 +160,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   // getMaritialStatus(){
   //   this.BIODataGeneralInfoService.getselectedmaritialstatus().subscribe(res=>{
   //     this.maritialStatusValues=res
-     
+
   //   });
   // }
 
@@ -210,12 +212,12 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   //     passportNo: [''],
   //     nid: [''],
   //     remarks: [''],
-      
+
   //     isActive: [true],
-    
+
   //   })
   // }
-  
+
   // onSubmit() {
 
   //   const id = this.BIODataGeneralInfoForm.get('traineeId').value;   
@@ -239,7 +241,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   //     })
   //   }
   // }
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   masterData = MasterData;
   buttonText: string;
   loading = false;
@@ -285,20 +287,24 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   public files: any[];
   selectedSailorRank: SelectedModel[];
   traineePhoto: string;
+  role: string;
+  userRoles = Role;
 
-  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) {
+  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService, private authService: AuthService) {
     super();
     this.files = [];
   }
 
   ngOnInit(): void {
 
-    const id = this.route.snapshot.paramMap.get('traineeId');
+    const id = this.route.snapshot.paramMap.get('traineeId') || this.authService.currentUserValue.traineeId;
+    this.role = this.authService.currentUserValue.role;
     if (id) {
       this.pageTitle = 'Edit Sailor BIO Data';
       this.destination = 'Edit';
       this.buttonText = "Update";
 
+      this.checkTraineeId(id);
       this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
           if (res) {
@@ -340,13 +346,13 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       const reader = new FileReader();
-  
+
       reader.onload = () => {
         this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
       };
-  
+
       reader.readAsDataURL(file); // Read file as data URL
-  
+
       // Update form control with the file
       if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
         this.BIODataGeneralInfoForm.patchValue({
@@ -597,13 +603,18 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
 
     })
   }
+  // If a trainee tries to view another trainee's information, it will be prevented
+  checkTraineeId(traineeId) {
+    if ((this.role === this.userRoles.Student || this.role === this.userRoles.Instructor) && traineeId !== this.authService.currentUserValue.traineeId)
+      this.sharedService.goBack();
+  }
 
   onSubmit() {
 
     const id = this.BIODataGeneralInfoForm.get('traineeId').value;
 
     const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth').value)
-      this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
+    this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
 
     this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString());
     this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString());
@@ -620,9 +631,9 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
       // this.BIODataGeneralInfoForm.get('rankId').setValue("NULL");
       // this.BIODataGeneralInfoForm.get('thanaId').setValue(504);
     }
-   
+
     const formData = new FormData();
-    if(!this.traineePhoto){
+    if (!this.traineePhoto) {
       this.BIODataGeneralInfoForm.value.bnaPhotoUrl = null;
     }
     for (const key of Object.keys(this.BIODataGeneralInfoForm.value)) {
@@ -639,7 +650,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
         if (result) {
           this.loading = true;
           this.BIODataGeneralInfoService.update(+id, formData).subscribe(response => {
-            this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
+            this.sharedService.goBack();
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 3000,
               verticalPosition: 'bottom',
@@ -655,7 +666,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
       this.loading = true;
 
       this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
-        this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
+        this.sharedService.goBack();
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',
@@ -672,19 +683,19 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   }
 
   removeImage(event: Event) {
-    event.preventDefault(); 
+    event.preventDefault();
 
-   
+
     this.traineePhoto = '';
 
-   
+
     if (this.fileInput && this.fileInput.nativeElement) {
-      this.fileInput.nativeElement.value = ''; 
+      this.fileInput.nativeElement.value = '';
     }
   }
 
   handleImageError() {
-    this.traineePhoto = ''; 
+    this.traineePhoto = '';
   }
 
 

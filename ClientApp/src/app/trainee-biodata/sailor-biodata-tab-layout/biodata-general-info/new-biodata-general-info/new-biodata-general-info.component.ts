@@ -482,7 +482,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
       this.loading = true;
 
       this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
-        this.router.navigateByUrl('/trainee-biodata/sailor-biodata-tab/biodata-general-Info-list');
+     this.sharedService.goBack();
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',
