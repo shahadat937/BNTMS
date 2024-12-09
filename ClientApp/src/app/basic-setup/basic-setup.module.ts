@@ -197,6 +197,7 @@ import { WithdrawnTypeListComponent } from './withdrawntype/withdrawntype-list/w
 import { NewWithdrawnTypeComponent } from './withdrawntype/new-withdrawntype/new-withdrawntype.component';
 import { CourseTermComponent } from './course-term/course-term.component';
 import { CourseLevelComponent } from './course-level/course-level.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
  
 
 @NgModule({
@@ -403,7 +404,8 @@ import { CourseLevelComponent } from './course-level/course-level.component';
     MaterialFileInputModule,
     MatProgressSpinnerModule,
     HttpClientModule,
-   MatAutocompleteModule
+   MatAutocompleteModule,
+   MatTooltipModule
     
   ]
 })
