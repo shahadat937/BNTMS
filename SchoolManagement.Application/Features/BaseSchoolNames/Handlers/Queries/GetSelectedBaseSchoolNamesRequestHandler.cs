@@ -24,7 +24,7 @@ namespace SchoolManagement.Application.Features.BaseSchoolNames.Handlers.Queries
         {
             ICollection<BaseSchoolName> BaseSchoolNames = await _SchoolNameRepository.FilterAsync(x => x.BranchLevel == 4 && x.IsActive);
 
-            var sortByDecending = BaseSchoolNames.OrderByDescending(c => c.SchoolName).ToList();
+            var sortByDecending = BaseSchoolNames.OrderByDescending(c => c.DateCreated).ToList();
             List<SelectedModel> selectModels = sortByDecending.Select(x => new SelectedModel 
             {
                 Text = x.SchoolName,

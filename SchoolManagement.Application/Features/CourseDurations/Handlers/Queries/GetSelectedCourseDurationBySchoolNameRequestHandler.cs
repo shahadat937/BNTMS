@@ -20,7 +20,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
         {
             IQueryable<CourseDuration> codeValues =  _CourseDurationRepository.FilterWithInclude(x => x.BaseSchoolNameId == request.BaseSchoolNameId && x.IsCompletedStatus == 0, "CourseName");
 
-            var sortByDecending = codeValues.OrderByDescending(c => c.CourseName.Course + c.CourseTitle).ToList();
+            var sortByDecending = codeValues.OrderByDescending(c => c.DateCreated).ToList();
             List<SelectedModel> selectModels = sortByDecending.Select(x => new SelectedModel
             {
                 Text = x.CourseName.Course+"_"+x.CourseTitle,

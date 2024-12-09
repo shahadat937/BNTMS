@@ -26,7 +26,7 @@ namespace SchoolManagement.Application.Features.CourseNames.Handlers.Queries
             ICollection<CourseName> courseNames = await _CourseNameRepository.FilterAsync(x => x.CourseTypeId == request.CourseTypeId);
 
           
-            var sortedCourses = courseNames.OrderByDescending(c => c.Course).ToList();
+            var sortedCourses = courseNames.OrderByDescending(c => c.DateCreated).ToList();
 
            
             List<SelectedModel> selectModels = sortedCourses.Select(x => new SelectedModel
