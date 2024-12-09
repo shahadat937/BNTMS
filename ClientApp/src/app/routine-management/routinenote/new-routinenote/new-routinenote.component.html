@@ -35,7 +35,7 @@
                         <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
 
                           <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                           id="selectSection" 
                           (input)="filterBySchool($event.target.value)"
                           placeholder="Search">
@@ -57,7 +57,7 @@
                         <mat-label>Course Title</mat-label>                        
                         <mat-select formControlName="courseName">
                           <input type="text" 
-                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                              style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                               id="selectSection" 
                               (keydown.space)="$event.stopPropagation()"
                               (input)="filterByCourse($event.target.value)"
@@ -79,7 +79,7 @@
                         <mat-label>Course Week</mat-label>                        
                         <mat-select formControlName="courseWeekId" >
                           <input type="text" 
-                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                              style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                               id="selectSection" 
                               (input)="filterByWeek($event.target.value)"
                               (keydown.space)="$event.stopPropagation()"
@@ -100,7 +100,7 @@
                         <mat-label>Class Routine</mat-label>                        
                         <mat-select formControlName="classRoutineId" (selectionChange)="onRoutineSelectionChangeGet()">
                           <input type="text" 
-                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                              style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                               id="selectSection"
                               (keydown.space)="$event.stopPropagation()" 
                               (input)="filterByRoutine($event.target.value)"

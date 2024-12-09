@@ -48,7 +48,7 @@
                                                
                         <mat-select formControlName="courseName">
                           <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         id="selectSchool" 
                         (input)="filterBySchoolName($event.target.value)"
                         (keydown.space)="$event.stopPropagation()"
@@ -72,7 +72,7 @@
                         <mat-label>Module</mat-label>      
                         <mat-select formControlName="courseModuleId" required (selectionChange)="getselectedbnasubjectname()">
                           <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         id="selectModule" 
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterByModule($event.target.value)"
@@ -95,7 +95,7 @@
                         <mat-label> Subject Name</mat-label>                        
                         <mat-select formControlName="bnaSubjectNameId" (selectionChange)="onSubjectSelectGetSection()">
                           <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         id="selectSubject" 
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterBySubjectName($event.target.value)"
@@ -112,7 +112,7 @@
                       <mat-label>Course Section</mat-label>                        
                       <mat-select formControlName="courseSectionId" required (selectionChange)="onSectionChangeGetInstructorList()">
                         <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         id="selectSubject" 
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterBySection($event.target.value)"
@@ -133,7 +133,7 @@
                         <mat-label>Mark Type</mat-label>                        
                         <mat-select formControlName="subjectMarkId" required (selectionChange)="onSubjectMarkSelectionGetMarkType()">
                           <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         id="selectSubject" 
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterByMarkType($event.target.value)"
