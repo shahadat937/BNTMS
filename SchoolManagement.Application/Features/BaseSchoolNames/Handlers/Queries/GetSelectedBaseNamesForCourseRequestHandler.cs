@@ -23,7 +23,10 @@ namespace SchoolManagement.Application.Features.BaseSchoolNames.Handlers.Queries
         public async Task<List<SelectedModel>> Handle(GetSelectedBaseNamesForCourseRequest request, CancellationToken cancellationToken)
         {
             ICollection<BaseSchoolName> BaseSchoolNames = await _SchoolNameRepository.FilterAsync(x => x.BranchLevel == request.BranchLevel);
-            List<SelectedModel> selectModels = BaseSchoolNames.Select(x => new SelectedModel 
+
+            var sortedByDecending = BaseSchoolNames.OrderByDescending(c => c.SchoolName).ToList();
+
+            List<SelectedModel> selectModels = sortedByDecending.Select(x => new SelectedModel 
             {
                 Text = x.SchoolName,
                 Value = x.BaseSchoolNameId
