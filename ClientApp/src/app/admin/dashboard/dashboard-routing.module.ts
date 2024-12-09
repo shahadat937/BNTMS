@@ -578,6 +578,10 @@ const routes: Routes = [
     path: 'submitqexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId', 
     component: FinalCentralExamMarkEntry 
   },
+  { 
+    path: 'submitqexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId/:courseTypeId', 
+    component: FinalCentralExamMarkEntry 
+  },
   
   { 
     path: 'jcoexammarkentry-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:saylorBranchId/:saylorSubBranchId/:classRoutineId/:bnaSubjectNameId', 
