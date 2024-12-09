@@ -23,7 +23,9 @@ namespace SchoolManagement.Application.Features.SaylorBranchs.Handlers.Queries
         public async Task<List<SelectedModel>> Handle(GetSelectedSaylorBranchRequest request, CancellationToken cancellationToken)
         {
             ICollection<SaylorBranch> codeValues = await _SaylorBranchRepository.FilterAsync(x => x.IsActive && x.SaylorBranchId != 20);
-            List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
+
+            var sortByDecending = codeValues.OrderByDescending(c => c.DateCreated).ToList();
+            List<SelectedModel> selectModels = sortByDecending.Select(x => new SelectedModel
             {
                 Text = x.Name,
                 Value = x.SaylorBranchId

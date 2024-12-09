@@ -25,7 +25,9 @@ namespace SchoolManagement.Application.Features.Countrys.Handlers.Queries
         public async Task<List<SelectedModel>> Handle(GetSelectedCountryRequest request, CancellationToken cancellationToken)
         {
             ICollection<Country> codeValues = await _CountryRepository.FilterAsync(x => x.IsActive);
-            List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
+
+            var sortByDecending = codeValues.OrderBy(c => c.CountryName).ToList();
+            List<SelectedModel> selectModels = sortByDecending.Select(x => new SelectedModel
             {
                 Text = x.CountryName,
                 Value = x.CountryId
