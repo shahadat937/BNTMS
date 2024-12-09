@@ -439,7 +439,7 @@
                     
                     <mat-select formControlName="saylorRankId" required >
                       <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterSaylorRank($event.target.value)"
                         id="selectSearch" 
@@ -459,7 +459,7 @@
                     <mat-label>Sailor Branch</mat-label>
                     <mat-select formControlName="saylorBranchId"  (selectionChange)="onBranchSelectionChangegetSubBranch($event.value)">
                       <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterSaylorBranch($event.target.value)"
                         id="selectSearch" 
@@ -480,7 +480,7 @@
                     <mat-label>Sailor Sub Branch</mat-label>
                     <mat-select formControlName="saylorSubBranchId">
                       <input type="text" 
-                            style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             (keydown.space)="$event.stopPropagation()"
                             id="selectRank" 
                             (input)="filterBySubBranch($event.target.value)"
@@ -623,7 +623,7 @@
                     <mat-label>Color Of Eye</mat-label>
                     <mat-select formControlName="colorOfEyeId">
                       <input type="text" 
-                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                       (keydown.space)="$event.stopPropagation()"
                       id="selectRank" 
                       (input)="filterByEyeCoor($event.target.value)"
@@ -642,7 +642,7 @@
                     <mat-label>Hair Color</mat-label>
                     <mat-select formControlName="hairColorId">
                       <input type="text" 
-                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                       (keydown.space)="$event.stopPropagation()"
                       id="selectRank" 
                       (input)="filterByHairColor($event.target.value)"
@@ -661,7 +661,7 @@
                     <mat-label>Blood Group</mat-label>
                     <mat-select formControlName="bloodGroupId">
                       <input type="text" 
-                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                       (keydown.space)="$event.stopPropagation()"
                       id="selectBloodGroup" 
                       (input)="filterBloodgroup($event.target.value)"
@@ -701,7 +701,7 @@
                     <mat-label>Religion</mat-label>
                     <mat-select formControlName="religionId" (selectionChange)="onReligionSelectionChangeGetCastes($event.value)">
                       <input type="text" 
-                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                       (keydown.space)="$event.stopPropagation()"
                       id="selectSearch"
                       (input)="filterbyReligion($event.target.value)"
@@ -721,7 +721,7 @@
                     <mat-label>Caste</mat-label>
                     <mat-select formControlName="casteId">
                       <input type="text" 
-                      style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                      style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                       (keydown.space)="$event.stopPropagation()"
                       id="selectRank" 
                       (input)="filterByCastes($event.target.value)"

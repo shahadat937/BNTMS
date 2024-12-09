@@ -39,7 +39,7 @@
                       <mat-label>Exam Type</mat-label>
                       <mat-select formControlName="examTypeId" required>
                         <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
 	                      id="selectExamType" 
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterbyExamType($event.target.value)"
@@ -58,7 +58,7 @@
                       <mat-label>Board</mat-label>
                       <mat-select formControlName="boardId" required>
                         <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
 	                      id="selectBoard" 
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterByBoard($event.target.value)"
@@ -96,7 +96,7 @@
                       <mat-select formControlName="groupId" required>
                         <input type="text" 
                         (keydown.space)="$event.stopPropagation()"
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         id="selectRank" 
                         (input)="filterByGroup($event.target.value)"
                         placeholder="Search">
