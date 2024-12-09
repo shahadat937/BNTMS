@@ -83,6 +83,7 @@ import {NewMilitaryTrainingComponent} from './military-training/new-military-tra
 import {MilitaryTrainingListComponent} from './military-training/military-training-list/military-training-list.component'
 import {NewCovidVaccineComponent} from './covid-vaccine/new-covid-vaccine/new-covid-vaccine.component';
 import {CovidVaccineListComponent} from './covid-vaccine/covid-vaccine-list/covid-vaccine-list.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -174,6 +175,7 @@ import {CovidVaccineListComponent} from './covid-vaccine/covid-vaccine-list/covi
     MatProgressSpinnerModule,
     HttpClientModule,
     MatCheckboxModule,
+    MatTooltipModule
   ]
 })
 export class TabModule { }

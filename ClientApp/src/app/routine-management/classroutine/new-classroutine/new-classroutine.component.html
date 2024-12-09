@@ -45,7 +45,7 @@
                       <mat-label>School</mat-label>
                       <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
                         <input type="text" 
-                            style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectSection"
                             (keydown.space)="$event.stopPropagation()" 
                             (input)="filterBySchool($event.target.value)"
@@ -82,7 +82,7 @@
                       </mat-select> -->
                       <mat-select formControlName="courseDuration">
                         <input type="text" 
-                               style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                               style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                                id="selectMark" 
                                (keydown.space)="$event.stopPropagation()"
                                (input)="filterByCourseTitle($event.target.value)"
@@ -110,7 +110,7 @@
                       <mat-label>Course Week</mat-label>                        
                       <mat-select formControlName="courseWeekId" required>
                         <input type="text" 
-                            style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectWeek" 
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByWeek($event.target.value)"
@@ -147,7 +147,7 @@
                         <!-- <mat-option  value="0">--Select--</mat-option > -->
                           <input type="text" 
                           (keydown.space)="$event.stopPropagation()"
-                            style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectSection" 
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterBySection($event.target.value)"
@@ -287,7 +287,7 @@
                             <mat-label>Subject Name</mat-label>
                             <mat-select formControlName="subjectId">
                               <input type="text" 
-                            style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectSection" 
                             (input)="filterBySubject($event.target.value)"
                             (keydown.space)="$event.stopPropagation()"
@@ -309,7 +309,7 @@
                             <mat-label>Instructor</mat-label>
                             <mat-select formControlName="traineeId">
                               <input type="text" 
-                            style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectSection" 
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByInstructor($event.target.value)"
@@ -332,7 +332,7 @@
                             <mat-label>Mark Type</mat-label>
                             <mat-select formControlName="subjectMarkId" (selectionChange)="onSubjectMarkSelectionGetMarkType(i)">
                               <input type="text" 
-                            style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                            style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectSection" 
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterBymarkType($event.target.value)"
@@ -351,7 +351,7 @@
                             <mat-label>Class Period</mat-label>
                             <mat-select formControlName="classPeriodId" required>
                               <input type="text" 
-                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                              style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                               id="selectSection" 
                               (keydown.space)="$event.stopPropagation()"
                               (input)="filterByClassPeriod($event.target.value)"
@@ -372,7 +372,7 @@
                             <mat-label>class Type </mat-label>
                             <mat-select formControlName="classTypeId">
                               <input type="text" 
-                              style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                              style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                               id="selectSection" 
                               (keydown.space)="$event.stopPropagation()"
                               (input)="filterByClassType($event.target.value)"
