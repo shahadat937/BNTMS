@@ -336,10 +336,9 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
 
   submit(model: any) {
     
-    return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-q-exam-routine', model).pipe(
+    return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-classRoutine', model).pipe(
       map((ClassRoutine: PostResponse) => {
         if (ClassRoutine) {
-          console.log(ClassRoutine);
           return ClassRoutine;
         }
       })

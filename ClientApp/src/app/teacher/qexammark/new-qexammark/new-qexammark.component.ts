@@ -156,10 +156,10 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     this.BNAExamMarkForm.get('examTypeCount').setValue(1);
     this.BNAExamMarkForm.get('courseSectionId').setValue(courseSectionId);
 
-    this.subscription =this.markTypeService.find(Number(markTypeId)).subscribe(res => {  
-      this.markTypeName = res.typeName;
-      this.onSubjectMarkSelectionGetPassMark();
-    });
+    // this.subscription =this.markTypeService.find(Number(markTypeId)).subscribe(res => {  
+    //   this.markTypeName = res.typeName;
+    //   this.onSubjectMarkSelectionGetPassMark();
+    // });
  
     if(this.courseNameId == this.masterData.courseName.JCOsTraining){
       this.subscription = this.traineeNominationService.getNewTraineeNominationsForJcoExamByBranch(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res => {
@@ -184,7 +184,9 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
   }
 
   getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId){
+    console.log("OK");
     this.subscription = this.traineeNominationService.getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,1,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId).subscribe(res => {
+      console.log('A',res);
       this.traineeList = res;
       this.clearList()
       this.getTraineeListonClick();

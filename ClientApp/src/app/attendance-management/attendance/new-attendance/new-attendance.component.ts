@@ -69,6 +69,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
+  warrningMessage = '';
   checked = false;
   isShown: boolean = false ;
   isShowSubjectName:boolean=false;
@@ -206,7 +207,6 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
       this.AttendanceForm.get('courseSectionId').setValue(courseSectionId);
 
       this.classRoutineService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
-        
         this.selectedCourseSection=res;
         
       });
@@ -249,7 +249,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
                 this.traineeNominationListForAttendance[i].absentForExamStatus=false;
               }
           }
-          this.totalAssignedTrainee = res.length;
+          this.warrningMessage = " Trainees are not assigned to this course section."
          
          });
       } 
@@ -265,9 +265,12 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
            var courseNameArr = courseNameId.split('_');
            var courseDurationId = courseNameArr[0];
            var courseNameId=courseNameArr[1];
+           console.log(courseNameArr, courseDurationId, courseNameId)
 
             if(baseSchoolNameId != null && courseNameId != null  && courseDurationId !=null){
               this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId,courseDurationId,date).subscribe(res=>{
+                if(!res.length )
+                this.warrningMessage = "Attendance already taken / No class on that day for the Course "
                 this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=res;     
               });
             }  
