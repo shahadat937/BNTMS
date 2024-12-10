@@ -485,11 +485,11 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <ng-container *ngFor="let data of groupArrays;let i= index;" [ngStyle]="{'background-color': i == index ? 'rgb(172, 235, 155)' : ''}">
+                      <ng-container *ngFor="let data of groupArrays;let i= index;">
                         <tr>
                           <td class="cl-scl" [attr.rowspan]="data.courses.length + 1">{{data.schoolName}}</td>
                         </tr>
-                        <tr *ngFor="let number of data.courses;" >
+                        <tr *ngFor="let number of data.courses;" [ngStyle]="{'background-color': i == index ? 'rgb(172 235 155)' : ''}">
                           <td class="course-name-col">
                             {{getDateComparision(number)}}
                             {{number.course}} - {{number.courseTitle}}
@@ -509,7 +509,7 @@
                             (click)="courseWeekGenerate(number)">
                               <mat-icon aria-label="Delete" class="col-white">alarm</mat-icon>
                             </button> -->
-                            <button mat-icon-button class="btn-tbl-view" title="Course Details" [routerLink]="['/admin/dashboard/course-details',number.courseDurationId,number.baseSchoolNameId]">
+                            <button mat-icon-button class="btn-tbl-view" title="Course Details" [routerLink]="['/admin/dashboard/course-details',number.courseDurationId,number.baseSchoolNameId]" (click)="GetIndexValue(i)">
                               <mat-icon aria-label="Edit" class="col-white">visibility</mat-icon>
                             </button>
                             <button *ngIf="role != dataEnty && role != userRole.TrainingOffice" mat-icon-button color="accent" title="Trainee Mark List" class="btn-tbl-view" 
