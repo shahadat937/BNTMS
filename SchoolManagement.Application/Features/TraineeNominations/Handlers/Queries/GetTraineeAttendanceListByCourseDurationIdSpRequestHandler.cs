@@ -23,7 +23,9 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Quer
         public async Task<object> Handle(GetTraineeAttendanceListByCourseDurationIdSpRequest request, CancellationToken cancellationToken)
         {
             var spQuery = String.Format("exec [spGetTraineeAttendanceListByCourseDurationId] {0},{1},{2},{3},{4},{5},{6}", request.BaseSchoolNameId, request.CourseNameId, request.CourseDurationId, request.BnaSubjectNameId,request.CourseSectionId, request.ClassRoutineId,request.AttendanceStatus);
-            
+            //var spQuery = String.Format("exec [spGetQExamAttendanceListByCourseDurationId] {0},{1},{2},{3},{4}", request.CourseNameId,  request.CourseDurationId, request.BnaSubjectNameId, request.ClassRoutineId, request.AttendanceStatus);
+
+
             DataTable dataTable = _studentInfoByTraineeIdRepository.ExecWithSqlQuery(spQuery);
            
             return dataTable;

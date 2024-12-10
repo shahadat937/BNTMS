@@ -63,10 +63,8 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
 
                 var TraineeBioDataGeneralInfo = _mapper.Map<TraineeBioDataGeneralInfo>(request.TraineeBioDataGeneralInfoDto);
 
-                if (request.TraineeBioDataGeneralInfoDto.DateOfBirth == null)
-                {
-                    TraineeBioDataGeneralInfo.DateOfBirth = null;
-                }
+                TraineeBioDataGeneralInfo.DateOfBirth = request.TraineeBioDataGeneralInfoDto.DateOfBirth ?? null;
+                TraineeBioDataGeneralInfo.JoiningDate = request.TraineeBioDataGeneralInfoDto.JoiningDate ?? null;
 
                 TraineeBioDataGeneralInfo.BnaPhotoUrl = request.TraineeBioDataGeneralInfoDto.BnaPhotoUrl ?? "images/profile/" + uniqueFileName;
 

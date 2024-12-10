@@ -81,6 +81,19 @@ public class ClassRoutineController : ControllerBase
         return Ok(response);
         // return Ok();
     }
+    
+    [HttpPost]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [Route("save-q-exam-routine")]
+    public async Task<ActionResult<BaseCommandResponse>> CreateQExamRoutine(CreateClassRoutineDto classRoutine)
+    {
+        //    var json = Newtonsoft.Json.JsonConvert.SerializeObject(ClassRoutine);
+        var command = new CreateClassRoutineCommand { ClassRoutineDto = classRoutine };
+        var response = await _mediator.Send(command);
+        return Ok(response);
+        // return Ok();
+    }
 
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
