@@ -19,6 +19,7 @@ import { NetsListComponent } from './nets/nets-list/nets-list.component';
 import { NewNETSComponent } from './nets/new-nets/new-nets.component';
 import { TraineeNominationListComponent } from './traineenomination/traineenomination-list/traineenomination-list.component';
 import { NewTraineeNominationComponent } from './traineenomination/new-traineenomination/new-traineenomination.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // import { BnaClassTestListComponent } from './bnaclasstest/bnaclasstest-list/bnaclasstest-list.component';
 // import { NewBnaClassTestComponent } from './bnaclasstest/new-bnaclasstest/new-bnaclasstest.component';
@@ -48,7 +49,8 @@ import { NewTraineeNominationComponent } from './traineenomination/new-traineeno
     MatSelectModule,
     MatDatepickerModule,
     MaterialFileInputModule,
-    MatAutocompleteModule  
+    MatAutocompleteModule,
+    MatTooltipModule  
   ]
 })
 export class NETSCourseModule { }

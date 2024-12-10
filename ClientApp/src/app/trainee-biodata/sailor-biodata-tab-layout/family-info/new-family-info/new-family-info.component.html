@@ -30,7 +30,7 @@
                         
                         <mat-select formControlName="relationTypeId" required>
                           <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         (keydown.space)="$event.stopPropagation()"
                         id="selectRelation" 
                         (input)="filterByRealation($event.target.value)"
@@ -86,7 +86,7 @@
                         
                         <mat-select formControlName="occupationId" required>
                           <input type="text" 
-                        style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                        style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                         id="selectOccupation" 
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterbyOccupation($event.target.value)"

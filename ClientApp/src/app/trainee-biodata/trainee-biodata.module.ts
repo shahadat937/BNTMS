@@ -25,6 +25,7 @@ import {NewBIODataGeneralInfosComponent} from './trainee-profile-update/new-biod
 import {CivilInstructorBioDataInfoListComponent} from './civil-instructor-biodata/civilinstructorbiodata-list/civilinstructorbiodata-list.component';
 import {NewCivilInstructorBioDataInfoComponent} from './civil-instructor-biodata/new-civilinstructorbiodata/new-civilinstructorbiodata.component';
 import {NewBiodataGeneralInfoJstiComponent} from './trainee-profile-update/new-biodata-general-info-jsti/new-biodata-general-info-jsti.component'
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import {NewBiodataGeneralInfoJstiComponent} from './trainee-profile-update/new-b
     MatDatepickerModule,
     MaterialFileInputModule,
     TraineeBiodataRoutingModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule
   ]
 })
 export class TraineeBiodataModule { }

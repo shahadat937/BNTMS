@@ -22,12 +22,19 @@ namespace SchoolManagement.Application.Features.CourseNames.Handlers.Queries
 
         public async Task<List<SelectedModel>> Handle(GetSelectedCourseNameByTypeRequest request, CancellationToken cancellationToken)
         {
-            ICollection<CourseName> CourseNames = await _CourseNameRepository.FilterAsync(x => x.CourseTypeId == request.CourseTypeId);
-            List<SelectedModel> selectModels = CourseNames.Select(x => new SelectedModel 
+            
+            ICollection<CourseName> courseNames = await _CourseNameRepository.FilterAsync(x => x.CourseTypeId == request.CourseTypeId);
+
+          
+            var sortedCourses = courseNames.OrderByDescending(c => c.DateCreated).ToList();
+
+           
+            List<SelectedModel> selectModels = sortedCourses.Select(x => new SelectedModel
             {
-                Text = x.Course, 
+                Text = x.Course,
                 Value = x.CourseNameId
             }).ToList();
+
             return selectModels;
         }
     }

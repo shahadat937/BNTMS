@@ -51,7 +51,7 @@
                                 <mat-label>Course Name</mat-label>                        
                                 <mat-select formControlName="courseName" required  >
                                   <input type="text" 
-                                  style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                  style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                                   id="selectSearch" 
                                   (keydown.space)="$event.stopPropagation()"
                                   (input)="filterCourseName($event.target.value)" placeholder="Search">
@@ -72,7 +72,7 @@
                                 <mat-label>Section</mat-label>                        
                                 <mat-select formControlName="courseSectionId" (selectionChange)="onSectionSelectionGet()" required>
                                   <input type="text" 
-                                  style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                  style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                                   id="selectSearch" 
                                   (keydown.space)="$event.stopPropagation()"
                                   (input)="filterBySection($event.target.value)" placeholder="Search">
@@ -92,7 +92,7 @@
                                 <mat-label>Subject Name</mat-label>                        
                                 <mat-select formControlName="bnaSubjectName" required >
                                   <input type="text" 
-                                  style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                                  style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                                   id="selectSearch" 
                                   (keydown.space)="$event.stopPropagation()"
                                   (input)="filterBySubject($event.target.value)" placeholder="Search">

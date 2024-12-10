@@ -47,13 +47,14 @@
                         <mat-label>Course Name</mat-label>                        
                         <mat-select formControlName="courseNamesId" required>
                           <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectCourseName"
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByCourseName($event.target.value)"
                             placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
-                            <mat-option  (onSelectionChange)="onCourseNameSelectionChange($event)"  *ngFor="let dropdown of selectedcoursename" [value]="dropdown.value">
+                            <mat-option  (onSelectionChange)="onCourseNameSelectionChange($event)"  *ngFor="let dropdown of selectedcoursename" [value]="dropdown.value" matTooltip="{{dropdown.text}}"
+                            matTooltipPosition="above">
                                 {{dropdown.text}} 
                               </mat-option>                          
                         </mat-select>
@@ -109,7 +110,7 @@
                         <mat-label>Budget Code</mat-label>                        
                         <mat-select formControlName="budgetCodesId" required>
                           <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectBudgetCode"
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByBudget($event.target.value)"
@@ -127,7 +128,7 @@
                         <mat-label>Payment Type</mat-label>                        
                         <mat-select formControlName="paymentTypeId" required>
                           <input type="text" 
-                          style="width:100%;height:50px;padding:10px; border: 1px solid white;"
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectPayType"
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByPayment($event.target.value)"

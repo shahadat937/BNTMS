@@ -23,7 +23,8 @@ namespace SchoolManagement.Application.Features.SaylorRanks.Handlers.Queries
         public async Task<List<SelectedModel>> Handle(GetSelectedSaylorRankRequest request, CancellationToken cancellationToken)
         {
             ICollection<SaylorRank> codeValues = await _SaylorRankRepository.FilterAsync(x => x.IsActive && x.SaylorRankId != 1011);
-            List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
+            var sortDecending = codeValues.OrderByDescending(c => c.DateCreated).ToList();
+            List<SelectedModel> selectModels = sortDecending.Select(x => new SelectedModel
             {
                 Text = x.Name,
                 Value = x.SaylorRankId
