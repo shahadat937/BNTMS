@@ -161,6 +161,13 @@
                   </tr>
                 </tbody>
               </table>
+              <div class="d-flex justify-content-center" *ngIf="!groupArrays || groupArrays.length === 0" class="no-data-found">
+                <h3 class="text-center m-b-10 m-t-10 p-5">Course Subject List not found</h3>
+                 <img style=" display: block;
+                 margin-left: auto;
+                 margin-right: auto;" src="../../../assets/images/notfound.svg" width="400px" alt="" srcset="">
+                 
+               </div>
               <div *ngIf="!courseListStatus" class="body">
                 <div class="responsive_table">
                   <div class="materialTableHeader"> 
@@ -274,7 +281,13 @@
                         </ng-container>
                       </tbody>
                     </table>
-  
+                    <div class="d-flex justify-content-center" *ngIf="!GetInstructorByParameters || GetInstructorByParameters.length === 0" class="no-data-found">
+                      <h3 class="text-center m-b-10 m-t-10 p-5">Instructor List not                        found</h3>
+                       <img style=" display: block;
+                       margin-left: auto;
+                       margin-right: auto;" src="../../../assets/images/notfound.svg" width="400px" alt="" srcset="">
+                       
+                     </div>
               
                    <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
                   [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"

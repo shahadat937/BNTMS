@@ -139,6 +139,13 @@
                     </div>
                   </div>
                 </div>
+                <div class="d-flex justify-content-center" *ngIf="!ReadingMaterialBySchoolAndCourse || ReadingMaterialBySchoolAndCourse.length === 0" class="no-data-found">
+                  <h3 class="text-center m-b-10 m-t-10 p-5">No Reading Material Found</h3>
+                   <img style=" display: block;
+                   margin-left: auto;
+                   margin-right: auto;" src="../../../assets/images/notfound.svg" width="400px" alt="" srcset="">
+                   
+                 </div>
               </div>
             </div>
           </div>

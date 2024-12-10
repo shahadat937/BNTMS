@@ -70,8 +70,15 @@
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
+                <div class="d-flex justify-content-center" *ngIf="!marklistbycourse || marklistbycourse.length === 0" class="no-data-found">
+                  <h3 class="text-center m-b-10 m-t-10 p-5">Trainee Marklist Not Found</h3>
+                   <img style=" display: block;
+                   margin-left: auto;
+                   margin-right: auto;" src="../../../assets/images/notfound.svg" width="400px" alt="" srcset="">
+                   
+                 </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
+                <div *ngIf="!marklistbycourse || marklistbycourse.length === 0" class="no-data-found" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
                   <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
                     <mat-icon class="col-white">print</mat-icon>
                   </button>
