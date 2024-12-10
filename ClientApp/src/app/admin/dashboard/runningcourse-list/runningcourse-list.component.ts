@@ -24,6 +24,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   loading = false;
+
   userRole = Role;
   runningCourses: any;
   upcomingCourses: any;
@@ -174,13 +175,13 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
             courses: groups[schoolName]
           };
         });
-
+        this.isLoading=false
       })
     }
   }
 
   getSpRunningCourseDurations(id, viewStatus) {
-    this.isLoading = true;
+    // this.isLoading = true;
     this.runningCourseType = id;
     let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.dbType = 2;
