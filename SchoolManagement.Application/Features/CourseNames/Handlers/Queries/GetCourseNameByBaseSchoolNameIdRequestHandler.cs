@@ -20,6 +20,7 @@ namespace SchoolManagement.Application.Features.CourseNames.Handlers.Queries
             IQueryable<ClassRoutine> codeValues = _ClassRoutineRepository.FilterWithInclude(x => x.BaseSchoolNameId == request.BaseSchoolNameId, "CourseName", "CourseDuration");
 
             //var sortByDecending = codeValues.OrderByDescending(c => c.DateCreated).ToList();
+            codeValues = codeValues.OrderByDescending(c => c.DateCreated);
 
             List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
             {

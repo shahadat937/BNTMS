@@ -48,6 +48,7 @@ import {TraineeNominationListForNbcdComponent} from './traineenominationlistforn
 import {NewTraineeNominationNbcdComponent} from './traineenominationnbcd/new-traineenominationnbcd/new-traineenominationnbcd.component'
 import { NewBnaLocalcourseComponent } from './bnalocalcourse/new-bnalocalcourse/new-bnalocalcourse.component';
 import { BnaLocalcourseListComponent } from './bnalocalcourse/bnalocalcourse-list/bnalocalcourse-list.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -104,7 +105,8 @@ import { BnaLocalcourseListComponent } from './bnalocalcourse/bnalocalcourse-lis
     MatSelectModule,
     MatDatepickerModule,
     MaterialFileInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule
   ]
 })
 export class CourseManagementModule { }
