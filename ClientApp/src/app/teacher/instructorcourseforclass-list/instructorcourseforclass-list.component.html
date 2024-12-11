@@ -59,7 +59,7 @@
                   </ng-container>
 
                   <ng-container matColumnDef="courseDuration">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Course Duration </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Subject Name</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.subjectName}} </mat-cell>
                   </ng-container>
 
@@ -79,6 +79,13 @@
                   <mat-header-row *matHeaderRowDef="displayedRoutineCountColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedRoutineCountColumns;"></mat-row>
                 </mat-table>
+                <div class="d-flex justify-content-center" *ngIf="!RoutineByCourse || RoutineByCourse.length === 0" class="no-data-found">
+                  <h3 class="text-center m-b-10 m-t-10 p-5">Daily Course List Not Found</h3>
+                   <img style=" display: block;
+                   margin-left: auto;
+                   margin-right: auto;" src="../../../assets/images/notfound.svg" width="400px" alt="" srcset="">
+                   
+                 </div>
               </div>
             </div>
           </div>

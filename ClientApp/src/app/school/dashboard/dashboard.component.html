@@ -509,7 +509,7 @@
                             (click)="courseWeekGenerate(number)">
                               <mat-icon aria-label="Delete" class="col-white">alarm</mat-icon>
                             </button> -->
-                            <button mat-icon-button class="btn-tbl-view" title="Course Details" [routerLink]="['/admin/dashboard/course-details',number.courseDurationId,number.baseSchoolNameId]">
+                            <button mat-icon-button class="btn-tbl-view" title="Course Details" [routerLink]="['/admin/dashboard/course-details',number.courseDurationId,number.baseSchoolNameId]" (click)="GetIndexValue(i)">
                               <mat-icon aria-label="Edit" class="col-white">visibility</mat-icon>
                             </button>
                             <button *ngIf="role != dataEnty && role != userRole.TrainingOffice" mat-icon-button color="accent" title="Trainee Mark List" class="btn-tbl-view" 

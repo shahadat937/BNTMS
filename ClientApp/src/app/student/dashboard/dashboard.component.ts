@@ -331,6 +331,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.subscription = this.studentDashboardService.getAssignmentListForStudent(currentDateTime,baseSchoolNameId,courseNameId,courseDurationId).subscribe(response => {   
       this.StudentAssignmentCount=response.length;
+     
     });
   }
 
