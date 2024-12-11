@@ -150,7 +150,8 @@
                   </table>
                 </div>
                   
-                  <table *ngIf="runningCourseType == masterData.coursetype.LocalCourse && viewStatus == 3" class="table  tbl-by-group running-c-base">
+                <div *ngIf="!isLoading">
+                <table *ngIf="runningCourseType == masterData.coursetype.LocalCourse && viewStatus == 3" class="table  tbl-by-group running-c-base">
                     <thead>
                       <tr>
                         <th class="cl-srl"><h5> School </h5></th>
@@ -185,6 +186,8 @@
                       </ng-container>
                     </tbody>
                   </table>
+                </div>
+                  
                 
                 </div>
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
@@ -195,7 +198,8 @@
                 
                 
                 <!-- foreign course -->
-                <mat-table #table *ngIf="runningCourseType == masterData.coursetype.ForeignCourse" [dataSource]="runningForeignCourses" matSort class="mat-cell">               
+                 <div *ngIf="!isLoading">
+                  <mat-table #table *ngIf="runningCourseType == masterData.coursetype.ForeignCourse" [dataSource]="runningForeignCourses" matSort class="mat-cell">               
                   <ng-container matColumnDef="ser">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                     <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
@@ -247,6 +251,10 @@
                   <mat-header-row *matHeaderRowDef="displayedUpcomingForeignColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedUpcomingForeignColumns;"></mat-row>
                 </mat-table>
+                 </div>
+                
+                 
+                
             
                  <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
                 [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
@@ -254,7 +262,8 @@
                 </mat-paginator> -->
 
                 <!-- interservice course -->
-                <mat-table #table *ngIf="runningCourseType == masterData.coursetype.InterService" [dataSource]="interServiceCourses" matSort class="mat-cell">               
+                 <div *ngIf="!isLoading">
+                  <mat-table #table *ngIf="runningCourseType == masterData.coursetype.InterService" [dataSource]="interServiceCourses" matSort class="mat-cell">               
                   <ng-container matColumnDef="ser">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
                     <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
@@ -298,6 +307,8 @@
                   <mat-header-row *matHeaderRowDef="displayedUpcomingInterServiceColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedUpcomingInterServiceColumns;"></mat-row>
                 </mat-table>
+                 </div>
+                
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SchoolManagement.Application.DTOs.CodeValues;
+using SchoolManagement.Application.DTOs.Common;
 using SchoolManagement.Application.DTOs.CourseDurations;
 using SchoolManagement.Shared.Models;
 using System;
@@ -10,6 +11,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Requests.Queries
 {
     public class GetCourseDurationListByBaseSchoolNameIdRequest : IRequest<List<CourseDurationDto>>
     {
-        public int BaseSchoolNameId { get; set; }  
+        public int BaseSchoolNameId { get; set; }
+        public QueryParams QueryParams { get; set; }
     }
 }
