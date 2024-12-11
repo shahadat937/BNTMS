@@ -62,7 +62,7 @@
                     </tr>
                     <tr>
                       <th>DATE OF COMMISSION</th>
-                      <td>{{joinDate | date:'dd/mm/yyyy'}}</td>
+                      <td>{{joinDate | date}}</td>
                     </tr>
                     <tr *ngIf="completeStatus === 0">
                       <th>NAME OF COURSE</th>
@@ -307,7 +307,7 @@
           </div>
           <div class="col-lg-11 col-md-11">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 scrollbar">
-              <ng-marquee [stopOnHover]="true" duration="25s" >
+              <ng-marquee [stopOnHover]="true" duration="100s" >
                 <mark class="bulletin-item" *ngFor="let data of bulletinList;">{{data.buletinDetails}}</mark>                
               </ng-marquee>
             </div>
@@ -430,11 +430,14 @@
             <div class="row ins-dash-menu">
               
               <div class="col-xl-4 col-lg-4 col-md-4 ins-dash-menu-item">
-                <a [routerLink]="['/admin/dashboard/studentassignment-list', inputId, baseSchoolNameId, courseNameId, courseDurationId]">Assignment <span class="notification count" *ngIf="StudentAssignmentCount > 0">{{StudentAssignmentCount}}</span> </a>
+                <a [routerLink]="['/admin/dashboard/studentassignment-list', inputId, baseSchoolNameId, courseNameId, courseDurationId]">Assignment<span class="notification count" *ngIf="StudentAssignmentCount > 0">{{StudentAssignmentCount}}</span> 
+               
+                </a>
               </div>
 
               <div class="col-xl-4 col-lg-4 col-md-4 ins-dash-menu-item">
                 <a [routerLink]="['/admin/dashboard/traineeassessment-list',courseDurationId]">Trainee Assessment <span class="notification count" *ngIf="StudentAssessnmentCount > 0">{{StudentAssessnmentCount}}</span></a>
+                
               </div>
 
               <div class="col-xl-4 col-lg-4 col-md-4 ins-dash-menu-item">
