@@ -35,17 +35,17 @@
                         </li>
                       </ul>
                     </div> -->
-                    <div *ngIf="!isLoading">
+                   
                     <div class="col-4 div-left">
                       <h3>{{courseTitle}} {{courseListTitle}} Courses</h3>
 
                     </div>
-                    <div class="col-4 div-left course-filter master-running-course">
+                    <div class="col-4 div-left course-filter master-running-course" *ngIf="!isLoading">
                       <button [ngClass]="{'active-button': selectedFilter === 1}" class="running-course btn" (click)="getCoursesByViewType(1)">Running</button>
                       <button [ngClass]="{'active-button': selectedFilter === 2}" class="passing-course btn" (click)="getCoursesByViewType(2)">Passing Out</button>
                       <button [ngClass]="{'active-button': selectedFilter === 3}" class="upcoming-course btn" (click)="getCoursesByViewType(3)">Upcoming</button>
                     </div>
-                    </div>
+                 
                     
                     <div class="col-4">
                       <ul class="header-buttons">
@@ -148,7 +148,7 @@
                       </ng-container>
                     </tbody>
                   </table>
-                  </div>
+                </div>
                   
                   <table *ngIf="runningCourseType == masterData.coursetype.LocalCourse && viewStatus == 3" class="table  tbl-by-group running-c-base">
                     <thead>

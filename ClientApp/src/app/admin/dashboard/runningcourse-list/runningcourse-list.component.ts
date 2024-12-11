@@ -141,15 +141,20 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     this.viewStatus = viewStatus;
     var courseTypeId = this.route.snapshot.paramMap.get('courseTypeId');
     if (viewStatus == 1) {
+      this.isLoading=true
       this.courseListTitle = "Runnung";
       this.selectedFilter = viewStatus;
       this.masterData.coursetype.LocalCourse
       this.getSpRunningCourseDurations(courseTypeId, viewStatus)
+      
     } else if (viewStatus == 2) {
+      this.isLoading=true
       this.selectedFilter = viewStatus;
       this.courseListTitle = "Passing Out";
       this.getSpRunningCourseDurations(courseTypeId, viewStatus)
+      
     } else if (viewStatus == 3) {
+      this.isLoading=true
       this.selectedFilter = viewStatus;
       this.courseListTitle = "Upcomming";
       let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
@@ -181,7 +186,7 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
   }
 
   getSpRunningCourseDurations(id, viewStatus) {
-    // this.isLoading = true;
+    this.isLoading = true;
     this.runningCourseType = id;
     let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.dbType = 2;
@@ -209,7 +214,7 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
             courses: groups[schoolName]
           };
         });
-
+        this.isLoading=false
 
       })
     } else if (this.runningCourseType == this.masterData.coursetype.ForeignCourse) {
