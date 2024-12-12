@@ -355,6 +355,7 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
             });
           }, error => {
             this.validationErrors = error;
+            this.loading = false;
           })
         }
       })
@@ -371,8 +372,10 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
         });
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
     }
+   
   }
   whiteSpaceRemove(value){
     this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))

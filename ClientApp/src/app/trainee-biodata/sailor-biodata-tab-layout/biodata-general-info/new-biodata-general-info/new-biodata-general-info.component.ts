@@ -475,6 +475,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
             });
           }, error => {
             this.validationErrors = error;
+            this.loading = false;
           })
         }
       })
@@ -491,6 +492,7 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
         });
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
     }
   }

@@ -31,15 +31,20 @@ namespace SchoolManagement.Identity.Services
         private readonly SignInManager<ApplicationUser> _signinManager;
         private readonly ISchoolManagementRepository<BaseSchoolName> _BaseSchoolNameRepository;
         private readonly ISchoolManagementRepository<TraineeBioDataGeneralInfo> _BiodataRepository;
+        private readonly ISchoolManagementRepository<AspNetUsers> _aspNetUsers;
+        private readonly ISchoolManagementRepository<AspNetUserRoles> _aspNetUserRoles;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signinManager, ISchoolManagementRepository<BaseSchoolName> BaseSchoolNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> BiodataRepository, IHttpContextAccessor httpContextAccessor)
+        public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signinManager, ISchoolManagementRepository<BaseSchoolName> BaseSchoolNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> BiodataRepository, IHttpContextAccessor httpContextAccessor, ISchoolManagementRepository<AspNetUsers> aspNetUsers, ISchoolManagementRepository<AspNetUserRoles> aspNetUserRoles)
         {
             _signinManager = signinManager;
             _userManager = userManager;
             _BaseSchoolNameRepository = BaseSchoolNameRepository;
             _BiodataRepository = BiodataRepository;
             this._httpContextAccessor = httpContextAccessor;
+            _aspNetUsers = aspNetUsers;
+            _aspNetUserRoles = aspNetUserRoles;
+
         }
 
         public async Task<Employee> GetEmployee(string userId)
@@ -181,19 +186,49 @@ namespace SchoolManagement.Identity.Services
 
         }
 
-        //public async Task<BaseCommandResponse> DeleteUser(string id)
-        //{
-        //    var response = new BaseCommandResponse();
+        public async Task<BaseCommandResponse> DeleteBioDataUser(int traineeId)
+        {
+            var response = new BaseCommandResponse();
+
+            //var bioData = _BiodataRepository.FindOne(x => x.TraineeId == traineeId);
+
+            try
+            {
+                 var user = await _aspNetUsers.FindOneAsync(x => x.PNo == traineeId.ToString());
+                if (user != null)
+                {
+                    var role = _aspNetUserRoles.FindOne(x => x.UserId == user.Id);
+                    if (role != null)
+                    {
+                        await _aspNetUserRoles.Delete(role);
+                    }
+
+                    await _aspNetUsers.Delete(user);
+
+                    response.Success = true;
+                    response.Message = "Deleted Successfully";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "User not found";
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                response.Success = false;
+                response.Message = "An error occurred while deleting the user";
+                Console.WriteLine(ex); // Replace with proper logging
+            }
 
 
-        //    var user = await _userManager.FindByIdAsync(id);
-        //    await _userManager.DeleteAsync(user);
-        //    response.Success = true;
-        //    response.Message = "Deleted Successful";
-        //    return response;
 
 
-        //}
+            return response;
+
+
+        }
 
         public async Task<BaseCommandResponse> DeleteUser(string userId)
         {

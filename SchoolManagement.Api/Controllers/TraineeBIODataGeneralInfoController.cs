@@ -134,9 +134,10 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
     [Route("delete-traineeBioDataGeneralInfo/{id}")]
     public async Task<ActionResult> Delete(int id)
     {
+        await _userService.DeleteBioDataUser(id);
         var command = new DeleteTraineeBioDataGeneralInfoCommand { TraineeId = id };
         await _mediator.Send(command);
-        //await _userService.DeleteUser(id.ToString());
+      
         return NoContent();
     }
 

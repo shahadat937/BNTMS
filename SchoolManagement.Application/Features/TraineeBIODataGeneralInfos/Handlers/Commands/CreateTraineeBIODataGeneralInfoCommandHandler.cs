@@ -9,6 +9,7 @@ using SchoolManagement.Application.Responses;
 using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo.Validators;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Commands;
+using SchoolManagement.Application.Exceptions;
 
 
 namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handlers.Commands
@@ -17,12 +18,13 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ISchoolManagementRepository<TraineeBioDataGeneralInfo> _bioDataRepository;
 
-        public CreateTraineeBioDataGeneralInfoCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateTraineeBioDataGeneralInfoCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ISchoolManagementRepository<TraineeBioDataGeneralInfo> bioDataRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-          
+            _bioDataRepository = bioDataRepository;
         }
 
         public async Task<BaseCommandResponse> Handle(CreateTraineeBioDataGeneralInfoCommand request, CancellationToken cancellationToken)
@@ -40,7 +42,14 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
             else
             {
                 /////// File Upload //////////
-                ///
+
+                var isPnoExits = _bioDataRepository.FindOne(x => x.Pno == request.TraineeBioDataGeneralInfoDto.Pno);
+
+                if (isPnoExits != null)
+                {
+                    throw new BadRequestException("This Pno Already Exits In the System");
+                }
+       
                 string uniqueFileName = null;
 
                 if (request.TraineeBioDataGeneralInfoDto.Image != null)

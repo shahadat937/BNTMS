@@ -451,6 +451,7 @@ filterByCaste(value:any){
             });
           }, error => {
             this.validationErrors = error;
+            this.loading = false;
           })
         }
       })
@@ -467,8 +468,11 @@ filterByCaste(value:any){
         });
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
+      
     }
+  
   }
   whiteSpaceRemove(value){
     this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))

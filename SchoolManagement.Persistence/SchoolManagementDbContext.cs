@@ -3402,12 +3402,18 @@ namespace SchoolManagement.Persistence
                 entity.HasOne(d => d.DownloadRight)
                     .WithMany(p => p.OnlineLibraries)
                     .HasForeignKey(d => d.DownloadRightId)
-                    .HasConstraintName("FK_ReadingMaterial_DownloadRight");              
+                    .HasConstraintName("FK_ReadingMaterial_DownloadRight");
 
                 //entity.HasOne(d => d.ShowRight)
                 //    .WithMany(p => p.ReadingMaterials)
                 //    .HasForeignKey(d => d.ShowRightId)
                 //    .HasConstraintName("FK_ReadingMaterial_RightSchoolName");
+
+                
+            });
+            modelBuilder.Entity<AspNetUserRoles>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.RoleId });
             });
 
 
@@ -3615,6 +3621,8 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; } = null!;
         //public virtual DbSet<Instructor> Instructors { get; set; } = null!;
         public virtual DbSet<OnlineLibrary> OnlineLibrary { get; set;} = null!;
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set;} = null!;
+        public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set;} = null!;
 
 
 
