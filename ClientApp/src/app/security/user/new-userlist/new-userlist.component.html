@@ -147,9 +147,14 @@
                   </table>
                   
                   <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
-                  [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                  [pageSize]="paging.pageSize" [pageSizeOptions]="[5, 10, 15, 20, 25, 50, 100, 200, 500, 1000, 5000]"
                   (page)="pageChanged($event)">
                   </mat-paginator>
+                  <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                  [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                  (page)="pageChanged($event)">
+                  </mat-paginator> -->
+
                 </div>
                 <div class="row">
                   <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">

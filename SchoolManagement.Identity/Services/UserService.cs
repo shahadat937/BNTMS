@@ -216,10 +216,9 @@ namespace SchoolManagement.Identity.Services
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging purposes
                 response.Success = false;
                 response.Message = "An error occurred while deleting the user";
-                Console.WriteLine(ex); // Replace with proper logging
+
             }
 
 
@@ -343,7 +342,7 @@ namespace SchoolManagement.Identity.Services
                 User.FirstName = item.FirstName;
                 User.PhoneNumber = item.PhoneNumber;
                 User.LastName = item.LastName;
-                User.UserName = item.UserName;
+                User.UserName = item.UserName.Trim();
                 User.RoleName = item.RoleName;
                 User.BranchId = !String.IsNullOrWhiteSpace(item.FourthLevel) ? item.FourthLevel : !String.IsNullOrWhiteSpace(item.ThirdLevel) ? item.ThirdLevel : !String.IsNullOrWhiteSpace(item.SecondLevel) ? item.SecondLevel : item.FirstLevel;
                 User.PNo = item.TraineeId;
@@ -375,7 +374,8 @@ namespace SchoolManagement.Identity.Services
 
                 if (existingUser != null)
                 {
-                    throw new BadRequestException($"Username '{item.UserName}' already exists.");
+                    //throw new BadRequestException($"Username '{item.UserName}' already exists.");
+                    errorCount++;
                 }
 
                 var existingEmailFound = false;
@@ -404,11 +404,17 @@ namespace SchoolManagement.Identity.Services
                 }
                 else
                 {
-                    throw new BadRequestException($"Email {item.Email} already exists.");
+                    //throw new BadRequestException($"Email {item.Email} already exists.");
+                    errorCount++;
                 }
             }
 
             if (successCount > 0)
+            {
+                response.Success = true;
+                response.Message = $"{successCount} Users Created and {errorCount} Users Faild";
+            }
+            else
             {
                 response.Success = true;
                 response.Message = $"{successCount} Users Created and {errorCount} Users Faild";
