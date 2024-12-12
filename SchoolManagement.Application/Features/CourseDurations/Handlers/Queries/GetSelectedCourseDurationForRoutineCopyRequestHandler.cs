@@ -19,7 +19,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
         public async Task<List<SelectedModel>> Handle(GetSelectedCourseDurationForRoutineCopyRequest request, CancellationToken cancellationToken)
         {
             IQueryable<CourseDuration> codeValues =  _CourseDurationRepository.FilterWithInclude(x => x.BaseSchoolNameId == request.BaseSchoolNameId && x.IsCompletedStatus == 0, "CourseName");
-            List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
+            List<SelectedModel> selectModels = codeValues.OrderByDescending(c=>c.DateCreated).Select(x => new SelectedModel
             {
                 Text = x.CourseName.Course+"_"+x.CourseTitle,
                 Value = x.CourseDurationId

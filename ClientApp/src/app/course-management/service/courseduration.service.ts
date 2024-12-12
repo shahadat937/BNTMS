@@ -79,8 +79,9 @@ activeCoursePlan(id : number){
   }
 
   //course-duration/get-courseDurationByCourseTypeFilter?viewStatus=0&courseTypeId=3
-  getCourseListBySchool(schoolId){
-    return this.http.get<CourseDuration[]>(this.baseUrl + '/course-duration/get-courseDurationListBySchoolId?baseSchoolNameId='+schoolId)
+  getCourseListBySchool(schoolId, searchTerm){
+    // return this.http.get<CourseDuration[]>(this.baseUrl + '/course-duration/get-courseDurationListBySchoolId?baseSchoolNameId='+schoolId)
+    return this.http.get<CourseDuration[]>(this.baseUrl + `/course-duration/get-courseDurationListBySchoolId?baseSchoolNameId=${schoolId}&searchTerm=${searchTerm}`)
   }
  
   getCourseDurationFilter(viewStatus,courseTypeId){

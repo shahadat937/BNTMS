@@ -148,9 +148,9 @@ public class CourseDurationController : ControllerBase
 
     [HttpGet]
     [Route("get-courseDurationListBySchoolId")]
-    public async Task<ActionResult<List<CourseDurationDto>>> GetCourseDurationListByBaseSchoolNameId(int baseSchoolNameId)
+    public async Task<ActionResult<List<CourseDurationDto>>> GetCourseDurationListByBaseSchoolNameId(int baseSchoolNameId, string searchTerm)
     {
-        var courseDurations = await _mediator.Send(new GetCourseDurationListByBaseSchoolNameIdRequest { BaseSchoolNameId = baseSchoolNameId });
+        var courseDurations = await _mediator.Send(new GetCourseDurationListByBaseSchoolNameIdRequest { BaseSchoolNameId = baseSchoolNameId, SearchTerm = searchTerm });
         return Ok(courseDurations);
     }
 

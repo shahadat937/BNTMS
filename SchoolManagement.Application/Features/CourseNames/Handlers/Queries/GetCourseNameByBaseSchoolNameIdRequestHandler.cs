@@ -22,12 +22,18 @@ namespace SchoolManagement.Application.Features.CourseNames.Handlers.Queries
             //var sortByDecending = codeValues.OrderByDescending(c => c.DateCreated).ToList();
             //codeValues = codeValues.OrderByDescending(c => c.DateCreated);
 
-            List<SelectedModel> selectModels = codeValues.OrderByDescending(c=>c.DateCreated).Select(x => new SelectedModel
-            {
-                Text = x.CourseName.Course + "_" + x.CourseDuration.CourseTitle,
+            List<SelectedModel> selectModels = codeValues
+            .OrderByDescending(c => c.DateCreated) // Order by DateCreated in descending order
+                .Select(x => new SelectedModel
+                 {
+                     Text = x.CourseName.Course + "_" + x.CourseDuration.CourseTitle,
                 Value = x.CourseDurationId + "_" + x.CourseNameId
-            }).Distinct().ToList();
+                 })
+                 .Distinct() // Ensure unique elements
+                 .ToList();
+
             return selectModels;
+
 
             //IQueryable<CourseDuration> codeValues = _CourseDurationRepository.FilterWithInclude(x => x.BaseSchoolNameId == request.BaseSchoolNameId && x.IsCompletedStatus == 0, "CourseName");
             //List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
