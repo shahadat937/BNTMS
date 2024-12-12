@@ -190,6 +190,13 @@ export class dashboardService {
       })
     ); 
   }
+  getSpCourseTotalCountBySchool() {
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-spGetCourseToltaCountBySchool').pipe(
+      map(response => {
+        return response;
+      })
+    ); 
+  }
 
   getSpCourseListBySchool(baseSchoolId,current) {
     return this.http.get<any[]>(this.baseUrl + '/dashboard/get-runningCourseDurationListBySchool?baseSchoolNameId='+baseSchoolId+'&CurrentDate='+current).pipe(

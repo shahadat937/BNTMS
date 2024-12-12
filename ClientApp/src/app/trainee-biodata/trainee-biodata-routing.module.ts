@@ -10,6 +10,8 @@ import {CivilInstructorBioDataInfoListComponent} from './civil-instructor-biodat
 import {NewCivilInstructorBioDataInfoComponent} from './civil-instructor-biodata/new-civilinstructorbiodata/new-civilinstructorbiodata.component';
 import {NewBiodataGeneralInfoJstiComponent} from './trainee-profile-update/new-biodata-general-info-jsti/new-biodata-general-info-jsti.component'
 import { NewBIODataGeneralInfoComponent } from './sailor-biodata-tab-layout/biodata-general-info/new-biodata-general-info/new-biodata-general-info.component';
+import { MidbiodatainfoListComponent } from './mid-biodata/midbiodatainfo-list/midbiodatainfo-list.component';
+import { NewMidbiodatainfoComponent } from './mid-biodata/new-midbiodatainfo/new-midbiodatainfo.component';
 
 const routes: Routes = [
   {
@@ -59,6 +61,19 @@ const routes: Routes = [
   },
   { path: 'update-foreignbiodatainfo/:traineeId', 
   component: NewForeignBIODataInfoComponent 
+  },
+  {
+    path: 'midbiodatainfo-list',
+    component: MidbiodatainfoListComponent,
+  },
+
+  {
+    path: 'add-midbiodatainfo',
+    component: NewMidbiodatainfoComponent,
+  },
+  {
+    path: 'update-midbiodatainfo/:traineeId',
+    component: NewMidbiodatainfoComponent,
   },
   
   {

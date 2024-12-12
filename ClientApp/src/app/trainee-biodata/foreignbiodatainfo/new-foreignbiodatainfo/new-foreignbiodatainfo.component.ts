@@ -8,6 +8,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import {  Role } from 'src/app/core/models/role';
 @Component({
   selector: 'app-new-foreignbiodatainfo',
   templateUrl: './new-foreignbiodatainfo.component.html',
@@ -53,6 +54,7 @@ export class NewForeignBIODataInfoComponent implements OnInit, OnDestroy {
   public files: any[];
   subscription: any;
   traineePhoto: string;
+  userRole = Role;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -362,6 +364,12 @@ filterCountry(value:any){
       remarks: [''],
       //localNominationStatus:[""],
       isActive: [true],
+      userName: [''],
+      roleName: [this.userRole.Student],
+      password: ['Admin@123'],
+      confirmPassword: ['Admin@123'],
+      firstName: ['na'],
+      lastName:['na'],
     
     })
   }
