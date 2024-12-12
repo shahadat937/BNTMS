@@ -9,6 +9,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ViewChild, ElementRef } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from 'src/app/core/models/role';
 @Component({
   selector: 'app-new-civilinstructorbiodata',
   templateUrl: './new-civilinstructorbiodata.component.html',
@@ -44,6 +45,7 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
   traineePhoto: string;
+  userRoles = Role;
 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     super();
@@ -276,6 +278,12 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
       image: [''],
 
       officerTypeId: [3], //officerTypeId  for Civil Instructor
+      userName: [''],
+      roleName: [this.userRoles.Student],
+      password: ['Admin@123'],
+      confirmPassword: ['Admin@123'],
+      firstName: ['na'],
+      lastName:['na'],
 
       // bnaBatchId: [''],
       // rankId: [''],
@@ -347,6 +355,7 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
             });
           }, error => {
             this.validationErrors = error;
+            this.loading = false;
           })
         }
       })
@@ -363,8 +372,10 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
         });
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
     }
+   
   }
   whiteSpaceRemove(value){
     this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))

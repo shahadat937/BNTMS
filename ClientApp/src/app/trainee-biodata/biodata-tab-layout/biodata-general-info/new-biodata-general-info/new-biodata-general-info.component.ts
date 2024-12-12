@@ -9,6 +9,7 @@ import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { ViewChild, ElementRef } from '@angular/core';
 import { isNull } from '@angular/compiler/src/output/output_ast';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from 'src/app/core/models/role';
 @Component({
   selector: 'app-new-BIODataGeneralInfo',
   templateUrl: './new-biodata-general-info.component.html',
@@ -48,6 +49,7 @@ export class NewBIODataGeneralInfoComponent implements OnInit, OnDestroy {
   selectReligion: SelectedModel[];
   selectcaste: SelectedModel[];
   selectBloodGroup:SelectedModel[];
+  userRole = Role;
   fileAttr = 'Choose File';
   imageUrl:string="/assets/img/icon.png";
   public files: any[];
@@ -338,7 +340,13 @@ filterByCaste(value:any){
       remarks: [''],
       localNominationStatus:[0],
       isActive: [true],
-
+      id: [0],
+      userName: [''],
+      roleName: [this.userRole.Student],
+      password: ['Admin@123'],
+      confirmPassword: ['Admin@123'],
+      firstName: ['na'],
+      lastName:['na'],
 
       //traineeId:[],
       //bnaBatchId:[],
@@ -443,6 +451,7 @@ filterByCaste(value:any){
             });
           }, error => {
             this.validationErrors = error;
+            this.loading = false;
           })
         }
       })
@@ -459,8 +468,11 @@ filterByCaste(value:any){
         });
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
+      
     }
+  
   }
   whiteSpaceRemove(value){
     this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))

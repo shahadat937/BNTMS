@@ -96,6 +96,7 @@ export class TraineeAttendanceListComponent extends UnsubscribeOnDestroyAdapter 
     this.durationId = this.route.snapshot.paramMap.get('courseDurationId');
     this.studentDashboardService.getSpStudentInfoByTraineeId(Number(inputId)).subscribe(res => {
       var traineeSectionId = res[0].courseSectionId;
+      console.log(res);
 
       this.dashboardService.getTraineeAttendanceList(inputId, this.durationId, traineeSectionId, attendanceStatus).subscribe(res => {
         this.traineeAttendanceList = res;

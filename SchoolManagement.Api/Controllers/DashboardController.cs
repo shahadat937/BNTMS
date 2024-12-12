@@ -361,6 +361,17 @@ public class DashboardController : ControllerBase
     }
 
     [HttpGet]
+    [Route("get-spGetCourseToltaCountBySchool")]
+    public async Task<ActionResult> GetspGetCourseTotalCountBySchool()
+    {
+        var proceduredSchool = await _mediator.Send(new GetCourseTotalCountBySchoolFromSpRequest
+        {
+
+        });
+        return Ok(proceduredSchool);
+    }
+
+    [HttpGet]
     [Route("get-studentInfoByTraineeId")]
     public async Task<ActionResult> GetStudentInfoByTraineeId(int TraineeId)
     {

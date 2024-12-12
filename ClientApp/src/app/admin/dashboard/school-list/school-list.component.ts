@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { dashboardService } from '../services/dashboard.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { MasterData } from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
@@ -18,30 +18,31 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
   styleUrls: ['./school-list.component.sass']
 })
 export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
-  schoolList:any;
+  schoolList: any;
   isLoading = false;
-  showHideDiv= false;
-  
+  showHideDiv = false;
+
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
+  searchText = "";
 
-    
-  branchId:any;
-  traineeId:any;
-  role:any;
 
-  groupArrays:{ baseName: string; schools: any; }[];
+  branchId: any;
+  traineeId: any;
+  role: any;
+  totalCount: any;
 
-  displayedColumns: string[] = ['ser','schoolName','courseCount'];
+  groupArrays: { baseName: string; schools: any; }[];
 
-  
+  displayedColumns: string[] = ['ser', 'schoolName', 'courseCount'];
+
+
   constructor(
     private snackBar: MatSnackBar,
     private authService: AuthService,
@@ -53,21 +54,20 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
   }
 
   ngOnInit() {
-        
+
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId.trim();
-    
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId.trim();
+
     this.getBnaClassTests();
-    
+
   }
- 
+
   getBnaClassTests() {
     this.isLoading = true;
     this.dashboardService.getSpCourseCountBySchool().subscribe(response => {
-     
-      this.schoolList = response; 
-      
+      this.schoolList = response;
+
       // this gives an object with dates as keys
       const groups = this.schoolList.reduce((groups, schools) => {
         const baseName = schools.baseName;
@@ -86,28 +86,35 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
         };
       });
 
-
+      this.getCourseTotalCountInfo();
 
       this.isLoading = false;
     })
   }
+
+  getCourseTotalCountInfo() {
+    this.dashboardService.getSpCourseTotalCountBySchool().subscribe(res => {
+      this.totalCount = res;
+      console.log(res);
+    })
+  }
   pageChanged(event: PageEvent) {
-  
+
     this.paging.pageIndex = event.pageIndex
     this.paging.pageSize = event.pageSize
     this.paging.pageIndex = this.paging.pageIndex + 1
     // this.getCourseDurationsByCourseType();
     this.getBnaClassTests();
   }
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
-  print(){ 
-     
+  print() {
+
     let printContents, popupWin;
     printContents = document.getElementById('print-routine').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -162,14 +169,14 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
     );
     popupWin.document.close();
 
-}
+  }
   // pageChanged(event: PageEvent) {
-  
+
   //   this.paging.pageIndex = event.pageIndex
   //   this.paging.pageSize = event.pageSize
   //   this.paging.pageIndex = this.paging.pageIndex + 1
   //   this.getBnaClassTests();
- 
+
   // }
   // applyFilter(searchText: any){ 
   //   this.searchText = searchText;
@@ -191,6 +198,6 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
   //       })
   //     }
   //   })
-    
+
   // }
 }

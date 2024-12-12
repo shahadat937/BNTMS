@@ -26,6 +26,7 @@ namespace SchoolManagement.Application.Contracts.Identity
         Task<BaseCommandResponse> ResetPassword(string userId,CreateUserDto user);
         Task<UserDto> GetUserById(string id);
         Task<BaseCommandResponse> DeleteUser(string id);
+        Task<BaseCommandResponse> DeleteBioDataUser(int traineeId);
         //Task<PagedResult<UserDto>> GetStudentUsers(QueryParams queryParams);
         Task<PagedResult<UserDto>> GetTeacherUsers(QueryParams queryParams);
         Task<PagedResult<UserDto>> GetTraineeList(QueryParams queryParams);

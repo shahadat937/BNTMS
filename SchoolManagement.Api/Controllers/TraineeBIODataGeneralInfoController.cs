@@ -52,6 +52,13 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
     {
         var TraineeBioDataGeneralInfos = await _mediator.Send(new GetTraineeBioDataGeneralInfoListForForeignRequest { QueryParams = queryParams });
         return Ok(TraineeBioDataGeneralInfos);
+    } 
+    [HttpGet]
+    [Route("get-midBioDataGeneralInfoes")]
+    public async Task<ActionResult<List<TraineeBioDataGeneralInfoDto>>> GetMidList([FromQuery] QueryParams queryParams)
+    {
+        var TraineeBioDataGeneralInfos = await _mediator.Send(new GetTraineeBioDataGeneralInfoListForMidRequest { QueryParams = queryParams });
+        return Ok(TraineeBioDataGeneralInfos);
     }
 
 
@@ -127,9 +134,10 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
     [Route("delete-traineeBioDataGeneralInfo/{id}")]
     public async Task<ActionResult> Delete(int id)
     {
+        await _userService.DeleteBioDataUser(id);
         var command = new DeleteTraineeBioDataGeneralInfoCommand { TraineeId = id };
         await _mediator.Send(command);
-        await _userService.DeleteUser(id.ToString());
+      
         return NoContent();
     }
 

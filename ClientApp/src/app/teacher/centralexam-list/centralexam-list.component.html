@@ -87,7 +87,7 @@
                       </span>
                       <span class="final-submit" *ngIf="element.attendanceComplete === 1 && element.examMarkComplete === 1"> 
                         <!-- <button [routerLink]="['/exam-management/add-bnaexammarkinstructor/',traineeId]" class="btnDetailsins" mat-flat-button color="primary">Syllabus</button> -->
-                        <button *ngIf="courseNameId == this.masterData.courseName.QExam" mat-raised-button class="custom-btn courseplan-btn"  [routerLink]="['/admin/dashboard/submitqexammark-list/',traineeId,element.courseDurationId,element.courseNameId,this.masterData.coursetype.CentralExam,element.classRoutineId,element.branchId,element.bnaSubjectNameId]">
+                        <button *ngIf="courseNameId == this.masterData.courseName.QExam" mat-raised-button class="custom-btn courseplan-btn"  [routerLink]="['/admin/dashboard/submitqexammark-list/',traineeId,element.courseDurationId,element.courseNameId,this.masterData.coursetype.CentralExam,element.classRoutineId,element.branchId,element.bnaSubjectNameId, courseTypeId]">
                           Final Submit
                         </button> 
                         <button *ngIf="courseNameId == this.masterData.courseName.JCOsTraining" mat-raised-button class="custom-btn courseplan-btn"  [routerLink]="['/admin/dashboard/submitjcoexammark-list/',traineeId,element.courseDurationId,element.courseNameId,this.masterData.coursetype.CentralExam,element.saylorBranchId,element.saylorSubBranchId,element.classRoutineId,element.bnaSubjectNameId]">

@@ -203,16 +203,15 @@
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
               </div>
-              <div *ngIf="isShown" class="my-3">
-                <p class="text-danger text-center" style="font-size: 2rem;">
-                  {{totalAssignedTrainee ? "" : "Trainees are not assigned to this course section."}}
-                </p>
-              </div>
+              
               <div class="row mt-2">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <p class="text-danger text-center" style="font-size: 2rem;">
+                    {{warrningMessage}}
+                  </p>
                   <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading"
                     [disabled]="!AttendanceForm.valid " mat-raised-button color="primary">{{buttonText}}</button>
-
+                 
                   <!-- <div class="icon-button-demo"> -->
                   <button class="btn-space" mat-raised-button color="warn"
                     routerLink="/admin/dashboard/school-dashboard">

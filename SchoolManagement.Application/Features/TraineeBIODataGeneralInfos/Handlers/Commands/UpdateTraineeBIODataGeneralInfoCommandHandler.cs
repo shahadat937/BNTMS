@@ -82,11 +82,8 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
             {
                 TraineeBioDataGeneralInfos.BnaPhotoUrl = "";
             }
-           
-           
-           
-
-
+            TraineeBioDataGeneralInfos.DateOfBirth = request.CreateTraineeBioDataGeneralInfoDto.DateOfBirth ?? null;
+            TraineeBioDataGeneralInfos.JoiningDate = request.CreateTraineeBioDataGeneralInfoDto.JoiningDate ?? null;
             await _unitOfWork.Repository<TraineeBioDataGeneralInfo>().Update(TraineeBioDataGeneralInfos);
             try
             {

@@ -78,6 +78,21 @@ export class SharedServiceService {
     this.location.back();
   }
 
+  verifyPno(event: KeyboardEvent) {
+    const key = event.key;
+  
+    // Allow alphanumeric characters, underscore, space, comma, and control keys (backspace, delete, arrows)
+    const isValid = /^[a-zA-Z0-9_]$/.test(key) || 
+                    ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(key);
+  
+    // If the key is not valid, prevent the default action
+    if (!isValid) {
+      event.preventDefault();
+    }
+  }
+  
+
+
   formatDateTime(date: any): string {
 
     let validDate: Date;

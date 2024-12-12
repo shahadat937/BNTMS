@@ -12,6 +12,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
   templateUrl: './foreignbiodatainfo-list.component.html',
   styleUrls: ['./foreignbiodatainfo-list.component.sass']
 })
-export class ForeignBIODataInfoListComponent implements OnInit, OnDestroy {
+export class ForeignBIODataInfoListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
    masterData = MasterData;
   loading = false;
@@ -43,7 +44,9 @@ export class ForeignBIODataInfoListComponent implements OnInit, OnDestroy {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
+  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
+    super();
+  }
   
 
   ngOnInit() {
@@ -56,14 +59,14 @@ export class ForeignBIODataInfoListComponent implements OnInit, OnDestroy {
       this.applyFilter(searchText);
     });
   }
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    if (this.searchSubscription) {
-      this.searchSubscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.subscription) {
+  //     this.subscription.unsubscribe();
+  //   }
+  //   if (this.searchSubscription) {
+  //     this.searchSubscription.unsubscribe();
+  //   }
+  // }
   onSearchChange(searchValue: string): void {
     this.searchSubject.next(searchValue);
   }
