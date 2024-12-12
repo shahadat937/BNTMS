@@ -22,7 +22,7 @@ namespace SchoolManagement.Application.Features.CourseNames.Handlers.Queries
             //var sortByDecending = codeValues.OrderByDescending(c => c.DateCreated).ToList();
             //codeValues = codeValues.OrderByDescending(c => c.DateCreated);
 
-            List<SelectedModel> selectModels = codeValues.OrderByDescending(c=>c.DateCreated).Select(x => new SelectedModel
+            List<SelectedModel> selectModels = codeValues.OrderBy(c=>c.DateCreated).Select(x => new SelectedModel
             {
                 Text = x.CourseName.Course + "_" + x.CourseDuration.CourseTitle,
                 Value = x.CourseDurationId + "_" + x.CourseNameId
