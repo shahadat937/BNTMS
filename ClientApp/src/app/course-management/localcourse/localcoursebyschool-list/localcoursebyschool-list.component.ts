@@ -65,7 +65,7 @@ export class LocalCourseBySchoolListComponent extends UnsubscribeOnDestroyAdapte
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
     
-    this.getCourseDurationsByCourseType(this.branchId);
+    this.getCourseDurationsByCourseType(this.branchId, this.searchText);
   }
 
   getDateComparision(obj){
@@ -96,9 +96,9 @@ export class LocalCourseBySchoolListComponent extends UnsubscribeOnDestroyAdapte
       
   //   })
   // }
-  getCourseDurationsByCourseType(schoolId) {
+  getCourseDurationsByCourseType(schoolId, searchText) {
     this.isLoading = true;
-    this.CourseDurationService.getCourseListBySchool(schoolId).subscribe(response => {
+    this.CourseDurationService.getCourseListBySchool(schoolId, searchText).subscribe(response => {
       this.dataSource = new MatTableDataSource(response);
       console.log(this.dataSource)
       this.dataSource.sort = this.InitialOrdersort;

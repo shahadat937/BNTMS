@@ -1,3 +1,4 @@
+import { scheduled } from 'rxjs';
 import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -36,7 +37,8 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
     pageSize: 100,
     length: 1
   }
-  searchText="";
+  searchTerm="";
+  // sear
   candidateCount:any;
 
   
@@ -63,11 +65,11 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
     
-    this.getCourseDurationsByCourseType(this.branchId);
+    this.getCourseDurationsByCourseType(this.branchId, this.searchTerm);
   }
-  getCourseDurationsByCourseType(schoolId){
+  getCourseDurationsByCourseType(schoolId, searchTerm){
     this.isLoading = true;
-    this.CourseDurationService.getCourseListBySchool(schoolId).subscribe(response => {
+    this.CourseDurationService.getCourseListBySchool(schoolId, searchTerm).subscribe(response => {
       this.dataSource = new MatTableDataSource(response);
       this.dataSource.sort = this.InitialOrdersort;
       this.dataSource.paginator = this.InitialOrderpaginator;
@@ -78,10 +80,12 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
     })
   }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.toLowerCase().replace(/\s/g, "");
-    console.log(filterValue)
-    this.dataSource.filter = filterValue;
+  applyFilter(searchTerm: any) {
+    // filterValue = filterValue.toLowerCase().replace(/\s/g, "");
+    // console.log(filterValue)
+    // this.dataSource.filter = filterValue;
+    this.searchTerm = searchTerm;
+    this.getCourseDurationsByCourseType(this.branchId, this.searchTerm)
   }
   
 }
