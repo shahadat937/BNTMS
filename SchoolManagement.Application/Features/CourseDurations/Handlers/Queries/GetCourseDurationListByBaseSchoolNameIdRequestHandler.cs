@@ -22,7 +22,6 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
         public async Task<List<CourseDurationDto>> Handle(GetCourseDurationListByBaseSchoolNameIdRequest request, CancellationToken cancellationToken)
         {
-           
             IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(
                 x => x.IsCompletedStatus == 0,
                 "CourseName", "BaseSchoolName"
@@ -49,11 +48,10 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
                 CourseDurations = CourseDurations.Where(x => x.BaseSchoolNameId == request.BaseSchoolNameId);
             }
 
-            var CourseDurationDtos =  _mapper.Map<List<CourseDurationDto>>(CourseDurations);
+            var CourseDurationDtos = _mapper.Map<List<CourseDurationDto>>(CourseDurations);
 
             return CourseDurationDtos;
         }
-
     }
 
 

@@ -112,10 +112,12 @@ export class LocalCourseBySchoolListComponent extends UnsubscribeOnDestroyAdapte
   }
   
 
-  applyFilter(filterValue: string) {
+  applyFilter(searchText) {
      
-    filterValue = filterValue.toLowerCase().replace(/\s/g, ""); 
-    this.dataSource.filter = filterValue; 
+    // filterValue = filterValue.toLowerCase().replace(/\s/g, ""); 
+    // this.dataSource.filter = filterValue;
+    this.searchText = searchText;
+    this.getCourseDurationsByCourseType(this.branchId, this.searchText)
   }
   
 }
