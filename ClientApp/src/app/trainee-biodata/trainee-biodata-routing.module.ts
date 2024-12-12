@@ -12,6 +12,10 @@ import {NewBiodataGeneralInfoJstiComponent} from './trainee-profile-update/new-b
 import { NewBIODataGeneralInfoComponent } from './sailor-biodata-tab-layout/biodata-general-info/new-biodata-general-info/new-biodata-general-info.component';
 import { MidbiodatainfoListComponent } from './mid-biodata/midbiodatainfo-list/midbiodatainfo-list.component';
 import { NewMidbiodatainfoComponent } from './mid-biodata/new-midbiodatainfo/new-midbiodatainfo.component';
+import { CadetBiodatainfoListComponent } from './cadet-biodata/cadet-biodatainfo-list/cadet-biodatainfo-list.component';
+import { NewCadetBiodatainfoComponent } from './cadet-biodata/new-cadet-biodatainfo/new-cadet-biodatainfo.component';
+import { ISBiodatainfoListComponent } from './i-s-biodata/i-s-biodatainfo-list/i-s-biodatainfo-list.component';
+import { NewISBiodatainfoComponent } from './i-s-biodata/new-i-s-biodatainfo/new-i-s-biodatainfo.component';
 
 const routes: Routes = [
   {
@@ -76,6 +80,35 @@ const routes: Routes = [
     component: NewMidbiodatainfoComponent,
   },
   
+
+  {
+    path: 'cadetbiodatainfo-list',
+    component: CadetBiodatainfoListComponent,
+  },
+
+  {
+    path: 'add-cadetbiodatainfo',
+    component: NewCadetBiodatainfoComponent,
+  },
+  {
+    path: 'update-cadetbiodatainfo/:traineeId',
+    component: NewCadetBiodatainfoComponent,
+  },
+  
+  {
+    path: 'i-s-biodatainfo-list',
+    component: ISBiodatainfoListComponent,
+  },
+
+  {
+    path: 'i-s-cadetbiodatainfo',
+    component: NewISBiodatainfoComponent,
+  },
+  {
+    path: 'update-i-s-biodatainfo/:traineeId',
+    component: NewISBiodatainfoComponent,
+  },
+
   {
     path: 'add-civilinstructorbiodata',
     component: NewCivilInstructorBioDataInfoComponent,

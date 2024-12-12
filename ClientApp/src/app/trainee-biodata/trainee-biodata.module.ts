@@ -28,6 +28,10 @@ import {NewBiodataGeneralInfoJstiComponent} from './trainee-profile-update/new-b
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MidbiodatainfoListComponent } from './mid-biodata/midbiodatainfo-list/midbiodatainfo-list.component';
 import { NewMidbiodatainfoComponent } from './mid-biodata/new-midbiodatainfo/new-midbiodatainfo.component';
+import { ISBiodatainfoListComponent } from './i-s-biodata/i-s-biodatainfo-list/i-s-biodatainfo-list.component';
+import { NewISBiodatainfoComponent } from './i-s-biodata/new-i-s-biodatainfo/new-i-s-biodatainfo.component';
+import { NewCadetBiodatainfoComponent } from './cadet-biodata/new-cadet-biodatainfo/new-cadet-biodatainfo.component';
+import { CadetBiodatainfoListComponent } from './cadet-biodata/cadet-biodatainfo-list/cadet-biodatainfo-list.component';
 
 
 @NgModule({
@@ -42,7 +46,11 @@ import { NewMidbiodatainfoComponent } from './mid-biodata/new-midbiodatainfo/new
     NewCivilInstructorBioDataInfoComponent,
     NewBiodataGeneralInfoJstiComponent,
     MidbiodatainfoListComponent,
-    NewMidbiodatainfoComponent
+    NewMidbiodatainfoComponent,
+    ISBiodatainfoListComponent,
+    NewISBiodatainfoComponent,
+    NewCadetBiodatainfoComponent,
+    CadetBiodatainfoListComponent
     // NewTraineeBiodatasComponent
   ],
   imports: [
