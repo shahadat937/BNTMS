@@ -37,7 +37,7 @@
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByCourse($event.target.value)"
                             placeholder="Search">
-                            <mat-option *ngFor="let dropdown of selectedcourse" [value]="dropdown.value">
+                            <mat-option *ngFor="let dropdown of selectedcourse" [value]="dropdown.value" [matTooltip]="dropdown.text" matTooltipPosition="above">
                                 {{dropdown.text}} 
                               </mat-option>                          
                         </mat-select>

@@ -23,7 +23,8 @@ namespace SchoolManagement.Application.Features.CourseNames.Handlers.Queries
         public async Task<List<SelectedModel>> Handle(GetSelectedCourseNameRequest request, CancellationToken cancellationToken)
         {
             ICollection<CourseName> CourseNames = await _CourseNameRepository.FilterAsync(x => x.IsActive);
-            List<SelectedModel> selectModels = CourseNames.Select(x => new SelectedModel 
+            var sortByDecending = CourseNames.OrderByDescending(c => c.DateCreated).ToList();
+            List<SelectedModel> selectModels = sortByDecending.Select(x => new SelectedModel 
             {
                 Text = x.Course, 
                 Value = x.CourseNameId

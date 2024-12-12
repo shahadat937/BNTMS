@@ -10,6 +10,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Requests.Queries
 {
     public class GetCourseDurationListByBaseSchoolNameIdRequest : IRequest<List<CourseDurationDto>>
     {
-        public int BaseSchoolNameId { get; set; }  
+        public int BaseSchoolNameId { get; set; }
+        public string SearchTerm { get; set; }
     }
 }
