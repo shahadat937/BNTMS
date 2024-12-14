@@ -1,15 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MasterData } from 'src/assets/data/master-data';
 import { BIODataGeneralInfo } from '../../models/BIODataGeneralInfo';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+
 import { PageEvent } from '@angular/material/paginator';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { MasterData } from '../../../../assets/data/master-data';
+import { SharedServiceService} from '../../../../app/shared/shared-service.service';
+
 
 
 @Component({
@@ -75,7 +77,7 @@ export class CadetBiodatainfoListComponent implements OnInit {
   // }
   getBIODataGeneralInfos() {
     this.isLoading = true;
-    this.BIODataGeneralInfoService. getBIODataGeneralInfosForMid(this.paging.pageIndex, this.paging.pageSize, this.searchText)
+    this.BIODataGeneralInfoService. getBIODataGeneralInfosForCadet(this.paging.pageIndex, this.paging.pageSize, this.searchText)
       .subscribe(
         response => {
           this.dataSource.data = response.items; 
