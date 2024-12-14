@@ -41,15 +41,20 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
             }
             else
             {
-                /////// File Upload //////////
 
-                var isPnoExits = _bioDataRepository.FindOne(x => x.Pno == request.TraineeBioDataGeneralInfoDto.Pno);
-
-                if (isPnoExits != null)
+                if (request.TraineeBioDataGeneralInfoDto.Pno != null)
                 {
-                    throw new BadRequestException("This Pno Already Exits In the System");
+                    var isPnoExits = _bioDataRepository.FindOne(x => x.Pno == request.TraineeBioDataGeneralInfoDto.Pno);
+
+                    if (isPnoExits != null)
+                    {
+                        throw new BadRequestException("This Pno Already Exits In the System");
+                    }
                 }
-       
+
+                /////// File Upload //////////
+                ///
+
                 string uniqueFileName = null;
 
                 if (request.TraineeBioDataGeneralInfoDto.Image != null)
