@@ -75,7 +75,7 @@ export class CadetBiodatainfoListComponent implements OnInit {
   //     this.isLoading = false;
   //   })
   // }
-  getBIODataGeneralInfos() {
+   getBIODataGeneralInfos() {
     this.isLoading = true;
     this.BIODataGeneralInfoService. getBIODataGeneralInfosForCadet(this.paging.pageIndex, this.paging.pageSize, this.searchText)
       .subscribe(

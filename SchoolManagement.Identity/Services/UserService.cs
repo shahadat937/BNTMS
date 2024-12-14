@@ -540,7 +540,7 @@ namespace SchoolManagement.Identity.Services
             user.FirstName = userDto.FirstName;
             user.PhoneNumber = userDto.Mobile;
             user.LastName = userDto.LastName;
-            user.UserName = userDto.Pno?? userDto.BnaNo;
+            user.UserName = userDto.Pno;
             user.RoleName = userDto.RoleName;
             user.BranchId = !string.IsNullOrWhiteSpace(userDto.FourthLevel) ? userDto.FourthLevel
                          : !string.IsNullOrWhiteSpace(userDto.ThirdLevel) ? userDto.ThirdLevel
@@ -575,7 +575,7 @@ namespace SchoolManagement.Identity.Services
             }
 
             // Check if username already exists
-            var existingUser = await _userManager.FindByNameAsync(userDto.Pno?? userDto.BnaNo);
+            var existingUser = await _userManager.FindByNameAsync(userDto.Pno);
             if (existingUser != null)
             {
                 throw new BadRequestException($"Username '{userDto.UserName}' already exists.");

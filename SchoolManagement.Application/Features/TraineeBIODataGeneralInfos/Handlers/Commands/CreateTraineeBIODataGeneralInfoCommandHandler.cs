@@ -42,15 +42,13 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
             else
             {
 
-                if (request.TraineeBioDataGeneralInfoDto.Pno != null)
-                {
                     var isPnoExits = _bioDataRepository.FindOne(x => x.Pno == request.TraineeBioDataGeneralInfoDto.Pno);
 
                     if (isPnoExits != null)
                     {
                         throw new BadRequestException("This Pno Already Exits In the System");
                     }
-                }
+                
 
                 /////// File Upload //////////
                 ///

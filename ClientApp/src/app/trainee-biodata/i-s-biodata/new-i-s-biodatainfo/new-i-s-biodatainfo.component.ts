@@ -318,7 +318,7 @@ filterByCaste(value:any){
       //maritalStatusId: [],
       hairColorId: [],
       officerTypeId: [1], //officerTypeId 1 For Bangladesh
-      traineeStatusId:['1007'], // for Cadet
+      traineeStatusId:['8'], // for I/S
       name: ['',Validators.required],
       nameBangla: [''],
       mobile: [''],

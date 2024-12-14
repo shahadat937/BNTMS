@@ -317,7 +317,7 @@ filterByCaste(value:any){
       //maritalStatusId: [],
       hairColorId: [],
       officerTypeId: [1], //officerTypeId 1 For Bangladesh
-      traineeStatusId:['1008'], // for Cadet
+      traineeStatusId:['9'], // for Cadet
       name: ['',Validators.required],
       nameBangla: [''],
       mobile: [''],
@@ -326,7 +326,7 @@ filterByCaste(value:any){
       bnaPhotoUrl: [''],
       image: [''],
       bnaNo: ['',Validators.required],
-      pno: [''],
+      pno: ['', Validators.required],
       shortCode:[''],
       presentBillet:[''],
       dateOfBirth: [],
