@@ -86,6 +86,8 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
         };
       });
 
+      console.log(this.groupArrays);
+
       this.getCourseTotalCountInfo();
 
       this.isLoading = false;

@@ -101,7 +101,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'i-s-cadetbiodatainfo',
+    path: 'add-i-s-biodatainfo',
     component: NewISBiodatainfoComponent,
   },
   {

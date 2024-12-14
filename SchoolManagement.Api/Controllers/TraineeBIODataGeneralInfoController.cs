@@ -61,6 +61,22 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
         return Ok(TraineeBioDataGeneralInfos);
     }
 
+    [HttpGet]
+    [Route("get-cadetBioDataGeneralInfoes")]
+    public async Task<ActionResult<List<TraineeBioDataGeneralInfoDto>>> GetCadetList([FromQuery] QueryParams queryParams)
+    {
+        var TraineeBioDataGeneralInfos = await _mediator.Send(new GetTraineeBioDataGeneralInfoListForCadetRequest { QueryParams = queryParams });
+        return Ok(TraineeBioDataGeneralInfos);
+    }
+
+    [HttpGet]
+    [Route("get-i-s-BioDataGeneralInfoes")]
+    public async Task<ActionResult<List<TraineeBioDataGeneralInfoDto>>> GetIsList([FromQuery] QueryParams queryParams)
+    {
+        var TraineeBioDataGeneralInfos = await _mediator.Send(new GetTraineeBioDataGeneralInfoListForIsRequest { QueryParams = queryParams });
+        return Ok(TraineeBioDataGeneralInfos);
+    }
+
 
 
     [HttpGet]
