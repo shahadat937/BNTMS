@@ -90,6 +90,11 @@
                     <mat-cell class="count-val" *matCellDef="let element"> {{element.cadetCount}} </mat-cell>
                   </ng-container>
 
+                  <ng-container matColumnDef="is">
+                    <mat-header-cell class="count-val" *matHeaderCellDef mat-sort-header>I/S</mat-header-cell>
+                    <mat-cell class="count-val" *matCellDef="let element"> {{element.isCount}} </mat-cell>
+                  </ng-container>
+
                   <ng-container matColumnDef="sailor">
                     <mat-header-cell class="count-val" *matHeaderCellDef mat-sort-header>Sailor</mat-header-cell>
                     <mat-cell class="count-val" *matCellDef="let element"> {{element.saylorCount}} </mat-cell>
