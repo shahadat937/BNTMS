@@ -32,7 +32,7 @@ export class CoursebySchoolListComponent extends UnsubscribeOnDestroyAdapter imp
   }
   searchText="";
 
-  displayedColumns: string[] = ['ser','course','duration', 'officer','mid','cadet','sailor','civil','foreign', 'total'];
+  displayedColumns: string[] = ['ser','course','duration', 'officer','mid','cadet','is','sailor','civil','foreign', 'total'];
 
   
   constructor(

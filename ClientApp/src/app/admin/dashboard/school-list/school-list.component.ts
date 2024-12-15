@@ -86,8 +86,6 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
         };
       });
 
-      console.log(this.groupArrays);
-
       this.getCourseTotalCountInfo();
 
       this.isLoading = false;
@@ -97,7 +95,6 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
   getCourseTotalCountInfo() {
     this.dashboardService.getSpCourseTotalCountBySchool().subscribe(res => {
       this.totalCount = res;
-      console.log(res);
     })
   }
   pageChanged(event: PageEvent) {
