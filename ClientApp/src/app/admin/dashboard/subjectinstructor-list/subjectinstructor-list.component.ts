@@ -88,7 +88,8 @@ export class SubjectInstructorListComponent extends UnsubscribeOnDestroyAdapter 
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
       this.CourseInstructorService.getsubjectInstructorListByCourseDuration(courseDurationId).subscribe(res=>{
-        this.GetInstructorByParameters=res;  
+        this.GetInstructorByParameters=res; 
+
               
         if(this.courseNameId == this.masterData.courseName.JCOsTraining){
           // this gives an object with dates as keys
