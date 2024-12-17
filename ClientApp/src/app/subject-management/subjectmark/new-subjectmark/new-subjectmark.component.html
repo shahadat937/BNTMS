@@ -68,7 +68,7 @@
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByModule($event.target.value)"
                             placeholder="Search">
-                            <mat-option  value="0">--Select--</mat-option >
+                            <mat-option>--Select--</mat-option >
                               <mat-option *ngFor="let semester of selectedCourseModuleByBaseSchoolAndCourseNameId" [value]="semester.value">
                                   {{semester.text}} 
                                 </mat-option>                          
@@ -113,6 +113,7 @@
                             (keydown.space)="$event.stopPropagation()"
                             (input)="filterByMarkType($event.target.value)"
                             placeholder="Search">
+                            <mat-option>--Select--</mat-option >
                                 <mat-option *ngFor="let marktype of selectedmarktype" [value]="marktype.value">
                                     {{marktype.text}} 
                                   </mat-option>                          

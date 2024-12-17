@@ -680,7 +680,7 @@ filterBymarkType(value:any){
       });
   } 
   filterByCourseTitle(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().trim()))
+    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getselectedbnasubjectname(dropdown){

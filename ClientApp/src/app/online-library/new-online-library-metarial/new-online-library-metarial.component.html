@@ -36,6 +36,7 @@
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterByDocs($event.target.value)"
                         placeholder="Search">
+                        <mat-option>--Select--</mat-option >
                             <mat-option *ngFor="let semester of selecteddocs" (onSelectionChange)="onDocumentTypeSelectionChange($event)" [value]="semester.value">
                                 {{semester.text}} 
                               </mat-option>                          
