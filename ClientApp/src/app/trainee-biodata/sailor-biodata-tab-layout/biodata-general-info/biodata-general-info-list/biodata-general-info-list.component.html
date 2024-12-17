@@ -65,6 +65,13 @@
                            color="primary" routerLink="/trainee-biodata/sailor-biodata-tab/add-biodata-general-Info">Add
                             <mat-icon class="col-white">add</mat-icon>
                           </button>
+
+                          <button mat-raised-button class="bg-success text-light btn-space" type="button" (click)="triggerFileSelect()">
+                            <mat-icon>upload</mat-icon> Import Trainee Nomination
+                          </button>
+      
+                          <input #fileInput type="file" accept=".xlsx" style="display: none" (change)="onFileSelected($event)" />
+
                         </div>
                       </li>
                       <li>
