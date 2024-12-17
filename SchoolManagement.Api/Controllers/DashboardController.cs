@@ -685,11 +685,12 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-instructorInfoByTraineeId")]
-    public async Task<ActionResult> GetInstructorInfoByTraineeId(int TraineeId)
+    public async Task<ActionResult> GetInstructorInfoByTraineeId(int TraineeId, string searchTerm)
     {
         var instructorInfoByTraineeId = await _mediator.Send(new GetInstructorInfoByTraineeIdSpRequest
         {
-            TraineeId = TraineeId
+            TraineeId = TraineeId,
+            SearchTerm = searchTerm
         });
         return Ok(instructorInfoByTraineeId);
     }
