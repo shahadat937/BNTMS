@@ -125,23 +125,28 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
       this.dataSource.data = response.items; 
 
       // this gives an object with dates as keys
+     // console.log(this.dataSource.data)
     const groups = this.dataSource.data.reduce((groups, courses) => { 
         const schoolName = courses.baseSchoolName;
+   
+        //console.log(typeof(groups))
         if (!groups[schoolName]) {
           groups[schoolName] = [];
         }
         groups[schoolName].push(courses);
+        
         return groups;
       }, {});
-
+     
       // Edit: to add it in the array format instead
       this.groupArrays = Object.keys(groups).map((schoolName) => {
+        
         return {
           schoolName,
           courses: groups[schoolName]
         };
       });
-
+      console.log(typeof(this.groupArrays))
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
