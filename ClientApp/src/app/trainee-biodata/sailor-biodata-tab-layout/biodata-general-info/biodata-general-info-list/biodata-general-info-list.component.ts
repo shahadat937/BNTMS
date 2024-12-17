@@ -137,7 +137,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-
+      this.loading = true;
       this.BIODataGeneralInfoService.uploadFile(file).subscribe(
         (response: any) => {
         (event.target as HTMLInputElement).value = '';
@@ -148,7 +148,8 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
             horizontalPosition: 'right',
             panelClass: 'snackbar-success'
           });
-          // this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
+          this.loading = false;
+          this.getBIODataGeneralInfos();
         }
         else{
           this.snackBar.open(response.message, '', {
@@ -158,6 +159,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
             panelClass: 'snackbar-danger'
           });
         }
+        // this.loading= false; 
       },
         (error) => {
           (event.target as HTMLInputElement).value = '';
