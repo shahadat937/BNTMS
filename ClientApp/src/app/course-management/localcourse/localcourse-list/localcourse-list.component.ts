@@ -70,6 +70,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
     this.oldScrollPosition = this.scrollPositionService.getScrollPosition('localCourse');
     this.selectedFilter = this.scrollPositionService.getSelectedFilter('localCourse');
 
+    this.getCoursesByViewType(this.selectedFilter);
     this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.courseTypeId, this.viewStatus).subscribe(response => {
       
         const endTime = performance.now();
@@ -270,6 +271,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
   applyFilter(searchText: any){ 
     
     this.searchText = searchText;
+    
     this.getCourseDurationsByCourseType();
     
    

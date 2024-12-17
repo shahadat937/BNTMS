@@ -418,7 +418,6 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
 
 
   onWeekSelectionChangeGet(dropdown){
-    console.log('course week dropdown',dropdown)
     this.schoolId=this.ClassRoutineForm.value['baseSchoolNameId'];
     this.durationId=this.ClassRoutineForm.value['courseDurationId'];
     this.courseId=this.ClassRoutineForm.value['courseNameId'];
@@ -566,7 +565,6 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
       this.subscription = this.ClassRoutineService.getCourseModuleIdForRoutine(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
         var courseModuleId=res;
         this.ClassRoutineForm.get('courseModuleId').setValue(courseModuleId);
-        console.log("Course Module Id : ", courseModuleId);
       });
 
       this.subscription = this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
@@ -678,12 +676,11 @@ filterBymarkType(value:any){
       var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
       this.subscription = this.ClassRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
         this.selectedcoursedurationbyschoolname=res;
-        console.log(this.selectedcoursedurationbyschoolname)
         this.selectCourseTitle=res;
       });
   } 
   filterByCourseTitle(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    this.selectedcoursedurationbyschoolname=this.selectCourseTitle.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().trim()))
   }
 
   getselectedbnasubjectname(dropdown){

@@ -4,6 +4,7 @@ using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo;
 using SchoolManagement.Application.DTOs.User;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Commands;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Queries;
+using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Commands;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Queries;
 using SchoolManagement.Shared.Models;
 
@@ -239,6 +240,17 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
             //TraineeId = traineeId
         });
         return Ok(trainee);
+    }
+
+    [HttpPost]
+    [Route("post-biodataExeclfile")]
+    public async Task <ActionResult> UploadBioDataFile([FromForm] IFormFile file)
+    {
+        var bioData = await _mediator.Send(new UploadTraineeBIODataGeneralInfoCommand
+        {
+            TraineeBIODataGeneralInfoFile = file
+        });
+        return Ok(bioData);
     }
 
 }

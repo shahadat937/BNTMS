@@ -115,7 +115,7 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
   print() {
 
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
