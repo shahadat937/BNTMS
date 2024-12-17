@@ -32,6 +32,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   private searchSubject: Subject<string> = new Subject<string>();
   private searchSubscription: Subscription
   isLoading = false;
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -129,6 +130,41 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
      
   // }
 
+  triggerFileSelect() {
+    this.fileInput.nativeElement.click(); // Triggers the file selection dialog
+  }
+
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+
+      this.BIODataGeneralInfoService.uploadFile(file).subscribe(
+        (response: any) => {
+        (event.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+          // this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        }
+      },
+        (error) => {
+          (event.target as HTMLInputElement).value = '';
+        }
+      );
+    }
+  }
 
   deleteItem(row) {
     const id = row.traineeId; 
