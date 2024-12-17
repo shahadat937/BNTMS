@@ -53,8 +53,7 @@
                         (input)="filterBySchoolName($event.target.value)"
                         (keydown.space)="$event.stopPropagation()"
                         placeholder="Search">
-                        
-                          <mat-option  value="0">--Select--</mat-option>
+                        <mat-option  disabled >--Select--</mat-option >
                             <mat-option (onSelectionChange)="onBaseNameSelectionChangeGetModule($event)"  *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value" matTooltip="{{dropdown.text}}"
                             matTooltipPosition="above">
                                 {{dropdown.text}}  
@@ -100,6 +99,7 @@
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterBySubjectName($event.target.value)"
                         placeholder="Search">
+                        <mat-option [disabled]="true" >--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedsubjectname" [value]="dropdown.value">
                                 {{dropdown.text}} 
                               </mat-option>                          
@@ -117,7 +117,7 @@
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterBySection($event.target.value)"
                         placeholder="Search">
-                        <!-- <mat-option  value="0">--Select--</mat-option > -->
+                        <mat-option  [disabled]="true" >--Select--</mat-option >
                           <mat-option *ngFor="let dropdown of selectedCourseSection" [value]="dropdown.value">
                               {{dropdown.text}} 
                             </mat-option>                          
