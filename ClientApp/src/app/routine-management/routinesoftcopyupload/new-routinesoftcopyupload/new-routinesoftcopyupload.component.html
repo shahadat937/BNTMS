@@ -58,7 +58,7 @@
                           (keydown.space)="$event.stopPropagation()"
                           (input)="filterByCourse($event.target.value)"
                           placeholder="Search">
-                          <mat-option  value="">--Select--</mat-option >
+                          <mat-option>--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedCourse" [value]="dropdown.value" (onSelectionChange)="getselectedbnasubjectname(dropdown)" matTooltip="{{dropdown.text}}"
                             matTooltipPosition="above">
                                 {{dropdown.text}}  

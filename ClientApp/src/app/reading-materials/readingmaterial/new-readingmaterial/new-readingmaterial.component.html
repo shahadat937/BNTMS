@@ -64,7 +64,7 @@
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterByMaterial($event.target.value)"
                         placeholder="Search">
-                          <mat-option  [value]="0">--Select--</mat-option >
+                          <mat-option>--Select--</mat-option >
                             <mat-option (onSelectionChange)="onMaterialTitleSelectionChange($event)" *ngFor="let semester of selectedReadingMaterialTitle" [value]="semester.value">
                                 {{semester.text}} 
                               </mat-option>                           
@@ -82,6 +82,7 @@
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterByDocs($event.target.value)"
                         placeholder="Search">
+                        <mat-option>--Select--</mat-option >
                             <mat-option *ngFor="let semester of selecteddocs" (onSelectionChange)="onDocumentTypeSelectionChange($event)" [value]="semester.value">
                                 {{semester.text}} 
                               </mat-option>                          

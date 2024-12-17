@@ -35,7 +35,7 @@
                                 <mat-label>Base School Name</mat-label>   
                                 <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getselectedcoursedurationbyschoolname()">
                                  
-                                <mat-option  value="0">--Select--</mat-option >                      
+                                <mat-option>--Select--</mat-option >                      
                                   <mat-option *ngFor="let dropdown of selectedbaseschools" [value]="dropdown.value">
                                         {{dropdown.text}} 
                                       </mat-option>                          
@@ -55,7 +55,7 @@
                                   id="selectSearch" 
                                   (keydown.space)="$event.stopPropagation()"
                                   (input)="filterCourseName($event.target.value)" placeholder="Search">
-                                  <mat-option  value="0">--Select--</mat-option >
+                                  <mat-option>--Select--</mat-option >
                                     <mat-option (onSelectionChange)="onCourseNameSelectionChangeGetSubjectAndTraineeList($event)" *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown" matTooltip="{{dropdown.text}}"
                                     matTooltipPosition="above">
                                         {{dropdown.text}} 
@@ -96,7 +96,7 @@
                                   id="selectSearch" 
                                   (keydown.space)="$event.stopPropagation()"
                                   (input)="filterBySubject($event.target.value)" placeholder="Search">
-                                  <mat-option  value="0">--Select--</mat-option >
+                                  <mat-option>--Select--</mat-option >
                                     <mat-option (onSelectionChange)="onSubjectNameSelectionChangeGetTotalMarkAndPassMark($event)" *ngFor="let dropdown of selectedSubjectNameByBaseSchoolNameIdAndCourseNameId" [value]="dropdown">
                                         {{dropdown.text}} 
                                       </mat-option>                          

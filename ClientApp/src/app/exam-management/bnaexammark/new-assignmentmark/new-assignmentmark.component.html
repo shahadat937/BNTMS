@@ -54,7 +54,7 @@
                                   id="selectSearch" 
                                   (keydown.space)="$event.stopPropagation()"
                                   (input)="filterByCourseName($event.target.value)" placeholder="Search">
-                                  <mat-option  value="0">--Select--</mat-option >
+                                  <mat-option>--Select--</mat-option >
                                     <mat-option (onSelectionChange)="onCourseNameSelectionChangeGetSubjectAndTraineeList($event)" *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown" matTooltip="{{dropdown.text}}"
                                     matTooltipPosition="above">
                                         {{dropdown.text}} 
@@ -95,7 +95,7 @@
                                   style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                                   id="selectSearch" 
                                   (input)="filterBySubject($event.target.value)" placeholder="Search">
-                                  <mat-option  value="0">--Select--</mat-option >
+                                  <mat-option>--Select--</mat-option >
                                     <mat-option (onSelectionChange)="onSubjectNameSelectionChangeGetTotalMarkAndPassMark($event)" *ngFor="let dropdown of selectedSubjectNameForAssignment" [value]="dropdown">
                                         {{dropdown.subjectName}} 
                                       </mat-option>                          
