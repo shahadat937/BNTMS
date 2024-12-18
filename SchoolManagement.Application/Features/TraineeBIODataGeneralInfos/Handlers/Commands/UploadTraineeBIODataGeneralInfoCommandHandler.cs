@@ -137,6 +137,7 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                         bioData.PermanentAddress = worksheet.Cells[row, 24].Text;
                         bioData.Remarks = worksheet.Cells[row, 25].Text;
                         bioData.TraineeStatusId = 5;
+                        bioData.IsActive = true;
 
                         var PnoExits = _TraineeBioDataGeneralInfo.FindOne(x => x.Pno == bioData.Pno);
                         if (PnoExits != null)
