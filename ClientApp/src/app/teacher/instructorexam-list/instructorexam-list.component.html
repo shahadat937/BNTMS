@@ -89,7 +89,14 @@
                   </ng-container>                                
                   <mat-header-row *matHeaderRowDef="displayedExamEvaluationColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedExamEvaluationColumns;"></mat-row>
-                </mat-table>  
+                </mat-table> 
+                <div class="d-flex justify-content-center" *ngIf="!PendingExamEvaluation || PendingExamEvaluation.length === 0" class="no-data-found">
+                  <h3 class="text-center m-b-10 m-t-10 p-5">Daily Course List Not Found</h3>
+                   <img style=" display: block;
+                   margin-left: auto;
+                   margin-right: auto;" src="../../../assets/images/notfound.svg" width="400px" alt="" srcset="">
+                   
+                 </div>
               </div>
             </div>
           </div>

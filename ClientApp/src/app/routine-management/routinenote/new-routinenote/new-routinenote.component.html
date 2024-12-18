@@ -40,7 +40,7 @@
                           (input)="filterBySchool($event.target.value)"
                           placeholder="Search">
 
-                          <mat-option  value="0">--Select--</mat-option >
+                          <mat-option>--Select--</mat-option >
                             <mat-option *ngFor="let school of selectedbaseschool" [value]="school.value" matTooltip="{{school.text}}"
                             matTooltipPosition="above">
                                 {{school.text}} 
@@ -62,7 +62,7 @@
                               (keydown.space)="$event.stopPropagation()"
                               (input)="filterByCourse($event.target.value)"
                               placeholder="Search">
-                          <mat-option  value="0">--Select--</mat-option >
+                          <mat-option>--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value" (onSelectionChange)="getselectedWeeks(dropdown)" matTooltip="{{dropdown.text}}"
                             matTooltipPosition="above">
                                 {{dropdown.text}}  
@@ -84,7 +84,7 @@
                               (input)="filterByWeek($event.target.value)"
                               (keydown.space)="$event.stopPropagation()"
                               placeholder="Search">
-                          <mat-option  value="0">--Select--</mat-option >
+                          <mat-option>--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedWeek" [value]="dropdown.value" (onSelectionChange)="onWeekSelectionChangeGet(dropdown)">
                                 {{dropdown.text}}  
                               </mat-option>                          
@@ -105,7 +105,7 @@
                               (keydown.space)="$event.stopPropagation()" 
                               (input)="filterByRoutine($event.target.value)"
                               placeholder="Search">
-                          <mat-option  value="0">--Select--</mat-option >
+                          <mat-option>--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedRoutineList" [value]="dropdown.value">
                                 {{dropdown.text}}  
                               </mat-option>                          

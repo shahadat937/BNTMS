@@ -31,7 +31,7 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Course Title</mat-label>                        
                         <mat-select formControlName="courseName">
-                          <mat-option  value="0">--Select--</mat-option >
+                          <mat-option>--Select--</mat-option >
                             <mat-option (onSelectionChange)="onCourseNameSelectionChangeGetSubjectList($event)"  *ngFor="let dropdown of selectedCourseDurationByCourseTypeAndCourseName" [value]="dropdown">
                                 {{dropdown.text}}  
                               </mat-option>                          
@@ -46,7 +46,7 @@
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>BNA Subject Name</mat-label>                        
                         <mat-select formControlName="bnaSubjectNameId" (selectionChange)="onModuleSelectionChangeGetInstructorList()">
-                          <mat-option  value="0">--Select--</mat-option > 
+                          <mat-option>--Select--</mat-option > 
                           <mat-option *ngFor="let dropdown of selectedSubjectNameByCourseNameId" [value]="dropdown.value">
                                 {{dropdown.text}} 
                               </mat-option>                          

@@ -69,7 +69,7 @@
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterByModule($event.target.value)"
                         placeholder="Search">
-                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option>--Select--</mat-option >
                         <mat-option *ngFor="let semester of selectedCourseModuleByBaseSchoolAndCourseNameId" [value]="semester.value">
                           {{semester.text}} 
                         </mat-option>                          
@@ -150,7 +150,7 @@
                         (input)="filterBySubjectType($event.target.value)"
                         (keydown.space)="$event.stopPropagation()"
                         placeholder="Search">
-                        <mat-option disabled >--Select--</mat-option >
+                        <mat-option>--Select--</mat-option >
                           <mat-option *ngFor="let type of selectedSubjectType" [value]="type.value">
                               {{type.text}} 
                           </mat-option>                          
@@ -171,7 +171,7 @@
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterBySubject($event.target.value)"
                         placeholder="Search">  
-                        <mat-option disabled >--Select--</mat-option >
+                        <mat-option>--Select--</mat-option >
                         <mat-option *ngFor="let type of selectedKindOfSubject" [value]="type.value">
                           {{type.text}} 
                         </mat-option>                          
@@ -219,7 +219,7 @@
                         (keydown.space)="$event.stopPropagation()"
                         (input)="filterByStatus($event.target.value)"
                         placeholder="Search">  
-                        <mat-option disabled >--Select--</mat-option >
+                        <mat-option>--Select--</mat-option >
                         <mat-option *ngFor="let result of selectedResultStatus" [value]="result.value">
                           {{result.text}}  
                         </mat-option>                          
@@ -238,7 +238,7 @@
                         <mat-option  value="1">Non-Grading</mat-option >                        
                       </mat-select> -->
                       <mat-select [(value)]="selected" formControlName="subjectGreading" required>
-                        <mat-option disabled >--Select--</mat-option >
+                        <mat-option>--Select--</mat-option >
                         <mat-option  [value]="0">Grading</mat-option >                        
                         <mat-option  [value]="1">Non-Grading</mat-option > 
                       </mat-select>

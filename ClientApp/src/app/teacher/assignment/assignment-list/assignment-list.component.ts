@@ -52,4 +52,10 @@ export class AssignmentListComponent implements OnInit,OnDestroy {
       this.courseList = res;
     });  
   }
+  applySearch(filterValue: string) {
+   
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.courseList.filter = filterValue;
+    console.log(this.courseList.filter);
+  }
 }
