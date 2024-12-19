@@ -152,7 +152,6 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
     this.isLoading = true;
     this.BudgetAllocationService.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId).subscribe(response => {
       this.dataSource.data = response.items; 
-      console.log('budget', this.dataSource.data)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
@@ -201,7 +200,6 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
 
   onSubmit() {
     const id = this.BudgetAllocationForm.get('budgetAllocationId').value; 
-    console.log(this.BudgetAllocationForm.value)  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {

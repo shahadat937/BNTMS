@@ -77,7 +77,6 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId'); 
-console.log('id',id)
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
@@ -261,7 +260,6 @@ console.log('id',id)
   onSubjectMarkSelectionGetPassMark(){
     var subjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
     this.subjectMarkService.find(subjectMarkId).subscribe(res => {
-      console.log('SubjectMarkId',res)
       this.subjectPassMark = res.passMark;
       var mark = res.mark;
       this.mark=mark;
@@ -346,7 +344,6 @@ console.log('id',id)
      }
      
      this.BNAExamMarkService.getCourseDurationByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
-      // console.log('SubjectMarkId',res)
       this.selectedCourseDuration=res;   
      });
      
@@ -364,7 +361,6 @@ console.log('id',id)
 
     
     this.BNAExamMarkService.getexamMarkFilterListByParameters(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,SubjectMarkId,false,courseSectionId,classRoutineId).subscribe(res=>{
-      console.log('SubjectMarkId',res)
       var unapprovedlistItemCount = res.length;
       if(unapprovedlistItemCount > 0){
         this.traineeList=res;  
@@ -425,7 +421,6 @@ console.log('id',id)
 
 
       this.BNAExamMarkService.GetTotalMarkAndPassMarkByBaseSchoolIdCourseIdAndSubjectId(baseSchoolNameId,courseNameId,this.bnaSubjectNameId).subscribe(res=>{
-        console.log('data',res)
         this.getTotalMarkAndPassMark=res; 
         this.totalMark=res[0].totalMark;
         this.passMarkBna=res[0].passMarkBNA
@@ -442,14 +437,12 @@ console.log('id',id)
     this.isShown=false;
     
     this.BNAExamMarkService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-    console.log('data',res)
       this.selectedcoursedurationbyschoolname=res;
     }); 
   }
   
   getselectedcoursename(){
     this.BNAExamMarkService.getselectedcoursename().subscribe(res=>{
-      console.log('data',res)
       this.selectedcoursename=res
     });
   }

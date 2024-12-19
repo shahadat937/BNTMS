@@ -107,9 +107,8 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
 
   getBudgetAllocations() {
     this.isLoading = true;
-    console.log(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId)
+  
     this.BudgetAllocationService.getBudgetAllocations(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId).subscribe(response => {
-      console.log(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.budgetCodeId,this.fiscalYearId)
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;

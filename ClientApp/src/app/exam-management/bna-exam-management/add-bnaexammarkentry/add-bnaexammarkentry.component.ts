@@ -120,7 +120,7 @@ export class AddBnaexammarkentryComponent extends UnsubscribeOnDestroyAdapter im
       
       this.BNAExamMarkService.getBnaSelectedCourseSection(this.baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseSection=res;
-        console.log(res)
+        
       });
     }
   }

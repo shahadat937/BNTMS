@@ -157,7 +157,6 @@ export class ExamResultComponent extends UnsubscribeOnDestroyAdapter implements 
     });
   }
   getSelectedCourseduration(id){
-    console.log('Course Duration ' + id);
     this.subscription = this.examResultService.GetCourseDuration(id).subscribe(res=>{
       this.selectedCourseduration=res
     });
@@ -177,7 +176,6 @@ export class ExamResultComponent extends UnsubscribeOnDestroyAdapter implements 
       var courseNameId = courseNameArr[1];
       this.subscription = this.TraineeNominationService.findByCourseDurationForMIST(+courseDurationId).subscribe(response => {
       this.traineeNominationListForMIST=response;
-      console.log(this.traineeNominationListForMIST);
       this.isShown=true;
       this.clearList()
       this.getTraineeListonClick()
@@ -238,7 +236,6 @@ export class ExamResultComponent extends UnsubscribeOnDestroyAdapter implements 
   getSelectedbaseSchoolName(){
     this.subscription = this.baseSchoolNameService.getselectedSchools().subscribe(res=>{
       this.selectedSchool=res
-      console.log("this is base school " +   (res));
     });
    }
 
@@ -283,7 +280,6 @@ reloadCurrentRoute() {
 
  else {*/
   this.loading=true;
-console.log('Submit Value',this.ExamResultForm.value)
 
 //</FormArray></FormArray>this.ExamResultForm.traineeListForm.get('courseTermId').setValue(id);
  

@@ -291,7 +291,6 @@ onSubmit() {
     });
   } else {
     this.loading = false;
-   console.log(this.BudgetTransactionForm)
     this.BudgetTransactionService.submit(this.BudgetTransactionForm.value).subscribe(response => { 
   this.reloadCurrentRoute();
       this.snackBar.open('Information Inserted Successfully', '', {

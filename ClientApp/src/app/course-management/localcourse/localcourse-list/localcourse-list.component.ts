@@ -147,7 +147,6 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
           courses: groups[schoolName]
         };
       });
-      console.log(typeof(this.groupArrays))
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })

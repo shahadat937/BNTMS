@@ -265,7 +265,6 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
            var courseNameArr = courseNameId.split('_');
            var courseDurationId = courseNameArr[0];
            var courseNameId=courseNameArr[1];
-           console.log(courseNameArr, courseDurationId, courseNameId)
 
             if(baseSchoolNameId != null && courseNameId != null  && courseDurationId !=null){
               this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId,courseDurationId,date).subscribe(res=>{
