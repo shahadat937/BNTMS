@@ -490,6 +490,7 @@
                           <td class="cl-scl" [attr.rowspan]="data.courses.length + 1">{{data.schoolName}}</td>
                         </tr>
                         <tr *ngFor="let number of data.courses;" [ngStyle]="{'background-color': i == index ? 'rgb(172 235 155)' : ''}">
+                          
                           <td class="course-name-col">
                             {{getDateComparision(number)}}
                             {{number.course}} - {{number.courseTitle}}
