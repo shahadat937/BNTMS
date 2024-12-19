@@ -72,6 +72,10 @@
       
                           <input #fileInput type="file" accept=".xlsx" style="display: none" (change)="onFileSelected($event)" />
 
+                          <button mat-raised-button class="bg-primary text-light btn-space" type="button" (click)="downloadExcelFile()">
+                            <mat-icon>download</mat-icon> Download Sample File
+                          </button>
+
                         </div>
                       </li>
                       <li>

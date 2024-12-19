@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { environment } from '../../../../../environments/environment';
 
 
 
@@ -170,7 +171,15 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
       );
     }
   }
-
+  downloadExcelFile(){
+    const url = environment.fileUrl + '/files/biodata-excel-file/New_Biodata _Entry_Info.xlsx'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'New_Biodata _Entry_Info.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
   deleteItem(row) {
     const id = row.traineeId; 
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
