@@ -32,6 +32,8 @@ import { ISBiodatainfoListComponent } from './i-s-biodata/i-s-biodatainfo-list/i
 import { NewISBiodatainfoComponent } from './i-s-biodata/new-i-s-biodatainfo/new-i-s-biodatainfo.component';
 import { NewCadetBiodatainfoComponent } from './cadet-biodata/new-cadet-biodatainfo/new-cadet-biodatainfo.component';
 import { CadetBiodatainfoListComponent } from './cadet-biodata/cadet-biodatainfo-list/cadet-biodatainfo-list.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 
 @NgModule({
@@ -71,7 +73,8 @@ import { CadetBiodatainfoListComponent } from './cadet-biodata/cadet-biodatainfo
     MaterialFileInputModule,
     TraineeBiodataRoutingModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ]
 })
 export class TraineeBiodataModule { }

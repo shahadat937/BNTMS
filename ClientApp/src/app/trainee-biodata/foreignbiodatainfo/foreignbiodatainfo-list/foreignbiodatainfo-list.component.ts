@@ -13,6 +13,8 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { environment } from '../../../../environments/environment';
+
 
 
 @Component({
@@ -22,19 +24,24 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 })
 export class ForeignBIODataInfoListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
-   masterData = MasterData;
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
+  masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BIODataGeneralInfo[] = [];
   isLoading = false;
+
+  officerTypeId = 2 //  Forign Officer Type
+  officerStatusId = 4; // for Forign Officer
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
+  searchText = "";
 
-  displayedColumns: string[] = [ 'sl','bnaPhotoUrl','pno','country', 'actions'];
+  displayedColumns: string[] = ['sl', 'bnaPhotoUrl', 'pno', 'country', 'actions'];
   dataSource: MatTableDataSource<BIODataGeneralInfo> = new MatTableDataSource();
 
   private searchSubject: Subject<string> = new Subject<string>();
@@ -43,11 +50,11 @@ export class ForeignBIODataInfoListComponent extends UnsubscribeOnDestroyAdapter
   selection = new SelectionModel<BIODataGeneralInfo>(true, []);
   subscription: any;
 
-  
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
+
+  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private router: Router, private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
-  
+
 
   ngOnInit() {
     this.getBIODataGeneralInfos();
@@ -59,23 +66,16 @@ export class ForeignBIODataInfoListComponent extends UnsubscribeOnDestroyAdapter
       this.applyFilter(searchText);
     });
   }
-  // ngOnDestroy() {
-  //   if (this.subscription) {
-  //     this.subscription.unsubscribe();
-  //   }
-  //   if (this.searchSubscription) {
-  //     this.searchSubscription.unsubscribe();
-  //   }
-  // }
+  
   onSearchChange(searchValue: string): void {
     this.searchSubject.next(searchValue);
   }
-  
+
   getBIODataGeneralInfos() {
     this.isLoading = true;
-    this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText).subscribe(response => {
-      this.dataSource.data = response.items; 
-      this.paging.length = response.totalItemsCount    
+    this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize, this.subscription = this.searchText).subscribe(response => {
+      this.dataSource.data = response.items;
+      this.paging.length = response.totalItemsCount
       this.isLoading = false;
     })
   }
@@ -89,13 +89,13 @@ export class ForeignBIODataInfoListComponent extends UnsubscribeOnDestroyAdapter
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.filteredData.forEach((row) =>
-          this.selection.select(row)
-        );
+        this.selection.select(row)
+      );
   }
-  addNew(){
-    
+  addNew() {
+
   }
- 
+
   pageChanged(event: PageEvent) {
     this.paging.pageIndex = event.pageIndex
     this.paging.pageSize = event.pageSize
@@ -103,22 +103,66 @@ export class ForeignBIODataInfoListComponent extends UnsubscribeOnDestroyAdapter
     this.getBIODataGeneralInfos();
   }
 
-  applyFilter(searchText: any){ 
-    
+  applyFilter(searchText: any) {
+
     this.paging.pageSize = 10;
     this.paging.pageIndex = 1;
-    this.searchText = searchText.trim().toLowerCase().replace(/\s/g,'');
+    this.searchText = searchText.trim().toLowerCase().replace(/\s/g, '');
     this.getBIODataGeneralInfos();
-  } 
-  // applyFilter(filterValue: string) {
-  //   filterValue = filterValue.trim();
-  //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-  //   this.dataSource.filter = filterValue;
-  // }
+  }
+  
 
+  triggerFileSelect() {
+    this.fileInput.nativeElement.click(); // Triggers the file selection dialog
+  }
+
+  onFileSelected(event: Event) {
+    this.isLoading = true;
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      // this.loading = true;
+      this.BIODataGeneralInfoService.uploadExcelBioDataFileForOfficersAndCivil(file, this.officerStatusId, this.officerTypeId).subscribe(
+        (response: any) => {
+        (event.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+           this.isLoading = false;
+          this.getBIODataGeneralInfos();
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+          this.isLoading = false;
+        }
+      },
+        (error) => {
+          (event.target as HTMLInputElement).value = '';
+          this.isLoading = false;
+        }
+      );
+    }
+  }
+  downloadExcelFile(){
+    const url = environment.fileUrl + '/files/biodata-excel-file/New_Biodata _Entry_Info.xlsx'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'New_Biodata _Entry_Info.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 
   deleteItem(row) {
-    const id = row.traineeId; 
+    const id = row.traineeId;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.subscription = this.BIODataGeneralInfoService.delete(id).subscribe(() => {
@@ -132,7 +176,7 @@ export class ForeignBIODataInfoListComponent extends UnsubscribeOnDestroyAdapter
         })
       }
     })
-    
+
   }
 
 }

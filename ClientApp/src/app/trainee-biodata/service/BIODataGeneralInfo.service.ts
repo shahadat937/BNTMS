@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, catchError, throwError} from 'rxjs';
 import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { environment } from 'src/environments/environment';
 import { BIODataGeneralInfo } from '../models/BIODataGeneralInfo';
@@ -227,5 +227,37 @@ getSelectedPno(pno){
   }
   delete(id){
     return this.http.delete(this.baseUrl + '/trainee-bio-data-general-info/delete-traineeBioDataGeneralInfo/'+id);
+  }
+
+  uploadFile(file: File, traineeStatusId: number) {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    // Add the missing '&' between courseDurationId and courseNameId
+    const url = `${this.baseUrl}/trainee-bio-data-general-info/post-biodataExeclfile?traineeStatusId=${traineeStatusId}`;
+  
+    return this.http.post(url, formData)
+      .pipe(
+        catchError(error => {
+          console.error('Upload failed:', error);
+          return throwError(() => new Error('File upload failed, see console for details.'));
+        })
+      );
+  }
+  uploadExcelBioDataFileForOfficersAndCivil(file: File, traineeStatusId: number, officerTypeId: number) {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    // Add the missing '&' between courseDurationId and courseNameId
+  
+    const url = `${this.baseUrl}/trainee-bio-data-general-info/post-biodataExeclfileForOfficerAndCivil?traineeStatusId=${traineeStatusId}&officerTypeId=${officerTypeId}`;
+  
+    return this.http.post(url, formData)
+      .pipe(
+        catchError(error => {
+          console.error('Upload failed:', error);
+          return throwError(() => new Error('File upload failed, see console for details.'));
+        })
+      );
   }
 }

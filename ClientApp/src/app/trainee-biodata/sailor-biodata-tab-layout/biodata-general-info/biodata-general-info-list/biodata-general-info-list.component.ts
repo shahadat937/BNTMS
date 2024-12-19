@@ -44,6 +44,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   branchId:any;
   traineeId:any;
   role:any;
+  officerStatusId = 5; // this is for Saylor officerStatusId 
 
   
   // searchText="";
@@ -140,7 +141,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       // this.loading = true;
-      this.BIODataGeneralInfoService.uploadFile(file).subscribe(
+      this.BIODataGeneralInfoService.uploadFile(file, this.officerStatusId).subscribe(
         (response: any) => {
         (event.target as HTMLInputElement).value = '';
         if(response.success){
