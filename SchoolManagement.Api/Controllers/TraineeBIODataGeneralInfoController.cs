@@ -244,11 +244,27 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
 
     [HttpPost]
     [Route("post-biodataExeclfile")]
-    public async Task <ActionResult> UploadBioDataFile([FromForm] IFormFile file)
+    public async Task <ActionResult> UploadBioDataFile([FromForm] IFormFile file, int traineeStatusId)
     {
         var bioData = await _mediator.Send(new UploadTraineeBIODataGeneralInfoCommand
         {
-            TraineeBIODataGeneralInfoFile = file
+            TraineeBIODataGeneralInfoFile = file,
+            TraineeStatusId = traineeStatusId
+            
+        });
+        return Ok(bioData);
+    }
+
+    [HttpPost]
+    [Route("post-biodataExeclfileForOfficerAndCivil")]
+    public async Task<ActionResult> UploadBioDataFileForOfficerAndCivil([FromForm] IFormFile file, int traineeStatusId, int officerTypeId)
+    {
+        var bioData = await _mediator.Send(new UploadTraineeBIODataGeneralInfoCommand
+        {
+            TraineeBIODataGeneralInfoFile = file,
+            TraineeStatusId = traineeStatusId,
+            officerTypeId = officerTypeId
+
         });
         return Ok(bioData);
     }
