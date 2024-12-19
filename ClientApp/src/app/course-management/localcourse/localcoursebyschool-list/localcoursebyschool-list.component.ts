@@ -49,7 +49,7 @@ export class LocalCourseBySchoolListComponent extends UnsubscribeOnDestroyAdapte
   matSort!: MatSort;
 
 
-  displayedColumns: string[] = ['ser', 'baseSchoolName', 'courseName', 'professional', 'noOfCandidates', 'nbcd', 'durationFrom', 'durationTo', 'remark', 'actions'];
+  displayedColumns: string[] = ['ser', 'baseSchoolName', 'courseName','courseTitle', 'professional', 'noOfCandidates', 'nbcd', 'durationFrom', 'durationTo', 'remark', 'actions'];
 
   branchId:any;
   traineeId:any;
