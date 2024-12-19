@@ -309,7 +309,7 @@ ngAfterViewInit() {
 
   onSubmit() {
     const id = this.NoticeForm.get('noticeId').value;
-   // console.log('this.NoticeForm.value',this.NoticeForm.value)
+   console.log('this.NoticeForm.value',this.NoticeForm.value)
     this.NoticeForm.value.filter(x=>x.isNotify==true)
    this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
 

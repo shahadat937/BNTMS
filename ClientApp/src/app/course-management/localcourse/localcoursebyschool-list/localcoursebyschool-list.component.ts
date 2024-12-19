@@ -19,7 +19,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-localcoursebyschool-list',
   templateUrl: './localcoursebyschool-list.component.html',
-  styleUrls: ['./localcoursebyschool-list.component.sass']
+  styleUrls: ['./localcoursebyschool-list.component.css']
 })
 export class LocalCourseBySchoolListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
@@ -49,7 +49,7 @@ export class LocalCourseBySchoolListComponent extends UnsubscribeOnDestroyAdapte
   matSort!: MatSort;
 
 
-  displayedColumns: string[] = ['ser', 'baseSchoolName', 'courseName', 'professional', 'noOfCandidates', 'nbcd', 'durationFrom', 'durationTo', 'remark', 'actions'];
+  displayedColumns: string[] = ['ser', 'baseSchoolName', 'courseName','courseTitle', 'professional', 'noOfCandidates', 'nbcd', 'durationFrom', 'durationTo', 'remark', 'actions'];
 
   branchId:any;
   traineeId:any;
