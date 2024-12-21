@@ -1053,5 +1053,27 @@ public class DashboardController : ControllerBase
         return Ok(proceduredCourses);
     }
 
+    [HttpGet]
+    [Route("get-courseCommanceBySunday")]
+    public async Task<ActionResult> GetCourseCommanceBySunday(DateTime nextSunDay)
+    {
+        var proceduredCourses = await _mediator.Send(new GetCourseCommanceBySundayRequest
+        {
+            NextSundayDate = nextSunDay
+        });
+        return Ok(proceduredCourses);
+    }
+
+    [HttpGet]
+    [Route("get-courseTarminitedBythursDay")]
+    public async Task<ActionResult> GetCourseTarminitedBythursDay(DateTime nextThursDayDate)
+    {
+        var proceduredCourses = await _mediator.Send(new GetCourseTarminitedByThursDayRequest
+        {
+            NextThursDayDate = nextThursDayDate
+        });
+        return Ok(proceduredCourses);
+    }
+
 }
 

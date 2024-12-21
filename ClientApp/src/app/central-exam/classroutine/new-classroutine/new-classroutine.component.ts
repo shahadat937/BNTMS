@@ -206,7 +206,6 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
 
       this.isLoading = true;
       this.ClassRoutineService.getClassRoutinesByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {  
-        console.log(response);   
         this.dataSource.data = response.items; 
         this.paging.length = response.totalItemsCount    
         this.isLoading = false;

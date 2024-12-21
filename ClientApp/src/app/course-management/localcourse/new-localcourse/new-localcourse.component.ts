@@ -221,11 +221,10 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId').value;   
     const durationFrom = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationFrom').value)
-    console.log(durationFrom)
+
     this.CourseDurationForm.get('durationFrom')?.setValue(durationFrom);
     const durationTo = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationTo').value)
     this.CourseDurationForm.get('durationTo')?.setValue(durationTo);
-    console.log(durationTo)
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

@@ -56,7 +56,6 @@ export class SearchedTraineeDetailComponent implements OnInit {
     this.loading = true;
     this.globalSearchService.getInstructorDetail(this.Payload.TraineeId).subscribe({
       next: response => {
-        console.log(response);
         this.traineeDetails = response;
       },
       error: err => {
@@ -71,7 +70,6 @@ export class SearchedTraineeDetailComponent implements OnInit {
 
   PasswordUpdate(userId) {
     const id = userId;
-    console.log(id);
     this.confirmService.confirm('Confirm Update message', 'Are You Sure Resetting This  User Password?').subscribe(result => {
 
 
