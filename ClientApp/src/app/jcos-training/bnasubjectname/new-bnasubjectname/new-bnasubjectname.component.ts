@@ -40,7 +40,9 @@ export class NewBNASubjectNameComponent extends UnsubscribeOnDestroyAdapter impl
   selectedResultStatus: SelectedModel[];
   subjectNameList: BNASubjectName[];
   selectedSaylorBranch: SelectedModel[];
+  selectSaylor: SelectedModel[];
   selectedSaylorSubBranch: SelectedModel[];
+  selectSyalorSub: SelectedModel[]
   status = 1;
   isShown: boolean = false;
   courseTypeId: 1021;
@@ -163,15 +165,21 @@ export class NewBNASubjectNameComponent extends UnsubscribeOnDestroyAdapter impl
   getselectedSaylorBranch(){
     this.BNASubjectNameService.getselectedSaylorBranch().subscribe(res=>{
       this.selectedSaylorBranch=res
-     
+     this.selectSaylor=res
     });
+  }
+  filterBySaylor(value:any){
+    this.selectedSaylorBranch=this.selectSaylor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onBranchSelectionChangegetSubBranch(saylorBranchId){
     var saylorBranchId
     this.BNASubjectNameService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
       this.selectedSaylorSubBranch=res
-     
+     this.selectSyalorSub=res
     });
+  }
+  filterBySyalorSub(value:any){
+    this.selectedSaylorSubBranch=this.selectSyalorSub.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   getSelectedBranch() {
     this.BNASubjectNameService.getSelectedBranch().subscribe(res => {
