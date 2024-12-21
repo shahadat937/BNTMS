@@ -363,9 +363,9 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
 
   }
   applyFilter(searchText: any) {
-   
+    var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
     this.searchText = searchText;
-    this.getBulletins(searchText);
+    this.getBulletins(baseSchoolNameId);
   }
 
   // editItem(row) {

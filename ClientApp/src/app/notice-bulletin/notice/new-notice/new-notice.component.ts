@@ -177,32 +177,80 @@ export class NewNoticeComponent implements OnInit, OnDestroy {
 filterByCourse(value:any){
   this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
 }
-  getselectedcoursedurationbyschoolname(){
-    var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
-    this.isShown=true;
-    if (baseSchoolNameId.length ==1){ 
-      this.subscription = this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
-        this.selectedCourse=res;
-        this.selectCourse=res;   
-      },err=>{
+//   getselectedcoursedurationbyschoolname(){
+//     var baseSchoolNameId=this.NoticeForm.value['baseSchoolNameId'];
+//     this.isShown=true;
+//     if (baseSchoolNameId.length ==1){ 
+//       this.subscription = this.classRoutineService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res=>{
+//         this.selectedCourse=res;
+//         this.selectCourse=res;   
+//       },err=>{
         
-      });
-    }else{
+//       });
+//     }else{
 
-      if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
-        this.isShowCourseName=false;
-       }
-  else{
-      this.isShowCourseName=true;
-      this.selectedCourse=[];
-    }
+//       if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
+//         this.isShowCourseName=false;
+//        }
+//   else{
+//       this.isShowCourseName=true;
+//       this.selectedCourse=[];
+//     }
 
-    }
+//     }
    
-    this.subscription = this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
-      this.selectedNotice=res
-    }); 
-} 
+//     this.subscription = this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(res=>{
+//       this.selectedNotice=res
+//     }); 
+// } 
+getselectedcoursedurationbyschoolname() {
+  const baseSchoolNameId = this.NoticeForm.value['baseSchoolNameId'];
+
+  if (!baseSchoolNameId || baseSchoolNameId.length === 0) {
+      console.error('Base School Name ID is invalid.');
+      return;
+  }
+
+  this.isShown = true;
+
+  if (baseSchoolNameId.length === 1) {
+      // Fetch selected course duration by school name
+      this.subscription = this.classRoutineService
+          .getselectedcoursedurationbyschoolname(baseSchoolNameId)
+          .subscribe(
+              (res) => {
+                  this.selectedCourse = res;
+                  this.selectCourse = res;
+              },
+              (err) => {
+                  console.error('Error fetching course duration:', err);
+              }
+          );
+  } else {
+      // Handle other roles' visibility logic
+      if (
+          this.role === this.userRole.SuperAdmin ||
+          this.role === this.userRole.JSTISchool ||
+          this.role === this.userRole.BNASchool
+      ) {
+          this.isShowCourseName = false;
+      } else {
+          this.isShowCourseName = true;
+          this.selectedCourse = [];
+      }
+  }
+
+  // Fetch notices by school name
+  this.noticeService.getNoticeBySchool(baseSchoolNameId).subscribe(
+      (res) => {
+          this.selectedNotice = res;
+      },
+      (err) => {
+          console.error('Error fetching notices:', err);
+      }
+  );
+}
+
 
 stopNotices(element){
   if(element.status ===0){
