@@ -80,9 +80,18 @@
                     <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Course</mat-header-cell>
                     <mat-cell class="sub-col" *matCellDef="let element">
                       {{ getDateComparision(element) }} {{ element.courseName }} - {{ element.courseTitle }}
+                      <!-- <span *ngIf="passOutStatus === 1" class="passingout-course" style="color:red;font-weight:bold;">(Passing Out)</span> -->
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="courseStatus">
+                    <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Course Status</mat-header-cell>
+                    <mat-cell class="sub-col" *matCellDef="let element">
+                    
                       <span *ngIf="passOutStatus === 1" class="passingout-course" style="color:red;font-weight:bold;">(Passing Out)</span>
                     </mat-cell>
                   </ng-container>
+
                 
                   <!-- Duration Column -->
                   <ng-container matColumnDef="duration">
@@ -103,8 +112,8 @@
                   </ng-container>
                 
                   <!-- Define the header and row structure -->
-                  <mat-header-row *matHeaderRowDef="['ser', 'course', 'duration', 'action']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['ser', 'course', 'duration', 'action']"></mat-row>
+                  <mat-header-row *matHeaderRowDef="['ser', 'course','courseStatus', 'duration', 'action']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['ser', 'course','courseStatus', 'duration', 'action']"></mat-row>
                 </mat-table>
                 <mat-paginator #InitialOrderMatPaginator="matPaginator"
                 [pageSize]="10"

@@ -41,6 +41,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
   selectedModule:SelectedModel[];
   selectedcoursename:SelectedModel[];
   selectedSubjectNameByCourseNameId:SelectedModel[];
+  selectSubjectName: SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   routineCount:number;
   courseName:any;
@@ -75,6 +76,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
   subjectlistBySchoolAndCourse:any;
   isShown: boolean = false ;
   groupArrays:{ date: string; games: any; }[];
+  selectCourse: SelectedModel[];
   // displayedRoutineCountColumns: string[] = ['ser','name','shortCode'];
   // displayedSubjectListColumns: string[] = ['ser','subjectName','subjectShortName'];
   // displayedPeriodListColumns: string[] = ['ser','periodName','duration'];
@@ -167,14 +169,23 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
+      this.selectCourse=res
     });
+  }
+  filterByCourse(value:any){
+    this.selectedCourseDurationByCourseTypeAndCourseName=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSubjectNameOnEdit(courseNameId){
     this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
       this.selectedSubjectNameByCourseNameId = res;
+      this.selectSubjectName=res;
     });
   }
+  filterBySubjectName(value:any){
+    this.selectedSubjectNameByCourseNameId=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  }
+  
   onCourseNameSelectionChangeGetSubjectList(dropdown){
     if (dropdown.isUserInput) {
       var courseNameArr = dropdown.source.value.split('_');
@@ -186,6 +197,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
 
       this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
+        this.selectSubjectName = res;
       });
 
         this.isLoading = true;

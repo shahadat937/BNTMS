@@ -29,6 +29,7 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   validationErrors: string[] = [];
   coursesByBaseSchoolId: SelectedModel[];
   selectedcoursedurationbyschoolname: SelectedModel[];
+  selectCourse: SelectedModel[];
   selectedSchool: SelectedModel[];
   selectedBatch: SelectedModel[];
   selectedRank: SelectedModel[];
@@ -39,6 +40,7 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   selectedModule: SelectedModel[];
   selectedCourseInstructor: CourseInstructor;
   selectedCourseModuleByBaseSchoolAndCourseNameId: SelectedModel[];
+  selectSubject: SelectedModel[];
   GetInstructorByParameters: CourseInstructor[];
   isShown: boolean = false;
   courseDurationIdForList: number;
@@ -133,7 +135,11 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
+      this.selectCourse = res
     });
+  }
+  filterByCourse(value:any){
+    this.selectedCourseDurationByCourseTypeAndCourseName=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onCourseNameSelectionChangeGetSubjectList(dropdown){
@@ -147,8 +153,12 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
 
       this.subjectNameService.getSelectedSubjectNameByCourseNameId(this.courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
+        this.selectSubject = res
       });
     }
+  }
+  filterBySubject(value:any){
+    this.selectedSubjectNameByCourseNameId=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   //autocomplete

@@ -220,6 +220,7 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
       this.router.navigate([currentUrl]);
     });
   }
+  
 
   onSubmit() {
 
@@ -364,7 +365,7 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
   applyFilter(searchText: any) {
     var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
     this.searchText = searchText;
-    this.getBulletins(baseSchoolNameId[0].value);
+    this.getBulletins(baseSchoolNameId);
   }
 
   // editItem(row) {
@@ -407,14 +408,16 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
     })
 
   }
+  
 
   inActiveItem(row) {
     const id = row.bulletinId;
     var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
+   
     if (row.status == 0) {
       this.subscription = this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Stop This Bulletin').subscribe(result => {
         if (result) {
-          this.runningload = true;
+          
           this.subscription = this.bulletinService.ChangeBulletinStatus(id, 1).subscribe(() => {
             this.getBulletins(baseSchoolNameId[0].value);
             this.snackBar.open('Bulletin Stopped!', '', {
@@ -424,14 +427,17 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
               panelClass: 'snackbar-warning'
             });
           })
+           this.reloadCurrentRoute();
         }
+       
       })
+      
     }
     else {
 
       this.subscription = this.confirmService.confirm('Confirm Active message', 'Are You Sure Run This Bulletin').subscribe(result => {
         if (result) {
-          this.runningload = true;
+          // this.runningload = true;
           this.subscription = this.bulletinService.ChangeBulletinStatus(id, 0).subscribe(() => {
             this.getBulletins(baseSchoolNameId[0].value);
             this.snackBar.open('Bulletin Running!', '', {
@@ -441,8 +447,11 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
               panelClass: 'snackbar-success'
             });
           })
+          this.reloadCurrentRoute()
         }
+        // this.reloadCurrentRoute()
       })
+    
     }
   }
   // getselectedcoursedurationbyschoolname(){

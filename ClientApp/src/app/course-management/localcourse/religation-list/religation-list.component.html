@@ -46,10 +46,10 @@
                   </div>
                 </div>
               </div>
-              <mat-table #table matSort [dataSource]="dataSource"  class="table table-hover absent-list mat-cell db-tbl">               
+              <mat-table #table matSort [dataSource]="dataSource"  class="table table-hover absent-list mat-cell db-tbl" style="table-layout: fixed; width: 100%;">               
                 <ng-container matColumnDef="ser">
-                  <mat-header-cell class="ser-col" *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
-                  <mat-cell class="ser-col" *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
+                  <mat-header-cell class="ser-col reduced-width" *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
+                  <mat-cell class="ser-col reduced-width" *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
                 </ng-container>          
 
                 <ng-container matColumnDef="name">

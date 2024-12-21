@@ -126,6 +126,13 @@
                       </ng-container>
                     </tbody>
                   </table>
+                  <div class="d-flex justify-content-center" *ngIf="!getMarkList || getMarkList.length === 0" class="no-data-found">
+                    <h3 class="text-center m-b-10 m-t-10 p-5">Trainee performance details List Not Found</h3>
+                     <img style=" display: block;
+                     margin-left: auto;
+                     margin-right: auto;" src="../../../assets/images/notfound.svg" width="400px" alt="" srcset="">
+                     
+                   </div>
                   <br class="only-for-print">
                   <br class="only-for-print">
                   <br class="only-for-print">

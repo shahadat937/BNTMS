@@ -67,6 +67,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
   checked = false;
   isShown: boolean = false ;
   isShownForTraineeList:boolean=false;
+  selectCourse: SelectedModel[];
   constructor(private snackBar: MatSnackBar,private BNAExamMarkService :BNAExamMarkService,private classRoutineService:ClassRoutineService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,  public sharedService: SharedServiceService) {
     super();
   }
@@ -153,7 +154,11 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
+      this.selectCourse = res;
     });
+  }
+  filterByCourse(value:any){
+    this.selectedCourseDurationByCourseTypeAndCourseName=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onOptionsSelected(index,value) {

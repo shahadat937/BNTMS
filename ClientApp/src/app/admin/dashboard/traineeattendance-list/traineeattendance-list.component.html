@@ -28,11 +28,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ml-0">
                         <li class="dropdown">
-                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
-                            <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
-                              <mat-icon class="col-white">print</mat-icon>
-                            </button>
-                          </div>
+                          
                         </li>
                       </ul>
                       <div class="row">
@@ -68,6 +64,11 @@
                             color="warn" [routerLink]="['/admin/dashboard/weeklyprogramdashboard',schoolId]"> 
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button> -->
+                            
+                              <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
+                                <mat-icon class="col-white">print</mat-icon>
+                              </button>
+                            
                             
                             <button *ngIf="role == userRole.SuperAdmin || role === userRole.BNASchool || role === userRole.JSTISchool || role == userRole.CO || role == userRole.TrainingOffice || role == userRole.SchoolOIC" class="btn-space"  mat-raised-button
                             color="warn" [routerLink]="['/admin/dashboard/traineenomination-list',courseDurationId,1,2,3,4]"> 
