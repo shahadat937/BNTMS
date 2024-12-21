@@ -130,6 +130,12 @@
                         <li class="dropdown">
                         </li>
                         <li class="dropdown">
+                          <div class="col-8">
+                            <mat-form-field class="example-full-width mb-3" appearance="outline">
+                              <mat-label>Search Here..</mat-label>
+                              <input matInput #filter (keyup)="applyFilter(filter.value)">
+                            </mat-form-field>
+                          </div>
                           <!-- <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
                           aria-label="Search box"> -->
                         </li>

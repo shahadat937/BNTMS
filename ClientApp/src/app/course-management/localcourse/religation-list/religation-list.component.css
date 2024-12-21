@@ -1,0 +1,12 @@
+.mat-header-cell.ser-col,
+.mat-cell.ser-col {
+  max-width: 50px !important;
+  text-align: left !important;
+  padding: 0px 7px !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  /* background-color: aquamarine !important; */
+}
+
+
+  

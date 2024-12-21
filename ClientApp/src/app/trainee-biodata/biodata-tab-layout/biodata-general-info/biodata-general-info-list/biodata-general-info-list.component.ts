@@ -12,6 +12,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { environment } from '../../../../../environments/environment';
 
 
 
@@ -22,7 +23,8 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 })
 export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
 
-   masterData = MasterData;
+  @ViewChild('fileInput') fileInput!: ElementRef;
+  masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BIODataGeneralInfo[] = [];
   isLoading = false;
@@ -32,6 +34,11 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
+
+
+  officerTypeId = 1; // for Deshi Officer
+  officerStatusId = 4; // for Officer
+
   searchText="";
   private searchSubject: Subject<string> = new Subject<string>();
   private searchSubscription: Subscription;
@@ -110,9 +117,6 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
           this.selection.select(row)
         );
   }
-  addNew(){
-    
-  }
  
   pageChanged(event: PageEvent) {
     this.paging.pageIndex = event.pageIndex
@@ -133,6 +137,57 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
   //   this.dataSource.filter = filterValue;
   // }
+
+  
+  triggerFileSelect() {
+    this.fileInput.nativeElement.click(); // Triggers the file selection dialog
+  }
+
+  onFileSelected(event: Event) {
+    this.isLoading = true;
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      // this.loading = true;
+      this.BIODataGeneralInfoService.uploadExcelBioDataFileForOfficersAndCivil(file, this.officerStatusId, this.officerTypeId).subscribe(
+        (response: any) => {
+        (event.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+           this.isLoading = false;
+          this.getBIODataGeneralInfos();
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+          this.isLoading = false;
+        }
+        // this.loading= false; 
+      },
+        (error) => {
+          (event.target as HTMLInputElement).value = '';
+          this.isLoading = false;
+        }
+      );
+    }
+  }
+  downloadExcelFile(){
+    const url = environment.fileUrl + '/files/biodata-excel-file/New_Biodata _Entry_Info.xlsx'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'New_Biodata _Entry_Info.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
   
   deleteItem(row) {
     const id = row.traineeId; 

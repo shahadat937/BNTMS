@@ -69,19 +69,28 @@
                            color="primary" routerLink="/trainee-biodata/trainee-biodata-tab/add-biodata-general-Info">Add
                             <mat-icon class="col-white">add</mat-icon>
                           </button>
+                          <button mat-raised-button class="bg-success text-light btn-space" type="button" (click)="triggerFileSelect()">
+                            <mat-icon>upload</mat-icon> Import Officer Biodata
+                          </button>
+      
+                          <input #fileInput type="file" accept=".xlsx" style="display: none" (change)="onFileSelected($event)" />
+
+                          <button mat-raised-button class="bg-primary text-light btn-space" type="button" (click)="downloadExcelFile()">
+                            <mat-icon>download</mat-icon> Download Sample File
+                          </button>
                         </div>
                       </li>
                       <li>
-                        <!--<div class="icon-button-demo">
-                          <button mat-mini-fab color="primary" (click)="refresh()">
-                            <mat-icon class="col-white">refresh</mat-icon>
-                          </button>
-                        </div>-->
                       </li>
                     </ul>
                   </div>
                 </div>
               </div>
+
+              <div *ngIf="isLoading" class="loader-container text-center">
+                <mat-spinner></mat-spinner>
+              </div>
+
               <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
                 
                 <ng-container matColumnDef="sl">

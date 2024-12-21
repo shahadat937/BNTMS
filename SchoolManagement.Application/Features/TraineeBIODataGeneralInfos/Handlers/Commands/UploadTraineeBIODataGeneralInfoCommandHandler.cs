@@ -29,10 +29,11 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
         private readonly ISchoolManagementRepository<Gender> _gender;
         private readonly ISchoolManagementRepository<Religion> _religion;
         private readonly ISchoolManagementRepository<BloodGroup> _bloodGroup;
+        private readonly ISchoolManagementRepository<Country> _country;
 
         public UploadTraineeBIODataGeneralInfoCommandHandler(ISchoolManagementRepository<TraineeBioDataGeneralInfo> traineeBioDataGeneralInfo, IUnitOfWork unitOfWork, IUserService userService, ISchoolManagementRepository<SaylorRank> sylorRank, IMapper mapper, ISchoolManagementRepository<ColorOfEye> colorOfEye,
             ISchoolManagementRepository<BloodGroup> bloodGroup, ISchoolManagementRepository<HairColor> hairColor, ISchoolManagementRepository<MaritalStatus> maritalStatus
-            , ISchoolManagementRepository<Gender> gender, ISchoolManagementRepository<Branch> branch, ISchoolManagementRepository<Religion> religion)
+            , ISchoolManagementRepository<Gender> gender, ISchoolManagementRepository<Branch> branch, ISchoolManagementRepository<Religion> religion, ISchoolManagementRepository<Country> country)
         {
             _TraineeBioDataGeneralInfo = traineeBioDataGeneralInfo;
             _unitOfWork = unitOfWork;
@@ -46,6 +47,7 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
             _branch = branch;
             _maritalStatus = maritalStatus;
             _religion = religion;
+            _country = country;
         }
         public async Task<BaseCommandResponse> Handle(UploadTraineeBIODataGeneralInfoCommand request, CancellationToken cancellationToken)
         {
@@ -76,8 +78,8 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                         bioData.NickName = worksheet.Cells[row, 5].Text;
                         var rank = _sylorRank.FindOne(x => x.Name == worksheet.Cells[row, 6].Text);
 
-                        if(rank != null)
-                        bioData.SaylorRankId = rank.SaylorRankId;
+                        if (rank != null)
+                            bioData.SaylorRankId = rank.SaylorRankId;
 
                         var branch = _branch.FindOne(x => x.BranchName == worksheet.Cells[row, 7].Text);
 
@@ -104,12 +106,12 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                         bioData.HeightId = worksheet.Cells[row, 14].Text;
 
                         var eyeColor = _colorOfEye.FindOne(x => x.ColorOfEyeName == worksheet.Cells[row, 15].Text);
-                        if(eyeColor != null)
-                        bioData.ColorOfEyeId = eyeColor.ColorOfEyeId;
+                        if (eyeColor != null)
+                            bioData.ColorOfEyeId = eyeColor.ColorOfEyeId;
 
                         var heirColor = _hairColor.FindOne(x => x.HairColorName == worksheet.Cells[row, 16].Text);
-                        if(heirColor !=null)
-                        bioData.HairColorId = heirColor.HairColorId;
+                        if (heirColor != null)
+                            bioData.HairColorId = heirColor.HairColorId;
 
                         var bloodGroup = _bloodGroup.FindOne(x => x.BloodGroupName == worksheet.Cells[row, 17].Text);
 
@@ -136,7 +138,13 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                             bioData.GenderId = gender.GenderId;
                         bioData.PermanentAddress = worksheet.Cells[row, 24].Text;
                         bioData.Remarks = worksheet.Cells[row, 25].Text;
-                        bioData.TraineeStatusId = 5;
+                        bioData.TraineeStatusId = request.TraineeStatusId == 0 ? (int?)null : request.TraineeStatusId;
+                        bioData.OfficerTypeId = request.officerTypeId;
+                        bioData.BnaNo = worksheet.Cells[row, 26].Text;
+                        var country = _country.FindOne(x => x.CountryName == worksheet.Cells[row, 27].Text);
+                        if (country != null)
+                        bioData.CountryId = country.CountryId;
+
                         bioData.IsActive = true;
 
                         var PnoExits = _TraineeBioDataGeneralInfo.FindOne(x => x.Pno == bioData.Pno);

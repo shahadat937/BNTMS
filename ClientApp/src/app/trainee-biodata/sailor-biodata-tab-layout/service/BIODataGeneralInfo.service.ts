@@ -117,12 +117,12 @@ export class BIODataGeneralInfoService {
     return this.http.delete(this.baseUrl + '/trainee-bio-data-general-info/delete-traineeBioDataGeneralInfo/'+id);
   }
 
-  uploadFile(file: File) {
+  uploadFile(file: File, traineeStatusId: number) {
     const formData = new FormData();
     formData.append('file', file);
     
     // Add the missing '&' between courseDurationId and courseNameId
-    const url = `${this.baseUrl}/trainee-bio-data-general-info/post-biodataExeclfile`;
+    const url = `${this.baseUrl}/trainee-bio-data-general-info/post-biodataExeclfile?traineeStatusId=${traineeStatusId}`;
   
     return this.http.post(url, formData)
       .pipe(

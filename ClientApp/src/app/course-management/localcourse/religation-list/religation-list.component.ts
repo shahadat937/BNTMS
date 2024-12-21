@@ -19,7 +19,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-religation-list',
   templateUrl: './religation-list.component.html',
-  styleUrls: ['./religation-list.component.sass']
+  styleUrls: ['./religation-list.component.css']
 })
 export class ReligationListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild("InitialOrderMatSort", { static: true }) InitialOrdersort: MatSort;
