@@ -29,9 +29,11 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
   courseTypeId: 19;
   selectedCourseName: SelectedModel[];
   selectedOrganization: SelectedModel[];
+  selectOrganization: SelectedModel[];
   selectedDocument: SelectedModel[];
   selectedPno: SelectedModel[];
   selectedCourseValue: SelectedModel[];
+  selectCourse: SelectedModel[];
   traineeId: number;
   courseDurationId: number;
   courseNameId: string;
@@ -162,9 +164,12 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
   onOrganizationNameSelectionChangeGetCourse(organizationNameId) {
     this.InterServiceMarkService.getCourseNameByOrganizationNameId(organizationNameId).subscribe(res => {
       this.selectedCourseValue = res
-
+      this.selectCourse = res
       
     });
+  }
+  filterByCourseName(value:any){
+    this.selectedCourseValue=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onCourseNameSelectionChangeGetTraineeList(dropdown) {
     if (dropdown.isUserInput) {
@@ -186,10 +191,14 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
       });
     }
   }
+  filterByOrganization(value:any){
+    this.selectedOrganization=this.selectOrganization.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  }
 
   getSelectedOrganizationName() {
     this.InterServiceMarkService.getSelectedOrganizationName().subscribe(res => {
       this.selectedOrganization = res
+      this.selectOrganization = res
     });
   }
   getSelectedDocument() {

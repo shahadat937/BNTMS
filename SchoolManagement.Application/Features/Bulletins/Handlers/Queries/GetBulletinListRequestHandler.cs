@@ -31,7 +31,7 @@ namespace SchoolManagement.Application.Features.Bulletins.Handlers.Queries
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            IQueryable<Bulletin> Bulletines = _BulletinRepository.FilterWithInclude(x => (x.BuletinDetails.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText) && x.BaseSchoolNameId == request.BaseSchoolNameId), "BaseSchoolName", "CourseName", "CourseDuration");
+            IQueryable<Bulletin> Bulletines = _BulletinRepository.FilterWithInclude(x => (x.BuletinDetails.Contains(request.QueryParams.SearchText) ||(x.CourseName.Course.Contains(request.QueryParams.SearchText)) || String.IsNullOrEmpty(request.QueryParams.SearchText) && x.BaseSchoolNameId == request.BaseSchoolNameId), "BaseSchoolName", "CourseName", "CourseDuration");
             var totalCount = Bulletines.Count();
             Bulletines = Bulletines.OrderBy(x => x.Status).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 

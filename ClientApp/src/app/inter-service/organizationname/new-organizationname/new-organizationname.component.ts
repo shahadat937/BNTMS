@@ -21,6 +21,7 @@ export class NewOrganizationNameComponent extends UnsubscribeOnDestroyAdapter im
   OrganizationNameForm: FormGroup;
   validationErrors: string[] = [];
   selectedForceType:SelectedModel[];
+  selectForceType: SelectedModel[];
 
   constructor(private snackBar: MatSnackBar,private OrganizationNameService: OrganizationNameService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
@@ -65,7 +66,11 @@ export class NewOrganizationNameComponent extends UnsubscribeOnDestroyAdapter im
   getselectedForceType(){
     this.OrganizationNameService.getselectedForceType().subscribe(res=>{
       this.selectedForceType=res
+      this.selectForceType = res
     });
+  }
+  filterByForceType(value:any){
+    this.selectedForceType=this.selectForceType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   
   onSubmit() {

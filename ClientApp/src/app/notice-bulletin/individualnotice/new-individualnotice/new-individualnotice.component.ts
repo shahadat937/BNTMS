@@ -307,34 +307,80 @@ ngAfterViewInit() {
     this.filteredCourse = this.selectedCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
   }
 
+  // onSubmit() {
+  //   const id = this.NoticeForm.get('noticeId').value;
+   
+  //   this.NoticeForm.value.filter(x=>x.isNotify==true)
+  //  this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
+
+  //   if (id) {
+  //     this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
+  //       if (result) {
+  //         this.loading = true;
+  //         this.subscription = this.individualNoticeService.update(+id,this.NoticeForm.value).subscribe(response => {
+  //           // this.router.navigateByUrl('/notice-bulletin/notice-list');
+  //           this.reloadCurrentRoute();
+  //           this.snackBar.open('Information Updated Successfully ', '', {
+  //             duration: 2000,
+  //             verticalPosition: 'bottom',
+  //             horizontalPosition: 'right',
+  //             panelClass: 'snackbar-success'
+  //           });
+  //         }, error => {
+  //           this.validationErrors = error;
+  //         })
+  //       }
+  //     })
+  //   }else {
+  //     this.loading = true;
+  //     this.subscription = this.individualNoticeService.submit(this.NoticeForm.value).subscribe(response => {
+  //       // this.router.navigateByUrl('/notice-bulletin/notice-list');
+  //       this.reloadCurrentRoute();
+  //       this.snackBar.open('Information Inserted Successfully ', '', {
+  //         duration: 2000,
+  //         verticalPosition: 'bottom',
+  //         horizontalPosition: 'right',
+  //         panelClass: 'snackbar-success'
+  //       });
+  //     }, error => {
+  //       this.validationErrors = error;
+  //     })
+  //   }
+ 
+  // }
   onSubmit() {
     const id = this.NoticeForm.get('noticeId').value;
-   console.log('this.NoticeForm.value',this.NoticeForm.value)
-    this.NoticeForm.value.filter(x=>x.isNotify==true)
-   this.NoticeForm.value.filter((x:any)=>{ return x.isNotify})
-
+   
+  
+ 
+    const notices = this.NoticeForm.get('notices')?.value; 
+    const filteredNotices = Array.isArray(notices) 
+      ? notices.filter((x: any) => x.isNotify === true)
+      : [];
+  
+    console.log('Filtered Notices:', filteredNotices);
+  
     if (id) {
-      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        if (result) {
-          this.loading = true;
-          this.subscription = this.individualNoticeService.update(+id,this.NoticeForm.value).subscribe(response => {
-            // this.router.navigateByUrl('/notice-bulletin/notice-list');
-            this.reloadCurrentRoute();
-            this.snackBar.open('Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
+      this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item')
+        .subscribe(result => {
+          if (result) {
+            this.loading = true;
+            this.subscription = this.individualNoticeService.update(+id, this.NoticeForm.value).subscribe(response => {
+              this.reloadCurrentRoute();
+              this.snackBar.open('Information Updated Successfully ', '', {
+                duration: 2000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'right',
+                panelClass: 'snackbar-success'
+              });
+            }, error => {
+              this.validationErrors = error;
             });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    }else {
+          }
+        });
+    } else {
       this.loading = true;
       this.subscription = this.individualNoticeService.submit(this.NoticeForm.value).subscribe(response => {
-        // this.router.navigateByUrl('/notice-bulletin/notice-list');
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
@@ -344,8 +390,8 @@ ngAfterViewInit() {
         });
       }, error => {
         this.validationErrors = error;
-      })
+      });
     }
- 
   }
+  
 }

@@ -47,6 +47,7 @@ export class NewIndexNoComponent extends UnsubscribeOnDestroyAdapter implements 
   traineeForm: FormGroup;
   subjectNamefromClassRoutine:SelectedModel[];
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
+  selectCourseName: SelectedModel[];
   subjectName:string;
   bnaSubjectNameId:number;
   classRoutineId:number;
@@ -196,7 +197,11 @@ export class NewIndexNoComponent extends UnsubscribeOnDestroyAdapter implements 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.JCOsTraining).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
+      this.selectCourseName = res;
     });
+  }
+  filterByOrganization(value:any){
+    this.selectedCourseDurationByCourseTypeAndCourseName=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
