@@ -40,6 +40,7 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   selectedModule: SelectedModel[];
   selectedCourseInstructor: CourseInstructor;
   selectedCourseModuleByBaseSchoolAndCourseNameId: SelectedModel[];
+  selectSubject: SelectedModel[];
   GetInstructorByParameters: CourseInstructor[];
   isShown: boolean = false;
   courseDurationIdForList: number;
@@ -152,8 +153,12 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
 
       this.subjectNameService.getSelectedSubjectNameByCourseNameId(this.courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
+        this.selectSubject = res
       });
     }
+  }
+  filterBySubject(value:any){
+    this.selectedSubjectNameByCourseNameId=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   //autocomplete
