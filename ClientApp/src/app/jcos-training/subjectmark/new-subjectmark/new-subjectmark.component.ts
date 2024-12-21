@@ -25,12 +25,16 @@ export class NewSubjectMarkComponent implements OnInit, OnDestroy {
   SubjectMarkForm: FormGroup;
   validationErrors: string[] = [];
   selectedmarktype:SelectedModel[];
+  selectMarkType: SelectedModel[];
   selectedSchoolName:SelectedModel[];
   selectedSaylorBranch:SelectedModel[];
+  selectSaylor: SelectedModel[]
   selectedSaylorSubBranch:SelectedModel[];
+  selectSylorSub: SelectedModel[]
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   selectedsubjectname:SelectedModel[];
   selectedSubjectValue:SelectedModel[];
+  selectSubjectName: SelectedModel[]
   selectedBranch:SelectedModel[];
   courseNameId:number;
   isShown: boolean = false ;
@@ -145,20 +149,27 @@ export class NewSubjectMarkComponent implements OnInit, OnDestroy {
   getselectedSaylorBranch(){
     this.subscription = this.SubjectMarkService.getselectedSaylorBranch().subscribe(res=>{
       this.selectedSaylorBranch=res
-     
+     this.selectSaylor = res
     });
   }
   onBranchSelectionChangegetSubBranch(saylorBranchId){
     var saylorBranchId
     this.subscription = this.SubjectMarkService.getselectedSaylorSubBranch(saylorBranchId).subscribe(res=>{
       this.selectedSaylorSubBranch=res
-     
+      this.selectSylorSub = res
     });
   }
+  filterBySaylorSub(value:any){
+    this.selectedSaylorSubBranch=this.selectSylorSub.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  }
+
   getSelectedBranch() {
     this.subscription = this.SubjectMarkService.getSelectedBranch().subscribe(res => {
       this.selectedBranch = res
     });
+  }
+  filterBySaylor(value:any){
+    this.selectedSaylorBranch=this.selectSaylor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onSelectedSubjectNameBySubBranchId(saylorSubBranchId) {
     this.subscription = this.SubjectMarkService.getSelectedSubjectNameByBranchId(saylorSubBranchId).subscribe(res => {
@@ -210,7 +221,11 @@ export class NewSubjectMarkComponent implements OnInit, OnDestroy {
   getSelectedKindOfSubject(){
     this.subscription = this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
       this.selectedmarktype=res
+      this.selectMarkType  = res
     });
+  }
+  filterByMarkType(value:any){
+    this.selectedmarktype=this.selectMarkType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSelectedSchoolName(){
