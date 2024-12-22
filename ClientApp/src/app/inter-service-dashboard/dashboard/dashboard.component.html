@@ -122,13 +122,19 @@
 
           <div class="body">
             <div class="row dash-cd-m-0">
+              <div *ngIf="isLoading" class="loader-container">
+                <div class="spinner"></div>
+              </div>
               <!-- <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 div-class div-left">
                 <h3 class="rnc">Running Courses</h3>
              </div> -->
+             <div *ngIf="!isLoading">
+
+             
              <div class="col-lg-11 col-md-11 col-sm-12 col-xs-12 div-class div-left course-filter">
-              <button class="running-course" (click)="getCoursesByViewType(1)">Running</button>
-              <button class="passing-course" (click)="getCoursesByViewType(2)">Passing Out</button>
-              <button class="upcoming-course" (click)="getSpUpcomingCourseDurationsByTypeForInterService()">Upcoming</button>
+              <button class="running-course btn" [ngClass]="{'active-button': selectedFilter === 1}" (click)="getCoursesByViewType(1)">Running</button>
+              <button class="passing-course btn" [ngClass]="{'active-button': selectedFilter === 2}" (click)="getCoursesByViewType(2)">Passing Out</button>
+              <button class="upcoming-course btn" [ngClass]="{'active-button': selectedFilter === 3}" (click)="getSpUpcomingCourseDurationsByTypeForInterService()">Upcoming</button>
               
             </div>
             
@@ -205,7 +211,7 @@
                     </tr>
                 </tbody>
               </table>
-          
+            </div>
                <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
               [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
               (page)="pageChanged($event)">

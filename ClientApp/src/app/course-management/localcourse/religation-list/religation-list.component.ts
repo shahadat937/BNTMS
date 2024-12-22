@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { MatSort } from '@angular/material/sort';
+import { DatePipe } from '@angular/common';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
 
@@ -49,14 +50,14 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
   // matSort!: MatSort;
 
 
-  displayedColumns: string[] = ['ser', 'name', 'duration', 'action'];
+  displayedColumns: string[] = ['ser', 'name','courseStatus', 'duration', 'action'];
 
   branchId:any;
   traineeId:any;
   role:any;
+  passOutStatus: any;
 
-  
-  constructor(private snackBar: MatSnackBar,private authService: AuthService,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
+  constructor(private datepipe : DatePipe, private snackBar: MatSnackBar,private authService: AuthService,private TraineeNominationService: TraineeNominationService,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
   }
 
@@ -78,6 +79,27 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
       // this.dataSource = new MatTableDataSource(response);
     
     })
+  }
+  getDateComparision(obj){
+
+    var currentDate = this.datepipe.transform((new Date), 'MM/dd/yyyy');
+    //Date dateTime11 = Convert.ToDateTime(dateFrom);  
+    var current = new Date(currentDate);
+    console.log(current)
+    // var date1 = new Date(obj.durationFrom); 
+	  var date2 =  new Date(obj.durationTo);
+
+    if(current > date2){
+      this.passOutStatus = 1;
+    }else{
+      this.passOutStatus = 0;
+    }
+    // else if(current >= date1 && current <= date2){
+    //   this.weekStatus = 2;
+    // }else if(current < date1){
+    //   this.weekStatus = 3;
+    // }else{
+    // }
   }
 
   applyFilter(searchTerm: any) {
