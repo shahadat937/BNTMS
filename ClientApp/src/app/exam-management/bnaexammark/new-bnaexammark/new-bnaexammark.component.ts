@@ -23,7 +23,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-bnaexammark',
   templateUrl: './new-bnaexammark.component.html',
-  styleUrls: ['./new-bnaexammark.component.sass']
+  styleUrls: ['./new-bnaexammark.component.css']
 })
 export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
@@ -211,6 +211,16 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
     this.BNAExamMarkForm.patchValue({ traineeListForm: this.traineeList });
     
   }
+  // Function to check if all Obtain Mark fields are filled
+  areAllMarksProvided(): boolean {
+  const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
+  
+  return traineeListForm.controls.every(control => {
+    const obtaintMark = control.get('obtaintMark')?.value;
+    return obtaintMark !== null && obtaintMark !== '';
+  });
+}
+
 
   clearList() {
     const control = <FormArray>this.BNAExamMarkForm.controls["traineeListForm"];

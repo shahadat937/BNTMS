@@ -24,7 +24,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-assignmentmark',
   templateUrl: './new-assignmentmark.component.html',
-  styleUrls: ['./new-assignmentmark.component.sass']
+  styleUrls: ['./new-assignmentmark.component.css']
 })
 export class NewAssignmentMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
