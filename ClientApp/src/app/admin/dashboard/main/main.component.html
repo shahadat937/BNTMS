@@ -33,13 +33,10 @@
       <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 main-db">        
         <div class="card">
           <div class="header">
-            
           </div>
           <div class="body">
             <div class="row">
               <div class="col-lg-12 col-md-12 col-sm-12">
-    
-              
                 <button [routerLink]="['/admin/dashboard/view-runningcourses', masterData.coursetype.LocalCourse]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Local Courses</button>
                 <button [routerLink]="['/admin/dashboard/view-runningcourses', masterData.coursetype.ForeignCourse]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Foreign Courses</button>
                 <button [routerLink]="['/admin/dashboard/view-runningcourses', masterData.coursetype.InterService]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Inter Service Courses</button>
@@ -71,47 +68,47 @@
               [dataLabels]="barChartOptions.dataLabels" [plotOptions]="barChartOptions.plotOptions"
               [yaxis]="barChartOptions.yaxis" [xaxis]="barChartOptions.xaxis" [fill]="barChartOptions.fill"></apx-chart>
           </div> -->
-          <div class="body db-left-info">
-            <table class="full-width col-12">
+          <div class="body db-left-info pb-4">
+            <table class="full-width col-12 border-spacing-3">
               <tr>
                 <th>Total Trainee</th>
-                <td>
+                <td class="py-1">
                   <a [routerLink]="['/admin/dashboard/view-totaltraineelist']">{{nomineeCount}}</a>
                 </td>
               </tr>
               <tr>
                 <th>Officers</th>
-                <td>
+                <td class="py-1">
                   <a [routerLink]="['/admin/dashboard/view-officerlist', masterData.TraineeStatus.officer]">{{runningOfficerCount}}</a>
                 </td>
               </tr>
               <tr>
                 <th>Sailors</th>
-                <td>
+                <td class="py-1">
                   <a [routerLink]="['/admin/dashboard/view-officerlist', masterData.TraineeStatus.sailor]">{{runningSailorCount}}</a>
                 </td>
               </tr>
               <tr>
                 <th>Civil</th>
-                <td>
+                <td class="py-1">
                   <a [routerLink]="['/admin/dashboard/view-officerlist', masterData.TraineeStatus.civil]">{{runningCivilCount}}</a>
                 </td>
               </tr>
               <tr> 
                 <th>Foreign Trainee</th>
-                <td>
+                <td class="py-1">
                   <a [routerLink]="['/admin/dashboard/view-totalforeigntraineelistbyschool', 0, masterData.OfficerType.Foreign]">{{foreignNomineeCount}}</a>
                 </td>
               </tr>
               <tr>
                 <th class="">Online Interaction <span class="notify-design float-none">{{notificationCount}}</span> <span *ngIf="notificationCount" class="blink_me float-none">New Massage</span></th>
-                <td>
+                <td class="py-1">
                   <a [routerLink]="['/admin/dashboard/online-interaction']">>>></a>
                 </td>
               </tr>
               <tr class="calendar-color">
                 <th>Event Calendar </th>
-                <td>
+                <td class="py-1">
                   <a [routerLink]="['/calendar']">></a>
                 </td>
               </tr>
