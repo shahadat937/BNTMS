@@ -452,6 +452,7 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   }
   filterBySubject(value:any){
     this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    
   }
 
   getselectedcoursename() {

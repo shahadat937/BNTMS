@@ -22,7 +22,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-reexam',
   templateUrl: './new-reexam.component.html',
-  styleUrls: ['./new-reexam.component.css']
+  styleUrls: ['./new-reexam.component.sass']
 })
 export class NewReExamComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
@@ -212,14 +212,6 @@ export class NewReExamComponent extends UnsubscribeOnDestroyAdapter implements O
     }
    // });
   }
-  areAllMarksProvided(): boolean {
-    const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
-    
-    return traineeListForm.controls.every(control => {
-      const obtaintMark = control.get('obtaintMark')?.value;
-      return obtaintMark !== null && obtaintMark !== '';
-    });
-  }
 
   getTraineeListonClick() {
     const control = <FormArray>this.BNAExamMarkForm.controls["approveTraineeListForm"];
@@ -229,6 +221,14 @@ export class NewReExamComponent extends UnsubscribeOnDestroyAdapter implements O
     }
     this.BNAExamMarkForm.patchValue({ approveTraineeListForm: this.traineeList });
     
+  }
+  areAllMarksProvided(): boolean {
+    const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
+    
+    return traineeListForm.controls.every(control => {
+      const obtaintMark = control.get('obtaintMark')?.value;
+      return obtaintMark !== null && obtaintMark !== '';
+    });
   }
 
   clearList() {
