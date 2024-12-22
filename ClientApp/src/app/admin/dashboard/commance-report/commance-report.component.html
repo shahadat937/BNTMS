@@ -1,5 +1,5 @@
 <section class="content">
-    <div class="container-fluid">
+    <div class="container">
         <div class="block-header">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -102,7 +102,7 @@
                                                 <h5 style="white-space: nowrap;">Start dt</h5>
                                             </th>
                                             <th class="cl-mrk-rmrk">
-                                                <h5>Complete dt </h5>
+                                                <h5 style="white-space: nowrap;">Complete dt </h5>
                                             </th>
                                         </tr>
                                     </thead>
@@ -122,8 +122,8 @@
                                                 <td>{{ school.totalCivilCount }}</td>
                                                 <td>{{ school.totalForignCount }}</td>
                                                 <!-- <td>{{ school.totalNomine }}</td> -->
-                                                <td>{{school.durationFrom | date:'dd-MM-yyyy' }}</td>
-                                                <td>{{school.durationTo | date:'dd-MM-yyyy' }}</td>
+                                                <td style="white-space: nowrap;">{{school.durationFrom | date:'dd-MM-yyyy' }}</td>
+                                                <td style="white-space: nowrap;">{{school.durationTo | date:'dd-MM-yyyy' }}</td>
                                             </tr>
                                         </ng-container>
                                         <tr class="py-3" *ngIf="groupArrays.length">
