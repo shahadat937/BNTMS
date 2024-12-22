@@ -222,6 +222,14 @@ export class NewReExamComponent extends UnsubscribeOnDestroyAdapter implements O
     this.BNAExamMarkForm.patchValue({ approveTraineeListForm: this.traineeList });
     
   }
+  areAllMarksProvided(): boolean {
+    const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
+    
+    return traineeListForm.controls.every(control => {
+      const obtaintMark = control.get('obtaintMark')?.value;
+      return obtaintMark !== null && obtaintMark !== '';
+    });
+  }
 
   clearList() {
     const control = <FormArray>this.BNAExamMarkForm.controls["approveTraineeListForm"];

@@ -178,6 +178,11 @@
 
                 <!-- Basic Table -->
                 <div *ngIf="isShown" class="row clearfix">
+                  <div *ngIf="isShown" class="col-lg-4 print">
+                    <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
+                      <mat-icon class="col-white">print</mat-icon>
+                    </button>
+                  </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0 ex-mrk-entry-li">
                     <div class="card">
                      
@@ -214,7 +219,16 @@
                               <td class="cl-mrk">
                                 <mat-form-field  class="example-full-width mb-3" appearance="outline">
                                   <!-- <mat-label>Obtaint Mark </mat-label>                         -->
-                                  <input matInput [ngStyle]="isBigger==true?{'background-color':'red'} : {'background-color': 'white'}" type="text"  formControlName="obtaintMark" (input)="onValueChange($event.target.value,i)"  (change)="OnTextCheck($event.target.value, i)" />
+                                  <input 
+                                     matInput 
+                                   [ngStyle]="isBigger ? {'background-color': 'red'} : {'background-color': 'white'}" 
+                                   type="text" 
+                                    formControlName="obtaintMark" 
+                                    (input)="onValueChange($event.target.value, i)"  
+                                    (change)="OnTextCheck($event.target.value, i)"
+                                    [matTooltip]="isBigger ? 'Mark should be under or equal ' + passMarkBna : ''"
+                                    matTooltipClass="custom-tooltip"
+                                     />
                                 </mat-form-field>
                                 <!-- <span *ngIf="isBigger" style="color:red">Obtain mark not greater then mark</span> -->
                               </td>
@@ -246,17 +260,13 @@
                
                 <div class="row mt-2">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                    <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BNAExamMarkForm.valid " mat-raised-button
+                    <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!areAllMarksProvided()" mat-raised-button
                         color="primary">{{buttonText}}</button>
                     <!-- <button type="button" mat-button routerLink="/exam-management/bnaexammark-list">Cancel</button> -->
                   </div>
                 </div>
               </form>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
-                <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
-                  <mat-icon class="col-white">print</mat-icon>
-                </button>
-              </div>
+             
             </div>
           </div>
         </div>

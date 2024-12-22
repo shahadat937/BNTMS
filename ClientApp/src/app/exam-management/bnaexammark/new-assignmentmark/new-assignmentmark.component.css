@@ -1,0 +1,9 @@
+::ng-deep .custom-tooltip {
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    padding: 8px;
+  }
+::ng-deep .print{
+    margin-left: 90%;
+}

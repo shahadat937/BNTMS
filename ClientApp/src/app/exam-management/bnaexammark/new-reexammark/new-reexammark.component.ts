@@ -22,7 +22,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-reexammark',
   templateUrl: './new-reexammark.component.html',
-  styleUrls: ['./new-reexammark.component.sass']
+  styleUrls: ['./new-reexammark.component.css']
 })
 export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
@@ -205,7 +205,14 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
       attendanceId:[],
     });
   }
-
+  areAllMarksProvided(): boolean {
+    const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
+    
+    return traineeListForm.controls.every(control => {
+      const obtaintMark = control.get('obtaintMark')?.value;
+      return obtaintMark !== null && obtaintMark !== '';
+    });
+  }
   getTraineeListonClick() {
     const control = <FormArray>this.BNAExamMarkForm.controls["traineeListForm"];
     for (let i = 0; i < this.traineeList.length; i++) {
