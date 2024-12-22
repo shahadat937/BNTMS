@@ -222,15 +222,16 @@
                                 <mat-form-field  class="example-full-width mb-3" appearance="outline">
                                   <!-- <mat-label>Obtaint Mark </mat-label>                         -->
                                   <input 
-                                     matInput 
-                                   [ngStyle]="isBigger ? {'background-color': 'red'} : {'background-color': 'white'}" 
-                                   type="text" 
-                                    formControlName="obtaintMark" 
-                                    (input)="onValueChange($event.target.value, i)"  
-                                    (change)="OnTextCheck($event.target.value, i)"
-                                    [matTooltip]="isBigger ? 'Mark is under 10' : ''" 
-                                    matTooltipClass="custom-tooltip"
-                                     />
+                                        matInput 
+                                        [ngStyle]="isBigger ? {'background-color': 'red'} : {'background-color': 'white'}" 
+                                        type="text" 
+                                        formControlName="obtaintMark" 
+                                        (input)="onValueChange($event.target.value, i)"  
+                                        (change)="OnTextCheck($event.target.value, i)"
+                                        [matTooltip]="isBigger ? 'Mark should be under or equal ' + passMarkBna : ''" 
+                                        matTooltipClass="custom-tooltip"
+                                        />
+
                                 </mat-form-field>
                                 <!-- <span *ngIf="isBigger" style="color:red">Obtain mark not greater then mark</span> -->
                               </td>

@@ -226,7 +226,7 @@
                                     formControlName="obtaintMark" 
                                     (input)="onValueChange($event.target.value, i)"  
                                     (change)="OnTextCheck($event.target.value, i)"
-                                    [matTooltip]="isBigger ? 'Mark is under 10' : ''" 
+                                    [matTooltip]="isBigger ? 'Mark should be under or equal ' + passMarkBna : ''"
                                     matTooltipClass="custom-tooltip"
                                      />
                                 </mat-form-field>
@@ -260,7 +260,7 @@
                
                 <div class="row mt-2">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                    <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BNAExamMarkForm.valid " mat-raised-button
+                    <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!areAllMarksProvided()" mat-raised-button
                         color="primary">{{buttonText}}</button>
                     <!-- <button type="button" mat-button routerLink="/exam-management/bnaexammark-list">Cancel</button> -->
                   </div>

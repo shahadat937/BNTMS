@@ -203,8 +203,16 @@
                               <td class="cl-mrk">
                                 <mat-form-field class="example-full-width mb-3" appearance="outline">
                                   <!-- <mat-label>Obtaint Mark </mat-label>                         -->
-                                  <input matInput  type="text" [ngStyle]="isBigger == true?{'background-color':'red'} : {'background-color': 'white'}" 
-                                  formControlName="obtaintMark" (input)="onValueChange($event.target.value,i)" (change)="OnTextCheck($event.target.value, i)" />
+                                  <input 
+                                        matInput 
+                                        [ngStyle]="isBigger ? {'background-color': 'red'} : {'background-color': 'white'}" 
+                                        type="text" 
+                                        formControlName="obtaintMark" 
+                                        (input)="onValueChange($event.target.value, i)"  
+                                        (change)="OnTextCheck($event.target.value, i)"
+                                        [matTooltip]="isBigger ? 'Mark should be under or equal 15': ''" 
+                                        matTooltipClass="custom-tooltip"
+                                        />
                                   
                                 </mat-form-field>
                               </td>
@@ -233,7 +241,7 @@
                 </div>
                 <div class="row mt-2">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                    <button class="btn-space" [disabled]="!BNAExamMarkForm.valid " mat-raised-button
+                    <button class="btn-space" [disabled]="!areAllMarksProvided()" mat-raised-button
                         color="primary">{{buttonText}}</button>
                     <!-- <button type="button" mat-button routerLink="/exam-management/bnaexammark-list">Cancel</button> -->
                   </div>

@@ -243,6 +243,14 @@ export class NewAssignmentMarkComponent extends UnsubscribeOnDestroyAdapter impl
     }
    // });
   }
+  areAllMarksProvided(): boolean {
+    const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
+    
+    return traineeListForm.controls.every(control => {
+      const obtaintMark = control.get('obtaintMark')?.value;
+      return obtaintMark !== null && obtaintMark !== '';
+    });
+  }
 
   OnTextCheck(value,index ){
     if(value >= this.subjectPassMark){
