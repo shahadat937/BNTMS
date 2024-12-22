@@ -5,13 +5,13 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <ul class="breadcrumb breadcrumb-style ">
                         <li class="breadcrumb-item">
-                            <h4 class="page-title">COURSE COMMENCE</h4>
+                            <h4 class="page-title">COURSE TERMINATION</h4>
                         </li>
                         <li class="breadcrumb-item bcrumb-1">
                             <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
                         </li>
                         <li class="breadcrumb-item bcrumb-2">
-                            <a href="#" onClick="return false;">Course Commence</a>
+                            <a href="#" onClick="return false;">Course Termination</a>
                         </li>
                         <li class="breadcrumb-item active">All</li>
                     </ul>
@@ -29,10 +29,10 @@
                                         <div class="col-xl-6 col-lg-2 col-md-6 col-sm-6 mb-2">
                                             <mat-form-field class="example-full-width mb-3" appearance="outline">
                                               <mat-label>Select Date</mat-label>
-                                                <input matInput [matDatepicker]="joiningpicker" 
+                                                <input matInput [matDatepicker]="dategpicker" 
                                                 (dateChange)="onDateChange($event)" >
-                                                <mat-datepicker-toggle matSuffix [for]="joiningpicker"></mat-datepicker-toggle>
-                                               <mat-datepicker #joiningpicker></mat-datepicker>                                                          
+                                                <mat-datepicker-toggle matSuffix [for]="dategpicker"></mat-datepicker-toggle>
+                                               <mat-datepicker #dategpicker></mat-datepicker>                                                          
                                             </mat-form-field>
                                           </div>
                                     </div>
@@ -61,7 +61,7 @@
 
                             <div class="my-3 text-center">
                                 <h2>BN TRAINING STATE</h2>
-                                <h4>COURSE COMMENCE ON {{selectedDate}} </h4>
+                                <h4>COURSE TERMINATED ON {{selectedDate}} </h4>
                             </div>
                             <div id="print-routine">
                                 <table class="table  tbl-by-group db-li-s-in">
@@ -90,10 +90,10 @@
                                                 <h5>Sailor's </h5>
                                             </th>
                                             <th class="cl-mrk-rmrk">
-                                                <h5>Civil </h5>
+                                                <h5> Civil </h5>
                                             </th>
                                             <th class="cl-mrk-rmrk">
-                                                <h5>Foreign </h5>
+                                                <h5> Foreign </h5>
                                             </th>
                                             <!-- <th class="cl-mrk-rmrk">
                                                 <h5>Total </h5>
@@ -102,11 +102,12 @@
                                                 <h5 style="white-space: nowrap;">Start dt</h5>
                                             </th>
                                             <th class="cl-mrk-rmrk">
-                                                <h5 style="white-space: nowrap;">Complete dt </h5>
+                                                <h5 style="white-space: nowrap;">Complete dt</h5>
                                             </th>
                                             <th class="cl-mrk-rmrk">
                                                 <h5 style="white-space: nowrap;">Remark</h5>
                                             </th>
+
                                         </tr>
                                     </thead>
                               

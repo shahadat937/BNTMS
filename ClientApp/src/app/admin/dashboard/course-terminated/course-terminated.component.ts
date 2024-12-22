@@ -14,12 +14,11 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { DateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/date-time-adapter.class';
 
 @Component({
-  selector: 'app-commance-report',
-  templateUrl: './commance-report.component.html',
-  styleUrls: ['./commance-report.component.sass']
+  selector: 'app-course-terminated',
+  templateUrl: './course-terminated.component.html',
+  styleUrls: ['./course-terminated.component.sass']
 })
-export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-
+export class CourseTerminatedComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   report: any;
   groupArrays: { schoolName: string; report: any; }[];
@@ -45,44 +44,18 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
     public sharedService: SharedServiceService) { super() }
 
   ngOnInit(): void {
-    this.getCommenceReport(this.today)
+    this.getTerminetedReport(this.today)
   }
 
-  // getCommenceReport(date) {
-  //   this.message = "";
-  //   let formatedDate = this.sharedService.formatDateTime(date);
-  //   this.formatSelectedDate(date);
-  //   this.dashboardService.getCommanceReportByStartDate(formatedDate).subscribe(res => {
-  //     this.report = res;
-  //     const groups = this.report.reduce((groups, report) => {
-  //       const school = report.schoolName;
-  //       if (!groups[school]) {
-  //         groups[school] = [];
-  //       }
-  //       groups[school].push(report);
-  //       return groups;
-  //     }, {});
   
-     
-  //     this.groupArrays = Object.keys(groups).map((school) => {
-  //       return {
-  //         schoolName: school,  
-  //         report: groups[school]
-  //       };
-  //     });
 
-  //     this.message = this.groupArrays.length? "" : "No Data Found"
-  
-  //   });
-  // }
-
-  getCommenceReport(date) {
+  getTerminetedReport(date) {
     this.message = "";
     let formatedDate = this.sharedService.formatDateTime(date);
     this.formatSelectedDate(date);
     this.isShow = true;
     
-    this.dashboardService.getCommanceReportByStartDate(formatedDate).subscribe(res => {
+    this.dashboardService.getTerminetedReport(formatedDate).subscribe(res => {
       this.report = res;
       // this.isShow = true;
       
@@ -162,7 +135,7 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
 
   onDateChange(event: any): void {
     const date = event.value;
-   this.getCommenceReport(date);
+   this.getTerminetedReport(date);
   }
 
   formatSelectedDate(date) {
@@ -229,7 +202,7 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
         <body onload="window.print();window.close()">
           <div class="header-text">
           <h3><u>BN TRAINING STATE</u></h3>
-          <h3><u>COURSE COMMENCE ON ${this.selectedDate}</u></h3>
+          <h3><u>COURSE TERMINATED ON ${this.selectedDate}</u></h3>
 
          
           </div>

@@ -81,6 +81,7 @@ import {MatCardModule} from '@angular/material/card';
 import { SearchedCourseDetailComponent } from './global-search-modal/searched-course-detail/searched-course-detail.component'
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { CommanceReportComponent } from './commance-report/commance-report.component';
+import { CourseTerminatedComponent } from './course-terminated/course-terminated.component';
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
@@ -137,7 +138,8 @@ FullCalendarModule.registerPlugins([
     SearchDetailComponent,
     SearchedTraineeDetailComponent,
     SearchedCourseDetailComponent,
-    CommanceReportComponent
+    CommanceReportComponent,
+    CourseTerminatedComponent
   ],
   imports: [
     CommonModule,
