@@ -229,7 +229,7 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
         <body onload="window.print();window.close()">
           <div class="header-text">
           <h3><u>BN TRAINING STATE</u></h3>
-          <h3><u>Date : ${this.selectedDate}</u></h3>
+          <h3><u>COURSE COMMENCE ON ${this.selectedDate}</u></h3>
 
          
           </div>

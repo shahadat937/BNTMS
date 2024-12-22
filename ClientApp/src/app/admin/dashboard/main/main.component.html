@@ -51,7 +51,7 @@
                 <button [routerLink]="['/admin/dashboard/view-readingmaterial']" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Reading Materials</button>
                 <button [routerLink]="['/admin/dashboard/view-courselistbyschool',0]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Course Names </button>
                 <button [routerLink]="['/admin/dashboard/commence-report']" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Course Commence</button>
-                <button [routerLink]="['/admin/dashboard/view-courselistbyschool',0]" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Course Tarmiation</button>
+                <button [routerLink]="['/admin/dashboard/termination-report']" class="col-lg-4 col-md-4 col-sm-4 btnDetails" mat-flat-button color="primary">Course Tarmiation</button>
                 <!-- <button [routerLink]="['/calendar']" class="col-lg-3 col-md-3 col-sm-3 btnDetails" mat-flat-button color="primary">Event Calendar </button> -->
                 <!-- <button class="btnDetails" mat-flat-button color="primary">Teacher Evaluation</button>
                 <button class="btnDetails" mat-flat-button color="primary">Syllabus</button> -->
@@ -73,7 +73,7 @@
           </div> -->
           <div class="body db-left-info">
             <table class="full-width col-12">
-              <tr class="mb-2">
+              <tr>
                 <th>Total Trainee</th>
                 <td>
                   <a [routerLink]="['/admin/dashboard/view-totaltraineelist']">{{nomineeCount}}</a>

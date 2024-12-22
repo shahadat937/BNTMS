@@ -119,6 +119,7 @@ import { RunningCoursForeignRraineecountListComponent } from 'src/app/foreign-tr
 import { RunningCourseForeignRraineeUpcomingListComponent } from 'src/app/foreign-training/runningcourseforeigntraineeupcoming/runningcourseforeigntraineeupcoming-list.component';
 import { RunningCoursForeignRraineecountDetailsListComponent } from 'src/app/foreign-training/runningcoursforeigntraineecountdetails/runningcoursforeigntraineecountdetails-list.component';
 import { CommanceReportComponent } from './commance-report/commance-report.component';
+import { CourseTerminatedComponent } from './course-terminated/course-terminated.component';
 
 
 const routes: Routes = [
@@ -874,6 +875,10 @@ const routes: Routes = [
   {
     path: 'commence-report',
     component:CommanceReportComponent,    
+  },
+  {
+    path: 'termination-report',
+    component:CourseTerminatedComponent,    
   },
 ];
 @NgModule({

@@ -246,5 +246,13 @@ export class dashboardService {
       })
     )
   }
+
+  getTerminetedReport(date){
+    return this.http.get<any>(this.baseUrl+`/dashboard/get-courseTarminitedBythursDay?nextThursDayDate=${date}`).pipe(
+      map(res =>{
+        return res
+      })
+    )
+  }
   
 }

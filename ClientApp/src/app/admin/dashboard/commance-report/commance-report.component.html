@@ -5,13 +5,13 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <ul class="breadcrumb breadcrumb-style ">
                         <li class="breadcrumb-item">
-                            <h4 class="page-title">School List</h4>
+                            <h4 class="page-title">COURSE COMMENCE</h4>
                         </li>
                         <li class="breadcrumb-item bcrumb-1">
                             <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
                         </li>
                         <li class="breadcrumb-item bcrumb-2">
-                            <a href="#" onClick="return false;">School List</a>
+                            <a href="#" onClick="return false;">Course Commence</a>
                         </li>
                         <li class="breadcrumb-item active">All</li>
                     </ul>
@@ -104,6 +104,9 @@
                                             <th class="cl-mrk-rmrk">
                                                 <h5 style="white-space: nowrap;">Complete dt </h5>
                                             </th>
+                                            <th class="cl-mrk-rmrk">
+                                                <h5 style="white-space: nowrap;">Remark</h5>
+                                            </th>
                                         </tr>
                                     </thead>
                               
@@ -124,6 +127,7 @@
                                                 <!-- <td>{{ school.totalNomine }}</td> -->
                                                 <td style="white-space: nowrap;">{{school.durationFrom | date:'dd-MM-yyyy' }}</td>
                                                 <td style="white-space: nowrap;">{{school.durationTo | date:'dd-MM-yyyy' }}</td>
+                                                <td></td>
                                             </tr>
                                         </ng-container>
                                         <tr class="py-3" *ngIf="groupArrays.length">
@@ -135,7 +139,7 @@
                                             <td>{{ grandTotals.totalSailor }}</td>
                                             <td>{{ grandTotals.totalCivilCount }}</td>
                                             <td>{{ grandTotals.totalForignCount }}</td>
-                                            <td class="text-center" colspan="2">-</td>
+                                            <td class="text-center" colspan="3">-</td>
                                            
                                           </tr>
                                     </tbody>
