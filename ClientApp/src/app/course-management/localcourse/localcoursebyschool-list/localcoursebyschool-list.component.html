@@ -89,6 +89,7 @@
                     <mat-cell class="sub-col" *matCellDef="let element">
                     
                       <span *ngIf="passOutStatus === 1" class="passingout-course" style="color:red;font-weight:bold;">(Passing Out)</span>
+                      <span *ngIf="passOutStatus === 0" class="passingout-course" style="color:rgb(0, 70, 58);font-weight:bold;">(Running Course)</span>
                     </mat-cell>
                   </ng-container>
 

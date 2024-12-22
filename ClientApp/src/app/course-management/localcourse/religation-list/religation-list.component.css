@@ -7,6 +7,10 @@
   white-space: nowrap !important;
   /* background-color: aquamarine !important; */
 }
+.mat-header-cell.ser-col,
+.mat-cell.sub-col {
+  text-align: left !important;
+}
 
 
   
