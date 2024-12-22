@@ -475,15 +475,16 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
         this.loading = true;
         this.BNAExamMarkService.approve(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {            
           this.BNAExamMarkForm.reset();
-          if(this.branchId){
-            this.router.navigateByUrl(`/admin/dashboard/pendingexamevaluation-list/${this.branchId}`);
-          }
-            // else if(this.courseNameId == this.masterData.courseName.QExam){
-            //   this.router.navigateByUrl(`/central-exam/qexamapprove-list`);
-            //}
-          else {
-            this.router.navigateByUrl(`/exam-management/exammarkapprove-list`);
-          }
+          // if(this.branchId){
+          //   this.router.navigateByUrl(`/admin/dashboard/pendingexamevaluation-list/${this.branchId}`);
+          // }
+          //   // else if(this.courseNameId == this.masterData.courseName.QExam){
+          //   //   this.router.navigateByUrl(`/central-exam/qexamapprove-list`);
+          //   //}
+          // else {
+          //   this.router.navigateByUrl(`/exam-management/exammarkapprove-list`);
+          // }
+          this.sharedService.goBack(); // redirect to privious Page;
           this.isShown = false;         
           this.BNAExamMarkForm.get('isActive').setValue(true);
           this.BNAExamMarkForm.get('isApproved').setValue(false); 
