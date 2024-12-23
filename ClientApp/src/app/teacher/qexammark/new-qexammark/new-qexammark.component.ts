@@ -156,10 +156,11 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     this.BNAExamMarkForm.get('examTypeCount').setValue(1);
     this.BNAExamMarkForm.get('courseSectionId').setValue(courseSectionId);
 
-    // this.subscription =this.markTypeService.find(Number(markTypeId)).subscribe(res => {  
-    //   this.markTypeName = res.typeName;
-    //   this.onSubjectMarkSelectionGetPassMark();
-    // });
+    this.subscription =this.markTypeService.find(Number(8)).subscribe(res => {  
+      this.markTypeName = res.typeName;
+      console.log(res);
+      this.onSubjectMarkSelectionGetPassMark();
+    });
  
     if(this.courseNameId == this.masterData.courseName.JCOsTraining){
       this.subscription = this.traineeNominationService.getNewTraineeNominationsForJcoExamByBranch(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res => {
@@ -174,7 +175,7 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     }
 
     this.subscription = this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(this.courseNameId, bnaSubjectNameId).subscribe(res => {
-       
+       console.log(res);
       this.subjectMarkList = res;
     });
      
@@ -185,7 +186,14 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
 
   getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId){
     console.log("OK");
-    this.subscription = this.traineeNominationService.getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,1,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId).subscribe(res => {
+    // this.subscription = this.traineeNominationService.getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,1,baseSchoolNameId,courseNameId,bnaSubjectNameId,classRoutineId).subscribe(res => {
+    //   console.log('A',res);
+    //   this.traineeList = res;
+    //   this.clearList()
+    //   this.getTraineeListonClick();
+    // });
+    // courseNameId,courseDurationId,subjectNameId,classRoutineId, attendanceStatus
+    this.subscription = this.traineeNominationService.getTraineeAttendanceListOfCentralExam(courseNameId,courseDurationId, bnaSubjectNameId,classRoutineId, 1).subscribe(res => {
       console.log('A',res);
       this.traineeList = res;
       this.clearList()
@@ -439,6 +447,7 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
       this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading=true;
+          console.log(this.BNAExamMarkForm.value);
           this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
            this.BNAExamMarkForm.reset();
            if(this.courseTypeId != this.masterData.coursetype.LocalCourse){
