@@ -14,13 +14,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { TraineeNomination } from '../../models/traineenomination';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-new-traineenomination',
   templateUrl: './new-traineenomination.component.html',
   styleUrls: ['./new-traineenomination.component.sass']
 }) 
-export class NewTraineeNominationComponent implements OnInit, OnDestroy {
+export class NewTraineeNominationComponent extends UniqueSelectionDispatcher implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -58,7 +59,7 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
   subscription: any;
   
 
-  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) { }
+  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) { super(); }
  
   ngOnInit(): void {
    
@@ -66,7 +67,6 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');  
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
 
-    console.log(this.route.snapshot.paramMap) ;
     this.subscription = this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
         this.TraineeNominationForm.patchValue({          
@@ -136,11 +136,11 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
     this.getselectedpresentbillets();
     this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
   }
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.subscription) {
+  //     this.subscription.unsubscribe();
+  //   }
+  // }
 
   intitializeForm() {
     this.TraineeNominationForm = this.fb.group({
@@ -463,9 +463,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
   deleteItem(row) {
     const id = row.traineeNominationId; 
-    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     this.reloadCurrentRoute();
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {     
       if (result) {
+        
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,
@@ -473,7 +473,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
             horizontalPosition: 'right',
             panelClass: 'snackbar-danger'
           });
+          this.reloadCurrentRoute();
         })
+
       }
     })
     
