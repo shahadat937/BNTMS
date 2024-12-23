@@ -80,6 +80,8 @@ import { SearchedTraineeDetailComponent } from './global-search-modal/searched-t
 import {MatCardModule} from '@angular/material/card';
 import { SearchedCourseDetailComponent } from './global-search-modal/searched-course-detail/searched-course-detail.component'
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { CommanceReportComponent } from './commance-report/commance-report.component';
+import { CourseTerminatedComponent } from './course-terminated/course-terminated.component';
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
@@ -135,7 +137,9 @@ FullCalendarModule.registerPlugins([
     GlobalSearchModalComponent,
     SearchDetailComponent,
     SearchedTraineeDetailComponent,
-    SearchedCourseDetailComponent
+    SearchedCourseDetailComponent,
+    CommanceReportComponent,
+    CourseTerminatedComponent
   ],
   imports: [
     CommonModule,

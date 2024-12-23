@@ -40,8 +40,8 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Command
                 //CourseDuration.IsCompletedStatus = 0;
 
                 CourseDuration = await _unitOfWork.Repository<CourseDuration>().Add(CourseDuration);
-                CourseDuration.DurationFrom = CourseDuration.DurationFrom.Value.AddDays(1.0);
-                CourseDuration.DurationTo = CourseDuration.DurationTo.Value.AddDays(1.0);
+                //CourseDuration.DurationFrom = CourseDuration.DurationFrom.Value.AddDays(1.0);
+                //CourseDuration.DurationTo = CourseDuration.DurationTo.Value.AddDays(1.0);
                 //CourseDuration.NbcdStatus = 0;
 
                 await _unitOfWork.Save();

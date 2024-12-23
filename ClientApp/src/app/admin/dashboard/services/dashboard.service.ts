@@ -238,5 +238,21 @@ export class dashboardService {
       })
     ); 
   }
+
+  getCommanceReportByStartDate(date){
+    return this.http.get<any>(this.baseUrl+`/dashboard/get-courseCommanceBySunday?nextSunDay=${date}`).pipe(
+      map(res =>{
+        return res
+      })
+    )
+  }
+
+  getTerminetedReport(date){
+    return this.http.get<any>(this.baseUrl+`/dashboard/get-courseTarminitedBythursDay?nextThursDayDate=${date}`).pipe(
+      map(res =>{
+        return res
+      })
+    )
+  }
   
 }

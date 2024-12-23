@@ -89,7 +89,7 @@ export class ExamResultNomeneeListComponent implements OnInit, OnDestroy {
   }
 
   getSelectedCourseduration(id: number): void {
-    console.log('Course Duration ' + id);
+
     this.subscription = this.examResultService.GetCourseDuration(id).subscribe(res => {
       this.selectedCourseduration = res;
     });
@@ -99,11 +99,9 @@ export class ExamResultNomeneeListComponent implements OnInit, OnDestroy {
     const courseNameArr = dropdown.source.value.value.split('_');
     const courseDurationsId = courseNameArr[0];
     const courseNameId = courseNameArr[1];
-    console.log("FindCourseResultDurationID is " + courseDurationsId );
     this.subscription = this.examResultService.FindCourseResultDurationID(this.branchId, courseDurationsId).subscribe(res => {
       this.CourseNomeneeResult = res;
       this.isShown = true;
-      console.log("FindCourseResultDurationID is " + JSON.stringify(this.CourseNomeneeResult));
     });
   }
 }

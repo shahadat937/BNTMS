@@ -285,8 +285,6 @@ export class AddBnaClassattendanceComponent extends UnsubscribeOnDestroyAdapter 
 
   onSubmit() {
 
-    console.log(this.BnaAttendanceForm.value);
-
     this.BnaAttendanceForm.value.bnaSubjectCurriculumId = this.selectedbnaSubjectCurriculum;
     this.BnaAttendanceForm.value.courseNameId = this.selectedcourseName;
     this.BnaAttendanceForm.value.courseDurationId = this.selectedcourseDuration;

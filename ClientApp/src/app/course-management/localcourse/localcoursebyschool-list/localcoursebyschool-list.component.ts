@@ -100,10 +100,8 @@ export class LocalCourseBySchoolListComponent extends UnsubscribeOnDestroyAdapte
     this.isLoading = true;
     this.CourseDurationService.getCourseListBySchool(schoolId, searchText).subscribe(response => {
       this.dataSource = new MatTableDataSource(response);
-      console.log(this.dataSource)
       this.dataSource.sort = this.InitialOrdersort;
       this.dataSource.paginator = this.InitialOrderpaginator;
-      console.log(this.dataSource.paginator)
       this.CourseListBySchool = response;
       this.dataSource = new MatTableDataSource(this.CourseListBySchool);
       this.dataSource.paginator = this.paginator;

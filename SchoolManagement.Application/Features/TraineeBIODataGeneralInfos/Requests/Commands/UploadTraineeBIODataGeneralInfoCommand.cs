@@ -12,5 +12,7 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Reque
     public class UploadTraineeBIODataGeneralInfoCommand : IRequest<BaseCommandResponse>
     {
         public IFormFile TraineeBIODataGeneralInfoFile { get; set; }
+        public int? TraineeStatusId { get; set; }
+        public int? officerTypeId { get; set; }
     }
 }

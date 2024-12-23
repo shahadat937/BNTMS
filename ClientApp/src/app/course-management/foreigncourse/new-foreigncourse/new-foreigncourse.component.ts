@@ -41,7 +41,6 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
     //  this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
      this.courseTypeId= MasterData.coursetype.ForeignCourse;  
      
-     console.log(this.route.snapshot.paramMap);
     if (id) {
       this.pageTitle = 'Edit Foreign Course'; 
       this.destination = "Edit"; 

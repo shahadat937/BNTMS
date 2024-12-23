@@ -86,7 +86,6 @@ export class GlobalSearchService {
 
     return this.http.get<any>(this.baseUrl+`/globalSearch/get-searchedCourseDetail/${courseDurationId}`).pipe(
       map(response => {
-        console.log(response);
         let data = {creationDate: (new Date()).getDate(), payload: response}
         this.setCachedData(courseDurationId.toString(),data,SearchType.Course);
         return response;

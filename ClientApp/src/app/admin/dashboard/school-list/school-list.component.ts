@@ -114,6 +114,14 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
   }
   print() {
 
+    let today = new Date();
+
+    const formatedDate = new Intl.DateTimeFormat(("en-Gb"),{
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    }).format(today);
+
     let printContents, popupWin;
     printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -157,6 +165,8 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
         <body onload="window.print();window.close()">
           <div class="header-text">
           <h3><u>BN TRAINING STATE</u></h3>
+          <h3><u>Date : ${formatedDate}</u></h3>
+
          
           </div>
           <br>

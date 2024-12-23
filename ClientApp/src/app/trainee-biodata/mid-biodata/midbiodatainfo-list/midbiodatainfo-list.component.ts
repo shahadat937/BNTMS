@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MasterData } from 'src/assets/data/master-data';
 import { BIODataGeneralInfo } from '../../models/BIODataGeneralInfo';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +10,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { PageEvent } from '@angular/material/paginator';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-midbiodatainfo-list',
@@ -18,10 +19,12 @@ import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.serv
 })
 export class MidbiodatainfoListComponent implements OnInit, OnDestroy {
 
+  @ViewChild('fileInput') fileInput!: ElementRef;
   masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BIODataGeneralInfo[] = [];
   isLoading = false;
+  officerStatusId = 7;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -106,8 +109,55 @@ export class MidbiodatainfoListComponent implements OnInit, OnDestroy {
           this.selection.select(row)
         );
   }
-  addNew(){
-    
+
+  triggerFileSelect() {
+    this.fileInput.nativeElement.click(); // Triggers the file selection dialog
+  }
+
+  onFileSelected(event: Event) {
+    this.isLoading = true;
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      // this.loading = true;
+      this.BIODataGeneralInfoService.uploadFile(file, this.officerStatusId).subscribe(
+        (response: any) => {
+        (event.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+           this.isLoading = false;
+          this.getBIODataGeneralInfos();
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+          this.isLoading = false;
+        }
+        // this.loading= false; 
+      },
+        (error) => {
+          (event.target as HTMLInputElement).value = '';
+          this.isLoading = false;
+        }
+      );
+    }
+  }
+  downloadExcelFile(){
+    const url = environment.fileUrl + '/files/biodata-excel-file/New_Biodata _Entry_Info.xlsx'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'New_Biodata _Entry_Info.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
  
   pageChanged(event: PageEvent) {

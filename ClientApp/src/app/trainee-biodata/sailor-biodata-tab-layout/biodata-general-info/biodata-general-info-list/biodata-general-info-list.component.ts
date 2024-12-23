@@ -13,13 +13,14 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { environment } from '../../../../../environments/environment';
 
 
 
 @Component({
   selector: 'app-biodata-general-info-list',
   templateUrl: './biodata-general-info-list.component.html',
-  styleUrls: ['./biodata-general-info-list.component.sass']
+  styleUrls: ['./biodata-general-info-list.component.scss']
 })
 export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
  userRole= Role;
@@ -43,6 +44,7 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   branchId:any;
   traineeId:any;
   role:any;
+  officerStatusId = 5; // this is for Saylor officerStatusId 
 
   
   // searchText="";
@@ -135,10 +137,11 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   }
 
   onFileSelected(event: Event) {
+    this.isLoading = true;
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-
-      this.BIODataGeneralInfoService.uploadFile(file).subscribe(
+      // this.loading = true;
+      this.BIODataGeneralInfoService.uploadFile(file, this.officerStatusId).subscribe(
         (response: any) => {
         (event.target as HTMLInputElement).value = '';
         if(response.success){
@@ -148,7 +151,8 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
             horizontalPosition: 'right',
             panelClass: 'snackbar-success'
           });
-          // this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
+           this.isLoading = false;
+          this.getBIODataGeneralInfos();
         }
         else{
           this.snackBar.open(response.message, '', {
@@ -157,15 +161,26 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
             horizontalPosition: 'right',
             panelClass: 'snackbar-danger'
           });
+          this.isLoading = false;
         }
+        // this.loading= false; 
       },
         (error) => {
           (event.target as HTMLInputElement).value = '';
+          this.isLoading = false;
         }
       );
     }
   }
-
+  downloadExcelFile(){
+    const url = environment.fileUrl + '/files/biodata-excel-file/New_Biodata _Entry_Info.xlsx'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'New_Biodata _Entry_Info.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
   deleteItem(row) {
     const id = row.traineeId; 
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
