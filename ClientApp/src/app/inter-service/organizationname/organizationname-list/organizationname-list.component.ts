@@ -22,6 +22,7 @@ export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter i
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: OrganizationName[] = [];
+  groupArrays:{ forceType: string; organization: any; }[];
   isLoading = false;
 
   paging = {
@@ -30,8 +31,9 @@ export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter i
     length: 1
   }
   searchText="";
+  spans = [];
 
-  displayedColumns: string[] = [ 'sl','name', 'forceType','isActive', 'actions'];
+  displayedColumns: string[] = [ 'sl','forceType','name',  'actions'];
   dataSource: MatTableDataSource<OrganizationName> = new MatTableDataSource();
 
   selection = new SelectionModel<OrganizationName>(true, []);
@@ -47,14 +49,44 @@ export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter i
   
   getOrganizationNames() {
     this.isLoading = true;
-    this.OrganizationNameService.getOrganizationNames(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-     
-
-      this.dataSource.data = response.items; 
-      this.paging.length = response.totalItemsCount    
+    this.OrganizationNameService.getOrganizationNames(this.paging.pageIndex, this.paging.pageSize, this.searchText).subscribe(response => {
+  
+      this.dataSource.data = response.items;
+      this.paging.length = response.totalItemsCount;
+  
+      const groupedData = this.dataSource.data.reduce((groups, organization) => {
+        const forceType = organization.forceType || 'Unknown'; 
+        if (!groups[forceType]) {
+          groups[forceType] = [];
+        }
+        groups[forceType].push(organization);
+        return groups;
+      }, {});
+  
+      
+      this.groupArrays = Object.keys(groupedData).map(forceType => ({
+        forceType: forceType,
+        organization: groupedData[forceType]
+      }));
+  
       this.isLoading = false;
-    })
+      
+    });
+    
+    
   }
+  shouldDisplayRowspan(data: any[], currentElement: any, currentIndex: number): boolean {
+   
+    if (currentIndex === 0) return true;
+    return data[currentIndex - 1].forceType !== currentElement.forceType;
+  }
+  
+
+  getRowspan(data: any[], forceType: string): number {
+    return data.filter(item => item.forceType === forceType).length;
+  }
+  
+  
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.filteredData.length;

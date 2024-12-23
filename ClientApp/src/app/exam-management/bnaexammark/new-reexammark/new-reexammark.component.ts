@@ -65,6 +65,7 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
   traineeId:any;
   branchId:any;
   baseSchoolId:any;
+  noSubjectAvailable: boolean = false;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -389,6 +390,7 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
       this.BNAExamMarkService.getSelectedSubjectNameByParametersFromAttendanceTableForExam(baseSchoolNameId, courseNameId, courseDurationId,courseSectionId,1).subscribe(res => {
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId = res;
         this.selectSubject=res
+        this.noSubjectAvailable = res.length == 0;
       });
     }
   }
