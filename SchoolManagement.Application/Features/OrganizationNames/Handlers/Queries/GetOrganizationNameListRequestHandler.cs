@@ -36,7 +36,7 @@ namespace SchoolManagement.Application.Features.OrganizationNames.Handlers.Queri
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            IQueryable<SchoolManagement.Domain.OrganizationName> OrganizationNames = _OrganizationNameRepository.FilterWithInclude(x => (x.Name.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "ForceType");
+            IQueryable<SchoolManagement.Domain.OrganizationName> OrganizationNames = _OrganizationNameRepository.FilterWithInclude(x => (x.Name.Contains(request.QueryParams.SearchText) || (x.ForceType.ForceTypeName.Contains(request.QueryParams.SearchText)) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "ForceType");
             var totalCount = OrganizationNames.Count();
             OrganizationNames = OrganizationNames.OrderByDescending(x => x.OrganizationNameId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 

@@ -63,7 +63,7 @@ export type barChartOptions = {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild('calendar', { static: false })
@@ -106,7 +106,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   traineeId:any;
   role:any;
   showHideDiv:any;
-
+  selectedFilter: number;
   groupArrays:{ schoolName: string; courses: any; }[];
   calendarEvents: EventInput[];
   calendarOptions: CalendarOptions;
@@ -233,10 +233,28 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   getCoursesByViewType(viewStatus){
-    this.viewStatus = viewStatus;
+    // this.viewStatus = viewStatus;
+    if(viewStatus == 1){
+      this.viewStatus = 1
+      this.selectedFilter = 1;
+      this.getRunningCourseTotalTraineeByCourseType();
+    }
+    else if(viewStatus == 2){
+
+      this.viewStatus = 2
+      this.selectedFilter = 2;
+      this.getRunningCourseTotalTraineeByCourseType();
+    
+    }
+    else if(viewStatus == 3){
+      this.viewStatus = 3
+      this.selectedFilter = 3;
+      this.getRunningCourseTotalTraineeByCourseType();
+    }
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.interServiceDashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime,viewStatus).subscribe(response => {           
       this.interServiceCourses=response;
+     
     })
   }
 

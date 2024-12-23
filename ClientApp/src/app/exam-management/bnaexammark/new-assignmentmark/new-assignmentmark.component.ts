@@ -24,7 +24,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-assignmentmark',
   templateUrl: './new-assignmentmark.component.html',
-  styleUrls: ['./new-assignmentmark.component.sass']
+  styleUrls: ['./new-assignmentmark.component.css']
 })
 export class NewAssignmentMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
@@ -78,6 +78,7 @@ export class NewAssignmentMarkComponent extends UnsubscribeOnDestroyAdapter impl
   selectSubject:SelectedModel[];
   selectedSubjectMarkForAssignments:any[];
   subjectMarkId:any;
+  noSubjectAvailable: boolean = false;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -242,6 +243,14 @@ export class NewAssignmentMarkComponent extends UnsubscribeOnDestroyAdapter impl
         this.isBigger=false;
     }
    // });
+  }
+  areAllMarksProvided(): boolean {
+    const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
+    
+    return traineeListForm.controls.every(control => {
+      const obtaintMark = control.get('obtaintMark')?.value;
+      return obtaintMark !== null && obtaintMark !== '';
+    });
   }
 
   OnTextCheck(value,index ){
@@ -469,6 +478,7 @@ filterByCourseName(value:any){
       this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourseForAssignment(baseSchoolNameId, courseNameId).subscribe(res => {
         this.selectedSubjectNameForAssignment = res;
         this.selectSection=res
+        this.noSubjectAvailable = res.length == 0;
       });
     }
   }

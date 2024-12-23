@@ -61,7 +61,7 @@ export class NewReExamComponent extends UnsubscribeOnDestroyAdapter implements O
   mark:any;
   markType:any;
   isBigger:boolean =false;
-
+  noSubjectAvailable: boolean = false;
   role:any;
   traineeId:any;
   branchId:any;
@@ -222,6 +222,14 @@ export class NewReExamComponent extends UnsubscribeOnDestroyAdapter implements O
     this.BNAExamMarkForm.patchValue({ approveTraineeListForm: this.traineeList });
     
   }
+  areAllMarksProvided(): boolean {
+    const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
+    
+    return traineeListForm.controls.every(control => {
+      const obtaintMark = control.get('obtaintMark')?.value;
+      return obtaintMark !== null && obtaintMark !== '';
+    });
+  }
 
   clearList() {
     const control = <FormArray>this.BNAExamMarkForm.controls["approveTraineeListForm"];
@@ -371,6 +379,7 @@ filterBySection(value:any){
       this.BNAExamMarkService.getSelectedSubjectNameByBaseSchoolNameIdAndCourseNameIdForReExam(baseSchoolNameId, courseNameId, courseDurationId,courseSectionId,1).subscribe(res => {
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId = res;
         this.selectSection=res;
+        this.noSubjectAvailable = res.length == 0;
       });
     }
   }

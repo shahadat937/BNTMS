@@ -175,6 +175,9 @@
                   </div>                  
                 </div> 
 
+                <div *ngIf="noSubjectAvailable" class="alert">
+                  No Subject available because no exam has not been taken yet
+                </div>
                 <!-- Basic Table -->
                 <div *ngIf="isShown" class="row clearfix">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0 ex-mrk-entry-li">
@@ -201,7 +204,16 @@
                               <td class="cl-mrk">
                                 <mat-form-field class="example-full-width mb-3" appearance="outline">
                                   <!-- <mat-label>Obtaint Mark </mat-label>                         -->
-                                  <input matInput [ngStyle]="isBigger == true?{'background-color':'red'} : {'background-color': 'white'}"  type="text" formControlName="obtaintMark" (input)="onValueChange($event.target.value,i)" (change)="OnTextCheck($event.target.value, i)" />
+                                  <input 
+                                        matInput 
+                                        [ngStyle]="isBigger ? {'background-color': 'red'} : {'background-color': 'white'}" 
+                                        type="text" 
+                                        formControlName="obtaintMark" 
+                                        (input)="onValueChange($event.target.value, i)"  
+                                        (change)="OnTextCheck($event.target.value, i)"
+                                        [matTooltip]="isBigger ? 'Mark should be under or equal 15': ''" 
+                                        matTooltipClass="custom-tooltip"
+                                        />
                                   
                                 </mat-form-field>
                               </td>

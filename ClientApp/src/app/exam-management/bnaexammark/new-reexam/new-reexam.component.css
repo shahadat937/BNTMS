@@ -1,0 +1,11 @@
+::ng-deep .custom-tooltip {
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    padding: 8px;
+  }
+  ::ng-deep .alert{
+    color: #000 !important;
+    font-weight: bold;
+    font-size: 20px;
+  }

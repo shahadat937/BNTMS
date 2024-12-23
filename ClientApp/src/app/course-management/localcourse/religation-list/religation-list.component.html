@@ -54,8 +54,22 @@
 
                 <ng-container matColumnDef="name">
                   <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Name of Establishment / School</mat-header-cell>
-                  <mat-cell class="sub-col" *matCellDef="let element"> {{element.courseName}} - {{element.courseTitle}}</mat-cell>
+                  <mat-cell class="sub-col" *matCellDef="let element">{{ getDateComparision(element) }} {{element.courseName}} - {{element.courseTitle}}
+                    
+                    
+                  </mat-cell>
                 </ng-container>    
+
+                <ng-container matColumnDef="courseStatus">
+                  <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Course Status</mat-header-cell>
+                  <mat-cell class="sub-col" *matCellDef="let element">
+                  
+                    <span *ngIf="passOutStatus === 1" class="passingout-course" style="color:red;font-weight:bold;">(Passing Out)</span>
+                    <span *ngIf="passOutStatus === 0" class="passingout-course" style="color:rgb(0, 70, 58);font-weight:bold;">(Running Course)</span>
+                  
+                  </mat-cell>
+                  
+                </ng-container>
                      
                 <!-- <ng-container matColumnDef="course">
                   <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Course</mat-header-cell>

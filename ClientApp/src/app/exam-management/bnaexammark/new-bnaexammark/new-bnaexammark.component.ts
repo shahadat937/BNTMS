@@ -23,7 +23,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-bnaexammark',
   templateUrl: './new-bnaexammark.component.html',
-  styleUrls: ['./new-bnaexammark.component.sass']
+  styleUrls: ['./new-bnaexammark.component.css']
 })
 export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
@@ -75,6 +75,7 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   schoolName:any;
   courseNameTitle:any;
   SubjectMarkId:any;
+  noSubjectAvailable: boolean = false;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -211,6 +212,16 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
     this.BNAExamMarkForm.patchValue({ traineeListForm: this.traineeList });
     
   }
+  // Function to check if all Obtain Mark fields are filled
+  areAllMarksProvided(): boolean {
+  const traineeListForm = this.BNAExamMarkForm.get('traineeListForm') as FormArray;
+  
+  return traineeListForm.controls.every(control => {
+    const obtaintMark = control.get('obtaintMark')?.value;
+    return obtaintMark !== null && obtaintMark !== '';
+  });
+}
+
 
   clearList() {
     const control = <FormArray>this.BNAExamMarkForm.controls["traineeListForm"];
@@ -314,6 +325,7 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
     if (baseSchoolNameId != null && courseNameId != null) {
       this.BNAExamMarkService.getSelectedSubjectNameByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId, courseDurationId,courseSectionId).subscribe(res => {
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId = res;
+        this.noSubjectAvailable = res.length == 0;
       });
     }
   }
@@ -437,11 +449,13 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
       this.BNAExamMarkService.getSelectedSubjectNameByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId, courseDurationId,this.sectionId).subscribe(res => {
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId = res;
         this.selectSubject=res
+        this.noSubjectAvailable = res.length == 0;
       });
     }
   }
   filterBySubject(value:any){
     this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId=this.selectSubject.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    
   }
 
   getselectedcoursename() {
