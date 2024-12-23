@@ -75,6 +75,7 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   schoolName:any;
   courseNameTitle:any;
   SubjectMarkId:any;
+  noSubjectAvailable: boolean = false;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -324,6 +325,7 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
     if (baseSchoolNameId != null && courseNameId != null) {
       this.BNAExamMarkService.getSelectedSubjectNameByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId, courseDurationId,courseSectionId).subscribe(res => {
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId = res;
+        this.noSubjectAvailable = res.length == 0;
       });
     }
   }
@@ -447,6 +449,7 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
       this.BNAExamMarkService.getSelectedSubjectNameByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId, courseDurationId,this.sectionId).subscribe(res => {
         this.selectedSubjectNameByBaseSchoolNameIdAndCourseNameId = res;
         this.selectSubject=res
+        this.noSubjectAvailable = res.length == 0;
       });
     }
   }

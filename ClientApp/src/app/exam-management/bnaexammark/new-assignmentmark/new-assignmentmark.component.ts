@@ -78,6 +78,7 @@ export class NewAssignmentMarkComponent extends UnsubscribeOnDestroyAdapter impl
   selectSubject:SelectedModel[];
   selectedSubjectMarkForAssignments:any[];
   subjectMarkId:any;
+  noSubjectAvailable: boolean = false;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -477,6 +478,7 @@ filterByCourseName(value:any){
       this.BNASubjectNameService.getSelectedsubjectsBySchoolAndCourseForAssignment(baseSchoolNameId, courseNameId).subscribe(res => {
         this.selectedSubjectNameForAssignment = res;
         this.selectSection=res
+        this.noSubjectAvailable = res.length == 0;
       });
     }
   }

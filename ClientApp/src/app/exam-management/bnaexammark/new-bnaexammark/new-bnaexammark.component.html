@@ -106,6 +106,7 @@
                                   
                                 </mat-error>
                             </mat-form-field>
+                            
                           </div>
 
 
@@ -178,7 +179,9 @@
                   </div>                  
                 </div> 
 
-                
+                <div *ngIf="noSubjectAvailable" class="alert">
+                 No Subject available because no exam has not been taken yet
+                </div>
                 <!-- Basic Table -->
                 <div *ngIf="isShown" class="row clearfix">
                   <div class="col-lg-4 print">
