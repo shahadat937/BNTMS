@@ -64,7 +64,9 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
    
     const id = this.route.snapshot.paramMap.get('traineeNominationId');  
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');  
-    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
+
+    console.log(this.route.snapshot.paramMap) ;
     this.subscription = this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
         this.TraineeNominationForm.patchValue({          
@@ -166,7 +168,7 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
     })
 
     //autocomplete
-    this.subscription = this.TraineeNominationForm.get('traineeName').valueChanges
+    this.subscription = this.TraineeNominationForm.get('traineeName')?.valueChanges
     .subscribe(value => {
      
         this.getSelectedTraineeByPno(value,this.courseDurationId,this.courseNameId);
@@ -180,12 +182,12 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
         this.presentBillet=res;
         this.presentBilletName=this.presentBillet[0].text;
         //this.presentBilletName=this.presentBillet[0].text
-        this.TraineeNominationForm.get('presentBillet').setValue(this.presentBilletName);
+        this.TraineeNominationForm.get('presentBillet')?.setValue(this.presentBilletName);
       });
 
     this.traineeId = item.value
-    this.TraineeNominationForm.get('traineeId').setValue(item.value);
-    this.TraineeNominationForm.get('traineeName').setValue(item.text);
+    this.TraineeNominationForm.get('traineeId')?.setValue(item.value);
+    this.TraineeNominationForm.get('traineeName')?.setValue(item.text);
 
     this.getTraineeInfoByTraineeId(this.traineeId);
     
@@ -294,7 +296,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('printNomineeList').innerHTML;
+    printContents = document.getElementById('printNomineeList')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
@@ -400,8 +402,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     })
   }
 
-  pageChanged(event: PageEvent) {
-  
+  pageChanged(event: PageEvent) {  
     this.paging.pageIndex = event.pageIndex
     this.paging.pageSize = event.pageSize
     this.paging.pageIndex = this.paging.pageIndex + 1
@@ -419,7 +420,10 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     });
   }
   onSubmit() {
-    const id = this.TraineeNominationForm.get('traineeNominationId').value;   
+    const id = this.TraineeNominationForm.get('traineeNominationId').value; 
+      
+    this.TraineeNominationForm.value.courseDurationId = this.courseDurationId 
+    this.TraineeNominationForm.value.courseNameId = this.courseNameId 
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
@@ -440,9 +444,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
         }
       })
     }else {
+
       this.loading=true;
       this.subscription = this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
-        // this.router.navigateByUrl('/central-exam/traineenomination-list/'+this.courseDurationId);
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
