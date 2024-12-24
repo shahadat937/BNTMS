@@ -121,9 +121,9 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     } 
      this.intitializeForm();        
      this.setParamDataToForm(); 
-    //  this.getselectedcoursename();
+     this.getselectedcoursename();
      this.getselectedexammarkremark();
-    //  this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
+     this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
      
   }
   ngOnDestroy() {
@@ -509,30 +509,30 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
       
     
     this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-        // if (result) {
-        //   this.loading=true;
-        //   this.BNAExamMarkService.instructorApprove(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
+        if (result) {
+          this.loading=true;
+          this.BNAExamMarkService.instructorApprove(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
             
-        //     this.BNAExamMarkForm.reset();
-        //     if(this.courseTypeId != this.masterData.coursetype.LocalCourse){
-        //       this.router.navigateByUrl(`/admin/dashboard/centralexammarkentry-list/${this.traineeId}/${this.courseTypeId}/${this.courseNameId}`);
-        //      }else{
-        //       this.router.navigateByUrl(`/admin/dashboard/instructorexam-list/${this.traineeId}/0`);
-        //      }
-        //     this.isShown = false;
+            this.BNAExamMarkForm.reset();
+            if(this.courseTypeId != this.masterData.coursetype.LocalCourse){
+              this.router.navigateByUrl(`/admin/dashboard/centralexammarkentry-list/${this.traineeId}/${this.courseTypeId}/${this.courseNameId}`);
+             }else{
+              this.router.navigateByUrl(`/admin/dashboard/instructorexam-list/${this.traineeId}/0`);
+             }
+            this.isShown = false;
            
-        //     this.BNAExamMarkForm.get('isActive').setValue(true);
-        //     this.BNAExamMarkForm.get('isApproved').setValue(false); 
-        //     this.snackBar.open('Information Inserted Successfully ', '', {
-        //       duration: 2000,
-        //       verticalPosition: 'bottom',
-        //       horizontalPosition: 'right',
-        //       panelClass: 'snackbar-warn'
-        //     });
-        //   }, error => {
-        //     this.validationErrors = error;
-        //   });
-        // }
+            this.BNAExamMarkForm.get('isActive').setValue(true);
+            this.BNAExamMarkForm.get('isApproved').setValue(false); 
+            this.snackBar.open('Information Inserted Successfully ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-warn'
+            });
+          }, error => {
+            this.validationErrors = error;
+          });
+        }
         console.log(this.BNAExamMarkForm.value);
       });
       

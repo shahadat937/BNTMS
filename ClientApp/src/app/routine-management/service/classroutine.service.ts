@@ -346,7 +346,7 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   } 
 
   submitCentralExamRoutine(model: any) {
-    
+    console.log(model);
     return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-central-exam-classRoutine', model).pipe(
       map((ClassRoutine: PostResponse) => {
         if (ClassRoutine) {

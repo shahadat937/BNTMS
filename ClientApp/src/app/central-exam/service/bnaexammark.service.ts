@@ -54,6 +54,10 @@ export class BNAExamMarkService {
     return this.http.get<any>(this.baseUrl + '/bna-subject-name/get-totalmarkAndPassMarkByCourseNameIdAndBnaSubjectNameId?courseNameId='+courseNameId+'&bnaSubjectNameId='+subjectNameId);
   }
 
+  findSubjectMark(id: number) {
+    return this.http.get<SubjectMark>(this.baseUrl + '/subject-mark/get-subjectmarkdetail/' + id);
+  }
+
   getselectedbaseschools(){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/base-School-name/get-selectedSchools')
   }

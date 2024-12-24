@@ -47,6 +47,7 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
   courseDurationId:any;
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
   isLoading = false;
+  selectMarkType :any;
   
     
   displayedColumnsList: string[];
@@ -138,6 +139,8 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
       baseSchoolNameId:[''],
       courseDurationId:[],
       subjectName:[''],
+      subjectMarkId : [''],
+      markTypeId: [''],
       timeDuration:[''],
       bnaSubjectNameId:[],
       courseWeekId:[],
@@ -161,8 +164,8 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
       this.courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
-      this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
-      this.ClassRoutineForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.ClassRoutineForm.get('courseNameId')?.setValue(courseNameId);
+      this.ClassRoutineForm.get('courseDurationId')?.setValue(this.courseDurationId);
 
       this.subscription = this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
@@ -184,8 +187,15 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
 
  onSubjectNameSelectionChangeGet(dropdown){
     var bnaSubjectNameId = dropdown.source.value.value;
-    this.ClassRoutineForm.get('subjectName').setValue(bnaSubjectNameId);
-    this.ClassRoutineForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
+    console.log(bnaSubjectNameId);
+    this.ClassRoutineForm.get('subjectName')?.setValue(bnaSubjectNameId);
+    this.ClassRoutineForm.get('bnaSubjectNameId')?.setValue(bnaSubjectNameId);
+
+    this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
+      // this.selectedmarktype[bnaSubjectNameId]=res;
+      this.selectMarkType=res
+      console.log("Type",res);
+    });
 }
 
 getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
@@ -194,6 +204,18 @@ getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
   });
 }
 
+
+onSubjectMarkSelectionGetMarkType(event){
+
+ let subjectMarkId = event.source.value;
+
+   this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
+    console.log(res);
+
+    this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
+   });
+
+ }
 
 getClassRoutineList(){
   this.isLoading = true;
@@ -226,7 +248,8 @@ getClassRoutineList(){
   
 
   onSubmit() {
-    const id = this.ClassRoutineForm.get('classRoutineId').value;   
+    const id = this.ClassRoutineForm.get('classRoutineId')?.value;   
+    console.log(this.ClassRoutineForm.value)
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
