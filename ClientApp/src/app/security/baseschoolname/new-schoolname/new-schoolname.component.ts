@@ -175,7 +175,13 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
     
     })
   }
-  
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
+
   onSubmit() {
     const id = this.BaseSchoolForm.get('baseSchoolNameId').value;
     const formData = new FormData();
@@ -216,6 +222,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
           panelClass: 'snackbar-success'
         });
         this.loading = false;
+        this.reloadCurrentRoute();
       }, error => {
         this.validationErrors = error;
       })
