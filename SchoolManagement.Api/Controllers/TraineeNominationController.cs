@@ -292,6 +292,21 @@ public class TraineeNominationController : ControllerBase
             AttendanceStatus = attendanceStatus
         });
         return Ok(trainee);
+    } 
+    [HttpGet]
+    [Route("get-traineeattendanceLisOfCentralExam")]
+    public async Task<ActionResult> GetTraineeAttendanceListOfCentralExam( int courseNameId, int courseDurationId, int subjectNameId,  int classRoutineId, int attendanceStatus)
+    {
+        var trainee = await _mediator.Send(new GetTraineeAttendenceListOfCentralExamRequest
+        {
+         
+            CourseNameId = courseNameId,
+            CourseDurationId = courseDurationId,
+            BnaSubjectNameId = subjectNameId,       
+            ClassRoutineId = classRoutineId,
+            AttendanceStatus = attendanceStatus
+        });
+        return Ok(trainee);
     }
 
     [HttpGet]

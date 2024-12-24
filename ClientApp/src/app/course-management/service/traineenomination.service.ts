@@ -58,10 +58,11 @@ export class TraineeNominationService {
   getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,attendanceStatus,baseSchoolNameId,courseNameId,subjectNameId,classRoutineId){
     return this.http.get<TraineeListForExamMark[]>(this.baseUrl + '/trainee-nomination/get-traineeattendanceListByCourseDurationIdspRequest?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId+'&courseDurationId='+courseDurationId+'&subjectNameId='+subjectNameId+'&courseSectionId='+courseSectionId+'&classRoutineId='+classRoutineId+'&attendanceStatus='+attendanceStatus);
   }
+  getTraineeAttendanceListOfCentralExam(courseNameId,courseDurationId,subjectNameId,classRoutineId, attendanceStatus){
+    return this.http.get<TraineeListForExamMark[]>(this.baseUrl + `/trainee-nomination/get-traineeattendanceLisOfCentralExam?courseNameId=${courseNameId}&courseDurationId=${courseDurationId}&subjectNameId=${subjectNameId}&classRoutineId=${classRoutineId}&attendanceStatus=${attendanceStatus}`);
+  }
 
-  // getTraineeAttendanceListByCourseDurationId(courseDurationId,courseSectionId,attendanceStatus,baseSchoolNameId,courseNameId,subjectNameId,classRoutineId){
-  //   return this.http.get<TraineeListForExamMark[]>(this.baseUrl + '/trainee-nomination/get-traineeattendanceListByCourseDurationIdspRequest?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+22+'&courseDurationId='+courseDurationId+'&subjectNameId='+subjectNameId+'&courseSectionId='+22+'&classRoutineId='+classRoutineId+'&attendanceStatus='+attendanceStatus);
-  // }
+  
   
   getTraineeNominationListByCourseDurationIdForNbcd(courseDurationId){
     return this.http.get<any[]>(this.baseUrl + '/trainee-nomination/get-traineeNominationListByCourseDurationIdForNbcdspRequest?courseDurationId='+courseDurationId)
