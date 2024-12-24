@@ -26,8 +26,8 @@ export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter i
   isLoading = false;
 
   paging = {
-    pageIndex: this.masterData.paging.pageIndex,
-    pageSize: this.masterData.paging.pageSize,
+    pageIndex: 1,
+    pageSize: 1000,
     length: 1
   }
   searchText="";
