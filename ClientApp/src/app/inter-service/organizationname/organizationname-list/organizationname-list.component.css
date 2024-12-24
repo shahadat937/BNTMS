@@ -1,0 +1,7 @@
+mat-expansion-panel mat-header-row {
+    display: none;
+  }
+  
+  mat-accordion mat-expansion-panel:first-child mat-header-row {
+    display: flex;
+  } 
