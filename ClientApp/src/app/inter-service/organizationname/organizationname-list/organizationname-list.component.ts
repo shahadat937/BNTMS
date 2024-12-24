@@ -15,7 +15,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-organizationname-list',
   templateUrl: './organizationname-list.component.html',
-  styleUrls: ['./organizationname-list.component.sass']
+  styleUrls: ['./organizationname-list.component.css']
 })
 export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
