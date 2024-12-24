@@ -74,6 +74,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
   isShown: boolean = false ;
   isShowSubjectName:boolean=false;
   isShownForTraineeList:boolean=false;
+  noSubjectAvailable: boolean = false;
   displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   dataSource ;
   constructor(
@@ -180,6 +181,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
       this.AttendanceService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
         this.selectedCourse=res
         this.selectCourse=res
+        this.noSubjectAvailable = res.length == 0;
       });
      }
       get f() { return this.AttendanceForm.controls; }

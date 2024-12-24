@@ -98,7 +98,9 @@
                           </mat-select>
                       </mat-form-field>
                     </div> -->
-
+                    <div *ngIf="noSubjectAvailable">
+                      <p>No Subject Available</p>
+                    </div>
 
                     <div *ngIf="isShowSubjectName" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
                       <h5 class="cls-header">Subject Name :
