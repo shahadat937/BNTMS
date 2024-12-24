@@ -129,6 +129,8 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
         courses: group[key]
       }));
 
+      console.log(this.groupArrays);
+
       // Store the original data for resetting the filter
       this.originalGroupArrays = [...this.groupArrays];  // Keep a copy of the original data
     });

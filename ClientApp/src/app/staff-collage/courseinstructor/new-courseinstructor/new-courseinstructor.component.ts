@@ -339,16 +339,19 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
       this.subscription = this.CourseInstructorService.submit(this.CourseInstructorForm.value).subscribe(response => {
         this.onModuleSelectionChangeGetInstructorList();
         this.CourseInstructorForm.reset();
-        this.CourseInstructorForm.get('courseInstructorId').setValue(0);
-        this.CourseInstructorForm.get('isActive').setValue(true);
+        this.CourseInstructorForm.get('courseInstructorId')?.setValue(0);
+        this.CourseInstructorForm.get('isActive')?.setValue(true);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
+          
         });
+        this.loading = false;
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
     }
 

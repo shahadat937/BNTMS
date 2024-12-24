@@ -14,13 +14,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { TraineeNomination } from '../../models/traineenomination';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-new-traineenomination',
   templateUrl: './new-traineenomination.component.html',
   styleUrls: ['./new-traineenomination.component.sass']
 }) 
-export class NewTraineeNominationComponent implements OnInit, OnDestroy {
+export class NewTraineeNominationComponent extends UniqueSelectionDispatcher implements OnInit {
    masterData = MasterData;
   loading = false;
   buttonText:string;
@@ -58,13 +59,14 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
   subscription: any;
   
 
-  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) { }
+  constructor(private snackBar: MatSnackBar,private bioDataGeneralInfoService: BIODataGeneralInfoService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) { super(); }
  
   ngOnInit(): void {
    
     const id = this.route.snapshot.paramMap.get('traineeNominationId');  
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');  
-    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
+
     this.subscription = this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
         this.TraineeNominationForm.patchValue({          
@@ -134,11 +136,11 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
     this.getselectedpresentbillets();
     this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
   }
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.subscription) {
+  //     this.subscription.unsubscribe();
+  //   }
+  // }
 
   intitializeForm() {
     this.TraineeNominationForm = this.fb.group({
@@ -166,7 +168,7 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
     })
 
     //autocomplete
-    this.subscription = this.TraineeNominationForm.get('traineeName').valueChanges
+    this.subscription = this.TraineeNominationForm.get('traineeName')?.valueChanges
     .subscribe(value => {
      
         this.getSelectedTraineeByPno(value,this.courseDurationId,this.courseNameId);
@@ -180,12 +182,12 @@ export class NewTraineeNominationComponent implements OnInit, OnDestroy {
         this.presentBillet=res;
         this.presentBilletName=this.presentBillet[0].text;
         //this.presentBilletName=this.presentBillet[0].text
-        this.TraineeNominationForm.get('presentBillet').setValue(this.presentBilletName);
+        this.TraineeNominationForm.get('presentBillet')?.setValue(this.presentBilletName);
       });
 
     this.traineeId = item.value
-    this.TraineeNominationForm.get('traineeId').setValue(item.value);
-    this.TraineeNominationForm.get('traineeName').setValue(item.text);
+    this.TraineeNominationForm.get('traineeId')?.setValue(item.value);
+    this.TraineeNominationForm.get('traineeName')?.setValue(item.text);
 
     this.getTraineeInfoByTraineeId(this.traineeId);
     
@@ -294,7 +296,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('printNomineeList').innerHTML;
+    printContents = document.getElementById('printNomineeList')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
@@ -400,8 +402,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     })
   }
 
-  pageChanged(event: PageEvent) {
-  
+  pageChanged(event: PageEvent) {  
     this.paging.pageIndex = event.pageIndex
     this.paging.pageSize = event.pageSize
     this.paging.pageIndex = this.paging.pageIndex + 1
@@ -419,7 +420,10 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     });
   }
   onSubmit() {
-    const id = this.TraineeNominationForm.get('traineeNominationId').value;   
+    const id = this.TraineeNominationForm.get('traineeNominationId').value; 
+      
+    this.TraineeNominationForm.value.courseDurationId = this.courseDurationId 
+    this.TraineeNominationForm.value.courseNameId = this.courseNameId 
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
@@ -440,9 +444,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
         }
       })
     }else {
+
       this.loading=true;
       this.subscription = this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
-        // this.router.navigateByUrl('/central-exam/traineenomination-list/'+this.courseDurationId);
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
@@ -459,9 +463,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
   deleteItem(row) {
     const id = row.traineeNominationId; 
-    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-     this.reloadCurrentRoute();
+    this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {     
       if (result) {
+        
         this.TraineeNominationService.delete(id).subscribe(() => {
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,
@@ -469,7 +473,9 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
             horizontalPosition: 'right',
             panelClass: 'snackbar-danger'
           });
+          this.reloadCurrentRoute();
         })
+
       }
     })
     

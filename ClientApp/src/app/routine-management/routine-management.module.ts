@@ -32,6 +32,7 @@ import { NewBnaClassRoutineComponent } from './classroutine/new-bnaclassroutine/
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NewBnaclassroutinesecondpartComponent } from './classroutine/new-bnaclassroutinesecondpart/new-bnaclassroutinesecondpart.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CentralExamRoutineComponent } from './classroutine/central-exam-routine/central-exam-routine.component';
 @NgModule({
   declarations: [
     ClassRoutineListComponent,
@@ -46,7 +47,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     NewRoutineNoteComponent,
     NewRoutineSoftcopyUploadComponent,
     NewBnaClassRoutineComponent,
-    NewBnaclassroutinesecondpartComponent
+    NewBnaclassroutinesecondpartComponent,
+    CentralExamRoutineComponent
   ],
   imports: [
     CommonModule,

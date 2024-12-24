@@ -74,6 +74,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
   isShown: boolean = false ;
   isShowSubjectName:boolean=false;
   isShownForTraineeList:boolean=false;
+  showSaveBtn = false;
   displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
   dataSource ;
   constructor(
@@ -242,14 +243,18 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
           
           this.traineeNominationListForAttendance=res.filter(x=>x.withdrawnTypeId === null);
         
-          if(this.traineeNominationListForAttendance.length){
+          if(this.traineeNominationListForAttendance?.length){
             for(let i=0;i<this.traineeNominationListForAttendance.length;i++)
               {
                 this.traineeNominationListForAttendance[i].attendanceStatus=true;
                 this.traineeNominationListForAttendance[i].absentForExamStatus=false;
               }
+              this.showSaveBtn = true;
           }
-          this.warrningMessage = " Trainees are not assigned to this course section."
+          else{
+            this.warrningMessage = " Trainees are not assigned to this course section."
+          }
+          
          
          });
       } 
@@ -258,6 +263,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
      }
 
      onDateSelectionChange(event){
+      this.warrningMessage = "";
       var date=this.datepipe.transform((event.value), 'MM/dd/yyyy');
            var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
            var courseNameId=this.AttendanceForm.value['courseNameId'];
@@ -281,7 +287,15 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
      }
 
      filterByCourse(value:any){     
-        this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+        this.selectedCourse=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+        
+     }
+
+     resetWarningMessage(){
+      console.log('resetWarningMessage triggered');
+      this.warrningMessage = "";
+      this.AttendanceForm.get('attendanceDate')?.reset(); // Reset the date field
+      this.AttendanceForm.get('classPeriod')?.reset();
      }
 
   getselectedclassroutine(){
@@ -336,7 +350,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
         var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
         var classPeriodId = this.AttendanceForm.value['classPeriodId'];
      
-         for (let i = 0; i < this.traineeNominationListForAttendance.length; i++) {
+         for (let i = 0; i < this.traineeNominationListForAttendance?.length; i++) {
           this.traineeNominationListForAttendance[i]["classLeaderName"] = classLeaderName;
           this.traineeNominationListForAttendance[i]["attendanceDate"] = this.datepipe.transform((new Date), 'MM/dd/yyyy');
           this.traineeNominationListForAttendance[i]["bnaSubjectNameId"] = this.bnaSubjectNameId; 
