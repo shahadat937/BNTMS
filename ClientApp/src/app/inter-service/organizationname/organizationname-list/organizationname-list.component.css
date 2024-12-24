@@ -5,3 +5,17 @@ mat-expansion-panel mat-header-row {
   mat-accordion mat-expansion-panel:first-child mat-header-row {
     display: flex;
   } 
+
+  th{
+    background-color: red;
+    color: white;
+    padding: 5px;
+  }
+  td{
+    border: 1px solid gray;
+    padding: 10px;
+  }
+  .force-type{
+    background-color: rgb(255, 189, 189);
+    font-size: 16px;
+  }
