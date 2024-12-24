@@ -48,7 +48,7 @@
                         <mat-select formControlName="courseNameId">
                           <input type="text" style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
                             id="selectSection" (keydown.space)="$event.stopPropagation()"
-                            (input)="filterByCourse($event.target.value)" placeholder="Search">
+                            (input)="filterByCourse($event.target.value)" placeholder="Search" required>
                           <mat-option>--Select--</mat-option>
                           <mat-option *ngFor="let dropdown of selectedCourse" [value]="dropdown.value"
                             matTooltip="{{dropdown.text}}" matTooltipPosition="above">
@@ -63,7 +63,7 @@
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Attendance Date</mat-label>
                         <input matInput [matDatepicker]="atpicker" formControlName="attendanceDate"
-                          (dateChange)="onDateSelectionChange($event)">
+                          (dateChange)="onDateSelectionChange($event)" required>
                         <mat-datepicker-toggle matSuffix [for]="atpicker"></mat-datepicker-toggle>
                         <mat-datepicker #atpicker></mat-datepicker>
                       </mat-form-field>
@@ -98,9 +98,7 @@
                           </mat-select>
                       </mat-form-field>
                     </div> -->
-                    <div *ngIf="noSubjectAvailable">
-                      <p>No Subject Available</p>
-                    </div>
+
 
                     <div *ngIf="isShowSubjectName" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
                       <h5 class="cls-header">Subject Name :
