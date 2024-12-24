@@ -21,7 +21,7 @@ import { SharedServiceService } from 'src/app/shared/shared-service.service';
 @Component({
   selector: 'app-bnaexammark-approve',
   templateUrl: './bnaexammark-approve.component.html',
-  styleUrls: ['./bnaexammark-approve.component.sass']
+  styleUrls: ['./bnaexammark-approve.component.css']
 })  
 export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
    masterData = MasterData;
