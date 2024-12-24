@@ -246,7 +246,7 @@ getClassRoutineList(){
       })
     }else {
       this.loading=true;
-      this.subscription = this.ClassRoutineService.submit(this.ClassRoutineForm.value).subscribe(response => {
+      this.subscription = this.ClassRoutineService.submitCentralExamRoutine(this.ClassRoutineForm.value).subscribe(response => {
         
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {

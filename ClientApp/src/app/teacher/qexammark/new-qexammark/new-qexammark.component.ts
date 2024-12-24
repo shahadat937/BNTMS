@@ -69,6 +69,7 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
+  subjectNameId : any;
 
   traineeId:any;
   courseNameId:any;
@@ -80,7 +81,9 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
   constructor(private snackBar: MatSnackBar, private markTypeService: MarkTypeService,private classRoutineService: ClassRoutineService,private subjectMarkService:SubjectMarkService,private BNASubjectNameService: BNASubjectNameService, private traineeNominationService: TraineeNominationService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private BNAExamMarkService: BNAExamMarkService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot.paramMap);
     const id = this.route.snapshot.paramMap.get('bnaExamMarkId');
+    this.subjectNameId = this.route.snapshot.paramMap.get('bnaSubjectNameId');
     if (id) {
       this.pageTitle = 'Edit  Exam Mark';
       this.destination = "Edit";
@@ -145,6 +148,7 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     var subjectMarkId = this.route.snapshot.paramMap.get('subjectMarkId');
     var markTypeId = this.route.snapshot.paramMap.get('markTypeId');
 
+    
     this.BNAExamMarkForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
     this.BNAExamMarkForm.get('courseDurationId').setValue(courseDurationId);
     this.BNAExamMarkForm.get('traineeId').setValue(this.traineeId);
@@ -175,10 +179,18 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     }
 
     this.subscription = this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(this.courseNameId, bnaSubjectNameId).subscribe(res => {
-       console.log(res);
+      
       this.subjectMarkList = res;
     });
      
+    this.BNAExamMarkService.GetTotalMarkAndPassMarkByCourseNameIdAndSubjectId( this.courseNameId, this.subjectNameId).subscribe(res => {
+      console.log("EE",res);
+      this.totalMark = res[0]?.totalMark;
+      this.passMarkBna = res[0]?.passMarkBNA;
+
+
+     
+    });
 
     
 

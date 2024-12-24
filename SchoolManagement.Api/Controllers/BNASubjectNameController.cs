@@ -321,6 +321,20 @@ public class BnaSubjectNameController : ControllerBase
     }
 
     [HttpGet]
+    [Route("get-totalmarkAndPassMark-courseNameId-subjectNameId")]
+
+    public async Task<ActionResult> GetTotalmarkAndPassMarkByCourseNameIdSubjectNameId(int courseNameId, int bnaSubjectNameId)
+    {
+        var proceduredCourses = await _mediator.Send(new GetTotalMarkAndPassMarkFromSubjectSpRequest
+        {
+
+            CourseNameId = courseNameId,
+            BnaSubjectNameId = bnaSubjectNameId
+        });
+        return Ok(proceduredCourses);
+    }
+
+    [HttpGet]
     [Route("get-selectedSubjectBySchoolAndCourse")]
     public async Task<ActionResult<List<BnaSubjectNameDto>>> GetSelectedSubjectBySchoolAndCourseRequest(int baseSchoolNameId, int courseNameId)
     {

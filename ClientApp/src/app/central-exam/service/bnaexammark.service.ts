@@ -51,7 +51,7 @@ export class BNAExamMarkService {
   }
   // bna-subject-name/get-totalmarkAndPassMarkByCourseNameIdAndBnaSubjectNameId?courseNameId=1251&bnaSubjectNameId=3425
   GetTotalMarkAndPassMarkByCourseNameIdAndSubjectId(courseNameId,subjectNameId){
-    return this.http.get<BNASubjectName>(this.baseUrl + '/bna-subject-name/get-totalmarkAndPassMarkByCourseNameIdAndBnaSubjectNameId?courseNameId='+courseNameId+'&bnaSubjectNameId='+subjectNameId);
+    return this.http.get<any>(this.baseUrl + '/bna-subject-name/get-totalmarkAndPassMarkByCourseNameIdAndBnaSubjectNameId?courseNameId='+courseNameId+'&bnaSubjectNameId='+subjectNameId);
   }
 
   getselectedbaseschools(){
