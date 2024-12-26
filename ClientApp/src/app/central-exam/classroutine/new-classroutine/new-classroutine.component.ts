@@ -329,7 +329,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
       })
     }else {
       this.loading=true;
-      this.ClassRoutineService.submit(this.ClassRoutineForm.value).subscribe(response => {
+      this.ClassRoutineService.submitCentralExamRoutine(this.ClassRoutineForm.value).subscribe(response => {
         
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {
