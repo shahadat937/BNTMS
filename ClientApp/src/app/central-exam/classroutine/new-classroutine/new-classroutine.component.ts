@@ -55,7 +55,8 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
   isLoading = false;
   selectMarkType : any;
-  subscription : any
+  subscription : any;
+  showEditBtn = false;
     
   displayedColumnsList: string[];
   paging = {
@@ -209,9 +210,13 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
 
       this.isLoading = true;
       this.ClassRoutineService.getClassRoutinesByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {  
+
         this.dataSource.data = response.items; 
         this.paging.length = response.totalItemsCount    
         this.isLoading = false;
+     
+          this.showEditBtn = this.dataSource.data.length ? true : false;
+        
       })
       this.ClassRoutineService.getQexamRoutine(courseDurationId).subscribe(response => {     
         this.qexamRoutineList=response;
