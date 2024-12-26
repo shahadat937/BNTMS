@@ -50,6 +50,13 @@
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button>
                           </div>
+                          <li>
+                            <div *ngIf="marklistbycourse" class="no-data-found" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
+                              <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
+                                <mat-icon class="col-white">print</mat-icon>
+                              </button>
+                            </div> 
+                          </li>
                       </ul>
                     </div>
                   </div>
@@ -78,11 +85,7 @@
                    
                  </div>
                 </div>
-                <div *ngIf="!marklistbycourse || marklistbycourse.length === 0" class="no-data-found" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
-                  <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
-                    <mat-icon class="col-white">print</mat-icon>
-                  </button>
-                </div> 
+                
               </div>
             </div>
           </div>

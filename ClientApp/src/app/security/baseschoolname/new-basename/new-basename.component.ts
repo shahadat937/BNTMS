@@ -159,6 +159,12 @@ export class NewBaseNameComponent implements OnInit, OnDestroy {
     
     })
   }
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
   
   onSubmit() {
     const id = this.BaseNameForm.get('baseSchoolNameId').value;
@@ -200,11 +206,12 @@ export class NewBaseNameComponent implements OnInit, OnDestroy {
           panelClass: 'snackbar-success'
         });
         this.loading = false;
+        this.reloadCurrentRoute();
       }, error => {
         this.validationErrors = error;
       })
     }
- 
+    
   }
 
   deleteItem(row) {

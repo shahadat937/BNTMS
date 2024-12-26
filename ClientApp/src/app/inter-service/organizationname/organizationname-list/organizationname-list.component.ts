@@ -22,12 +22,12 @@ export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter i
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: OrganizationName[] = [];
-  groupArrays:{ forceType: string; organization: any; }[];
+  groupArrays:{ tableType: string; key: any; }[];
   isLoading = false;
 
   paging = {
-    pageIndex: this.masterData.paging.pageIndex,
-    pageSize: this.masterData.paging.pageSize,
+    pageIndex: 1,
+    pageSize: 1000,
     length: 1
   }
   searchText="";
@@ -46,45 +46,68 @@ export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter i
   ngOnInit() {
     this.getOrganizationNames();
   }
-  
-  getOrganizationNames() {
+
+  getOrganizationNames(): void {
     this.isLoading = true;
-    this.OrganizationNameService.getOrganizationNames(this.paging.pageIndex, this.paging.pageSize, this.searchText).subscribe(response => {
-  
+    this.OrganizationNameService.getOrganizationNames(
+      this.paging.pageIndex,
+      this.paging.pageSize,
+      this.searchText
+    ).subscribe(response => {
       this.dataSource.data = response.items;
       this.paging.length = response.totalItemsCount;
-  
-      const groupedData = this.dataSource.data.reduce((groups, organization) => {
-        const forceType = organization.forceType || 'Unknown'; 
-        if (!groups[forceType]) {
-          groups[forceType] = [];
-        }
-        groups[forceType].push(organization);
-        return groups;
-      }, {});
-  
-      
-      this.groupArrays = Object.keys(groupedData).map(forceType => ({
-        forceType: forceType,
-        organization: groupedData[forceType]
-      }));
-  
+
+     
+      this.groupArrays = this.sharedService.groupByTableType(this.dataSource.data);
       this.isLoading = false;
-      
     });
-    
-    
   }
+
   shouldDisplayRowspan(data: any[], currentElement: any, currentIndex: number): boolean {
-   
-    if (currentIndex === 0) return true;
-    return data[currentIndex - 1].forceType !== currentElement.forceType;
+    return this.sharedService.shouldDisplayRowspan(data, currentElement, currentIndex);
   }
+
+  getRowspan(data: any[], tableType: string): number {
+    return this.sharedService.getRowspan(data, tableType);
+  }
+  // getOrganizationNames() {
+  //   this.isLoading = true;
+  //   this.OrganizationNameService.getOrganizationNames(this.paging.pageIndex, this.paging.pageSize, this.searchText).subscribe(response => {
+  
+  //     this.dataSource.data = response.items;
+  //     this.paging.length = response.totalItemsCount;
+  
+  //     const groupedData = this.dataSource.data.reduce((groups, organization) => {
+  //       const forceType = organization.forceType || 'Unknown'; 
+  //       if (!groups[forceType]) {
+  //         groups[forceType] = [];
+  //       }
+  //       groups[forceType].push(organization);
+  //       return groups;
+  //     }, {});
+  
+      
+  //     this.groupArrays = Object.keys(groupedData).map(forceType => ({
+  //       forceType: forceType,
+  //       organization: groupedData[forceType]
+  //     }));
+  
+  //     this.isLoading = false;
+      
+  //   });
+    
+    
+  // }
+  // shouldDisplayRowspan(data: any[], currentElement: any, currentIndex: number): boolean {
+   
+  //   if (currentIndex === 0) return true;
+  //   return data[currentIndex - 1].forceType !== currentElement.forceType;
+  // }
   
 
-  getRowspan(data: any[], forceType: string): number {
-    return data.filter(item => item.forceType === forceType).length;
-  }
+  // getRowspan(data: any[], forceType: string): number {
+  //   return data.filter(item => item.forceType === forceType).length;
+  // }
   
   
   isAllSelected() {
