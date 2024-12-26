@@ -107,21 +107,46 @@
               <div *ngIf="isLoading" class="loading-spinner">
                 <mat-spinner></mat-spinner>
               </div> -->
-              <mat-accordion *ngIf="!isLoading">
+              <table *ngIf="!isLoading" class="mat-elevation-z8">
+                <thead>
+                  <tr>
+                    <th>Force Type</th>
+                    <th>Organization Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let group of groupArrays">
+                    <ng-container *ngFor="let element of group.organization; let i = index">
+                      <tr>
+                        <td class="force-type" *ngIf="shouldDisplayRowspan(group.organization, element, i)" 
+                            [attr.rowspan]="getRowspan(group.organization, element.forceType)">
+                          {{ element.forceType }}
+                        </td>
+                        <td>{{ element.name }}</td>
+                        <td>
+                          <button mat-icon-button color="primary" class="btn-tbl-edit"
+                                  [routerLink]="['/inter-service/update-organizationname', element.organizationNameId]">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button mat-icon-button color="warn" class="btn-tbl-delete" (click)="deleteItem(element)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </tbody>
+              </table>
+              
+              <!-- <mat-accordion *ngIf="!isLoading">
                 <mat-expansion-panel *ngFor="let group of groupArrays">
                  
              
               
                 
                   <mat-table [dataSource]="group.organization" class="mat-elevation-z8">
-                  
-                    <ng-container matColumnDef="sl">
-                      <mat-header-cell *matHeaderCellDef> Ser. </mat-header-cell>
-                      <mat-cell *matCellDef="let element; let i = index;">
-                        {{ i + 1 }}
-                      </mat-cell>
-                    </ng-container>
-              
+
                     <ng-container matColumnDef="name">
                       <mat-header-cell *matHeaderCellDef> Organization Name </mat-header-cell>
                       <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
@@ -153,22 +178,22 @@
                       </mat-cell>
                     </ng-container>
               
-                    <mat-header-row *matHeaderRowDef="['sl','forceType', 'name',  'actions']"></mat-header-row>
+                    <mat-header-row *matHeaderRowDef="['forceType', 'name',  'actions']"></mat-header-row>
                    
-                    <mat-row *matRowDef="let row; columns: ['sl','forceType', 'name',  'actions']"></mat-row>
+                    <mat-row *matRowDef="let row; columns: ['forceType', 'name',  'actions']"></mat-row>
                   </mat-table>
                 </mat-expansion-panel>
-              </mat-accordion>
+              </mat-accordion> -->
               
              
               <div *ngIf="isLoading" class="loading-spinner">
                 <mat-spinner></mat-spinner>
               </div>
               
-              <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+              <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
                 [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
                 (page)="pageChanged($event)">
-                </mat-paginator>
+                </mat-paginator> -->
             </div>
           </div>
         </div>

@@ -599,9 +599,17 @@ const routes: Routes = [
     path: 'staffexammarkentry-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:bnaSubjectNameId', 
     component: NewCentralExamMarkEntry 
   },
+  { 
+    path: 'staffexammarkentry-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:bnaSubjectNameId/:markTypeId/:subjectMarkId', 
+    component: NewCentralExamMarkEntry 
+  },
   
   { 
     path: 'submitstaffexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:bnaSubjectNameId', 
+    component: FinalCentralExamMarkEntry 
+  },
+  { 
+    path: 'submitstaffexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:bnaSubjectNameId/:markTypeId/:subjectMarkId', 
     component: FinalCentralExamMarkEntry 
   },
   

@@ -170,7 +170,7 @@
                               <td class="cl-mrk">
                                 <mat-form-field class="example-full-width mb-3" appearance="outline">
                                   <!-- <mat-label>Obtaint Mark </mat-label>                         -->
-                                  <input matInput  type="text" [ngStyle]="isBigger==true?{'background-color':'red'} : {'background-color': 'white'}" formControlName="obtaintMark" (input)="onValueChange($event.target.value,i)" (change)="OnTextCheck($event.target.value, i)" />
+                                  <input matInput  type="text" [ngStyle]="isBigger==true?{'background-color':'red'} : {'background-color': 'white'}" formControlName="obtaintMark" (input)="onValueChange($event.target.value,i)" [matTooltip]="isBigger ? 'Mark should be under or equal 20': ''" (change)="OnTextCheck($event.target.value, i)"  matTooltipClass="custom-tooltip"/>
                                   
                                 </mat-form-field>
                               </td>

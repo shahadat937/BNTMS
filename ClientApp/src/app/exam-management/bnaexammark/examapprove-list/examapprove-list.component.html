@@ -132,15 +132,19 @@
                         <span class="incomplete-status" *ngIf="number.resultSubmissionStatus === 0"> Pending </span>
                         <span class="complete-status" *ngIf="number.resultSubmissionStatus === 1"> Submitted </span>
                       </td>
-                      <td class="text-center"> <span class="mark-submit" *ngIf="number.resultSubmissionStatus === 1"
+                      <td class="text-center"> <span class="mark-submit"
+                          *ngIf="number.resultSubmissionStatus === 1 && number.status !== 1 && number.finalApproveStatus !== 1"
                           else approvedTemplate>
                           <button style="padding: .2rem; margin: .3rem;" class=" btn btn-outline-success fw-bold"
                             [routerLink]="['/exam-management/approve-localexammark/',number.baseschoolnameid,number.courseDurationId,number.courseNameId,number.coursemoduleid,number.classRoutineId,number.bnaSubjectNameId,number.subjectMarkId,number.markTypeId,number.courseSectionId]">
                             Approve
                           </button>
                         </span>
-                        <span class="mark-submit text-danger fw-bold" *ngIf="number.resultSubmissionStatus !== 1"> - </span>
+                        <span class="mark-submit incomplete-status" *ngIf="number.resultSubmissionStatus !== 1">Pending
+                        </span>
+                        <span style="color:blue" class="mark-submit fw-bold" *ngIf="number.finalApproveStatus === 1" >Approved</span>
                       </td>
+                 
 
 
                     </tr>
