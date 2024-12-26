@@ -54,7 +54,8 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
   courseId:any;
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
   isLoading = false;
-  
+  selectMarkType : any;
+  subscription : any
     
   displayedColumnsList: string[];
   paging = {
@@ -152,6 +153,8 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
       courseDurationId:[],
       subjectName:[''],
       timeDuration:[''],
+      subjectMarkId: [''],
+      markTypeId : [''],
       bnaSubjectNameId:[],
       courseWeekId:[],
       branchId:[],
@@ -197,8 +200,8 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
       this.durationId = courseDurationId;
       this.courseId = courseNameId;
 
-      this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
-      this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
+      this.ClassRoutineForm.get('courseNameId')?.setValue(courseNameId);
+      this.ClassRoutineForm.get('courseDurationId')?.setValue(courseDurationId);
 
       this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
@@ -224,6 +227,18 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
     }
   }
 
+  onSubjectMarkSelectionGetMarkType(event){
+
+    let subjectMarkId = event.source.value;
+   
+      this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
+       console.log(res);
+   
+       this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
+      });
+   
+    }
+
   pageChanged(event: PageEvent) {
   
     this.paging.pageIndex = event.pageIndex
@@ -239,8 +254,14 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
 
   onSubjectNameSelectionChangeGet(dropdown){
     var bnaSubjectNameId = dropdown.source.value.value;
-    this.ClassRoutineForm.get('subjectName').setValue(bnaSubjectNameId);
-    this.ClassRoutineForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
+    this.ClassRoutineForm.get('subjectName')?.setValue(bnaSubjectNameId);
+    this.ClassRoutineForm.get('bnaSubjectNameId')?.setValue(bnaSubjectNameId);
+
+    this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
+      // this.selectedmarktype[bnaSubjectNameId]=res;
+      this.selectMarkType=res
+      console.log("Type",res);
+    });
 }
 
 
@@ -269,9 +290,9 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
       this.courseName=dropdown.text;
-      this.ClassRoutineForm.get('courseName').setValue(dropdown.text);
-      this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
-      this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
+      this.ClassRoutineForm.get('courseName')?.setValue(dropdown.text);
+      this.ClassRoutineForm.get('courseNameId')?.setValue(courseNameId);
+      this.ClassRoutineForm.get('courseDurationId')?.setValue(courseDurationId);
     } 
     
     this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
@@ -309,7 +330,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
   
 
   onSubmit() {
-    const id = this.ClassRoutineForm.get('classRoutineId').value;   
+    const id = this.ClassRoutineForm.get('classRoutineId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
