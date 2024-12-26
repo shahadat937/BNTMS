@@ -13,6 +13,7 @@ import { BNAExamMarkService } from 'src/app/central-exam/service/bnaexammark.ser
 import { BNASubjectNameService } from 'src/app/central-exam/service/BNASubjectName.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import {ClassRoutineService} from '../../../routine-management/service/classroutine.service'
 
 @Component({
   selector: 'app-new-courseinstructor',
@@ -49,6 +50,8 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   branchId:any;
   baseSchoolId:any;
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
+  selectMarkType : any;
+  subscription : any;
 
   options = [];
   filteredOptions;
@@ -61,7 +64,7 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
 
   displayedColumns: string[] = ['ser','bnaSubjectName', 'trainee', 'status', 'actions'];
 
-  constructor(private snackBar: MatSnackBar,private subjectNameService:BNASubjectNameService,  private BNAExamMarkService:BNAExamMarkService ,private authService: AuthService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) {
+  constructor(private snackBar: MatSnackBar,private subjectNameService:BNASubjectNameService,  private BNAExamMarkService:BNAExamMarkService ,private authService: AuthService, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseInstructorService: CourseInstructorService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService, private ClassRoutineService: ClassRoutineService) {
     super();
   }
 
@@ -117,12 +120,14 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
       courseName: [''],
       traineeName: [''],
       courseNameId: [''],
+      markTypeId : [''],
+      subjectMarkId : [''],
       status: [],
       isActive: [true],
     })
 
     //autocomplete
-    this.CourseInstructorForm.get('traineeName').valueChanges
+    this.CourseInstructorForm.get('traineeName')?.valueChanges
       .subscribe(value => {
 
         this.getSelectedTraineeByPno(value);
@@ -138,8 +143,8 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
     }
     //autocomplete
     onTraineeSelectionChanged(item) {
-      this.CourseInstructorForm.get('traineeId').setValue(item.value);
-      this.CourseInstructorForm.get('traineeName').setValue(item.text);
+      this.CourseInstructorForm.get('traineeId')?.setValue(item.value);
+      this.CourseInstructorForm.get('traineeName')?.setValue(item.text);
     }
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
@@ -154,8 +159,8 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
       this.courseDurationId = courseNameArr[0];
       this.courseNameId = courseNameArr[1];
 
-      this.CourseInstructorForm.get('courseNameId').setValue(this.courseNameId);
-      this.CourseInstructorForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.CourseInstructorForm.get('courseNameId')?.setValue(this.courseNameId);
+      this.CourseInstructorForm.get('courseDurationId')?.setValue(this.courseDurationId);
 
       this.subjectNameService.getSelectedSubjectNameByCourseNameId(this.courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
@@ -222,9 +227,9 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
-      this.CourseInstructorForm.get('courseName').setValue(dropdown.text);
-      this.CourseInstructorForm.get('courseNameId').setValue(courseNameId);
-      this.CourseInstructorForm.get('courseDurationId').setValue(courseDurationId);
+      this.CourseInstructorForm.get('courseName')?.setValue(dropdown.text);
+      this.CourseInstructorForm.get('courseNameId')?.setValue(courseNameId);
+      this.CourseInstructorForm.get('courseDurationId')?.setValue(courseDurationId);
 
 
       if (baseSchoolNameId != null && courseNameId != null) {
@@ -270,7 +275,25 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
       this.CourseInstructorService.getCourseInstructorByCourseDurationIdANdSubjectNameId(bnaSubjectNameId, courseDurationId, courseNameId).subscribe(res => {
         this.GetInstructorByParameters = res;
       });
+
+      this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
+        // this.selectedmarktype[bnaSubjectNameId]=res;
+        this.selectMarkType=res
+        console.log("Type",res);
+      });
   }
+
+  onSubjectMarkSelectionGetMarkType(event){
+
+    let subjectMarkId = event.source.value;
+   
+      this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
+       console.log(res);
+   
+       this.CourseInstructorForm.get('markTypeId')?.setValue(res.markTypeId);
+      });
+   
+    }
   GetInstructorListAfterDelete(baseSchoolNameId, bnaSubjectNameId, courseModuleId, courseNameId, courseDurationId) {
     this.isShown = true;
     if (baseSchoolNameId != null && bnaSubjectNameId != null && courseModuleId != null && courseNameId != null) {
