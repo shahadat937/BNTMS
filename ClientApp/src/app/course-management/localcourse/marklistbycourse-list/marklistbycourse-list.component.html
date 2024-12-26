@@ -119,7 +119,7 @@
                   
                 </div> -->
                 <br>
-                <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
+                <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()" *nfIf="isShown"> Print
                   <mat-icon class="col-white">print</mat-icon>
                 </button>
               </div>
