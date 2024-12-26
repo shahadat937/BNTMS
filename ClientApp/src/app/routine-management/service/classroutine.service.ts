@@ -345,6 +345,17 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
     );
   } 
 
+  submitCentralExamRoutine(model: any) {
+    console.log(model);
+    return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-central-exam-classRoutine', model).pipe(
+      map((ClassRoutine: PostResponse) => {
+        if (ClassRoutine) {
+          return ClassRoutine;
+        }
+      })
+    );
+  } 
+
   bnasubmit(model: any) {
     
     return this.http.post<PostResponse>(this.baseUrl + '/bna-class-routine/save-bnaclassRoutine', model).pipe(

@@ -58,16 +58,16 @@ public class ClassRoutineController : ControllerBase
         return Ok(ClassRoutine);
     }
 
-    //[HttpPost]
-    //[ProducesResponseType(200)]
-    //[ProducesResponseType(400)]
-    //[Route("save-classRoutine")]
-    //public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateClassRoutineDto ClassRoutine)
-    //{
-    //    var command = new CreateClassRoutineCommand { ClassRoutineDto = ClassRoutine };
-    //    var response = await _mediator.Send(command);
-    //    return Ok(response);
-    //}
+    [HttpPost]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [Route("save-central-exam-classRoutine")]
+    public async Task<ActionResult<BaseCommandResponse>> PostCentralExamRoutine([FromBody] CreateClassRoutineDto ClassRoutine)
+    {
+        var command = new CreateClassRoutineCommand { ClassRoutineDto = ClassRoutine };
+        var response = await _mediator.Send(command);
+        return Ok(response);
+    }
 
     [HttpPost]
     [ProducesResponseType(200)]

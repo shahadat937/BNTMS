@@ -114,7 +114,9 @@
     
                       <ng-container matColumnDef="trainee">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Examiner</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.traineeRank}} {{element.trainee}}   <span class="t-n-pno-d">(P No {{element.traineePno}})</span> </mat-cell>
+                        <mat-cell *matCellDef="let element">{{element.traineeRank}} {{element.trainee}} 
+                            <!-- <span class="t-n-pno-d">(P No {{element.traineePno}})</span> -->
+                           </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="status">
