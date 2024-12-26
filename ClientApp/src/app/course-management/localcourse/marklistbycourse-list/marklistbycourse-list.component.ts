@@ -183,7 +183,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     this.courseType = Number(this.route.snapshot.paramMap.get('courseTypeId')); 
 
     this.courseDurationService.find(Number(courseDurationId)).subscribe(res=>{
-      this.isShown = true;
+  
       this.course = res.courseName+"_"+res.courseTitle;
     });
     if(this.courseNameId == this.masterData.courseName.StaffCollage){
@@ -194,7 +194,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         if(this.marklistbycourse && this.marklistbycourse.length)
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
         this.isLoading = false;
-        this.isShown = true;
+        
       });
     }else if(this.courseNameId == this.masterData.courseName.JCOsTraining){
       console.log("Test 2")
@@ -203,7 +203,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         this.marklistbycourse=res;  
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
         this.isLoading = false;
-        this.isShown = true;
+        
       });
     }else if(this.courseNameId == this.masterData.courseName.QExam){
       console.log("Test 3")
@@ -213,7 +213,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         if(this.marklistbycourse && this.marklistbycourse.length)
         this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
         this.isLoading = false;
-        this.isShown = true;
+      
       });
     }else{
       this.title = "Course Subject";
@@ -222,13 +222,15 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         this.marklistbycourse=res;   
         if(this.marklistbycourse && this.marklistbycourse.length){
           this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
+          this.isShown=true;
         }
         else{
           this.warningMessage = "Trainee Mark has not been assigned yet";
+          
         }
    
         this.isLoading = false;
-        this.isShown = true;
+       
       });
     }
     
