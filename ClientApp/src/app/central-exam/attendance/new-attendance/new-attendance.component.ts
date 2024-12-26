@@ -163,6 +163,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.QExam).subscribe(res => {
+      console.log(res);
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
