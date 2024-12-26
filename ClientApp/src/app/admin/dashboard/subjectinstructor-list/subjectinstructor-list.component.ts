@@ -34,6 +34,7 @@ export class SubjectInstructorListComponent extends UnsubscribeOnDestroyAdapter 
   branchId:any;
   traineeId:any;
   role:any;
+  isShown: boolean = false;
 
   dbType:any;
   paging = {
@@ -89,12 +90,13 @@ export class SubjectInstructorListComponent extends UnsubscribeOnDestroyAdapter 
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
       this.CourseInstructorService.getsubjectInstructorListByCourseDuration(courseDurationId).subscribe(res=>{
         this.GetInstructorByParameters=res; 
-
+       
               
         if(this.courseNameId == this.masterData.courseName.JCOsTraining){
           // this gives an object with dates as keys
           const groups = this.GetInstructorByParameters.reduce((groups, courses) => {
             const courseModule = courses.saylorBranch;
+          
             if (!groups[courseModule]) {
               groups[courseModule] = [];
             }
@@ -108,7 +110,9 @@ export class SubjectInstructorListComponent extends UnsubscribeOnDestroyAdapter 
               courseModule,
               courses: groups[courseModule]
             };
+           
           });
+          
         }else{
           // this gives an object with dates as keys
           const groups = this.GetInstructorByParameters.reduce((groups, courses) => {
@@ -128,8 +132,9 @@ export class SubjectInstructorListComponent extends UnsubscribeOnDestroyAdapter 
             };
           });
         }
-      
+       
       }); 
+      
   }
   toggle(){
     this.showHideDiv = !this.showHideDiv;

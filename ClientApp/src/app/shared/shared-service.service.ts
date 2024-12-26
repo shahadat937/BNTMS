@@ -120,7 +120,29 @@ export class SharedServiceService {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
 
+  groupByTableType(data: any[]): any[] {
+    const groupedData = data.reduce((groups, key) => {
+      const forceType = key.forceType || 'Unknown';
+      if (!groups[forceType]) {
+        groups[forceType] = [];
+      }
+      groups[forceType].push(key);
+      return groups;
+    }, {});
 
+    return Object.keys(groupedData).map(forceType => ({
+      forceType: forceType,
+      organization: groupedData[forceType],
+    }));
+  }
 
+  shouldDisplayRowspan(data: any[], currentElement: any, currentIndex: number): boolean {
+    if (currentIndex === 0) return true;
+    return data[currentIndex - 1].tableType !== currentElement.tableType;
+  }
+
+  getRowspan(data: any[], forceType: string): number {
+    return data.filter(item => item.forceType === forceType).length;
+  }
 
 }

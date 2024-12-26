@@ -269,6 +269,15 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
     
   }
 
+  areAllMarksProvided(): boolean {
+    const traineeListForm = this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray;
+    
+    return traineeListForm.controls.every(control => {
+      const obtaintMark = control.get('obtaintMark')?.value;
+      return obtaintMark !== null && obtaintMark !== '';
+    });
+  }
+
   OnTextCheck(value,index ){
 
     if(value >= this.subjectPassMark){

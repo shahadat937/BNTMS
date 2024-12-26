@@ -126,7 +126,15 @@
                       <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Name of Course</mat-header-cell>
                       <mat-cell class="sub-col" *matCellDef="let element">
                         {{ getDateComparision(element) }} {{ element.course }} - {{ element.courseTitle }}
+                        <!-- <span *ngIf="passOutStatus === 1" style="color:red;font-weight:bold;">(Passing Out)</span> -->
+                      </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="courseStatus">
+                      <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Course Status</mat-header-cell>
+                      <mat-cell class="sub-col m-x-10" *matCellDef="let element">
                         <span *ngIf="passOutStatus === 1" style="color:red;font-weight:bold;">(Passing Out)</span>
+                        <spn *ngIf="passOutStatus ===0" style="color:rgb(0, 68, 68);font-weight:bold;">Running Course </spn>
                       </mat-cell>
                     </ng-container>
                   
@@ -168,8 +176,8 @@
                     </ng-container>
                   
                     <!-- Define the header and row structure -->
-                    <mat-header-row *matHeaderRowDef="['ser', 'course', 'commencement', 'completion', 'duration', 'action']"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: ['ser', 'course', 'commencement', 'completion', 'duration', 'action']"></mat-row>
+                    <mat-header-row *matHeaderRowDef="['ser', 'course','courseStatus', 'commencement', 'completion', 'duration', 'action']"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: ['ser', 'course','courseStatus', 'commencement', 'completion', 'duration', 'action']"></mat-row>
                   
                   </mat-table>
                   

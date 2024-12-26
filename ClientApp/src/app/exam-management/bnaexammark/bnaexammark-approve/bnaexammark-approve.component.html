@@ -276,7 +276,7 @@
                 </div> -->
                 <div class="row mt-2">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                    <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!BNAExamMarkForm.valid " mat-raised-button
+                    <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!areAllMarksProvided()" mat-raised-button
                         color="primary">Approve</button>
                     <!-- <button type="button" mat-button routerLink="/exam-management/bnaexammark-list">Cancel</button> -->
                   </div>
