@@ -17,6 +17,7 @@ import { TraineeNominationListComponent } from './traineenomination/traineenomin
 import { ExamApproveListComponent } from './jcoexammark/examapprove-list/examapprove-list.component';
 import { QExamMarkApproveComponent as JcoExamApprove } from '../staff-collage/qexammark/qexammark-approve/qexammark-approve.component';
 import { JsoExamMarkApproveListComponent } from './jso-exam-mark-approve-list/jso-exam-mark-approve-list.component';
+import { ApproveJcoexamemarkComponent } from './approve-jcoexamemark/approve-jcoexamemark.component';
 // import { JsoExamapproveListComponent } from './jso-examapprove-list/jso-examapprove-list.component';
 
 
@@ -113,6 +114,10 @@ const routes: Routes = [
   {
     path: 'jco-exam-mark-approve',
     component: JsoExamMarkApproveListComponent,
+  },
+  {
+    path: 'jco-approve-mark/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:bnaSubjectNameId/:subjectMarkId',
+    component: ApproveJcoexamemarkComponent,
   },
   {
     path: 'add-jcostraineeattendance/:courseDurationId/:date/:courseNameId/:classRoutineId/:bnaSubjectNameId',
