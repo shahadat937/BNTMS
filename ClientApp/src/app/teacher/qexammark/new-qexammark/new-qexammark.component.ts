@@ -156,7 +156,7 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     this.BNAExamMarkForm.get('examTypeCount').setValue(1);
     this.BNAExamMarkForm.get('courseSectionId').setValue(courseSectionId);
 
-    this.subscription =this.markTypeService.find(Number(8)).subscribe(res => {  
+    this.subscription =this.markTypeService.find(Number(markTypeId)).subscribe(res => {  
       this.markTypeName = res.typeName;
       console.log(res);
       this.onSubjectMarkSelectionGetPassMark();

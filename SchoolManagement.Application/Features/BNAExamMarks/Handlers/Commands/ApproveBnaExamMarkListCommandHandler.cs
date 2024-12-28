@@ -93,7 +93,8 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
             }
             else
             {
-                routines.FinalApproveStatus = 0;
+                //routines.FinalApproveStatus = 0;
+                routines.FinalApproveStatus = 1;
 
                 await _unitOfWork.Repository<ClassRoutine>().Update(routines);
                 await _unitOfWork.Save();

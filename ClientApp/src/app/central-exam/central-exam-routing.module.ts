@@ -117,6 +117,10 @@ const routes: Routes = [
     path: 'approve-qexamemark/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId',
     component: QExamMarkApproveComponent,
   },
+  {
+    path: 'approve-qexamemark/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId/:subjectMarkId',
+    component: QExamMarkApproveComponent,
+  },
 
   {
     path: 'add-centralexamtraineeattendance/:courseDurationId/:date/:courseNameId/:classRoutineId/:bnaSubjectNameId',

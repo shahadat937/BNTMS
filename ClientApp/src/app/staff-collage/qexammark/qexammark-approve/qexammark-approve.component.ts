@@ -51,6 +51,8 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     traineeList:TraineeListForExamMark[];
     examTypeCount:number;
     subjectPassMark:any;
+    markTypeId : any;
+    subjectMarkId : any;
 
     ApproveMsgScreen: boolean = false ;
     ApproveMsg:string;
@@ -80,6 +82,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
+    this.subjectMarkId = this.route.snapshot.paramMap.get('subjectMarkId'); 
 
     if (id) {
       this.pageTitle = 'Edit  Exam Mark'; 
@@ -124,6 +127,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
      this.getselectedexammarkremark();
      this.getSelectedCourseDurationByCourseTypeIdAndCourseNameId();
      this.setParamDataToForm();
+     this.getselectedtraineebytype();
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -146,6 +150,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     this.BNAExamMarkForm.get('classRoutineId').setValue(classRoutineId);
     this.BNAExamMarkForm.get('branchId').setValue(branchId);
     this.BNAExamMarkForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
+    this.BNAExamMarkForm.get('subjectMarkId')?.setValue(this.subjectMarkId);
 
     this.subscription = this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(this.courseNameId, bnaSubjectNameId).subscribe(res => {       
       this.subjectMarkList = res;
@@ -178,7 +183,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
       baseSchoolNameId:[],    
       courseNameId:[],
       courseTypeId:[],
-      SubjectMarkId:[], 
+      subjectMarkId:[], 
       branchId:[], 
       bnaCurriculamTypeId:[],
       bnaSubjectNameId:[],
@@ -227,7 +232,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
 
   onSubjectMarkSelectionGetPassMark(){
     var subjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
-    this.subscription = this.subjectMarkService.find(subjectMarkId).subscribe(res => {
+    this.subscription = this.subjectMarkService.find(this.subjectMarkId).subscribe(res => {
       this.subjectPassMark = res.passMark;
     });
     
@@ -361,7 +366,9 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     var bnaSubjectNameId=this.BNAExamMarkForm.value['bnaSubjectNameId'];
     var SubjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
     this.isShown = true;
-    this.subscription = this.BNAExamMarkService.getCentralexamMarkListByParameters(courseNameId,bnaSubjectNameId,SubjectMarkId,false,1).subscribe(res=>{
+    // console.log(courseNameId,bnaSubjectNameId,this.subjectMarkId,false,1)
+ 
+    this.subscription = this.BNAExamMarkService.getCentralexamMarkListByParameters(courseNameId,bnaSubjectNameId,this.subjectMarkId,false,1).subscribe(res=>{
       var unapprovedlistItemCount = res.length;
       if(unapprovedlistItemCount > 0){
         this.traineeList=res;  
@@ -372,7 +379,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
       }else{
         this.isShown=false;  
         this.ApproveMsgScreen=true;
-        this.subscription = this.BNAExamMarkService.getCentralexamMarkListByParameters(courseNameId,bnaSubjectNameId,SubjectMarkId,true,1).subscribe(response=>{
+        this.subscription = this.BNAExamMarkService.getCentralexamMarkListByParameters(courseNameId,bnaSubjectNameId,this.subjectMarkId,true,1).subscribe(response=>{
           var approvedlistItemCount = response.length;
           if(approvedlistItemCount > 0 ){
             this.ApproveMsg = "Records are already Approved!";
