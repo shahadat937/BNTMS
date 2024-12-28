@@ -113,4 +113,13 @@ export class CourseInstructorService {
   delete(id:number){
     return this.http.delete(this.baseUrl + '/course-instructor/delete-courseInstructor/'+id);
   }
+  getselectedmarktype(bnaSubjectNameId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/subject-mark/get-selectedMarkTypeBySubjectNameId?bnaSubjectNameId='+bnaSubjectNameId)
+  }
+
+    
+  findSubjectMark(id: number) {
+    return this.http.get<any>(this.baseUrl + '/subject-mark/get-subjectmarkdetail/' + id);
+  }
+
 }
