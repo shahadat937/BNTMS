@@ -183,7 +183,26 @@ getSelectedRoutineIdFilter(baseSchoolNameId,courseNameId,classPeriodId,courseDur
       })
     );
   } 
+
+  submitCentralExamRoutine(model: any) {
+    return this.http.post<PostResponse>(this.baseUrl + '/class-routine/save-central-exam-classRoutine', model).pipe(
+      map((ClassRoutine: PostResponse) => {
+        if (ClassRoutine) {
+          return ClassRoutine;
+        }
+      })
+    );
+  } 
+
   delete(id:number){
     return this.http.delete(this.baseUrl + '/class-routine/delete-classRoutine/'+id);
+  }
+
+  getselectedmarktype(bnaSubjectNameId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/subject-mark/get-selectedMarkTypeBySubjectNameId?bnaSubjectNameId='+bnaSubjectNameId)
+  }
+
+  findSubjectMark(id: number) {
+    return this.http.get<any>(this.baseUrl + '/subject-mark/get-subjectmarkdetail/' + id);
   }
 }

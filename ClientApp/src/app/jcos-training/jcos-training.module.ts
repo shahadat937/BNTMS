@@ -33,6 +33,8 @@ import { NewIndexNoComponent } from './indexno/new-indexno/new-indexno.component
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ExamApproveListComponent } from './jcoexammark/examapprove-list/examapprove-list.component';
 import { ViewSubjectResultJcosComponent } from './jcostraining/viewsubjectresultjcos-list/viewsubjectresultjcos-list.component';
+import { JsoExamMarkApproveListComponent } from './jso-exam-mark-approve-list/jso-exam-mark-approve-list.component';
+import { ApproveJcoexamemarkComponent } from './approve-jcoexamemark/approve-jcoexamemark.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { ViewSubjectResultJcosComponent } from './jcostraining/viewsubjectresult
      NewCourseInstructorComponent,
      NewIndexNoComponent,
      ExamApproveListComponent,
-     ViewSubjectResultJcosComponent
+     ViewSubjectResultJcosComponent,
+     JsoExamMarkApproveListComponent,
+     ApproveJcoexamemarkComponent
   ],
   imports: [
     CommonModule,
