@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
   providedIn: 'root'
 })
 export class SharedServiceService {
-
+  groupArrays:{ schoolName: string; courses: any; }[];
   constructor(private router: Router,
     private authService: AuthService,
     private location: Location
@@ -145,4 +145,19 @@ export class SharedServiceService {
     return data.filter(item => item.forceType === forceType).length;
   }
 
+
+  groupBy(arr, keyFn) {
+    const groups = {};
+    arr.forEach(item => {
+      const key = keyFn(item);
+      groups[key] = groups[key] || [];
+      groups[key].push(item);
+    });
+     
+
+   return Object.keys(groups).map((schoolName) => {   
+      return {schoolName,courses: groups[schoolName]
+      };
+    });
+  }
 }

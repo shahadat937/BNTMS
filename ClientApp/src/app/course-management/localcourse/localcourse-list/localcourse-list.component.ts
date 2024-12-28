@@ -140,13 +140,7 @@ export class LocalcourseListComponent extends UnsubscribeOnDestroyAdapter implem
       }, {});
      
       // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((schoolName) => {
-        
-        return {
-          schoolName,
-          courses: groups[schoolName]
-        };
-      });
+      this.groupArrays = this.sharedService.groupBy(this.dataSource.data , courses => courses.baseSchoolName);
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })
