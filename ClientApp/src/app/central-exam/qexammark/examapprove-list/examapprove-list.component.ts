@@ -38,7 +38,7 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
   }
   searchText="";
 
-  displayedExamEvaluationColumns: string[] = ['ser', 'course','subject','date','examStatus', 'markStatus'];
+  displayedExamEvaluationColumns: string[] = ['ser', 'course','subject', 'type','date','examStatus', 'markStatus'];
 
   constructor(private datepipe: DatePipe,private BNAExamMarkService: BNAExamMarkService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
@@ -60,6 +60,7 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
   getQexamApproveList(){
     this.destination="Q-Exam"
     this.BNAExamMarkService.getCentralExamApproveList(this.masterData.coursetype.CentralExam, this.masterData.courseName.QExam).subscribe(res=>{
+      console.log(res);
       this.examList=res;  
     });
   }

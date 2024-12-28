@@ -42,14 +42,14 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     selectedSubjectNameByCourseNameId:SelectedModel[];
     selectedmarkremarks:SelectedModel[];
     getTotalMarkAndPassMark:BNASubjectName;
-    totalMark: string;
+    totalMark: number;
     baseSchoolNameId:number;
     classRoutineId:number;
     courseNameId:any;
     courseTypeId:any;
     subjectPassMark:any;
     bnaSubjectNameId:number;
-    passMarkBna:string;
+    passMarkBna:number;
     subjectMarkList:SubjectMark[]
     isShown: boolean = false ;
     selectedCourseDuration:number;
@@ -160,7 +160,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
 
     this.subscription = this.markTypeService.find(Number(markTypeId)).subscribe(res => {   
       // console.log("D", res);    
-      // this.markTypeName = res.typeName;
+      this.markTypeName = res.typeName;
       this.onSubjectMarkSelectionGetPassMark();
       this.getselectedtraineebytype();
     });
@@ -176,7 +176,10 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     this.subscription = this.subjectMarkService.find(subjectMarkId).subscribe(res => {
       this.subjectPassMark = res.passMark;
       var mark = res.mark;
+      this.passMarkBna = res.passMark;
+      this.totalMark = res.mark;
 
+      console.log(res);
       this.BNAExamMarkForm.get('totalMark')?.setValue(mark);
       this.BNAExamMarkForm.get('passMark')?.setValue(this.subjectPassMark);
     });

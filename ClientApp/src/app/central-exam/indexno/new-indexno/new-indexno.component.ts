@@ -66,6 +66,7 @@ export class NewIndexNoComponent extends UnsubscribeOnDestroyAdapter implements 
   }
 
   searchText="";
+  warningMessage = "";
 
   displayedColumnsRoutine: string[] = ['ser','bnaSubjectName','date','timeDuration', 'actions'];
    dataSource: MatTableDataSource<ClassRoutine> = new MatTableDataSource();
@@ -194,15 +195,18 @@ export class NewIndexNoComponent extends UnsubscribeOnDestroyAdapter implements 
 
   onCourseNameSelectionChangeGetSubjectList(dropdown){
     if (dropdown.isUserInput) {
-     this.isShown=true;
+    
       var courseNameArr = dropdown.source.value.split('_');
       this.courseDurationId = courseNameArr[0];
       this.courseNameId = courseNameArr[1];
-      this.AttendanceForm.get('courseNameId').setValue(this.courseNameId);
-      this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.AttendanceForm.get('courseNameId')?.setValue(this.courseNameId);
+      this.AttendanceForm.get('courseDurationId')?.setValue(this.courseDurationId);
 
       this.traineeNominationService.getTestTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res => {
+        this.warningMessage = ""
         this.traineeList = res;
+        this.isShown= res.length? true: false;
+        if(!this.isShown) this.warningMessage = "No nominees found!"
         this.clearList();
         this.getTraineeListonClick();
       });

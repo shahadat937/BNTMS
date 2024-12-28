@@ -575,6 +575,10 @@ const routes: Routes = [
     path: 'qexammarkentry-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId', 
     component: NewCentralExamMarkEntry 
   },
+  { 
+    path: 'qexammarkentry-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId/:markTypeId/:subjectMarkId', 
+    component: NewCentralExamMarkEntry 
+  },
 
   { 
     path: 'submitqexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId', 
@@ -582,6 +586,10 @@ const routes: Routes = [
   },
   { 
     path: 'submitqexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId/:courseTypeId', 
+    component: FinalCentralExamMarkEntry 
+  },
+  { 
+    path: 'submitqexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:branchId/:bnaSubjectNameId/:courseTypeId/:markTypeId/:subjectMarkId', 
     component: FinalCentralExamMarkEntry 
   },
   
