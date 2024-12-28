@@ -34,6 +34,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ExamApproveListComponent } from './jcoexammark/examapprove-list/examapprove-list.component';
 import { ViewSubjectResultJcosComponent } from './jcostraining/viewsubjectresultjcos-list/viewsubjectresultjcos-list.component';
 import { JsoExamMarkApproveListComponent } from './jso-exam-mark-approve-list/jso-exam-mark-approve-list.component';
+import { ApproveJcoexamemarkComponent } from './approve-jcoexamemark/approve-jcoexamemark.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { JsoExamMarkApproveListComponent } from './jso-exam-mark-approve-list/js
      NewIndexNoComponent,
      ExamApproveListComponent,
      ViewSubjectResultJcosComponent,
-     JsoExamMarkApproveListComponent
+     JsoExamMarkApproveListComponent,
+     ApproveJcoexamemarkComponent
   ],
   imports: [
     CommonModule,
