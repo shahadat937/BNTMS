@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using SchoolManagement.Api.Models;
 using SchoolManagement.Application;
 using SchoolManagement.Application.DTOs.CourseDurations;
 using SchoolManagement.Application.Features.CourseDurations.Requests.Commands;
@@ -27,7 +28,22 @@ public class CourseDurationController : ControllerBase
         return Ok(CourseDurations);
     }
 
-    
+    [HttpGet("get-courseDurationsbybasename")]
+    public async Task<IActionResult> GetCourseDurationsByBaseName([FromQuery] int baseSchoolNameId, [FromQuery] QueryParams queryParams)
+    {
+        var request = new GetCourseDurationListBySchoolRequest
+        {
+            BaseSchoolNameId = baseSchoolNameId,
+            QueryParams = queryParams
+        };
+
+        var result = await _mediator.Send(request);
+        return Ok(result);
+    }
+
+
+
+
 
     [HttpGet]
     [Route("get-courseDurationDetail/{id}")]
