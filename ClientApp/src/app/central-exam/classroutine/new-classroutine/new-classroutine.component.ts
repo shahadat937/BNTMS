@@ -14,8 +14,8 @@ import { BNASubjectNameService } from '../../service/BNASubjectName.service'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SubjectMarkService } from '../../service/SubjectMark.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classroutine',
@@ -219,13 +219,14 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
         
       })
       this.ClassRoutineService.getQexamRoutine(courseDurationId).subscribe(response => {     
+        console.log(response);
         this.qexamRoutineList=response;
 
         for(let i=0;i<=this.qexamRoutineList.length;i++){
 
          }
  
-         this.displayedColumns =[...Object.keys(this.qexamRoutineList[0])];
+         this.displayedColumns =[...Object.keys(this.qexamRoutineList[0]).filter(column => column !== 'menuPosition')];
          
  
       })
@@ -364,8 +365,10 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
         });
+        this.loading=false;
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
     }
   }

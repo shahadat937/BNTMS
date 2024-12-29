@@ -142,8 +142,8 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
       this.courseNameId = courseNameArr[1];
 
 
-      this.AttendanceForm.get('courseNameId').setValue(this.courseNameId);
-      this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.AttendanceForm.get('courseNameId')?.setValue(this.courseNameId);
+      this.AttendanceForm.get('courseDurationId')?.setValue(this.courseDurationId);
 
       // this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
       //   this.selectedSubjectNameByCourseNameId = res;
@@ -152,7 +152,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
 
         this.isLoading = true;
         this.classRoutineService.getClassRoutinesByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseDurationId).subscribe(response => {
-            
+          console.log(response);
           this.dataSource.data = response.items.filter(x=>x.attendanceComplete===0); 
           this.paging.length = response.totalItemsCount    
           this.isLoading = false;
