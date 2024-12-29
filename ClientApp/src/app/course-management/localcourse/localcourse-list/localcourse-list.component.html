@@ -108,65 +108,65 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <ng-container *ngFor="let data of groupArrays;let i= index;">
+                                            <ng-container *ngFor="let data of  sharedService.groupedData;let i= index;">
                                                 <tr>
-                                                    <td class="cl-srl" [attr.rowspan]="data.courses.length + 1">{{data.schoolName}}</td>
+                                                    <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey}}</td>
                                                 </tr>
-                                                <tr *ngFor="let number of data.courses;"  [ngStyle]="{'background-color': number.courseDurationId == index ? 'rgb(172 235 155)' : ''}">
+                                                <tr *ngFor="let course of data.groupedItems;"  [ngStyle]="{'background-color': course.courseDurationId == index ? 'rgb(172 235 155)' : ''}">
                                                     <td class="course-name-col">
-                                                        {{getDateComparision(number)}}
-                                                        {{number.course? number.course : number.courseName }} - {{number.courseTitle}}
+                                                        {{getDateComparision(course)}}
+                                                        {{course.course? course.course : course.courseName }} - {{course.courseTitle}}
                                                        
                                                         <span *ngIf="passOutStatus === 1" style="color:red;font-weight:bold;"> (Passing Out)</span>
                                                     </td>
                                                     <!-- <td>
-                                                  {{number.noOfCandidates}}
-                                                  <a [routerLink]="['/admin/dashboard/traineenomination-list', number.courseDurationId]" style="color: green;text-decoration: underline; font-weight: bold;">{{getTraineeNominationsByCourseDurationId(number.courseDurationId)}}</a>
+                                                  {{course.noOfCandidates}}
+                                                  <a [routerLink]="['/admin/dashboard/traineenomination-list', course.courseDurationId]" style="color: green;text-decoration: underline; font-weight: bold;">{{getTraineeNominationsByCourseDurationId(course.courseDurationId)}}</a>
                                                 </td> -->
-                                                    <!-- <td>{{number.professional}}</td>
-                                                <td>{{number.nbcd}}</td> -->
-                                                    <td>{{number.durationFrom | date:'mediumDate'}}</td>
-                                                    <td>{{number.durationTo | date:'mediumDate'}}</td>
+                                                    <!-- <td>{{course.professional}}</td>
+                                                <td>{{course.nbcd}}</td> -->
+                                                    <td>{{course.durationFrom | date:'mediumDate'}}</td>
+                                                    <td>{{course.durationTo | date:'mediumDate'}}</td>
         
                                                     <td>
-                                                        <button *ngIf="number.courseSyllabus" mat-icon-button class="btn-tbl-view" title="View Course Syllabus" (click)="GetIndexValue(number.courseDurationId)">
-                                                            <a [href]='this.fileUrl+number.courseSyllabus' target='_blank'><mat-icon aria-label="Edit" class="col-white">picture_as_pdf</mat-icon></a>
+                                                        <button *ngIf="course.courseSyllabus" mat-icon-button class="btn-tbl-view" title="View Course Syllabus" (click)="GetIndexValue(course.courseDurationId)">
+                                                            <a [href]='this.fileUrl+course.courseSyllabus' target='_blank'><mat-icon aria-label="Edit" class="col-white">picture_as_pdf</mat-icon></a>
                                                         </button>
-                                                        <button mat-icon-button class="btn-tbl-view" title="View Course Details" [routerLink]="['/admin/dashboard/runningcourse-details',number.courseDurationId,100]" (click)="GetIndexValue(number.courseDurationId)">
+                                                        <button mat-icon-button class="btn-tbl-view" title="View Course Details" [routerLink]="['/admin/dashboard/runningcourse-details',course.courseDurationId,100]" (click)="GetIndexValue(course.courseDurationId)">
                                                             <!--100 for master admin-->
                                                             <mat-icon aria-label="Edit" class="col-white">visibility</mat-icon>
                                                         </button>
                                                         <button mat-icon-button color="accent" title="Trainee Mark List" class="btn-tbl-view"
-                                                                [routerLink]="['/course-management/marklistbycourse-list', number.courseDurationId]" (click)="GetIndexValue(number.courseDurationId)">
+                                                                [routerLink]="['/course-management/marklistbycourse-list', course.courseDurationId]" (click)="GetIndexValue(course.courseDurationId)">
                                                             <mat-icon mat-icon aria-label="Edit" class="col-white">toc</mat-icon>
                                                         </button>
                                                         <button  mat-icon-button color="accent" title="Course Routine List" class="btn-tbl-view"
-                                                                [routerLink]="['/course-management/routinebycourse-list', number.baseSchoolNameId, number.courseNameId, number.courseDurationId]" (click)="GetIndexValue(number.courseDurationId)">
+                                                                [routerLink]="['/course-management/routinebycourse-list', course.baseSchoolNameId, course.courseNameId, course.courseDurationId]" (click)="GetIndexValue(course.courseDurationId)">
                                                             <!-- <mat-icon aria-label="Edit" class="col-white">book</mat-icon> -->
                                                             <img src="../../../assets/images/app-icon/routine.png" class="routine-icon" />
                                                         </button>
-                                                        <button  mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/course-management/add-traineenomination', number.courseDurationId]" (click)="GetIndexValue(number.courseDurationId)">
+                                                        <button  mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/course-management/add-traineenomination', course.courseDurationId]" (click)="GetIndexValue(course.courseDurationId)">
                                                             <!-- <mat-icon aria-label="Edit" class="col-white">supervisor_account</mat-icon> -->
                                                             <img src="../../../assets/images/app-icon/biodata.png" class="biodata-icon" />
                                                         </button>
                                                         <button mat-icon-button color="accent" title="Course Subject List" class="btn-tbl-view"
-                                                                [routerLink]="['/course-management/view-subjectbyschoolandcourse', number.baseSchoolNameId, number.courseNameId, number.courseDurationId]" (click)="GetIndexValue(number.courseDurationId)">
+                                                                [routerLink]="['/course-management/view-subjectbyschoolandcourse', course.baseSchoolNameId, course.courseNameId, course.courseDurationId]" (click)="GetIndexValue(course.courseDurationId)">
                                                             <mat-icon aria-label="Edit" class="col-white">book</mat-icon>
                                                         </button>
         
-                                                        <button mat-icon-button class="btn-tbl-nomination" title="Exam Status" [routerLink]="['/admin/dashboard/view-examstatusbysubjectlist', number.baseSchoolNameId, number.courseNameId, number.courseDurationId]" (click)="GetIndexValue(number.courseDurationId)">
+                                                        <button mat-icon-button class="btn-tbl-nomination" title="Exam Status" [routerLink]="['/admin/dashboard/view-examstatusbysubjectlist', course.baseSchoolNameId, course.courseNameId, course.courseDurationId]" (click)="GetIndexValue(course.courseDurationId)">
                                                             <!-- <mat-icon aria-label="Edit" class="col-white">assessment</mat-icon> -->
                                                             <img src="../../../assets/images/app-icon/exam.png" class="exam-icon" />
                                                         </button>
         
         
                                                         <button mat-icon-button color="accent" title="Edit" class="btn-tbl-edit"
-                                                                [routerLink]="['/course-management/update-localcourse', number.courseDurationId, number.courseTypeId]" (click)="GetIndexValue(number.courseDurationId)">
+                                                                [routerLink]="['/course-management/update-localcourse', course.courseDurationId, course.courseTypeId]" (click)="GetIndexValue(course.courseDurationId)">
                                                             <mat-icon  aria-label="Edit" class="col-white">edit</mat-icon>
                                                         </button>
         
                                                         <button mat-icon-button color="accent" title="Delete" class="btn-tbl-delete btn-custom" (click)="$event.stopPropagation()"
-                                                                (click)="deleteItem(number)" (click)="GetIndexValue(number.courseDurationId)">
+                                                                (click)="deleteItem(course)" (click)="GetIndexValue(course.courseDurationId)">
                                                             <mat-icon aria-label="Delete" class="col-white">delete</mat-icon>
                                                         </button>
                                                     </td>
