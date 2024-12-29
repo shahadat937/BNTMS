@@ -81,7 +81,7 @@
                         <button *ngIf="courseNameId == this.masterData.courseName.JCOsTraining" mat-raised-button class="custom-btn courseplan-btn"  [routerLink]="['/admin/dashboard/jcoexammarkentry-list/',traineeId,element.courseDurationId,element.courseNameId,this.masterData.coursetype.CentralExam,element.classRoutineId,element.bnaSubjectNameId]">
                           Mark Submit
                         </button> -->
-                        <button mat-raised-button class="custom-btn courseplan-btn"  [routerLink]="['/staff-collage/approve-staffcollegemark/',element.courseDurationId,element.courseNameId,this.masterData.coursetype.CentralExam,element.classRoutineId,element.bnaSubjectNameId]">
+                        <button mat-raised-button class="custom-btn courseplan-btn"  [routerLink]="['/staff-collage/approve-staffcollegemark/',element.courseDurationId,element.courseNameId,this.masterData.coursetype.CentralExam,element.classRoutineId,element.bnaSubjectNameId, element.markTypeId, element.subjectMarkId]">
                           Approve
                         </button>
                       </span>

@@ -39,6 +39,10 @@ const routes: Routes = [
     path: 'approve-staffcollegemark/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:bnaSubjectNameId',
     component: QExamMarkApproveComponent,
   },
+  {
+    path: 'approve-staffcollegemark/:courseDurationId/:courseNameId/:courseTypeId/:classRoutineId/:bnaSubjectNameId/:markTypeId/:subjectMarkId',
+    component: QExamMarkApproveComponent,
+  },
 
   {
     path: 'add-subjectinstructor',
