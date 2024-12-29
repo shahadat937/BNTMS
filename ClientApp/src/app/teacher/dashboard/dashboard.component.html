@@ -68,13 +68,13 @@
                     </tr>
                   </table>
                   <div class="row central-exam-btn">
-                    <div *ngIf="qexamCount == 1" class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <div *ngIf="qexamCount >= 1" class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                       <button [routerLink]="['/admin/dashboard/centralexammarkentry-list',traineeId,this.masterData.coursetype.CentralExam,this.masterData.courseName.QExam]" class="qexam-btn" mat-flat-button color="primary">Q-Exam Mark</button>
                     </div>
-                    <div *ngIf="jcoxmCount == 1" class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <div *ngIf="jcoxmCount >= 1" class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                       <button [routerLink]="['/admin/dashboard/centralexammarkentry-list',traineeId,this.masterData.coursetype.CentralExam,this.masterData.courseName.JCOsTraining]" class="jcoexam-btn" mat-flat-button color="primary">JCO Exam Mark</button>
                     </div>
-                    <div *ngIf="stuffxmCount == 1" class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <div *ngIf="stuffxmCount >= 1" class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                       <button [routerLink]="['/admin/dashboard/centralexammarkentry-list',traineeId,this.masterData.coursetype.CentralExam,this.masterData.courseName.StaffCollage]" class="stuffexam-btn" mat-flat-button color="primary">Stuff Exam Mark</button>
                     </div>
                   </div>

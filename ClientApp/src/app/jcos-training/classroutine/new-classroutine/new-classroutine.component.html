@@ -51,20 +51,30 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Subject Name</mat-label>                        
-                        <mat-select formControlName="bnaSubjectNameId">
-                          <input type="text" 
-                      style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
-                      id="selectRank" 
-                      (keydown.space)="$event.stopPropagation()"
-                      (input)="filterBySubjectName($event.target.value)"
-                      placeholder="Search">
+                        <mat-select formControlName="subjectName">
                           <mat-option  value="0">--Select--</mat-option >
-                            <mat-option *ngFor="let dropdown of selectedSubjectNameByCourseNameId" [value]="dropdown.value" >
+                            <mat-option *ngFor="let dropdown of selectedSubjectNameByCourseNameId" [value]="dropdown" (onSelectionChange)="onSubjectNameSelectionChangeGet($event)">
                                 {{dropdown.text}}  
                               </mat-option>                          
                         </mat-select>
-                        <mat-error *ngIf="ClassRoutineForm.get('bnaSubjectNameId').hasError('required')">
+                        <mat-error *ngIf="ClassRoutineForm.get('subjectName').hasError('required')">
                           Subject Name is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Mark Type</mat-label>                        
+                        <mat-select formControlName="subjectMarkId"
+                        >
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectMarkType" [value]="dropdown.value" (onSelectionChange)="onSubjectMarkSelectionGetMarkType($event)" >
+                                {{dropdown.text}}  
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="ClassRoutineForm.get('subjectMarkId').hasError('required')">
+                          Mark Type is Required!
                         </mat-error>
                     </mat-form-field>
                   </div>

@@ -594,12 +594,12 @@ const routes: Routes = [
   },
   
   { 
-    path: 'jcoexammarkentry-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:saylorBranchId/:saylorSubBranchId/:classRoutineId/:bnaSubjectNameId', 
+    path: 'jcoexammarkentry-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:saylorBranchId/:saylorSubBranchId/:classRoutineId/:bnaSubjectNameId/:markTypeId/:subjectMarkId', 
     component: NewCentralExamMarkEntry 
   },
 
   { 
-    path: 'submitjcoexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:saylorBranchId/:saylorSubBranchId/:classRoutineId/:bnaSubjectNameId', 
+    path: 'submitjcoexammark-list/:traineeId/:courseDurationId/:courseNameId/:courseTypeId/:saylorBranchId/:saylorSubBranchId/:classRoutineId/:bnaSubjectNameId/:markTypeId/:subjectMarkId', 
     component: FinalCentralExamMarkEntry 
   },
 

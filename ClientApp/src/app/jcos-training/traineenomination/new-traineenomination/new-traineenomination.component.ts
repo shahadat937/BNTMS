@@ -363,6 +363,11 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
       })
     }else {
       this.loading=true;
+      if(!this.TraineeNominationForm.value.courseDurationId && !this.TraineeNominationForm.value.courseNameId ){
+        this.TraineeNominationForm.value.courseDurationId = this.courseDurationId 
+        this.TraineeNominationForm.value.courseNameId = this.courseNameId 
+        
+      }
       this.subscription = this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {

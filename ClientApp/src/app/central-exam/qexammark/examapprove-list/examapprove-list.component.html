@@ -77,7 +77,7 @@
                   <ng-container matColumnDef="markStatus">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Result Submission </mat-header-cell>
                     <mat-cell *matCellDef="let element" >
-                      <span class="mark-submit" *ngIf="element.resultSubmissionStatus === 1"> 
+                      <span class="mark-submit" *ngIf="element.resultSubmissionStatus === 1 "> 
                         <button mat-raised-button class="custom-btn courseplan-btn"  [routerLink]="['/central-exam/approve-qexamemark/',element.courseDurationId,element.courseNameId,this.masterData.coursetype.CentralExam,element.classRoutineId,element.branchId,element.bnaSubjectNameId, element.subjectMarkId]">
                           Mark Submit
                         </button>
