@@ -156,7 +156,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
       this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Deactive This Item').subscribe(result => {
         if (result) {
           this.CourseDurationService.deactiveCourseDuration(id).subscribe(() => {
-            this.getCourseDurations();
+            // this.getCourseDurations();
             this.snackBar.open('Information Deactive Successfully ', '', {
               duration: 3000,
               verticalPosition: 'bottom',
