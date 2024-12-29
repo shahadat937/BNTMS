@@ -7,7 +7,11 @@ import { Location } from '@angular/common';
   providedIn: 'root'
 })
 export class SharedServiceService {
-  groupArrays:{ schoolName: string; courses: any; }[];
+  groupedData: { 
+    groupKey: string;        // Represents the name of the group (e.g., school name) 
+    groupedItems: any[];     // Represents the array of items under this group 
+  }[];
+  
   constructor(private router: Router,
     private authService: AuthService,
     private location: Location
@@ -155,8 +159,8 @@ export class SharedServiceService {
     });
      
 
-   return Object.keys(groups).map((schoolName) => {   
-      return {schoolName,courses: groups[schoolName]
+   return Object.keys(groups).map((groupKey) => {   
+      return {groupKey,groupedItems: groups[groupKey]
       };
     });
   }
