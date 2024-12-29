@@ -150,6 +150,12 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
     this.searchText = searchText;
     this.getCourseDurations();
   }  
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
   inActiveItem(row){
     const id = row.courseDurationId;    
     if(row.isActive == true){
@@ -164,7 +170,9 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
               panelClass: 'snackbar-warning'
             });
           })
+          this.reloadCurrentRoute();
         }
+        
       })
     }
   }

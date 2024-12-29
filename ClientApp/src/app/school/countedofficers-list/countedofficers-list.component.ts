@@ -81,51 +81,22 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
             (courses) => courses.course
           );
           console.log(this.sharedService.groupedData)
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName = courses.schoolName;
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
-    
-          // Edit: to add it in the array format instead
-          this.groupCOArrays = Object.keys(groups).map((schoolName) => {
-            return {
-              schoolName,
-              courses: groups[schoolName]
-            };
-          });
+          
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.officer){
         this.destination = "Officer";
         this.subscription = this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.officer, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course
+          );
+          console.log(this.sharedService.groupedData)
           this.showSpinner = true;
   
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName = courses.schoolName;
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
-
-          console.log(groups);
-    
-          // Edit: to add it in the array format instead
-          this.groupCOArrays = Object.keys(groups).map((schoolName) => {
-            return {
-              schoolName,
-              courses: groups[schoolName]
-            };
-          });
-          console.log(this.groupCOArrays)
+          
+         
         })
       
       }
@@ -134,23 +105,11 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
         this.subscription = this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.sailor, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
   
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName = courses.schoolName;
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
-    
-          // Edit: to add it in the array format instead
-          this.groupCOArrays = Object.keys(groups).map((schoolName) => {
-            return {
-              schoolName,
-              courses: groups[schoolName]
-            };
-          });
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course
+          );
+          console.log(this.sharedService.groupedData)
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.civil){
@@ -158,23 +117,11 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
         this.subscription = this.schoolDashboardService.getCourseTotalOfficerListByBase(currentDateTime, this.masterData.TraineeStatus.civil, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
   
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName = courses.schoolName;
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
-    
-          // Edit: to add it in the array format instead
-          this.groupCOArrays = Object.keys(groups).map((schoolName) => {
-            return {
-              schoolName,
-              courses: groups[schoolName]
-            };
-          });
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course
+          );
+          console.log(this.sharedService.groupedData)
         })
       }
       else{
@@ -187,23 +134,7 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
             (courses) => courses.course
           );
           console.log(this.sharedService.groupedData)
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName = courses.schoolName;
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
-    
-          // Edit: to add it in the array format instead
-          this.groupCOArrays = Object.keys(groups).map((schoolName) => {
-            return {
-              schoolName,
-              courses: groups[schoolName]
-            };
-          });
+          
         })
       }
     }else{
@@ -335,10 +266,6 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
             this.dataSource.data,
             (courses) => courses.course
           );
-          console.log(this.sharedService.groupedData)
-          
-    
-            
         })
       }
     }
