@@ -49,6 +49,8 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
   courseDurationId:any;
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
   isLoading = false;
+  selectMarkType : any;
+  subscription : any;
   
     
   displayedColumnsList: string[];
@@ -157,6 +159,8 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
       classCountPeriod:[],
       subjectCountPeriod:[],
       date:[], 
+      subjectMarkId: [''],
+      markTypeId : [''],
       classLocation:[''],
       isApproved:[true],
       approvedDate:[],
@@ -194,6 +198,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
 
       this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
       this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
+      
 
       this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
@@ -226,9 +231,27 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
 
   onSubjectNameSelectionChangeGet(dropdown){
     var bnaSubjectNameId = dropdown.source.value.value;
-    this.ClassRoutineForm.get('subjectName').setValue(bnaSubjectNameId);
-    this.ClassRoutineForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
+    this.ClassRoutineForm.get('subjectName')?.setValue(bnaSubjectNameId);
+    this.ClassRoutineForm.get('bnaSubjectNameId')?.setValue(bnaSubjectNameId);
+
+    this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
+      // this.selectedmarktype[bnaSubjectNameId]=res;
+      this.selectMarkType=res
+      console.log("Type",res);
+    });
 }
+
+onSubjectMarkSelectionGetMarkType(event){
+
+  let subjectMarkId = event.source.value;
+ 
+    this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
+     console.log(res);
+ 
+     this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
+    });
+ 
+  }
 
 
   getselectedbaseschools(){
@@ -316,7 +339,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
       })
     }else {
       this.loading=true;
-      this.ClassRoutineService.submit(this.ClassRoutineForm.value).subscribe(response => {
+      this.ClassRoutineService.submitCentralExamRoutine(this.ClassRoutineForm.value).subscribe(response => {
         
         this.reloadCurrentRoute();
         this.snackBar.open('Information Inserted Successfully ', '', {

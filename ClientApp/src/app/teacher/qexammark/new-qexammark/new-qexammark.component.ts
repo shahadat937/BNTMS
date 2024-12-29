@@ -163,11 +163,15 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     });
  
     if(this.courseNameId == this.masterData.courseName.JCOsTraining){
-      this.subscription = this.traineeNominationService.getNewTraineeNominationsForJcoExamByBranch(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res => {
-        this.traineeList = res;
-        this.clearList()
-        this.getTraineeListonClick();
-      });
+      // this.subscription = this.traineeNominationService.getNewTraineeNominationsForJcoExamByBranch(courseDurationId,saylorBranchId,saylorSubBranchId).subscribe(res => {
+      //   console.log(courseDurationId,saylorBranchId,saylorSubBranchId)
+      //   this.traineeList = res;
+      //   this.clearList()
+      //   this.getTraineeListonClick();
+      // });
+
+      this.getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,this.courseNameId,bnaSubjectNameId,classRoutineId);
+
     }else if (this.courseTypeId == this.masterData.coursetype.CentralExam){
       this.getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,this.courseNameId,bnaSubjectNameId,classRoutineId);
     }else{

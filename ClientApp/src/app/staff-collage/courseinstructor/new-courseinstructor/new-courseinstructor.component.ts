@@ -58,6 +58,7 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
+  selectMarkType : any;
 
   displayedColumns: string[] = ['ser','bnaSubjectName', 'trainee', 'status', 'actions'];
   subscription: any;
@@ -124,6 +125,8 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
       courseName: [''],
       traineeName: [''],
       courseNameId: [''],
+      subjectMarkId :[''],
+      markTypeId : [''],
       status: [],
       isActive: [true],
     })
@@ -276,7 +279,25 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
     this.subscription = this.CourseInstructorService.getCourseInstructorByCourseDurationIdANdSubjectNameId(bnaSubjectNameId, courseDurationId, courseNameId).subscribe(res => {
         this.GetInstructorByParameters = res;
       });
+
+      this.subscription = this.CourseInstructorService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
+        // this.selectedmarktype[bnaSubjectNameId]=res;
+        this.selectMarkType=res
+        console.log("Type",res);
+      });
   }
+
+  onSubjectMarkSelectionGetMarkType(event){
+
+    let subjectMarkId = event.source.value;
+   
+      this.CourseInstructorService.findSubjectMark(subjectMarkId).subscribe(res=>{
+       console.log(res);
+   
+       this.CourseInstructorForm.get('markTypeId')?.setValue(res.markTypeId);
+      });
+   
+    }
   GetInstructorListAfterDelete(baseSchoolNameId, bnaSubjectNameId, courseModuleId, courseNameId, courseDurationId) {
     this.isShown = true;
     if (baseSchoolNameId != null && bnaSubjectNameId != null && courseModuleId != null && courseNameId != null) {
