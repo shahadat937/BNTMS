@@ -165,7 +165,7 @@
 
                   <ng-container matColumnDef="bnaSubjectName">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Subject Name </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.bnaSubjectName}} </mat-cell>
+                    <mat-cell *matCellDef="let element"> {{element.bnaSubjectName}} ({{element.markType}})</mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="date">

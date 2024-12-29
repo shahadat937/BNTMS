@@ -125,7 +125,7 @@ export class NewCentralExamComponent extends UnsubscribeOnDestroyAdapter impleme
       isActive: [true],    
     })
     //AutoComplete for courseName
-    this.CourseDurationForm.get('course').valueChanges
+    this.CourseDurationForm.get('course')?.valueChanges
           .subscribe(value => {
            
               this.getSelectedCourseAutocomplete(value);
@@ -134,8 +134,8 @@ export class NewCentralExamComponent extends UnsubscribeOnDestroyAdapter impleme
   //AutoComplete for courseName
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value 
-    this.CourseDurationForm.get('courseNameId').setValue(item.value);
-    this.CourseDurationForm.get('course').setValue(item.text);
+    this.CourseDurationForm.get('courseNameId')?.setValue(item.value);
+    this.CourseDurationForm.get('course')?.setValue(item.text);
   }
   //AutoComplete for courseName
   getSelectedCourseAutocomplete(cName){
@@ -210,7 +210,13 @@ export class NewCentralExamComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   onSubmit() {
-    const id = this.CourseDurationForm.get('courseDurationId').value;  
+
+    const durationTo = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationTo')?.value)
+    const durationFrom = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationFrom')?.value)
+      this.CourseDurationForm.get('durationFrom')?.setValue(durationFrom);
+      this.CourseDurationForm.get('durationTo')?.setValue(durationTo);
+
+    const id = this.CourseDurationForm.get('courseDurationId')?.value;  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

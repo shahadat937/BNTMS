@@ -68,7 +68,6 @@ export class CentralExamComponent implements OnInit,OnDestroy {
 
   getExamList(traineeId,courseTypeId,courseNameId){
     this.subscription = this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,courseTypeId,courseNameId).subscribe(res=>{
-      console.log(res);
       this.examList=res;  
     });
   }

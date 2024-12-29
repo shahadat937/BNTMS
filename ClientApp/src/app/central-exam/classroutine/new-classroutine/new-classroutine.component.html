@@ -60,7 +60,7 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Subject Name</mat-label>                        
-                        <mat-select formControlName="subjectName">
+                        <mat-select required formControlName="subjectName">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectedSubjectValue" [value]="dropdown" (onSelectionChange)="onSubjectNameSelectionChangeGet($event)">
                                 {{dropdown.text}}  
@@ -74,7 +74,7 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Mark Type</mat-label>                        
-                        <mat-select formControlName="subjectMarkId"
+                        <mat-select required formControlName="subjectMarkId"
                         >
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectMarkType" [value]="dropdown.value" (onSelectionChange)="onSubjectMarkSelectionGetMarkType($event)" >
@@ -89,7 +89,7 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Date</mat-label>
-                        <input matInput [matDatepicker]="datepicker" formControlName="date" >
+                        <input required matInput [matDatepicker]="datepicker" formControlName="date" >
                         <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
                        <mat-datepicker #datepicker></mat-datepicker>                                            
                     </mat-form-field>
@@ -98,7 +98,7 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Time Duration</mat-label>
-                      <input matInput formControlName="timeDuration" >
+                      <input required matInput formControlName="timeDuration" >
                       
                     </mat-form-field>
                   </div>

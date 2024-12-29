@@ -7,6 +7,7 @@ namespace SchoolManagement.Domain
         public MarkType()
         {
             SubjectMarks = new HashSet<SubjectMark>();
+            CourseInstructors = new HashSet<CourseInstructor>();
         }
 
         public int MarkTypeId { get; set; }
@@ -17,5 +18,6 @@ namespace SchoolManagement.Domain
         public int? PolicyStatus { get; set; }
 
         public virtual ICollection<SubjectMark> SubjectMarks { get; set; }
+        public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
     }
 }
