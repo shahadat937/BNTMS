@@ -1,10 +1,11 @@
+import { AuthService } from 'src/app/core/service/auth.service';
 import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseDuration} from '../../models/courseduration';
 import {CourseDurationService} from '../../service/courseduration.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from 'src/app/core/service/confirm.service';
 import {MasterData} from 'src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -46,24 +47,35 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
 
   displayedColumns: string[] = ['ser','baseSchoolName','courseName','durationFrom','durationTo', 'actions'];
   dataSource: MatTableDataSource<CourseDuration> = new MatTableDataSource();
-
+  baseSchoolNameId: string | null = null;
+  // dataSource = { data: [] }
 
    selection = new SelectionModel<CourseDuration>(true, []);
 userRole: any;
+  branchId: any;
 
   
-  constructor(@Inject(LOCALE_ID) public locale: string,private datepipe: DatePipe,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
+  constructor(@Inject(LOCALE_ID) public locale: string,private datepipe: DatePipe,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService, private route: ActivatedRoute, private authService: AuthService) {
     super();
   }
 
   ngOnInit() {
     this.currentDateTime =this.datepipe.transform((new Date), 'dd/MM/YYYY');
-    this.getCourseDurations();
+    this.branchId =  this.authService.currentUserValue.branchId 
+    // this.getCourseDurations();
     this.searchSubscription = this.searchSubject.pipe(
       debounceTime(300),
       distinctUntilChanged() 
     ).subscribe(searchText => {
       this.applyFilter(searchText);
+    });
+    this.route.paramMap.subscribe(params => {
+      this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
+      if (this.branchId) {
+        this.getCourseDuraionByBaseName();
+      } else {
+        this.getCourseDurations();
+      }
     });
     
   }
@@ -118,6 +130,33 @@ userRole: any;
       //   }
       // }
     })
+  }
+  getCourseDuraionByBaseName() {
+    this.isLoading = true;
+    this.CourseDurationService.getCourseDuraionByBaseName(this.branchId, this.paging.pageIndex, this.paging.pageSize).subscribe(response => {
+      // this.dataSource.data = response;
+      this.dataSource.data = response.items; 
+      // this gives an object with dates as keys
+      const groups = this.dataSource.data.reduce((groups, courses) => {
+        const schoolName = courses.baseSchoolName;
+        if (!groups[schoolName]) {
+          groups[schoolName] = [];
+        }
+        groups[schoolName].push(courses);
+        return groups;
+      }, {});
+
+      // Edit: to add it in the array format instead
+      this.groupArrays = Object.keys(groups).map((baseSchoolName) => {
+        return {
+          baseSchoolName,
+          courses: groups[baseSchoolName]
+        };
+      });
+
+      this.paging.length = response.totalItemsCount    
+      this.isLoading = false;
+    });
   }
 
   // pageChanged(event: PageEvent) {
