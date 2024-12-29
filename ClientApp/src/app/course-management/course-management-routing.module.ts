@@ -169,6 +169,10 @@ const routes: Routes = [
     path: 'courseactivation-list', 
     component: CourseActivationListComponent,
   },
+  {
+    path: 'courseactivation-list/:baseSchoolNameId', 
+    component: CourseActivationListComponent,
+  },
 
   {
     path: 'courseplancreate-list', 

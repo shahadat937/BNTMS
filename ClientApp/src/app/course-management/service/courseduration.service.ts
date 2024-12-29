@@ -130,6 +130,40 @@ activeCoursePlan(id : number){
       })
     ); 
   }
+  //  getCourseDuraionByBaseName(baseSchoolNameId) {
+  //     return this.http.get<ICourseDurationPagination[]>(this.baseUrl + '/course-duration/get-courseDurationsbybasename?baseSchoolNameId='+baseSchoolNameId).pipe(
+  //       map(response => {  
+  //         return response;
+  //       })
+  //     ); 
+  //   }
+  getCourseDuraionByBaseName(baseSchoolNameId: string, pageNumber: number, pageSize: number) {
+    // Validate pageNumber and pageSize
+    if (pageNumber < 1) {
+      pageNumber = 1; // Set to minimum valid page number
+    }
+  
+    const allowedPageSizes = [5, 10, 15, 20, 25, 50, 100, 200, 500, 1000];
+    if (!allowedPageSizes.includes(pageSize)) {
+      pageSize = 5; // Set to a default page size if invalid
+    }
+  
+    let params = new HttpParams();
+    params = params.append('baseSchoolNameId', baseSchoolNameId);
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+  
+    return this.http.get<ICourseDurationPagination>(this.baseUrl + '/course-duration/get-courseDurationsbybasename', {
+      observe: 'response',
+      params,
+    }).pipe(
+      map((response) => {
+        this.CourseDurations = [...this.CourseDurations, ...response.body.items];
+        this.CourseDurationPagination = response.body;
+        return this.CourseDurationPagination;
+      })
+    );
+  }
   
   find(id: number) {
     return this.http.get<CourseDuration>(this.baseUrl + '/course-duration/get-courseDurationDetail/' + id);
