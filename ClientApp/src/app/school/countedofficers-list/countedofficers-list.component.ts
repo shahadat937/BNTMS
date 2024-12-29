@@ -76,7 +76,11 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
         this.destination = "Foreign Trainee";      
         this.subscription = this.schoolDashboardService.getNominatedForeignTraineeByTypeAndBase(currentDateTime,this.schoolId, this.masterData.OfficerType.Foreign).subscribe(response => {         
           this.Countedlist=response;
-  
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course
+          );
+          console.log(this.sharedService.groupedData)
           // this gives an object with dates as keys
           const groups = this.Countedlist.reduce((groups, courses) => {
             const schoolName = courses.schoolName;
@@ -178,6 +182,11 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
         this.subscription = this.schoolDashboardService.getNominatedTotalTraineeByBaseFromSp(this.branchId).subscribe(response => {         
           this.Countedlist=response;
   
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course
+          );
+          console.log(this.sharedService.groupedData)
           // this gives an object with dates as keys
           const groups = this.Countedlist.reduce((groups, courses) => {
             const schoolName = courses.schoolName;
@@ -203,6 +212,11 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
         this.subscription = this.schoolDashboardService.getnominatedForeignTraineeFromSpRequestBySchoolId(currentDateTime,this.schoolId, this.masterData.OfficerType.Foreign).subscribe(response => {         
           this.Countedlist=response;
   
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course
+          );
+          console.log(this.sharedService.groupedData)
           // this gives an object with dates as keys
           const groups = this.Countedlist.reduce((groups, courses) => {
           const schoolName = courses.course + '-'+ courses.courseTitle;
@@ -229,7 +243,12 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
         this.destination = "Officer";
         this.schoolDashboardService.getrunningCourseTotalOfficerListBySchoolRequest(currentDateTime, this.subscription = this.masterData.TraineeStatus.officer, this.schoolId).subscribe(response => {         
           this.Countedlist=response;
-  
+          
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course
+          );
+          console.log(this.sharedService.groupedData)
           // this gives an object with dates as keys
           const groups = this.Countedlist.reduce((groups, courses) => {
             const schoolName = courses.course + '-'+ courses.courseTitle;
@@ -312,23 +331,12 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
       this.dataSource.paginator = this.InitialOrderpaginator;      
           this.Countedlist=response;
   
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName = courses.course + '-'+ courses.courseTitle;
-              if (!groups[schoolName]) {
-              groups[schoolName] = [];
-                }
-              groups[schoolName].push(courses);
-              return groups;
-            }, {});
-    
-          // Edit: to add it in the array format instead
-            this.groupArrays = Object.keys(groups).map((courseName) => {
-              return {
-            courseName,
-              courses: groups[courseName]
-              };
-              });
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course
+          );
+          console.log(this.sharedService.groupedData)
+          
     
             
         })

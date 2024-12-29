@@ -74,11 +74,11 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <ng-container *ngFor="let data of groupArrays;let i= index;">
+                      <ng-container *ngFor="let data of sharedService.groupedData;let i= index;">
                         <tr>
-                          <td class="cl-srl" [attr.rowspan]="data.courses.length + 1">{{data.courseName}}</td>
+                          <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey}}</td>
                         </tr>
-                        <tr *ngFor="let number of data.courses;">
+                        <tr *ngFor="let number of data.groupedItems;">
                           <td class="course-col">{{number.pno}}</td>
                           <td class="course-col">{{number.name}} </td>
                           <td class="course-col">{{number.position}} </td>
