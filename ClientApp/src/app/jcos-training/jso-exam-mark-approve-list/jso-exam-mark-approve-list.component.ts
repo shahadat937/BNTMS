@@ -3,13 +3,13 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { BNAExamMarkService } from '../../central-exam/service/bnaexammark.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-jso-exam-mark-approve-list',
@@ -45,8 +45,6 @@ export class JsoExamMarkApproveListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   ngOnInit() {
-    
-    
     this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId'); 
     this.courseNameId = Number(this.route.snapshot.paramMap.get('courseNameId'));
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
@@ -55,12 +53,9 @@ export class JsoExamMarkApproveListComponent extends UnsubscribeOnDestroyAdapter
     
   }
 
-  
-  
   getQexamApproveList(){
     this.destination="Q-Exam"
     this.BNAExamMarkService.getCentralExamApproveList(this.masterData.coursetype.CentralExam, this.masterData.courseName.JCOsTraining).subscribe(res=>{
-      console.log(res);
       this.examList=res;  
     });
   }
