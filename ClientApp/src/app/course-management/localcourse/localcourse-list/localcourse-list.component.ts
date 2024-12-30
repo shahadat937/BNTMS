@@ -155,12 +155,13 @@ export class LocalcourseListComponent
   getCourseDurationsByCourseType() {
     this.isLoading = true;
     this.CourseDurationService.getCourseDurationsByCourseType(
-      this.paging.pageIndex,
-      this.paging.pageSize,
+      1,
+      2,
       this.searchText,
       this.courseTypeId,
       this.viewStatus
     ).subscribe((response) => {
+      console.log(response);
       this.dataSource.data = response.items;
       this.sharedService.groupedData = this.sharedService.groupBy(
         this.dataSource.data,
