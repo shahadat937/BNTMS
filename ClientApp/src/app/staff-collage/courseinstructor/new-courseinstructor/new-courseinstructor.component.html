@@ -30,7 +30,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Course Title</mat-label>                        
-                        <mat-select formControlName="courseName">
+                        <mat-select required formControlName="courseName">
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option (onSelectionChange)="onCourseNameSelectionChangeGetSubjectList($event)"  *ngFor="let dropdown of selectedCourseDurationByCourseTypeAndCourseName" [value]="dropdown">
                                 {{dropdown.text}}  
@@ -45,7 +45,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Subject Name</mat-label>                        
-                        <mat-select formControlName="bnaSubjectNameId" (selectionChange)="onModuleSelectionChangeGetInstructorList()">
+                        <mat-select required formControlName="bnaSubjectNameId" (selectionChange)="onModuleSelectionChangeGetInstructorList()">
                           <mat-option  value="0">--Select--</mat-option > 
                           <mat-option *ngFor="let dropdown of selectedSubjectNameByCourseNameId" [value]="dropdown.value">
                                 {{dropdown.text}} 
@@ -57,7 +57,7 @@
                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Mark Type</mat-label>                        
-                        <mat-select formControlName="subjectMarkId"
+                        <mat-select required formControlName="subjectMarkId"
                         >
                           <mat-option  value="0">--Select--</mat-option >
                             <mat-option *ngFor="let dropdown of selectMarkType" [value]="dropdown.value" (onSelectionChange)="onSubjectMarkSelectionGetMarkType($event)" >
@@ -73,7 +73,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Examiner</mat-label>                        
-                      <input formControlName="traineeName" matInput type="text" [matAutocomplete]="auto" />
+                      <input required formControlName="traineeName" matInput type="text" [matAutocomplete]="auto" />
                       <mat-autocomplete #auto="matAutocomplete" >
                         <mat-option *ngFor="let item of filteredOptions" [value]="item" (onSelectionChange)="onTraineeSelectionChanged(item)">
                           {{item.text}}

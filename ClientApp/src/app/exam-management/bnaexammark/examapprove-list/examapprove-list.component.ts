@@ -134,6 +134,11 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
       // Store the original data for resetting the filter
       this.originalGroupArrays = [...this.groupArrays];  // Keep a copy of the original data
     });
+    this.sharedService.groupedData = this.sharedService.groupBy(
+      this.dataSource.data,
+      (courses) => courses.courseTitle && courses.course
+    );
+    console.log(this.sharedService.groupedData)
   }
 
   

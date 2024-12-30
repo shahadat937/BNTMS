@@ -38,7 +38,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            IQueryable<SchoolManagement.Domain.ClassRoutine> ClassRoutines = _ClassRoutineRepository.FilterWithInclude(x =>  String.IsNullOrEmpty(request.QueryParams.SearchText), "CourseName", "CourseDuration", "BnaSubjectName", "ClassType").Where(x=>x.CourseDurationId==request.CourseDurationId);
+            IQueryable<SchoolManagement.Domain.ClassRoutine> ClassRoutines = _ClassRoutineRepository.FilterWithInclude(x =>  String.IsNullOrEmpty(request.QueryParams.SearchText), "CourseName", "CourseDuration", "BnaSubjectName", "ClassType", "MarkType").Where(x=>x.CourseDurationId==request.CourseDurationId);
             var totalCount = ClassRoutines.Count();
             ClassRoutines = ClassRoutines.OrderByDescending(x => x.ClassRoutineId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 
