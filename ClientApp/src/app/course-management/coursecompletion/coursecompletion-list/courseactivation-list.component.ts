@@ -172,6 +172,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
               panelClass: 'snackbar-warning'
             });
           });
+          
           // this.reloadCurrentRoute();
         }
       });
