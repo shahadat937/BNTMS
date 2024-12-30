@@ -113,9 +113,16 @@
                         <!-- <a [routerLink]="['/admin/dashboard/traineenomination-list', number.courseDurationId]" style="color: green;text-decoration: underline; font-weight: bold;">{{getTraineeNominationsByCourseDurationId(number.courseDurationId)}}</a> -->
                       </td>
                       <td>
-                        <button mat-raised-button class="custom-btn courseplan-btn"  (click)="inActiveItem(number)"  (click)="$event.stopPropagation()">{{ number.isCompletedStatus == 0 ? 'Is Completed?' : 'Not Completed' }}</button>
-                       
+                        <button 
+                          mat-raised-button 
+                          class="custom-btn courseplan-btn"  
+                          (click)="inActiveItem(number)"  
+                          (click)="$event.stopPropagation()"
+                        >
+                          {{ number.isCompletedStatus === 0 ? 'Is Completed?' : 'Completed' }}
+                        </button>
                       </td>
+                      
                     </tr>
                   </ng-container>
                 </tbody>

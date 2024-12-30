@@ -156,26 +156,28 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
         this.router.navigate([currentUrl]);
     });
   }
-  inActiveItem(row){
+  inActiveItem(row) {
     const id = row.courseDurationId;    
-    if(row.isActive == true){
+    if (row.isActive) {
       this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Deactive This Item').subscribe(result => {
         if (result) {
           this.CourseDurationService.deactiveCourseDuration(id).subscribe(() => {
            
-            this.snackBar.open('Information Deactive Successfully ', '', {
+            row.isCompletedStatus = 1; 
+  
+            this.snackBar.open('Information Deactive Successfully', '', {
               duration: 3000,
               verticalPosition: 'bottom',
               horizontalPosition: 'right',
               panelClass: 'snackbar-warning'
             });
-          })
-          this.reloadCurrentRoute();
+          });
+          // this.reloadCurrentRoute();
         }
-        
-      })
+      });
     }
   }
+  
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
