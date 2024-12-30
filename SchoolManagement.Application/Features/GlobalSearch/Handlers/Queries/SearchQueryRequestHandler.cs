@@ -4,6 +4,7 @@ using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.Features.GlobalSearch.Requests.Queries;
 using SchoolManagement.Application.Exceptions;
 using System;
+using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,10 @@ using SchoolManagement.Application.DTOs.GlobalSearch;
 using AutoMapper.QueryableExtensions.Impl;
 using SchoolManagement.Application.Features.TraineeNominations.Handlers.Queries;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Queries;
+using Microsoft.AspNetCore.Http;
+using SchoolManagement.Application.Constants;
+using SchoolManagement.Domain;
+using SchoolManagement.Application.Contracts.Identity;
 
 namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 {
@@ -20,11 +25,17 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
     {
         private readonly ISchoolManagementRepository<SchoolManagement.Domain.TraineeNomination> _repository;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserService _userService;
 
-        public SearchQueryRequestHandler(ISchoolManagementRepository<Domain.TraineeNomination> repository, IMapper mapper)
+        public SearchQueryRequestHandler(ISchoolManagementRepository<Domain.TraineeNomination> repository, IMapper mapper,
+            IHttpContextAccessor httpContextAccessor,
+            IUserService userService)
         {
             _repository = repository;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+            _userService = userService;
         }
 
         public async Task<object> Handle(SearchQueryRequest request, CancellationToken cancellationToken)
@@ -37,14 +48,39 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
             // Get which type of data to get
             //bool needTrainee = request.Query.Filters.Where(x => x == "trainee").Any();
             //bool needInstructor = request.Query.Filters.Where(x => x == "instructor").Any();
-           // bool needCourse = request.Query.Filters.Where(x => x == "course").Any();
+            // bool needCourse = request.Query.Filters.Where(x => x == "course").Any();
+
+
+            // getting the current user and setting the access level
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Uid)?.Value;
+
+            List<string> branchId = new List<string> { "NULL", "NULL", "NULL"};
+            if(userId != null)
+            {
+                var user = await _userService.GetUserById(userId);
+                if(user!=null&&user.SecondLevel!=null)
+                {
+                    branchId[0] = user.SecondLevel.ToString();
+                }
+
+                if(user!=null&&user.ThirdLevel!=null)
+                {
+                    branchId[1] = user.ThirdLevel.ToString();
+                }
+
+                if(user!=null&&user.FourthLevel!=null)
+                {
+                    branchId[2] = user.FourthLevel.ToString();
+                }
+            }
+
 
             if(request.Query.keyword==null)
             {
                 request.Query.keyword = "";
             }
 
-            List<string> queriesForCount = GetQueriesForCount(request.Query.Filters, request.Query.keyword);
+            List<string> queriesForCount = GetQueriesForCount(request.Query.Filters, request.Query.keyword,branchId);
             List<string> queries = GetQueriesForResult(request.Query.Filters, request.Query.keyword);
 
 
@@ -72,7 +108,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
                     continue;
                 }
 
-                string query = queries[i] + $",@startIndex={indexes[0]},@Limit={indexes[1] - indexes[0]}";
+                string query = queries[i] + $",@startIndex={indexes[0]},@Limit={indexes[1] - indexes[0]},@secondLevel={branchId[0]},@thirdLevel={branchId[1]},@fourthLevel={branchId[2]}";
 
                 var queryResult = _repository.ExecWithSqlQuery(query);
                 List<Dictionary<string, object>> rows = queryResult.AsEnumerable()
@@ -91,11 +127,11 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
             return results;
         }
 
-        List<string> GetQueriesForCount(List<string> filters, string keyword)
+        List<string> GetQueriesForCount(List<string> filters, string keyword, List<string> branchId)
         {
-            string traineeCountQuery = $"EXEC [dbo].[spTraineeSearchCount] @query='{keyword}'";
-            string instructorCountQuery = $"EXEC [dbo].[spInstructorSearchCount] @query='{keyword}'";
-            string courseCountQuery = $"EXEC [dbo].[spCourseSearchCount] @query='{keyword}'";
+            string traineeCountQuery = $"EXEC [dbo].[spTraineeSearchCount] @query='{keyword}',@secondLevel={branchId[0]},@thirdLevel={branchId[1]},@fourthLevel={branchId[2]}";
+            string instructorCountQuery = $"EXEC [dbo].[spInstructorSearchCount] @query='{keyword}',@secondLevel={branchId[0]},@thirdLevel={branchId[1]},@fourthLevel={branchId[2]}";
+            string courseCountQuery = $"EXEC [dbo].[spCourseSearchCount] @query='{keyword}',@secondLevel={branchId[0]},@thirdLevel={branchId[1]},@fourthLevel={branchId[2]}";
 
             bool needTrainee = filters.Where(x => x == "trainee").Any()||filters.Count()==0;
             bool needInstructor = filters.Where(x => x == "instructor").Any()||filters.Count()==0;
