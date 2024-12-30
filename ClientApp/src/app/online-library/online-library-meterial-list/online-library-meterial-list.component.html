@@ -77,11 +77,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container *ngFor="let data of groupArrays;let i= index;">
+                  <ng-container *ngFor="let data of sharedService.groupedData;let i= index;">
                     <tr>
-                      <td [attr.rowspan]="data.documentsName.length + 1">{{data.schoolName}}</td>
+                      <td [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey}}</td>
                     </tr>
-                    <tr *ngFor="let number of data.documentsName;">
+                    <tr *ngFor="let number of data.groupedItems;">
                       <td>
                         {{number.documentName}} 
                         <button *ngIf="number.baseSchoolNameId == branchId" mat-icon-button color="accent" class="btn-tbl-edit" 

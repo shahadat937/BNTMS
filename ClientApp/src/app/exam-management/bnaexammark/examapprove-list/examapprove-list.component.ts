@@ -112,28 +112,17 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
     this.destination = "Exam";
     this.BNAExamMarkService.getSchoolExamApproveList(baseSchoolId).subscribe(res => {
       this.examList = res;
-
-      // Group data by composite key
-      const group = this.examList.reduce((groups, item) => {
-        const key = `${item.course} - ${item.courseTitle}`; // Composite key
-        if (!groups[key]) {
-          groups[key] = [];
-        }
-        groups[key].push(item);
-        return groups;
-      }, {});
-
-      // Transform grouped data into an array
-      this.groupArrays = Object.keys(group).map((key) => ({
-        key,
-        courses: group[key]
-      }));
-
-      console.log(this.groupArrays);
-
+      this.dataSource = new MatTableDataSource(res);
+   
+          this.sharedService.groupedData = this.sharedService.groupBy(
+            this.dataSource.data,
+            (courses) => courses.course + '-'+ courses.courseTitle
+          );
+          console.log(this.sharedService.groupedData)
       // Store the original data for resetting the filter
       this.originalGroupArrays = [...this.groupArrays];  // Keep a copy of the original data
     });
+    
   }
 
   

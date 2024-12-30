@@ -38,6 +38,7 @@ export class WeeklyAttendanceListComponent implements OnInit, OnDestroy {
 
    selection = new SelectionModel<BNASubjectName>(true, []);
   subscription: any;
+  dataSource: any;
 
   
   constructor(private snackBar: MatSnackBar,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute, public sharedService: SharedServiceService) { }
@@ -59,23 +60,13 @@ export class WeeklyAttendanceListComponent implements OnInit, OnDestroy {
     });
     this.subscription = this.studentDashboardService.getAttendanceByTraineeAndCourseDuration(traineeId,courseDurationId).subscribe(res=>{
       this.AttendanceByTraineeAndCourseDuration = res;
-      // this gives an object with dates as keys
-      const groups = this.AttendanceByTraineeAndCourseDuration.reduce((groups, attendance) => {
-        const attendanceDate = attendance.attendanceDate.split('T')[0];
-        if (!groups[attendanceDate]) {
-          groups[attendanceDate] = [];
-        }
-        groups[attendanceDate].push(attendance);
-        return groups;
-      }, {});
-
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((attendanceDate) => {
-        return {
-          attendanceDate,
-          attendance: groups[attendanceDate]
-        };
-      });
+      this.dataSource = new MatTableDataSource(res);
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.attendanceDate
+      );
+      console.log(this.sharedService.groupedData)
+      
     });
   }
   toggle(){
