@@ -68,26 +68,13 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
      this.dataSource.data = response.items; 
 
-     // this gives an object with dates as keys
-     const groups = this.dataSource.data.reduce((groups, courses) => {
-       const schoolName = courses.baseSchoolName;
-        if(courses.baseSchoolNameId==this.masterData.schoolName.NETS){ if (!groups[schoolName]) {
-         groups[schoolName] = [];
-       }
-     
-        groups[schoolName].push(courses);
-        }
-       return groups;
-     }, {});
-
-     // Edit: to add it in the array format instead
-     this.groupArrays = Object.keys(groups).map((schoolName) => {
-       return {
-         schoolName,
-         courses: groups[schoolName]
-       };
-     });
-
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.baseSchoolName
+      );
+      console.log(this.sharedService.groupedData)
+ 
+    
      this.paging.length = response.totalItemsCount    
      this.isLoading = false;
    })
@@ -108,26 +95,13 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
      this.dashboardService.getUpcomingCourseListByBase(currentDateTime,0).subscribe(response => {         
        
        this.localCourseList=response;
- 
-       // this gives an object with dates as keys
-       const groups = this.localCourseList.reduce((groups, courses) => {
-         const schoolName = courses.schoolName;
-         if(courses.baseSchoolNameId==this.masterData.schoolName.NETS){   if (!groups[schoolName]) {
-           groups[schoolName] = [];
-         }
-      
-          groups[schoolName].push(courses);
-          }
-           return groups;
-         }, {});
-   
-         // Edit: to add it in the array format instead
-         this.groupArrays = Object.keys(groups).map((schoolName) => {
-           return {
-             schoolName,
-             courses: groups[schoolName]
-           };
-         });
+       this.dataSource = new MatTableDataSource(response);
+       this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.schoolName
+      );
+      console.log(this.sharedService.groupedData)
+       
  
      })
    }
@@ -136,26 +110,13 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
  getCourseDurationFilterList(viewStatus){
    this.CourseDurationService.getCourseDurationFilter(viewStatus,this.courseTypeId).subscribe(response => {
      this.localCourseList = response; 
-
-     // this gives an object with dates as keys
-     const groups = this.localCourseList.reduce((groups, courses) => {
-       const schoolName = courses.schoolName;
-    if(courses.baseSchoolNameId==this.masterData.schoolName.NETS){   if (!groups[schoolName]) {
-         groups[schoolName] = [];
-       }
-       
-       groups[schoolName].push(courses);
-       }
-       return groups;
-     }, {});
-
-     // Edit: to add it in the array format instead
-     this.groupArrays = Object.keys(groups).map((schoolName) => {
-       return {
-         schoolName,
-         courses: groups[schoolName]
-       };
-     });
+     this.dataSource = new MatTableDataSource(response);
+     this.sharedService.groupedData = this.sharedService.groupBy(
+      this.dataSource.data,
+      (courses) => courses.schoolName
+    );
+    console.log(this.sharedService.groupedData)
+    
      
 
      // this.paging.length = response.totalItemsCount    
