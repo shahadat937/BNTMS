@@ -98,6 +98,11 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     
       this.dataSource.data = response.items; 
 
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.readingMaterial
+      );
+      console.log(this.sharedService.groupedData)
       const groups = this.dataSource.data.reduce((groups, courses) => {
         const materialTitle = courses.readingMaterialTitle;
         if (!groups[materialTitle]) {
@@ -106,6 +111,7 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
         groups[materialTitle].push(courses);
         return groups;
       }, {});
+      console.log(groups)
 
       // Edit: to add it in the array format instead
       this.groupArrays = Object.keys(groups).map((readingMaterialTitle) => {
