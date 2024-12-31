@@ -1,25 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AttendanceService } from '../../service/attendance.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
-import { BNASubjectNameService } from 'src/app/subject-management/service/BNASubjectName.service';
-import { TraineeNomination } from 'src/app/course-management/models/traineenomination';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Attendance } from '../../models/attendance';
-import { CheckboxSelectedModel } from 'src/app/core/models/checkboxSelectedModel';
-import { TraineeList } from '../../models/traineeList';
-import { DatePipe } from '@angular/common';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+
+import { CodeValueService } from '../../../basic-setup/service/codevalue.service';
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+} from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AttendanceService } from "../../service/attendance.service";
+
+import { MatSnackBar } from "@angular/material/snack-bar";
+
+//import { TraineeNominationService } from "src/app/course-management/service/traineenomination.service";
+//import { BNASubjectNameService } from "src/app/subject-management/service/BNASubjectName.service";
+//import { TraineeNomination } from "src/app/course-management/models/traineenomination";
+import { SelectionModel } from "@angular/cdk/collections";
+import { Attendance } from "../../models/attendance";
+//import { CheckboxSelectedModel } from "src/app/core/models/checkboxSelectedModel";
+import { TraineeList } from "../../models/traineeList";
+import { DatePipe } from "@angular/common";
+import { MasterData } from "../../../../assets/data/master-data";
+import { CheckboxSelectedModel } from "../../../core/models/checkboxSelectedModel";
+import { Role } from "../../../core/models/role";
+import { SelectedModel } from "../../../core/models/selectedModel";
+import { AuthService } from "../../../core/service/auth.service";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { TraineeNominationService } from "../../../course-management/service/traineenomination.service";
+import { ClassRoutineService } from "../../../routine-management/service/classroutine.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+import { BNASubjectNameService } from "../../../subject-management/service/BNASubjectName.service";
+//import { ClassRoutineService } from "src/app/routine-management/service/classroutine.service";
 
 @Component({
   selector: 'app-new-attendance',
@@ -140,7 +155,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
     } 
      this.intitializeForm();
      if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool){
-      this.AttendanceForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.AttendanceForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.onBaseSchoolNameSelectionChangeGetCourse(this.branchId);
      }
      this.getselectedclassroutine();
@@ -209,8 +224,8 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
       var courseSectionId=classPeriodArr[2];
       this.bnaSubjectNameId=classPeriodArr[3];
 
-      this.AttendanceForm.get('classPeriodId').setValue(classPeriodId);
-      this.AttendanceForm.get('courseSectionId').setValue(courseSectionId);
+      this.AttendanceForm.get('classPeriodId')?.setValue(classPeriodId);
+      this.AttendanceForm.get('courseSectionId')?.setValue(courseSectionId);
 
       this.classRoutineService.getselectedCourseSection(baseSchoolNameId,courseNameId).subscribe(res=>{
         this.selectedCourseSection=res;
@@ -348,7 +363,7 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
   onSubmit() {
     this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This  Item').subscribe(result => {
       if (result) {
-        const id = this.AttendanceForm.get('attendanceId').value;
+        const id = this.AttendanceForm.get('attendanceId')?.value;
         this.isShowSubjectName=false;
         var classLeaderName= this.AttendanceForm.value['classLeaderName'];
         var attendanceDate= this.AttendanceForm.value['attendanceDate'];

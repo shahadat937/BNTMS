@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { IBNAExamAttendancePagination,BNAExamAttendancePagination } from '../models/bnaexamattendancePagination';
 import { BNAExamAttendance } from '../models/bnaexamattendance';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { map } from 'rxjs';
-import { PostResponse } from 'src/app/core/models/PostResponse';
+import { PostResponse } from '../../core/models/PostResponse';
 
 @Injectable({
   providedIn: 'root'
