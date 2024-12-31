@@ -15,6 +15,7 @@ export class CourseDurationService {
   baseUrl = environment.apiUrl;
   CourseDurations: CourseDuration[] = [];
   CourseDurationPagination = new CourseDurationPagination(); 
+  httpClient: any;
   constructor(private http: HttpClient) { }
 
 getSelectedBaseName(branchLevel){
@@ -28,6 +29,7 @@ getselectedBaseNamesForCourse(branchLevel){
 deactiveCourseDuration(id: number) {
   return this.http.get<CourseDuration>(this.baseUrl + '/course-duration/deactive-courseDuration/' + id);
 }
+
 
 activeCoursePlan(id : number){
   return this.http.get<CourseDuration>(this.baseUrl + '/course-plan/active-coursePlan/' + id);

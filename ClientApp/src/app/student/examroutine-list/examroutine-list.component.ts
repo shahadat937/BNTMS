@@ -39,6 +39,7 @@ export class ExamRoutineListComponent implements OnInit, OnDestroy {
 
    selection = new SelectionModel<BNASubjectName>(true, []);
   subscription: any;
+  dataSource: any;
 
   
   constructor(private snackBar: MatSnackBar,private studentDashboardService: StudentDashboardService,private BNASubjectNameService: BNASubjectNameService,private router: Router,private confirmService: ConfirmService,private route: ActivatedRoute, public sharedService: SharedServiceService) { }
@@ -56,24 +57,12 @@ export class ExamRoutineListComponent implements OnInit, OnDestroy {
   getCourseModuleByCourseName(courseDurationId){
     this.subscription = this.studentDashboardService.getExamRoutineForStudentDashboard(courseDurationId).subscribe(res=>{
       this.examrRoutineList = res;
-
-      // this gives an object with dates as keys
-      const groups = this.examrRoutineList.reduce((groups, courses) => {
-        const date = courses.date.split('T')[0];
-        if (!groups[date]) {
-          groups[date] = [];
-        }
-        groups[date].push(courses);
-        return groups;
-      }, {});
-
-    // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((date) => {
-      return {
-        date,
-        courses: groups[date]
-      };
-    });
+      this.dataSource = new MatTableDataSource(res);
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.date
+      );
+      
     });
   }
   toggle(){
