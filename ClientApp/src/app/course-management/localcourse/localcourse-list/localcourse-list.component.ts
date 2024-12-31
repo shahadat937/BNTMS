@@ -91,12 +91,14 @@ export class LocalcourseListComponent
   onWindowScroll() {
     
     this.scrollPosition = window.scrollY || window.pageYOffset; // Current scroll position
+
+    let delay = this.selectedFilter === 2? 500 : 250;
   
-    if (!this.isAllDataLoaded && this.scrollPosition - this.lastApiCallPosition >= 400 && this.scrollPosition > this.lastApiCallPosition) {
+    if (!this.isAllDataLoaded && this.scrollPosition - this.lastApiCallPosition >= delay && this.scrollPosition > this.lastApiCallPosition) {
       this.paging.pageSize++;
       this.lastApiCallPosition = this.scrollPosition; 
       this.getCoursesByViewType(this.selectedFilter); 
-      console.log('API called at position:', this.scrollPosition);
+      // console.log('API called at position:', this.scrollPosition);
     }
    
    
@@ -179,10 +181,10 @@ export class LocalcourseListComponent
       this.courseTypeId,
       this.viewStatus
     ).subscribe((response) => {
-      console.log(response);
+      // console.log(response);
 
       this.courseList = [  ...this.courseList, ...response.items ]
-      console.log(this.courseList);
+      // console.log(this.courseList);
       this.isAllDataLoaded = !response.items.length? true : false
       this.dataSource.data = this.courseList;
       this.sharedService.groupedData = this.sharedService.groupBy(
@@ -199,6 +201,7 @@ export class LocalcourseListComponent
       this.courseList = [];
       this.paging.pageIndex = 5;
       this.paging.pageSize = 1;
+      this.lastApiCallPosition = 0;
     }
     if (viewStatus == 1) {
       this.isLoading = true;     
