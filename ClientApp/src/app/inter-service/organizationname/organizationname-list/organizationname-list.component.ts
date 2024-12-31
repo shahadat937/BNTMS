@@ -55,10 +55,18 @@ export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter i
       this.searchText
     ).subscribe(response => {
       this.dataSource.data = response.items;
+
       this.paging.length = response.totalItemsCount;
 
-     
-      this.groupArrays = this.sharedService.groupByTableType(this.dataSource.data);
+      // this.groupArrays = this.sharedService.groupByTableType(this.dataSource.data);
+      // console.log(this.groupArrays)
+
+
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.forceType
+      );
+      console.log(this.sharedService.groupedData)
       this.isLoading = false;
     });
   }
