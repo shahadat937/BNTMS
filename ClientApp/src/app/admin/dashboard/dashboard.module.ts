@@ -33,7 +33,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
-import { ReadingMateriallistDashboardComponent } from 'src/app/school/readingmateriallistdashboard/readingmateriallistdashboard.component';
+import { ReadingMateriallistDashboardComponent } from '../../school/readingmateriallistdashboard/readingmateriallistdashboard.component';
 import { WeeklyProgramDashboardComponent } from './../../school/weeklyprogramdashboard/weeklyprogramdashboard.component';
 import {DailyprogramlistDashboardComponent} from './../../school/dailyprogramlist-dashboard/dailyprogramlist-dashboard.component'
 import { AbsentlistDashboardComponent } from './../../school/absentlist-dashboard/absentlist-dashboard.component';
@@ -45,7 +45,6 @@ import {SyllabusbySubjectListComponent} from './syllabusbysubject-list/syllabusb
 import {AssignmentListComponent} from '../../teacher/assignment/assignment-list/assignment-list.component'
 import {NewInstructorAssignmentComponent} from '../../teacher/assignment/new-instructorassignment/new-instructorassignment.component'
 import {NewStudentAssignmentComponent} from '../../student/new-studentassignment/new-studentassignment.component'
-import { NewPasswordChangeComponent } from 'src/app/instructor/passwordchange/new-passwordchange.component';
 import { SchoolListComponent } from './school-list/school-list.component';
 import { CoursebySchoolListComponent } from './coursebyschool-list/coursebyschool-list.component';
 import { CourseWeekByDurationListComponent } from './courseweekbyduration-list/courseweekbyduration-list.component';
