@@ -1,23 +1,25 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { dashboardService } from '../services/dashboard.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data'
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Role } from 'src/app/core/models/role';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { dashboardService } from "../services/dashboard.service";
+import { SelectionModel } from "@angular/cdk/collections";
+import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { MasterData } from "../../../../assets/data/master-data";
+import { Role } from "../../../core/models/role";
+import { AuthService } from "../../../core/service/auth.service";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 @Component({
-  selector: 'app-school-list',
-  templateUrl: './school-list.component.html',
-  styleUrls: ['./school-list.component.sass']
+  selector: "app-school-list",
+  templateUrl: "./school-list.component.html",
+  styleUrls: ["./school-list.component.sass"],
 })
-export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class SchoolListComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -28,20 +30,18 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
-    length: 1
-  }
+    length: 1,
+  };
   searchText = "";
-
 
   branchId: any;
   traineeId: any;
   role: any;
   totalCount: any;
 
-  groupArrays: { baseName: string; schools: any; }[];
+  groupArrays: { baseName: string; schools: any }[];
 
-  displayedColumns: string[] = ['ser', 'schoolName', 'courseCount'];
-
+  displayedColumns: string[] = ["ser", "schoolName", "courseCount"];
 
   constructor(
     private snackBar: MatSnackBar,
@@ -49,23 +49,22 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
     private dashboardService: dashboardService,
     private router: Router,
     private confirmService: ConfirmService,
-    public sharedService: SharedServiceService) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit() {
-
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     this.branchId = this.authService.currentUserValue.branchId.trim();
 
     this.getBnaClassTests();
-
   }
 
   getBnaClassTests() {
     this.isLoading = true;
-    this.dashboardService.getSpCourseCountBySchool().subscribe(response => {
+    this.dashboardService.getSpCourseCountBySchool().subscribe((response) => {
       this.schoolList = response;
 
       // this gives an object with dates as keys
@@ -82,26 +81,25 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
       this.groupArrays = Object.keys(groups).map((baseName) => {
         return {
           baseName,
-          schools: groups[baseName]
+          schools: groups[baseName],
         };
       });
 
       this.getCourseTotalCountInfo();
 
       this.isLoading = false;
-    })
+    });
   }
 
   getCourseTotalCountInfo() {
-    this.dashboardService.getSpCourseTotalCountBySchool().subscribe(res => {
+    this.dashboardService.getSpCourseTotalCountBySchool().subscribe((res) => {
       this.totalCount = res;
-    })
+    });
   }
   pageChanged(event: PageEvent) {
-
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
+    this.paging.pageIndex = event.pageIndex;
+    this.paging.pageSize = event.pageSize;
+    this.paging.pageIndex = this.paging.pageIndex + 1;
     // this.getCourseDurationsByCourseType();
     this.getBnaClassTests();
   }
@@ -113,18 +111,17 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
     this.print();
   }
   print() {
-
     let today = new Date();
 
-    const formatedDate = new Intl.DateTimeFormat(("en-Gb"),{
+    const formatedDate = new Intl.DateTimeFormat("en-Gb", {
       day: "2-digit",
       month: "short",
-      year: "numeric"
+      year: "numeric",
     }).format(today);
 
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine')?.innerHTML;
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    printContents = document.getElementById("print-routine")?.innerHTML;
+    popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
     popupWin.document.open();
     popupWin.document.write(`
       <html>
@@ -174,10 +171,8 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
           
           ${printContents}
         </body>
-      </html>`
-    );
+      </html>`);
     popupWin.document.close();
-
   }
   // pageChanged(event: PageEvent) {
 
@@ -187,13 +182,13 @@ export class SchoolListComponent extends UnsubscribeOnDestroyAdapter implements 
   //   this.getBnaClassTests();
 
   // }
-  // applyFilter(searchText: any){ 
+  // applyFilter(searchText: any){
   //   this.searchText = searchText;
   //   this.getBnaClassTests();
-  // } 
+  // }
 
   // deleteItem(row) {
-  //   const id = row.bnaClassTestId; 
+  //   const id = row.bnaClassTestId;
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
   //     if (result) {
   //       this.BnaClassTestService.delete(id).subscribe(() => {
