@@ -4,12 +4,13 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ForeignCourseOtherDocument } from '../../models/ForeignCourseOtherDocument';
 import { ForeignCourseOtherDocumentService } from '../../service/ForeignCourseOtherDocument.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { MasterData } from '../../../../assets/data/master-data';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { SharedServiceService } from '../../../shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
+
 
 
 @Component({
