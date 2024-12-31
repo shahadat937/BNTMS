@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { IForeignCourseOtherDocPagination,ForeignCourseOtherDocPagination } from '../models/ForeignCourseOtherDocPagination';
 import { ForeignCourseOtherDoc } from '../models/ForeignCourseOtherDoc';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { map } from 'rxjs';
-import { PostResponse } from 'src/app/core/models/PostResponse';
+import { PostResponse } from '../../core/models/PostResponse';
 import { TraineeListForForeignCourseOtherDoc } from '../models/traineeListforforeigncourseotherdoc';
 
 @Injectable({
