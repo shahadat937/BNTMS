@@ -33,6 +33,8 @@ import { NewISBiodatainfoComponent } from './i-s-biodata/new-i-s-biodatainfo/new
 import { NewCadetBiodatainfoComponent } from './cadet-biodata/new-cadet-biodatainfo/new-cadet-biodatainfo.component';
 import { CadetBiodatainfoListComponent } from './cadet-biodata/cadet-biodatainfo-list/cadet-biodatainfo-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CivilBiodataInfoListComponent } from './civil-biodata/civil-biodata-info-list/civil-biodata-info-list.component';
+import { NewCivilBiodataComponent } from './civil-biodata/new-civil-biodata/new-civil-biodata.component';
 
 
 
@@ -52,7 +54,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ISBiodatainfoListComponent,
     NewISBiodatainfoComponent,
     NewCadetBiodatainfoComponent,
-    CadetBiodatainfoListComponent
+    CadetBiodatainfoListComponent,
+    CivilBiodataInfoListComponent,
+    NewCivilBiodataComponent
     // NewTraineeBiodatasComponent
   ],
   imports: [
