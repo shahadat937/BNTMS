@@ -92,11 +92,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container *ngFor="let data of groupArrays;let i= index;">
+                  <ng-container *ngFor="let data of sharedService.groupedData,let i= index;">
                     <tr>
-                      <td class="cl-srl" [attr.rowspan]="data.courses.length + 1">{{data.baseSchoolName}}</td>
+                      <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey}}</td>
                     </tr>
-                    <tr *ngFor="let number of data.courses;">
+                    <tr *ngFor="let number of data.groupedItems">
                       <td class="course-name-col">{{number.courseName}} - {{number.courseTitle}}</td>
                       <td>
                         {{getCourseStatus(number)}}
@@ -113,8 +113,16 @@
                         <!-- <a [routerLink]="['/admin/dashboard/traineenomination-list', number.courseDurationId]" style="color: green;text-decoration: underline; font-weight: bold;">{{getTraineeNominationsByCourseDurationId(number.courseDurationId)}}</a> -->
                       </td>
                       <td>
-                        <button mat-raised-button class="custom-btn courseplan-btn"  (click)="inActiveItem(number)"  (click)="$event.stopPropagation()">{{ number.isCompletedStatus == 0 ? 'Is Completed?' : 'Not Completed' }}</button>
+                        <button 
+                          mat-raised-button 
+                          class="custom-btn courseplan-btn"  
+                          (click)="inActiveItem(number)"  
+                          (click)="$event.stopPropagation()"
+                        >
+                          {{ number.isCompletedStatus === 0 ? 'Is Completed?' : 'Completed' }}
+                        </button>
                       </td>
+                      
                     </tr>
                   </ng-container>
                 </tbody>

@@ -2,17 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {CourseInstructorService} from '../../../subject-management/service/courseinstructor.service'
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { CourseInstructor } from '../../../subject-management/models/courseinstructor';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { BNAExamMarkService } from 'src/app/central-exam/service/bnaexammark.service';
-import { BNASubjectNameService } from 'src/app/central-exam/service/BNASubjectName.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { BNAExamMarkService } from '../../../../../src/app/central-exam/service/bnaexammark.service';
+import { BNASubjectNameService } from '../../../../../src/app/central-exam/service/BNASubjectName.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+
 import {ClassRoutineService} from '../../../routine-management/service/classroutine.service'
 
 @Component({
@@ -279,7 +280,6 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
       this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
         // this.selectedmarktype[bnaSubjectNameId]=res;
         this.selectMarkType=res
-        console.log("Type",res);
       });
   }
 
@@ -287,9 +287,7 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
 
     let subjectMarkId = event.source.value;
    
-      this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
-       console.log(res);
-   
+      this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{ 
        this.CourseInstructorForm.get('markTypeId')?.setValue(res.markTypeId);
       });
    
@@ -365,8 +363,8 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   onSubmit() {
-    const id = this.CourseInstructorForm.get('courseInstructorId').value;
-    this.CourseInstructorForm.get('status').setValue(0);
+    const id = this.CourseInstructorForm.get('courseInstructorId')?.value;
+    this.CourseInstructorForm.get('status')?.setValue(0);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
@@ -391,16 +389,19 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
       this.CourseInstructorService.submit(this.CourseInstructorForm.value).subscribe(response => {
         this.onModuleSelectionChangeGetInstructorList();
         this.CourseInstructorForm.reset();
-        this.CourseInstructorForm.get('courseInstructorId').setValue(0);
-        this.CourseInstructorForm.get('isActive').setValue(true);
+        this.CourseInstructorForm.get('courseInstructorId')?.setValue(0);
+        this.CourseInstructorForm.get('isActive')?.setValue(true);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
+          
         });
+        this.loading=false;
       }, error => {
         this.validationErrors = error;
+        this.loading=false
       })
     }
 

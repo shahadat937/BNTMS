@@ -23,7 +23,7 @@ namespace SchoolManagement.Application.Features.CourseInstructors.Handlers.Queri
          
         public async Task<List<CourseInstructorDto>> Handle(GetCourseInstructorByCourseDurationAndSubjectNameIdRequest request, CancellationToken cancellationToken)
         {
-            IQueryable<CourseInstructor> CourseInstructors = _CourseInstructorRepository.FilterWithInclude(x => x.BnaSubjectNameId == request.BnaSubjectNameId && x.CourseNameId == request.CourseNameId && x.CourseDurationId == request.CourseDurationId,"CourseDuration", "BaseSchoolName", "CourseName", "BnaSubjectName", "CourseModule", "Trainee.Rank").OrderBy(x=>x.Status);
+            IQueryable<CourseInstructor> CourseInstructors = _CourseInstructorRepository.FilterWithInclude(x => x.BnaSubjectNameId == request.BnaSubjectNameId && x.CourseNameId == request.CourseNameId && x.CourseDurationId == request.CourseDurationId,"CourseDuration", "BaseSchoolName", "CourseName", "BnaSubjectName", "CourseModule", "Trainee.Rank", "MarkType").OrderBy(x=>x.Status);
 
             var CourseInstructorDtos = _mapper.Map<List<CourseInstructorDto>>(CourseInstructors);
 

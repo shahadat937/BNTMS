@@ -57,7 +57,7 @@
                   </ng-container>
                   <ng-container matColumnDef="subject">
                     <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Subject </mat-header-cell>
-                    <mat-cell class="sub-col" *matCellDef="let element"> {{element.subjectName}} </mat-cell>
+                    <mat-cell class="sub-col" *matCellDef="let element"> {{element.subjectName}} ({{element.typeName}})</mat-cell>
                   </ng-container>          
                   <ng-container matColumnDef="date">
                     <mat-header-cell class="date-col" *matHeaderCellDef mat-sort-header>Exam Date </mat-header-cell>

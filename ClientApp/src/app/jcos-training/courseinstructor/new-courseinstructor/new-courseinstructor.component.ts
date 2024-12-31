@@ -261,19 +261,14 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
       });
 
       this.subscription = this.CourseInstructorService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
-        // this.selectedmarktype[bnaSubjectNameId]=res;
         this.selectMarkType=res
-        console.log("Type",res);
       });
   }
 
   onSubjectMarkSelectionGetMarkType(event){
 
-    let subjectMarkId = event.source.value;
-   
+    let subjectMarkId = event.source.value;   
       this.CourseInstructorService.findSubjectMark(subjectMarkId).subscribe(res=>{
-       console.log(res);
-   
        this.CourseInstructorForm.get('markTypeId')?.setValue(res.markTypeId);
       });
    
@@ -327,8 +322,10 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
               horizontalPosition: 'right',
               panelClass: 'snackbar-success'
             });
+            this.loading=false;
           }, error => {
             this.validationErrors = error;
+            this.loading=false;
           })
         }
       })
@@ -347,8 +344,10 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
           horizontalPosition: 'right',
           panelClass: 'snackbar-success'
         });
+        this.loading=false;
       }, error => {
         this.validationErrors = error;
+        this.loading = false;
       })
     }
 

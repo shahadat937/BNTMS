@@ -323,7 +323,7 @@ this.userRole.SchoolOIC
       }
     }
     else {
-      if(this.role == "Master Admin"){
+      if(this.role == "Master Admin" || this.role == "DDNT"){
         this.router.navigate(['/admin/dashboard/main']);
       }
       else {

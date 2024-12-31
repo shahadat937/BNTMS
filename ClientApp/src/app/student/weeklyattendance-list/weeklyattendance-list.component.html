@@ -87,12 +87,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container *ngFor="let data of groupArrays;let i= index;">
+                  <ng-container *ngFor="let data of sharedService.groupedData;let i= index;">
                     <tr>
                       <!-- <td [attr.rowspan]="data.attendance.length + 1">{{i+1}}</td> -->
-                      <td [attr.rowspan]="data.attendance.length + 1">{{data.attendanceDate | date:'mediumDate'}} </td>
+                      <td [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey | date:'mediumDate'}} </td>
                     </tr>
-                    <tr *ngFor="let number of data.attendance;">
+                    <tr *ngFor="let number of data.groupedItems;">
                       <td>{{number.periodName}} ({{number.durationForm}}-{{number.durationTo}})</td>
                       <!-- <td>{{number.subjectName}} ({{number.classCountPeriod}}/{{number.subjectCountPeriod}})</td> -->
                       <td>{{number.subjectName}}</td>
@@ -108,7 +108,7 @@
                   </ng-container>
                 </tbody>
               </table>
-              <div class="d-flex justify-content-center" *ngIf="!groupArrays || groupArrays.length === 0" class="no-data-found">
+              <div class="d-flex justify-content-center" *ngIf="!sharedService.groupedData || sharedService.groupedData.length === 0" class="no-data-found">
                 <h3 class="text-center m-b-10 m-t-10 p-5">Attendence Not Fount</h3>
                  <img style=" display: block;
                  margin-left: auto;
