@@ -1,4 +1,5 @@
-import { AuthService } from 'src/app/core/service/auth.service';
+// import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../core/service/auth.service';
 import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,15 +7,19 @@ import {CourseDuration} from '../../models/courseduration';
 import {CourseDurationService} from '../../service/courseduration.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+// import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../core/service/confirm.service';
+// import {MasterData} from 'src/assets/data/master-data'
+import { MasterData } from '../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe, formatDate } from '@angular/common';
 import {Inject, LOCALE_ID } from '@angular/core';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+// import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+// import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../shared/shared-service.service';
 
 @Component({
   selector: 'app-courseactivation-list',
@@ -51,7 +56,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
   // dataSource = { data: [] }
 
    selection = new SelectionModel<CourseDuration>(true, []);
-userRole: any;
+    userRole: any;
   branchId: any;
 
   
@@ -100,23 +105,10 @@ userRole: any;
     this.isLoading = true;
     this.CourseDurationService.getCourseDurations(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {       
       this.dataSource.data = response.items; 
-      // this gives an object with dates as keys
-      const groups = this.dataSource.data.reduce((groups, courses) => {
-        const schoolName = courses.baseSchoolName;
-        if (!groups[schoolName]) {
-          groups[schoolName] = [];
-        }
-        groups[schoolName].push(courses);
-        return groups;
-      }, {});
-
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((baseSchoolName) => {
-        return {
-          baseSchoolName,
-          courses: groups[baseSchoolName]
-        };
-      });
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.baseSchoolName
+      );
 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -136,24 +128,11 @@ userRole: any;
     this.CourseDurationService.getCourseDuraionByBaseName(this.branchId, this.paging.pageIndex, this.paging.pageSize).subscribe(response => {
       // this.dataSource.data = response;
       this.dataSource.data = response.items; 
-      // this gives an object with dates as keys
-      const groups = this.dataSource.data.reduce((groups, courses) => {
-        const schoolName = courses.baseSchoolName;
-        if (!groups[schoolName]) {
-          groups[schoolName] = [];
-        }
-        groups[schoolName].push(courses);
-        return groups;
-      }, {});
-
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((baseSchoolName) => {
-        return {
-          baseSchoolName,
-          courses: groups[baseSchoolName]
-        };
-      });
-
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.baseSchoolName
+      );
+      console.log(this.sharedService.groupedData)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     });
@@ -171,24 +150,35 @@ userRole: any;
     this.searchText = searchText;
     this.getCourseDurations();
   }  
-  inActiveItem(row){
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
+  inActiveItem(row) {
     const id = row.courseDurationId;    
-    if(row.isActive == true){
+    if (row.isActive) {
       this.confirmService.confirm('Confirm Deactive message', 'Are You Sure Deactive This Item').subscribe(result => {
         if (result) {
           this.CourseDurationService.deactiveCourseDuration(id).subscribe(() => {
-            this.getCourseDurations();
-            this.snackBar.open('Information Deactive Successfully ', '', {
+           
+            row.isCompletedStatus = 1; 
+  
+            this.snackBar.open('Information Deactive Successfully', '', {
               duration: 3000,
               verticalPosition: 'bottom',
               horizontalPosition: 'right',
               panelClass: 'snackbar-warning'
             });
-          })
+          });
+          
+          // this.reloadCurrentRoute();
         }
-      })
+      });
     }
   }
+  
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {

@@ -39,6 +39,7 @@ export class WeeklyRoutineTeacherDashboard implements OnInit,OnDestroy {
   searchText="";
   displayedRoutineColumns: string[] = ['ser', 'date','schoolName','duration', 'course','subject', 'location'];
   subscription: any;
+  dataSource: any;
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
@@ -53,26 +54,11 @@ export class WeeklyRoutineTeacherDashboard implements OnInit,OnDestroy {
   getWeeklyRoutineByInstructor(id){
     this.subscription = this.instructorDashboardService.getSpInstructorRoutineByTraineeId(id).subscribe(res=>{
       this.routineList = res;
-
-      // this gives an object with dates as keys
-      const groups = this.routineList.reduce((groups, courses) => {
-        const courseName = courses.course+"_"+courses.courseTitle;
-        if (!groups[courseName]) {
-          groups[courseName] = [];
-        }
-        groups[courseName].push(courses);
-        return groups;
-      }, {});
-
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((course) => {
-        return {
-          course,
-          courses: groups[course]
-        };
-      });
-
-
+      this.dataSource = new MatTableDataSource(res);
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.course+"_"+courses.courseTitle
+      );
     });
   }
   toggle(){

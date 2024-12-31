@@ -70,25 +70,10 @@ export class OnlineLibraryMeterialListComponent implements OnInit {
     this.onlineLibraryService.getOnlineLibraryMaterials(this.paging.pageIndex, this.paging.pageSize, this.subscription = this.searchText).subscribe(response => {
 
       this.dataSource.data = response.items;
-     
-       // this gives an object with dates as keys
-    const groups = this.dataSource.data.reduce((groups, courses) => { 
-      const schoolName = courses.baseSchoolName ? courses.baseSchoolName : "Admin";
-      if (!groups[schoolName]) {
-        groups[schoolName] = [];
-      }
-      groups[schoolName].push(courses);
-      return groups;
-    }, {});
-
-    // Edit: to add it in the array format instead
-    this.groupArrays = Object.keys(groups).map((schoolName) => {
-      return {
-        schoolName,
-        documentsName: groups[schoolName]
-      };
-    });
-    
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.baseSchoolName
+      );
       this.paging.length = response.totalItemsCount
      
     })

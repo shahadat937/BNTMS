@@ -116,13 +116,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container *ngFor="let group of groupArrays">
-                    <ng-container *ngFor="let element of group.organization; let i = index">
+                  
+                    <ng-container *ngFor="let data of sharedService.groupedData;let i= index;">
                       <tr>
-                        <td class="force-type" *ngIf="shouldDisplayRowspan(group.organization, element, i)" 
+                        <td class="cl-srl force-type" [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey}}</td>
+                      </tr>
+                      <tr *ngFor="let element of data.groupedItems;">
+                        <!-- <td class="force-type" *ngIf="shouldDisplayRowspan(group.organization, element, i)" 
                             [attr.rowspan]="getRowspan(group.organization, element.forceType)">
                           {{ element.forceType }}
-                        </td>
+                        </td> -->
                         <td>{{ element.name }}</td>
                         <td>
                           <button mat-icon-button color="primary" class="btn-tbl-edit"
@@ -135,7 +138,7 @@
                         </td>
                       </tr>
                     </ng-container>
-                  </ng-container>
+                  
 
                  
                 </tbody>
