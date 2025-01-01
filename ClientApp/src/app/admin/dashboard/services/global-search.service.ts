@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 
 enum SearchType {
   Trainee,
@@ -116,7 +116,8 @@ export class GlobalSearchService {
   getCachedData(uniqueIdentifier:string, searchType: SearchType,pageSize?:number,pageIndex?:number) {
 
     uniqueIdentifier = this.setUniqueIdentifier(uniqueIdentifier, searchType,pageSize,pageIndex);
-    return JSON.parse(sessionStorage.getItem(uniqueIdentifier));
+    const item = sessionStorage.getItem(uniqueIdentifier);
+    return item ? JSON.parse(item) : null;
   }
 
   setCachedData(uniqueIdentifier:string, val:any, searchType: SearchType,pageSize?:number,pageIndex?:number) {

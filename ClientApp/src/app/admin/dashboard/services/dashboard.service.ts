@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { SpCourseDuration } from '../models/spcourseduration';
 import { SpTotalTrainee } from '../models/sptotaltrainee';
 import { SpOfficerDetails } from '../models/spofficerdetails';

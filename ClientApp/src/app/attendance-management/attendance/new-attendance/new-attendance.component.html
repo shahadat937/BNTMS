@@ -3,17 +3,19 @@
     <div class="block-header">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <ul class="breadcrumb breadcrumb-style ">
+          <ul class="breadcrumb breadcrumb-style">
             <li class="breadcrumb-item">
-              <h4 class="page-title">{{pageTitle}}</h4>
+              <h4 class="page-title">{{ pageTitle }}</h4>
             </li>
             <li class="breadcrumb-item bcrumb-1">
-              <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
+              <a [routerLink]="sharedService.redirectDashboard()"
+                ><i class="fas fa-home"></i
+              ></a>
             </li>
             <li class="breadcrumb-item bcrumb-2">
               <a href="#" onClick="return false;"> Attendance</a>
             </li>
-            <li class="breadcrumb-item active">{{destination}}</li>
+            <li class="breadcrumb-item active">{{ destination }}</li>
           </ul>
         </div>
       </div>
@@ -21,16 +23,20 @@
     <div class="row clearfix">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <div class="card">
-          <div class="header">
-          </div>
+          <div class="header"></div>
           <div class="body">
             <div class="col-4">
               <ul class="header-buttons">
                 <li>
                   <div class="icon-button-demo attn-btn">
-                    <button  class="btn-space m-l-20"  mat-raised-button
-                      color="warn" (click)="sharedService.goBack()"> 
-                      <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                    <button
+                      class="btn-space m-l-20"
+                      mat-raised-button
+                      color="warn"
+                      (click)="sharedService.goBack()"
+                    >
+                      <mat-icon class="col-white">keyboard_backspace</mat-icon>
+                      Back
                     </button>
                     <!-- <button *ngIf="schoolId == 0" class="btn-space"  mat-raised-button
                       color="warn" routerLink="/admin/dashboard/main"> 
@@ -38,78 +44,152 @@
                     </button> -->
                   </div>
                 </li>
-               <li>
-                
-               </li>
+                <li></li>
               </ul>
             </div>
-            <form class="m-4" [formGroup]="AttendanceForm" (ngSubmit)="onSubmit()">
+            <form
+              class="m-4"
+              [formGroup]="AttendanceForm"
+              (ngSubmit)="onSubmit()"
+            >
               <div class="row">
-                <div class="form-border-design col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <div
+                  class="form-border-design col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2"
+                >
                   <div class="row">
-                    
                     <div
-                      *ngIf="role != userRole.SuperAdmin && role != userRole.BNASchool && role != userRole.JSTISchool"
-                      class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      *ngIf="
+                        role != userRole.SuperAdmin &&
+                        role != userRole.BNASchool &&
+                        role != userRole.JSTISchool
+                      "
+                      class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2"
+                    >
+                      <mat-form-field
+                        class="example-full-width mb-3"
+                        appearance="outline"
+                      >
                         <mat-label>School Name</mat-label>
-                        <mat-select formControlName="baseSchoolNameId"
-                          (selectionChange)="onBaseSchoolNameSelectionChangeGetCourse($event.value)">
-                          <mat-option *ngFor="let dropdown of selectedbaseschools" [value]="dropdown.value">
-                            {{dropdown.text}}
+                        <mat-select
+                          formControlName="baseSchoolNameId"
+                          (selectionChange)="
+                            onBaseSchoolNameSelectionChangeGetCourse(
+                              $event.value
+                            )
+                          "
+                        >
+                          <mat-option
+                            *ngFor="let dropdown of selectedbaseschools"
+                            [value]="dropdown.value"
+                          >
+                            {{ dropdown.text }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
                     </div>
 
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-form-field
+                        class="example-full-width mb-3"
+                        appearance="outline"
+                      >
                         <mat-label>Course Name</mat-label>
-                        <mat-select 
-                        formControlName="courseNameId"
-                        (selectionChange)="resetWarningMessage()">
-                          <input type="text" style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
-                            id="selectSection" (keydown.space)="$event.stopPropagation()"
-
+                        <mat-select
+                          formControlName="courseNameId"
+                          (selectionChange)="resetWarningMessage()"
+                        >
+                          <input
+                            type="text"
+                            style="
+                              width: 100%;
+                              height: 50px;
+                              padding: 10px;
+                              border: 1px solid #ccc;
+                              position: sticky;
+                              top: 0;
+                              background-color: white;
+                              z-index: 1000;
+                              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                            "
+                            id="selectSection"
+                            (keydown.space)="$event.stopPropagation()"
                             (input)="filterByCourse($event.target.value)"
-                             placeholder="Search"
-                             >
+                            placeholder="Search"
+                          />
 
                           <mat-option>--Select--</mat-option>
-                          <mat-option *ngFor="let dropdown of selectedCourse" [value]="dropdown.value"
-                            matTooltip="{{dropdown.text}}" matTooltipPosition="above">
-                            {{dropdown.text}}
+                          <mat-option
+                            *ngFor="let dropdown of selectedCourse"
+                            [value]="dropdown.value"
+                            matTooltip="{{ dropdown.text }}"
+                            matTooltipPosition="above"
+                          >
+                            {{ dropdown.text }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
                     </div>
 
-
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-form-field
+                        class="example-full-width mb-3"
+                        appearance="outline"
+                      >
                         <mat-label>Attendance Date</mat-label>
-                        <input matInput [matDatepicker]="atpicker" formControlName="attendanceDate"
-                          (dateChange)="onDateSelectionChange($event)" required>
-                        <mat-datepicker-toggle matSuffix [for]="atpicker"></mat-datepicker-toggle>
+                        <input
+                          matInput
+                          [matDatepicker]="atpicker"
+                          formControlName="attendanceDate"
+                          (dateChange)="onDateSelectionChange($event)"
+                          required
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="atpicker"
+                        ></mat-datepicker-toggle>
                         <mat-datepicker #atpicker></mat-datepicker>
                       </mat-form-field>
                     </div>
 
-
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-form-field
+                        class="example-full-width mb-3"
+                        appearance="outline"
+                      >
                         <mat-label>Class Period / Section</mat-label>
-                        <mat-select formControlName="classPeriod"
-                          (selectionChange)="onClassPeriodSelectionChangeGetCourseDuration()">
-                          <input type="text" style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
-                            id="selectSection" (keydown.space)="$event.stopPropagation()"
-
-                            (input)="filterByPeriod($event.target.value)" placeholder="Search">
+                        <mat-select
+                          formControlName="classPeriod"
+                          (selectionChange)="
+                            onClassPeriodSelectionChangeGetCourseDuration()
+                          "
+                        >
+                          <input
+                            type="text"
+                            style="
+                              width: 100%;
+                              height: 50px;
+                              padding: 10px;
+                              border: 1px solid #ccc;
+                              position: sticky;
+                              top: 0;
+                              background-color: white;
+                              z-index: 1000;
+                              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                            "
+                            id="selectSection"
+                            (keydown.space)="$event.stopPropagation()"
+                            (input)="filterByPeriod($event.target.value)"
+                            placeholder="Search"
+                          />
                           <mat-option disabled value="0">--Select--</mat-option>
 
-                          <mat-option *ngFor="let dropdown of selectedClassPeriodByBaseSchoolNameIdAndCourseNameId"
-                            [value]="dropdown.value">
-                            {{dropdown.text}}
+                          <mat-option
+                            *ngFor="
+                              let dropdown of selectedClassPeriodByBaseSchoolNameIdAndCourseNameId
+                            "
+                            [value]="dropdown.value"
+                          >
+                            {{ dropdown.text }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -127,45 +207,93 @@
                       </mat-form-field>
                     </div> -->
 
-
-                    <div *ngIf="isShowSubjectName" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                      <h5 class="cls-header">Subject Name :
-                        <span>{{subjectNamefromClassRoutine}}({{this.selectedMarkType}})</span>
+                    <div
+                      *ngIf="isShowSubjectName"
+                      class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"
+                    >
+                      <h5 class="cls-header">
+                        Subject Name :
+                        <span
+                          >{{ subjectNamefromClassRoutine }}({{
+                            this.selectedMarkType
+                          }})</span
+                        >
                       </h5>
                     </div>
                   </div>
-
                 </div>
 
                 <div *ngIf="isShown" class="container mt-2 att-tbl">
                   <h4 class="text-center">Trainee List</h4>
-                  <mat-table #table [dataSource]="traineeNominationListForAttendance" matSort class="mat-cell db-li-n">
+                  <mat-table
+                    #table
+                    [dataSource]="traineeNominationListForAttendance"
+                    matSort
+                    class="mat-cell db-li-n"
+                  >
                     <ng-container matColumnDef="ser">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
-                      <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) * paging.pageSize) +
-                        i+1}} </mat-cell>
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Ser:
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let element; let i = index">
+                        {{ (paging.pageIndex - 1) * paging.pageSize + i + 1 }}
+                      </mat-cell>
                     </ng-container>
 
                     <ng-container matColumnDef="traineePNo">
-                      <mat-header-cell class="t-nm-cl" *matHeaderCellDef mat-sort-header>Rank & Name</mat-header-cell>
+                      <mat-header-cell
+                        class="t-nm-cl"
+                        *matHeaderCellDef
+                        mat-sort-header
+                        >Rank & Name</mat-header-cell
+                      >
                       <mat-cell class="t-nm-cl" *matCellDef="let element">
                         <span
-                          *ngIf="element.traineeStatusId != masterData.TraineeStatus.sailor">{{element.rankPosition}}{{element.saylorRank}}{{element.traineeName}}
-                          <span class="t-n-pno-d"> - ( P No {{element.traineePNo}})</span></span>
-                        <span *ngIf="element.traineeStatusId == masterData.TraineeStatus.sailor"><span
-                            class="t-n-pno-d"> (O No {{element.traineePNo}}) -
-                          </span>{{element.traineeName}},{{element.rankPosition}}{{element.saylorRank}}</span>
+                          *ngIf="
+                            element.traineeStatusId !=
+                            masterData.TraineeStatus.sailor
+                          "
+                          >{{ element.rankPosition }}{{ element.saylorRank
+                          }}{{ element.traineeName }}
+                          <span class="t-n-pno-d">
+                            - ( P No {{ element.traineePNo }})</span
+                          ></span
+                        >
+                        <span
+                          *ngIf="
+                            element.traineeStatusId ==
+                            masterData.TraineeStatus.sailor
+                          "
+                          ><span class="t-n-pno-d">
+                            (O No {{ element.traineePNo }}) - </span
+                          >{{ element.traineeName }},{{ element.rankPosition
+                          }}{{ element.saylorRank }}</span
+                        >
                       </mat-cell>
                     </ng-container>
 
                     <ng-container matColumnDef="bnaAttendanceRemarksId">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header>Attendance Remarks</mat-header-cell>
-                      <mat-cell *matCellDef="let element; let i = index;">
-                        <mat-form-field class="example-full-width mb-3" appearance="outline">
-                          <mat-select (selectionChange)="onOptionsSelected(i,$event.value)">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Attendance Remarks</mat-header-cell
+                      >
+                      <mat-cell *matCellDef="let element; let i = index">
+                        <mat-form-field
+                          class="example-full-width mb-3"
+                          appearance="outline"
+                        >
+                          <mat-select
+                            (selectionChange)="
+                              onOptionsSelected(i, $event.value)
+                            "
+                          >
                             <mat-option value="0">--Select--</mat-option>
-                            <mat-option *ngFor="let dropdown of selectedbnaattendanceremark" [value]="dropdown.value">
-                              {{dropdown.text}}
+                            <mat-option
+                              *ngFor="
+                                let dropdown of selectedbnaattendanceremark
+                              "
+                              [value]="dropdown.value"
+                            >
+                              {{ dropdown.text }}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
@@ -173,45 +301,79 @@
                     </ng-container>
 
                     <ng-container matColumnDef="attendanceStatus">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header>Attendance</mat-header-cell>
-                      <mat-cell *matCellDef="let element; let i = index;">
-                        <mat-checkbox #checkBox [checked]="element.attendanceStatus"
-                          (change)="onCheckboxChange(i,$event)" [ngClass]="'tbl-checkbox'">
-
+                      <mat-header-cell *matHeaderCellDef mat-sort-header
+                        >Attendance</mat-header-cell
+                      >
+                      <mat-cell *matCellDef="let element; let i = index">
+                        <mat-checkbox
+                          #checkBox
+                          [checked]="element.attendanceStatus"
+                          (change)="onCheckboxChange(i, $event)"
+                          [ngClass]="'tbl-checkbox'"
+                        >
                         </mat-checkbox>
                       </mat-cell>
                     </ng-container>
-                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    <mat-header-row
+                      *matHeaderRowDef="displayedColumns"
+                    ></mat-header-row>
+                    <mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></mat-row>
                   </mat-table>
                 </div>
               </div>
 
-
               <div *ngIf="isShownForTraineeList" class="container mt-2 att-tbl">
                 <h4 class="text-center">Trainee List</h4>
-                <mat-table #table [dataSource]="traineeNominationListForAttendance" matSort class="mat-cell db-li-n">
+                <mat-table
+                  #table
+                  [dataSource]="traineeNominationListForAttendance"
+                  matSort
+                  class="mat-cell db-li-n"
+                >
                   <ng-container matColumnDef="ser">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
-                    <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) * paging.pageSize) +
-                      i+1}} </mat-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Ser:
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = index">
+                      {{ (paging.pageIndex - 1) * paging.pageSize + i + 1 }}
+                    </mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="traineePNo">
-                    <mat-header-cell class="t-nm-cl" *matHeaderCellDef mat-sort-header>Rank & Name</mat-header-cell>
-                    <mat-cell class="t-nm-cl" *matCellDef="let element">{{element.rankPosition}}
-                      {{element.traineeName}} <span class="t-n-pno-d"> - ( P No {{element.traineePNo}})</span>
+                    <mat-header-cell
+                      class="t-nm-cl"
+                      *matHeaderCellDef
+                      mat-sort-header
+                      >Rank & Name</mat-header-cell
+                    >
+                    <mat-cell class="t-nm-cl" *matCellDef="let element"
+                      >{{ element.rankPosition }} {{ element.traineeName }}
+                      <span class="t-n-pno-d">
+                        - ( P No {{ element.traineePNo }})</span
+                      >
                     </mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="bnaAttendanceRemarksId">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Attendance Remarks</mat-header-cell>
-                    <mat-cell *matCellDef="let element; let i = index;">
-                      <mat-form-field class="example-full-width mb-3" appearance="outline">
-                        <mat-select (selectionChange)="onOptionsSelected(i,$event.value)">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                      >Attendance Remarks</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field
+                        class="example-full-width mb-3"
+                        appearance="outline"
+                      >
+                        <mat-select
+                          (selectionChange)="onOptionsSelected(i, $event.value)"
+                        >
                           <mat-option value="0">--Select--</mat-option>
-                          <mat-option *ngFor="let dropdown of selectedbnaattendanceremark" [value]="dropdown.value">
-                            {{dropdown.text}}
+                          <mat-option
+                            *ngFor="let dropdown of selectedbnaattendanceremark"
+                            [value]="dropdown.value"
+                          >
+                            {{ dropdown.text }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -219,43 +381,56 @@
                   </ng-container>
 
                   <ng-container matColumnDef="attendanceStatus">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Attendance</mat-header-cell>
-                    <mat-cell *matCellDef="let element; let i = index;">
-                      <mat-checkbox #checkBox [checked]="element.attendanceStatus" (change)="onCheckboxChange(i,$event)"
-                        [ngClass]="'tbl-checkbox'">
-
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                      >Attendance</mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let element; let i = index">
+                      <mat-checkbox
+                        #checkBox
+                        [checked]="element.attendanceStatus"
+                        (change)="onCheckboxChange(i, $event)"
+                        [ngClass]="'tbl-checkbox'"
+                      >
                       </mat-checkbox>
                     </mat-cell>
                   </ng-container>
-                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                  <mat-header-row
+                    *matHeaderRowDef="displayedColumns"
+                  ></mat-header-row>
+                  <mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></mat-row>
                 </mat-table>
               </div>
-              
+
               <div class="row mt-2">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <p class="text-danger text-center" style="font-size: 2rem;">
-                    {{warrningMessage}}
+                  <p class="text-danger text-center" style="font-size: 2rem">
+                    {{ warrningMessage }}
                   </p>
 
-
-                    <!-- <button type="button" class="btn-space" mat-raised-button color="warn"
+                  <!-- <button type="button" class="btn-space" mat-raised-button color="warn"
                     (click)="sharedService.goBack()">
                     <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                   </button> -->
-                  <button *ngIf="showSaveBtn" class="btn-space" [class.auth-spinner]="loading" [disabled]="loading"
-                  [disabled]="!AttendanceForm.valid " mat-raised-button color="primary">{{buttonText}}</button>
-                 
-
+                  <button
+                    *ngIf="showSaveBtn"
+                    class="btn-space"
+                    [class.auth-spinner]="loading"
+                    [disabled]="loading"
+                    [disabled]="!AttendanceForm.valid"
+                    mat-raised-button
+                    color="primary"
+                  >
+                    {{ buttonText }}
+                  </button>
                 </div>
               </div>
             </form>
-          
+
             <!-- <div *ngIf="isShown && traineeNominationListForAttendance === undefined">
               <p>Dnskldfnlf</p>
            </div> -->
-
-
           </div>
         </div>
       </div>

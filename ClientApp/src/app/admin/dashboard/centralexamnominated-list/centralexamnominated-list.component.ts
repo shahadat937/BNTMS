@@ -1,101 +1,114 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import {BNAExamInstructorAssign} from '../../../exam-management/models/bnaexaminstructorassign';
-import {BNAExamInstructorAssignService} from '../../../exam-management/service/bnaexaminstructorassign.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { dashboardService } from '../services/dashboard.service';
-import { TraineeNominationService } from '../../../staff-collage/service/traineenomination.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { BNAExamInstructorAssign } from "../../../exam-management/models/bnaexaminstructorassign";
+import { BNAExamInstructorAssignService } from "../../../exam-management/service/bnaexaminstructorassign.service";
+import { SelectionModel } from "@angular/cdk/collections";
+import { ActivatedRoute, Router } from "@angular/router";
+
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { dashboardService } from "../services/dashboard.service";
+import { TraineeNominationService } from "../../../staff-collage/service/traineenomination.service";
+import { MasterData } from "../../../../assets/data/master-data";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 
 @Component({
-  selector: 'app-centralexamnominated-list',
-  templateUrl: './centralexamnominated-list.component.html',
-  styleUrls: ['./centralexamnominated-list.component.sass']
+  selector: "app-centralexamnominated-list",
+  templateUrl: "./centralexamnominated-list.component.html",
+  styleUrls: ["./centralexamnominated-list.component.sass"],
 })
-export class CentralExamNominatedListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+export class CentralExamNominatedListComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  masterData = MasterData;
   loading = false;
   ELEMENT_DATA: BNAExamInstructorAssign[] = [];
   isLoading = false;
   showHideDiv = false;
-  GetInstructorByParameters:BNAExamInstructorAssign[];
-  baseSchoolNameId:any;
-  courseNameId:any;
+  GetInstructorByParameters: BNAExamInstructorAssign[];
+  baseSchoolNameId: any;
+  courseNameId: any;
   courseTypeId: number;
-  mainDb:any;
-  nominatedList:any;
-  yearNow:any = 0;
+  mainDb: any;
+  nominatedList: any;
+  yearNow: any = 0;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: 1000,
-    length: 1
-  }
-  searchText="";
+    length: 1,
+  };
+  searchText = "";
 
-  displayedColumns: string[]= ['ser','course','duration','candidate','action'];
-  
-  constructor(private snackBar: MatSnackBar,
+  displayedColumns: string[] = [
+    "ser",
+    "course",
+    "duration",
+    "candidate",
+    "action",
+  ];
+
+  constructor(
+    private snackBar: MatSnackBar,
     private TraineeNominationService: TraineeNominationService,
     private dashboardService: dashboardService,
     private route: ActivatedRoute,
     private BNAExamInstructorAssignService: BNAExamInstructorAssignService,
     private router: Router,
-    private confirmService: ConfirmService,  
-    public sharedService: SharedServiceService,) {
+    private confirmService: ConfirmService,
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit() {
     this.onModuleSelectionChangeGetsubjectList();
-   
   }
- 
 
-  onModuleSelectionChangeGetsubjectList(){
-    this.courseNameId = this.route.snapshot.paramMap.get('courseNameId'); 
-    var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    this.mainDb = this.route.snapshot.paramMap.get('mainDb'); 
+  onModuleSelectionChangeGetsubjectList() {
+    this.courseNameId = this.route.snapshot.paramMap.get("courseNameId");
+    var courseDurationId = this.route.snapshot.paramMap.get("courseDurationId");
+    this.mainDb = this.route.snapshot.paramMap.get("mainDb");
     // this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     // this.schooldash=this.route.snapshot.paramMap.get('schooldash');
-    // this.dbType=this.route.snapshot.paramMap.get('dbType'); 
-    this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
+    // this.dbType=this.route.snapshot.paramMap.get('dbType');
+    this.TraineeNominationService.getTraineeNominationsByCourseDurationId(
+      this.paging.pageIndex,
+      this.paging.pageSize,
+      this.searchText,
+      courseDurationId
+    ).subscribe((response) => {
       this.nominatedList = response.items;
-    })
+    });
   }
 
-  getCalculateAge(getDate,returnstatus){
+  getCalculateAge(getDate, returnstatus) {
     var currentDate = new Date(new Date().getFullYear(), 0, 1);
     var startDate = new Date(getDate);
 
     this.yearNow = currentDate.getFullYear();
     var monthNow = currentDate.getMonth() + 1;
-    var dateNow = currentDate.getDate()
+    var dateNow = currentDate.getDate();
 
     var yearDob = startDate.getFullYear();
     var monthDob = startDate.getMonth() + 1;
     var dateDob = startDate.getDate();
-    var yearAge,monthAge,dateAge;
-    
+    var yearAge, monthAge, dateAge;
+
     yearAge = this.yearNow - yearDob;
 
-    if (monthNow >= monthDob)
-       monthAge = monthNow - monthDob;
+    if (monthNow >= monthDob) monthAge = monthNow - monthDob;
     else {
       yearAge--;
-       monthAge = 12 + monthNow -monthDob;
+      monthAge = 12 + monthNow - monthDob;
     }
 
-    if (dateNow >= dateDob)
-       dateAge = dateNow - dateDob;
+    if (dateNow >= dateDob) dateAge = dateNow - dateDob;
     else {
       monthAge--;
-       dateAge = 31 + dateNow - dateDob;
+      dateAge = 31 + dateNow - dateDob;
 
       if (monthAge < 0) {
         monthAge = 11;
@@ -103,32 +116,36 @@ export class CentralExamNominatedListComponent extends UnsubscribeOnDestroyAdapt
       }
     }
 
-    if(returnstatus == 0){
-      return (yearAge +" Years "+ monthAge +" Months "+ dateAge +" Days");
-    }else if(returnstatus == 1){
-      return (yearAge);
-    }else if(returnstatus == 2){
-      return (monthAge);
-    }else if(returnstatus == 3){
-      return (dateAge);
-    }else{
+    if (returnstatus == 0) {
+      return yearAge + " Years " + monthAge + " Months " + dateAge + " Days";
+    } else if (returnstatus == 1) {
+      return yearAge;
+    } else if (returnstatus == 2) {
+      return monthAge;
+    } else if (returnstatus == 3) {
+      return dateAge;
+    } else {
       return 0;
     }
-    
   }
 
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
-  print(){ 
-     
+  print() {
     let printContents, popupWin;
-    printContents = document.getElementById('printNomineeList').innerHTML;
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    const printElement = document.getElementById("printNomineeList");
+    if (printElement) {
+      printContents = printElement.innerHTML;
+    } else {
+      console.error("Element with id 'printNomineeList' not found.");
+      return;
+    }
+    popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
     popupWin.document.open();
     popupWin.document.write(`
       <html>
@@ -180,10 +197,7 @@ export class CentralExamNominatedListComponent extends UnsubscribeOnDestroyAdapt
           ${printContents}
           
         </body>
-      </html>`
-    );
+      </html>`);
     popupWin.document.close();
-
   }
-
 }
