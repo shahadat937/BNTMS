@@ -38,6 +38,7 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   selectedsubjectname: SelectedModel[];
   selectedcourseduration: SelectedModel[];
   selectedSubjectNameByCourseNameId:SelectedModel[];
+  selectSubjectName: SelectedModel[];
   selectedModule: SelectedModel[];
   selectedCourseInstructor: CourseInstructor;
   selectedCourseModuleByBaseSchoolAndCourseNameId: SelectedModel[];
@@ -51,7 +52,9 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   branchId:any;
   baseSchoolId:any;
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
+  selectCourse: SelectedModel[];
   selectMarkType : any;
+  selectMark: SelectedModel[]
   subscription : any;
 
   options = [];
@@ -151,7 +154,11 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.QExam).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
+      this.selectCourse=res
     });
+  }
+  filterByCourse(value:any){
+    this.selectedCourseDurationByCourseTypeAndCourseName=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onCourseNameSelectionChangeGetSubjectList(dropdown){
@@ -165,8 +172,12 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
 
       this.subjectNameService.getSelectedSubjectNameByCourseNameId(this.courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
+        this.selectSubjectName = res;
       });
     }
+  }
+  filterBySubjectName(value:any){
+    this.selectedSubjectNameByCourseNameId=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
 
@@ -280,7 +291,11 @@ export class NewCourseInstructorComponent extends UnsubscribeOnDestroyAdapter im
       this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
         // this.selectedmarktype[bnaSubjectNameId]=res;
         this.selectMarkType=res
+        this.selectMark=res
       });
+  }
+  filterByMark(value:any){
+    this.selectMarkType=this.selectMark.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onSubjectMarkSelectionGetMarkType(event){
