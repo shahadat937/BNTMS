@@ -1,0 +1,12 @@
+th{
+    background-color: rgb(255, 96, 96);
+    color: white;
+    font-weight: bold;
+}
+td{
+    border: 0.7px solid rgb(173, 173, 173);
+    padding: 2px;
+}
+.school-name{
+    background-color: rgb(255, 196, 196);
+}
