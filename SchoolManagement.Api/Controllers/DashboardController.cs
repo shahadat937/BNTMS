@@ -127,14 +127,15 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-runningCourseDurationBySchool")]
-    public async Task<ActionResult> GetRunningCourseDurationBySchool(int courseTypeId, DateTime CurrentDate, int baseSchoolNameId, int viewStatus)
+    public async Task<ActionResult> GetRunningCourseDurationBySchool(int courseTypeId, DateTime CurrentDate, int baseSchoolNameId, int viewStatus, string searchTerm)
     {
         var proceduredCourses = await _mediator.Send(new GetRunningCourseDurationListBySchoolFromSpRequest
         {
             CourseTypeId = courseTypeId,
             CurrentDate = CurrentDate,
             BaseSchoolNameId = baseSchoolNameId,
-            ViewStatus = viewStatus
+            ViewStatus = viewStatus,
+            SearchTerm = searchTerm
         });
         return Ok(proceduredCourses);
     }

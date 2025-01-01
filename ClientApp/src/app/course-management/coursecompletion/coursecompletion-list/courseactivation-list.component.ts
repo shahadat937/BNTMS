@@ -20,6 +20,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 // import { SharedServiceService } from 'src/app/shared/shared-service.service';
 import { SharedServiceService } from '../../../shared/shared-service.service';
+import { Role } from '../../../../../src/app/core/models/role';
 
 @Component({
   selector: 'app-courseactivation-list',
@@ -56,8 +57,9 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
   // dataSource = { data: [] }
 
    selection = new SelectionModel<CourseDuration>(true, []);
-    userRole: any;
+    userRole= Role;
   branchId: any;
+  roleName: any;
 
   
   constructor(@Inject(LOCALE_ID) public locale: string,private datepipe: DatePipe,private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService, private route: ActivatedRoute, private authService: AuthService) {
@@ -67,6 +69,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
   ngOnInit() {
     this.currentDateTime =this.datepipe.transform((new Date), 'dd/MM/YYYY');
     this.branchId =  this.authService.currentUserValue.branchId 
+    this.roleName =  this.authService.currentUserValue.role 
     // this.getCourseDurations();
     this.searchSubscription = this.searchSubject.pipe(
       debounceTime(300),
@@ -76,7 +79,9 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
     });
     this.route.paramMap.subscribe(params => {
       this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
-      if (this.branchId) {
+
+      if ( this.roleName === this.userRole.SuperAdmin) {
+        
         this.getCourseDuraionByBaseName();
       } else {
         this.getCourseDurations();

@@ -25,11 +25,14 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   SubjectMarkForm: FormGroup;
   validationErrors: string[] = [];
   selectedmarktype:SelectedModel[];
+  selectMark: SelectedModel[];
   selectedSchoolName:SelectedModel[];
   selectedCourseModuleByBaseSchoolAndCourseNameId:SelectedModel[];
   selectedsubjectname:SelectedModel[];
   selectedBranch:SelectedModel[];
+  selectBranch: SelectedModel[];
   selectedSubjectValue:SelectedModel[];
+  selectSubjectName: SelectedModel[]
   courseNameId:number;
   isShown: boolean = false ;
   selectedSubjectMark:SubjectMark[];
@@ -134,12 +137,20 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   getSelectedBranch() {
     this.SubjectMarkService.getSelectedBranch().subscribe(res => {
       this.selectedBranch = res
+      this.selectBranch = res
     });
+  }
+  filterByBranch(value:any){
+    this.selectedBranch=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onSelectedSubjectNameByBranchId(branchId) {
     this.SubjectMarkService.getSelectedSubjectNameByBranchId(branchId).subscribe(res => {
       this.selectedSubjectValue = res
+      this.selectSubjectName = res
     });
+  }
+  filterBySubjectName(value:any){
+    this.selectedSubjectValue=this.selectSubjectName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   onCourseNameSelectionChangeGetSelectedSubjectNameList(dropdown){
@@ -193,7 +204,11 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   getSelectedKindOfSubject(){
     this.SubjectMarkService.getselectedmarktypes().subscribe(res=>{
       this.selectedmarktype=res
+      this.selectMark = res
     });
+  }
+  filterByMark(value:any){
+    this.selectedmarktype=this.selectMark.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   getSelectedSchoolName(){

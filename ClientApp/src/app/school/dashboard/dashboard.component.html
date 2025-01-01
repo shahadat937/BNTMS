@@ -124,7 +124,7 @@
               <div class="title">
                 <h4>Bulletin:</h4>
               </div>
-              
+             
             </div>
             <div class="col-lg-11 col-md-11">
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 scrollbar">
@@ -151,7 +151,12 @@
               <div class="card">
                 <div class="body">                  
                   <div class="row dash-cd-m-0">
-
+                    <div class="col-4">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Search Here..</mat-label>
+                        <input matInput #filter (keyup)="applySearch(filter.value)">
+                      </mat-form-field>
+                    </div>
                     <div *ngIf="isLoading" class="loader-container">
                       <mat-spinner></mat-spinner>
                     </div>
