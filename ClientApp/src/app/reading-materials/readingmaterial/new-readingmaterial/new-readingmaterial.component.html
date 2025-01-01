@@ -158,7 +158,7 @@
                     <button *ngIf="btnShow" [class.auth-spinner]="loading" [disabled]="loading" class="btn-space" [disabled]="!ReadingMaterialForm.valid " mat-raised-button
                         color="primary">{{buttonText}}
                       </button>
-                    <button *ngIf="traineeId" type="button" mat-button [routerLink]="['/admin/dashboard/view-readingmaterial']">Cancel</button>              
+                    <button *ngIf="traineeId" type="button" mat-button (click)="sharedService.goBack()">Cancel</button>              
                   </div>
                   <div class="progress form-group" *ngIf="progress > 0">
                     <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">

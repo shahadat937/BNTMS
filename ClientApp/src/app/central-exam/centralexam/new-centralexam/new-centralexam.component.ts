@@ -31,6 +31,7 @@ export class NewCentralExamComponent extends UnsubscribeOnDestroyAdapter impleme
   courseTypeId:1021;
   courseNameId:number;
   selectedCourseByType:SelectedModel[];
+  selectYear: SelectedModel[];
   isLoading = false;
   options = [];
   filteredOptions;
@@ -199,9 +200,12 @@ export class NewCentralExamComponent extends UnsubscribeOnDestroyAdapter impleme
   getselectedfiscalyear(){
     this.CourseDurationService.getselectedFiscalYear().subscribe(res=>{
       this.selectedfiscalyear=res
+      this.selectYear=res
     });
   }
-  
+  filterByYear(value:any){
+    this.selectedfiscalyear=this.selectYear.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {

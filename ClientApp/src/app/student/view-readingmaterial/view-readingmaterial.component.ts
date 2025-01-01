@@ -50,6 +50,7 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
   baseSchoolNameId: any;
   instractor: any;
   cousrseId : number;
+  location: any;
 
 
   constructor(
@@ -68,7 +69,7 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
-
+    
     if (this.authService.currentUserValue.role === 'Student') {
       this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
         if (res) {
@@ -111,6 +112,7 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+  
 
   getReadingMaterials() {
     this.subscription = this.studentDashboardService.getReadingMaterialListByType(this.masterData.readingMaterial.books, this.baseSchoolNameId).subscribe(res => {
