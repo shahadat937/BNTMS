@@ -151,6 +151,7 @@ export class DashboardComponent implements OnInit {
   displayedInstructorColumns: string[] = ['ser', 'course', 'instructorCount', 'actions'];
   displayedUpcomingColumns: string[] = ['ser', 'course', 'durationFrom', 'durationTo', 'daysCalculate', 'actions'];
   displayedNbcdUpcomingColumns: string[] = ['ser', 'comeform', 'course', 'durationFrom', 'durationTo', 'daysCalculate', 'actions'];
+  dataSource: any;
   constructor(private datepipe: DatePipe, private snackBar: MatSnackBar, private confirmService: ConfirmService, private authService: AuthService, private baseSchoolNameService: BaseSchoolNameService, private studentDashboardService: StudentDashboardService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private ReadingMaterialService: ReadingMaterialService, private schoolDashboardService: SchoolDashboardService, private scrollPositionService: ScrollService, public sharedService: SharedServiceService) { }
 
 
@@ -614,5 +615,11 @@ export class DashboardComponent implements OnInit {
     this.schoolDashboardService.getRoutineByCourse(schoolId).subscribe(response => {
       this.RoutineByCourse = response;
     })
+  }
+
+  applySearch(filterValue: string) {
+   
+    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
+    this.dataSource.filter = filterValue;
   }
 }

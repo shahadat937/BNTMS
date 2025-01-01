@@ -28,7 +28,7 @@
               <div class="row">
                 <div class="icon-button-demo" style="margin-left: 900px;">
                   <button class="btn-reading"  mat-raised-button
-                  color="warn" routerLink="/admin/dashboard/instructor-dashboard"> 
+                  color="warn" (click)="sharedService.goBack()"> 
                   <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                   </button>
                 </div>
