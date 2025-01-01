@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../core/models/selectedModel';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { SharedServiceService } from '../../../shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
+
 
 @Component({
   selector: 'app-new-baseschoolname',
@@ -82,7 +83,7 @@ export class NewBaseSchoolNameComponent extends UnsubscribeOnDestroyAdapter impl
 
   
   onSubmit() {
-    const id = this.BaseSchoolNameForm.get('baseSchoolNameId').value;
+    const id = this.BaseSchoolNameForm.get('baseSchoolNameId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
