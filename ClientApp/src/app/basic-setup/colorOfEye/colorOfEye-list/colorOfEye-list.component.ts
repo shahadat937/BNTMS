@@ -1,25 +1,26 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { ColorOfEye } from '../../models/colorOfEye';
-import { ColorOfEyeService } from '../../service/colorOfEye.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MasterData } from 'src/assets/data/master-data';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-
+import { SelectionModel } from "@angular/cdk/collections";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { ColorOfEye } from "../../models/colorOfEye";
+import { ColorOfEyeService } from "../../service/colorOfEye.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { MasterData } from "../../../../assets/data/master-data";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 
 @Component({
-  selector: 'app-colorOfEye-list',
-  templateUrl: './colorOfEye-list.component.html',
-  styleUrls: ['./colorOfEye-list.component.sass']
+  selector: "app-colorOfEye-list",
+  templateUrl: "./colorOfEye-list.component.html",
+  styleUrls: ["./colorOfEye-list.component.sass"],
 })
-export class ColorOfEyeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-
-   masterData = MasterData;
+export class ColorOfEyeListComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  masterData = MasterData;
   loading = false;
   ELEMENT_DATA: ColorOfEye[] = [];
   isLoading = false;
@@ -27,39 +28,48 @@ export class ColorOfEyeListComponent extends UnsubscribeOnDestroyAdapter impleme
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
-    length: 1
-  }
-  searchText="";
+    length: 1,
+  };
+  searchText = "";
 
-  displayedColumns: string[] = [ 'sl',/*'colorOfEyeId',*/ 'colorOfEyeName', /*'menuPosition',*/ 'isActive', 'actions'];
+  displayedColumns: string[] = [
+    "sl",
+    /*'colorOfEyeId',*/ "colorOfEyeName",
+    /*'menuPosition',*/ "isActive",
+    "actions",
+  ];
   dataSource: MatTableDataSource<ColorOfEye> = new MatTableDataSource();
 
   selection = new SelectionModel<ColorOfEye>(true, []);
 
-  
   constructor(
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private colorOfEyeService: ColorOfEyeService,
     private router: Router,
     private confirmService: ConfirmService,
-    public sharedService: SharedServiceService,) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
-  
+
   ngOnInit() {
     this.getColorOfEyes();
   }
-  
+
   getColorOfEyes() {
     this.isLoading = true;
-    this.colorOfEyeService.getColorOfEyes(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-     
-
-      this.dataSource.data = response.items; 
-      this.paging.length = response.totalItemsCount    
-      this.isLoading = false;
-    })
+    this.colorOfEyeService
+      .getColorOfEyes(
+        this.paging.pageIndex,
+        this.paging.pageSize,
+        this.searchText
+      )
+      .subscribe((response) => {
+        this.dataSource.data = response.items;
+        this.paging.length = response.totalItemsCount;
+        this.isLoading = false;
+      });
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -74,40 +84,41 @@ export class ColorOfEyeListComponent extends UnsubscribeOnDestroyAdapter impleme
           this.selection.select(row)
         );
   }
-  addNew(){
-    
-  }
- 
+  addNew() {}
+
   pageChanged(event: PageEvent) {
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
+    this.paging.pageIndex = event.pageIndex;
+    this.paging.pageSize = event.pageSize;
+    this.paging.pageIndex = this.paging.pageIndex + 1;
     this.getColorOfEyes();
   }
 
-  applyFilter(searchText: any){ 
+  applyFilter(searchText: any) {
     this.paging.pageSize = 10;
     this.paging.pageIndex = 1;
     this.searchText = searchText;
     this.getColorOfEyes();
-  } 
-
+  }
 
   deleteItem(row) {
-    const id = row.colorOfEyeId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Color Of Eye Item').subscribe(result => {
-      if (result) {
-        this.colorOfEyeService.delete(id).subscribe(() => {
-          this.getColorOfEyes();
-          this.snackBar.open('Information Deleted Successfully ', '', {
-            duration: 3000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'right',
-            panelClass: 'snackbar-danger'
+    const id = row.colorOfEyeId;
+    this.confirmService
+      .confirm(
+        "Confirm delete message",
+        "Are You Sure Delete This Color Of Eye Item"
+      )
+      .subscribe((result) => {
+        if (result) {
+          this.colorOfEyeService.delete(id).subscribe(() => {
+            this.getColorOfEyes();
+            this.snackBar.open("Information Deleted Successfully ", "", {
+              duration: 3000,
+              verticalPosition: "bottom",
+              horizontalPosition: "right",
+              panelClass: "snackbar-danger",
+            });
           });
-        })
-      }
-    })
-    
+        }
+      });
   }
 }
