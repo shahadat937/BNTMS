@@ -43,18 +43,20 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   }
 
   ngOnInit() {
-    var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    this.TraineeNominationService.findByCourseDuration(+courseDurationId).subscribe(
+    this.courseDurationId = Number(this.route.snapshot.paramMap.get('courseDurationId')); 
+    this.TraineeNominationService.findByCourseDuration(this.courseDurationId ).subscribe(
       res => {
-          this.courseDurationId= res.courseDurationId, 
-          this.courseNameId = res.courseNameId 
+        console.log(res);
+          this.courseDurationId= res[0].courseDurationId, 
+          this.courseNameId = res[0].courseNameId 
       }
     );
-    this.getTraineeNominationsByCourseDurationId(courseDurationId)
+    this.getTraineeNominationsByCourseDurationId(this.courseDurationId )
   }
  getTraineeNominationsByCourseDurationId(courseDurationId) {
     this.isLoading = true;
     this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
+   
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -83,7 +85,9 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
             horizontalPosition: 'right',
             panelClass: 'snackbar-danger'
           });
+          this.getTraineeNominationsByCourseDurationId(this.courseDurationId )
         })
+
       }
     })
     
