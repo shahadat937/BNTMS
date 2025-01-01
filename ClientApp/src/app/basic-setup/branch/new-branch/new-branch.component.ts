@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BranchService } from '../../service/branch.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { BranchService } from "../../service/branch.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 
 @Component({
-  selector: 'app-new-branch',
-  templateUrl: './new-branch.component.html',
-  styleUrls: ['./new-branch.component.sass']
+  selector: "app-new-branch",
+  templateUrl: "./new-branch.component.html",
+  styleUrls: ["./new-branch.component.sass"],
 })
-export class NewBranchComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-  buttonText:string;
+export class NewBranchComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  buttonText: string;
   loading = false;
   pageTitle: string;
-  destination:string;
+  destination: string;
   branchForm: FormGroup;
   validationErrors: string[] = [];
 
@@ -25,85 +27,90 @@ export class NewBranchComponent extends UnsubscribeOnDestroyAdapter implements O
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
     private branchService: BranchService,
-    private fb: FormBuilder, 
-    private router: Router,  
+    private fb: FormBuilder,
+    private router: Router,
     private route: ActivatedRoute,
-    public sharedService: SharedServiceService,
+    public sharedService: SharedServiceService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('branchId'); 
+    const id = this.route.snapshot.paramMap.get("branchId");
     if (id) {
-      this.pageTitle = 'Edit Branch';
+      this.pageTitle = "Edit Branch";
       this.destination = "Edit";
-      this.buttonText= "Update"
-      this.branchService.find(+id).subscribe(
-        res => {
-          this.branchForm.patchValue({          
-
-            branchId: res.branchId,
-            branchName: res.branchName,
-            shortName:res.shortName
-         //   menuPosition: res.menuPosition,
-          });          
-        }
-      );
+      this.buttonText = "Update";
+      this.branchService.find(+id).subscribe((res) => {
+        this.branchForm.patchValue({
+          branchId: res.branchId,
+          branchName: res.branchName,
+          shortName: res.shortName,
+          //   menuPosition: res.menuPosition,
+        });
+      });
     } else {
-      this.pageTitle = 'Create Branch';
+      this.pageTitle = "Create Branch";
       this.destination = "Add";
-      this.buttonText= "Save"
+      this.buttonText = "Save";
     }
     this.intitializeForm();
   }
   intitializeForm() {
     this.branchForm = this.fb.group({
       branchId: [0],
-      branchName: ['', Validators.required],
-      shortName:[''],
-    //  menuPosition: ['', Validators.required],
+      branchName: ["", Validators.required],
+      shortName: [""],
+      //  menuPosition: ['', Validators.required],
       isActive: [true],
-    
-    })
+    });
   }
-  
+
   onSubmit() {
-    const id = this.branchForm.get('branchId').value;   
+    const id = this.branchForm.get("branchId")?.value;
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        if (result) {
-          this.loading=true;
-          this.branchService.update(+id,this.branchForm.value).subscribe(response => {
-            this.router.navigateByUrl('/basic-setup/branch-list');
-            this.snackBar.open('Branch Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    }
-
-    else {
-      this.loading=true;
-      this.branchService.submit(this.branchForm.value).subscribe(response => {
-        this.router.navigateByUrl('/basic-setup/branch-list');
-
-        this.snackBar.open('Branch Information Saved Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
+      this.confirmService
+        .confirm("Confirm Update message", "Are You Sure Update This  Item")
+        .subscribe((result) => {
+          if (result) {
+            this.loading = true;
+            this.branchService.update(+id, this.branchForm.value).subscribe(
+              (response) => {
+                this.router.navigateByUrl("/basic-setup/branch-list");
+                this.snackBar.open(
+                  "Branch Information Updated Successfully ",
+                  "",
+                  {
+                    duration: 2000,
+                    verticalPosition: "bottom",
+                    horizontalPosition: "right",
+                    panelClass: "snackbar-success",
+                  }
+                );
+              },
+              (error) => {
+                this.validationErrors = error;
+              }
+            );
+          }
         });
-      }, error => {
-        this.validationErrors = error;
-      })
+    } else {
+      this.loading = true;
+      this.branchService.submit(this.branchForm.value).subscribe(
+        (response) => {
+          this.router.navigateByUrl("/basic-setup/branch-list");
+
+          this.snackBar.open("Branch Information Saved Successfully ", "", {
+            duration: 2000,
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            panelClass: "snackbar-success",
+          });
+        },
+        (error) => {
+          this.validationErrors = error;
+        }
+      );
     }
- 
   }
 }
