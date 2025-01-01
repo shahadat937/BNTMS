@@ -27,7 +27,7 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
     this.pageIndex = 1;
     this.pageSize = 5;
     this.totalResult = 0;
-    this.searchResults = [];
+    this.searchResults = null;
   }
 
   
@@ -43,7 +43,7 @@ export class GlobalSearchModalComponent extends UnsubscribeOnDestroyAdapter impl
     }
 
     if(this.searchText.trim()=="") {
-      this.searchResults = [];
+      this.searchResults = null
       return;
     }
     
