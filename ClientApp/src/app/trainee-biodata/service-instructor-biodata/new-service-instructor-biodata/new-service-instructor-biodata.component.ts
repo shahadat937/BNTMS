@@ -8,22 +8,23 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { SharedServiceService } from '../../../shared/shared-service.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
 
+
 @Component({
-  selector: 'app-new-i-s-biodatainfo',
-  templateUrl: './new-i-s-biodatainfo.component.html',
-  styleUrls: ['./new-i-s-biodatainfo.component.sass']
+  selector: 'app-new-service-instructor-biodata',
+  templateUrl: './new-service-instructor-biodata.component.html',
+  styleUrls: ['./new-service-instructor-biodata.component.sass']
 })
-export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
+export class NewServiceInstructorBiodataComponent implements OnInit {
 
 
- @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 
   buttonText:string;
   loading = false;
   pageTitle: string;
   destination:string;
   BIODataGeneralInfoForm: FormGroup;
   validationErrors: string[] = [];
-
+ 
   batchValues:SelectedModel[]; 
   rankValues:SelectedModel[]; 
   genderValues:SelectedModel[];
@@ -54,17 +55,17 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
   public files: any[];
   subscription: any;
   traineePhoto: string;
-
+ 
   constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
     this.files = [];
   }
-
+ 
   @ViewChild('labelImport')  labelImport: ElementRef;
   ngOnInit(): void {
-
+ 
     const id = this.route.snapshot.paramMap.get('traineeId'); 
     if (id) {
-      this.pageTitle = 'Edit I/S BIO Data';
+      this.pageTitle = 'Edit Service Instructor BIO Data';
       this.destination='Edit';
       this.buttonText="Update";
  
@@ -77,11 +78,11 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
           this.onDivisionSelectionChangeGetDistrict(res.divisionId);
           this.onDistrictSelectionChangeGetThana(res.districtId);
           this.onReligionSelectionChangeGetCastes(res.religionId);
-
+ 
         }
       );
     } else {
-      this.pageTitle = 'I/S BIO Data';
+      this.pageTitle = 'Service Instructor BIO Data';
       this.destination='Add';
       this.buttonText="Save";
     }
@@ -105,7 +106,7 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
+ 
   filterByBatch(value:any){
     this.batchValues = this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
@@ -129,19 +130,19 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       this.hairColorValues=res
     });
   }  
-
+ 
   getselectedheight(){
     this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
       this.heightValues=res
     });
   }
-
+ 
   getselectedweight(){
     this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
       this.weightValues=res
     });
   }
-
+ 
   getselectedcolorofeye(){
     this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
       this.colorOfEyeValues=res
@@ -156,7 +157,7 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       this.selectBloodGroup=res
     });
   }
-
+ 
   getNationalitys(){
     this.subscription = this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
       this.nationalityValues=res
@@ -171,7 +172,7 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       this.selectBranch=res
     });
   }
-
+ 
   filterByRank(value:any){
     this.rankValues=this.selectrank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
@@ -181,13 +182,13 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       this.selectrank=res
     });
   }
-
+ 
   getGenders(){
     this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
       this.genderValues=res
     });
   }
-
+ 
   // onFileChanged(event) {
   //   if (event.target.files.length > 0) {
   //     const file = event.target.files[0];
@@ -198,7 +199,7 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
   //     });
   //   }
   // }
-
+ 
   onFileChanged(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -219,8 +220,8 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-
+ 
+ 
   filterDivision(value:any){
       this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
@@ -230,7 +231,7 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       this.selectDivision=res
     });
   }
-
+ 
   filterByDistric(value:any){
     this.selectedDistrict=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
@@ -240,7 +241,7 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       this.selectDistric=res
     });
   }
-
+ 
   filterByThana(value:any){
     this.selectedThana = this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
@@ -250,55 +251,18 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       this.selectThana=res
     });
   }
-filterByCaste(value:any){
+ filterByCaste(value:any){
   this.selectedCastes = this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
-}
+ }
   onReligionSelectionChangeGetCastes(religionId){
     this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
       this.selectedCastes=res
       this.selectcaste=res
     });
   } 
-
-  // getMaritalStatus(){
-  //   this.BIODataGeneralInfoService.getselectedMaritialStatus().subscribe(res=>{
-  //     this.maritalValues=res
-  //   });
-  // }
-
-  // uploadFileEvt(imgFile: any) {
-  //   if (imgFile.target.files && imgFile.target.files[0]) {
-  //     this.fileAttr = '';
-  //     Array.from(imgFile.target.files).forEach((file: any) => {
-  //       this.fileAttr += file.name + ' - ';
-  //     });
-  //     const file = imgFile.target.files[0].name;
-  //     // this.labelImport.nativeElement.innerText = file.name;
-  //     this.BIODataGeneralInfoForm.patchValue({
-  //       image: file,
-  //     });
-  //     // HTML5 FileReader API
-  //     // let reader = new FileReader();
-  //     // reader.onload = (e: any) => {
-  //     //   let image = new Image();
-  //     //   image.src = e.target.result;
-  //     //   image.onload = (rs) => {
-  //     //     let imgBase64Path = e.target.result;
-  //     //   };
-  //     // };
-  //     // reader.readAsDataURL(imgFile.target.files[0]);
-  //     // // Reset if duplicate image uploaded again
-  //      this.fileInput.nativeElement.value = '';
-  //   } else {
-  //     this.fileAttr = 'Choose File';
-  //   }
-  // }
-
   intitializeForm() {
     let now = new Date();
     this.BIODataGeneralInfoForm = this.fb.group({
-      
-
       traineeId: [0],
       bnaBatchId: [''],
       rankId: [''],
@@ -316,9 +280,9 @@ filterByCaste(value:any){
       religionId: [''],
       casteId: [''],
       //maritalStatusId: [],
-      hairColorId: [],
-      officerTypeId: [1], //officerTypeId 1 For Bangladesh
-      traineeStatusId:['8'], // for I/S
+      hairColorId: [''],
+      officerTypeId: [''],
+      traineeStatusId:['11'], // Service Instructor TraineeStatus
       name: ['',Validators.required],
       nameBangla: [''],
       mobile: [''],
@@ -326,7 +290,7 @@ filterByCaste(value:any){
       email: ['', [Validators.email]],
       bnaPhotoUrl: [''],
       image: [''],
-      bnaNo: ['',Validators.required],
+      bnaNo: [''],
       pno: ['',Validators.required],
       shortCode:[''],
       presentBillet:[''],
@@ -346,7 +310,7 @@ filterByCaste(value:any){
       confirmPassword: ['Admin@123'],
       firstName: ['na'],
       lastName:['na'],
-
+ 
       //traineeId:[],
       //bnaBatchId:[],
       //rankId:[],
@@ -404,9 +368,9 @@ filterByCaste(value:any){
   }
   
   onSubmit() {
-
+ 
     const id = this.BIODataGeneralInfoForm.get('traineeId')?.value;
-
+ 
     if(this.BIODataGeneralInfoForm.get('joiningDate')?.value){
       const joiningDate = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('joiningDate')?.value)
       this.BIODataGeneralInfoForm.get('joiningDate')?.setValue(joiningDate);
@@ -415,9 +379,9 @@ filterByCaste(value:any){
       const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)
       this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
     }    
-
+ 
     const formData = new FormData();
-
+ 
     if(!this.traineePhoto){
       this.BIODataGeneralInfoForm.value.bnaPhotoUrl = null;
     }
@@ -428,7 +392,7 @@ filterByCaste(value:any){
       }
       formData.append(key, value);
     }
-
+ 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         if (result) {
@@ -451,7 +415,7 @@ filterByCaste(value:any){
       this.loading = true;
       this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
         this.sharedService.goBack();
-
+ 
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 3000,
           verticalPosition: 'bottom',
@@ -469,20 +433,21 @@ filterByCaste(value:any){
    }
    removeImage(event: Event) {
     event.preventDefault(); 
-
+ 
    
     this.traineePhoto = '';
-
+ 
    
     if (this.fileInput && this.fileInput.nativeElement) {
       this.fileInput.nativeElement.value = ''; 
     }
   }
-
+ 
   handleImageError() {
     this.traineePhoto = ''; 
   }
-
-
+ 
+ 
+ 
 
 }

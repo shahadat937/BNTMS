@@ -16,6 +16,10 @@ import { CadetBiodatainfoListComponent } from './cadet-biodata/cadet-biodatainfo
 import { NewCadetBiodatainfoComponent } from './cadet-biodata/new-cadet-biodatainfo/new-cadet-biodatainfo.component';
 import { ISBiodatainfoListComponent } from './i-s-biodata/i-s-biodatainfo-list/i-s-biodatainfo-list.component';
 import { NewISBiodatainfoComponent } from './i-s-biodata/new-i-s-biodatainfo/new-i-s-biodatainfo.component';
+import { CivilBiodataInfoListComponent } from './civil-biodata/civil-biodata-info-list/civil-biodata-info-list.component';
+import { NewCivilBiodataComponent } from './civil-biodata/new-civil-biodata/new-civil-biodata.component';
+import { ServiceInstructorBiodataListComponent } from './service-instructor-biodata/service-instructor-biodata-list/service-instructor-biodata-list.component';
+import { NewServiceInstructorBiodataComponent } from './service-instructor-biodata/new-service-instructor-biodata/new-service-instructor-biodata.component';
 
 const routes: Routes = [
   {
@@ -107,6 +111,32 @@ const routes: Routes = [
   {
     path: 'update-i-s-biodatainfo/:traineeId',
     component: NewISBiodatainfoComponent,
+  },
+  {
+    path: 'civil-biodatainfo-list',
+    component: CivilBiodataInfoListComponent
+  },
+
+  {
+    path: 'add-civil-biodatainfo',
+    component: NewCivilBiodataComponent,
+  },
+  {
+    path: 'update-civil-biodatainfo/:traineeId',
+    component: NewCivilBiodataComponent,
+  },
+  {
+    path: 'service-instractor-biodatainfo-list',
+    component: ServiceInstructorBiodataListComponent
+  },
+
+  {
+    path: 'add-service-instractor-biodatainfo',
+    component: NewServiceInstructorBiodataComponent,
+  },
+  {
+    path: 'update-service-instractor-biodatainfo/:traineeId',
+    component: NewServiceInstructorBiodataComponent,
   },
 
   {
