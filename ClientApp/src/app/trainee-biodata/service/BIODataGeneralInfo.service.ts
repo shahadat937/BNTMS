@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, catchError, throwError} from 'rxjs';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { environment } from 'src/environments/environment';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { environment } from '../../../../src/environments/environment';
 import { BIODataGeneralInfo } from '../models/BIODataGeneralInfo';
 import {IBIODataGeneralInfoPagination, BIODataGeneralInfoPagination } from '../models/BIODataGeneralInfoPagination'
 
@@ -88,6 +88,24 @@ export class BIODataGeneralInfoService {
     params = params.append('pageNumber', pageNumber.toString());
     params = params.append('pageSize', pageSize.toString());
     return this.http.get<IBIODataGeneralInfoPagination>(this.baseUrl + '/trainee-bio-data-general-info/get-i-s-BioDataGeneralInfoes', { observe: 'response', params })
+    .pipe(
+      map(response => {
+        this.BIODataGeneralInfos = [...this.BIODataGeneralInfos, ...response.body.items];
+        this.BIODataGeneralInfoPagination = response.body;
+        return this.BIODataGeneralInfoPagination;
+      })
+    );
+  }
+
+  getBIODataGeneralInfosForCivil(pageNumber, pageSize,searchText, traineeStatusId) {
+
+    let params = new HttpParams();
+
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+    params = params.append('traineeStatusId', traineeStatusId);
+    return this.http.get<IBIODataGeneralInfoPagination>(this.baseUrl + '/trainee-bio-data-general-info/get-BioDataGeneralInfoes-by-trainee-status', { observe: 'response', params })
     .pipe(
       map(response => {
         this.BIODataGeneralInfos = [...this.BIODataGeneralInfos, ...response.body.items];
