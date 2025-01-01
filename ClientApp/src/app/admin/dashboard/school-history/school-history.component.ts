@@ -1,27 +1,38 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { dashboardService } from '../services/dashboard.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data'
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Role } from 'src/app/core/models/role';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
-import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
-import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { dashboardService } from "../services/dashboard.service";
+import { SelectionModel } from "@angular/cdk/collections";
+import { Router } from "@angular/router";
+// import { ConfirmService } from 'src/app/core/service/confirm.service';
+// import { MasterData } from 'src/assets/data/master-data'
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { BaseSchoolNameService } from "../../../security/service/BaseSchoolName.service";
+import { Role } from "../../../core/models/role";
+import { MasterData } from "../../../../assets/data/master-data";
+// import { Role } from 'src/app/core/models/role';
+// import { AuthService } from 'src/app/core/service/auth.service';
+// import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
+// import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
+import { InstructorDashboardService } from '../../../teacher/services/InstructorDashboard.service';
+// import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+// import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { StudentDashboardService } from '../../../student/services/StudentDashboard.service';
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { AuthService } from "../../../core/service/auth.service";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 
 @Component({
-  selector: 'app-school-history',
-  templateUrl: './school-history.component.html',
-  styleUrls: ['./school-history.component.sass']
+  selector: "app-school-history",
+  templateUrl: "./school-history.component.html",
+  styleUrls: ["./school-history.component.sass"],
 })
-export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class SchoolHistoryComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -33,8 +44,8 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
-    length: 1
-  }
+    length: 1,
+  };
   searchText = "";
 
   isUpdateable = false;
@@ -45,10 +56,9 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
 
   baseSchoolNameId: any;
   validationErrors: string[] = [];
-  groupArrays: { baseName: string; schools: any; }[];
+  groupArrays: { baseName: string; schools: any }[];
 
-  displayedColumns: string[] = ['ser', 'schoolName', 'courseCount'];
-
+  displayedColumns: string[] = ["ser", "schoolName", "courseCount"];
 
   constructor(
     private snackBar: MatSnackBar,
@@ -60,46 +70,50 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
     private dashboardService: dashboardService,
     private router: Router,
     private confirmService: ConfirmService,
-    public sharedService: SharedServiceService,
+    public sharedService: SharedServiceService
   ) {
     super();
   }
 
   ngOnInit() {
-
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
-    this.branchId = this.authService.currentUserValue.branchId ? this.authService.currentUserValue.branchId.trim() : "";
+    this.branchId = this.authService.currentUserValue.branchId
+      ? this.authService.currentUserValue.branchId.trim()
+      : "";
     if (this.role == this.userRole.SchoolOIC) {
       this.isUpdateable = true;
     }
 
     if (this.role == this.userRole.Student) {
-      this.studentDashboardService.getSpStudentInfoByTraineeId(this.traineeId).subscribe(res => {
-        if (res) {
-          let infoList = res
-          this.baseSchoolNameId = infoList[0].baseSchoolNameId;
-          this.loadSchoolDataById(this.baseSchoolNameId);
-        }
-      });
+      this.studentDashboardService
+        .getSpStudentInfoByTraineeId(this.traineeId)
+        .subscribe((res) => {
+          if (res) {
+            let infoList = res;
+            this.baseSchoolNameId = infoList[0].baseSchoolNameId;
+            this.loadSchoolDataById(this.baseSchoolNameId);
+          }
+        });
     } else if (this.role == this.userRole.Instructor) {
       this.loadSchoolDataById(this.branchId);
-      this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res => {
-        if (res) {
-          let infoList = res;
-          this.baseSchoolNameId = infoList[0].baseSchoolNameId,
-            this.loadSchoolDataById(this.baseSchoolNameId);
-        }
-      });
+      this.instructorDashboardService
+        .getSpInstructorInfoByTraineeId(this.traineeId)
+        .subscribe((res) => {
+          if (res) {
+            let infoList = res;
+            (this.baseSchoolNameId = infoList[0].baseSchoolNameId),
+              this.loadSchoolDataById(this.baseSchoolNameId);
+          }
+        });
     } else {
       this.loadSchoolDataById(this.branchId);
     }
 
     this.intitializeForm();
-
   }
   loadSchoolDataById(schoolId) {
-    this.baseSchoolNameService.find(+schoolId).subscribe(res => {
+    this.baseSchoolNameService.find(+schoolId).subscribe((res) => {
       this.BaseSchoolNameForm.patchValue({
         baseSchoolNameId: res.baseSchoolNameId,
         schoolName: res.schoolName,
@@ -130,12 +144,12 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
   intitializeForm() {
     this.BaseSchoolNameForm = this.fb.group({
       baseSchoolNameId: [0],
-      schoolName: [''],
-      shortName: [''],
-      schoolLogo: [''],
-      image: [''],
-      status: [''],
-      menuPosition: [''],
+      schoolName: [""],
+      shortName: [""],
+      schoolLogo: [""],
+      image: [""],
+      status: [""],
+      menuPosition: [""],
       isActive: [],
       contactPerson: [],
       address: [],
@@ -143,26 +157,26 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
       cellphone: [],
       email: [],
       fax: [],
-      branchLevel: [''],
+      branchLevel: [""],
       firstLevel: [""],
       secondLevel: [""],
       thirdLevel: [""],
       fourthLevel: [""],
       fifthLevel: [""],
       serverName: [],
-      schoolHistory: [''],
-    })
+      schoolHistory: [""],
+    });
   }
 
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
       this.router.navigate([currentUrl]);
     });
   }
 
   onSubmit() {
-    const id = this.BaseSchoolNameForm.get('baseSchoolNameId').value;
+    const id = this.BaseSchoolNameForm.get("baseSchoolNameId")?.value;
 
     const formData = new FormData();
     for (const key of Object.keys(this.BaseSchoolNameForm.value)) {
@@ -170,24 +184,29 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
       formData.append(key, value);
     }
     // if (id) {
-    this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-      if (result) {
-        this.loading = true;
-        this.baseSchoolNameService.update(+id, formData).subscribe(response => {
-          // this.router.navigateByUrl('/security/new-basename');
-          // this.getBaseNameList(this.commendingAreaId);
-          this.reloadCurrentRoute();
-          this.snackBar.open('Information Updated Successfully ', '', {
-            duration: 2000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'right',
-            panelClass: 'snackbar-success'
-          });
-        }, error => {
-          this.validationErrors = error;
-        })
-      }
-    })
+    this.confirmService
+      .confirm("Confirm Update message", "Are You Sure Update This Item?")
+      .subscribe((result) => {
+        if (result) {
+          this.loading = true;
+          this.baseSchoolNameService.update(+id, formData).subscribe(
+            (response) => {
+              // this.router.navigateByUrl('/security/new-basename');
+              // this.getBaseNameList(this.commendingAreaId);
+              this.reloadCurrentRoute();
+              this.snackBar.open("Information Updated Successfully ", "", {
+                duration: 2000,
+                verticalPosition: "bottom",
+                horizontalPosition: "right",
+                panelClass: "snackbar-success",
+              });
+            },
+            (error) => {
+              this.validationErrors = error;
+            }
+          );
+        }
+      });
     // }
   }
 }

@@ -1,26 +1,26 @@
 //import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   CalendarOptions,
   DateSelectArg,
   EventClickArg,
   EventApi,
-} from '@fullcalendar/angular';
-import { EventInput } from '@fullcalendar/angular';
-import { Calendar } from '../../../calendar/models/calendar';
-import { CalendarService } from '../../../calendar/service/calendar.service';
+} from "@fullcalendar/angular";
+import { EventInput } from "@fullcalendar/angular";
+import { Calendar } from "../../../calendar/models/calendar";
+import { CalendarService } from "../../../calendar/service/calendar.service";
 //import { PageEvent } from '@angular/material/paginator';
 //import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {CourseDurationService} from '../services/courseduration.service';
-import {dashboardService} from '../services/dashboard.service';
-import {MasterData} from 'src/assets/data/master-data';
-import {CourseDuration} from '../models/courseduration';
-import {SpCourseDuration} from '../models/spcourseduration';
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { INITIAL_EVENTS } from '../../../calendar/events-util';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CourseDurationService } from "../services/courseduration.service";
+import { dashboardService } from "../services/dashboard.service";
+
+import { CourseDuration } from "../models/courseduration";
+import { SpCourseDuration } from "../models/spcourseduration";
+import { SelectionModel } from "@angular/cdk/collections";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { INITIAL_EVENTS } from "../../../calendar/events-util";
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -33,16 +33,18 @@ import {
   ApexStroke,
   ApexLegend,
   ApexFill,
-} from 'ng-apexcharts';
-import { DatePipe } from '@angular/common';
-import { SpOfficerDetails } from '../models/spofficerdetails';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { environment } from 'src/environments/environment';
-import { BaseSchoolNameService } from 'src/app/basic-setup/service/BaseSchoolName.service';
+} from "ng-apexcharts";
+import { DatePipe } from "@angular/common";
+import { SpOfficerDetails } from "../models/spofficerdetails";
+import { MasterData } from "../../../../assets/data/master-data";
+import { AuthService } from "../../../core/service/auth.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+
 //import { MasterData } from 'src/assets/data/master-data';
 //import { CourseDuration } from '../models/courseduration';
 //import { CourseDurationService } from '../services/courseduration.service';
+import { environment } from '../../../../environments/environment.prod';
+import { BaseSchoolNameService } from '../../../basic-setup/service/BaseSchoolName.service';
 export type areaChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -67,139 +69,167 @@ export type barChartOptions = {
 };
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  selector: "app-main",
+  templateUrl: "./main.component.html",
+  styleUrls: ["./main.component.scss"],
 })
-export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-  @ViewChild('calendar', { static: false })
+export class MainComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  @ViewChild("calendar", { static: false })
   calendar: Calendar | null;
   public addCusForm: FormGroup;
   dialogTitle: string;
-  filterOptions = 'All';
+  filterOptions = "All";
   calendarData: any;
-  @ViewChild('chart') chart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent;
   public areaChartOptions: Partial<areaChartOptions>;
   public barChartOptions: Partial<barChartOptions>;
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseDuration[] = [];
-  upcomingLocalCourses:SpCourseDuration[];
-  upcomingForeignCourses:SpCourseDuration[];
-  runningCourses:SpCourseDuration[];
-  runningForeignCourses:SpCourseDuration[];
+  upcomingLocalCourses: SpCourseDuration[];
+  upcomingForeignCourses: SpCourseDuration[];
+  runningCourses: SpCourseDuration[];
+  runningForeignCourses: SpCourseDuration[];
   isLoading = false;
-  courseTypeId=3;
-  runningCourseType:number;
-  traineeCount:number;
-  dbType:any;
-  schoolCount:number;
-  localCourseCount:number;
-  foreignCourseCount:number;
-  intServiceCount:number;
-  nomineeCount:number;
-  notificationCount:any=0;
-  branchId:any;
-  traineeId:any;
-  role:any;
+  courseTypeId = 3;
+  runningCourseType: number;
+  traineeCount: number;
+  dbType: any;
+  schoolCount: number;
+  localCourseCount: number;
+  foreignCourseCount: number;
+  intServiceCount: number;
+  nomineeCount: number;
+  notificationCount: any = 0;
+  branchId: any;
+  traineeId: any;
+  role: any;
 
   fileUrl: any = environment.fileUrl;
   userManual: any;
 
   filterItems: string[] = [
-    'work',
-    'personal',
-    'important',
-    'travel',
-    'friends',
+    "work",
+    "personal",
+    "important",
+    "travel",
+    "friends",
   ];
 
   calendarEvents: EventInput[];
   tempEvents: EventInput[];
 
   public filters = [
-    { name: 'work', value: 'Work', checked: true },
-    { name: 'personal', value: 'Personal', checked: true },
-    { name: 'important', value: 'Important', checked: true },
-    { name: 'travel', value: 'Travel', checked: true },
-    { name: 'friends', value: 'Friends', checked: true },
+    { name: "work", value: "Work", checked: true },
+    { name: "personal", value: "Personal", checked: true },
+    { name: "important", value: "Important", checked: true },
+    { name: "travel", value: "Travel", checked: true },
+    { name: "friends", value: "Friends", checked: true },
   ];
 
-  runningOfficerCount:number;
-  CountedRunningOfficer:SpOfficerDetails[];
-  runningSailorCount:number;
-  foreignNomineeCount:number;
-  CountedSailorOfficer:SpOfficerDetails[];
-  runningCivilCount:number;
-  CountedCivilOfficer:SpOfficerDetails[];
-  groupArrays:{ schoolName: string; courses: any; }[];
+  runningOfficerCount: number;
+  CountedRunningOfficer: SpOfficerDetails[];
+  runningSailorCount: number;
+  foreignNomineeCount: number;
+  CountedSailorOfficer: SpOfficerDetails[];
+  runningCivilCount: number;
+  CountedCivilOfficer: SpOfficerDetails[];
+  groupArrays: { schoolName: string; courses: any }[];
 
   calendarOptions: CalendarOptions;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
-    length: 1
-  }
-  searchText="";
+    length: 1,
+  };
+  searchText = "";
 
-  displayedColumns: string[] = ['ser','schoolName','course','noOfCandidates','professional','nbcd','durationFrom','durationTo', 'remark', 'actions'];
+  displayedColumns: string[] = [
+    "ser",
+    "schoolName",
+    "course",
+    "noOfCandidates",
+    "professional",
+    "nbcd",
+    "durationFrom",
+    "durationTo",
+    "remark",
+    "actions",
+  ];
 
-  displayedUpcomingForeignColumns: string[] = ['ser','courseTitle','courseName','durationFrom','durationTo', 'country', 'actions'];
+  displayedUpcomingForeignColumns: string[] = [
+    "ser",
+    "courseTitle",
+    "courseName",
+    "durationFrom",
+    "durationTo",
+    "country",
+    "actions",
+  ];
 
   dataSource: MatTableDataSource<SpCourseDuration> = new MatTableDataSource();
 
   selection = new SelectionModel<CourseDuration>(true, []);
-  
 
-  constructor(private datepipe: DatePipe, private authService: AuthService,private CourseDurationService: CourseDurationService,private dashboardService: dashboardService, private baseSchoolNameService: BaseSchoolNameService,) {
+  constructor(
+    private datepipe: DatePipe,
+    private authService: AuthService,
+    private CourseDurationService: CourseDurationService,
+    private dashboardService: dashboardService,
+    private baseSchoolNameService: BaseSchoolNameService
+  ) {
     super();
   }
- 
 
   ngOnInit() {
     //  this.calendarEvents = INITIAL_EVENTS;
 
-  
-   // this.calendarEvents=INITIAL_EVENTS;
-   this.role = this.authService.currentUserValue.role.trim();
-   this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-   // this.branchId =  this.authService.currentUserValue.branchId.trim();
-   this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
+    // this.calendarEvents=INITIAL_EVENTS;
+    this.role = this.authService.currentUserValue.role.trim();
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    // this.branchId =  this.authService.currentUserValue.branchId.trim();
+    this.branchId = this.authService.currentUserValue.branchId
+      ? this.authService.currentUserValue.branchId.trim()
+      : "";
 
+    this.dashboardService
+      .getCourseDurationForEventCalendar()
+      .subscribe((res) => {
+        this.baseSchoolNameService
+          .getUserManualByRole(this.role)
+          .subscribe((response) => {
+            this.userManual = response[0].doc;
+          });
+        //  this.calendarEvents=INITIAL_EVENTS;
+        this.calendarEvents = res;
+        this.calendarOptions = {
+          headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+          },
+          initialView: "dayGridMonth",
+          weekends: true,
+          editable: true,
+          selectable: true,
+          selectMirror: true,
+          dayMaxEvents: true,
+          events: this.calendarEvents,
+          //select: this.handleDateSelect.bind(this),
+          //eventClick: this.handleEventClick.bind(this),
+          //eventsSet: this.handleEvents.bind(this),
+        };
 
-  this.dashboardService.getCourseDurationForEventCalendar().subscribe(res=>{
-   
-  this.baseSchoolNameService.getUserManualByRole(this.role).subscribe(response => {
-    this.userManual = response[0].doc;
-  })
-  //  this.calendarEvents=INITIAL_EVENTS;
-  this.calendarEvents= res;
-  this.calendarOptions = {
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-    },
-    initialView: 'dayGridMonth',
-    weekends: true,
-    editable: true,
-    selectable: true,
-    selectMirror: true,
-    dayMaxEvents: true,
-    events:this.calendarEvents,
-    //select: this.handleDateSelect.bind(this),
-    //eventClick: this.handleEventClick.bind(this),
-    //eventsSet: this.handleEvents.bind(this),
-  };
-  
-  // this.calendarOptions.initialEvents = this.calendarEvents;
-    
-  });
+        // this.calendarOptions.initialEvents = this.calendarEvents;
+      });
     // this.calendarEvents= [{
     //   id: "event1",
     //   title: "All Day Event",
-    //   start: "2022-03-14T18:00:00",    
-    //    className: "fc-event-success",     
+    //   start: "2022-03-14T18:00:00",
+    //    className: "fc-event-success",
     // }];
 
     // this.calendarOptions.initialEvents = this.calendarEvents;
@@ -213,197 +243,215 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
     // this.getSpTotalTrainee();
 
     // this.getSpSchoolCount();
-   this.getNotificationReminderForDashboard();
+    this.getNotificationReminderForDashboard();
     this.getnominatedCourseListFromSpRequest();
     this.getrunningCourseTotalOfficerListfromprocedure();
-    
   }
 
-  
- 
-  initializeEvents(){
-    this.dashboardService.getCourseDurationForEventCalendar().subscribe(res=>{
-      //var durationData: EventInput[] = res;
-      // const durationData: EventInput[] =res;
-      this.calendarEvents=INITIAL_EVENTS;
-      // this.calendarEvents= [{
-      //   id: "event1",
-      //   title: "All Day Event",
-      //   start: "2022-03-14T18:00:00",
-      //   // start: new Date(year, month, day + 20, 10, 0),
-      //   // end: new Date(year, month, 1, 23, 59),
-      //    className: "fc-event-success",
-      //   // groupId: "work",
-      //   // details:
-      //   //   "Her extensive perceived may any sincerity extremity. Indeed add rather may pretty see.",
-      // }];
-    //  this.tempEvents = this.calendarEvents;
-      this.calendarOptions.initialEvents = this.calendarEvents;
-      
-    });
+  initializeEvents() {
+    this.dashboardService
+      .getCourseDurationForEventCalendar()
+      .subscribe((res) => {
+        //var durationData: EventInput[] = res;
+        // const durationData: EventInput[] =res;
+        this.calendarEvents = INITIAL_EVENTS;
+        // this.calendarEvents= [{
+        //   id: "event1",
+        //   title: "All Day Event",
+        //   start: "2022-03-14T18:00:00",
+        //   // start: new Date(year, month, day + 20, 10, 0),
+        //   // end: new Date(year, month, 1, 23, 59),
+        //    className: "fc-event-success",
+        //   // groupId: "work",
+        //   // details:
+        //   //   "Her extensive perceived may any sincerity extremity. Indeed add rather may pretty see.",
+        // }];
+        //  this.tempEvents = this.calendarEvents;
+        this.calendarOptions.initialEvents = this.calendarEvents;
+      });
   }
-  inActiveItem(id){
+  inActiveItem(id) {
     this.courseTypeId = id;
-    this.getSpCourseDurations(this.courseTypeId);    
+    this.getSpCourseDurations(this.courseTypeId);
   }
-  getSpCourseDurations(id:number) {
+  getSpCourseDurations(id: number) {
     this.isLoading = true;
     this.courseTypeId = id;
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    if(this.courseTypeId == this.masterData.coursetype.LocalCourse){
-      this.dashboardService.getSpCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
-        this.upcomingLocalCourses=response;
-        // this gives an object with dates as keys
-        const groups = this.upcomingLocalCourses.reduce((groups, courses) => {
-          const schoolName = courses.schoolName;
-          if (!groups[schoolName]) {
-            groups[schoolName] = [];
-          }
-          groups[schoolName].push(courses);
-          return groups;
-        }, {});
+    let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") || '';
+    if (this.courseTypeId == this.masterData.coursetype.LocalCourse) {
+      this.dashboardService
+        .getSpCourseDurationsByType(this.courseTypeId, currentDateTime)
+        .subscribe((response) => {
+          this.upcomingLocalCourses = response;
+          // this gives an object with dates as keys
+          const groups = this.upcomingLocalCourses.reduce((groups, courses) => {
+            const schoolName = courses.schoolName;
+            if (!groups[schoolName]) {
+              groups[schoolName] = [];
+            }
+            groups[schoolName].push(courses);
+            return groups;
+          }, {});
 
-        // Edit: to add it in the array format instead
-        this.groupArrays = Object.keys(groups).map((schoolName) => {
-          return {
-            schoolName,
-            courses: groups[schoolName]
-          };
+          // Edit: to add it in the array format instead
+          this.groupArrays = Object.keys(groups).map((schoolName) => {
+            return {
+              schoolName,
+              courses: groups[schoolName],
+            };
+          });
+
+          // this.upcomingLocalCourses=response;
         });
-
-
-        // this.upcomingLocalCourses=response;
-      })
-    }else if(this.courseTypeId === this.masterData.coursetype.ForeignCourse){
-      this.dashboardService.getSpForeignCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
-        this.upcomingForeignCourses=response;
-      })
-    }else{
-      this.dashboardService.getSpCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
-        this.dataSource.data=response;
-      })
+    } else if (this.courseTypeId === this.masterData.coursetype.ForeignCourse) {
+      this.dashboardService
+        .getSpForeignCourseDurationsByType(this.courseTypeId, currentDateTime)
+        .subscribe((response) => {
+          this.upcomingForeignCourses = response;
+        });
+    } else {
+      this.dashboardService
+        .getSpCourseDurationsByType(this.courseTypeId, currentDateTime)
+        .subscribe((response) => {
+          this.dataSource.data = response;
+        });
     }
-    
   }
-  getNotificationReminderForDashboard(){
+  getNotificationReminderForDashboard() {
     // let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.dashboardService.getNotificationReminderForDashboard(this.role,this.branchId).subscribe(response => {         
-      this.notificationCount=response[0].notificationCount;
-    })
+    this.dashboardService
+      .getNotificationReminderForDashboard(this.role, this.branchId)
+      .subscribe((response) => {
+        this.notificationCount = response[0].notificationCount;
+      });
   }
 
-  getnominatedCourseListFromSpRequest(){
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.dashboardService.getnominatedCourseListFromSpRequest(currentDateTime).subscribe(response => {   
-      
-      this.nomineeCount=response.length;
-    })
+  getnominatedCourseListFromSpRequest() {
+    let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") ?? '';
+    this.dashboardService
+      .getnominatedCourseListFromSpRequest(currentDateTime)
+      .subscribe((response) => {
+        this.nomineeCount = response.length;
+      });
   }
 
-  getrunningCourseTotalOfficerListfromprocedure(){
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.dashboardService.getrunningCourseTotalOfficerListfromprocedureRequest(currentDateTime, this.masterData.TraineeStatus.officer).subscribe(response => {         
-      this.runningOfficerCount=response.length;
-    })
-    this.dashboardService.getnominatedForeignTraineeFromSpRequestBySchoolId(currentDateTime, this.masterData.OfficerType.Foreign).subscribe(response => {         
-        this.foreignNomineeCount=response.length;
-      })
-    this.dashboardService.getrunningCourseTotalOfficerListfromprocedureRequest(currentDateTime, this.masterData.TraineeStatus.sailor).subscribe(response => {         
-      this.runningSailorCount=response.length;
-    })
-    this.dashboardService.getrunningCourseTotalOfficerListfromprocedureRequest(currentDateTime, this.masterData.TraineeStatus.civil).subscribe(response => {         
-      this.runningCivilCount=response.length;
-    })
+  getrunningCourseTotalOfficerListfromprocedure() {
+    let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy" )?? '';
+    this.dashboardService
+      .getrunningCourseTotalOfficerListfromprocedureRequest(
+        currentDateTime,
+        this.masterData.TraineeStatus.officer
+      )
+      .subscribe((response) => {
+        this.runningOfficerCount = response.length;
+      });
+    this.dashboardService
+      .getnominatedForeignTraineeFromSpRequestBySchoolId(
+        currentDateTime,
+        this.masterData.OfficerType.Foreign
+      )
+      .subscribe((response) => {
+        this.foreignNomineeCount = response.length;
+      });
+    this.dashboardService
+      .getrunningCourseTotalOfficerListfromprocedureRequest(
+        currentDateTime,
+        this.masterData.TraineeStatus.sailor
+      )
+      .subscribe((response) => {
+        this.runningSailorCount = response.length;
+      });
+    this.dashboardService
+      .getrunningCourseTotalOfficerListfromprocedureRequest(
+        currentDateTime,
+        this.masterData.TraineeStatus.civil
+      )
+      .subscribe((response) => {
+        this.runningCivilCount = response.length;
+      });
   }
 
   // getSpTotalTrainee() {
-  //   this.dashboardService.getSpTotalTraineeByTraineeStatus().subscribe(response => {   
+  //   this.dashboardService.getSpTotalTraineeByTraineeStatus().subscribe(response => {
   //     this.traineeCount=response
   //   })
   // }
   // getSpSchoolCount() {
-  //   this.dashboardService.getSpSchoolCount().subscribe(response => {   
+  //   this.dashboardService.getSpSchoolCount().subscribe(response => {
   //     this.schoolCount=response
-    
+
   //   })
   // }
 
   // getLocalCourseCount(){
   //   let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-  //   this.dashboardService.getSpRunningCourseDurationsByType(this.masterData.coursetype.LocalCourse,currentDateTime).subscribe(response => {           
+  //   this.dashboardService.getSpRunningCourseDurationsByType(this.masterData.coursetype.LocalCourse,currentDateTime).subscribe(response => {
   //     this.localCourseCount=response.length;
   //   })
   // }
   // getForeignCourseCount(){
   //   let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-  //   this.dashboardService.getSpRunningForeignCourseDurationsByType(this.masterData.coursetype.ForeignCourse,currentDateTime).subscribe(response => {           
+  //   this.dashboardService.getSpRunningForeignCourseDurationsByType(this.masterData.coursetype.ForeignCourse,currentDateTime).subscribe(response => {
   //     this.foreignCourseCount=response.length;
   //   })
   // }
   // getIntServiceCount(){
   //   let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-  //   this.dashboardService.getSpRunningForeignCourseDurationsByType(this.masterData.coursetype.InterService,currentDateTime).subscribe(response => {           
+  //   this.dashboardService.getSpRunningForeignCourseDurationsByType(this.masterData.coursetype.InterService,currentDateTime).subscribe(response => {
   //     this.intServiceCount=response.length;
   //   })
   // }
-  
-  
-
-
-  
-
-
 
   private chart1() {
     this.areaChartOptions = {
       series: [
         {
-          name: 'new students',
+          name: "new students",
           data: [31, 40, 28, 51, 42, 85, 77],
         },
         {
-          name: 'old students',
+          name: "old students",
           data: [11, 32, 45, 32, 34, 52, 41],
         },
       ],
       chart: {
         height: 350,
-        type: 'area',
+        type: "area",
         toolbar: {
           show: false,
         },
-        foreColor: '#9aa0ac',
+        foreColor: "#9aa0ac",
       },
-      colors: ['#9F8DF1', '#E79A3B'],
+      colors: ["#9F8DF1", "#E79A3B"],
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        curve: 'smooth',
+        curve: "smooth",
       },
       xaxis: {
-        type: 'datetime',
+        type: "datetime",
         categories: [
-          '2018-09-19T00:00:00.000Z',
-          '2018-09-19T01:30:00.000Z',
-          '2018-09-19T02:30:00.000Z',
-          '2018-09-19T03:30:00.000Z',
-          '2018-09-19T04:30:00.000Z',
-          '2018-09-19T05:30:00.000Z',
-          '2018-09-19T06:30:00.000Z',
+          "2018-09-19T00:00:00.000Z",
+          "2018-09-19T01:30:00.000Z",
+          "2018-09-19T02:30:00.000Z",
+          "2018-09-19T03:30:00.000Z",
+          "2018-09-19T04:30:00.000Z",
+          "2018-09-19T05:30:00.000Z",
+          "2018-09-19T06:30:00.000Z",
         ],
       },
       legend: {
         show: true,
-        position: 'top',
-        horizontalAlign: 'center',
+        position: "top",
+        horizontalAlign: "center",
         offsetX: 0,
         offsetY: 0,
       },
 
       tooltip: {
         x: {
-          format: 'dd/MM/yy HH:mm',
+          format: "dd/MM/yy HH:mm",
         },
       },
     };
@@ -413,53 +461,53 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
     this.barChartOptions = {
       series: [
         {
-          name: 'percent',
+          name: "percent",
           data: [5, 8, 10, 14, 9, 7, 11, 5, 9, 16, 7, 5],
         },
       ],
       chart: {
         height: 320,
-        type: 'bar',
+        type: "bar",
         toolbar: {
           show: false,
         },
-        foreColor: '#9aa0ac',
+        foreColor: "#9aa0ac",
       },
       plotOptions: {
         bar: {
           dataLabels: {
-            position: 'top', // top, center, bottom
+            position: "top", // top, center, bottom
           },
         },
       },
       dataLabels: {
         enabled: true,
         formatter: function (val) {
-          return val + '%';
+          return val + "%";
         },
         offsetY: -20,
         style: {
-          fontSize: '12px',
-          colors: ['#9aa0ac'],
+          fontSize: "12px",
+          colors: ["#9aa0ac"],
         },
       },
 
       xaxis: {
         categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
         ],
-        position: 'bottom',
+        position: "bottom",
         labels: {
           offsetY: 0,
         },
@@ -471,10 +519,10 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
         },
         crosshairs: {
           fill: {
-            type: 'gradient',
+            type: "gradient",
             gradient: {
-              colorFrom: '#D8E3F0',
-              colorTo: '#BED1E6',
+              colorFrom: "#D8E3F0",
+              colorTo: "#BED1E6",
               stops: [0, 100],
               opacityFrom: 0.4,
               opacityTo: 0.5,
@@ -487,11 +535,11 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
         },
       },
       fill: {
-        type: 'gradient',
-        colors: ['#4F86F8', '#4F86F8'],
+        type: "gradient",
+        colors: ["#4F86F8", "#4F86F8"],
         gradient: {
-          shade: 'light',
-          type: 'horizontal',
+          shade: "light",
+          type: "horizontal",
           shadeIntensity: 0.25,
           gradientToColors: undefined,
           inverseColors: true,
@@ -510,7 +558,7 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
         labels: {
           show: false,
           formatter: function (val) {
-            return val + '%';
+            return val + "%";
           },
         },
       },

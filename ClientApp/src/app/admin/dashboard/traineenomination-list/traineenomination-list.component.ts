@@ -5,15 +5,17 @@ import { TraineeNomination } from '../../../course-management/models/traineenomi
 import { TraineeNominationService } from '../../../course-management/service/traineenomination.service'
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data'
+
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { environment } from 'src/environments/environment';
-import { CourseInstructorService } from 'src/app/subject-management/service/courseinstructor.service';
-import { Role } from 'src/app/core/models/role';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { MasterData } from '../../../../assets/data/master-data';
+import { environment } from '../../../../environments/environment';
+import { Role } from '../../../core/models/role';
+import { AuthService } from '../../../core/service/auth.service';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { SharedServiceService } from '../../../shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
+import { CourseInstructorService } from '../../../subject-management/service/courseinstructor.service';
+
 
 @Component({
   selector: 'app-traineenomination-list',
@@ -124,7 +126,10 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   }
   print() {
     let printContents, popupWin;
-    printContents = document.getElementById("print-routine").innerHTML;
+    const printElement = document.getElementById("print-routine");
+    if (printElement) {
+      printContents = printElement.innerHTML;
+    }
     popupWin = window.open("", "<h3>NOMINAL ROLL</h3>", "top=0,left=0,height=100%,width=auto");
     popupWin.document.open();
     popupWin.document.write(`

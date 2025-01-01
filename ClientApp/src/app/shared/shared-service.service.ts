@@ -99,7 +99,7 @@ export class SharedServiceService {
 
   formatDateTime(date: any): string {
 
-    let validDate: Date;
+    let validDate: Date = new Date();
     if (date instanceof Date) {
       validDate = date;
     } 
@@ -124,6 +124,7 @@ export class SharedServiceService {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
 
+  
   groupByTableType(data: any[]): any[] {
     const groupedData = data.reduce((groups, key) => {
       const forceType = key.forceType || 'Unknown';
@@ -148,6 +149,7 @@ export class SharedServiceService {
   getRowspan(data: any[], forceType: string): number {
     return data.filter(item => item.forceType === forceType).length;
   }
+  
 
 
   groupBy(arr, keyFn) {
@@ -163,5 +165,6 @@ export class SharedServiceService {
       return {groupKey,groupedItems: groups[groupKey]
       };
     });
+
   }
 }
