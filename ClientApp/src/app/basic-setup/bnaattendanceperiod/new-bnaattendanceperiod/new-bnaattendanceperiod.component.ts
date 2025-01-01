@@ -65,7 +65,7 @@ export class NewBnaAttendancePeriodComponent
   }
 
   onSubmit() {
-    const id = this.BnaAttendancePeriodForm.get("bnaAttendancePeriodId").value;
+    const id = this.BnaAttendancePeriodForm.get("bnaAttendancePeriodId")?.value;
     if (id) {
       this.confirmService
         .confirm("Confirm Update message", "Are You Sure Update This Item?")
