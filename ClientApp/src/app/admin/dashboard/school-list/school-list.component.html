@@ -173,7 +173,7 @@
                       <tr *ngFor="let number of data.schools">
                         <td>{{ number.schoolName }}</td>
                         <td>
-                          <a
+                          <!-- <a
                             [routerLink]="[
                               '/admin/dashboard/coursebyschool-list',
                               number.baseSchoolNameId
@@ -181,7 +181,9 @@
                             ><span class="text-danger">
                               {{ number.courseCount }}</span
                             ></a
-                          >
+                          > -->
+                        <span class="text-danger">{{number.courseCount}}</span
+                            >
                         </td>
                         <td>{{ number.officerCount }}</td>
                         <td>{{ number.midCount }}</td>
