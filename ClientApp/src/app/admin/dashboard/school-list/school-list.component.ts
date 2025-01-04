@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
@@ -11,22 +13,26 @@ import { AuthService } from "../../../core/service/auth.service";
 import { ConfirmService } from "../../../core/service/confirm.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; 
+import * as html2pdf from 'html2pdf.js';
+import 'jspdf-autotable';
+
 @Component({
   selector: "app-school-list",
   templateUrl: "./school-list.component.html",
-  styleUrls: ["./school-list.component.sass"],
+  styleUrls: ["./school-list.component.scss"],
 })
 export class SchoolListComponent
   extends UnsubscribeOnDestroyAdapter
-  implements OnInit
-{
+  implements OnInit {
   masterData = MasterData;
   loading = false;
   userRole = Role;
   schoolList: any;
   isLoading = false;
   showHideDiv = false;
-
+  @ViewChild('contentToConvert', { static: true }) contentToConvert!: ElementRef;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -174,6 +180,68 @@ export class SchoolListComponent
       </html>`);
     popupWin.document.close();
   }
+  downloadPDF(): void {
+    const element = document.getElementById('contentToConvert');
+    if (element) {
+      const options = {
+        margin: [10, 10, 10, 10], // Adjust margins if needed
+        filename: 'download.pdf',
+        image: { type: 'jpeg', quality: 0.98 }, // Use JPEG for better rendering
+        html2canvas: { 
+          scale: 2, // Increase scale for better resolution
+          useCORS: true, // Allow cross-origin images if any
+          scrollX: 0, 
+          scrollY: 0 
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'landscape' // Use landscape for wide tables
+        },
+      };
+  
+      html2pdf().set(options).from(element).save();
+    }
+  }
+
+
+// downloadPDF(): void {
+//   const element = document.getElementById('contentToConvert');
+//   if (element) {
+//     const pdf = new jsPDF({
+//       orientation: 'landscape',
+//       unit: 'mm',
+//       format: 'a4',
+//     });
+
+//     const tables = element.querySelectorAll('table');
+//     tables.forEach((table, index) => {
+//       const rows = Array.from(table.rows).map(row => 
+//         Array.from(row.cells).map(cell => cell.innerText)
+//       );
+
+//       const columnWidths = [30, 50, 40, 60]; // Adjust widths to fit your table columns
+
+//       pdf.autoTable({
+//         head: [rows[0]],  // First row as header
+//         body: rows.slice(1),  // Body of the table
+//         startY: index === 0 ? 20 : pdf.lastAutoTable.finalY + 10,  // Adjust vertical position
+//         columnStyles: {
+//           0: { cellWidth: columnWidths[0] },
+//           1: { cellWidth: columnWidths[1] },
+//           2: { cellWidth: columnWidths[2] },
+//           3: { cellWidth: columnWidths[3] },
+//         },
+//         theme: 'grid',  // Ensures a grid-style border for the table
+//       });
+//     });
+
+//     pdf.save('download-table.pdf');
+//   }
+// }
+
+  
+
   // pageChanged(event: PageEvent) {
 
   //   this.paging.pageIndex = event.pageIndex
