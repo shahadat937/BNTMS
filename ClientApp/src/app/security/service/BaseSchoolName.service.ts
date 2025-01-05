@@ -7,7 +7,7 @@ import {
 import { BaseSchoolName } from "../models/BaseSchoolName";
 import { map } from "rxjs";
 import { SelectedModel } from "../../core/models/selectedModel";
-import { environment } from "../../../environments/environment.prod";
+import { environment } from "../../../environments/environment";
 @Injectable({
   providedIn: "root",
 })

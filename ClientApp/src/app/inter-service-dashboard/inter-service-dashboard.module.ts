@@ -13,7 +13,6 @@ import { TraineeNominationListComponent } from './traineenomination-list/trainee
 import { UpdateTraineeNominationComponent } from './update-traineenomination/update-traineenomination.component';
 
 import { NgxEchartsModule } from 'ngx-echarts';
-import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FullCalendarModule } from "@fullcalendar/angular";
@@ -61,7 +60,6 @@ FullCalendarModule.registerPlugins([
     }),
     PerfectScrollbarModule,
     MatIconModule,
-    NgApexchartsModule,
     MatButtonModule,
     MatMenuModule,
     CommonModule,

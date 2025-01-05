@@ -806,13 +806,14 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-runningCourseDurationByBase")]
-    public async Task<ActionResult> GetRunningCourseDurationByBase(int baseNameId, DateTime currentDate,int viewStatus)
+    public async Task<ActionResult> GetRunningCourseDurationByBase(int baseNameId, DateTime currentDate,int viewStatus, string searchTerm)
     {
         var proceduredCourses = await _mediator.Send(new GetRunningCourseDurationByBaseSpRequest
         {
             BaseNameId = baseNameId,
             CurrentDate = currentDate,
-            ViewStatus = viewStatus
+            ViewStatus = viewStatus,
+            SearchTerm = searchTerm
         });
         return Ok(proceduredCourses);
     }

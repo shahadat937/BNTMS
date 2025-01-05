@@ -1,0 +1,10 @@
+#contentToConvert table {
+  width: 100%;
+  border-collapse: collapse; /* Collapse borders so they do not overlap */
+}
+
+#contentToConvert th, #contentToConvert td {
+  border: 1px solid black; /* Ensure borders are clearly defined */
+  padding: 5px;
+  text-align: left;
+}

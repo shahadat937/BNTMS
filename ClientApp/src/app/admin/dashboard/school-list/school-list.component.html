@@ -47,6 +47,7 @@
                     <ul class="header-buttons">
                       <li>
                         <div class="icon-button-demo">
+                          
                           <button
                             *ngIf="
                               role !=
@@ -72,6 +73,12 @@
                             Print
                             <mat-icon class="col-white">print</mat-icon>
                           </button>
+                          <button class="btn-space btn-info"
+                          mat-raised-button
+                          color="primary"
+                          (click)="downloadPDF()">  <mat-icon class="col-white"
+                          >download</mat-icon
+                        > Download</button>
 
                           <button
                             *ngIf="
@@ -118,6 +125,7 @@
                   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                  </mat-table> -->
+                 <div id="contentToConvert">
               <div class="my-3">
                 <h2>BN TRAINING STATE (Running)</h2>
               </div>
@@ -173,7 +181,7 @@
                       <tr *ngFor="let number of data.schools">
                         <td>{{ number.schoolName }}</td>
                         <td>
-                          <a
+                          <!-- <a
                             [routerLink]="[
                               '/admin/dashboard/coursebyschool-list',
                               number.baseSchoolNameId
@@ -181,7 +189,9 @@
                             ><span class="text-danger">
                               {{ number.courseCount }}</span
                             ></a
-                          >
+                          > -->
+                        <span class="text-danger">{{number.courseCount}}</span
+                            >
                         </td>
                         <td>{{ number.officerCount }}</td>
                         <td>{{ number.midCount }}</td>
@@ -217,6 +227,7 @@
                         (page)="pageChanged($event)">
                         </mat-paginator> -->
               </div>
+            </div>
             </div>
           </div>
         </div>

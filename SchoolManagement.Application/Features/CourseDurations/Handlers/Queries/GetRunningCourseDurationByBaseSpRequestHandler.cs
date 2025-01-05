@@ -26,7 +26,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
             // Normalize the search term if provided
             string normalizedSearchTerm = string.IsNullOrWhiteSpace(request.SearchTerm)
                 ? "NULL"
-                : $"'{request.SearchTerm.Trim()}'";
+                : $"'{request.SearchTerm.Trim().Replace("'", "''")}'";
 
             // Format the query with the new parameter
             var spQuery = string.Format(
