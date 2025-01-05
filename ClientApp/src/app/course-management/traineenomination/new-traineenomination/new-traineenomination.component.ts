@@ -255,6 +255,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
   this.subscription = delay$.subscribe(data => {
     this.TraineeNominationService.getSelectedTraineeByparameterRequest(data,courseDurationId,courseNameId).subscribe(response => {
+      console.log(response);
       this.options = response;
       this.filteredOptions = response;
     })

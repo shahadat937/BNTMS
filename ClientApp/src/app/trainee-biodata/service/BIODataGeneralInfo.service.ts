@@ -262,6 +262,14 @@ getSelectedPno(pno){
         })
       );
   }
+
+  getSelectedTraineeByparameterRequest(pno){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/trainee-bio-data-general-info/get-autocompletePnoAndName?pNo='+pno)
+      .pipe(
+        map((response:[]) => response.map(item => item))
+      )
+  }
+
   uploadExcelBioDataFileForOfficersAndCivil(file: File, traineeStatusId: number, officerTypeId: number) {
     const formData = new FormData();
     formData.append('file', file);

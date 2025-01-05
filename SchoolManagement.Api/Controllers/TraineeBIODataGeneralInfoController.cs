@@ -2,6 +2,7 @@
 using SchoolManagement.Application.Contracts.Identity;
 using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo;
 using SchoolManagement.Application.DTOs.User;
+using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handlers.Queries;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Commands;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Queries;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Commands;
@@ -191,6 +192,19 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
         });
         return Ok(trainee);
     }
+    
+    [HttpGet]
+    [Route("get-autocompletePnoAndName")]
+    public async Task<ActionResult<List<SelectedModel>>> GetAutoCompletePnoAndName(string pno)
+    {
+        var trainee = await _mediator.Send(new GetAutoCompleteTraineePnoAndName
+        {
+            PNo = pno
+        } );
+        return Ok(trainee);
+    }
+
+   
     
 
 
