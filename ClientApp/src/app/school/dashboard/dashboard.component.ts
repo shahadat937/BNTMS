@@ -3,20 +3,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { MasterData } from 'src/assets/data/master-data';
-import { environment } from 'src/environments/environment';
+import { MasterData } from '../../../../src/assets/data/master-data';
+import { environment } from '../../../../src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { scheduled } from 'rxjs';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
 import { ReadingMaterialService } from '../../reading-materials/service/readingmaterial.service';
-import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
-import { BaseSchoolNameService } from 'src/app/basic-setup/service/BaseSchoolName.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { StudentDashboardService } from '../../../../src/app/student/services/StudentDashboard.service';
+import { BaseSchoolNameService } from '../../../../src/app/basic-setup/service/BaseSchoolName.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../src/app/core/models/role';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ScrollService } from 'src/app/course-management/localcourse/scrole-restore/scrole-position.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ScrollService } from '../../../../src/app/course-management/localcourse/scrole-restore/scrole-position.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -87,6 +87,7 @@ export class DashboardComponent implements OnInit {
   oldScrollPosition: number = 0;
   selectedFilter: number;
   index: number;
+  searchText : string = '';
   //Restoring End
 
   pageTitle: any;
@@ -294,7 +295,8 @@ export class DashboardComponent implements OnInit {
 
   getRunningCourseDurationByBase(viewStatus) {
     let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getRunningCourseDurationByBase(currentDateTime, this.schoolId, viewStatus).subscribe(response => {
+    this.schoolDashboardService.getRunningCourseDurationByBase(currentDateTime, this.schoolId, viewStatus, this.searchText ).subscribe(response => {
+      console.log(this.searchText);
       this.runningCourses = response;
       // this gives an object with dates as keys
       const groups = this.runningCourses.reduce((groups, courses) => {
@@ -577,7 +579,10 @@ export class DashboardComponent implements OnInit {
 
   applySearch(filterValue: string) {
    
-    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-    this.dataSource.filter = filterValue;
+    this.searchText = filterValue;
+    console.log(filterValue)
+    console.log('S'+this.selectedFilter)
+    this.getRunningCourseDurationByBase(this.selectedFilter);
+
   }
 }

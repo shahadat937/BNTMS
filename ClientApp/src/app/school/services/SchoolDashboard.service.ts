@@ -64,8 +64,9 @@ export class SchoolDashboardService {
     ); 
   }
 
-  getRunningCourseDurationByBase(current, baseNameId,viewStatus) {
-    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-runningCourseDurationByBase?baseNameId='+baseNameId+'&currentDate='+current+'&viewStatus='+viewStatus).pipe(
+  getRunningCourseDurationByBase(current, baseNameId,viewStatus, searchTerm) {
+    const encodedSearchTerm = encodeURIComponent(searchTerm);
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-runningCourseDurationByBase?baseNameId='+baseNameId+'&currentDate='+current+'&viewStatus='+viewStatus+'&searchTerm='+encodedSearchTerm).pipe(
       map(response => {        
         return response;
       })
