@@ -171,9 +171,6 @@ export class InstructorListComponent implements OnInit, OnDestroy {
 
   ShiftRoleOfItem(row) {
     const id = row.id; 
-    console.log(id)
-
-
     this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
       if (id&&result) {
 

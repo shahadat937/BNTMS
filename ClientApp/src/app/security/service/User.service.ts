@@ -157,9 +157,15 @@ export class UserService {
   find(id: string) {
     return this.http.get<User>(this.baseUrl + '/users/get-userDetail/' + id);
   }
+  findUserByTraineeId(id: string) {
+    return this.http.get<User>(this.baseUrl + '/users/get-userDetailByTraineeId/' + id);
+  }
 
   update(id:any, model: any) {
     return this.http.put(this.baseUrl + '/users/update-user?userId='+id, model);
+  }
+  updateUserAsServiceInstructor(id:any, model: any, branchId) {
+    return this.http.put(this.baseUrl + '/users/update-user-as-service-instructor?userId='+id+"&branchId="+branchId, model);
   }
   
   resetPassword(id:any, model: any) {
