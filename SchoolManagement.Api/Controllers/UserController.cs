@@ -117,6 +117,13 @@ public class UsersController : ControllerBase
     {
         var User = await  _userService.GetUserById(id);
         return Ok(User);
+    } 
+    [HttpGet]
+    [Route("get-userDetailByTraineeId/{traineeId}")]
+    public async Task<ActionResult<UserDto>> GetUserByTraineeId(string traineeId)
+    {
+        var User = await _userService.GetUserByTraineeId(traineeId);
+        return Ok(User);
     }
 
     [HttpPost]
@@ -147,6 +154,27 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> Put(string userId,[FromBody] CreateUserDto User)
     {
         await _userService.Update(userId,User);
+        return NoContent();
+    }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [Route("update-user-as-service-instructor")]
+    public async Task<ActionResult> UpdateUserAsServiceInstructor(string userId,[FromBody] CreateUserDto User, string branchId)
+    {
+        await _userService.UpdateUserAsAServiceInstructor(userId,User, branchId);
+        return NoContent();
+    }
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [Route("relese-service-instructor")]
+    public async Task<ActionResult> ReleseServiceInstructor(string userId)
+    {
+        await _userService.ReleseServiceInstructor(userId);
         return NoContent();
     }
 

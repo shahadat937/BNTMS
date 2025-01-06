@@ -114,6 +114,22 @@ export class BIODataGeneralInfoService {
       })
     );
   }
+  getServiceInstructorBioData(pageNumber, pageSize,searchText, branchId) {
+
+    let params = new HttpParams();
+
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+    params = params.append('branchId', branchId);
+    return this.http.get<any>(this.baseUrl + '/trainee-bio-data-general-info/get-service-instructor-biodata', { observe: 'response', params })
+    .pipe(
+      map(response => {
+       
+        return response.body;
+      })
+    );
+  }
   getBIODataGeneralInfosForCadet(pageNumber, pageSize,searchText) {
 
     let params = new HttpParams();

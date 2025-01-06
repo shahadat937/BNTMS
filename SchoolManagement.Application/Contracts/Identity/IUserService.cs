@@ -17,11 +17,14 @@ namespace SchoolManagement.Application.Contracts.Identity
         Task<List<Employee>> GetEmployees();
         Task<BaseCommandResponse> UpdateUserPassword(string userId,PasswordChangeDto userDto); 
         Task<Employee> GetEmployeeByUserId(string userId);
+        Task<UserDto> GetUserByTraineeId(string traineeId);
         Task<Employee> GetEmployee(string userId); 
         Task<PagedResult<UserDto>> GetUsers(QueryParams queryParams);
         Task<BaseCommandResponse> Save(string userId,List<CreateUserDto> user);
         Task<BaseCommandResponse> CreateUser(string userId,string traineeId, CreateTraineeBioDataGeneralInfoDto user);
         Task<BaseCommandResponse> Update(string userId,CreateUserDto user);
+        Task<BaseCommandResponse> UpdateUserAsAServiceInstructor(string userId, CreateUserDto userDto, string branchId);
+        Task<BaseCommandResponse> ReleseServiceInstructor(string userId);
         Task<BaseCommandResponse> UpdateUser(string userId, UpdateEmailPhoneDto user);
         Task<BaseCommandResponse> ResetPassword(string userId,CreateUserDto user);
         Task<UserDto> GetUserById(string id);

@@ -5,13 +5,15 @@ import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs'
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
 import { PageEvent } from '@angular/material/paginator';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { MasterData } from '../../../../assets/data/master-data';
 import { SharedServiceService} from '../../../../app/shared/shared-service.service';
 import { environment } from '../../../../environments/environment';
+import { UserService } from '../../../security/service/User.service';
+import { Role } from '../../../core/models/role';
+import { AuthService } from '../../../core/service/auth.service';
 
 @Component({
   selector: 'app-service-instructor-biodata-list',
@@ -25,8 +27,12 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
   loading = false;
   ELEMENT_DATA: BIODataGeneralInfo[] = [];
   isLoading = false;
-  serviceInstratorStatusId = 11; // for Service Instractor
 
+  serviceInstructorBioData : any
+  serviceInstructorBioDataGroupBy : any;
+  branchId : any;
+  userRoles = Role;
+  role: any
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -43,7 +49,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
   subscription: any;
 
   
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
+  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService, public UserService: UserService, private authService: AuthService) { 
     this.searchSubscription = this.searchSubject.pipe(
       debounceTime(300), 
       distinctUntilChanged() 
@@ -54,6 +60,8 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
   
 
   ngOnInit() {
+    this.branchId = this.authService.currentUserValue.branchId;
+    this.role = this.authService.currentUserValue.role;
     this.getBIODataGeneralInfos();
 
   }
@@ -68,21 +76,25 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
   onSearchChange(searchValue: string): void {
     this.searchSubject.next(searchValue);
   }
-  // getBIODataGeneralInfos() {
-  //   this.isLoading = true;
-  //   this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-  //     this.dataSource.data = response.items; 
-  //     this.paging.length = response.totalItemsCount    
-  //     this.isLoading = false;
-  //   })
-  // }
+  
   getBIODataGeneralInfos() {
     this.isLoading = true;
-    this.BIODataGeneralInfoService. getBIODataGeneralInfosForCivil(this.paging.pageIndex, this.paging.pageSize, this.searchText, this.serviceInstratorStatusId)
+    let branch : any ;
+    if(this.role === this.userRoles.SuperAdmin){
+      branch = this.branchId
+    }
+    else{
+      branch = null;
+    }
+
+    this.BIODataGeneralInfoService. getServiceInstructorBioData(this.paging.pageIndex, this.paging.pageSize, this.searchText, branch)
       .subscribe(
         response => {
-          this.dataSource.data = response.items; 
-          this.paging.length = response.totalItemsCount;    
+          this.serviceInstructorBioData = response 
+
+          this.sharedService.groupedData = this.sharedService.groupBy(this.serviceInstructorBioData, (bioData)=> bioData.schoolName );
+          console.log( this.sharedService.groupedData);
+
           this.isLoading = false;
         },
         error => {
@@ -110,10 +122,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
           this.selection.select(row)
         );
   }
-  addNew(){
-    
-  }
- 
+   
   pageChanged(event: PageEvent) {
     this.paging.pageIndex = event.pageIndex
     this.paging.pageSize = event.pageSize
@@ -128,63 +137,11 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
     this.getBIODataGeneralInfos();
   } 
 
-  // applyFilter(filterValue: string) {
-  //   filterValue = filterValue.trim();
-  //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-  //   this.dataSource.filter = filterValue;
-  // }
-
-  
+   
   triggerFileSelect() {
     this.fileInput.nativeElement.click(); // Triggers the file selection dialog
   }
 
-  onFileSelected(event: Event) {
-    this.isLoading = true;
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      // this.loading = true;
-      this.BIODataGeneralInfoService.uploadFile(file, this.serviceInstratorStatusId).subscribe(
-        (response: any) => {
-        (event.target as HTMLInputElement).value = '';
-        if(response.success){
-          this.snackBar.open(response.message, '', {
-            duration: 2000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'right',
-            panelClass: 'snackbar-success'
-          });
-           this.isLoading = false;
-          this.getBIODataGeneralInfos();
-        }
-        else{
-          this.snackBar.open(response.message, '', {
-            duration: 2000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'right',
-            panelClass: 'snackbar-danger'
-          });
-          this.isLoading = false;
-        }
-        // this.loading= false; 
-      },
-        (error) => {
-          (event.target as HTMLInputElement).value = '';
-          this.isLoading = false;
-        }
-      );
-    }
-  }
-  downloadExcelFile(){
-    const url = environment.fileUrl + '/files/biodata-excel-file/New_Biodata _Entry_Info.xlsx'
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'New_Biodata _Entry_Info.xlsx';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-  
   deleteItem(row) {
     const id = row.traineeId; 
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
@@ -201,6 +158,23 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
       }
     })
     
+  }
+
+  ReleseInstractor(userId){
+    this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
+      if (result) {
+        this.UserService.releseServiceInstructor(userId).subscribe(response => {
+          this.getBIODataGeneralInfos();
+          this.snackBar.open('Information Updated Successfully ', '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+        })
+      }
+    })
+
   }
 
 
