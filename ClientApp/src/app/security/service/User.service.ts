@@ -167,6 +167,9 @@ export class UserService {
   updateUserAsServiceInstructor(id:any, model: any, branchId) {
     return this.http.put(this.baseUrl + '/users/update-user-as-service-instructor?userId='+id+"&branchId="+branchId, model);
   }
+  releseServiceInstructor(id:any) {
+    return this.http.put(this.baseUrl + '/users/relese-service-instructor?userId='+id, null);
+  }
   
   resetPassword(id:any, model: any) {
     return this.http.post(this.baseUrl + '/Users/reset-userPassword?userId='+id, model);

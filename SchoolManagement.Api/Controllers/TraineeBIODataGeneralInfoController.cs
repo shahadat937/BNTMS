@@ -90,6 +90,18 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
         return Ok(TraineeBioDataGeneralInfos);
     }
 
+     [HttpGet]
+    [Route("get-service-instructor-biodata")]
+    public async Task<ActionResult<List<TraineeBioDataGeneralInfoDto>>> GetServiceInstructorBioData([FromQuery] QueryParams queryParams, string branchId)
+    {
+        var TraineeBioDataGeneralInfos = await _mediator.Send(new GetServiceInstructorBioDataRequest
+        {
+            QueryParams = queryParams,
+            BranchId = branchId
+        });
+        return Ok(TraineeBioDataGeneralInfos);
+    }
+
 
     [HttpGet]
     [Route("get-civilInstructorBioDataGeneralInfoes")]

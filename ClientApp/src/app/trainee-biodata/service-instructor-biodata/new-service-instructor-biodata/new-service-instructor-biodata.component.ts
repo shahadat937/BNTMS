@@ -14,6 +14,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedServiceService } from '../../../shared/shared-service.service';
 import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
 import { UserService } from '../../../security/service/User.service';
+import { AuthService } from '../../../core/service/auth.service';
+import { Role } from '../../../core/models/role';
 
 
 @Component({
@@ -52,6 +54,8 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
     length: 1
   }
   searchText = "";
+  userRoles = Role
+  role : string;
 
   schoolName: any;
   courseName: any;
@@ -61,6 +65,7 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
   selectedItems: any[] = [];
   //formGroup : FormGroup;
 
+
   options = [];
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -68,18 +73,19 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
   displayedColumns: string[] = ['ser', 'traineeName', 'courseName', 'actions'];
   dataSource: MatTableDataSource<TraineeNomination> = new MatTableDataSource();
   selection = new SelectionModel<TraineeNomination>(true, []);
-  constructor(private snackBar: MatSnackBar, private bioDataGeneralInfoService: BIODataGeneralInfoService, private confirmService: ConfirmService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService, private userService: UserService) {
+  constructor(private snackBar: MatSnackBar, private bioDataGeneralInfoService: BIODataGeneralInfoService, private confirmService: ConfirmService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService, private userService: UserService, private authService: AuthService) {
     super();
   }
 
   ngOnInit(): void {
     this.buttonText = "Save";
-    this.branchId = 192;
+    this.branchId = this.authService.currentUserValue.branchId;
+    this.role = this.authService.currentUserValue.role;
     this.intitializeForm()
   }
 
   intitializeForm() {
-
+    this.branchId = 
     this.ServiceInstructorForm = this.fb.group({
       traineeId: [''],
       traineeName: [''],
@@ -88,8 +94,8 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
       roleName: [''],
       password: ['Admin@123'],
       confirmPassword: ['Admin@123'],
-      firstName: [''],
-      lastName: [''],
+      firstName: ['na'],
+      lastName: ['na'],
       phoneNumber: [''],
       email: [''],
     })
@@ -149,8 +155,6 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
       this.ServiceInstructorForm.patchValue({
         id: res.id,
         userName: res.userName,
-        firstName: res.firstName,
-        lastName: res.lastName,
         phoneNumber: res.phoneNumber,
         email: res.email,
         traineeId: res.traineeId
@@ -161,9 +165,10 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
   }
   onSubmit() {
     var userId = this.ServiceInstructorForm.get('id')?.value;
-
     this.ServiceInstructorForm.get('roleName')?.setValue('Instructor');
     this.subscription = this.userService.updateUserAsServiceInstructor(userId, this.ServiceInstructorForm.value, this.branchId).subscribe(response => {
+
+      this.sharedService.goBack();
 
       this.snackBar.open('Information Updated Successfully ', '', {
         duration: 2000,
