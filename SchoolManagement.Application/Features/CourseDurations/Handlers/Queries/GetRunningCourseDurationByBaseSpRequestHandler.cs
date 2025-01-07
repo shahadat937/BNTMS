@@ -22,25 +22,12 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
         public async Task<object> Handle(GetRunningCourseDurationByBaseSpRequest request, CancellationToken cancellationToken)
         {
-
-            // Normalize the search term if provided
-            string normalizedSearchTerm = string.IsNullOrWhiteSpace(request.SearchTerm)
-                ? "NULL"
-                : $"'{request.SearchTerm.Trim()}'";
-
-            // Format the query with the new parameter
-            var spQuery = string.Format(
-                "exec [spGetRunningCourseDurationByBase] {0}, '{1}', {2}, {3}",
-                request.BaseNameId,
-                request.CurrentDate,
-                request.ViewStatus,
-                normalizedSearchTerm
-            );
-
-            // Execute the query and return the DataTable
+            
+            var spQuery = String.Format("exec [spGetRunningCourseDurationByBase] {0},'{1}',{2}", request.BaseNameId, request.CurrentDate, request.ViewStatus);
+            
             DataTable dataTable = _courseDurationRepository.ExecWithSqlQuery(spQuery);
             return dataTable;
-
+         
         }
     }
 }
