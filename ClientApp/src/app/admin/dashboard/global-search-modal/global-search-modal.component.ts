@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject, ViewChild } from '@angular/core';
 import { delay, of, Subscription } from 'rxjs';
 import {GlobalSearchService} from '../services/global-search.service'
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
