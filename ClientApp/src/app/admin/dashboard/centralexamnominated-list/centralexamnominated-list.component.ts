@@ -5,13 +5,13 @@ import {BNAExamInstructorAssign} from '../../../exam-management/models/bnaexamin
 import {BNAExamInstructorAssignService} from '../../../exam-management/service/bnaexaminstructorassign.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { dashboardService } from '../services/dashboard.service';
 import { TraineeNominationService } from '../../../staff-collage/service/traineenomination.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-centralexamnominated-list',
@@ -127,7 +127,7 @@ export class CentralExamNominatedListComponent extends UnsubscribeOnDestroyAdapt
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('printNomineeList').innerHTML;
+    printContents = document.getElementById('printNomineeList')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
