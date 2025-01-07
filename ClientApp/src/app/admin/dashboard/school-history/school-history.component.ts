@@ -5,16 +5,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { dashboardService } from '../services/dashboard.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Role } from 'src/app/core/models/role';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
-import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
-import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { BaseSchoolNameService } from '../../../../../src/app/security/service/BaseSchoolName.service';
+import { StudentDashboardService } from '../../../../../src/app/student/services/StudentDashboard.service';
+import { InstructorDashboardService } from '../../../../../src/app/teacher/services/InstructorDashboard.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-school-history',
@@ -162,7 +162,7 @@ export class SchoolHistoryComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   onSubmit() {
-    const id = this.BaseSchoolNameForm.get('baseSchoolNameId').value;
+    const id = this.BaseSchoolNameForm.get('baseSchoolNameId')?.value;
 
     const formData = new FormData();
     for (const key of Object.keys(this.BaseSchoolNameForm.value)) {
