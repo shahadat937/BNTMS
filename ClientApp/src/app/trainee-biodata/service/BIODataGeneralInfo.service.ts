@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, catchError, throwError} from 'rxjs';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
 import { environment } from 'src/environments/environment';
 import { BIODataGeneralInfo } from '../models/BIODataGeneralInfo';
 import {IBIODataGeneralInfoPagination, BIODataGeneralInfoPagination } from '../models/BIODataGeneralInfoPagination'
