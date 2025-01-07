@@ -11,7 +11,7 @@
               <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
             </li>
             <li class="breadcrumb-item bcrumb-2">
-              <a href="#" onClick="return false;">Add Instructor</a>
+              <a href="#" onClick="return false;">Add Service Instructor</a>
             </li>
             <li class="breadcrumb-item active">Add Instructor</li>
           </ul>
@@ -38,10 +38,10 @@
                     </mat-form-field>
                   </div>
               </div>
-             
+             <h4 class="text-center text-danger">{{warningMessage}}</h4>
               <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="isInstractorAvailable"  mat-raised-button
+                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="isInstractorNotAvailable"  mat-raised-button
                       color="primary">{{buttonText}}<mat-icon>save</mat-icon> 
                   </button>
                 </div>

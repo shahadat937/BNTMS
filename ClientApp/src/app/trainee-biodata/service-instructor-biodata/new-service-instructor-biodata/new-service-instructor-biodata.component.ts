@@ -46,7 +46,7 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
   isLoading = false;
   nominatedPercentageList: any[];
   showHideDiv = false;
-  isInstractorAvailable = true;
+  isInstractorNotAvailable = true;
   branchId: any;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -63,6 +63,7 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
   runningWeek: any;
   totalWeek: any;
   selectedItems: any[] = [];
+  warningMessage : string = ""
   //formGroup : FormGroup;
 
 
@@ -73,7 +74,7 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
   displayedColumns: string[] = ['ser', 'traineeName', 'courseName', 'actions'];
   dataSource: MatTableDataSource<TraineeNomination> = new MatTableDataSource();
   selection = new SelectionModel<TraineeNomination>(true, []);
-  constructor(private snackBar: MatSnackBar, private bioDataGeneralInfoService: BIODataGeneralInfoService, private confirmService: ConfirmService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService, private userService: UserService, private authService: AuthService) {
+  constructor(private snackBar: MatSnackBar, private bioDataGeneralInfoService: BIODataGeneralInfoService,  private fb: FormBuilder,  private route: ActivatedRoute, public sharedService: SharedServiceService, private userService: UserService, private authService: AuthService) {
     super();
   }
 
@@ -85,7 +86,6 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
   }
 
   intitializeForm() {
-    this.branchId = 
     this.ServiceInstructorForm = this.fb.group({
       traineeId: [''],
       traineeName: [''],
@@ -118,9 +118,10 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
 
     if (typeof pno !== "object") {
 
-      if (pno.trim() == "") {
+      if (pno.trim().length < 3) {
         this.options = [];
         this.filteredOptions = [];
+        this.isInstractorNotAvailable = true;
         return;
       }
 
@@ -159,13 +160,27 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
         email: res.email,
         traineeId: res.traineeId
       });
-      this.isInstractorAvailable = res.fourthLevel? true : false;
+      this.isInstractorNotAvailable = res.fourthLevel? true : false;
+      if(this.isInstractorNotAvailable){
+        this.bioDataGeneralInfoService.findSchoolById(res.fourthLevel).subscribe(res=>{
+          console.log("X"+res.schoolName);
+          this.warningMessage = `The instructor is currently assigned to ${res.schoolName}. Please contact either ${res.schoolName} or the administrator to facilitate the instructor's release from the school.`
+        })
+      }
+      else{
+        this.warningMessage = ""
+      }
+     
     }
     );
   }
+
+  
   onSubmit() {
     var userId = this.ServiceInstructorForm.get('id')?.value;
     this.ServiceInstructorForm.get('roleName')?.setValue('Instructor');
+    this.ServiceInstructorForm.get('')?.setValue('Instructor');
+    console.log(this.branchId);
     this.subscription = this.userService.updateUserAsServiceInstructor(userId, this.ServiceInstructorForm.value, this.branchId).subscribe(response => {
 
       this.sharedService.goBack();

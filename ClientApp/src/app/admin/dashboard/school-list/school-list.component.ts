@@ -184,7 +184,7 @@ export class SchoolListComponent
     const element = document.getElementById('contentToConvert');
     if (element) {
       const options = {
-        margin: [10, 10, 10, 10], // Adjust margins if needed
+        margin: [30, 10, 30, 10], // Adjust margins if needed
         filename: 'download.pdf',
         image: { type: 'jpeg', quality: 0.98 }, // Use JPEG for better rendering
         html2canvas: { 
