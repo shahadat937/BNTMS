@@ -5,21 +5,21 @@ import { BNASubjectName } from '../../../subject-management/models/BNASubjectNam
 import { BNASubjectNameService } from '../../../subject-management/service/BNASubjectName.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute,Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import{MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CourseInstructorService } from '../../../subject-management/service/courseinstructor.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../src/app/core/models/role';
 import {BNAExamMarkService} from '../../../bna-exam-management/service/bnaexammark.service';
 import {CourseDurationService} from '../../../course-management/service/courseduration.service';
 import {BIODataGeneralInfoService} from '../../../trainee-biodata/service/BIODataGeneralInfo.service';
 import {RankService} from '../../../basic-setup/service/Rank.service';
 import {SaylorRankService} from '../../../basic-setup/service/SaylorRank.service';
-import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { BaseSchoolNameService } from '../../../../../src/app/security/service/BaseSchoolName.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-trainee-certificate',
@@ -147,7 +147,7 @@ export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     // popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin = window.open('top=0,left=0,height=100%,width=auto');
     popupWin.document.open();

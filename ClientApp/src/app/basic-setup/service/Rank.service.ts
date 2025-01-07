@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import {IRankPagination, RankPagination } from '../models/RankPagination'
 import { Rank } from '../models/Rank';
 import { map } from 'rxjs';
-import { AllowanceCategory } from 'src/app/allowance-management/models/allowancecategory';
+import { AllowanceCategory } from '../../../../src/app/allowance-management/models/allowancecategory';
 @Injectable({
   providedIn: 'root'
 })
