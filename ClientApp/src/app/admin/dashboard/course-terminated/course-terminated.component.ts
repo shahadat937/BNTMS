@@ -10,11 +10,13 @@ import { DateTimeAdapter } from "ng-pick-datetime/date-time/adapter/date-time-ad
 import { AuthService } from "../../../core/service/auth.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+import * as html2pdf from 'html2pdf.js';
+import { jsPDF } from "jspdf";
 
 @Component({
   selector: "app-course-terminated",
   templateUrl: "./course-terminated.component.html",
-  styleUrls: ["./course-terminated.component.sass"],
+  styleUrls: ["./course-terminated.component.scss"],
 })
 export class CourseTerminatedComponent
   extends UnsubscribeOnDestroyAdapter
@@ -210,4 +212,31 @@ export class CourseTerminatedComponent
       </html>`);
     popupWin.document.close();
   }
+
+    downloadPDF(): void {
+      const element = document.getElementById('contentToConvert');
+      if (element) {
+        const options = {
+          margin: [10, 10, 26, 10], // Adjust margins if needed
+          filename: 'download.pdf',
+          image: { type: 'jpeg', quality: 0.98 }, // Use JPEG for better rendering
+          html2canvas: { 
+            scale: 2, // Increase scale for better resolution
+            useCORS: true, // Allow cross-origin images if any
+            scrollX: 0, 
+            scrollY: 0 
+          },
+          jsPDF: { 
+            unit: 'mm', 
+            format: 'a4', 
+            orientation: 'landscape',
+            pagebreak: { mode: 'always', before: '.table' }  
+          },
+        };
+    
+        html2pdf().set(options).from(element).save();
+      }
+    }
+
+
 }

@@ -13,7 +13,6 @@ import { AuthService } from "../../../core/service/auth.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 import * as html2pdf from 'html2pdf.js';
-
 import { jsPDF } from "jspdf";
 
 
