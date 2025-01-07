@@ -30,16 +30,14 @@ namespace SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handl
 
         public async Task<object> Handle(GetServiceInstructorBioDataRequest request, CancellationToken cancellationToken)
         {
-            var validator = new QueryParamsValidator();
-            var validationResult = await validator.ValidateAsync(request.QueryParams);
+            var branchId = request.BranchId?.ToString() ?? "NULL";
+            var searchText = string.IsNullOrEmpty(request.QueryParams?.SearchText)
+                             ? "NULL"
+                             : $"'{request.QueryParams.SearchText.Replace("'", "''")}'";
 
-            //if (validationResult.IsValid == false)
-            //    throw new ValidationException(validationResult);
-
-            var spQuery = String.Format("exec [spGetServiceInstructorBioDataGeneralInfo] {0}, {1}", request.BranchId?? "NULL", request.QueryParams.SearchText?? "NULL");
+            var spQuery = $"exec [spGetServiceInstructorBioDataGeneralInfo] {branchId}, {searchText}";
 
             DataTable dataTable = _TraineeBioDataGeneralInfoRepository.ExecWithSqlQuery(spQuery);
-
 
             return dataTable;
         }

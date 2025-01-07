@@ -39,6 +39,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
     length: 1
   }
   searchText="";
+  warningMessage = ""
   private searchSubject: Subject<string> = new Subject<string>();
   private searchSubscription: Subscription;
 
@@ -84,17 +85,17 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
       branch = this.branchId
     }
     else{
-      branch = null;
+      branch = "";
     }
 
     this.BIODataGeneralInfoService. getServiceInstructorBioData(this.paging.pageIndex, this.paging.pageSize, this.searchText, branch)
       .subscribe(
         response => {
           this.serviceInstructorBioData = response 
-
           this.sharedService.groupedData = this.sharedService.groupBy(this.serviceInstructorBioData, (bioData)=> bioData.schoolName );
-          console.log( this.sharedService.groupedData);
-
+          console.log( this.sharedService.groupedData);       
+            this.warningMessage = this.serviceInstructorBioData.length ? "" : "No Instructor Found"
+          
           this.isLoading = false;
         },
         error => {
@@ -133,7 +134,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
   applyFilter(searchText: any){ 
     this.paging.pageSize = 10;
     this.paging.pageIndex = 1;
-    this.searchText = searchText.toLowerCase().trim().replace(/\s/g,'');
+    this.searchText = searchText;
     this.getBIODataGeneralInfos();
   } 
 
@@ -160,7 +161,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
     
   }
 
-  ReleseInstractor(userId){
+  releseInstractor(userId){
     this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
       if (result) {
         this.UserService.releseServiceInstructor(userId).subscribe(response => {

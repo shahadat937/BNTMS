@@ -787,7 +787,6 @@ namespace SchoolManagement.Identity.Services
         {
             var response = new BaseCommandResponse();
 
-
             var User = new ApplicationUser();
 
             if (!string.IsNullOrWhiteSpace(userId))

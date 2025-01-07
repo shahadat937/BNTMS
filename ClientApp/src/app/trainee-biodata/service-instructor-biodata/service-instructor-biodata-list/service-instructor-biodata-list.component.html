@@ -34,7 +34,7 @@
   
                         <li class="dropdown">
                           <mat-form-field class="example-full-width mb-3" appearance="outline">
-                            <mat-label>Search P No.</mat-label>
+                            <mat-label>Search School/ Instractor/ Pno</mat-label>
                             <input matInput 
                                    placeholder="Search" 
                                    #filter 
@@ -103,13 +103,15 @@
                               </td>
                             
                               <td>{{instructor.rankName ?? instructor.saylorRank ?? "-"}}</td>
-                              <td class="py-2 text-center"><button class="btn btn-outline-danger" type="button" (click)="ReleseInstractor(instructor.id)">Release</button></td>
+                              <td class="py-2 text-center"><button class="btn btn-outline-danger" type="button" (click)="releseInstractor(instructor.id)">Release</button></td>
 
                              
                           </tr>
                       </ng-container>
                   </tbody>
               </table>
+
+              <h4 class="text-center text-danger">{{warningMessage}}</h4>
                 
               </div>
             </div>

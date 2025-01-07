@@ -127,7 +127,9 @@
                  </mat-table> -->
                  <div id="contentToConvert">
               <div class="my-3">
-                <h2>BN TRAINING STATE (Running)</h2>
+                <h2 class="text-center">BN TRAINING STATE</h2>
+                <h2 class="text-center">Date - {{todayFormatedDate}}</h2>
+                
               </div>
               <div id="print-routine">
                 <table class="table tbl-by-group db-li-s-in">
@@ -190,17 +192,17 @@
                               {{ number.courseCount }}</span
                             ></a
                           > -->
-                        <span class="text-danger">{{number.courseCount}}</span
+                        <span class="text-danger fw-bold">{{number.courseCount}}</span
                             >
                         </td>
-                        <td>{{ number.officerCount }}</td>
-                        <td>{{ number.midCount }}</td>
-                        <td>{{ number.cadetCount }}</td>
-                        <td>{{ number.isCount }}</td>
-                        <td>{{ number.saylorCount }}</td>
-                        <td>{{ number.civilCount }}</td>
-                        <td>{{ number.foreignCount }}</td>
-                        <td>{{ number.traineeCount }}</td>
+                        <td class="fw-bold">{{ number.officerCount }}</td>
+                        <td class="fw-bold">{{ number.midCount }}</td>
+                        <td class="fw-bold">{{ number.cadetCount }}</td>
+                        <td class="fw-bold">{{ number.isCount }}</td>
+                        <td class="fw-bold">{{ number.saylorCount }}</td>
+                        <td class="fw-bold">{{ number.civilCount }}</td>
+                        <td class="fw-bold">{{ number.foreignCount }}</td>
+                        <td class="fw-bold">{{ number.traineeCount }}</td>
                       </tr>
                     </ng-container>
                   </tbody>
@@ -211,15 +213,15 @@
                   >
                     <td></td>
                     <td class="text-center">Total</td>
-                    <td>{{ data.totalCourseCount || 0 }}</td>
-                    <td>{{ data.totalOfficerCount || 0 }}</td>
-                    <td>{{ data.totalMidCount || 0 }}</td>
-                    <td>{{ data.totalCadetCount || 0 }}</td>
-                    <td>{{ data.totalISCount || 0 }}</td>
-                    <td>{{ data.totalSaylorCount || 0 }}</td>
-                    <td>{{ data.totalCivilCount || 0 }}</td>
-                    <td>{{ data.totalForeignCount || 0 }}</td>
-                    <td>{{ data.totalTraineeCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalCourseCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalOfficerCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalMidCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalCadetCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalISCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalSaylorCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalCivilCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalForeignCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalTraineeCount || 0 }}</td>
                   </tr>
                 </table>
                 <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"

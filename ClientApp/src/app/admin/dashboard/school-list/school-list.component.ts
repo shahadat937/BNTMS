@@ -44,17 +44,16 @@ export class SchoolListComponent
   traineeId: any;
   role: any;
   totalCount: any;
+  todayDate = new Date()
+  todayFormatedDate : any
 
   groupArrays: { baseName: string; schools: any }[];
 
   displayedColumns: string[] = ["ser", "schoolName", "courseCount"];
 
   constructor(
-    private snackBar: MatSnackBar,
     private authService: AuthService,
     private dashboardService: dashboardService,
-    private router: Router,
-    private confirmService: ConfirmService,
     public sharedService: SharedServiceService
   ) {
     super();
@@ -64,6 +63,7 @@ export class SchoolListComponent
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     this.branchId = this.authService.currentUserValue.branchId.trim();
+    this.formatIntlDate(this.todayDate)
 
     this.getBnaClassTests();
   }
@@ -116,6 +116,22 @@ export class SchoolListComponent
     this.showHideDiv = false;
     this.print();
   }
+
+  formatIntlDate(date) {
+    console.log(date)
+    if (!(date instanceof Date)) {
+      console.error("Invalid date. Ensure 'date' is a Date object.");
+      return;
+    }
+
+    this.todayFormatedDate = new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).format(date);
+    console.log(this.todayFormatedDate);
+  }
+
   print() {
     let today = new Date();
 
@@ -184,7 +200,7 @@ export class SchoolListComponent
     const element = document.getElementById('contentToConvert');
     if (element) {
       const options = {
-        margin: [10, 10, 10, 10], // Adjust margins if needed
+        margin: [10, 10, 26, 10], // Adjust margins if needed
         filename: 'download.pdf',
         image: { type: 'jpeg', quality: 0.98 }, // Use JPEG for better rendering
         html2canvas: { 
@@ -196,7 +212,8 @@ export class SchoolListComponent
         jsPDF: { 
           unit: 'mm', 
           format: 'a4', 
-          orientation: 'landscape' // Use landscape for wide tables
+          orientation: 'landscape',
+          pagebreak: { mode: 'always', before: '.table' }  
         },
       };
   
@@ -205,71 +222,4 @@ export class SchoolListComponent
   }
 
 
-// downloadPDF(): void {
-//   const element = document.getElementById('contentToConvert');
-//   if (element) {
-//     const pdf = new jsPDF({
-//       orientation: 'landscape',
-//       unit: 'mm',
-//       format: 'a4',
-//     });
-
-//     const tables = element.querySelectorAll('table');
-//     tables.forEach((table, index) => {
-//       const rows = Array.from(table.rows).map(row => 
-//         Array.from(row.cells).map(cell => cell.innerText)
-//       );
-
-//       const columnWidths = [30, 50, 40, 60]; // Adjust widths to fit your table columns
-
-//       pdf.autoTable({
-//         head: [rows[0]],  // First row as header
-//         body: rows.slice(1),  // Body of the table
-//         startY: index === 0 ? 20 : pdf.lastAutoTable.finalY + 10,  // Adjust vertical position
-//         columnStyles: {
-//           0: { cellWidth: columnWidths[0] },
-//           1: { cellWidth: columnWidths[1] },
-//           2: { cellWidth: columnWidths[2] },
-//           3: { cellWidth: columnWidths[3] },
-//         },
-//         theme: 'grid',  // Ensures a grid-style border for the table
-//       });
-//     });
-
-//     pdf.save('download-table.pdf');
-//   }
-// }
-
-  
-
-  // pageChanged(event: PageEvent) {
-
-  //   this.paging.pageIndex = event.pageIndex
-  //   this.paging.pageSize = event.pageSize
-  //   this.paging.pageIndex = this.paging.pageIndex + 1
-  //   this.getBnaClassTests();
-
-  // }
-  // applyFilter(searchText: any){
-  //   this.searchText = searchText;
-  //   this.getBnaClassTests();
-  // }
-
-  // deleteItem(row) {
-  //   const id = row.bnaClassTestId;
-  //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     if (result) {
-  //       this.BnaClassTestService.delete(id).subscribe(() => {
-  //         this.getBnaClassTests();
-  //         this.snackBar.open('Information Deleted Successfully ', '', {
-  //           duration: 3000,
-  //           verticalPosition: 'bottom',
-  //           horizontalPosition: 'right',
-  //           panelClass: 'snackbar-danger'
-  //         });
-  //       })
-  //     }
-  //   })
-
-  // }
 }
