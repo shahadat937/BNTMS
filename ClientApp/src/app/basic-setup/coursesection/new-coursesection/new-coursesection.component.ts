@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { CourseSection } from '../../models/CourseSection';
 import { CourseSectionService } from '../../service/CourseSection.service';
 import { CourseNameService } from '../../service/CourseName.service';
-import { MasterData } from 'src/assets/data/master-data'; 
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { MasterData } from '../../../../../src/assets/data/master-data'; 
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursesection',
@@ -114,7 +114,7 @@ export class NewCourseSectionComponent extends UnsubscribeOnDestroyAdapter imple
       // isActive: [true],
     })
     //autocomplete
-    this.CourseSectionForm.get('course').valueChanges
+    this.CourseSectionForm.get('course')?.valueChanges
     .subscribe(value => {
         this.getSelectedTraineeByPno(value);
     })
@@ -123,9 +123,9 @@ export class NewCourseSectionComponent extends UnsubscribeOnDestroyAdapter imple
   //autocomplete
   onTraineeSelectionChanged(item) {
     this.courseNameId = item.value 
-    this.CourseSectionForm.get('courseNameId').setValue(item.value);
-    this.CourseSectionForm.get('course').setValue(item.text);
-    this.baseSchoolNameId = this.CourseSectionForm.get('baseSchoolNameId').value;
+    this.CourseSectionForm.get('courseNameId')?.setValue(item.value);
+    this.CourseSectionForm.get('course')?.setValue(item.text);
+    this.baseSchoolNameId = this.CourseSectionForm.get('baseSchoolNameId')?.value;
 
       this.isShown=true;
     this.courseSectionService.getCourseSectionListByBaseSchoolNameIdCourseNameId(this.baseSchoolNameId,this.courseNameId).subscribe(response => {
@@ -194,7 +194,7 @@ getSelectedTraineeByPno(pno){
   }
   
   onSubmit() {
-    const id = this.CourseSectionForm.get('courseSectionId').value;
+    const id = this.CourseSectionForm.get('courseSectionId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Course Module Item?').subscribe(result => {
         if (result) {
