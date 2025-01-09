@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaritalStatusService } from '../../service/maritalstatus.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-maritalstatus',
@@ -65,7 +65,7 @@ export class NewMaritalstatusComponent extends UnsubscribeOnDestroyAdapter imple
   }
   
   onSubmit() {
-    const id = this.maritalStatusForm.get('maritalStatusId').value;   
+    const id = this.maritalStatusForm.get('maritalStatusId')?.value;   
 
     if (id) {
         this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
