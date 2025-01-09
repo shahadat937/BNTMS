@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminAuthorityService } from '../../service/AdminAuthority.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-adminauthority',
@@ -66,7 +66,7 @@ export class NewAdminAuthorityComponent extends UnsubscribeOnDestroyAdapter impl
   }
   
   onSubmit() {
-    const id = this.AdminAuthorityForm.get('adminAuthorityId').value;   
+    const id = this.AdminAuthorityForm.get('adminAuthorityId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
