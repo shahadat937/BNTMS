@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectCategoryService } from '../../service/subjectcategory.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({ 
   selector: 'app-new-subjectcategory',
@@ -59,7 +59,7 @@ export class NewSubjectCategoryComponent extends UnsubscribeOnDestroyAdapter imp
   }
   
   onSubmit() {
-    const id = this.SubjectCategoryForm.get('subjectCategoryId').value;   
+    const id = this.SubjectCategoryForm.get('subjectCategoryId')?.value;   
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Subject Category Item').subscribe(result => {
