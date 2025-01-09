@@ -5,11 +5,11 @@ import {ClassRoutine} from '../../../routine-management/models/classroutine';
 import {ClassRoutineService} from '../../../routine-management/service/classroutine.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute,Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-classroutine-list',

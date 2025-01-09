@@ -5,13 +5,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SaylorBranch } from '../../models/SaylorBranch';
 import { SaylorBranchService } from '../../service/SaylorBranch.service';
 import { Router } from '@angular/router';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-saylorbranch-list',

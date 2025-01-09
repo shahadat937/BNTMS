@@ -5,8 +5,8 @@ import { EmploymentBeforeJoinBNAService } from '../../service/EmploymentBeforeJo
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-employment-before-join-bna',
@@ -80,7 +80,7 @@ export class NewEmploymentBeforeJoinBNAComponent extends UnsubscribeOnDestroyAda
 
   
   onSubmit() {
-    const id = this.EmploymentBeforeJoinBNAForm.get('employmentBeforeJoinBnaId').value;   
+    const id = this.EmploymentBeforeJoinBNAForm.get('employmentBeforeJoinBnaId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

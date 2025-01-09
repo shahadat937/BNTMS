@@ -5,8 +5,8 @@ import { TraineeMembershipService } from '../../../biodata-tab-layout/service/Tr
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -84,7 +84,7 @@ export class NewTraineeMembershipComponent extends UnsubscribeOnDestroyAdapter i
   }
   
   onSubmit() {
-    const id = this.TraineeMembershipForm.get('traineeMembershipId').value;   
+    const id = this.TraineeMembershipForm.get('traineeMembershipId')?.value;   
     
 
     if (id) {

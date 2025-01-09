@@ -5,8 +5,8 @@ import { FavoritesService } from '../../service/Favorites.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-favorites',
@@ -73,7 +73,7 @@ export class NewFavoritesComponent extends UnsubscribeOnDestroyAdapter implement
   }
   
   onSubmit() {
-    const id = this.FavoritesForm.get('favoritesId').value;   
+    const id = this.FavoritesForm.get('favoritesId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

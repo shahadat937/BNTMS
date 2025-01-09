@@ -4,12 +4,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectMarkService } from '../../service/SubjectMark.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { SubjectMark } from '../../models/SubjectMark';
-import { MasterData } from 'src/assets/data/master-data';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-subjectmark',
@@ -110,7 +110,7 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
       //menuPosition: ['', Validators.required],
       isActive: [true],
     })
-    this.SubjectMarkForm.get('course').valueChanges
+    this.SubjectMarkForm.get('course')?.valueChanges
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
@@ -155,11 +155,11 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   //autocomplete
   onCourseSelectionChanged(item) {
     if(this.role === 'Super Admin'){
-      this.SubjectMarkForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.SubjectMarkForm.get('baseSchoolNameId')?.setValue(this.branchId);
     }
     this.courseNameId = item.value 
-    this.SubjectMarkForm.get('courseNameId').setValue(item.value);
-    this.SubjectMarkForm.get('course').setValue(item.text);
+    this.SubjectMarkForm.get('courseNameId')?.setValue(item.value);
+    this.SubjectMarkForm.get('course')?.setValue(item.text);
     this.onBaseNameSelectionChangeGetModule();
   }
   getSelectedCourseAutocomplete(cName){
@@ -191,7 +191,7 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   } 
   
   onSubmit() {
-    const id = this.SubjectMarkForm.get('subjectMarkId').value;  
+    const id = this.SubjectMarkForm.get('subjectMarkId')?.value;  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
@@ -217,8 +217,8 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
         // this.router.navigateByUrl('/bna-subject-management/add-subjectmark');
         this.onsubjectSelectionChangeGetsubjectMarkList();
         this.SubjectMarkForm.reset();
-        this.SubjectMarkForm.get('subjectMarkId').setValue(0);
-        this.SubjectMarkForm.get('isActive').setValue(true);
+        this.SubjectMarkForm.get('subjectMarkId')?.setValue(0);
+        this.SubjectMarkForm.get('isActive')?.setValue(true);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { RankService } from '../../service/Rank.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-Rank',
@@ -63,7 +63,7 @@ export class NewRankComponent extends UnsubscribeOnDestroyAdapter implements OnI
   }
   
   onSubmit() {
-    const id = this.RankForm.get('rankId').value;
+    const id = this.RankForm.get('rankId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Rank Item?').subscribe(result => {
         if (result) {

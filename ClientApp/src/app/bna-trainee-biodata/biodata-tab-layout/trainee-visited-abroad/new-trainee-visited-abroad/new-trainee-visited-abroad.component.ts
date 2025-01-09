@@ -5,8 +5,8 @@ import { TraineeVisitedAboardService } from '../../../biodata-tab-layout/service
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class NewTraineeVisitedAboardComponent extends UnsubscribeOnDestroyAdapte
   loading = false;
   pageTitle: string;
   destination:string;
-  traineeId:  string;
+  traineeId:  string | null;
   TraineeVisitedAboardForm: FormGroup;
   validationErrors: string[] = [];
   countryValues:SelectedModel[]; 
@@ -82,7 +82,7 @@ export class NewTraineeVisitedAboardComponent extends UnsubscribeOnDestroyAdapte
   }
   
   onSubmit() {
-    const id = this.TraineeVisitedAboardForm.get('traineeVisitedAboardId').value;   
+    const id = this.TraineeVisitedAboardForm.get('traineeVisitedAboardId')?.value;   
     
 
     if (id) {
