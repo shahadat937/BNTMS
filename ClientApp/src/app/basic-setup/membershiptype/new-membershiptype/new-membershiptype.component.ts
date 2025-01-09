@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MembershipTypeService } from '../../service/membership-type.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-membershiptype',
@@ -63,7 +63,7 @@ export class NewMembershiptypeComponent extends UnsubscribeOnDestroyAdapter impl
   }
   
   onSubmit() {
-    const id = this.membershipTypeForm.get('membershipTypeId').value;  
+    const id = this.membershipTypeForm.get('membershipTypeId')?.value;  
     
     if (id) {
       this.loading=true;

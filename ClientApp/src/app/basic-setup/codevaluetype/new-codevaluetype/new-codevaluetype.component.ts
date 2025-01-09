@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CodeValueTypeService } from '../../service/CodeValueType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-codevaluetype',
@@ -66,7 +66,7 @@ export class NewCodeValueTypeComponent extends UnsubscribeOnDestroyAdapter imple
   }
   
   onSubmit() {
-    const id = this.CodeValueTypeForm.get('codeValueTypeId').value;   
+    const id = this.CodeValueTypeForm.get('codeValueTypeId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         

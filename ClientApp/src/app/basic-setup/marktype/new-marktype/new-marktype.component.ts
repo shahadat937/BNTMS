@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MarkTypeService } from '../../service/MarkType.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-marktype',
@@ -67,7 +67,7 @@ export class NewMarkTypeComponent extends UnsubscribeOnDestroyAdapter implements
   }
   
   onSubmit() {
-    const id = this.MarkTypeForm.get('markTypeId').value;   
+    const id = this.MarkTypeForm.get('markTypeId')?.value;   
 
     if (id) {
         this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {

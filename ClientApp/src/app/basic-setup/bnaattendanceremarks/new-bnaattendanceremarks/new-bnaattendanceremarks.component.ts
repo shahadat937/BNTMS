@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { BNAAttendanceRemarksService } from '../../service/BNAAttendanceRemarks.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter'
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -67,7 +67,7 @@ export class NewBNAAttendanceRemarksComponent extends UnsubscribeOnDestroyAdapte
   }
   
   onSubmit() {
-    const id = this.BNAAttendanceRemarksForm.get('bnaAttendanceRemarksId').value;
+    const id = this.BNAAttendanceRemarksForm.get('bnaAttendanceRemarksId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {

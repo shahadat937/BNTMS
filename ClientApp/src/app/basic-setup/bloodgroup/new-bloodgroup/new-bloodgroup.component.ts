@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BloodGroupService } from '../../service/BloodGroup.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter'
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bloodgroup',
@@ -66,7 +66,7 @@ export class NewBloodGroupComponent extends UnsubscribeOnDestroyAdapter implemen
   }
   
   onSubmit() {
-    const id = this.BloodGroupForm.get('bloodGroupId').value;   
+    const id = this.BloodGroupForm.get('bloodGroupId')?.value;   
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {

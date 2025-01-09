@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { DefenseTypeService } from '../../service/defenseType.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-defenseType',
@@ -66,7 +66,7 @@ export class NewDefenseTypeComponent extends UnsubscribeOnDestroyAdapter impleme
   }
   
   onSubmit() {
-    const id = this.defenseTypeForm.get('defenseTypeId').value; 
+    const id = this.defenseTypeForm.get('defenseTypeId')?.value; 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Defense Type Item').subscribe(result => {
         if (result) {

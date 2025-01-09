@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CodeValueService } from '../../service/codevalue.service';
 
 import { CodeValueType } from '../../models/CodeValueType';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-codevalue',
@@ -90,7 +90,7 @@ export class NewCodeValueComponent extends UnsubscribeOnDestroyAdapter implement
     this.selectedModel=this.selectCodeValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onSubmit() {
-    const id = this.CodeValueForm.get('codeValueId').value;   
+    const id = this.CodeValueForm.get('codeValueId')?.value;   
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {

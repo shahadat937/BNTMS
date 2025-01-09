@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from '../../service/branch.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-branch',
@@ -69,7 +69,7 @@ export class NewBranchComponent extends UnsubscribeOnDestroyAdapter implements O
   }
   
   onSubmit() {
-    const id = this.branchForm.get('branchId').value;   
+    const id = this.branchForm.get('branchId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LanguageService } from '../../service/language.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-language',
@@ -65,7 +65,7 @@ export class NewLanguageComponent extends UnsubscribeOnDestroyAdapter implements
   }
   
   onSubmit() {
-    const id = this.LanguageForm.get('languageId').value;   
+    const id = this.LanguageForm.get('languageId')?.value;   
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Language Item').subscribe(result => {

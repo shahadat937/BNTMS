@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {CourseTypeService} from '../../service/CourseType.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursetype',
@@ -66,7 +66,7 @@ export class NewCoursetypeComponent extends UnsubscribeOnDestroyAdapter implemen
   }
   
   onSubmit() {
-    const id = this.CourseTypeForm.get('courseTypeId').value;   
+    const id = this.CourseTypeForm.get('courseTypeId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

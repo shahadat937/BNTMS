@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GrandFatherTypeService } from '../../service/GrandFatherType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-grandfathertype',
@@ -66,7 +66,7 @@ export class NewGrandFatherTypeComponent extends UnsubscribeOnDestroyAdapter imp
   }
   
   onSubmit() {
-    const id = this.GrandFatherTypeForm.get('grandfatherTypeId').value;   
+    const id = this.GrandFatherTypeForm.get('grandfatherTypeId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update Item?').subscribe(result => {
         if (result) {
