@@ -5,13 +5,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SaylorRank } from '../../models/SaylorRank';
 import { SaylorRankService } from '../../service/SaylorRank.service';
 import { Router } from '@angular/router';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-saylorrank-list',
