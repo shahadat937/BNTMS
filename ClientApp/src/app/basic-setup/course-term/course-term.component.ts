@@ -5,15 +5,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseTermService } from '../service/course-term.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
 import { CourseLevelService } from '../service/course-level.service';
 import { BaseSchoolNameService } from '../../basic-setup/service/BaseSchoolName.service';
-import{MasterData} from 'src/assets/data/master-data';
+import{MasterData} from '../../../../src/assets/data/master-data';
 import { CourseTerm } from '../models/course-term';
 import { stringify } from '@angular/compiler/src/util';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-course-term',
@@ -176,7 +176,7 @@ export class CourseTermComponent extends UnsubscribeOnDestroyAdapter implements 
 
   
   onSubmit() {
-    const id = this.CourseTermForm.get('courseTermId').value;   
+    const id = this.CourseTermForm.get('courseTermId')?.value;   
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
