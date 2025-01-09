@@ -167,6 +167,7 @@ export class TraineeCertificateListComponent
   }
   print() {
     let printContents, popupWin;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     const printElement = document.getElementById("print-routine");
     if (printElement) {
       printContents = printElement.innerHTML;
