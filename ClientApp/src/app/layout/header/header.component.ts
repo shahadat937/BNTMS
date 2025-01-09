@@ -326,6 +326,9 @@ this.userRole.SchoolOIC
       if(this.role == "Master Admin" || this.role == "DDNT"){
         this.router.navigate(['/admin/dashboard/main']);
       }
+      else if (this.role === "Inter Seevice Course"){
+        this.router.navigate(['/admin/dashboard/interservice-dashboard']);
+      }
       else {
         this.router.navigate(['/admin/dashboard/school-dashboard']);
       }

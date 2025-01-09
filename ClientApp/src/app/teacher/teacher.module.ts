@@ -7,7 +7,6 @@ import { ChartsModule as chartjsModule } from 'ng2-charts';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -61,7 +60,6 @@ import { InstructorRoutinebyCourseComponent } from './instructorroutinebycourse-
     PerfectScrollbarModule,
     MatIconModule,
     MatButtonModule,
-    NgApexchartsModule,
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,

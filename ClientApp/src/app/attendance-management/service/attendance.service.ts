@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { IAttendancePagination,AttendancePagination } from '../models/attendancePagination';
 import { Attendance } from '../models/attendance';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { map } from 'rxjs';
-import { PostResponse } from 'src/app/core/models/PostResponse';
+import { PostResponse } from '../../core/models/PostResponse';
 import { bnaAttendanceList } from '../models/bnaAttendanceList';
 
 @Injectable({

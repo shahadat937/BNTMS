@@ -1,159 +1,169 @@
 <section class="content">
-    <div class="container">
-        <div class="block-header">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <ul class="breadcrumb breadcrumb-style ">
-                        <li class="breadcrumb-item">
-                            <h4 class="page-title">COURSE TERMINATION</h4>
-                        </li>
-                        <li class="breadcrumb-item bcrumb-1">
-                            <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
-                        </li>
-                        <li class="breadcrumb-item bcrumb-2">
-                            <a href="#" onClick="return false;">Course Termination</a>
-                        </li>
-                        <li class="breadcrumb-item active">All</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="container">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">COURSE TERMINATION</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;">Course Termination</a>
+            </li>
+            <li class="breadcrumb-item active">All</li>
+          </ul>
         </div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="body">
-                        <div class="responsive_table">
-                            <div class="materialTableHeader">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="col-xl-6 col-lg-2 col-md-6 col-sm-6 mb-2">
-                                            <mat-form-field class="example-full-width mb-3" appearance="outline">
-                                              <mat-label>Select Date</mat-label>
-                                                <input matInput [matDatepicker]="dategpicker" 
-                                                (dateChange)="onDateChange($event)" >
-                                                <mat-datepicker-toggle matSuffix [for]="dategpicker"></mat-datepicker-toggle>
-                                               <mat-datepicker #dategpicker></mat-datepicker>                                                          
-                                            </mat-form-field>
-                                          </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <ul class="header-buttons">
-                                            <li>
-                                                <div class="icon-button-demo">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="responsive_table">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="col-xl-6 col-lg-2 col-md-6 col-sm-6 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Select Date</mat-label>
+                        <input matInput [matDatepicker]="dategpicker" (dateChange)="onDateChange($event)" />
+                        <mat-datepicker-toggle matSuffix [for]="dategpicker"></mat-datepicker-toggle>
+                        <mat-datepicker #dategpicker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button-demo">
+                          <button class="btn-space" mat-raised-button color="warn" (click)="sharedService.goBack()">
+                            <mat-icon class="col-white">keyboard_backspace</mat-icon>
+                            Back
+                          </button>                         
+                          <button *ngIf="groupArrays?.length" class="btn-space" mat-raised-button color="primary"
+                          (click)="printSingle()">
+                          Print
+                          <mat-icon class="col-white">print</mat-icon>
+                        </button>
 
+                        <button class="btn-space btn-info"
+                        *ngIf="groupArrays?.length"
+                        mat-raised-button
+                        color="primary"
+                        (click)="downloadPDF()">  <mat-icon class="col-white"
+                        >download</mat-icon
+                      > Download</button>
+                         
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
-                                                    <button *ngIf="groupArrays.length" class="btn-space" mat-raised-button color="primary"
-                                                        (click)="printSingle()"> Print
-                                                        <mat-icon class="col-white">print</mat-icon>
-                                                    </button>
+              <div id="contentToConvert">
 
-                                                    <button class="btn-space" mat-raised-button color="warn"
-                                                        (click)="sharedService.goBack()">
-                                                        <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
-                                                    </button>
-                                                </div>
-                                            </li>
+                <div class="my-3 text-center">
+                  <h2>BN TRAINING STATE</h2>
+                  <h4>COURSE TERMINATED ON {{ selectedDate }}</h4>
+                </div>
+                <div id="print-routine">
+                  <table class="table tbl-by-group db-li-s-in">
+                    <thead>
+                      <tr>
+                        <th class="cl-nm-rnk">
+                          <h5>Name of School</h5>
+                        </th>
+                        <th>
+                          <h5>Course</h5>
+                        </th>
 
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="my-3 text-center">
-                                <h2>BN TRAINING STATE</h2>
-                                <h4>COURSE TERMINATED ON {{selectedDate}} </h4>
-                            </div>
-                            <div id="print-routine">
-                                <table class="table  tbl-by-group db-li-s-in">
-                                    <thead>
-                                        <tr>
-                                            <th class="cl-nm-rnk">
-                                                <h5>Name of School</h5>
-                                            </th>
-                                            <th>
-                                                <h5>Course</h5>
-                                            </th>
-
-                                            <th class="cl-mrk-rmrk">
-                                                <h5>Officer's </h5>
-                                            </th>
-                                            <th class="cl-mrk-rmrk">
-                                                <h5>Mids </h5>
-                                            </th>
-                                            <th class="cl-mrk-rmrk">
-                                                <h5>Cadet </h5>
-                                            </th>
-                                            <th class="cl-mrk-rmrk">
-                                                <h5>I/S</h5>
-                                            </th>
-                                            <th class="cl-mrk-rmrk">
-                                                <h5>Sailor's </h5>
-                                            </th>
-                                            <th class="cl-mrk-rmrk">
-                                                <h5> Civil </h5>
-                                            </th>
-                                            <th class="cl-mrk-rmrk">
-                                                <h5> Foreign </h5>
-                                            </th>
-                                            <!-- <th class="cl-mrk-rmrk">
+                        <th class="cl-mrk-rmrk">
+                          <h5>Officer's</h5>
+                        </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5>Mids</h5>
+                        </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5>Cadet</h5>
+                        </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5>I/S</h5>
+                        </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5>Sailor's</h5>
+                        </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5>Civil</h5>
+                        </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5>Foreign</h5>
+                        </th>
+                        <!-- <th class="cl-mrk-rmrk">
                                                 <h5>Total </h5>
                                             </th> -->
-                                            <th class="cl-mrk-rmrk">
-                                                <h5 style="white-space: nowrap;">Start dt</h5>
-                                            </th>
-                                            <th class="cl-mrk-rmrk">
-                                                <h5 style="white-space: nowrap;">Complete dt</h5>
-                                            </th>
-                                            <th class="cl-mrk-rmrk">
-                                                <h5 style="white-space: nowrap;">Remark</h5>
-                                            </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5 style="white-space: nowrap">Start dt</h5>
+                        </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5 style="white-space: nowrap">Complete dt</h5>
+                        </th>
+                        <th class="cl-mrk-rmrk">
+                          <h5 style="white-space: nowrap">Remark</h5>
+                        </th>
+                      </tr>
+                    </thead>
 
-                                        </tr>
-                                    </thead>
-                              
-                                    <tbody>
-                                        <ng-container *ngFor="let data of groupArrays;let i= index;">
-                                            <tr>
-                                                <td [attr.rowspan]="data.report.length + 1">{{data.schoolName}}</td>
-                                            </tr>
-                                            <tr *ngFor="let school of data.report;">
-                                                <td>{{school.course}} </td>
-                                                <td>{{ school.totalOfficer }}</td>
-                                                <td>{{ school.totalMidCount }}</td>
-                                                <td>{{ school.totalCadetCount }}</td>
-                                                <td>{{ school.totalISCount }}</td>
-                                                <td>{{ school.totalSailor }}</td>
-                                                <td>{{ school.totalCivilCount }}</td>
-                                                <td>{{ school.totalForignCount }}</td>
-                                                <!-- <td>{{ school.totalNomine }}</td> -->
-                                                <td style="white-space: nowrap;">{{school.durationFrom | date:'dd-MM-yyyy' }}</td>
-                                                <td style="white-space: nowrap;">{{school.durationTo | date:'dd-MM-yyyy' }}</td>
-                                                <td></td>
-                                            </tr>
-                                        </ng-container>
-                                        <tr class="py-3" *ngIf="groupArrays.length">
-                                            <td colspan="2" class="text-center">Total</td>
-                                            <td>{{ grandTotals.totalOfficer }}</td>
-                                            <td>{{ grandTotals.totalMidCount }}</td>
-                                            <td>{{ grandTotals.totalCadetCount }}</td>
-                                            <td>{{ grandTotals.totalISCount }}</td>
-                                            <td>{{ grandTotals.totalSailor }}</td>
-                                            <td>{{ grandTotals.totalCivilCount }}</td>
-                                            <td>{{ grandTotals.totalForignCount }}</td>
-                                            <td class="text-center" colspan="3">-</td>
-                                           
-                                          </tr>
-                                    </tbody>
+                    <tbody>
+                      <ng-container *ngFor="let data of groupArrays; let i = index">
+                        <tr>
+                          <td [attr.rowspan]="data.report?.length + 1">
+                            {{ data.schoolName }}
+                          </td>
+                        </tr>
+                        <tr *ngFor="let school of data.report">
+                          <td>{{ school.course }}</td>
+                          <td>{{ school.totalOfficer }}</td>
+                          <td>{{ school.totalMidCount }}</td>
+                          <td>{{ school.totalCadetCount }}</td>
+                          <td>{{ school.totalISCount }}</td>
+                          <td>{{ school.totalSailor }}</td>
+                          <td>{{ school.totalCivilCount }}</td>
+                          <td>{{ school.totalForignCount }}</td>
+                          <!-- <td>{{ school.totalNomine }}</td> -->
+                          <td style="white-space: nowrap">
+                            {{ school.durationFrom | date : "dd-MM-yyyy" }}
+                          </td>
+                          <td style="white-space: nowrap">
+                            {{ school.durationTo | date : "dd-MM-yyyy" }}
+                          </td>
+                          <td></td>
+                        </tr>
+                      </ng-container>
+                      <tr class="py-3" *ngIf="groupArrays?.length">
+                        <td colspan="2" class="text-center">Total</td>
+                        <td>{{ grandTotals.totalOfficer }}</td>
+                        <td>{{ grandTotals.totalMidCount }}</td>
+                        <td>{{ grandTotals.totalCadetCount }}</td>
+                        <td>{{ grandTotals.totalISCount }}</td>
+                        <td>{{ grandTotals.totalSailor }}</td>
+                        <td>{{ grandTotals.totalCivilCount }}</td>
+                        <td>{{ grandTotals.totalForignCount }}</td>
+                        <td class="text-center" colspan="3">-</td>
+                      </tr>
+                    </tbody>
+                  </table>
 
-                                </table>
-
-                                <h4 class="text-center text-danger">{{message}}</h4>
-
-                            </div>
-                        </div>
-                    </div>
+                  <h4 class="text-center text-danger">{{ message }}</h4>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>

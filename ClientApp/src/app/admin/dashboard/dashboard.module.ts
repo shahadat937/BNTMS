@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MainComponent } from './main/main.component';
-import { NgxEchartsModule } from 'ngx-echarts';
-import { NgApexchartsModule } from 'ng-apexcharts';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FullCalendarModule } from "@fullcalendar/angular";
@@ -33,7 +32,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
-import { ReadingMateriallistDashboardComponent } from 'src/app/school/readingmateriallistdashboard/readingmateriallistdashboard.component';
+import { ReadingMateriallistDashboardComponent } from '../../school/readingmateriallistdashboard/readingmateriallistdashboard.component';
 import { WeeklyProgramDashboardComponent } from './../../school/weeklyprogramdashboard/weeklyprogramdashboard.component';
 import {DailyprogramlistDashboardComponent} from './../../school/dailyprogramlist-dashboard/dailyprogramlist-dashboard.component'
 import { AbsentlistDashboardComponent } from './../../school/absentlist-dashboard/absentlist-dashboard.component';
@@ -45,7 +44,6 @@ import {SyllabusbySubjectListComponent} from './syllabusbysubject-list/syllabusb
 import {AssignmentListComponent} from '../../teacher/assignment/assignment-list/assignment-list.component'
 import {NewInstructorAssignmentComponent} from '../../teacher/assignment/new-instructorassignment/new-instructorassignment.component'
 import {NewStudentAssignmentComponent} from '../../student/new-studentassignment/new-studentassignment.component'
-import { NewPasswordChangeComponent } from 'src/app/instructor/passwordchange/new-passwordchange.component';
 import { SchoolListComponent } from './school-list/school-list.component';
 import { CoursebySchoolListComponent } from './coursebyschool-list/coursebyschool-list.component';
 import { CourseWeekByDurationListComponent } from './courseweekbyduration-list/courseweekbyduration-list.component';
@@ -144,12 +142,11 @@ FullCalendarModule.registerPlugins([
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
-    }),
+    // NgxEchartsModule.forRoot({
+    //   echarts: () => import('echarts'),
+    // }),
     PerfectScrollbarModule,
     MatIconModule,
-    NgApexchartsModule,
     MatButtonModule,
     MatMenuModule,
     CommonModule,

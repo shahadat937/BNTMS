@@ -99,7 +99,7 @@ export class SharedServiceService {
 
   formatDateTime(date: any): string {
 
-    let validDate: Date;
+    let validDate: Date = new Date();
     if (date instanceof Date) {
       validDate = date;
     } 

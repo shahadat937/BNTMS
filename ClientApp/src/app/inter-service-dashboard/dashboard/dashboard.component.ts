@@ -16,19 +16,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { INITIAL_EVENTS } from '../../calendar/events-util';
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexTooltip,
-  ApexYAxis,
-  ApexPlotOptions,
-  ApexStroke,
-  ApexLegend,
-  ApexFill,
-} from 'ng-apexcharts';
+
 import { DatePipe } from '@angular/common';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
@@ -37,28 +25,6 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 //import { MasterData } from 'src/assets/data/master-data';
 //import { CourseDuration } from '../models/courseduration';
 //import { CourseDurationService } from '../services/courseduration.service';
-export type areaChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-  legend: ApexLegend;
-  colors: string[];
-};
-
-export type barChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  yaxis: ApexYAxis;
-  xaxis: ApexXAxis;
-  fill: ApexFill;
-  colors: string[];
-};
 
 @Component({
   selector: 'app-dashboard',
@@ -72,10 +38,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   dialogTitle: string;
   filterOptions = 'All';
   calendarData: any;
-  @ViewChild('chart') chart: ChartComponent;
-  public areaChartOptions: Partial<areaChartOptions>;
-  public barChartOptions: Partial<barChartOptions>;
-   masterData = MasterData;
+    masterData = MasterData;
   loading = false;
   userRole = Role;
   isLoading = false;

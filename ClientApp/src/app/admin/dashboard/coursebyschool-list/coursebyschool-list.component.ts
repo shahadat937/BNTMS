@@ -1,40 +1,54 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { dashboardService } from '../services/dashboard.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
-import {MasterData} from '../../../../../src/assets/data/master-data'
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { DatePipe } from '@angular/common';
-import { ActivatedRoute,Router } from '@angular/router';
-import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { dashboardService } from "../services/dashboard.service";
+import { SelectionModel } from "@angular/cdk/collections";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { DatePipe } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MasterData } from "../../../../assets/data/master-data";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 
 @Component({
-  selector: 'app-coursebyschool-list',
-  templateUrl: './coursebyschool-list.component.html',
-  styleUrls: ['./coursebyschool-list.component.sass']
+  selector: "app-coursebyschool-list",
+  templateUrl: "./coursebyschool-list.component.html",
+  styleUrls: ["./coursebyschool-list.component.sass"],
 })
-export class CoursebySchoolListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+export class CoursebySchoolListComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  masterData = MasterData;
   loading = false;
-  courseList:any;
-  schoolName:any;
-  schoolNameTitle:any='';
-  
+  courseList: any;
+  schoolName: any;
+  schoolNameTitle: any = "";
+
   isLoading = false;
-  
+
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
-    length: 1
-  }
-  searchText="";
+    length: 1,
+  };
+  searchText = "";
 
-  displayedColumns: string[] = ['ser','course','duration', 'officer','mid','cadet','is','sailor','civil','foreign', 'total'];
+  displayedColumns: string[] = [
+    "ser",
+    "course",
+    "duration",
+    "officer",
+    "mid",
+    "cadet",
+    "is",
+    "sailor",
+    "civil",
+    "foreign",
+    "total",
+  ];
 
-  
   constructor(
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
@@ -42,52 +56,53 @@ export class CoursebySchoolListComponent extends UnsubscribeOnDestroyAdapter imp
     private dashboardService: dashboardService,
     private router: Router,
     private confirmService: ConfirmService,
-    public sharedService: SharedServiceService  
+    public sharedService: SharedServiceService
   ) {
     super();
   }
 
   ngOnInit() {
-    var baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
+    var baseSchoolNameId = this.route.snapshot.paramMap.get("baseSchoolNameId");
     this.getBnaClassTests(baseSchoolNameId);
 
-    if(Number(baseSchoolNameId) == 0){
+    if (Number(baseSchoolNameId) == 0) {
       this.schoolName = "Foreign Courses";
-    }else{
-      this.dashboardService.getSchoolNameById(baseSchoolNameId).subscribe(response => {     
-        this.schoolNameTitle="School Name:";
-        this.schoolName = response.schoolName; 
-      });
+    } else {
+      this.dashboardService
+        .getSchoolNameById(baseSchoolNameId)
+        .subscribe((response) => {
+          this.schoolNameTitle = "School Name:";
+          this.schoolName = response.schoolName;
+        });
     }
-    
-    
-    
   }
- 
+
   getBnaClassTests(baseSchoolNameId) {
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+    let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy");
     this.isLoading = true;
-    this.dashboardService.getSpCourseListBySchool(baseSchoolNameId,currentDateTime).subscribe(response => {     
-      this.courseList = response;   
-      this.isLoading = false;
-    });
+    this.dashboardService
+      .getSpCourseListBySchool(baseSchoolNameId, currentDateTime)
+      .subscribe((response) => {
+        this.courseList = response;
+        this.isLoading = false;
+      });
   }
 
   // pageChanged(event: PageEvent) {
-  
+
   //   this.paging.pageIndex = event.pageIndex
   //   this.paging.pageSize = event.pageSize
   //   this.paging.pageIndex = this.paging.pageIndex + 1
   //   this.getBnaClassTests();
- 
+
   // }
-  // applyFilter(searchText: any){ 
+  // applyFilter(searchText: any){
   //   this.searchText = searchText;
   //   this.getBnaClassTests();
-  // } 
+  // }
 
   // deleteItem(row) {
-  //   const id = row.bnaClassTestId; 
+  //   const id = row.bnaClassTestId;
   //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
   //     if (result) {
   //       this.BnaClassTestService.delete(id).subscribe(() => {
@@ -101,6 +116,6 @@ export class CoursebySchoolListComponent extends UnsubscribeOnDestroyAdapter imp
   //       })
   //     }
   //   })
-    
+
   // }
 }

@@ -1,115 +1,131 @@
-import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { BNASubjectName } from '../../../subject-management/models/BNASubjectName';
-import { BNASubjectNameService } from '../../../subject-management/service/BNASubjectName.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import { ActivatedRoute,Router } from '@angular/router';
-import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
-import{MasterData} from '../../../../../src/assets/data/master-data'
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CourseInstructorService } from '../../../subject-management/service/courseinstructor.service';
-import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
-import { AuthService } from '../../../../../src/app/core/service/auth.service';
-import { Role } from '../../../../../src/app/core/models/role';
-import {BNAExamMarkService} from '../../../bna-exam-management/service/bnaexammark.service';
-import {CourseDurationService} from '../../../course-management/service/courseduration.service';
-import {BIODataGeneralInfoService} from '../../../trainee-biodata/service/BIODataGeneralInfo.service';
-import {RankService} from '../../../basic-setup/service/Rank.service';
-import {SaylorRankService} from '../../../basic-setup/service/SaylorRank.service';
-import { BaseSchoolNameService } from '../../../../../src/app/security/service/BaseSchoolName.service';
-import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { BNASubjectName } from "../../../subject-management/models/BNASubjectName";
+import { BNASubjectNameService } from "../../../subject-management/service/BNASubjectName.service";
+import { SelectionModel } from "@angular/cdk/collections";
+import { ActivatedRoute, Router } from "@angular/router";
+
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { CourseInstructorService } from "../../../subject-management/service/courseinstructor.service";
+import { CourseNameService } from "../../../basic-setup/service/CourseName.service";
+
+import { BNAExamMarkService } from "../../../bna-exam-management/service/bnaexammark.service";
+import { CourseDurationService } from "../../../course-management/service/courseduration.service";
+import { BIODataGeneralInfoService } from "../../../trainee-biodata/service/BIODataGeneralInfo.service";
+import { RankService } from "../../../basic-setup/service/Rank.service";
+import { SaylorRankService } from "../../../basic-setup/service/SaylorRank.service";
+import { BaseSchoolNameService } from "../../../security/service/BaseSchoolName.service";
+import { MasterData } from "../../../../assets/data/master-data";
+import { Role } from "../../../core/models/role";
+import { AuthService } from "../../../core/service/auth.service";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 
 @Component({
-  selector: 'app-trainee-certificate',
-  templateUrl: './trainee-certificate.component.html',
-  styleUrls: ['./trainee-certificate.component.sass','./trainee-certificate.component.css']
+  selector: "app-trainee-certificate",
+  templateUrl: "./trainee-certificate.component.html",
+  styleUrls: [
+    "./trainee-certificate.component.sass",
+    "./trainee-certificate.component.css",
+  ],
 })
-export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+export class TraineeCertificateListComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  masterData = MasterData;
   loading = false;
   userRole = Role;
   ELEMENT_DATA: BNASubjectName[] = [];
   isLoading = false;
-  status=1;
-  SelectedsubjectsBySchoolAndCourse:BNASubjectName[];
-  courseTypeId:number;
-  courseType3:any;
-  coursesTypes:any;
-  courseType:any;
-  traineeId:any;
-  branchId:any;
-  GetInstructorByParameters:any[];
-  GetTotalSubjectCalculation:any[];
-  dbType1:any;
-  traineeDb:any;
-  schoolDb:any;
-  schoolName:any;
-  courseName:any;
-  durationForm:Date;
-  durationTo:Date;
-  courseTitle:any;
-  courseDurationId:any;
-  courseListStatus:any;
-  baseSchoolNameId:any;
-  schoolLogo:any;
-  trainee:any;
-  traineeName:any;
-  traineePno:any;
-  traineeRank:any;
-  traineePosition:any;
-  course:any;
-  showHideDiv= false;
-  isShown:boolean=false;
-  role:any;
-  groupArrays:{ courseModule: string; courses: any; }[];
+  status = 1;
+  SelectedsubjectsBySchoolAndCourse: BNASubjectName[];
+  courseTypeId: number;
+  courseType3: any;
+  coursesTypes: any;
+  courseType: any;
+  traineeId: any;
+  branchId: any;
+  GetInstructorByParameters: any[];
+  GetTotalSubjectCalculation: any[];
+  dbType1: any;
+  traineeDb: any;
+  schoolDb: any;
+  schoolName: any;
+  courseName: any;
+  durationForm: Date;
+  durationTo: Date;
+  courseTitle: any;
+  courseDurationId: any;
+  courseListStatus: any;
+  baseSchoolNameId: any;
+  schoolLogo: any;
+  trainee: any;
+  traineeName: any;
+  traineePno: any;
+  traineeRank: any;
+  traineePosition: any;
+  course: any;
+  showHideDiv = false;
+  isShown: boolean = false;
+  role: any;
+  groupArrays: { courseModule: string; courses: any }[];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
-    length: 1
-  }
-  searchText="";
+    length: 1,
+  };
+  searchText = "";
 
-  traineeCertificateDetails:any[];
+  traineeCertificateDetails: any[];
 
-  displayedColumns: string[] = ['ser','subjectName','subjectType','totalPeriod','totalMark','passMarkBna','actions'];
+  displayedColumns: string[] = [
+    "ser",
+    "subjectName",
+    "subjectType",
+    "totalPeriod",
+    "totalMark",
+    "passMarkBna",
+    "actions",
+  ];
 
-  displayedInstructorColumns: string[]= ['ser','trainee','bnaSubjectName'];
-   selection = new SelectionModel<BNASubjectName>(true, []);
+  displayedInstructorColumns: string[] = ["ser", "trainee", "bnaSubjectName"];
+  selection = new SelectionModel<BNASubjectName>(true, []);
 
-// getExamMarkListByParameters
-  
+  // getExamMarkListByParameters
+
   constructor(
     private snackBar: MatSnackBar,
-    private baseSchoolNameService:BaseSchoolNameService,
-    private BNAExamMarkService:BNAExamMarkService,
-    private saylorRankService:SaylorRankService,
-    private rankService:RankService,
-    private courseDurationService:CourseDurationService,
-    private biodataService:BIODataGeneralInfoService,
+    private baseSchoolNameService: BaseSchoolNameService,
+    private BNAExamMarkService: BNAExamMarkService,
+    private saylorRankService: SaylorRankService,
+    private rankService: RankService,
+    private courseDurationService: CourseDurationService,
+    private biodataService: BIODataGeneralInfoService,
     private authService: AuthService,
-    private courseNameService:CourseNameService,
-    private CourseInstructorService: CourseInstructorService ,
+    private courseNameService: CourseNameService,
+    private CourseInstructorService: CourseInstructorService,
     private BNASubjectNameService: BNASubjectNameService,
     private router: Router,
     private confirmService: ConfirmService,
     private route: ActivatedRoute,
-    public sharedService: SharedServiceService,
-
+    public sharedService: SharedServiceService
   ) {
     super();
   }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId
+      ? this.authService.currentUserValue.branchId.trim()
+      : "";
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.loadData();
-    })
-    
+    });
   }
 
   backButton() {
@@ -117,39 +133,50 @@ export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   loadData() {
-    this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId'); 
-    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
+    this.baseSchoolNameId =
+      this.route.snapshot.paramMap.get("baseSchoolNameId");
+    this.courseDurationId =
+      this.route.snapshot.paramMap.get("courseDurationId");
+    this.traineeId = this.route.snapshot.paramMap.get("traineeId");
 
-    this.baseSchoolNameService.find(this.baseSchoolNameId).subscribe(res=>{
+    this.baseSchoolNameService.find(this.baseSchoolNameId).subscribe((res) => {
       this.schoolLogo = res.schoolLogo;
       this.schoolName = res.schoolName;
-      if(!this.schoolLogo){
-        this.schoolLogo = 'assets/images/login/navy-logo.png';
+      if (!this.schoolLogo) {
+        this.schoolLogo = "assets/images/login/navy-logo.png";
       }
-    });  
+    });
 
-    this.BNAExamMarkService.getTraineeCertificateDetailsByParameters(this.baseSchoolNameId,this.courseDurationId,this.traineeId).subscribe(res=>{
-      this.traineeCertificateDetails=res;      
+    this.BNAExamMarkService.getTraineeCertificateDetailsByParameters(
+      this.baseSchoolNameId,
+      this.courseDurationId,
+      this.traineeId
+    ).subscribe((res) => {
+      this.traineeCertificateDetails = res;
       this.traineePosition = res[0].position;
-      this.isShown=true;
-    }); 
+      this.isShown = true;
+    });
   }
 
-
-  toggle(){
+  toggle() {
     this.showHideDiv = !this.showHideDiv;
   }
-  printSingle(){
-    this.showHideDiv= false;
+  printSingle() {
+    this.showHideDiv = false;
     this.print();
   }
-  print(){ 
-     
+  print() {
     let printContents, popupWin;
     printContents = document.getElementById('print-routine')?.innerHTML;
+    const printElement = document.getElementById("print-routine");
+    if (printElement) {
+      printContents = printElement.innerHTML;
+    } else {
+      console.error("Element with id 'print-routine' not found.");
+      return;
+    }
     // popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    popupWin = window.open('top=0,left=0,height=100%,width=auto');
+    popupWin = window.open("top=0,left=0,height=100%,width=auto");
     popupWin.document.open();
     popupWin.document.write(`
       <html>
@@ -316,10 +343,7 @@ export class TraineeCertificateListComponent extends UnsubscribeOnDestroyAdapter
           ${printContents}
           
         </body>
-      </html>`
-    );
+      </html>`);
     popupWin.document.close();
-
   }
-
 }

@@ -1,32 +1,36 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { dashboardService } from '../services/dashboard.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Router } from '@angular/router';
-import { ConfirmService } from '../../../core/service/confirm.service';
-import { MasterData } from '../../../../../src/assets/data/master-data'
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Role } from '../../../../../src/app/core/models/role';
-import { AuthService } from '../../../../../src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
-import { DateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/date-time-adapter.class';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { dashboardService } from "../services/dashboard.service";
+import { SelectionModel } from "@angular/cdk/collections";
+import { Router } from "@angular/router";
+import { ConfirmService } from "../../../core/service/confirm.service";
+
+import { MatSnackBar } from "@angular/material/snack-bar";
+
+import { DateTimeAdapter } from "ng-pick-datetime/date-time/adapter/date-time-adapter.class";
+import { AuthService } from "../../../core/service/auth.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+import * as html2pdf from 'html2pdf.js';
+import { jsPDF } from "jspdf";
+
 
 @Component({
-  selector: 'app-commance-report',
-  templateUrl: './commance-report.component.html',
-  styleUrls: ['./commance-report.component.sass']
+  selector: "app-commance-report",
+  templateUrl: "./commance-report.component.html",
+  styleUrls: ["./commance-report.component.scss"],
 })
-export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-
-
+export class CommanceReportComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   report: any;
-  groupArrays: { schoolName: string; report: any; }[];
+  groupArrays: { schoolName: string; report: any }[];
   showHideDiv = false;
   today = new Date();
-  selectedDate : any;
-  message : string
+  selectedDate: any;
+  message: string;
   grandTotals = {
     totalOfficer: 0,
     totalMidCount: 0,
@@ -34,18 +38,22 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
     totalISCount: 0,
     totalSailor: 0,
     totalCivilCount: 0,
-    totalForignCount: 0
+    totalForignCount: 0,
   };
-  isShow = true;
-  constructor(private snackBar: MatSnackBar,
+  isShow = false;
+  constructor(
+    private snackBar: MatSnackBar,
     private authService: AuthService,
     private dashboardService: dashboardService,
     private router: Router,
     private confirmService: ConfirmService,
-    public sharedService: SharedServiceService) { super() }
+    public sharedService: SharedServiceService
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.getCommenceReport(this.today)
+    this.getCommenceReport(this.today);
   }
 
   // getCommenceReport(date) {
@@ -62,17 +70,16 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
   //       groups[school].push(report);
   //       return groups;
   //     }, {});
-  
-     
+
   //     this.groupArrays = Object.keys(groups).map((school) => {
   //       return {
-  //         schoolName: school,  
+  //         schoolName: school,
   //         report: groups[school]
   //       };
   //     });
 
   //     this.message = this.groupArrays.length? "" : "No Data Found"
-  
+
   //   });
   // }
 
@@ -81,88 +88,89 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
     let formatedDate = this.sharedService.formatDateTime(date);
     this.formatSelectedDate(date);
     this.isShow = true;
-    
-    this.dashboardService.getCommanceReportByStartDate(formatedDate).subscribe(res => {
-      this.report = res;
-      // this.isShow = true;
-      
-      // Initialize the totals
-      let totalOfficer = 0;
-      let totalMidCount = 0;
-      let totalCadetCount = 0;
-      let totalISCount = 0;
-      let totalSailor = 0;
-      let totalCivilCount = 0;
-      let totalForignCount = 0;
-  
-      const groups = this.report.reduce((groups, report) => {
-        const school = report.schoolName;
-        if (!groups[school]) {
-          groups[school] = {
-            schoolName: school,
-            report: [],
-            totals: { // Initialize totals for each group
-              totalOfficer: 0,
-              totalMidCount: 0,
-              totalCadetCount: 0,
-              totalISCount: 0,
-              totalSailor: 0,
-              totalCivilCount: 0,
-              totalForignCount: 0
-            }
-          };
+
+    this.dashboardService
+      .getCommanceReportByStartDate(formatedDate)
+      .subscribe((res) => {
+        this.report = res;
+        // this.isShow = true;
+        // Initialize the totals
+        let totalOfficer = 0;
+        let totalMidCount = 0;
+        let totalCadetCount = 0;
+        let totalISCount = 0;
+        let totalSailor = 0;
+        let totalCivilCount = 0;
+        let totalForignCount = 0;
+
+        const groups = this.report.reduce((groups, report) => {
+          const school = report.schoolName;
+          if (!groups[school]) {
+            groups[school] = {
+              schoolName: school,
+              report: [],
+              totals: {
+                // Initialize totals for each group
+                totalOfficer: 0,
+                totalMidCount: 0,
+                totalCadetCount: 0,
+                totalISCount: 0,
+                totalSailor: 0,
+                totalCivilCount: 0,
+                totalForignCount: 0,
+              },
+            };
+          }
+
+          groups[school].report.push(report);
+
+          groups[school].totals.totalOfficer += report.totalOfficer || 0;
+          groups[school].totals.totalMidCount += report.totalMidCount || 0;
+          groups[school].totals.totalCadetCount += report.totalCadetCount || 0;
+          groups[school].totals.totalISCount += report.totalISCount || 0;
+          groups[school].totals.totalSailor += report.totalSailor || 0;
+          groups[school].totals.totalCivilCount += report.totalCivilCount || 0;
+          groups[school].totals.totalForignCount +=
+            report.totalForignCount || 0;
+
+          // Calculate the grand totals across all groups
+          totalOfficer += report.totalOfficer || 0;
+          totalMidCount += report.totalMidCount || 0;
+          totalCadetCount += report.totalCadetCount || 0;
+          totalISCount += report.totalISCount || 0;
+          totalSailor += report.totalSailor || 0;
+          totalCivilCount += report.totalCivilCount || 0;
+          totalForignCount += report.totalForignCount || 0;
+
+          return groups;
+        }, {});
+
+        this.groupArrays = Object.keys(groups).map((school) => {
+          return groups[school];
+        });
+
+        this.grandTotals = {
+          totalOfficer,
+          totalMidCount,
+          totalCadetCount,
+          totalISCount,
+          totalSailor,
+          totalCivilCount,
+          totalForignCount,
+        };
+        if (!this.groupArrays.length) {
+          this.message = "No Data Found on " + this.selectedDate;
+          this.isShow = false;
         }
-        
-
-        groups[school].report.push(report);
-  
-
-        groups[school].totals.totalOfficer += report.totalOfficer || 0;
-        groups[school].totals.totalMidCount += report.totalMidCount || 0;
-        groups[school].totals.totalCadetCount += report.totalCadetCount || 0;
-        groups[school].totals.totalISCount += report.totalISCount || 0;
-        groups[school].totals.totalSailor += report.totalSailor || 0;
-        groups[school].totals.totalCivilCount += report.totalCivilCount || 0;
-        groups[school].totals.totalForignCount += report.totalForignCount || 0;
-  
-        // Calculate the grand totals across all groups
-        totalOfficer += report.totalOfficer || 0;
-        totalMidCount += report.totalMidCount || 0;
-        totalCadetCount += report.totalCadetCount || 0;
-        totalISCount += report.totalISCount || 0;
-        totalSailor += report.totalSailor || 0;
-        totalCivilCount += report.totalCivilCount || 0;
-        totalForignCount += report.totalForignCount || 0;
-  
-        return groups;
-      }, {});
-
-      this.groupArrays = Object.keys(groups).map(school => {
-        return groups[school];
+        else{
+          this.isShow = true;
+        }
       });
-
-      this.grandTotals = {
-        totalOfficer,
-        totalMidCount,
-        totalCadetCount,
-        totalISCount,
-        totalSailor,
-        totalCivilCount,
-        totalForignCount
-      };
-      if(!this.groupArrays.length){
-        this.message = "No Data Found on "+this.selectedDate;
-        // this.isShow = false;
-      }
-
-      
-    });
   }
-  
 
   onDateChange(event: any): void {
     const date = event.value;
-   this.getCommenceReport(date);
+    this.getCommenceReport(date);
   }
 
   formatSelectedDate(date) {
@@ -170,25 +178,23 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
       console.error("Invalid date. Ensure 'date' is a Date object.");
       return;
     }
-  
+
     this.selectedDate = new Intl.DateTimeFormat("en-GB", {
       weekday: "long", // Include the day name
       day: "2-digit",
       month: "short",
-      year: "numeric"
+      year: "numeric",
     }).format(date);
   }
-  
-  
+
   printSingle() {
     this.showHideDiv = false;
     this.print();
   }
   print() {
-
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine')?.innerHTML;
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    printContents = document.getElementById("print-routine")?.innerHTML;
+    popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
     popupWin.document.open();
     popupWin.document.write(`
       <html>
@@ -238,10 +244,32 @@ export class CommanceReportComponent extends UnsubscribeOnDestroyAdapter impleme
           
           ${printContents}
         </body>
-      </html>`
-    );
+      </html>`);
     popupWin.document.close();
-
   }
-
+  downloadPDF(): void {
+    const element = document.getElementById('contentToConvert');
+    if (element) {
+      const options = {
+        margin: [10, 10, 26, 10], // Adjust margins if needed
+        filename: 'download.pdf',
+        image: { type: 'jpeg', quality: 0.98 }, // Use JPEG for better rendering
+        html2canvas: { 
+          scale: 2, // Increase scale for better resolution
+          useCORS: true, // Allow cross-origin images if any
+          scrollX: 0, 
+          scrollY: 0 
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'landscape',
+          pagebreak: { mode: 'always', before: '.table' }  
+        },
+      };
+  
+      html2pdf().set(options).from(element).save();
+    }
+  }
+  
 }

@@ -1,0 +1,128 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Service Instractor BIO Data </h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Service Instractor BIO Data </a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
+                    <div class="col-8">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h2>
+                            <strong><!--TraineeBIODataGeneralInfo--></strong></h2>
+                        </li>
+  
+                        <li class="dropdown">
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Search School/ Instractor/ Pno</mat-label>
+                            <input matInput 
+                                   placeholder="Search" 
+                                   #filter 
+                                   (keyup)="onSearchChange(filter.value)" 
+                                   aria-label="Search box">
+                          </mat-form-field>
+                        </li>
+                        <li> 
+                        
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div *ngIf="role === userRoles.SuperAdmin" class="icon-button-demo">
+                            <button class="btn-space" mat-raised-button
+                             color="primary" routerLink="/trainee-biodata/add-service-instractor-biodatainfo">Add
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button>
+
+                          </div>
+                        </li>
+                        <li>
+                         
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="isLoading" class="loader-container text-center">
+                  <mat-spinner></mat-spinner>
+                </div>
+
+                <table class="table  tbl-by-group my-2">
+                  <thead>
+                      <tr>
+                          <!-- <th class="cl-srl"><h5>Ser</h5></th> -->
+                          <th class="">
+                              <h5>Name of School</h5>
+                          </th>
+                          <th class="">
+                              <h5>Instructor Name</h5>
+                          </th>
+                          <!-- <th class="cl-mrk"><h5>No of Candidates</h5></th> -->
+                          <th class="">
+                              <h5>Rank</h5>
+                          </th>
+                          
+                          <th class="text-center">
+                              <h5>Actions</h5>
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <ng-container *ngFor="let data of  sharedService.groupedData;let i= index;">
+                          <tr>
+                              <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">
+                                  {{data.groupKey}}</td>
+                          </tr>
+                          <tr *ngFor="let instructor of data.groupedItems; let j = index"
+                              [ngStyle]="{'background-color': j %2 == 0 ? 'rgb(172 235 155)' : ''}">
+                              <td class="course-name-col">
+                                  {{instructor.name}} (Pno : {{instructor.pno}})
+                              </td>
+                            
+                              <td>{{instructor.rankName ?? instructor.saylorRank ?? "-"}}</td>
+                              <td class="py-2 text-center"><button class="btn btn-outline-danger" type="button" (click)="releseInstractor(instructor.id)">Release</button></td>
+
+                             
+                          </tr>
+                      </ng-container>
+                  </tbody>
+              </table>
+
+              <h4 class="text-center text-danger">{{warningMessage}}</h4>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  
+  
+  

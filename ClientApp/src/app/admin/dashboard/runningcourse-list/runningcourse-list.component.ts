@@ -5,6 +5,7 @@ import { BNAExamInstructorAssign } from '../../../exam-management/models/bnaexam
 import { BNAExamInstructorAssignService } from '../../../exam-management/service/bnaexaminstructorassign.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -99,7 +100,7 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
 
     var currentDate = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     //Date dateTime11 = Convert.ToDateTime(dateFrom);  
-    var current = new Date(currentDate);
+    var current = currentDate ? new Date(currentDate) : new Date();
     // var date1 = new Date(obj.durationFrom); 
     var date2 = new Date(obj.durationTo);
 
@@ -184,7 +185,7 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
   getSpRunningCourseDurations(id, viewStatus) {
     this.isLoading = true;
     this.runningCourseType = id;
-    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy')??" ";
     this.dbType = 2;
 
 
@@ -245,7 +246,8 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
   print() {
 
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    const printElement = document.getElementById('print-routine');
+    printContents = printElement ? printElement.innerHTML : '';
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
