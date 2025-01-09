@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAClassScheduleStatusService } from '../../service/bnaclassschedulestatus.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bnaclassschedulestatus',
@@ -68,7 +68,7 @@ export class NewBNAClassScheduleStatusComponent extends UnsubscribeOnDestroyAdap
   }
   
   onSubmit() {
-    const id = this.BNAClassScheduleStatusForm.get('bnaClassScheduleStatusId').value;   
+    const id = this.BNAClassScheduleStatusForm.get('bnaClassScheduleStatusId')?.value;   
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
