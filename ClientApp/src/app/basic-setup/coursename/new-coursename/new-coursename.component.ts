@@ -4,9 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseNameService } from '../../service/CourseName.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursename',
@@ -96,7 +96,7 @@ export class NewCourseNameComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   onSubmit() {
-    const id = this.CourseNameForm.get('courseNameId').value;  
+    const id = this.CourseNameForm.get('courseNameId')?.value;  
     const formData = new FormData();
     for (const key of Object.keys(this.CourseNameForm.value)) {
       const value = this.CourseNameForm.value[key];
