@@ -5,8 +5,8 @@ import { ElectionService } from '../../../biodata-tab-layout/service/Election.se
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class NewElectionComponent extends UnsubscribeOnDestroyAdapter implements
   loading = false;
   pageTitle: string;
   destination:string;
-  traineeId:  string;
+  traineeId:  string | null;
   ElectionForm: FormGroup;
   validationErrors: string[] = [];
   electedValues:SelectedModel[]; 
@@ -82,7 +82,7 @@ export class NewElectionComponent extends UnsubscribeOnDestroyAdapter implements
   }
   
   onSubmit() {
-    const id = this.ElectionForm.get('electionId').value;   
+    const id = this.ElectionForm.get('electionId')?.value;   
     
 
     if (id) {
