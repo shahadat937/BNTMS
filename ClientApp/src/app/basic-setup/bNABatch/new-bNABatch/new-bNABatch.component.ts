@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { BNABatchService } from '../../service/bNABatch.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter'
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter'
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 //import {FormControl} from '@angular/forms';
 
 
@@ -68,7 +68,7 @@ export class NewBNABatchComponent extends UnsubscribeOnDestroyAdapter implements
   }
   
   onSubmit() {
-    const id = this.bNABatchForm.get('bnaBatchId').value;  
+    const id = this.bNABatchForm.get('bnaBatchId')?.value;  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {
