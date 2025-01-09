@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNASubjectNameService } from '../../service/BNASubjectName.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { ConnectedOverlayPositionChange } from '@angular/cdk/overlay';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-subjectname',
@@ -156,7 +156,7 @@ export class NewSubjectnameComponent extends UnsubscribeOnDestroyAdapter impleme
       isActive: [true],
       status:[this.status]
     })
-    this.BNASubjectNameForm.get('course').valueChanges
+    this.BNASubjectNameForm.get('course')?.valueChanges
     .subscribe(value => {
         this.getSelectedCourseAutocomplete(value);
     })
@@ -189,11 +189,11 @@ export class NewSubjectnameComponent extends UnsubscribeOnDestroyAdapter impleme
   //autocomplete
   onCourseSelectionChanged(item) {
     if(this.role === 'Super Admin'){
-      this.BNASubjectNameForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.BNASubjectNameForm.get('baseSchoolNameId')?.setValue(this.branchId);
     } 
     this.courseNameId = item.value 
-    this.BNASubjectNameForm.get('courseNameId').setValue(item.value);
-    this.BNASubjectNameForm.get('course').setValue(item.text);
+    this.BNASubjectNameForm.get('courseNameId')?.setValue(item.value);
+    this.BNASubjectNameForm.get('course')?.setValue(item.text);
     this.onBaseNameSelectionChangeGetModule();
   }
   getSelectedCourseAutocomplete(cName){
@@ -294,7 +294,7 @@ export class NewSubjectnameComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   onSubmit() {
-    const id = this.BNASubjectNameForm.get('bnaSubjectNameId').value;
+    const id = this.BNASubjectNameForm.get('bnaSubjectNameId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
@@ -318,9 +318,9 @@ export class NewSubjectnameComponent extends UnsubscribeOnDestroyAdapter impleme
         // this.router.navigateByUrl('/bna-subject-management/subjectname-list');
         this.onModuleSelectionChangeGetsubjectList();
         this.BNASubjectNameForm.reset();
-        this.BNASubjectNameForm.get('bnaSubjectNameId').setValue(0);
-        this.BNASubjectNameForm.get('isActive').setValue(true);
-        this.BNASubjectNameForm.get('status').setValue(this.status);        
+        this.BNASubjectNameForm.get('bnaSubjectNameId')?.setValue(0);
+        this.BNASubjectNameForm.get('isActive')?.setValue(true);
+        this.BNASubjectNameForm.get('status')?.setValue(this.status);        
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',
