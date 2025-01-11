@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-add-bnaexammarkentry',
@@ -75,7 +75,7 @@ export class AddBnaexammarkentryComponent extends UnsubscribeOnDestroyAdapter im
     })
   }
   getControlLabel(index: number, type: string) {
-    return (this.BNAExamMarkEntryForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.BNAExamMarkEntryForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
 
@@ -109,9 +109,9 @@ export class AddBnaexammarkentryComponent extends UnsubscribeOnDestroyAdapter im
       var coursetitle = courseNameTextArr[1];
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
-      this.BNAExamMarkEntryForm.get('courseName').setValue(courseName);
-      this.BNAExamMarkEntryForm.get('courseNameId').setValue(courseNameId);
-      this.BNAExamMarkEntryForm.get('courseDurationId').setValue(courseDurationId);
+      this.BNAExamMarkEntryForm.get('courseName')?.setValue(courseName);
+      this.BNAExamMarkEntryForm.get('courseNameId')?.setValue(courseNameId);
+      this.BNAExamMarkEntryForm.get('courseDurationId')?.setValue(courseDurationId);
       // this.isShown = false;
 
       // var baseSchoolNameId = this.BNAExamMarkEntryForm.value['baseSchoolNameId'];
