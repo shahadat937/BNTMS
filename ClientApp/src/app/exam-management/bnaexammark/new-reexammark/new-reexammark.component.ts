@@ -15,9 +15,9 @@ import { TraineeListForExamMark } from '../../models/traineeListforexammark';
 import {AuthService} from '../../../../app/core/service/auth.service';
 import {MarkTypeService} from '../../../../app/basic-setup/service/MarkType.service'
 import{SubjectMarkService} from '../../../../app/subject-management/service/SubjectMark.service'
-import { Role } from 'src/app/core/models/role';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-reexammark',
@@ -138,8 +138,8 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
     }
     this.intitializeForm();
     if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool){
-      this.BNAExamMarkForm.get('baseSchoolNameId').setValue(this.branchId);
-      this.BNAExamMarkForm.get('schoolDb').setValue(1);
+      this.BNAExamMarkForm.get('baseSchoolNameId')?.setValue(this.branchId);
+      this.BNAExamMarkForm.get('schoolDb')?.setValue(1);
       //this.getselectedcoursedurationbyschoolname();
       this.getSelectedCourseDurationByschoolname()
      }
@@ -186,7 +186,7 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
   }
   getControlLabel(index: number, type: string) {
    // console.log((this.BNAExamMarkForm.get('traineeListForm')as FormArray).at(index).get(type).value )
-    return (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
 
@@ -255,7 +255,7 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
     //   this.mark=res;
       if( value >this.mark){
           this.isBigger=true;
-          (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(i).get('obtaintMark').setValue("");
+          (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(i).get('obtaintMark')?.setValue("");
       }
       else{
         this.isBigger=false;
@@ -267,11 +267,11 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
   OnTextCheck(value,index ){
 
     if(value >= this.subjectPassMark){
-      (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatusShow').setValue('Pass');
-      (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatus').setValue(1);
+      (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatusShow')?.setValue('Pass');
+      (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatus')?.setValue(1);
     }else{
-      (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatusShow').setValue('Fail');
-      (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatus').setValue(0);
+      (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatusShow')?.setValue('Fail');
+      (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get('resultStatus')?.setValue(0);
     }
   }
 
@@ -289,9 +289,9 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
       var coursetitle = courseNameTextArr[1];
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
-      this.BNAExamMarkForm.get('courseName').setValue(courseName);
-      this.BNAExamMarkForm.get('courseNameId').setValue(courseNameId);
-      this.BNAExamMarkForm.get('courseDurationId').setValue(courseDurationId);
+      this.BNAExamMarkForm.get('courseName')?.setValue(courseName);
+      this.BNAExamMarkForm.get('courseNameId')?.setValue(courseNameId);
+      this.BNAExamMarkForm.get('courseDurationId')?.setValue(courseDurationId);
       this.isShown = false;
 
       var baseSchoolNameId = this.BNAExamMarkForm.value['baseSchoolNameId'];
@@ -330,11 +330,11 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
       var SubjectMarkId = subjectArr[4];
       var markTypeId = subjectArr[5];
       this.markType=markTypeId
-      this.BNAExamMarkForm.get('bnaSubjectName').setValue(dropdown.text);
-      this.BNAExamMarkForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId);
-      this.BNAExamMarkForm.get('classRoutineId').setValue(classRoutineId);
-      this.BNAExamMarkForm.get('SubjectMarkId').setValue(SubjectMarkId);
-      this.BNAExamMarkForm.get('examTypeCount').setValue(1);
+      this.BNAExamMarkForm.get('bnaSubjectName')?.setValue(dropdown.text);
+      this.BNAExamMarkForm.get('bnaSubjectNameId')?.setValue(this.bnaSubjectNameId);
+      this.BNAExamMarkForm.get('classRoutineId')?.setValue(classRoutineId);
+      this.BNAExamMarkForm.get('SubjectMarkId')?.setValue(SubjectMarkId);
+      this.BNAExamMarkForm.get('examTypeCount')?.setValue(1);
       
       this.getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,
         courseNameId,this.bnaSubjectNameId,classRoutineId);
@@ -351,8 +351,8 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
         this.subjectPassMark = res.passMark;
         var mark = res.mark;
         this.mark=mark;
-        this.BNAExamMarkForm.get('totalMark').setValue(mark);
-        this.BNAExamMarkForm.get('passMark').setValue(this.subjectPassMark);
+        this.BNAExamMarkForm.get('totalMark')?.setValue(mark);
+        this.BNAExamMarkForm.get('passMark')?.setValue(this.subjectPassMark);
       });
 
       // this.BNAExamMarkService.getselectedmarktypes(baseSchoolNameId, courseNameId, courseDurationId, this.bnaSubjectNameId, courseModuleId).subscribe(res => {
@@ -435,7 +435,7 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   onSubmit() {
-    const id = this.BNAExamMarkForm.get('bnaExamMarkId').value;
+    const id = this.BNAExamMarkForm.get('bnaExamMarkId')?.value;
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
