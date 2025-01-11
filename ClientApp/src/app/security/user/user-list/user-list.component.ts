@@ -6,10 +6,10 @@ import { UserService } from '../../service/User.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import{MasterData} from '../../../../../src/assets/data/master-data';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({

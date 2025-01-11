@@ -2,15 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNASubjectNameService } from '../../service/BNASubjectName.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { ConnectedOverlayPositionChange } from '@angular/cdk/overlay';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -186,7 +186,7 @@ export class NewBNASubjectNameComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const id = this.BNASubjectNameForm.get('bnaSubjectNameId').value;
+    const id = this.BNASubjectNameForm.get('bnaSubjectNameId')?.value;
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {

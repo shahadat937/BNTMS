@@ -11,7 +11,7 @@ import {BNASubjectName} from '../../../subject-management/models/BNASubjectName'
 import { SubjectMark } from '../../../subject-management/models/SubjectMark';
 import { TraineeNominationService } from '../../../course-management/service/traineenomination.service'
 import {TraineeListForExamMark} from '../../../exam-management/models/traineeListforexammark';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-jcostrainingmark',
   templateUrl: './new-jcostrainingmark.component.html',
@@ -146,7 +146,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit, OnDestroy {
     })
   }
   getControlLabel(index: number, type: string) {
-    return (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
 
@@ -205,9 +205,9 @@ export class NewJCOsTrainingMarkComponent implements OnInit, OnDestroy {
       this.courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
-      this.BNAExamMarkForm.get('courseName').setValue(courseName);
-      this.BNAExamMarkForm.get('courseNameId').setValue(courseNameId);
-      this.BNAExamMarkForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.BNAExamMarkForm.get('courseName')?.setValue(courseName);
+      this.BNAExamMarkForm.get('courseNameId')?.setValue(courseNameId);
+      this.BNAExamMarkForm.get('courseDurationId')?.setValue(this.courseDurationId);
       this.isShown = false;
 
       var baseSchoolNameId = this.BNAExamMarkForm.value['baseSchoolNameId'];
@@ -252,27 +252,27 @@ export class NewJCOsTrainingMarkComponent implements OnInit, OnDestroy {
       var courseDurationId = this.BNAExamMarkForm.value['courseDurationId'];
 
       this.bnaSubjectNameId = subjectNameId;
-      this.BNAExamMarkForm.get('bnaSubjectName').setValue(subjectName);
-      this.BNAExamMarkForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId);
+      this.BNAExamMarkForm.get('bnaSubjectName')?.setValue(subjectName);
+      this.BNAExamMarkForm.get('bnaSubjectNameId')?.setValue(this.bnaSubjectNameId);
       this.clearList()
       this.getTraineeListonClick();
 
       this.subscription = this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(courseNameId, this.bnaSubjectNameId).subscribe(res => {
        
        this.subjectMarkList = res;
-        this.BNAExamMarkForm.get('classRoutineId').setValue(3447);
+        this.BNAExamMarkForm.get('classRoutineId')?.setValue(3447);
       });
 
 
       this.subscription = this.BNAExamMarkService.getClassRoutineIdForStaffCollege(this.courseDurationId, courseNameId, this.bnaSubjectNameId).subscribe(res => {
         this.classRoutineId = res;
-        this.BNAExamMarkForm.get('classRoutineId').setValue(this.classRoutineId);
+        this.BNAExamMarkForm.get('classRoutineId')?.setValue(this.classRoutineId);
       });
 
       this.subscription = this.BNAExamMarkService.getselectedmarktypesByCourseNameIdAndSubjectNameId(courseNameId, courseDurationId, this.bnaSubjectNameId).subscribe(res => {
         this.selectedmarktype = res
         this.examTypeCount = res.length;
-        this.BNAExamMarkForm.get('examTypeCount').setValue(this.examTypeCount);
+        this.BNAExamMarkForm.get('examTypeCount')?.setValue(this.examTypeCount);
       });
 
       // GetTotalMarkAndPassMarkByCourseNameIdAndSubjectId
@@ -282,8 +282,8 @@ export class NewJCOsTrainingMarkComponent implements OnInit, OnDestroy {
         this.getTotalMarkAndPassMark = res;
         this.totalMark = res[0].totalMark;
         this.passMarkBna = res[0].passMarkBNA
-        this.BNAExamMarkForm.get('totalMark').setValue(this.totalMark);
-        this.BNAExamMarkForm.get('passMark').setValue(this.passMarkBna);
+        this.BNAExamMarkForm.get('totalMark')?.setValue(this.totalMark);
+        this.BNAExamMarkForm.get('passMark')?.setValue(this.passMarkBna);
       });
     }
   }
@@ -312,7 +312,7 @@ export class NewJCOsTrainingMarkComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const id = this.BNAExamMarkForm.get('bnaExamMarkId').value;
+    const id = this.BNAExamMarkForm.get('bnaExamMarkId')?.value;
 
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
@@ -338,9 +338,9 @@ export class NewJCOsTrainingMarkComponent implements OnInit, OnDestroy {
           this.subscription = this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {
            this.BNAExamMarkForm.reset();
             this.isShown = false;
-            this.BNAExamMarkForm.get('bnaExamMarkId').setValue(0);
-            this.BNAExamMarkForm.get('isActive').setValue(true);
-            this.BNAExamMarkForm.get('isApproved').setValue(true);
+            this.BNAExamMarkForm.get('bnaExamMarkId')?.setValue(0);
+            this.BNAExamMarkForm.get('isActive')?.setValue(true);
+            this.BNAExamMarkForm.get('isApproved')?.setValue(true);
             this.snackBar.open('Information Inserted Successfully ', '', {
               duration: 2000,
               verticalPosition: 'bottom',

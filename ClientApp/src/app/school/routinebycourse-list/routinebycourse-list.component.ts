@@ -3,19 +3,19 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { ClassRoutineService } from '../../../../src/app/routine-management/service/classroutine.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
 import { ClassPeriodService } from '../../routine-management/service/classperiod.service';
-import { Role } from 'src/app/core/models/role';
+import { Role } from '../../../../src/app/core/models/role';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { CourseWeekService } from '../../../../src/app/course-management/service/CourseWeek.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 // @Pipe({name: 'groupByDate'})
 // export class GroupByPipe implements PipeTransform {
@@ -155,7 +155,7 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
 
     if(this.role == this.userRole.Student){
       var sectionId=this.route.snapshot.paramMap.get('courseSectionId');
-      this.RoutineBySectionForm.get('courseSectionId').setValue(sectionId);
+      this.RoutineBySectionForm.get('courseSectionId')?.setValue(sectionId);
       this.onCourseSelectionGet()
     } else{
       var CoursesectionId = this.RoutineBySectionForm.value['courseSectionId'];
@@ -232,7 +232,7 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`

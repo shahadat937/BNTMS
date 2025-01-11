@@ -7,12 +7,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MasterData } from 'src/assets/data/master-data';
-import { BIODataGeneralInfo } from 'src/app/trainee-biodata/models/BIODataGeneralInfo';
+import { MasterData } from '../../../../../src/assets/data/master-data';
+import { BIODataGeneralInfo } from '../../../../../src/app/trainee-biodata/models/BIODataGeneralInfo';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Role } from '../../../core/models/role';
 import { MatSort } from '@angular/material/sort';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({

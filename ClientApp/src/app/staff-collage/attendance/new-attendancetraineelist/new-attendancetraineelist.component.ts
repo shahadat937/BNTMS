@@ -19,7 +19,7 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../routine-management/models/classroutine';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -152,7 +152,7 @@ export class NewAttendanceTraineeListComponent implements OnInit, OnDestroy {
     })
   }
   getControlLabel(index: number,type: string){
-    return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
   
@@ -238,12 +238,12 @@ export class NewAttendanceTraineeListComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const id = this.AttendanceForm.get('attendanceId').value;
+    const id = this.AttendanceForm.get('attendanceId')?.value;
 
-   this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
-   this.AttendanceForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId);
-   this.AttendanceForm.get('attendanceDate').setValue(this.attendanceDate);
-   this.AttendanceForm.get('classRoutineId').setValue(this.classRoutineId);
+   this.AttendanceForm.get('courseDurationId')?.setValue(this.courseDurationId);
+   this.AttendanceForm.get('bnaSubjectNameId')?.setValue(this.bnaSubjectNameId);
+   this.AttendanceForm.get('attendanceDate')?.setValue(this.attendanceDate);
+   this.AttendanceForm.get('classRoutineId')?.setValue(this.classRoutineId);
 
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {

@@ -2,19 +2,19 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReadingMaterialService } from '../../service/readingmaterial.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { CourseNameService } from 'src/app/basic-setup/service/CourseName.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { CourseNameService } from '../../../../../src/app/basic-setup/service/CourseName.service';
 import { ReadingMaterial } from '../../models/readingmaterial';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../src/app/core/models/role';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { FileDialogMessageComponent } from '../file-dialog-message/file-dialog-message.component';
 import { MatDialog } from '@angular/material/dialog';
-import { InstructorDashboardService } from '../../../teacher/services/InstructorDashboard.service';import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { InstructorDashboardService } from '../../../teacher/services/InstructorDashboard.service';import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 ;
 
 @Component({
@@ -139,8 +139,8 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
     }
     this.intitializeForm();
     if (this.role != this.roleList.MasterAdmin) {
-      this.ReadingMaterialForm.get('baseSchoolNameId').setValue(this.branchId);
-      this.ReadingMaterialForm.get('showRightId').setValue(this.branchId);
+      this.ReadingMaterialForm.get('baseSchoolNameId')?.setValue(this.branchId);
+      this.ReadingMaterialForm.get('showRightId')?.setValue(this.branchId);
     }
     this.getselectedcoursename();
     this.getselectedschools();
@@ -175,7 +175,7 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
       publisherName: ['']
     })
     //autocomplete
-    this.subscription = this.ReadingMaterialForm.get('course').valueChanges
+    this.subscription = this.ReadingMaterialForm.get('course')?.valueChanges
       .subscribe(value => {
         this.getSelectedCourseByName(value);
       })
@@ -210,9 +210,9 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
   //autocomplete
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value
-    this.ReadingMaterialForm.get('courseNameId').setValue(item.value);
-    this.ReadingMaterialForm.get('course').setValue(item.text);
-    this.baseSchoolNameId = this.ReadingMaterialForm.get('baseSchoolNameId').value;
+    this.ReadingMaterialForm.get('courseNameId')?.setValue(item.value);
+    this.ReadingMaterialForm.get('course')?.setValue(item.text);
+    this.baseSchoolNameId = this.ReadingMaterialForm.get('baseSchoolNameId')?.value;
 
 
   }
@@ -239,9 +239,9 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
   onMaterialTitleSelectionChange(dropdown) {
     this.isShown = true;
     if (dropdown.isUserInput) {
-      this.ReadingMaterialForm.get('readingMaterialTitleId').setValue(dropdown.source.value);
-      this.baseSchoolNameId = this.ReadingMaterialForm.get('baseSchoolNameId').value;
-      this.courseNameId = this.ReadingMaterialForm.get('courseNameId').value;
+      this.ReadingMaterialForm.get('readingMaterialTitleId')?.setValue(dropdown.source.value);
+      this.baseSchoolNameId = this.ReadingMaterialForm.get('baseSchoolNameId')?.value;
+      this.courseNameId = this.ReadingMaterialForm.get('courseNameId')?.value;
       this.readingMaterialTitleId = dropdown.source.value;
 
       this.subscription = this.ReadingMaterialService.getSelectedReadingMaterialByMaterialTitleIdBaseSchoolIdAndCourseNameId(this.baseSchoolNameId, this.courseNameId, this.readingMaterialTitleId).subscribe(response => {
@@ -303,8 +303,8 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
     });
   }
   onSubmit() {
-    const id = this.ReadingMaterialForm.get('readingMaterialId').value;
-    this.ReadingMaterialForm.get('approvedDate').setValue((new Date(this.ReadingMaterialForm.get('approvedDate').value)).toUTCString());
+    const id = this.ReadingMaterialForm.get('readingMaterialId')?.value;
+    this.ReadingMaterialForm.get('approvedDate')?.setValue((new Date(this.ReadingMaterialForm.get('approvedDate')?.value)).toUTCString());
     const formData = new FormData();
     for (const key of Object.keys(this.ReadingMaterialForm.value)) {
       const value = this.ReadingMaterialForm.value[key];

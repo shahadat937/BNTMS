@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDurationService } from '../../service/courseduration.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { CourseNameService } from 'src/app/basic-setup/service/CourseName.service';
-import { OrganizationNameService } from 'src/app/basic-setup/service/organizationname.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { CourseNameService } from '../../../../../src/app/basic-setup/service/CourseName.service';
+import { OrganizationNameService } from '../../../../../src/app/basic-setup/service/organizationname.service';
 import { CourseDuration } from '../../models/courseduration';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-interservicecourse',
@@ -120,14 +120,14 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
       isActive: [true],    
     })
      
-    this.CourseDurationForm.get('course').valueChanges
+    this.CourseDurationForm.get('course')?.valueChanges
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
     })
 
     //autocomplete for OrganizationName
-    this.CourseDurationForm.get('name').valueChanges
+    this.CourseDurationForm.get('name')?.valueChanges
     .subscribe(value => {
         this.getSelectedOrganizationName(value);
     })
@@ -136,15 +136,15 @@ export class NewInterservicecourseComponent extends UnsubscribeOnDestroyAdapter 
   
 onCourseSelectionChanged(item) {
   this.courseNameId = item.value 
-  this.CourseDurationForm.get('courseNameId').setValue(item.value);
-  this.CourseDurationForm.get('course').setValue(item.text);
+  this.CourseDurationForm.get('courseNameId')?.setValue(item.value);
+  this.CourseDurationForm.get('course')?.setValue(item.text);
 }
 
 //autocomplete for OrganizationName
 onOrganizationSelectionChanged(item) {
   this.organizationNameId = item.value
-  this.CourseDurationForm.get('organizationNameId').setValue(item.value);
-  this.CourseDurationForm.get('name').setValue(item.text);
+  this.CourseDurationForm.get('organizationNameId')?.setValue(item.value);
+  this.CourseDurationForm.get('name')?.setValue(item.text);
 }
 
   getSelectedCourseAutocomplete(cName){
@@ -225,9 +225,9 @@ runningInterService(element) {
     this.isShown = true;
     if (dropdown.isUserInput) {
       
-      this.organizationNameId=this.CourseDurationForm.get('organizationNameId').value;
+      this.organizationNameId=this.CourseDurationForm.get('organizationNameId')?.value;
       this.organizationNameId = dropdown.source.value.value;
-      this.CourseDurationForm.get('organizationNameId').setValue(dropdown.source.value)
+      this.CourseDurationForm.get('organizationNameId')?.setValue(dropdown.source.value)
       
       this.CourseDurationService.getSelectedInterServiceCourseListByCourseNameIdAndOrganizationNameId(this.courseNameId, this.organizationNameId).subscribe(response => {
         this.interServiceList = response;
@@ -237,7 +237,7 @@ runningInterService(element) {
   
 
   onSubmit() {
-    const id = this.CourseDurationForm.get('courseDurationId').value;   
+    const id = this.CourseDurationForm.get('courseDurationId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         

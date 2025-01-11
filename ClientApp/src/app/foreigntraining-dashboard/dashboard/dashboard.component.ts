@@ -3,17 +3,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ForeignDashboardService } from '../services/ForeignDashboard.service';
 import { ActivatedRoute,Router } from '@angular/router';
 
-import { MasterData } from 'src/assets/data/master-data';
-import { environment } from 'src/environments/environment';
+import { MasterData } from '../../../../src/assets/data/master-data';
+import { environment } from '../../../../src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { scheduled } from 'rxjs';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
-import { BaseSchoolNameService } from 'src/app/basic-setup/service/BaseSchoolName.service';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { StudentDashboardService } from '../../../../src/app/student/services/StudentDashboard.service';
+import { BaseSchoolNameService } from '../../../../src/app/basic-setup/service/BaseSchoolName.service';
 import { TraineeNominationService } from '../../course-management/service/traineenomination.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 
 @Component({

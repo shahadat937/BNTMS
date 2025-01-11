@@ -2,15 +2,15 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BulletinService } from '../../service/bulletin.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Bulletin } from '../../models/bulletin';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Role } from 'src/app/core/models/role';
+import { Role } from '../../../../../src/app/core/models/role';
 import { MatOption } from '@angular/material/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
@@ -119,7 +119,7 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
     this.intitializeForm();
 
     if (this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool) {
-      this.BulletinForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.BulletinForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
     }
     this.getselectedbaseschools();
@@ -198,9 +198,9 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
     var courseDurationId = courseNameArr[0];
     var courseNameId = courseNameArr[1];
     //this.courseName=dropdown.text;
-    this.BulletinForm.get('courseName').patchValue(dropdown.text);
-    this.BulletinForm.get('courseNameId').patchValue(courseNameId);
-    this.BulletinForm.get('courseDurationId').patchValue(courseDurationId);
+    this.BulletinForm.get('courseName')?.patchValue(dropdown.text);
+    this.BulletinForm.get('courseNameId')?.patchValue(courseNameId);
+    this.BulletinForm.get('courseDurationId')?.patchValue(courseDurationId);
 
   }
 
@@ -224,7 +224,7 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
 
   onSubmit() {
 
-    const id = this.BulletinForm.get('bulletinId').value;
+    const id = this.BulletinForm.get('bulletinId')?.value;
     var baseSchoolNameId = this.BulletinForm.value['baseSchoolNameId'];
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
@@ -266,9 +266,9 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
       // this.BulletinForm.get('courseDurationId').patchValue(courseDurationId);
 
 
-      let baseSchoolNameId: SelectedModel ={value: parseInt(this.BulletinForm.get('baseSchoolNameId').value),text:"custom"};
+      let baseSchoolNameId: SelectedModel ={value: parseInt(this.BulletinForm.get('baseSchoolNameId')?.value),text:"custom"};
 
-      this.BulletinForm.get('baseSchoolNameId').patchValue([baseSchoolNameId]);
+      this.BulletinForm.get('baseSchoolNameId')?.patchValue([baseSchoolNameId]);
 
       console.log(this.BulletinForm.value);
       this.subscription = this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({

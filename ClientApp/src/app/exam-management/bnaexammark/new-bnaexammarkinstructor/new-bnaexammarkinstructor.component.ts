@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { BNASubjectName } from 'src/app/subject-management/models/BNASubjectName';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { BNASubjectName } from '../../../../../src/app/subject-management/models/BNASubjectName';
 import { SubjectMark } from '../../../subject-management/models/SubjectMark';
 import {TraineeNominationService} from '../../../course-management/service/traineenomination.service'
 import { TraineeList } from '../../../attendance-management/models/traineeList';
 import { TraineeListForExamMark } from '../../models/traineeListforexammark';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bnaexammarkinstructor',
@@ -139,7 +139,7 @@ export class NewBnaExammarkinstructor extends UnsubscribeOnDestroyAdapter implem
     })
   }
   getControlLabel(index: number,type: string){
-    return  (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
  
@@ -194,9 +194,9 @@ export class NewBnaExammarkinstructor extends UnsubscribeOnDestroyAdapter implem
     var courseDurationId=courseNameArr[0];
     var courseNameId=courseNameArr[1];
 
-    this.BNAExamMarkForm.get('courseName').setValue(courseName);
-    this.BNAExamMarkForm.get('courseNameId').setValue(courseNameId);
-    this.BNAExamMarkForm.get('courseDurationId').setValue(courseDurationId);
+    this.BNAExamMarkForm.get('courseName')?.setValue(courseName);
+    this.BNAExamMarkForm.get('courseNameId')?.setValue(courseNameId);
+    this.BNAExamMarkForm.get('courseDurationId')?.setValue(courseDurationId);
     this.isShown=false;
 
     var baseSchoolNameId=this.BNAExamMarkForm.value['baseSchoolNameId'];
@@ -235,8 +235,8 @@ export class NewBnaExammarkinstructor extends UnsubscribeOnDestroyAdapter implem
     var courseModuleId = dropdown.source.value.courseModuleId;
     var bnaSubjectName =dropdown.source.value.subjectName
  
-    this.BNAExamMarkForm.get('bnaSubjectName').setValue(bnaSubjectName);
-    this.BNAExamMarkForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId);
+    this.BNAExamMarkForm.get('bnaSubjectName')?.setValue(bnaSubjectName);
+    this.BNAExamMarkForm.get('bnaSubjectNameId')?.setValue(this.bnaSubjectNameId);
     this.clearList()
     this.getTraineeListonClick();
     this.BNAExamMarkService.GetSubjectMarkByBaseSchoolNameIdCourseNameAndSubjectNameId(baseSchoolNameId,courseNameId,this.bnaSubjectNameId).subscribe(res=>{
@@ -245,7 +245,7 @@ export class NewBnaExammarkinstructor extends UnsubscribeOnDestroyAdapter implem
 
     this.BNAExamMarkService.GetRoutineIdWithSchoolCourseSubject(baseSchoolNameId,courseNameId,this.bnaSubjectNameId).subscribe(res=>{
       this.classRoutineId=res;
-      this.BNAExamMarkForm.get('classRoutineId').setValue(this.classRoutineId);
+      this.BNAExamMarkForm.get('classRoutineId')?.setValue(this.classRoutineId);
       
       
     });
@@ -253,7 +253,7 @@ export class NewBnaExammarkinstructor extends UnsubscribeOnDestroyAdapter implem
     this.BNAExamMarkService.getselectedmarktypes(baseSchoolNameId,courseNameId,courseDurationId,this.bnaSubjectNameId,courseModuleId).subscribe(res=>{
       this.selectedmarktype=res
       this.examTypeCount = res.length;
-      this.BNAExamMarkForm.get('examTypeCount').setValue(this.examTypeCount);
+      this.BNAExamMarkForm.get('examTypeCount')?.setValue(this.examTypeCount);
     });
 
    
@@ -264,8 +264,8 @@ export class NewBnaExammarkinstructor extends UnsubscribeOnDestroyAdapter implem
       this.getTotalMarkAndPassMark=res; 
       this.totalMark=res[0].totalMark;
       this.passMarkBna=res[0].passMarkBNA
-      this.BNAExamMarkForm.get('totalMark').setValue(this.totalMark);
-      this.BNAExamMarkForm.get('passMark').setValue(this.passMarkBna);
+      this.BNAExamMarkForm.get('totalMark')?.setValue(this.totalMark);
+      this.BNAExamMarkForm.get('passMark')?.setValue(this.passMarkBna);
      });
     
   }
@@ -289,7 +289,7 @@ export class NewBnaExammarkinstructor extends UnsubscribeOnDestroyAdapter implem
   }
 
   onSubmit() {
-    const id = this.BNAExamMarkForm.get('bnaExamMarkId').value; 
+    const id = this.BNAExamMarkForm.get('bnaExamMarkId')?.value; 
      
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
@@ -316,9 +316,9 @@ export class NewBnaExammarkinstructor extends UnsubscribeOnDestroyAdapter implem
             this.router.navigateByUrl('/admin/dashboard/instructor-dashboard');
             this.BNAExamMarkForm.reset();
             this.isShown = false;
-            this.BNAExamMarkForm.get('bnaExamMarkId').setValue(0);
-            this.BNAExamMarkForm.get('isActive').setValue(true);
-            this.BNAExamMarkForm.get('isApproved').setValue(true); 
+            this.BNAExamMarkForm.get('bnaExamMarkId')?.setValue(0);
+            this.BNAExamMarkForm.get('isActive')?.setValue(true);
+            this.BNAExamMarkForm.get('isApproved')?.setValue(true); 
             this.snackBar.open('Information Inserted Successfully ', '', {
               duration: 2000,
               verticalPosition: 'bottom',

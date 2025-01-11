@@ -3,22 +3,22 @@ import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TraineeNominationService } from '../../service/traineenomination.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
-import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/service/BIODataGeneralInfo.service';
+import { BIODataGeneralInfoService } from '../../../../../src/app/trainee-biodata/service/BIODataGeneralInfo.service';
 import { CourseDurationService } from '../../service/courseduration.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TraineeNomination } from '../../models/traineenomination';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-traineenominationnbcd',
@@ -111,7 +111,7 @@ export class NewTraineeNominationNbcdComponent extends UnsubscribeOnDestroyAdapt
     })
 
     //autocomplete
-    this.TraineeNominationForm.get('traineeName').valueChanges
+    this.TraineeNominationForm.get('traineeName')?.valueChanges
     .subscribe(value => {
         this.getSelectedTraineeByPnoAutoComplete(value);
     })
@@ -120,17 +120,17 @@ export class NewTraineeNominationNbcdComponent extends UnsubscribeOnDestroyAdapt
   //autocomplete
   onTraineeSelectionChanged(item) {
     this.traineeId = item.value
-    this.TraineeNominationForm.get('traineeId').setValue(item.value);
-    this.TraineeNominationForm.get('traineeName').setValue(item.text);
+    this.TraineeNominationForm.get('traineeId')?.setValue(item.value);
+    this.TraineeNominationForm.get('traineeName')?.setValue(item.text);
     this.getTraineeInfoByTraineeId(this.traineeId);
   }
   
   onCourseSelectionChange(){
-   var courseDurationId = this.TraineeNominationForm.get('courseDurationId').value; 
+   var courseDurationId = this.TraineeNominationForm.get('courseDurationId')?.value; 
 
    this.courseDurationService.find(courseDurationId).subscribe(res=>{
     this.courseNameIdForNbcd=res.courseNameId;
-    this.TraineeNominationForm.get('courseNameId').setValue(this.courseNameIdForNbcd);
+    this.TraineeNominationForm.get('courseNameId')?.setValue(this.courseNameIdForNbcd);
   });
   this.TraineeNominationService.getTraineeNominationListByCourseDurationIdForNbcd(courseDurationId).subscribe(response => {
     this.nominatedPercentageListForNbcd=response;
@@ -154,11 +154,11 @@ getRunningCourseDurationListForNbcdSchool(){
   getTraineeInfoByTraineeId(traineeId){
     this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
       this.traineeInfoById=res;
-      this.TraineeNominationForm.get('saylorRankId').setValue(res.saylorRankId);
-      this.TraineeNominationForm.get('rankId').setValue(res.rankId);
-      this.TraineeNominationForm.get('saylorBranchId').setValue(res.saylorBranchId);
-      this.TraineeNominationForm.get('saylorSubBranchId').setValue(res.saylorSubBranchId);
-      this.TraineeNominationForm.get('branchId').setValue(res.branchId);
+      this.TraineeNominationForm.get('saylorRankId')?.setValue(res.saylorRankId);
+      this.TraineeNominationForm.get('rankId')?.setValue(res.rankId);
+      this.TraineeNominationForm.get('saylorBranchId')?.setValue(res.saylorBranchId);
+      this.TraineeNominationForm.get('saylorSubBranchId')?.setValue(res.saylorSubBranchId);
+      this.TraineeNominationForm.get('branchId')?.setValue(res.branchId);
     });
   }
   
@@ -243,7 +243,7 @@ getRunningCourseDurationListForNbcdSchool(){
   }
   print() {
     let printContents, popupWin;
-    printContents = document.getElementById("print-routine").innerHTML;
+    printContents = document.getElementById("print-routine")?.innerHTML;
     popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
     popupWin.document.open();
     popupWin.document.write(`

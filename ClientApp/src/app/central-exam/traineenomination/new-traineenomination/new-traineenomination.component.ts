@@ -445,7 +445,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     });
   }
   onSubmit() {
-    const id = this.TraineeNominationForm.get('traineeNominationId').value;   
+    const id = this.TraineeNominationForm.get('traineeNominationId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

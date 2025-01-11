@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import { ICodeValuePagination,CodeValuePagination } from '../models/CodeValuePagination';
 import { CodeValue } from '../models/CodeValue';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { map } from 'rxjs';
 import { CodeValueType } from '../models/CodeValueType';
-import { PostResponse } from 'src/app/core/models/PostResponse';
-import { CheckboxSelectedModel } from 'src/app/core/models/checkboxSelectedModel';
+import { PostResponse } from '../../../../src/app/core/models/PostResponse';
+import { CheckboxSelectedModel } from '../../../../src/app/core/models/checkboxSelectedModel';
 
 @Injectable({
   providedIn: 'root'

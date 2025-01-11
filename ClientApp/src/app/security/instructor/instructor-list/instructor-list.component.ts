@@ -6,11 +6,11 @@ import { UserService } from '../../service/User.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import{MasterData} from '../../../../../src/assets/data/master-data';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Role } from '../../../core/models/role';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-instructor',
@@ -198,12 +198,12 @@ export class InstructorListComponent implements OnInit, OnDestroy {
   }
 
   changeRole(){
-    var userId = this.InstructorForm.get('id').value; 
-    var currentRole = this.InstructorForm.get('roleName').value; 
+    var userId = this.InstructorForm.get('id')?.value; 
+    var currentRole = this.InstructorForm.get('roleName')?.value; 
     if( currentRole == 'Instructor'){
-      this.InstructorForm.get('roleName').setValue('Student');
+      this.InstructorForm.get('roleName')?.setValue('Student');
     }else if( currentRole == 'Student'){
-      this.InstructorForm.get('roleName').setValue('Instructor');
+      this.InstructorForm.get('roleName')?.setValue('Instructor');
     }
     
     this.subscription = this.UserService.update(userId,this.InstructorForm.value).subscribe(response => {

@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BnaClassTestService } from '../../service/BnaClassTest.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
-import { TraineeList } from 'src/app/attendance-management/models/traineeList';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { TraineeList } from '../../../../../src/app/attendance-management/models/traineeList';
+import { TraineeNominationService } from '../../../../../src/app/course-management/service/traineenomination.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-BnaClassTest',
@@ -155,8 +155,8 @@ export class NewBnaClassTestComponent extends UnsubscribeOnDestroyAdapter implem
     var courseNameId = courseNameArr[1];
 
     
-    this.BnaClassTestForm.get('courseName').setValue(courseName);
-    this.BnaClassTestForm.get('courseNameId').setValue(courseNameId);
+    this.BnaClassTestForm.get('courseName')?.setValue(courseName);
+    this.BnaClassTestForm.get('courseNameId')?.setValue(courseNameId);
 
     var baseSchoolNameId = this.BnaClassTestForm.value['baseSchoolNameId'];
     var courseNameId = this.BnaClassTestForm.value['courseNameId'];
@@ -226,7 +226,7 @@ export class NewBnaClassTestComponent extends UnsubscribeOnDestroyAdapter implem
 
   onSubmit() {
     this.loading = true;
-    const id = this.BnaClassTestForm.get('bnaClassTestId').value;
+    const id = this.BnaClassTestForm.get('bnaClassTestId')?.value;
     var bnaSubjectNameId = this.BnaClassTestForm.value['bnaSubjectNameId'];
     var bnaClassTestTypeId = this.BnaClassTestForm.value['bnaClassTestTypeId'];
 

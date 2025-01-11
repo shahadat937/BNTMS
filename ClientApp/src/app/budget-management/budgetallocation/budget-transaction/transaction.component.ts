@@ -6,23 +6,23 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 // import { BudgetAllocation } from 'src/app/foreign-training/models/BudgetAllocation';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
 import { BudgetAllocationService } from '../../service/BudgetAllocation.service';
-import { AdminAuthorityService } from 'src/app/basic-setup/service/AdminAuthority.service';
-import { UTOfficerCategoryService } from 'src/app/basic-setup/service/UTOfficerCategory.service';
+import { AdminAuthorityService } from '../../../../../src/app/basic-setup/service/AdminAuthority.service';
+import { UTOfficerCategoryService } from '../../../../../src/app/basic-setup/service/UTOfficerCategory.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CourseBudgetAllocationService } from '../../service/courseBudgetAllocation.service';
-import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.service';
+import { CourseWeekService } from '../../../../../src/app/course-management/service/CourseWeek.service';
 import { CourseBudgetAllocation } from '../../models/courseBudgetAllocation';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute } from '@angular/router';
-import { MasterData } from 'src/assets/data/master-data';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { CourseGradingEntryService } from 'src/app/basic-setup/service/CourseGradingEntry.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { CourseGradingEntryService } from '../../../../../src/app/basic-setup/service/CourseGradingEntry.service';
 import { PageEvent } from '@angular/material/paginator';
 
 
@@ -167,7 +167,7 @@ onBudgetTypeChange(dropdown){
   if (dropdown.isUserInput) {
     var budgetCodeId = dropdown.source.value; 
 
-    this.BudgetTransactionForm.get('budgetCodeId').setValue(budgetCodeId);
+    this.BudgetTransactionForm.get('budgetCodeId')?.setValue(budgetCodeId);
 
     this.BudgetTransactionService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
     this.totalBudget=res[0].text; 
@@ -184,7 +184,7 @@ onBudgetCodeSelectionChange(dropdown) {
       this.selectedBudgetCodeName = res;
       this.budgetCodeName = res[0].text;
       
-      this.BudgetTransactionForm.get('budgetCodeName').setValue(this.budgetCodeName);
+      this.BudgetTransactionForm.get('budgetCodeName')?.setValue(this.budgetCodeName);
       
     });
   }
@@ -267,8 +267,8 @@ getselectedcoursename(){
       }
 
 onSubmit() {
-  const id = this.BudgetTransactionForm.get('budgetTransactionId').value;
-  const dateCreated = this.sharedService.formatDateTime(this.BudgetTransactionForm.get('dateCreated').value)
+  const id = this.BudgetTransactionForm.get('budgetTransactionId')?.value;
+  const dateCreated = this.sharedService.formatDateTime(this.BudgetTransactionForm.get('dateCreated')?.value)
     this.BudgetTransactionForm.get('dateCreated')?.setValue(dateCreated);
   if (id) {
     
