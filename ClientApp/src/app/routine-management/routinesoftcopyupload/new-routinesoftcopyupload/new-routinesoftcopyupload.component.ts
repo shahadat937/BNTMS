@@ -2,22 +2,22 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutineSoftCopyUploadService } from '../../service/RoutineSoftCopyUpload.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { CourseNameService } from 'src/app/basic-setup/service/CourseName.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { CourseNameService } from '../../../../../src/app/basic-setup/service/CourseName.service';
 import { RoutineSoftCopyUpload } from '../../models/RoutineSoftCopyUpload';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../src/app/core/models/role';
 import { HttpEvent, HttpEventType  } from '@angular/common/http';
 import {FileDialogMessageComponent} from '../file-dialog-message/file-dialog-message.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ClassRoutineService } from '../../service/classroutine.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-routinesoftcopyupload',
@@ -121,7 +121,7 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit, OnDestroy {
     }
     this.intitializeForm();
     if(this.role === this.roleList.SuperAdmin || this.role === this.roleList.BNASchool || this.role === this.roleList.JSTISchool){
-      this.RoutineSoftCopyUploadForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.RoutineSoftCopyUploadForm.get('baseSchoolNameId')?.setValue(this.branchId);
      // this.getselectedcoursedurationbyschoolname();
      this.getCourseForRoutine();
     }
@@ -186,7 +186,7 @@ export class NewRoutineSoftcopyUploadComponent implements OnInit, OnDestroy {
     this.isShown =true;
       //var courseNameArr = dropdown.value.split('_');
       var courseDurationId = dropdown.value;
-      this.RoutineSoftCopyUploadForm.get('courseDurationId').setValue(courseDurationId);
+      this.RoutineSoftCopyUploadForm.get('courseDurationId')?.setValue(courseDurationId);
 
       this.isLoading = true;
       this.subscription = this.RoutineSoftCopyUploadService.getSoftCopyUploadList(this.paging.pageIndex, this.paging.pageSize,this.searchText, this.branchId,courseDurationId).subscribe(response => {
@@ -274,7 +274,7 @@ filterByCourse(value:any){
   }
 
   onSubmit() {
-    const id = this.RoutineSoftCopyUploadForm.get('routineSoftCopyUploadId').value;
+    const id = this.RoutineSoftCopyUploadForm.get('routineSoftCopyUploadId')?.value;
    // this.RoutineSoftCopyUploadForm.get('approvedDate').setValue((new Date(this.RoutineSoftCopyUploadForm.get('approvedDate').value)).toUTCString());
     const formData = new FormData();
     for (const key of Object.keys(this.RoutineSoftCopyUploadForm.value)) {
