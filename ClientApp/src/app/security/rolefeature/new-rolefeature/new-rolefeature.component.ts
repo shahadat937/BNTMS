@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoleFeatureService } from '../../service/rolefeature.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-edit-rolefeature',
