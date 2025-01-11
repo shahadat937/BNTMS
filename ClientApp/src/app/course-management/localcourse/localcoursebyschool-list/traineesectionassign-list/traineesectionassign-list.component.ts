@@ -10,11 +10,11 @@ import {CheckboxSelectedModel} from '../../../../core/models/checkboxSelectedMod
 import { TraineeList } from '../../../../attendance-management/models/traineeList';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../../routine-management/models/classroutine';
-import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
-import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
+import { TraineeListForExamMark } from '../../../../../../src/app/exam-management/models/traineeListforexammark';
+import { CourseDurationService } from '../../../../../../src/app/course-management/service/courseduration.service';
 import { number } from 'echarts';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineesectionassign-list',
@@ -156,7 +156,7 @@ export class TraineeSectionAssignListComponent extends UnsubscribeOnDestroyAdapt
   }
 
   getControlLabel(index: number, type: string) {
-    return (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   onChangeCertificateSerialNo(newCertificateSerialNo:string){
     const control = this.AttendanceForm.get('traineeListForm') as FormArray;
@@ -164,10 +164,10 @@ export class TraineeSectionAssignListComponent extends UnsubscribeOnDestroyAdapt
       if(i!=0){
         if(i>=9){
           const traineeFormGroup = control.at(i) as FormGroup;
-          traineeFormGroup.get('certificateSerialNo').setValue(newCertificateSerialNo.slice(0, -2) + (i+1));
+          traineeFormGroup.get('certificateSerialNo')?.setValue(newCertificateSerialNo.slice(0, -2) + (i+1));
         }else{
           const traineeFormGroup = control.at(i) as FormGroup;
-          traineeFormGroup.get('certificateSerialNo').setValue(newCertificateSerialNo.slice(0, -1) + (i+1));
+          traineeFormGroup.get('certificateSerialNo')?.setValue(newCertificateSerialNo.slice(0, -1) + (i+1));
         }
        
       }
@@ -185,11 +185,11 @@ export class TraineeSectionAssignListComponent extends UnsubscribeOnDestroyAdapt
     if (index === undefined || index === 0) {
       for (let i = 0; i < control.length; i++) {
         const traineeFormGroup = control.at(i) as FormGroup;
-        traineeFormGroup.get('courseSectionId').setValue(courseSectionId);
+        traineeFormGroup.get('courseSectionId')?.setValue(courseSectionId);
       }
     } else {
       const traineeFormGroup = control.at(index) as FormGroup;
-      traineeFormGroup.get('courseSectionId').setValue(courseSectionId);
+      traineeFormGroup.get('courseSectionId')?.setValue(courseSectionId);
     }
   }
   
