@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { BnaSubjectNameService } from '../../service/bnasubjectname.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bnasubjectname',
@@ -73,7 +73,7 @@ export class NewBnaSubjectNameComponent extends UnsubscribeOnDestroyAdapter impl
   }
   
   onSubmit() {
-    const id = this.BnaSubjectNameForm.get('bnaSubjectNameId').value;  
+    const id = this.BnaSubjectNameForm.get('bnaSubjectNameId')?.value;  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {

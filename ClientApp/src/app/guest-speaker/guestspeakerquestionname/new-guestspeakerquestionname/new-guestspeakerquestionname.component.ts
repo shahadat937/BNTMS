@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { GuestSpeakerQuestionNameService } from '../../service/GuestSpeakerQuestionName.service';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
 import { GuestSpeakerQuestionName } from '../../models/GuestSpeakerQuestionName';
-import { Role } from 'src/app/core/models/role';
+import { Role } from '../../../../../src/app/core/models/role';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-guestspeakerquestionname',
@@ -76,7 +76,7 @@ export class NewGuestSpeakerQuestionNameComponent extends UnsubscribeOnDestroyAd
     }
     this.intitializeForm();
     if(this.role == this.userRole.SuperAdmin || this.userRole.SchoolOIC){
-      this.GuestSpeakerQuestionNameForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.GuestSpeakerQuestionNameForm.get('baseSchoolNameId')?.setValue(this.branchId);
      }
      this.getGuestSpeakerQuestionNames();
   }
@@ -148,7 +148,7 @@ export class NewGuestSpeakerQuestionNameComponent extends UnsubscribeOnDestroyAd
     });
   }
   onSubmit() {
-    const id = this.GuestSpeakerQuestionNameForm.get('guestSpeakerQuestionNameId').value;  
+    const id = this.GuestSpeakerQuestionNameForm.get('guestSpeakerQuestionNameId')?.value;  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
