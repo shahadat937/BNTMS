@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InstructorDashboardService } from '../services/InstructorDashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { MasterData } from 'src/assets/data/master-data';
-import { environment } from 'src/environments/environment';
-import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
+import { MasterData } from '../../../../src/assets/data/master-data';
+import { environment } from '../../../../src/environments/environment';
+import { StudentDashboardService } from '../../../../src/app/student/services/StudentDashboard.service';
 import { DatePipe } from '@angular/common';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-dashboard',
