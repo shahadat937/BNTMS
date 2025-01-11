@@ -2,17 +2,17 @@ import { Component, OnInit, ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {CourseDuration} from '../../foreign-training/models/courseduration'
-import { CourseDurationService } from 'src/app/foreign-training/service/courseduration.service';
+import { CourseDurationService } from '../../../../src/app/foreign-training/service/courseduration.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
-import { Role } from 'src/app/core/models/role';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from '../../../../src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-runningcourseforeigntraineeupcoming-list',
@@ -136,7 +136,7 @@ export class RunningCourseForeignRraineeUpcomingListComponent extends Unsubscrib
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`

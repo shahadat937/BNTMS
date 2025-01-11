@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FamilyNominationService } from '../../service/familynomination.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { FamilyInfoListforFamilyNomination } from '../../models/familyinfoListforfamilynomination';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-familynomination',
@@ -88,7 +88,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
     })
   }
   getControlLabel(index: number, type: string) {
-    return (this.FamilyNominationForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.FamilyNominationForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
 
@@ -120,7 +120,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   }
   getfamilyInfoListByTraineeId() {
     
-    this.FamilyNominationForm.get('traineeId').setValue(this.traineeId)
+    this.FamilyNominationForm.get('traineeId')?.setValue(this.traineeId)
     this.FamilyNominationService.getfamilyInfoListByTraineeId(this.traineeId).subscribe(res => {
       //this.relationTypeValues=res
       this.traineeList = res;
@@ -140,7 +140,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   onSubmit() {
-    const id = this.FamilyNominationForm.get('familyNominationId').value;
+    const id = this.FamilyNominationForm.get('familyNominationId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
