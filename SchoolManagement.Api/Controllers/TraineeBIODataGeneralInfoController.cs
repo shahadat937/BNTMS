@@ -305,4 +305,16 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
         return Ok(bioData);
     }
 
+    [HttpGet]
+    [Route("get-selected-instructor-by-school")]
+    public async Task<ActionResult<List<SelectedModel>>> GetSelectedInstructorBySchool(int branchId)
+    {
+        var trainee = await _mediator.Send(new GetSelectedTraineeBioDataGeneralInfoRequestBySchoolRequest
+        {
+            BranchId = branchId
+
+        });
+        return Ok(trainee);
+    }
+
 }
