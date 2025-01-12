@@ -167,4 +167,7 @@ export class CourseInstructorService {
   findSubjectMark(id: number) {
     return this.http.get<any>(this.baseUrl + '/subject-mark/get-subjectmarkdetail/' + id);
   }
+
+  getSelectedInstructorBySchool(branchId){
+    return this.http.get<any>(this.baseUrl + `/trainee-bio-data-general-info/get-selected-instructor-by-school?branchId=${branchId}`)}
 }

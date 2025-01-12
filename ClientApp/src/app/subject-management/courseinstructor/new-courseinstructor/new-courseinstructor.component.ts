@@ -56,6 +56,8 @@ export class NewCourseInstructorComponent implements OnInit,OnDestroy {
   traineeId:any;
   branchId:any;
   baseSchoolId:any;
+  selectInstructorList: any;
+  selectedInstructor: any;
 
   options = [];
   filteredOptions;
@@ -128,6 +130,7 @@ export class NewCourseInstructorComponent implements OnInit,OnDestroy {
     //this.getselectedbnasubjectname();
     //this.getselectedcoursedurationbyschoolname();
     this.getSelectedModule();
+    this.getSelectedInstructorList();
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -400,6 +403,19 @@ export class NewCourseInstructorComponent implements OnInit,OnDestroy {
       });
     }
   }
+
+  getSelectedInstructorList(){
+    this.CourseInstructorService.getSelectedInstructorBySchool(this.branchId).subscribe(res =>{
+      this.selectInstructorList = res
+      this.selectedInstructor = res;
+    })
+  }
+
+  filterByInstructorList(value:any){
+    this.selectInstructorList=this.selectedInstructor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  }
+
+
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
