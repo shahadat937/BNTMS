@@ -3,16 +3,16 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
+import { InstructorDashboardService } from '../../../../src/app/teacher/services/InstructorDashboard.service';
 
 @Component({
   selector: 'app-view-readingmaterial',
