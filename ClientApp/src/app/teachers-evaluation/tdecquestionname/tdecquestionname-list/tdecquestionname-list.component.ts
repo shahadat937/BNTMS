@@ -4,12 +4,12 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TdecQuestionName } from '../../models/TdecQuestionName';
 import { TdecQuestionNameService } from '../../service/TdecQuestionName.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-tdecquestionname-list',

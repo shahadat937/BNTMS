@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeAssessmentMarkService } from '../../service/TraineeAssessmentMark.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-traineeassessmentmark',
@@ -81,7 +81,7 @@ export class NewTraineeAssessmentMarkComponent implements OnInit,OnDestroy {
   
   onSubmit() {
     
-    const id = this.TraineeAssessmentMarkForm.get('traineeAssessmentMarkId').value;  
+    const id = this.TraineeAssessmentMarkForm.get('traineeAssessmentMarkId')?.value;  
     // const formData = new FormData();
     // for (const key of Object.keys(this.TraineeAssessmentMarkForm.value)) {
     //   const value = this.TraineeAssessmentMarkForm.value[key];

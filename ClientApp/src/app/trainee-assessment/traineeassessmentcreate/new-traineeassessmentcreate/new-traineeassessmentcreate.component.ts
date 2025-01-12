@@ -5,14 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeAssessmentCreateService } from '../../service/TraineeAssessmentCreate.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import {MasterData} from 'src/assets/data/master-data'
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import {MasterData} from '../../../../../src/assets/data/master-data'
 import {TraineeAssessmentCreate} from '../../models/TraineeAssessmentCreate'
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-traineeassessmentcreate',
@@ -89,7 +89,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit, OnDestroy {
     this.intitializeForm();
 
     if(this.role == this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool || this.role == this.userRole.SchoolOIC || this.role == this.userRole.TCO){
-      this.TraineeAssessmentCreateForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.TraineeAssessmentCreateForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
     }
     this.getTraineeAssessmentCreates();
@@ -161,7 +161,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit, OnDestroy {
       // this.courseName=dropdown.text;
       // this.ClassRoutineForm.get('courseName').setValue(dropdown.text);
       // this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
-      this.TraineeAssessmentCreateForm.get('courseDurationId').setValue(courseDurationId);
+      this.TraineeAssessmentCreateForm.get('courseDurationId')?.setValue(courseDurationId);
 
       this.getTraineeAssessmentCreates();
        
@@ -232,7 +232,7 @@ export class NewTraineeAssessmentCreateComponent implements OnInit, OnDestroy {
   }
   onSubmit() {    
     
-    const id = this.TraineeAssessmentCreateForm.get('traineeAssessmentCreateId').value;  
+    const id = this.TraineeAssessmentCreateForm.get('traineeAssessmentCreateId')?.value;  
     // const formData = new FormData();
     // for (const key of Object.keys(this.TraineeAssessmentCreateForm.value)) {
     //   const value = this.TraineeAssessmentCreateForm.value[key];
