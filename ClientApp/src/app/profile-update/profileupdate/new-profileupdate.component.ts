@@ -9,7 +9,7 @@ import { ProfileUpdateService } from '../service/ProfileUpdate.service';
 import {ConfirmService} from '../../../app/core/service/confirm.service'
 import { ViewChild, ElementRef } from '@angular/core';
 import {AuthService} from '../../../app/core/service/auth.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 // import { AuthService } from 'src/app/core/service/auth.service';
 @Component({
   selector: 'app-new-profileupdate',
@@ -97,7 +97,7 @@ matchValues(matchTo: string): ValidatorFn {
   onSubmit() {
   //  const id = this.userId;
 
-    this.ProfileUpdateForm.get('userId').setValue(this.userId)
+    this.ProfileUpdateForm.get('userId')?.setValue(this.userId)
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         
         if (result) {

@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../../src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
 import { isNull } from '@angular/compiler/src/output/output_ast';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { Role } from 'src/app/core/models/role';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
+import { Role } from '../../../../../../src/app/core/models/role';
 @Component({
   selector: 'app-new-BIODataGeneralInfo',
   templateUrl: './new-biodata-general-info.component.html',
@@ -406,15 +406,15 @@ filterByCaste(value:any){
   
   onSubmit() {
 
-    const id = this.BIODataGeneralInfoForm.get('traineeId').value; 
+    const id = this.BIODataGeneralInfoForm.get('traineeId')?.value; 
 
     //this.BIODataGeneralInfoForm.get('MaritalStatusId').setValue(0);
-    if(this.BIODataGeneralInfoForm.get('joiningDate').value){
-      const joiningDate = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('joiningDate').value)
+    if(this.BIODataGeneralInfoForm.get('joiningDate')?.value){
+      const joiningDate = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('joiningDate')?.value)
       this.BIODataGeneralInfoForm.get('joiningDate')?.setValue(joiningDate);
     }
-    if(this.BIODataGeneralInfoForm.get('dateOfBirth').value){
-      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth').value)
+    if(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value){
+      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)
       this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
     }
     
@@ -475,7 +475,7 @@ filterByCaste(value:any){
   
   }
   whiteSpaceRemove(value){
-    this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
+    this.BIODataGeneralInfoForm.get('email')?.patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
    }
    removeImage(event: Event) {
     event.preventDefault(); 

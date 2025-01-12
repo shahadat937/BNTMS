@@ -8,8 +8,8 @@ import { SelectedModel } from '../../../core/models/selectedModel';
 import { SubjectMark } from '../../models/SubjectMark';
 import {MasterData} from '../../../../../src/assets/data/master-data';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-subjectmark',
@@ -117,7 +117,7 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
       //menuPosition: ['', Validators.required],
       isActive: [true],
     })
-    this.SubjectMarkForm.get('course').valueChanges
+    this.SubjectMarkForm.get('course')?.valueChanges
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
@@ -159,7 +159,7 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
     this.courseTypeId = courseNameArr[0];
     var courseNameId =courseNameArr[1];
   
-    this.SubjectMarkForm.get('courseNameId').setValue(courseNameId);
+    this.SubjectMarkForm.get('courseNameId')?.setValue(courseNameId);
 
     // this.SubjectMarkService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res=>{
     //   this.selectedsubjectname=res;
@@ -170,7 +170,7 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   onsubjectSelectionChangeGetsubjectMarkList(){
     // var baseSchoolNameId=this.SubjectMarkForm.value['baseSchoolNameId'];
     var courseNameId=MasterData.courseName.QExam;
-    this.SubjectMarkForm.get('courseNameId').setValue(courseNameId);
+    this.SubjectMarkForm.get('courseNameId')?.setValue(courseNameId);
     // var courseModuleId=this.SubjectMarkForm.value['courseModuleId'];
     var bnaSubjectNameId=this.SubjectMarkForm.value['bnaSubjectNameId'];
     this.isShown=true;
@@ -251,7 +251,7 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
   }
   
   onSubmit() {
-    const id = this.SubjectMarkForm.get('subjectMarkId').value;  
+    const id = this.SubjectMarkForm.get('subjectMarkId')?.value;  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
@@ -278,8 +278,8 @@ export class NewSubjectMarkComponent extends UnsubscribeOnDestroyAdapter impleme
         this.reloadCurrentRoute();
         this.onsubjectSelectionChangeGetsubjectMarkList();
         this.SubjectMarkForm.reset();
-        this.SubjectMarkForm.get('subjectMarkId').setValue(0);
-        this.SubjectMarkForm.get('isActive').setValue(true);
+        this.SubjectMarkForm.get('subjectMarkId')?.setValue(0);
+        this.SubjectMarkForm.get('isActive')?.setValue(true);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',

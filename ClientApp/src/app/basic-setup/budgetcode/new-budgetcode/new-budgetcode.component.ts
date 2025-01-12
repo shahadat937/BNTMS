@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BudgetCodeService } from '../../service/BudgetCode.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-budgetcode',
@@ -68,7 +68,7 @@ export class NewBudgetCodeComponent extends UnsubscribeOnDestroyAdapter implemen
   }
   
   onSubmit() {
-    const id = this.BudgetCodeForm.get('budgetCodeId').value;  
+    const id = this.BudgetCodeForm.get('budgetCodeId')?.value;  
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         

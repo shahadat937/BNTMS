@@ -20,8 +20,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../routine-management/models/classroutine';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-attendance',
@@ -149,7 +149,7 @@ export class NewAttendanceTraineeListComponent extends UnsubscribeOnDestroyAdapt
     })
   }
   getControlLabel(index: number,type: string){
-    return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
   
@@ -237,12 +237,12 @@ export class NewAttendanceTraineeListComponent extends UnsubscribeOnDestroyAdapt
   }
 
   onSubmit() {
-    const id = this.AttendanceForm.get('attendanceId').value;
+    const id = this.AttendanceForm.get('attendanceId')?.value;
 
-   this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
-   this.AttendanceForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId);
-   this.AttendanceForm.get('attendanceDate').setValue(this.attendanceDate);
-   this.AttendanceForm.get('classRoutineId').setValue(this.classRoutineId);
+   this.AttendanceForm.get('courseDurationId')?.setValue(this.courseDurationId);
+   this.AttendanceForm.get('bnaSubjectNameId')?.setValue(this.bnaSubjectNameId);
+   this.AttendanceForm.get('attendanceDate')?.setValue(this.attendanceDate);
+   this.AttendanceForm.get('classRoutineId')?.setValue(this.classRoutineId);
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {

@@ -2,21 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttendanceService } from '../../../attendance-management/service/attendance.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
-import { TraineeNomination } from 'src/app/course-management/models/traineenomination';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { TraineeNominationService } from '../../../../../src/app/course-management/service/traineenomination.service';
+import { TraineeNomination } from '../../../../../src/app/course-management/models/traineenomination';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Attendance } from '../../../attendance-management/models/attendance';
-import { CheckboxSelectedModel } from 'src/app/core/models/checkboxSelectedModel';
+import { CheckboxSelectedModel } from '../../../../../src/app/core/models/checkboxSelectedModel';
 import { TraineeList } from '../../../attendance-management/models/traineeList';
 import { DatePipe } from '@angular/common';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ClassRoutineService } from '../../../../../src/app/routine-management/service/classroutine.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -118,7 +118,7 @@ export class AttendanceApprovedComponent extends UnsubscribeOnDestroyAdapter imp
   }
 
   getControlLabel(index: number,type: string){
-    return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
 
    private createTraineeData() {
@@ -263,7 +263,7 @@ export class AttendanceApprovedComponent extends UnsubscribeOnDestroyAdapter imp
   }
 
   onSubmit() {
-    const id = this.AttendanceForm.get('attendanceId').value;
+    const id = this.AttendanceForm.get('attendanceId')?.value;
     // var classLeaderName= this.AttendanceForm.value['classLeaderName'];
     // var attendanceDate= this.AttendanceForm.value['attendanceDate'];
     // var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];

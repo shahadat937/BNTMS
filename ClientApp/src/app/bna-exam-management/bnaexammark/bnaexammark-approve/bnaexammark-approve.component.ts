@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAExamMarkService } from '../../service/bnaexammark.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { BNASubjectName } from 'src/app/subject-management/models/BNASubjectName';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { BNASubjectName } from '../../../../../src/app/subject-management/models/BNASubjectName';
 import { SubjectMark } from '../../../subject-management/models/SubjectMark';
 import {TraineeNominationService} from '../../../course-management/service/traineenomination.service'
 import { TraineeList } from '../../../attendance-management/models/traineeList';
 import { TraineeListForExamMark } from '../../models/traineeListforexammark';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-bnaexammark-approve',
@@ -112,7 +112,7 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
     } 
      this.intitializeForm();   
      if(this.role === 'Super Admin'){
-      this.BNAExamMarkForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.BNAExamMarkForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
      }
      this.getselectedbaseschools(); 
@@ -153,7 +153,7 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
     })
   }
   getControlLabel(index: number,type: string){
-    return  (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
  
@@ -193,9 +193,9 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
     var coursetitle = courseNameTextArr[1];
     var courseDurationId=courseNameArr[0];
     var courseNameId=courseNameArr[1];
-    this.BNAExamMarkForm.get('courseName').setValue(dropdown.text);
-    this.BNAExamMarkForm.get('courseNameId').setValue(courseNameId);
-    this.BNAExamMarkForm.get('courseDurationId').setValue(courseDurationId);
+    this.BNAExamMarkForm.get('courseName')?.setValue(dropdown.text);
+    this.BNAExamMarkForm.get('courseNameId')?.setValue(courseNameId);
+    this.BNAExamMarkForm.get('courseDurationId')?.setValue(courseDurationId);
     this.isShown=false;
 
     var baseSchoolNameId=this.BNAExamMarkForm.value['baseSchoolNameId'];
@@ -260,8 +260,8 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
 
       this.bnaSubjectNameId = subjectArr[0];
       var courseModuleId = subjectArr[1];
-      this.BNAExamMarkForm.get('bnaSubjectName').setValue(dropdown.text);
-      this.BNAExamMarkForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId);
+      this.BNAExamMarkForm.get('bnaSubjectName')?.setValue(dropdown.text);
+      this.BNAExamMarkForm.get('bnaSubjectNameId')?.setValue(this.bnaSubjectNameId);
      
       this.BNAExamMarkService.GetSubjectMarkByBaseSchoolNameIdCourseNameAndSubjectNameId(baseSchoolNameId,courseNameId,this.bnaSubjectNameId).subscribe(res=>{
         this.subjectMarkList=res;
@@ -269,7 +269,7 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
 
       this.BNAExamMarkService.GetRoutineIdWithSchoolCourseSubject(baseSchoolNameId,courseNameId,this.bnaSubjectNameId).subscribe(res=>{
         this.classRoutineId=res;
-        this.BNAExamMarkForm.get('classRoutineId').setValue(this.classRoutineId);
+        this.BNAExamMarkForm.get('classRoutineId')?.setValue(this.classRoutineId);
         
       });
 
@@ -285,8 +285,8 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
         this.getTotalMarkAndPassMark=res; 
         this.totalMark=res[0].totalMark;
         this.passMarkBna=res[0].passMarkBNA
-        this.BNAExamMarkForm.get('totalMark').setValue(this.totalMark);
-        this.BNAExamMarkForm.get('passMark').setValue(this.passMarkBna);
+        this.BNAExamMarkForm.get('totalMark')?.setValue(this.totalMark);
+        this.BNAExamMarkForm.get('passMark')?.setValue(this.passMarkBna);
       });
     
     }
@@ -354,8 +354,8 @@ export class BNAExamMarkApproveComponent extends UnsubscribeOnDestroyAdapter imp
             this.BNAExamMarkForm.reset();
             this.isShown = false;
             //this.BNAExamMarkForm.get('bnaExamMarkId').setValue(0);
-            this.BNAExamMarkForm.get('isActive').setValue(true);
-            this.BNAExamMarkForm.get('isApproved').setValue(false); 
+            this.BNAExamMarkForm.get('isActive')?.setValue(true);
+            this.BNAExamMarkForm.get('isApproved')?.setValue(false); 
             this.snackBar.open('Information Inserted Successfully ', '', {
               duration: 2000,
               verticalPosition: 'bottom',

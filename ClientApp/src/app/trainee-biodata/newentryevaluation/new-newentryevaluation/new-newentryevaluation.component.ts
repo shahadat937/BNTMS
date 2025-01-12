@@ -2,16 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { NewEntryEvaluationService } from '../../service/NewEntryEvaluation.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { NewEntryEvaluation } from '../../models/NewEntryEvaluation';
 import { BIODataGeneralInfoService } from '../../biodata-tab-layout/service/BIODataGeneralInfo.service';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
+import { TraineeNominationService } from '../../../../../src/app/course-management/service/traineenomination.service';
 import { TraineeListNewEntryEvaluation } from '../../models/traineeList';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-newentryevaluation',
   templateUrl: './new-newentryevaluation.component.html',
@@ -166,7 +166,7 @@ export class NewNewEntryEvaluationComponent implements OnInit, OnDestroy {
     // })
   }
   getControlLabel(index: number,type: string){
-    return  (this.NewEntryEvaluationForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.NewEntryEvaluationForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
  
@@ -216,7 +216,7 @@ export class NewNewEntryEvaluationComponent implements OnInit, OnDestroy {
   }
   onSchoolSelectionChangeGetCourseName(baseSchoolNameId){
     if(this.role === 'Super Admin'){
-      this.NewEntryEvaluationForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
+      this.NewEntryEvaluationForm.get('baseSchoolNameId')?.setValue(baseSchoolNameId);
     }
     this.NewEntryEvaluationService.getselectedCourseNameBySchool(baseSchoolNameId).subscribe(res=>{
       this.courseNameValues=res
@@ -234,9 +234,9 @@ export class NewNewEntryEvaluationComponent implements OnInit, OnDestroy {
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
-      this.NewEntryEvaluationForm.get('courseName').setValue(dropdown.text);
-      this.NewEntryEvaluationForm.get('courseNameId').setValue(courseNameId);
-      this.NewEntryEvaluationForm.get('courseDurationId').setValue(courseDurationId);
+      this.NewEntryEvaluationForm.get('courseName')?.setValue(dropdown.text);
+      this.NewEntryEvaluationForm.get('courseNameId')?.setValue(courseNameId);
+      this.NewEntryEvaluationForm.get('courseDurationId')?.setValue(courseDurationId);
 
 
       this.NewEntryEvaluationService.getselectedCourseModulesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
@@ -273,7 +273,7 @@ export class NewNewEntryEvaluationComponent implements OnInit, OnDestroy {
       this.NewEntryEvaluationService.getCourseDurationByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
         
         this.selectedCourseDuration=res;   
-        this.NewEntryEvaluationForm.get('courseDurationId').setValue(this.selectedCourseDuration);
+        this.NewEntryEvaluationForm.get('courseDurationId')?.setValue(this.selectedCourseDuration);
         this.traineeNominationService.getNewTraineeNominationByCourseDurationId(this.selectedCourseDuration).subscribe(res=>{
           this.traineeList=res; 
           this. clearList();
@@ -299,7 +299,7 @@ export class NewNewEntryEvaluationComponent implements OnInit, OnDestroy {
     });
   }
   onSubmit() {
-    const id = this.NewEntryEvaluationForm.get('newEntryEvaluationId').value; 
+    const id = this.NewEntryEvaluationForm.get('newEntryEvaluationId')?.value; 
     
     
     if (id) {

@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { KindOfSubjectService } from '../../service/KindOfSubject.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-kindofsubject',
@@ -65,7 +65,7 @@ export class NewKindOfSubjectComponent extends UnsubscribeOnDestroyAdapter imple
   }
   
   onSubmit() {
-    const id = this.KindOfSubjectForm.get('kindOfSubjectId').value; 
+    const id = this.KindOfSubjectForm.get('kindOfSubjectId')?.value; 
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Kind Of Subject Item').subscribe(result => {

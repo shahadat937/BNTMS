@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { FamilyInfoService } from '../../service/familyinfo.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { FamilyInfo } from '../../models/familyinfo';
-import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/biodata-tab-layout/service/BIODataGeneralInfo.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { BIODataGeneralInfoService } from '../../../../../src/app/trainee-biodata/biodata-tab-layout/service/BIODataGeneralInfo.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 //import { BIODataGeneralInfoService } from '../../';
 
 @Component({
@@ -135,7 +135,7 @@ export class NewFamilyInfoComponent extends UnsubscribeOnDestroyAdapter implemen
 
     })
     //autocomplete for pno
-    this.FamilyInfoForm.get('pno').valueChanges
+    this.FamilyInfoForm.get('pno')?.valueChanges
       .subscribe(value => {
         this.getSelectedPno(value);
       })
@@ -143,8 +143,8 @@ export class NewFamilyInfoComponent extends UnsubscribeOnDestroyAdapter implemen
   //autocomplete for pno
   onTraineePnoSelectionChanged(item) {
     this.traineeId = item.value;
-    this.FamilyInfoForm.get('traineeId').setValue(item.value);
-    this.FamilyInfoForm.get('pno').setValue(item.text);
+    this.FamilyInfoForm.get('traineeId')?.setValue(item.value);
+    this.FamilyInfoForm.get('pno')?.setValue(item.text);
   }
   //autocomplete  Pno
   getSelectedPno(pno) {
@@ -206,7 +206,7 @@ export class NewFamilyInfoComponent extends UnsubscribeOnDestroyAdapter implemen
     });
   }
   onSubmit() {
-    const id = this.FamilyInfoForm.get('familyInfoId').value;
+    const id = this.FamilyInfoForm.get('familyInfoId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {

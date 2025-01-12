@@ -2,19 +2,19 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAExamMarkService } from '../../central-exam/service/bnaexammark.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { BNASubjectName } from 'src/app/subject-management/models/BNASubjectName';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { BNASubjectName } from '../../../../src/app/subject-management/models/BNASubjectName';
 import { SubjectMark } from '../../subject-management/models/SubjectMark';
 import {TraineeNominationService} from '../../course-management/service/traineenomination.service'
 import { TraineeList } from '../../attendance-management/models/traineeList';
 import { TraineeListForExamMark } from '../../exam-management/models/traineeListforexammark';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { SubjectMarkService } from 'src/app/subject-management/service/SubjectMark.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { SubjectMarkService } from '../../../../src/app/subject-management/service/SubjectMark.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-approve-jcoexamemark',
@@ -209,7 +209,7 @@ export class ApproveJcoexamemarkComponent implements OnInit {
     })
   }
   getControlLabel(index: number,type: string){
-    return  (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
  
@@ -242,11 +242,11 @@ export class ApproveJcoexamemarkComponent implements OnInit {
   OnTextCheck(value,index ){
 
     if(value >= this.subjectPassMark){
-      (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get('resultStatusShow').setValue('Pass');
-      (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get('resultStatus').setValue(1);
+      (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get('resultStatusShow')?.setValue('Pass');
+      (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get('resultStatus')?.setValue(1);
     }else{
-      (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get('resultStatusShow').setValue('Fail');
-      (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get('resultStatus').setValue(0);
+      (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get('resultStatusShow')?.setValue('Fail');
+      (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get('resultStatus')?.setValue(0);
     }
   }
 
@@ -419,9 +419,9 @@ export class ApproveJcoexamemarkComponent implements OnInit {
     for (let i = 0; i < this.traineeList.length; i++) {
       control.push(this.createTraineeData()); 
       if(this.traineeList[i].resultStatus == 1){
-        (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(i).get('resultStatusShow').setValue('Pass');
+        (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(i).get('resultStatusShow')?.setValue('Pass');
       }else{
-        (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(i).get('resultStatusShow').setValue('Fail');
+        (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(i).get('resultStatusShow')?.setValue('Fail');
       }
     }
     this.BNAExamMarkForm.patchValue({ approveTraineeListForm: this.traineeList });

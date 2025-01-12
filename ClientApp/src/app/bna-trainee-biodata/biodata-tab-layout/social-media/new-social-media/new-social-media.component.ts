@@ -5,8 +5,8 @@ import { SocialMediaService } from '../../service/SocialMedia.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-social-media',
@@ -22,7 +22,7 @@ export class NewSocialMediaComponent extends UnsubscribeOnDestroyAdapter impleme
   validationErrors: string[] = [];
   districtValues:SelectedModel[]; 
   selectedSocialMedia:SelectedModel[]; 
-  traineeId: string;
+  traineeId: string | null;
 
   constructor(private snackBar: MatSnackBar,private SocialMediaService: SocialMediaService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     super();
@@ -73,7 +73,7 @@ export class NewSocialMediaComponent extends UnsubscribeOnDestroyAdapter impleme
   }
   
   onSubmit() {
-    const id = this.SocialMediaForm.get('socialMediaId').value;   
+    const id = this.SocialMediaForm.get('socialMediaId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

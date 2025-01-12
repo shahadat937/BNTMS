@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { GuestSpeakerQuationGroupService } from '../../service/GuestSpeakerQuationGroup.service';
  import { GuestSpeakerQuestionName } from '../../models/GuestSpeakerQuestionName';
-import { Role } from 'src/app/core/models/role';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-guestspeakerquationgroup-list',
@@ -88,7 +88,7 @@ export class GuestSpeakerQuationGroupListComponent extends UnsubscribeOnDestroyA
     }
     this.intitializeForm();
     if((this.role === this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool || this.role === this.userRole.SchoolOIC)){
-      this.GuestSpeakerQuationGroupForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.GuestSpeakerQuationGroupForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
     }
     this.getselectedBaseScoolName();
@@ -116,14 +116,14 @@ export class GuestSpeakerQuationGroupListComponent extends UnsubscribeOnDestroyA
 
     })
     //autocomplete for pno
-    this.GuestSpeakerQuationGroupForm.get('pno').valueChanges
+    this.GuestSpeakerQuationGroupForm.get('pno')?.valueChanges
       .subscribe(value => {
         this.getSelectedPno(value);
       })
   }
 
   getControlLabel(index: number,type: string){
-    return  (this.GuestSpeakerQuationGroupForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.GuestSpeakerQuationGroupForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
 
    private createTraineeData() {
@@ -157,8 +157,8 @@ export class GuestSpeakerQuationGroupListComponent extends UnsubscribeOnDestroyA
   //autocomplete for pno
   onTraineePnoSelectionChanged(item) {
     this.traineeId = item.value;
-    this.GuestSpeakerQuationGroupForm.get('traineeId').setValue(item.value);
-    this.GuestSpeakerQuationGroupForm.get('pno').setValue(item.text);
+    this.GuestSpeakerQuationGroupForm.get('traineeId')?.setValue(item.value);
+    this.GuestSpeakerQuationGroupForm.get('pno')?.setValue(item.text);
   }
   //autocomplete  Pno
   getSelectedPno(pno) {
@@ -208,10 +208,10 @@ export class GuestSpeakerQuationGroupListComponent extends UnsubscribeOnDestroyA
       var bnaSubjectNameId = dropdown.source.value.value;
     var baseSchoolNameId = this.GuestSpeakerQuationGroupForm.value['baseSchoolNameId'];
 
-    this.GuestSpeakerQuationGroupForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
-    this.GuestSpeakerQuationGroupForm.get('courseDurationId').setValue(this.courseDurationId);
-    this.GuestSpeakerQuationGroupForm.get('courseNameId').setValue(this.courseNameId);
-    this.GuestSpeakerQuationGroupForm.get('bnaSubjectNameIds').setValue(bnaSubjectNameId);
+    this.GuestSpeakerQuationGroupForm.get('baseSchoolNameId')?.setValue(baseSchoolNameId);
+    this.GuestSpeakerQuationGroupForm.get('courseDurationId')?.setValue(this.courseDurationId);
+    this.GuestSpeakerQuationGroupForm.get('courseNameId')?.setValue(this.courseNameId);
+    this.GuestSpeakerQuationGroupForm.get('bnaSubjectNameIds')?.setValue(bnaSubjectNameId);
 
     this.GuestSpeakerQuationGroupService.getGuestSpeakerQuationGroupByParamsSp(baseSchoolNameId,this.courseNameId,this.courseDurationId,bnaSubjectNameId).subscribe(res => {
       

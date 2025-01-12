@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/biodata-tab-layout/service/BIODataGeneralInfo.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { BIODataGeneralInfoService } from '../../../../src/app/trainee-biodata/biodata-tab-layout/service/BIODataGeneralInfo.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { MasterData } from 'src/assets/data/master-data';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { MasterData } from '../../../../src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-profileupdate',
   templateUrl: './new-profileupdate.component.html',
@@ -301,52 +301,52 @@ export class NewProfileUpdateComponent extends UnsubscribeOnDestroyAdapter imple
   }
   onSubmit() {
 
-    const id = this.BIODataGeneralInfoForm.get('traineeId').value; 
+    const id = this.BIODataGeneralInfoForm.get('traineeId')?.value; 
 
-    this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
+    this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)).toUTCString()) ;
+    this.BIODataGeneralInfoForm.get('joiningDate')?.setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate')?.value)).toUTCString()) ;
 
-    var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId').value; 
+    var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId')?.value; 
     if(traineeStatusId == this.masterData.TraineeStatus.sailor){
-      this.BIODataGeneralInfoForm.get('bnaBatchId').setValue(282);
-      this.BIODataGeneralInfoForm.get('branchId').setValue(17);
-      this.BIODataGeneralInfoForm.get('countryId').setValue(217);
-      this.BIODataGeneralInfoForm.get('districtId').setValue(1105);
-      this.BIODataGeneralInfoForm.get('divisionId').setValue(1033);
-      this.BIODataGeneralInfoForm.get('nationalityId').setValue(25);
-      this.BIODataGeneralInfoForm.get('officerTypeId').setValue(1);
-      this.BIODataGeneralInfoForm.get('rankId').setValue(23);
-      this.BIODataGeneralInfoForm.get('thanaId').setValue(504);
+      this.BIODataGeneralInfoForm.get('bnaBatchId')?.setValue(282);
+      this.BIODataGeneralInfoForm.get('branchId')?.setValue(17);
+      this.BIODataGeneralInfoForm.get('countryId')?.setValue(217);
+      this.BIODataGeneralInfoForm.get('districtId')?.setValue(1105);
+      this.BIODataGeneralInfoForm.get('divisionId')?.setValue(1033);
+      this.BIODataGeneralInfoForm.get('nationalityId')?.setValue(25);
+      this.BIODataGeneralInfoForm.get('officerTypeId')?.setValue(1);
+      this.BIODataGeneralInfoForm.get('rankId')?.setValue(23);
+      this.BIODataGeneralInfoForm.get('thanaId')?.setValue(504);
     }
     else if(traineeStatusId == this.masterData.TraineeStatus.civil){
-      this.BIODataGeneralInfoForm.get('bnaBatchId').setValue(282);
-      this.BIODataGeneralInfoForm.get('branchId').setValue(17);
-      this.BIODataGeneralInfoForm.get('countryId').setValue(217);
-      this.BIODataGeneralInfoForm.get('districtId').setValue(1105);
-      this.BIODataGeneralInfoForm.get('divisionId').setValue(1033);
-      this.BIODataGeneralInfoForm.get('nationalityId').setValue(25);
-      this.BIODataGeneralInfoForm.get('officerTypeId').setValue(3);
-      this.BIODataGeneralInfoForm.get('rankId').setValue(23);
-      this.BIODataGeneralInfoForm.get('thanaId').setValue(504);
+      this.BIODataGeneralInfoForm.get('bnaBatchId')?.setValue(282);
+      this.BIODataGeneralInfoForm.get('branchId')?.setValue(17);
+      this.BIODataGeneralInfoForm.get('countryId')?.setValue(217);
+      this.BIODataGeneralInfoForm.get('districtId')?.setValue(1105);
+      this.BIODataGeneralInfoForm.get('divisionId')?.setValue(1033);
+      this.BIODataGeneralInfoForm.get('nationalityId')?.setValue(25);
+      this.BIODataGeneralInfoForm.get('officerTypeId')?.setValue(3);
+      this.BIODataGeneralInfoForm.get('rankId')?.setValue(23);
+      this.BIODataGeneralInfoForm.get('thanaId')?.setValue(504);
       //this.BIODataGeneralInfoForm.get('localNominationStatus').setValue(0);
-      this.BIODataGeneralInfoForm.get('bloodGroupId').setValue(26);
-      this.BIODataGeneralInfoForm.get('religionId').setValue(12);
-      this.BIODataGeneralInfoForm.get('casteId').setValue(1051);
-      this.BIODataGeneralInfoForm.get('colorOfEyeId').setValue(1010);
-      this.BIODataGeneralInfoForm.get('hairColorId').setValue(1006);
-      this.BIODataGeneralInfoForm.get('heightId').setValue(26);
-      this.BIODataGeneralInfoForm.get('maritalStatusId').setValue(14);
-      this.BIODataGeneralInfoForm.get('saylorBranchId').setValue(20);
-      this.BIODataGeneralInfoForm.get('saylorRankId').setValue(1011);
-      this.BIODataGeneralInfoForm.get('saylorSubBranchId').setValue(23);
-      this.BIODataGeneralInfoForm.get('weightId').setValue(1059);
+      this.BIODataGeneralInfoForm.get('bloodGroupId')?.setValue(26);
+      this.BIODataGeneralInfoForm.get('religionId')?.setValue(12);
+      this.BIODataGeneralInfoForm.get('casteId')?.setValue(1051);
+      this.BIODataGeneralInfoForm.get('colorOfEyeId')?.setValue(1010);
+      this.BIODataGeneralInfoForm.get('hairColorId')?.setValue(1006);
+      this.BIODataGeneralInfoForm.get('heightId')?.setValue(26);
+      this.BIODataGeneralInfoForm.get('maritalStatusId')?.setValue(14);
+      this.BIODataGeneralInfoForm.get('saylorBranchId')?.setValue(20);
+      this.BIODataGeneralInfoForm.get('saylorRankId')?.setValue(1011);
+      this.BIODataGeneralInfoForm.get('saylorSubBranchId')?.setValue(23);
+      this.BIODataGeneralInfoForm.get('weightId')?.setValue(1059);
     }
 
     else if(traineeStatusId == this.masterData.TraineeStatus.officer){
-      this.BIODataGeneralInfoForm.get('saylorRankId').setValue(1011);
-      this.BIODataGeneralInfoForm.get('saylorSubBranchId').setValue(23);
-      this.BIODataGeneralInfoForm.get('countryId').setValue(217);
-      this.BIODataGeneralInfoForm.get('saylorBranchId').setValue(20);
+      this.BIODataGeneralInfoForm.get('saylorRankId')?.setValue(1011);
+      this.BIODataGeneralInfoForm.get('saylorSubBranchId')?.setValue(23);
+      this.BIODataGeneralInfoForm.get('countryId')?.setValue(217);
+      this.BIODataGeneralInfoForm.get('saylorBranchId')?.setValue(20);
    }
 
     const formData = new FormData();

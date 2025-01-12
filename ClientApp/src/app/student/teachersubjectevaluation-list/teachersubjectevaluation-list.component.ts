@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAExamMarkService } from '../../exam-management/service/bnaexammark.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
 import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
 import { SubjectMark } from '../../subject-management/models/SubjectMark';
 import { TraineeNominationService } from '../../course-management/service/traineenomination.service'
@@ -14,7 +14,7 @@ import { TraineeList } from '../../attendance-management/models/traineeList';
 import { TraineeListForExamMark } from '../../exam-management/models/traineeListforexammark';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import {TdecGroupResultService} from '../services/tdecgroupresult.service'
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-teachersubjectevaluation-list',
@@ -169,7 +169,7 @@ export class TeacherSubjectEvaluationComponent implements OnInit, OnDestroy {
   }
 
   getControlLabel(index: number,type: string){
-    return  (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.BNAExamMarkForm.get('approveTraineeListForm') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
  
@@ -210,7 +210,7 @@ export class TeacherSubjectEvaluationComponent implements OnInit, OnDestroy {
   onSubmit() {
    // const id = this.BNAExamMarkForm.get('bnaExamMarkId').value; 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
-    this.BNAExamMarkForm.get('traineeId').setValue(this.traineeId);
+    this.BNAExamMarkForm.get('traineeId')?.setValue(this.traineeId);
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
     //     if (result) {

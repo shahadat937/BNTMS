@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GlobalSearchService } from '../../services/global-search.service';
 import { nextSortDir } from '@swimlane/ngx-datatable';
-import { UserService } from 'src/app/security/service/User.service';
+import { UserService } from '../../../../../../src/app/security/service/User.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../../src/app/core/service/confirm.service';
 import { Subscription } from 'rxjs';
 
 @Component({

@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClassRoutineService } from '../../service/classroutine.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { ClassRoutine } from '../../models/classroutine';
 import { ClassPeriodService } from '../../service/classperiod.service'
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classroutine',
@@ -123,7 +123,7 @@ sharedService: any;
     } 
     this.intitializeForm();
     if(this.role === 'Super Admin'){
-      this.ClassRoutineForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.ClassRoutineForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
      }
     this.getselectedbaseschools();
@@ -208,8 +208,8 @@ sharedService: any;
          var courseNameId =courseNameArr[1];
 
     var bnaSubjectNameId = dropdown.value;
-    this.ClassRoutineForm.get('subjectName').setValue(dropdown.text);
-    this.ClassRoutineForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
+    this.ClassRoutineForm.get('subjectName')?.setValue(dropdown.text);
+    this.ClassRoutineForm.get('bnaSubjectNameId')?.setValue(bnaSubjectNameId);
     this.onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,this.courseDurationId);  
 }
 
@@ -225,7 +225,7 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
 
     this.ClassRoutineService.getCourseModuleIdForRoutine(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       var courseModuleId=res;
-      this.ClassRoutineForm.get('courseModuleId').setValue(courseModuleId);
+      this.ClassRoutineForm.get('courseModuleId')?.setValue(courseModuleId);
     });
 
     this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(baseSchoolNameId,courseNameId).subscribe(res=>{
@@ -239,12 +239,12 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
 
   this.ClassRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId).subscribe(res=>{
     this.routineCount=res;
-    this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
+    this.ClassRoutineForm.get('classCountPeriod')?.setValue(this.routineCount);
   });
 
   this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
     this.totalPeriod=res;
-    this.ClassRoutineForm.get('subjectCountPeriod').setValue(this.totalPeriod);
+    this.ClassRoutineForm.get('subjectCountPeriod')?.setValue(this.totalPeriod);
 
   });
 
@@ -299,9 +299,9 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
       this.courseName=dropdown.text;
-      this.ClassRoutineForm.get('courseName').setValue(dropdown.text);
-      this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
-      this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
+      this.ClassRoutineForm.get('courseName')?.setValue(dropdown.text);
+      this.ClassRoutineForm.get('courseNameId')?.setValue(courseNameId);
+      this.ClassRoutineForm.get('courseDurationId')?.setValue(courseDurationId);
     } 
     
     this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
@@ -339,7 +339,7 @@ onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,bnaSubjectNameId,cour
   
 
   onSubmit() {
-    const id = this.ClassRoutineForm.get('classRoutineId').value;   
+    const id = this.ClassRoutineForm.get('classRoutineId')?.value;   
     if (id) {
 
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {

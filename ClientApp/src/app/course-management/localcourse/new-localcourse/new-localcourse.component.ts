@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDurationService } from '../../service/courseduration.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
 import { delay, of, Subscription } from 'rxjs';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-localcourse',
@@ -123,7 +123,7 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
       status:[1],
       isActive: [true],    
     })
-    this.CourseDurationForm.get('course').valueChanges
+    this.CourseDurationForm.get('course')?.valueChanges
     .subscribe(value => {
      
         this.getSelectedCourseAutocomplete(value);
@@ -145,8 +145,8 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
   //autocomplete
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value 
-    this.CourseDurationForm.get('courseNameId').setValue(item.value);
-    this.CourseDurationForm.get('course').setValue(item.text);
+    this.CourseDurationForm.get('courseNameId')?.setValue(item.value);
+    this.CourseDurationForm.get('course')?.setValue(item.text);
   }
   getSelectedCourseAutocomplete(cName){
     if(cName.trim()=="") {
@@ -219,11 +219,11 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   onSubmit() {
-    const id = this.CourseDurationForm.get('courseDurationId').value;   
-    const durationFrom = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationFrom').value)
+    const id = this.CourseDurationForm.get('courseDurationId')?.value;   
+    const durationFrom = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationFrom')?.value)
 
     this.CourseDurationForm.get('durationFrom')?.setValue(durationFrom);
-    const durationTo = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationTo').value)
+    const durationTo = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationTo')?.value)
     this.CourseDurationForm.get('durationTo')?.setValue(durationTo);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {

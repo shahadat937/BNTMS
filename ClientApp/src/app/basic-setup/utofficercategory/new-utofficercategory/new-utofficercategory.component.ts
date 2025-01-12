@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UTOfficerCategoryService } from '../../service/UTOfficerCategory.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-utofficercategory',
@@ -59,7 +59,7 @@ export class NewUTOfficerCategoryComponent extends UnsubscribeOnDestroyAdapter i
   }
   
   onSubmit() {
-    const id = this.UTOfficerCategoryForm.get('utofficerCategoryId').value;   
+    const id = this.UTOfficerCategoryForm.get('utofficerCategoryId')?.value;   
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {

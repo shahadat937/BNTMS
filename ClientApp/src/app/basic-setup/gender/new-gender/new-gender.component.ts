@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GenderService } from '../../service/gender.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-gender',
@@ -66,7 +66,7 @@ export class NewGenderComponent extends UnsubscribeOnDestroyAdapter implements O
   }
   
   onSubmit() {
-    const id = this.genderForm.get('genderId').value;   
+    const id = this.genderForm.get('genderId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Gender Item').subscribe(result => {
         if (result) {

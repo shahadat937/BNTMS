@@ -6,12 +6,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseLevelService } from '../service/course-level.service';
 import { BaseSchoolNameService } from '../../basic-setup/service/BaseSchoolName.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { MasterData } from 'src/assets/data/master-data';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { CourseLevel } from '../models/course-level';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -156,7 +156,7 @@ export class CourseLevelComponent extends UnsubscribeOnDestroyAdapter implements
 
 
   onSubmit() {
-    const id = this.CourseLevelForm.get('courseLevelId').value;
+    const id = this.CourseLevelForm.get('courseLevelId')?.value;
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {

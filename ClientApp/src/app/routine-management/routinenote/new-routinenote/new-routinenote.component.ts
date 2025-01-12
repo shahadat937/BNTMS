@@ -3,19 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutineNoteService } from '../../service/routinenote.service';
 import { ClassRoutineService } from '../../service/classroutine.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { RoutineNote } from '../../models/routinenote';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
 import { DatePipe } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
-import { Role } from 'src/app/core/models/role';
+import { Role } from '../../../../../src/app/core/models/role';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-routinenote',
@@ -140,7 +140,7 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
     } 
     this.intitializeForm();
     if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool){
-      this.RoutineNoteForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.RoutineNoteForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
     }else if(this.role === this.userRole.TrainingOffice || this.role === this.userRole.CO){
       this.getselectedbaseschoolsByBase(this.branchId);
@@ -205,9 +205,9 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
       this.courseName=dropdown.text;
-      this.RoutineNoteForm.get('courseName').setValue(dropdown.text);
-      this.RoutineNoteForm.get('courseNameId').setValue(courseNameId);
-      this.RoutineNoteForm.get('courseDurationId').setValue(courseDurationId);
+      this.RoutineNoteForm.get('courseName')?.setValue(dropdown.text);
+      this.RoutineNoteForm.get('courseNameId')?.setValue(courseNameId);
+      this.RoutineNoteForm.get('courseDurationId')?.setValue(courseDurationId);
     } 
 
     this.routineNoteService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
@@ -231,9 +231,9 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
       this.courseName=dropdown.text;
-      this.RoutineNoteForm.get('courseName').setValue(dropdown.text);
-      this.RoutineNoteForm.get('courseNameId').setValue(courseNameId);
-      this.RoutineNoteForm.get('courseDurationId').setValue(courseDurationId);
+      this.RoutineNoteForm.get('courseName')?.setValue(dropdown.text);
+      this.RoutineNoteForm.get('courseNameId')?.setValue(courseNameId);
+      this.RoutineNoteForm.get('courseDurationId')?.setValue(courseDurationId);
     } 
     
         
@@ -242,7 +242,7 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
     this.schoolId=this.RoutineNoteForm.value['baseSchoolNameId'];
     this.durationId=this.RoutineNoteForm.value['courseDurationId'];
     this.courseId=this.RoutineNoteForm.value['courseNameId'];
-    this.RoutineNoteForm.get('courseWeekId').setValue(dropdown.value);
+    this.RoutineNoteForm.get('courseWeekId')?.setValue(dropdown.value);
     var courseWeekId=this.RoutineNoteForm.value['courseWeekId'];
     this.subscription = this.routineNoteService.getRoutineListForRoutineNote(this.schoolId,this.courseId,this.durationId,courseWeekId).subscribe(res=>{
       this.selectedRoutineList=res;
@@ -262,7 +262,7 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
     // this.weekId=dropdown.value;
     this.subscription = this.classRoutineService.getSubjectNameIdFromclassRoutine(classroutineid).subscribe(res=>{
       
-      this.RoutineNoteForm.get('bnaSubjectNameId').setValue(res);
+      this.RoutineNoteForm.get('bnaSubjectNameId')?.setValue(res);
       // this.RoutineNoteForm.get('courseWeekId').setValue(res.courseWeekId);
       
     });
@@ -339,7 +339,7 @@ export class NewRoutineNoteComponent implements OnInit, OnDestroy {
   
 
   onSubmit() {
-    const id = this.RoutineNoteForm.get('routineNoteId').value;   
+    const id = this.RoutineNoteForm.get('routineNoteId')?.value;   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

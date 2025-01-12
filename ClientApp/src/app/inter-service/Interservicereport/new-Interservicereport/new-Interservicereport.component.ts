@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { InterserviceReport } from '../../models/interservicereport';
 import { InterserviceReportService } from '../../service/interservicereport.service';
-import { CourseBudgetAllocationService } from 'src/app/budget-management/service/courseBudgetAllocation.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { CourseBudgetAllocationService } from '../../../../../src/app/budget-management/service/courseBudgetAllocation.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-Interservicereport',
@@ -109,9 +109,9 @@ export class NewInterserviceReportComponent extends UnsubscribeOnDestroyAdapter 
     this.intitializeForm();
     this.getStudentInterServiceCourseReports();
     if(!id){
-      this.InterserviceReportForm.get('courseNameId').setValue(this.courseNameId);
-      this.InterserviceReportForm.get('courseDurationId').setValue(this.courseDurationId);
-      this.InterserviceReportForm.get('traineeId').setValue(this.traineeId);
+      this.InterserviceReportForm.get('courseNameId')?.setValue(this.courseNameId);
+      this.InterserviceReportForm.get('courseDurationId')?.setValue(this.courseDurationId);
+      this.InterserviceReportForm.get('traineeId')?.setValue(this.traineeId);
     }
   }
   intitializeForm() {
@@ -177,7 +177,7 @@ export class NewInterserviceReportComponent extends UnsubscribeOnDestroyAdapter 
     });
   }
   onSubmit() {
-    const id = this.InterserviceReportForm.get('interServiceCourseReportid').value;  
+    const id = this.InterserviceReportForm.get('interServiceCourseReportid')?.value;  
     const formData = new FormData();
     for (const key of Object.keys(this.InterserviceReportForm.value)) {
       const value = this.InterserviceReportForm.value[key];

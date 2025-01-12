@@ -40,7 +40,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
             // Execute the query and return the DataTable
             DataTable dataTable = _courseDurationRepository.ExecWithSqlQuery(spQuery);
             return dataTable;
-
+         
         }
     }
 }
