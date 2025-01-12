@@ -2,16 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDurationService } from '../../service/courseduration.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { CourseNameService } from 'src/app/basic-setup/service/CourseName.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { CourseNameService } from '../../../../../src/app/basic-setup/service/CourseName.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { CourseDuration } from '../../models/courseduration'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-staffcollagecourse',
@@ -128,7 +128,7 @@ export class NewStaffCollageCourseComponent implements OnInit, OnDestroy {
       isActive: [true],
     })
     //AutoComplete for courseName
-    this.CourseDurationForm.get('course').valueChanges
+    this.CourseDurationForm.get('course')?.valueChanges
       .subscribe(value => {
 
         this.getSelectedCourseAutocomplete(value);
@@ -137,8 +137,8 @@ export class NewStaffCollageCourseComponent implements OnInit, OnDestroy {
   //AutoComplete for courseName
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value
-    this.CourseDurationForm.get('courseNameId').setValue(item.value);
-    this.CourseDurationForm.get('course').setValue(item.text);
+    this.CourseDurationForm.get('courseNameId')?.setValue(item.value);
+    this.CourseDurationForm.get('course')?.setValue(item.text);
   }
   //AutoComplete for courseName
   getSelectedCourseAutocomplete(cName) {

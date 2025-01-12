@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../../../../src/app/core/models/selectedModel';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-update-BIODataGeneralInfo',
@@ -397,13 +397,13 @@ filterByCaste(value:any){
   
   onSubmit() {
 
-    const id = this.BIODataGeneralInfoForm.get('traineeId').value; 
+    const id = this.BIODataGeneralInfoForm.get('traineeId')?.value; 
 
     //this.BIODataGeneralInfoForm.get('MaritalStatusId').setValue(0);
 
-    this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('countryId').setValue(1);
+    this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)).toUTCString()) ;
+    this.BIODataGeneralInfoForm.get('joiningDate')?.setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate')?.value)).toUTCString()) ;
+    this.BIODataGeneralInfoForm.get('countryId')?.setValue(1);
 
     const formData = new FormData();
 
@@ -453,7 +453,7 @@ filterByCaste(value:any){
     }
   }
   whiteSpaceRemove(value){
-    this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
+    this.BIODataGeneralInfoForm.get('email')?.patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
    }
    removeImage(event: Event) {
     event.preventDefault(); 

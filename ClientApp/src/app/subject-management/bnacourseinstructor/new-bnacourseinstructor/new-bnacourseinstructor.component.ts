@@ -2,16 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseInstructorService } from '../../service/courseinstructor.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { CourseInstructor } from '../../models/courseinstructor';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
 import { ClassRoutineService } from '../../../routine-management/service/classroutine.service';
-import { Role } from 'src/app/core/models/role';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-bnacourseinstructor',
@@ -168,7 +168,7 @@ export class NewBnaCourseInstructorComponent implements OnInit, OnDestroy {
     })
 
     //autocomplete
-    this.CourseInstructorForm.get('traineeName').valueChanges
+    this.CourseInstructorForm.get('traineeName')?.valueChanges
       .subscribe(value => {
 
         this.getSelectedTraineeByPno(value);
@@ -178,7 +178,7 @@ export class NewBnaCourseInstructorComponent implements OnInit, OnDestroy {
   }
   getselectedcoursedurationbyschoolname() {
     if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool){
-      this.CourseInstructorForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.CourseInstructorForm.get('baseSchoolNameId')?.setValue(this.branchId);
     }
     var baseSchoolNameId = this.CourseInstructorForm.value['baseSchoolNameId'];
     this.subscription = this.CourseInstructorService.getselectedcoursedurationbyschoolname(baseSchoolNameId).subscribe(res => {
@@ -270,8 +270,8 @@ export class NewBnaCourseInstructorComponent implements OnInit, OnDestroy {
   //autocomplete
   onTraineeSelectionChanged(item) {
     this.traineeId=item.value;
-    this.CourseInstructorForm.get('traineeId').setValue(item.value);
-    this.CourseInstructorForm.get('traineeName').setValue(item.text);
+    this.CourseInstructorForm.get('traineeId')?.setValue(item.value);
+    this.CourseInstructorForm.get('traineeName')?.setValue(item.text);
   }
 
   onBaseNameSelectionChangeGetModule(dropdown) {
@@ -283,9 +283,9 @@ export class NewBnaCourseInstructorComponent implements OnInit, OnDestroy {
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
-      this.CourseInstructorForm.get('courseName').setValue(dropdown.text);
-      this.CourseInstructorForm.get('courseNameId').setValue(courseNameId);
-      this.CourseInstructorForm.get('courseDurationId').setValue(courseDurationId);
+      this.CourseInstructorForm.get('courseName')?.setValue(dropdown.text);
+      this.CourseInstructorForm.get('courseNameId')?.setValue(courseNameId);
+      this.CourseInstructorForm.get('courseDurationId')?.setValue(courseDurationId);
 
       // if (baseSchoolNameId != null && courseNameId != null) {
       //   this.CourseInstructorService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId, courseNameId).subscribe(res => {
@@ -404,7 +404,7 @@ export class NewBnaCourseInstructorComponent implements OnInit, OnDestroy {
   onSubjectMarkSelectionGetMarkType(){
     var subjectMarkId = this.CourseInstructorForm.value['subjectMarkId'];
     this.subscription = this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
-      this.CourseInstructorForm.get('markTypeId').setValue(res.markTypeId);
+      this.CourseInstructorForm.get('markTypeId')?.setValue(res.markTypeId);
     });
 
   }
@@ -455,7 +455,7 @@ export class NewBnaCourseInstructorComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.loading = true;
-    const id = this.CourseInstructorForm.get('courseInstructorId').value;
+    const id = this.CourseInstructorForm.get('courseInstructorId')?.value;
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
@@ -483,8 +483,8 @@ export class NewBnaCourseInstructorComponent implements OnInit, OnDestroy {
         this.onSectionChangeGetInstructorList();
         this.reloadCurrentRoute();
         this.CourseInstructorForm.reset();
-        this.CourseInstructorForm.get('courseInstructorId').setValue(0);
-        this.CourseInstructorForm.get('isActive').setValue(true);
+        this.CourseInstructorForm.get('courseInstructorId')?.setValue(0);
+        this.CourseInstructorForm.get('isActive')?.setValue(true);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',

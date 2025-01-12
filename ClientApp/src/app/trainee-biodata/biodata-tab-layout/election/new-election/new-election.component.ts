@@ -5,7 +5,7 @@ import { ElectionService } from '../../../biodata-tab-layout/service/Election.se
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -90,7 +90,7 @@ export class NewElectionComponent implements OnInit, OnDestroy {
   }
   
   onSubmit() {
-    const id = this.ElectionForm.get('electionId').value;   
+    const id = this.ElectionForm.get('electionId')?.value;   
     
 
     if (id) {

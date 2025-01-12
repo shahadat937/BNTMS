@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { CourseTask } from '../../models/CourseTask';
 import { CourseTaskService } from '../../service/CourseTask.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursetask',
@@ -88,7 +88,7 @@ export class NewCourseTaskComponent implements OnInit,OnDestroy {
     }
     this.intitializeForm();
     if(this.role === 'Super Admin'){
-      this.CourseTaskForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.CourseTaskForm.get('baseSchoolNameId')?.setValue(this.branchId);
     }
     this.getselectedBaseScoolName();
     //this.getSelectedSubjectNameBySchoolNameIdAndCourseNameId();
@@ -111,7 +111,7 @@ export class NewCourseTaskComponent implements OnInit,OnDestroy {
 
     })
     //autocomplete for Course
-    this.CourseTaskForm.get('course').valueChanges
+    this.CourseTaskForm.get('course')?.valueChanges
       .subscribe(value => {
         this.getSelectedCourseName(value);
       })
@@ -124,8 +124,8 @@ export class NewCourseTaskComponent implements OnInit,OnDestroy {
   //autocomplete for Course
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value
-    this.CourseTaskForm.get('courseNameId').setValue(item.value);
-    this.CourseTaskForm.get('course').setValue(item.text);
+    this.CourseTaskForm.get('courseNameId')?.setValue(item.value);
+    this.CourseTaskForm.get('course')?.setValue(item.text);
   }
   //autocomplete for Course
   getSelectedCourseName(courseName) {
@@ -148,7 +148,7 @@ export class NewCourseTaskComponent implements OnInit,OnDestroy {
   onSubjectSelectionChange(dropdown) {
     this.isShown = true;
     if (dropdown.isUserInput) {
-      this.CourseTaskForm.get('bnaSubjectNameId').setValue(dropdown.source.value);
+      this.CourseTaskForm.get('bnaSubjectNameId')?.setValue(dropdown.source.value);
       // this.baseSchoolNameId = this.CourseTaskForm.get('baseSchoolNameId').value;
       // this.courseNameId = this.CourseTaskForm.get('courseNameId').value;
       // this.bnaSubjectNameId = dropdown.source.value;
@@ -169,7 +169,7 @@ export class NewCourseTaskComponent implements OnInit,OnDestroy {
   }
 
   onSubmit() {
-    const id = this.CourseTaskForm.get('courseTaskId').value;
+    const id = this.CourseTaskForm.get('courseTaskId')?.value;
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {
