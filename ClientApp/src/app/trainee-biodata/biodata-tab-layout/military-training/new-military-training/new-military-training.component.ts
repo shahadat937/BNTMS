@@ -5,7 +5,7 @@ import { MilitaryTrainingService } from '../../service/MilitaryTraining.service'
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-military-training',
@@ -75,7 +75,7 @@ export class NewMilitaryTrainingComponent implements OnInit, OnDestroy {
  
   
   onSubmit() {
-    const id = this.MilitaryTrainingForm.get('militaryTrainingId').value;   
+    const id = this.MilitaryTrainingForm.get('militaryTrainingId')?.value;   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

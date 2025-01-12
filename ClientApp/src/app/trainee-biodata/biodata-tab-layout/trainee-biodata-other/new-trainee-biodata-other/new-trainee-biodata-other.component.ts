@@ -5,8 +5,8 @@ import { TraineeBIODataOtherService } from '../../service/TraineeBIODataOther.se
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-trainee-biodata-other',
@@ -424,7 +424,7 @@ getselecteBloodGroup(){
    
   
   onSubmit() {
-    const id = this.TraineeBIODataOtherForm.get('traineeBioDataOtherId').value;   
+    const id = this.TraineeBIODataOtherForm.get('traineeBioDataOtherId')?.value;   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

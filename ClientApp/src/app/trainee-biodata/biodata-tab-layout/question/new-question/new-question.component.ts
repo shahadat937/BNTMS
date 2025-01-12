@@ -5,7 +5,7 @@ import { QuestionService } from '../../service/Question.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-question',
@@ -91,7 +91,7 @@ export class NewQuestionComponent implements OnInit,OnDestroy {
 
   
   onSubmit() {
-    const id = this.QuestionForm.get('questionId').value; 
+    const id = this.QuestionForm.get('questionId')?.value; 
       
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
