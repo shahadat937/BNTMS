@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InstructorAssignmentService } from 'src/app/teacher/services/InstructorAssignment.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { InstructorAssignmentService } from '../../../../src/app/teacher/services/InstructorAssignment.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import {TraineeAssignmentSubmitService} from '../services/TraineeAssignmentSubmit.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-studentassignment',
@@ -171,15 +171,15 @@ export class NewStudentAssignmentComponent implements OnInit, OnDestroy {
 
   onSubmit() {
 
-    const id = this.InstructorAssignmentForm.get('traineeAssignmentSubmitId').value;  
-    this.InstructorAssignmentForm.get('traineeId').setValue(this.traineeId);
-    this.InstructorAssignmentForm.get('instructorId').setValue(this.instructorId);
-    this.InstructorAssignmentForm.get('instructorAssignmentId').setValue(this.instructorAssignmentId);
-    this.InstructorAssignmentForm.get('courseInstructorId').setValue(this.courseInstructorId);
-    this.InstructorAssignmentForm.get('baseSchoolNameId').setValue(this.baseSchoolNameId);
-    this.InstructorAssignmentForm.get('courseNameId').setValue(this.courseNameId);
-    this.InstructorAssignmentForm.get('courseDurationId').setValue(this.courseDurationId);
-    this.InstructorAssignmentForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId); 
+    const id = this.InstructorAssignmentForm.get('traineeAssignmentSubmitId')?.value;  
+    this.InstructorAssignmentForm.get('traineeId')?.setValue(this.traineeId);
+    this.InstructorAssignmentForm.get('instructorId')?.setValue(this.instructorId);
+    this.InstructorAssignmentForm.get('instructorAssignmentId')?.setValue(this.instructorAssignmentId);
+    this.InstructorAssignmentForm.get('courseInstructorId')?.setValue(this.courseInstructorId);
+    this.InstructorAssignmentForm.get('baseSchoolNameId')?.setValue(this.baseSchoolNameId);
+    this.InstructorAssignmentForm.get('courseNameId')?.setValue(this.courseNameId);
+    this.InstructorAssignmentForm.get('courseDurationId')?.setValue(this.courseDurationId);
+    this.InstructorAssignmentForm.get('bnaSubjectNameId')?.setValue(this.bnaSubjectNameId); 
 
 
     const formData = new FormData();

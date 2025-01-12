@@ -3,17 +3,17 @@ import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { BIODataGeneralInfoService } from '../../../trainee-biodata/service/BIODataGeneralInfo.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { TraineeNomination } from '../../models/traineenomination';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 
 @Component({
@@ -267,11 +267,11 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   getTraineeInfoByTraineeId(traineeId){
     this.subscription = this.bioDataGeneralInfoService.find(traineeId).subscribe(res=>{
       this.traineeInfoById=res;
-      this.TraineeNominationForm.get('saylorRankId').setValue(res.saylorRankId);
-      this.TraineeNominationForm.get('rankId').setValue(res.rankId);
-      this.TraineeNominationForm.get('saylorBranchId').setValue(res.saylorBranchId);
-      this.TraineeNominationForm.get('saylorSubBranchId').setValue(res.saylorSubBranchId);
-      this.TraineeNominationForm.get('branchId').setValue(res.branchId);
+      this.TraineeNominationForm.get('saylorRankId')?.setValue(res.saylorRankId);
+      this.TraineeNominationForm.get('rankId')?.setValue(res.rankId);
+      this.TraineeNominationForm.get('saylorBranchId')?.setValue(res.saylorBranchId);
+      this.TraineeNominationForm.get('saylorSubBranchId')?.setValue(res.saylorSubBranchId);
+      this.TraineeNominationForm.get('branchId')?.setValue(res.branchId);
     });
   }
   getselectedcoursename(){
@@ -420,7 +420,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
     });
   }
   onSubmit() {
-    const id = this.TraineeNominationForm.get('traineeNominationId').value; 
+    const id = this.TraineeNominationForm.get('traineeNominationId')?.value; 
       
     this.TraineeNominationForm.value.courseDurationId = this.courseDurationId 
     this.TraineeNominationForm.value.courseNameId = this.courseNameId 

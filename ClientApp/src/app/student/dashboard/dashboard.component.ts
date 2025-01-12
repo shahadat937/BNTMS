@@ -4,20 +4,20 @@ import { TraineeNominationService } from '../../course-management/service/traine
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { BNASubjectNameService } from '../../subject-management/service/BNASubjectName.service';
 
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { SpstudentInfoByTraineeId } from '../models/SpstudentInfoByTraineeId';
 import { findIndex } from 'rxjs';
-import { CourseModule } from 'src/app/basic-setup/models/CourseModule';
-import { ClassRoutine } from 'src/app/routine-management/models/classroutine';
-import { ReadingMaterial } from 'src/app/reading-materials/models/readingmaterial';
-import { Attendance } from 'src/app/attendance-management/models/attendance';
+import { CourseModule } from '../../../../src/app/basic-setup/models/CourseModule';
+import { ClassRoutine } from '../../../../src/app/routine-management/models/classroutine';
+import { ReadingMaterial } from '../../../../src/app/reading-materials/models/readingmaterial';
+import { Attendance } from '../../../../src/app/attendance-management/models/attendance';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { environment } from 'src/environments/environment';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { environment } from '../../../../src/environments/environment';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 
 
