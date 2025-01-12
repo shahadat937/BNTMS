@@ -3,14 +3,14 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { InstructorDashboardService } from '../services/InstructorDashboard.service';
-import { environment } from 'src/environments/environment';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { environment } from '../../../../src/environments/environment';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-instructorroutinebycourse-list.component',
@@ -91,7 +91,7 @@ export class InstructorRoutinebyCourseComponent implements OnInit, OnDestroy {
   print(){ 
     
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`

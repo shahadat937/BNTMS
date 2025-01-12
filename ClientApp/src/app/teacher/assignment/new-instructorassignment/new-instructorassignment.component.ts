@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstructorAssignmentService } from '../../services/InstructorAssignment.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-instructorassignment',
@@ -132,13 +132,13 @@ export class NewInstructorAssignmentComponent implements OnInit,OnDestroy {
     });
   }
   onSubmit() {
-    const id = this.InstructorAssignmentForm.get('instructorAssignmentId').value;  
-    this.InstructorAssignmentForm.get('instructorId').setValue(this.instructorId);
-    this.InstructorAssignmentForm.get('courseInstructorId').setValue(this.cousreInstructorId);
-    this.InstructorAssignmentForm.get('baseSchoolNameId').setValue(this.baseSchoolNameId);
-    this.InstructorAssignmentForm.get('courseNameId').setValue(this.courseNameId);
-    this.InstructorAssignmentForm.get('courseDurationId').setValue(this.courseDurationId);
-    this.InstructorAssignmentForm.get('bnaSubjectNameId').setValue(this.bnaSubjectNameId); 
+    const id = this.InstructorAssignmentForm.get('instructorAssignmentId')?.value;  
+    this.InstructorAssignmentForm.get('instructorId')?.setValue(this.instructorId);
+    this.InstructorAssignmentForm.get('courseInstructorId')?.setValue(this.cousreInstructorId);
+    this.InstructorAssignmentForm.get('baseSchoolNameId')?.setValue(this.baseSchoolNameId);
+    this.InstructorAssignmentForm.get('courseNameId')?.setValue(this.courseNameId);
+    this.InstructorAssignmentForm.get('courseDurationId')?.setValue(this.courseDurationId);
+    this.InstructorAssignmentForm.get('bnaSubjectNameId')?.setValue(this.bnaSubjectNameId); 
 
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
