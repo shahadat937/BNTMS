@@ -96,8 +96,7 @@
                               <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">
                                   {{data.groupKey}}</td>
                           </tr>
-                          <tr *ngFor="let instructor of data.groupedItems; let j = index"
-                              [ngStyle]="{'background-color': j %2 == 0 ? 'rgb(172 235 155)' : ''}">
+                          <tr *ngFor="let instructor of data.groupedItems;">
                               <td class="course-name-col">
                                   {{instructor.name}} (Pno : {{instructor.pno}})
                               </td>
