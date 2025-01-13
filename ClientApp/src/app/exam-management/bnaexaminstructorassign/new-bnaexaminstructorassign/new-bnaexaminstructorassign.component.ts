@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAExamInstructorAssignService } from '../../service/bnaexaminstructorassign.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { ClassRoutineService } from '../../../routine-management/service/classroutine.service';
 import { TraineeNominationService } from '../../../course-management/service/traineenomination.service';
 import { BNAExamInstructorAssign } from '../../models/bnaexaminstructorassign';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-bnaexaminstructorassign',
   templateUrl: './new-bnaexaminstructorassign.component.html',
@@ -104,7 +104,7 @@ export class NewBNAExamInstructorAssignComponent extends UnsubscribeOnDestroyAda
     } 
     this.intitializeForm();
     if(this.role === 'Super Admin'){
-      this.BNAExamInstructorAssignForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.BNAExamInstructorAssignForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
      }
     //this.getselectedbnasubjectname();
@@ -131,7 +131,7 @@ export class NewBNAExamInstructorAssignComponent extends UnsubscribeOnDestroyAda
       isActive: [true],    
     })
     //autocomplete
-    this.BNAExamInstructorAssignForm.get('traineeName').valueChanges
+    this.BNAExamInstructorAssignForm.get('traineeName')?.valueChanges
     .subscribe(value => {
       
         this.getSelectedTraineeByPno(value);
@@ -148,8 +148,8 @@ export class NewBNAExamInstructorAssignComponent extends UnsubscribeOnDestroyAda
   //autocomplete
   onTraineeSelectionChanged(item) {
     this.traineeId = item.value
-    this.BNAExamInstructorAssignForm.get('traineeId').setValue(item.value);
-    this.BNAExamInstructorAssignForm.get('traineeName').setValue(item.text);
+    this.BNAExamInstructorAssignForm.get('traineeId')?.setValue(item.value);
+    this.BNAExamInstructorAssignForm.get('traineeName')?.setValue(item.text);
   }
   
 
@@ -166,9 +166,9 @@ export class NewBNAExamInstructorAssignComponent extends UnsubscribeOnDestroyAda
       var courseNameArr = dropdown.value.split('_');
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
-      this.BNAExamInstructorAssignForm.get('courseName').setValue(dropdown.text);
-      this.BNAExamInstructorAssignForm.get('courseNameId').setValue(courseNameId);
-      this.BNAExamInstructorAssignForm.get('courseDurationId').setValue(courseDurationId);
+      this.BNAExamInstructorAssignForm.get('courseName')?.setValue(dropdown.text);
+      this.BNAExamInstructorAssignForm.get('courseNameId')?.setValue(courseNameId);
+      this.BNAExamInstructorAssignForm.get('courseDurationId')?.setValue(courseDurationId);
     }    
     
     if(baseSchoolNameId != null && courseNameId != null){
@@ -266,7 +266,7 @@ export class NewBNAExamInstructorAssignComponent extends UnsubscribeOnDestroyAda
 
 
   onSubmit() {
-    const id = this.BNAExamInstructorAssignForm.get('bnaExamInstructorAssignId').value;   
+    const id = this.BNAExamInstructorAssignForm.get('bnaExamInstructorAssignId')?.value;   
     
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {

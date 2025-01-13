@@ -2,16 +2,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../service/event.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { ClassRoutineService } from '../../../../../src/app/routine-management/service/classroutine.service';
 import { Event } from '../../models/event';
 import { MatOption } from '@angular/material/core';
-import { Role } from 'src/app/core/models/role';
+import { Role } from '../../../../../src/app/core/models/role';
 import { unix } from 'moment';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-event',
@@ -137,8 +137,8 @@ export class NewEventComponent implements OnInit {
   this.courseName=dropdown.text;
 
   //this.eventForm.get('courseName').setValue(dropdown.text);
-  this.eventForm.get('courseNameId').setValue(courseNameId);
-  this.eventForm.get('courseDurationId').setValue(courseDurationId);
+  this.eventForm.get('courseNameId')?.setValue(courseNameId);
+  this.eventForm.get('courseDurationId')?.setValue(courseDurationId);
   }
 
   
@@ -301,7 +301,7 @@ stopevents(element){
   }
 
   onSubmit() {
-    const id = this.eventForm.get('eventId').value; 
+    const id = this.eventForm.get('eventId')?.value; 
     
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
@@ -329,8 +329,8 @@ stopevents(element){
         var courseNameArr = element.value.split('_');
         var courseDurationId = courseNameArr[0];
         var courseNameId=courseNameArr[1];
-        this.eventForm.get('courseNameId').patchValue(courseNameId);
-        this.eventForm.get('courseDurationId').patchValue(courseDurationId);
+        this.eventForm.get('courseNameId')?.patchValue(courseNameId);
+        this.eventForm.get('courseDurationId')?.patchValue(courseDurationId);
       });
       
       this.eventForm.value.courseName.forEach(element => {
@@ -364,8 +364,8 @@ stopevents(element){
               var courseNameArr = courseElement.split('_');    
               var courseDurationId = courseNameArr[0];
               var courseNameId=courseNameArr[1];
-               this.eventForm.get('courseNameId').patchValue(courseNameId);
-                this.eventForm.get('courseDurationId').patchValue(courseDurationId);
+               this.eventForm.get('courseNameId')?.patchValue(courseNameId);
+                this.eventForm.get('courseDurationId')?.patchValue(courseDurationId);
               this.eventForm.value.courseName="" 
               this.eventForm.value.baseSchoolNameId=element
             }

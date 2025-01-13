@@ -19,9 +19,9 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../routine-management/models/classroutine';
-import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { TraineeListForExamMark } from '../../../../../src/app/exam-management/models/traineeListforexammark';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-indexno',
@@ -51,6 +51,7 @@ export class NewIndexNoComponent extends UnsubscribeOnDestroyAdapter implements 
   traineeForm: FormGroup;
   subjectNamefromClassRoutine:SelectedModel[];
   selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
+  selectCourse: SelectedModel[];
   subjectName:string;
   bnaSubjectNameId:number;
   classRoutineId:number;
@@ -174,7 +175,7 @@ export class NewIndexNoComponent extends UnsubscribeOnDestroyAdapter implements 
   }
 
   getControlLabel(index: number, type: string) {
-    return (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
 
   getTraineeListonClick() {
@@ -217,7 +218,11 @@ export class NewIndexNoComponent extends UnsubscribeOnDestroyAdapter implements 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.QExam).subscribe(res => {
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
+      this.selectCourse=res
     });
+  }
+  filterByCourse(value:any){
+    this.selectedCourseDurationByCourseTypeAndCourseName=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
 
   reloadCurrentRoute() {

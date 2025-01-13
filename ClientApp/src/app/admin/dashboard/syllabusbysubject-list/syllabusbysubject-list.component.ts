@@ -1,16 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
-import { SelectionModel } from "@angular/cdk/collections";
-import { ActivatedRoute, Router } from "@angular/router";
-
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { dashboardService } from "../services/dashboard.service";
-import { MasterData } from "../../../../assets/data/master-data";
-import { AuthService } from "../../../core/service/auth.service";
-import { ConfirmService } from "../../../core/service/confirm.service";
-import { SharedServiceService } from "../../../shared/shared-service.service";
-import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../../src/assets/data/master-data'
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { dashboardService } from '../services/dashboard.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: "app-syllabusbysubject",

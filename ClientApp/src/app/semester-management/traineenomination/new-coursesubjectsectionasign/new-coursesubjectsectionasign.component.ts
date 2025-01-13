@@ -18,10 +18,10 @@ import { CoursesubjectsectionasignService } from '../../../semester-management/s
 import { AuthService } from '../../../core/service/auth.service';
 import { Role } from '../../../core/models/role';
 import { TraineeListForExamMark } from '../../../exam-management/models/traineeListforexammark';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
+import { TraineeNominationService } from '../../../../../src/app/course-management/service/traineenomination.service';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
 import { Location } from '@angular/common';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursesubjectsectionasign',
@@ -152,7 +152,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit, OnDestroy 
 
 
   getControlLabel(index: number, type: string) {
-    return (this.NomeneeSubjectSectionForm.get('subjectSectionForm') as FormArray).at(index).get(type).value;
+    return (this.NomeneeSubjectSectionForm.get('subjectSectionForm') as FormArray).at(index).get(type)?.value;
   }
 
   getTraineeListonClick() {
@@ -228,8 +228,9 @@ storeValues() {
     const selectedCourseSection = this.selectedCourseSections.find(item => item.index === i);
     const courseSectionId = selectedCourseSection ? selectedCourseSection.courseSectionId : '';
 
-    control.at(i).get('bnaSubjectNameId').setValue(bnaSubjectNameId);
-    control.at(i).get('courseSectionId').setValue(courseSectionId);
+    control.at(i).get('bnaSubjectNameId')
+    ?.setValue(bnaSubjectNameId);
+    control.at(i).get('courseSectionId')?.setValue(courseSectionId);
   }
 }
 

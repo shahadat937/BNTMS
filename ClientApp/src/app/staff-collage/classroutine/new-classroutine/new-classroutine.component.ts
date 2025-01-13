@@ -13,7 +13,7 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import {BNASubjectNameService} from '../../../central-exam/service/BNASubjectName.service'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classroutine',

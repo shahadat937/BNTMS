@@ -8,14 +8,14 @@ import {
   Renderer2,
   AfterViewInit,
 } from '@angular/core';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
 import { Router } from '@angular/router';
-import { RightSidebarService } from 'src/app/core/service/rightsidebar.service';
-import { Role } from 'src/app/core/models/role';
-import { LanguageService } from 'src/app/core/service/language.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
-import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
+import { RightSidebarService } from '../../../../src/app/core/service/rightsidebar.service';
+import { Role } from '../../../../src/app/core/models/role';
+import { LanguageService } from '../../../../src/app/core/service/language.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { BaseSchoolNameService } from '../../../../src/app/security/service/BaseSchoolName.service';
+import { InstructorDashboardService } from '../../../../src/app/teacher/services/InstructorDashboard.service';
 import {GlobalSearchModalComponent} from '../../admin/dashboard/global-search-modal/global-search-modal.component'
 import { MatDialog } from '@angular/material/dialog';
 import { inject } from '@angular/core/testing';
@@ -325,6 +325,9 @@ this.userRole.SchoolOIC
     else {
       if(this.role == "Master Admin" || this.role == "DDNT"){
         this.router.navigate(['/admin/dashboard/main']);
+      }
+      else if (this.role === "Inter Seevice Course"){
+        this.router.navigate(['/admin/dashboard/interservice-dashboard']);
       }
       else {
         this.router.navigate(['/admin/dashboard/school-dashboard']);

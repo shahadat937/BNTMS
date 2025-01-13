@@ -8,8 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import{MasterData} from '../../../../../assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SelectedModel } from '../../../../../../src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-favorites',

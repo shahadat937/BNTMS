@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SaylorSubBranchService } from '../../service/SaylorSubBranch.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({ 
   selector: 'app-new-saylorsubbranch',
@@ -73,7 +73,7 @@ export class NewSaylorSubBranchComponent extends UnsubscribeOnDestroyAdapter imp
     this.selectedSaylorBranch=this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
   onSubmit() {
-    const id = this.SaylorSubBranchForm.get('saylorSubBranchId').value;   
+    const id = this.SaylorSubBranchForm.get('saylorSubBranchId')?.value;   
     if (id) {
       this.loading=true;
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {

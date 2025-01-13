@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -13,7 +13,7 @@ import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.serv
   templateUrl: './new-i-s-biodatainfo.component.html',
   styleUrls: ['./new-i-s-biodatainfo.component.sass']
 })
-export class NewISBiodatainfoComponent implements OnInit {
+export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
 
 
  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 

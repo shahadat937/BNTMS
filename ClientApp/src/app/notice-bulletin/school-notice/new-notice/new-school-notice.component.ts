@@ -2,16 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../service/notification.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { ClassRoutineService } from '../../../../../src/app/routine-management/service/classroutine.service';
 import { Notice } from '../../models/notice';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
-import { Role } from 'src/app/core/models/role';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { BaseSchoolNameService } from '../../../../../src/app/security/service/BaseSchoolName.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-school-notice',
@@ -124,16 +124,16 @@ export class NewSchoolNoticeComponent implements OnInit, OnDestroy {
     this.isShown=true;
 
     if(this.role != Role.SuperAdmin){
-      this.SchoolNoticeForm.get('receiverRole').setValue(Role.SuperAdmin);
+      this.SchoolNoticeForm.get('receiverRole')?.setValue(Role.SuperAdmin);
     }
     
     // if(this.role != Role.MasterAdmin){
-      this.SchoolNoticeForm.get('sendBaseSchoolNameId').setValue(this.branchId);
+      this.SchoolNoticeForm.get('sendBaseSchoolNameId')?.setValue(this.branchId);
     // }
     //else if(this.role != Role.SuperAdmin){
-      this.SchoolNoticeForm.get('receivedBaseSchoolNameId').setValue(data.baseSchoolNameId);
+      this.SchoolNoticeForm.get('receivedBaseSchoolNameId')?.setValue(data.baseSchoolNameId);
     //}
-    this.SchoolNoticeForm.get('senderRole').setValue(this.role);
+    this.SchoolNoticeForm.get('senderRole')?.setValue(this.role);
     
   }
 
@@ -155,12 +155,12 @@ export class NewSchoolNoticeComponent implements OnInit, OnDestroy {
     this.getNotificationListBySchool(data.senderRole,this.branchId,data.sendBaseSchoolNameId)
     this.isShown=true;
     this.FilterRoleFromSchool = data.senderRole;
-    this.SchoolNoticeForm.get('receivedBaseSchoolNameId').setValue(data.sendBaseSchoolNameId);
+    this.SchoolNoticeForm.get('receivedBaseSchoolNameId')?.setValue(data.sendBaseSchoolNameId);
     
-    this.SchoolNoticeForm.get('sendBaseSchoolNameId').setValue(this.branchId);
+    this.SchoolNoticeForm.get('sendBaseSchoolNameId')?.setValue(this.branchId);
     
-    this.SchoolNoticeForm.get('senderRole').setValue(this.role);
-    this.SchoolNoticeForm.get('receiverRole').setValue(data.senderRole);
+    this.SchoolNoticeForm.get('senderRole')?.setValue(this.role);
+    this.SchoolNoticeForm.get('receiverRole')?.setValue(data.senderRole);
   }
   
   reloadCurrentRoute() {
@@ -188,16 +188,16 @@ export class NewSchoolNoticeComponent implements OnInit, OnDestroy {
   onSubmit() {
     // const id = this.SchoolNoticeForm.get('noticeId').value; 
     if(this.role == Role.SuperAdmin || this.role == Role.SchoolOIC){
-      var schoolnameid = this.SchoolNoticeForm.get('receivedBaseSchoolNameId').value; 
+      var schoolnameid = this.SchoolNoticeForm.get('receivedBaseSchoolNameId')?.value; 
     } else{
-      var schoolnameid = this.SchoolNoticeForm.get('receivedBaseSchoolNameId').value; 
+      var schoolnameid = this.SchoolNoticeForm.get('receivedBaseSchoolNameId')?.value; 
     }
     
     
       this.loading = true;
       this.subscription = this.notificationService.submit(this.SchoolNoticeForm.value).subscribe(response => {
         // this.reloadCurrentRoute();
-        this.SchoolNoticeForm.get('notes').setValue('');
+        this.SchoolNoticeForm.get('notes')?.setValue('');
         if(this.role == Role.SuperAdmin || this.role == Role.SchoolOIC){          
           this.getNotificationListBySchool(this.FilterRoleFromSchool,this.branchId,schoolnameid);
         }else{

@@ -5,12 +5,12 @@ import { SwimmingDivingService } from '../../service/SwimmingDiving.service';
 import { CheckboxSelectedModel } from '../../../../core/models/checkboxSelectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
+import { CodeValueService } from '../../../../../../src/app/basic-setup/service/codevalue.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ThemePalette } from '@angular/material/core';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-swimming-diving',
@@ -127,7 +127,7 @@ export class NewSwimmingDivingComponent implements OnInit,OnDestroy {
         
         });
   
-    const id = this.SwimmingDivingForm.get('swimmingDivingId').value;   
+    const id = this.SwimmingDivingForm.get('swimmingDivingId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This SwimmingDiving Item').subscribe(result => {
         if (result) {

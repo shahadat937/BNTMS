@@ -3,19 +3,19 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { InstructorDashboardService } from '../../services/InstructorDashboard.service';
 //import { SchoolDashboardService } from '../services/SchoolDashboard.service';
-import { environment } from 'src/environments/environment';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { environment } from '../../../../environments/environment';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-assignment-list.component',
   templateUrl: './assignment-list.component.html',
-  styleUrls: ['./assignment-list.component.sass']
+  styleUrls: ['./assignment-list.component.css']
 })
 
 export class AssignmentListComponent implements OnInit,OnDestroy {
@@ -37,6 +37,7 @@ export class AssignmentListComponent implements OnInit,OnDestroy {
   searchText="";
   displayedCourseColumns: string[] = ['ser','schoolName','course', 'subjectName', 'actions'];
   subscription: any;
+  dataSource: any;
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnDestroy() {
@@ -50,6 +51,12 @@ export class AssignmentListComponent implements OnInit,OnDestroy {
     this.subscription = this.instructorDashboardService.getSpInstructorInfoByTraineeId(this.traineeId).subscribe(res=>{ 
       
       this.courseList = res;
+      this.dataSource = new MatTableDataSource(res);
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.schoolName
+      );
+      console.log(this.sharedService.groupedData)
     });  
   }
   applySearch(filterValue: string) {

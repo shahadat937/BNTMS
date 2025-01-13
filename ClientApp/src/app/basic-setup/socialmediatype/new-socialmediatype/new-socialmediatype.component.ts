@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SocialmediaTypeService } from '../../service/socialmediatype.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-socialmediatype',
@@ -58,7 +58,7 @@ export class NewSocialmediatypeComponent extends UnsubscribeOnDestroyAdapter imp
   }
   
   onSubmit() {
-    const id = this.socialMediaTypeForm.get('socialMediaTypeId').value;   
+    const id = this.socialMediaTypeForm.get('socialMediaTypeId')?.value;   
 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This SocialMedia Type Item').subscribe(result => {

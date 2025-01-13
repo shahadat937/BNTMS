@@ -5,7 +5,7 @@ import { GameSportService } from '../../service/GameSport.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-game-sport',
@@ -89,7 +89,7 @@ export class NewGameSportComponent implements OnInit,OnDestroy {
  
   
   onSubmit() {
-    const id = this.GameSportForm.get('gameSportId').value;   
+    const id = this.GameSportForm.get('gameSportId')?.value;   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

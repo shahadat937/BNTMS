@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { OrganizationNameService } from '../../service/organizationname.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-organizationname',
@@ -76,7 +76,7 @@ export class NewOrganizationNameComponent extends UnsubscribeOnDestroyAdapter im
   }
   
   onSubmit() {
-    const id = this.OrganizationNameForm.get('organizationNameId').value;
+    const id = this.OrganizationNameForm.get('organizationNameId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {

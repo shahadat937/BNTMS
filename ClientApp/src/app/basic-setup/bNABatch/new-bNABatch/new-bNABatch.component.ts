@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -7,6 +8,16 @@ import { ConfirmService } from "../../../core/service/confirm.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 
+=======
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { BNABatchService } from '../../service/bNABatch.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter'
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 //import {FormControl} from '@angular/forms';
 
 @Component({
@@ -69,7 +80,50 @@ export class NewBNABatchComponent
       completeStatus: ["", Validators.required],
       //menuPosition: ['', Validators.required],
       isActive: [true],
+<<<<<<< HEAD
     });
+=======
+    
+    })
+  }
+  
+  onSubmit() {
+    const id = this.bNABatchForm.get('bnaBatchId')?.value;  
+    if (id) {
+      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+        if (result) {
+          this.loading = true;
+          this.bNABatchService.update(+id,this.bNABatchForm.value).subscribe(response => {
+            this.router.navigateByUrl('/basic-setup/bnabatch-list');
+              this.snackBar.open('Information Updated Successfully ', '', {
+              duration: 2000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'right',
+              panelClass: 'snackbar-success'
+            });
+          }, error => {
+            this.validationErrors = error;
+          })
+        }
+      })
+    } else {
+      this.loading = true;
+      this.bNABatchService.submit(this.bNABatchForm.value).subscribe(response => {
+        this.router.navigateByUrl('/basic-setup/bnabatch-list');
+          this.snackBar.open('Information Inserted Successfully ', '', {
+          duration: 2000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'right',
+          panelClass: 'snackbar-success'
+        });
+      }, error => {
+        this.validationErrors = error;
+      })
+    }
+    
+    
+ 
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
   }
 
   onSubmit() {

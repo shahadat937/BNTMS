@@ -5,10 +5,10 @@ import { ParentRelativeService } from '../../service/ParentRelative.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { CodeValueService } from '../../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../../src/assets/data/master-data';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-family-info',
@@ -290,7 +290,7 @@ export class NewParentRelativeComponent extends UnsubscribeOnDestroyAdapter impl
   }
   
   onSubmit() {
-    const id = this.ParentRelativeForm.get('parentRelativeId').value;   
+    const id = this.ParentRelativeForm.get('parentRelativeId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) { 

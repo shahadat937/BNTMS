@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { InterServiceCourseDocTypeService } from '../../service/InterServiceCourseDocType.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-interservicecoursedoctype',
@@ -62,7 +62,7 @@ export class NewInterServiceCourseDocTypeComponent extends UnsubscribeOnDestroyA
   
   
   onSubmit() {
-    const id = this.InterServiceCourseDocTypeForm.get('interServiceCourseDocTypeId').value;
+    const id = this.InterServiceCourseDocTypeForm.get('interServiceCourseDocTypeId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {

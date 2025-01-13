@@ -10,10 +10,10 @@ import {CheckboxSelectedModel} from '../../../../core/models/checkboxSelectedMod
 import { TraineeList } from '../../../../attendance-management/models/traineeList';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../../routine-management/models/classroutine';
-import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
-import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { TraineeListForExamMark } from '../../../../../../src/app/exam-management/models/traineeListforexammark';
+import { CourseDurationService } from '../../../../../../src/app/course-management/service/courseduration.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineereligation-list',
@@ -147,7 +147,7 @@ export class TraineeReligationListComponent extends UnsubscribeOnDestroyAdapter 
   }
 
   getControlLabel(index: number, type: string) {
-    return (this.AttendanceForm.get('traineeListForms') as FormArray).at(index).get(type).value;
+    return (this.AttendanceForm.get('traineeListForms') as FormArray).at(index).get(type)?.value;
   }
 
   getSelectedWithdrawnType(){
@@ -181,7 +181,7 @@ export class TraineeReligationListComponent extends UnsubscribeOnDestroyAdapter 
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`

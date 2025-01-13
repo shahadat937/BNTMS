@@ -4,10 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../service/User.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
 import {RoleService} from '../../service/role.service'
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-instructor',
@@ -112,7 +112,7 @@ export class NewInstructorComponent implements OnInit, OnDestroy {
       fourthLevel:['',Validators.nullValidator]
 
     })
-    this.InstructorForm.get('trainee').valueChanges
+    this.InstructorForm.get('trainee')?.valueChanges
     .subscribe(value => {
      
         this.getSelectedTraineeAutocomplete(value);
@@ -122,8 +122,8 @@ export class NewInstructorComponent implements OnInit, OnDestroy {
   //autocomplete
   onTraineeSelectionChanged(item) {
     //this.courseNameId = item.value 
-    this.InstructorForm.get('traineeId').setValue(item.value);
-    this.InstructorForm.get('trainee').setValue(item.text);
+    this.InstructorForm.get('traineeId')?.setValue(item.value);
+    this.InstructorForm.get('trainee')?.setValue(item.text);
   }
   getSelectedTraineeAutocomplete(pno){
     this.subscription = this.UserService.getSelectedTraineeByPno(pno).subscribe(response => {
@@ -175,10 +175,10 @@ export class NewInstructorComponent implements OnInit, OnDestroy {
 
   
   onSubmit() {
-    const id = this.InstructorForm.get('id').value;  
+    const id = this.InstructorForm.get('id')?.value;  
     if (id) {
-      this.InstructorForm.get('password').setValue('Admin@123');
-      this.InstructorForm.get('confirmPassword').setValue('Admin@123');
+      this.InstructorForm.get('password')?.setValue('Admin@123');
+      this.InstructorForm.get('confirmPassword')?.setValue('Admin@123');
 
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

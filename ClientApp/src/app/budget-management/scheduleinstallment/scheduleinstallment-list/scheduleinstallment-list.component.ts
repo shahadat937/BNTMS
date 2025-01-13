@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseBudgetAllocationService } from '../../service/courseBudgetAllocation.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { CourseWeekService } from 'src/app/course-management/service/CourseWeek.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { CourseWeekService } from '../../../../../src/app/course-management/service/CourseWeek.service';
 import { CourseBudgetAllocation } from '../../models/CourseBudgetAllocation';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-scheduleinstallment-list.component',
@@ -142,7 +142,7 @@ export class ScheduleInstallmentListComponent extends UnsubscribeOnDestroyAdapte
   onTraineeSelectionChange(dropdown){
     if (dropdown.isUserInput) {
       this.traineeId=dropdown.source.value;
-      this.courseNameId =  this.CourseBudgetAllocationForm.get('courseNameId').value;
+      this.courseNameId =  this.CourseBudgetAllocationForm.get('courseNameId')?.value;
       this.getCourseBudgetAllocationList();
     }
   }
@@ -151,7 +151,7 @@ export class ScheduleInstallmentListComponent extends UnsubscribeOnDestroyAdapte
     if (dropdown.isUserInput) {
        var budgetCodeId = dropdown.source.value.value; 
 
-       this.CourseBudgetAllocationForm.get('budgetCodeId').setValue(budgetCodeId);
+       this.CourseBudgetAllocationForm.get('budgetCodeId')?.setValue(budgetCodeId);
 
        this.CourseBudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
        this.totalBudget=res[0].text; 
@@ -342,7 +342,7 @@ export class ScheduleInstallmentListComponent extends UnsubscribeOnDestroyAdapte
   }
 
   onSubmit() {
-    const id = this.CourseBudgetAllocationForm.get('courseBudgetAllocationId').value; 
+    const id = this.CourseBudgetAllocationForm.get('courseBudgetAllocationId')?.value; 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {

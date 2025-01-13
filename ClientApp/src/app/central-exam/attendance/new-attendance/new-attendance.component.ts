@@ -19,8 +19,8 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../routine-management/models/classroutine';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-attendance',
@@ -315,7 +315,7 @@ deleteItem(row) {
   }
 
   onSubmit() {
-    const id = this.AttendanceForm.get('attendanceId').value;
+    const id = this.AttendanceForm.get('attendanceId')?.value;
     var classLeaderName= this.AttendanceForm.value['classLeaderName'];
     var attendanceDate= this.AttendanceForm.value['attendanceDate'];
     var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
@@ -350,7 +350,7 @@ deleteItem(row) {
       this.loading=true;
       this.AttendanceService.submit(JSON.stringify(this.traineeNominationListForAttendance) ).subscribe(response => {
         this.AttendanceForm.reset();
-        this.AttendanceForm.get('attendanceId').setValue(0);
+        this.AttendanceForm.get('attendanceId')?.setValue(0);
         this.isShown=false;
 
         this.snackBar.open('Information Inserted Successfully ', '', {

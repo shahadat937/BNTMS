@@ -168,6 +168,9 @@ img.routine-icon{
 .attn-btn{
     margin-left: 900px;
 }
+.btn-reading{
+    margin-left: 500px;
+}
 
 .table-scroller {
     height: -webkit-fill-available;
@@ -1832,7 +1835,7 @@ app-header .container-fluid {
 // table group by design start
 
 .content .card .body .tbl-by-group thead tr th {
-    background: #f44336;
+    background: #f44336 !important;
     color: #fff;
     height: 30px;
     font-size: 16px;
@@ -3645,6 +3648,12 @@ app-main-tab-layout .table-bordered tbody tr td {
 }
 //Dashboard Notice Board Message End
 
+.table > :not(caption) > * > * {
+    
+    background-color: transparent !important;
+    // z-index: -1000 !important;
+   
+}
 
 
 

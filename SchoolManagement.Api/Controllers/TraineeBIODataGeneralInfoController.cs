@@ -2,10 +2,12 @@
 using SchoolManagement.Application.Contracts.Identity;
 using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo;
 using SchoolManagement.Application.DTOs.User;
+using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Handlers.Queries;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Commands;
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Queries;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Commands;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Queries;
+using SchoolManagement.Application.Features.TraineeNominations.Requests.Commands;
 using SchoolManagement.Shared.Models;
 
 namespace SchoolManagement.Api.Controllers;
@@ -78,6 +80,28 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
         return Ok(TraineeBioDataGeneralInfos);
     }
 
+    [HttpGet]
+    [Route("get-BioDataGeneralInfoes-by-trainee-status")]
+    public async Task<ActionResult<List<TraineeBioDataGeneralInfoDto>>> GetTrainneListByStatusId([FromQuery] QueryParams queryParams, int traineeStatusId)
+    {
+        var TraineeBioDataGeneralInfos = await _mediator.Send(new GetTraineeBioDataGeneralInfoListForByTraineeStatusRequest {
+            QueryParams = queryParams,
+            TraineeStatusId = traineeStatusId
+        });
+        return Ok(TraineeBioDataGeneralInfos);
+    }
+
+     [HttpGet]
+    [Route("get-service-instructor-biodata")]
+    public async Task<ActionResult<List<TraineeBioDataGeneralInfoDto>>> GetServiceInstructorBioData([FromQuery] QueryParams queryParams, string branchId)
+    {
+        var TraineeBioDataGeneralInfos = await _mediator.Send(new GetServiceInstructorBioDataRequest
+        {
+            QueryParams = queryParams,
+            BranchId = branchId
+        });
+        return Ok(TraineeBioDataGeneralInfos);
+    }
 
 
     [HttpGet]
@@ -182,6 +206,19 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
         return Ok(trainee);
     }
     
+    [HttpGet]
+    [Route("get-autocompletePnoAndName")]
+    public async Task<ActionResult<List<SelectedModel>>> GetAutoCompletePnoAndName(string pno)
+    {
+        var trainee = await _mediator.Send(new GetAutoCompleteTraineePnoAndName
+        {
+            PNo = pno
+        } );
+        return Ok(trainee);
+    }
+
+   
+    
 
 
     [HttpGet]
@@ -267,6 +304,30 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
 
         });
         return Ok(bioData);
+    }
+
+    [HttpGet]
+    [Route("get-selected-instructor-by-school")]
+    public async Task<ActionResult<List<SelectedModel>>> GetSelectedInstructorBySchool(int branchId)
+    {
+        var trainee = await _mediator.Send(new GetSelectedTraineeBioDataGeneralInfoRequestBySchoolRequest
+        {
+            BranchId = branchId
+
+        });
+        return Ok(trainee);
+    }
+
+    [HttpPost]
+    [Route("get-upload-service-instructor-execl-file")]
+    public async Task<ActionResult> UploadTraineeNomineeList([FromForm] IFormFile file, string branchId)
+    {
+        var trainee = await _mediator.Send(new UploadServiceInstructorCommand
+        {
+            ServiceInstructorFile = file,
+            BranchId = branchId
+        });
+        return Ok(trainee);
     }
 
 }

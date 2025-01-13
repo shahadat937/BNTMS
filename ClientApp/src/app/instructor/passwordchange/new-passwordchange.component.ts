@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl,FormBuilder, FormGroup, Validators,ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/biodata-tab-layout/service/BIODataGeneralInfo.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { BIODataGeneralInfoService } from '../../../../src/app/trainee-biodata/biodata-tab-layout/service/BIODataGeneralInfo.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-passwordchange',
   templateUrl: './new-passwordchange.component.html',
@@ -117,7 +117,7 @@ matchValues(matchTo: string): ValidatorFn {
 
     
   //  if (id) {
-    this.PasswordUpdateForm.get('userId').setValue(this.userId)
+    this.PasswordUpdateForm.get('userId')?.setValue(this.userId)
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         if (result) {
           this.loading = true;

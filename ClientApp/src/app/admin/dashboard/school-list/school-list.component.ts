@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
@@ -11,22 +13,26 @@ import { AuthService } from "../../../core/service/auth.service";
 import { ConfirmService } from "../../../core/service/confirm.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; 
+import * as html2pdf from 'html2pdf.js';
+import 'jspdf-autotable';
+
 @Component({
   selector: "app-school-list",
   templateUrl: "./school-list.component.html",
-  styleUrls: ["./school-list.component.sass"],
+  styleUrls: ["./school-list.component.scss"],
 })
 export class SchoolListComponent
   extends UnsubscribeOnDestroyAdapter
-  implements OnInit
-{
+  implements OnInit {
   masterData = MasterData;
   loading = false;
   userRole = Role;
   schoolList: any;
   isLoading = false;
   showHideDiv = false;
-
+  @ViewChild('contentToConvert', { static: true }) contentToConvert!: ElementRef;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -38,17 +44,16 @@ export class SchoolListComponent
   traineeId: any;
   role: any;
   totalCount: any;
+  todayDate = new Date()
+  todayFormatedDate : any
 
   groupArrays: { baseName: string; schools: any }[];
 
   displayedColumns: string[] = ["ser", "schoolName", "courseCount"];
 
   constructor(
-    private snackBar: MatSnackBar,
     private authService: AuthService,
     private dashboardService: dashboardService,
-    private router: Router,
-    private confirmService: ConfirmService,
     public sharedService: SharedServiceService
   ) {
     super();
@@ -58,6 +63,7 @@ export class SchoolListComponent
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId = this.authService.currentUserValue.traineeId.trim();
     this.branchId = this.authService.currentUserValue.branchId.trim();
+    this.formatIntlDate(this.todayDate)
 
     this.getBnaClassTests();
   }
@@ -110,6 +116,22 @@ export class SchoolListComponent
     this.showHideDiv = false;
     this.print();
   }
+
+  formatIntlDate(date) {
+    console.log(date)
+    if (!(date instanceof Date)) {
+      console.error("Invalid date. Ensure 'date' is a Date object.");
+      return;
+    }
+
+    this.todayFormatedDate = new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).format(date);
+    console.log(this.todayFormatedDate);
+  }
+
   print() {
     let today = new Date();
 
@@ -174,34 +196,30 @@ export class SchoolListComponent
       </html>`);
     popupWin.document.close();
   }
-  // pageChanged(event: PageEvent) {
+  downloadPDF(): void {
+    const element = document.getElementById('contentToConvert');
+    if (element) {
+      const options = {
+        margin: [10, 10, 15, 10], // Adjust margins if needed
+        filename: 'download.pdf',
+        image: { type: 'jpeg', quality: 0.98 }, // Use JPEG for better rendering
+        html2canvas: { 
+          scale: 2, // Increase scale for better resolution
+          useCORS: true, // Allow cross-origin images if any
+          scrollX: 0, 
+          scrollY: 0 
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'landscape',
+          pagebreak: { mode: 'always', before: '.table' }  
+        },
+      };
+  
+      html2pdf().set(options).from(element).save();
+    }
+  }
 
-  //   this.paging.pageIndex = event.pageIndex
-  //   this.paging.pageSize = event.pageSize
-  //   this.paging.pageIndex = this.paging.pageIndex + 1
-  //   this.getBnaClassTests();
 
-  // }
-  // applyFilter(searchText: any){
-  //   this.searchText = searchText;
-  //   this.getBnaClassTests();
-  // }
-
-  // deleteItem(row) {
-  //   const id = row.bnaClassTestId;
-  //   this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-  //     if (result) {
-  //       this.BnaClassTestService.delete(id).subscribe(() => {
-  //         this.getBnaClassTests();
-  //         this.snackBar.open('Information Deleted Successfully ', '', {
-  //           duration: 3000,
-  //           verticalPosition: 'bottom',
-  //           horizontalPosition: 'right',
-  //           panelClass: 'snackbar-danger'
-  //         });
-  //       })
-  //     }
-  //   })
-
-  // }
 }

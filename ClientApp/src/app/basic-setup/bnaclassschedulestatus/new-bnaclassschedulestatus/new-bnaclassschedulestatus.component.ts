@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -6,6 +7,18 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfirmService } from "../../../core/service/confirm.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+=======
+import { Component, OnInit } from '@angular/core';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BNAClassScheduleStatusService } from '../../service/bnaclassschedulestatus.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
 @Component({
   selector: "app-new-bnaclassschedulestatus",
@@ -65,9 +78,13 @@ export class NewBNAClassScheduleStatusComponent
   }
 
   onSubmit() {
+<<<<<<< HEAD
     const id = this.BNAClassScheduleStatusForm.get(
       "bnaClassScheduleStatusId"
     )?.value;
+=======
+    const id = this.BNAClassScheduleStatusForm.get('bnaClassScheduleStatusId')?.value;   
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
     if (id) {
       this.confirmService

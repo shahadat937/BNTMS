@@ -16,11 +16,11 @@ import { TraineeList } from '../../attendance-management/models/traineeList';
 import {TraineeListForExamMark} from '../../exam-management/models/traineeListforexammark';
 import {BNASubjectNameService} from '../../bna-subject-management/service/BNASubjectName.service';
 import {SubjectMarkService} from '../../bna-subject-management/service/SubjectMark.service';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
-import { MarkTypeService } from 'src/app/basic-setup/service/MarkType.service';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { ClassRoutineService } from '../../../../src/app/routine-management/service/classroutine.service';
+import { MarkTypeService } from '../../../../src/app/basic-setup/service/MarkType.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
 import {Location} from '@angular/common';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 //import {BnaSubjectName} from '../../../central-exam/models/BNASubjectName';
 
 @Component({
@@ -120,10 +120,10 @@ export class NewAssessmentMarkComponent implements OnInit, OnDestroy {
     var traineeAssessmentCreateId = this.route.snapshot.paramMap.get('traineeAssessmentCreateId');
 
 
-    this.TraineeAssessmentMarkForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
-    this.TraineeAssessmentMarkForm.get('courseDurationId').setValue(this.courseDurationId);
-    this.TraineeAssessmentMarkForm.get('assessmentTraineeId').setValue(traineeId);
-    this.TraineeAssessmentMarkForm.get('traineeAssessmentCreateId').setValue(traineeAssessmentCreateId);
+    this.TraineeAssessmentMarkForm.get('baseSchoolNameId')?.setValue(baseSchoolNameId);
+    this.TraineeAssessmentMarkForm.get('courseDurationId')?.setValue(this.courseDurationId);
+    this.TraineeAssessmentMarkForm.get('assessmentTraineeId')?.setValue(traineeId);
+    this.TraineeAssessmentMarkForm.get('traineeAssessmentCreateId')?.setValue(traineeAssessmentCreateId);
     // this.TraineeAssessmentMarkForm.get('classRoutineId').setValue(classRoutineId);
     // this.TraineeAssessmentMarkForm.get('branchId').setValue(branchId);
     // this.TraineeAssessmentMarkForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
@@ -162,7 +162,7 @@ export class NewAssessmentMarkComponent implements OnInit, OnDestroy {
     })
   }
   getControlLabel(index: number, type: string) {
-    return (this.TraineeAssessmentMarkForm.get('assessmentTraineeListForm') as FormArray).at(index).get(type).value;
+    return (this.TraineeAssessmentMarkForm.get('assessmentTraineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
 

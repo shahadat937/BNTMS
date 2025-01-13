@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { TdecQuestionNameService } from '../../service/TdecQuestionName.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-tdecquestionname',
@@ -56,7 +56,7 @@ export class NewTdecQuestionNameComponent implements OnInit,OnDestroy {
     }
     this.intitializeForm();
     if(this.role == this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool || this.userRole.SchoolOIC){
-      this.TdecQuestionNameForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.TdecQuestionNameForm.get('baseSchoolNameId')?.setValue(this.branchId);
      }
   }
   ngOnDestroy() {
@@ -75,7 +75,7 @@ export class NewTdecQuestionNameComponent implements OnInit,OnDestroy {
   }
   
   onSubmit() {
-    const id = this.TdecQuestionNameForm.get('tdecQuestionNameId').value;  
+    const id = this.TdecQuestionNameForm.get('tdecQuestionNameId')?.value;  
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {

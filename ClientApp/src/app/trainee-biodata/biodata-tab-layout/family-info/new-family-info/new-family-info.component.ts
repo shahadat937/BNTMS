@@ -5,9 +5,9 @@ import { ParentRelativeService } from '../../service/ParentRelative.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { CodeValueService } from '../../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../../src/assets/data/master-data';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-family-info',
@@ -363,7 +363,7 @@ export class NewParentRelativeComponent implements OnInit,OnDestroy {
   }
   
   onSubmit() {
-    const id = this.ParentRelativeForm.get('parentRelativeId').value;   
+    const id = this.ParentRelativeForm.get('parentRelativeId')?.value;   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) { 

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNAExamMarkService } from '../../../exam-management/service/bnaexammark.service'
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { BNASubjectName } from 'src/app/subject-management/models/BNASubjectName';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { BNASubjectName } from '../../../../../src/app/subject-management/models/BNASubjectName';
 import { SubjectMark } from '../../../subject-management/models/SubjectMark';
 import {TraineeNominationService} from '../../../course-management/service/traineenomination.service'
 import { TraineeList } from '../../../attendance-management/models/traineeList';
@@ -17,8 +17,8 @@ import { ClassRoutineService } from '../../../routine-management/service/classro
 import { ClassRoutine } from '../../../routine-management/models/classroutine';
 import { BNASubjectNameService } from '../../service/BNASubjectName.service';
 import { SubjectMarkService } from '../../service/SubjectMark.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-edit-classroutine',
@@ -132,7 +132,7 @@ export class EditClassRoutineComponent extends UnsubscribeOnDestroyAdapter imple
     
   }
   getControlLabel(index: number,type: string){
-    return  (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get(type).value;
+    return  (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
  
@@ -178,9 +178,9 @@ export class EditClassRoutineComponent extends UnsubscribeOnDestroyAdapter imple
     var courseNameArr = dropdown.value.split('_');
     var bnaSubjectNameId = courseNameArr[0];
     var courseModuleId=courseNameArr[1];
-    this.EditedClassRoutineForm.controls["RoutineList"].get('subjectName').setValue(dropdown.text);
-    this.EditedClassRoutineForm.controls["RoutineList"].get('bnaSubjectNameId').setValue(bnaSubjectNameId);
-    this.EditedClassRoutineForm.controls["RoutineList"].get('courseModuleId').setValue(courseModuleId);
+    this.EditedClassRoutineForm.controls["RoutineList"].get('subjectName')?.setValue(dropdown.text);
+    this.EditedClassRoutineForm.controls["RoutineList"].get('bnaSubjectNameId')?.setValue(bnaSubjectNameId);
+    this.EditedClassRoutineForm.controls["RoutineList"].get('courseModuleId')?.setValue(courseModuleId);
 }
 
   

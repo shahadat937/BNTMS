@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNAExamMarkService } from '../../../exam-management/service/bnaexammark.service'
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { BNASubjectName } from 'src/app/subject-management/models/BNASubjectName';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { BNASubjectName } from '../../../../../src/app/subject-management/models/BNASubjectName';
 import { SubjectMark } from '../../../subject-management/models/SubjectMark';
 import {TraineeNominationService} from '../../../course-management/service/traineenomination.service'
 import { TraineeList } from '../../../attendance-management/models/traineeList';
@@ -15,7 +15,7 @@ import { TraineeListForExamMark } from '../../../exam-management/models/traineeL
 
 import { ClassRoutineService } from '../../service/classroutine.service';
 import { ClassRoutine } from '../../models/classroutine';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-edit-classroutine',
@@ -131,7 +131,7 @@ export class EditClassRoutineComponent implements OnInit, OnDestroy {
     
   }
   getControlLabel(index: number,type: string){
-    return  (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get(type).value;
+    return  (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
  
@@ -198,7 +198,7 @@ export class EditClassRoutineComponent implements OnInit, OnDestroy {
 
     this.subscription = this.classRoutineService.getClassRoutineCountByParameterRequest(this.schoolId,this.courseId,bnaSubjectNameId,this.durationId,this.sectionId).subscribe(res=>{
       this.routineCount=res;
-      (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('totalClassPeriod').setValue(this.routineCount);
+      (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('totalClassPeriod')?.setValue(this.routineCount);
     });
   }
 
@@ -208,14 +208,14 @@ export class EditClassRoutineComponent implements OnInit, OnDestroy {
 
     this.subscription = this.classRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
       this.routineCount=res;
-      (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
+      (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classCountPeriod')?.setValue(this.routineCount);
     });
 
  
   
     this.subscription = this.classRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
       this.totalPeriod=res;
-      (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('subjectCountPeriod').setValue(this.totalPeriod);
+      (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('subjectCountPeriod')?.setValue(this.totalPeriod);
      
     });
 
@@ -224,10 +224,10 @@ export class EditClassRoutineComponent implements OnInit, OnDestroy {
 
   onSubjectMarkSelectionGetMarkType(index: number){
      
-    let markId = (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('subjectMarkId').value;
+    let markId = (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('subjectMarkId')?.value;
      // var subjectMarkId = this.ClassRoutineForm.value['subjectMarkId'];
      this.classRoutineService.findSubjectMark(markId).subscribe(res=>{
-       (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('markTypeId').setValue(res.markTypeId);
+       (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('markTypeId')?.setValue(res.markTypeId);
       // this.ClassRoutineForm.get('markTypeId').setValue(res.markTypeId);
      });
  
@@ -316,7 +316,7 @@ export class EditClassRoutineComponent implements OnInit, OnDestroy {
   }
 
   deleteItem(index) {
-    const id = (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classRoutineId').value;
+    const id = (this.EditedClassRoutineForm.get('RoutineList') as FormArray).at(index).get('classRoutineId')?.value;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.classRoutineService.delete(id).subscribe(() => {

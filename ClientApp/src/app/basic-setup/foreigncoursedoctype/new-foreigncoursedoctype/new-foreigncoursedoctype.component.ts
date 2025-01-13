@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ForeignCourseDocTypeService } from '../../service/ForeignCourseDocType.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-foreigncoursedoctype',
@@ -66,7 +66,7 @@ export class NewForeignCourseDocTypeComponent extends UnsubscribeOnDestroyAdapte
   }
   
   onSubmit() {
-    const id = this.ForeignCourseDocTypeForm.get('foreignCourseDocTypeId').value; 
+    const id = this.ForeignCourseDocTypeForm.get('foreignCourseDocTypeId')?.value; 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         

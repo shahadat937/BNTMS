@@ -2,23 +2,23 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TraineeAssessmentGroupService } from '../service/TraineeAssessmentGroup.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
-import { BNASubjectNameService } from 'src/app/subject-management/service/BNASubjectName.service';
-import { TraineeNomination } from 'src/app/course-management/models/traineenomination';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { TraineeNominationService } from '../../../../src/app/course-management/service/traineenomination.service';
+import { BNASubjectNameService } from '../../../../src/app/subject-management/service/BNASubjectName.service';
+import { TraineeNomination } from '../../../../src/app/course-management/models/traineenomination';
 import { SelectionModel } from '@angular/cdk/collections';
 // import { Attendance } from '../../models/attendance';
-import { CheckboxSelectedModel } from 'src/app/core/models/checkboxSelectedModel';
+import { CheckboxSelectedModel } from '../../../../src/app/core/models/checkboxSelectedModel';
 import { traineeAssessmentGroupList } from '../models/traineeAssessmentGroupList';
 import { DatePipe } from '@angular/common';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ClassRoutineService } from '../../../../src/app/routine-management/service/classroutine.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../src/app/core/models/role';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-assessmentgroup',
@@ -124,7 +124,7 @@ export class NewAssessmentGroupComponent implements OnInit,OnDestroy {
   }
 
   getControlLabel(index: number,type: string){
-    return  (this.TraineeAssessmentGroupForm.get('assessmentTraineeGroupListForm') as FormArray).at(index).get(type).value;
+    return  (this.TraineeAssessmentGroupForm.get('assessmentTraineeGroupListForm') as FormArray).at(index).get(type)?.value;
    }
 
    private createTraineeData() {
@@ -175,7 +175,7 @@ export class NewAssessmentGroupComponent implements OnInit,OnDestroy {
       this.courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
 
-      this.TraineeAssessmentGroupForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.TraineeAssessmentGroupForm.get('courseDurationId')?.setValue(this.courseDurationId);
 
         this.traineeAssessmentGroupService.getSelectedTraineeAssessmentCreates(this.courseDurationId).subscribe(res=>{
           this.selectedTraineeAssessmentCreates=res

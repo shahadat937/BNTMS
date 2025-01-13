@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClassPeriodService } from '../../service/classperiod.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { CourseNameService } from '../../../basic-setup/service/CourseName.service';
 import { ClassPeriod } from '../../models/classperiod';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classperiod',
@@ -90,7 +90,7 @@ export class NewClassPeriodComponent extends UnsubscribeOnDestroyAdapter impleme
     } 
     this.intitializeForm();
     if(this.role === 'Super Admin'){
-      this.ClassPeriodForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.ClassPeriodForm.get('baseSchoolNameId')?.setValue(this.branchId);
      }
     this.getselectedbaseschools();
     this.getselectedbnaclassschedulestatus();
@@ -110,7 +110,7 @@ export class NewClassPeriodComponent extends UnsubscribeOnDestroyAdapter impleme
       status:[1],
       isActive: [true],    
     })
-    this.ClassPeriodForm.get('course').valueChanges
+    this.ClassPeriodForm.get('course')?.valueChanges
     .subscribe(value => {
         this.getSelectedCourseAutocomplete(value);
     })
@@ -119,8 +119,8 @@ export class NewClassPeriodComponent extends UnsubscribeOnDestroyAdapter impleme
 //autocomplete
 onCourseSelectionChanged(item) {
   this.courseNameId = item.value 
-  this.ClassPeriodForm.get('courseNameId').setValue(item.value);
-  this.ClassPeriodForm.get('course').setValue(item.text);
+  this.ClassPeriodForm.get('courseNameId')?.setValue(item.value);
+  this.ClassPeriodForm.get('course')?.setValue(item.text);
   this.onCourseSelectionChangeGetPeriodList()
 }
 getSelectedCourseAutocomplete(cName){
@@ -169,7 +169,7 @@ getSelectedCourseAutocomplete(cName){
 
 
   onSubmit() {
-    const id = this.ClassPeriodForm.get('classPeriodId').value; 
+    const id = this.ClassPeriodForm.get('classPeriodId')?.value; 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

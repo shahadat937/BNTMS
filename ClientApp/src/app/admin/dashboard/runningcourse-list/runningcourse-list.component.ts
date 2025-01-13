@@ -6,17 +6,16 @@ import { BNAExamInstructorAssignService } from '../../../exam-management/service
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { dashboardService } from '../services/dashboard.service';
-import { MasterData } from '../../../../assets/data/master-data';
-import { environment } from '../../../../environments/environment.prod';
-import { Role } from '../../../core/models/role';
-import { AuthService } from '../../../core/service/auth.service';
-import { ConfirmService } from '../../../core/service/confirm.service';
-import { SharedServiceService } from '../../../shared/shared-service.service';
-import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
-
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { environment } from '../../../../../src/environments/environment';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-runningcourse-list',

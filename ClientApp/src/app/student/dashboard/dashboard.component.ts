@@ -3,57 +3,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TraineeNominationService } from '../../course-management/service/traineenomination.service';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
 import { BNASubjectNameService } from '../../subject-management/service/BNASubjectName.service';
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexYAxis,
-  ApexStroke,
-  ApexTooltip,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexResponsive,
-  ApexLegend,
-  ApexFill,
-} from 'ng-apexcharts';
-import { MasterData } from 'src/assets/data/master-data';
+
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { SpstudentInfoByTraineeId } from '../models/SpstudentInfoByTraineeId';
 import { findIndex } from 'rxjs';
-import { CourseModule } from 'src/app/basic-setup/models/CourseModule';
-import { ClassRoutine } from 'src/app/routine-management/models/classroutine';
-import { ReadingMaterial } from 'src/app/reading-materials/models/readingmaterial';
-import { Attendance } from 'src/app/attendance-management/models/attendance';
+import { CourseModule } from '../../../../src/app/basic-setup/models/CourseModule';
+import { ClassRoutine } from '../../../../src/app/routine-management/models/classroutine';
+import { ReadingMaterial } from '../../../../src/app/reading-materials/models/readingmaterial';
+import { Attendance } from '../../../../src/app/attendance-management/models/attendance';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { environment } from 'src/environments/environment';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { environment } from '../../../../src/environments/environment';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
-export type barChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  responsive: ApexResponsive[];
-  xaxis: ApexXAxis;
-  legend: ApexLegend;
-  fill: ApexFill;
-};
 
-export type areaChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-  legend: ApexLegend;
-  colors: string[];
-};
 
 @Component({
   selector: 'app-dashboard',
@@ -61,11 +27,10 @@ export type areaChartOptions = {
   styleUrls: ['./dashboard.component.sass'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  @ViewChild('chart') chart: ChartComponent;
+
    masterData = MasterData;
   loading = false;
-  public barChartOptions: Partial<barChartOptions>;
-  public areaChartOptions: Partial<areaChartOptions>;
+ 
   GetStudentIdForm: FormGroup;
   studentData: SpstudentInfoByTraineeId;
   traineeId:number;

@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { BaseSchoolName } from '../../models/BaseSchoolName';
-import { MasterData } from 'src/assets/data/master-data';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-schoolname',
@@ -183,7 +183,7 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const id = this.BaseSchoolForm.get('baseSchoolNameId').value;
+    const id = this.BaseSchoolForm.get('baseSchoolNameId')?.value;
     const formData = new FormData();
     for (const key of Object.keys(this.BaseSchoolForm.value)) {
       const value = this.BaseSchoolForm.value[key];

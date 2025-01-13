@@ -5,7 +5,7 @@ import { CovidVaccineService } from '../../service/CovidVaccine.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-covid-vaccine',
@@ -77,7 +77,7 @@ export class NewCovidVaccineComponent implements OnInit,OnDestroy {
  
   
   onSubmit() {
-    const id = this.CovidVaccineForm.get('covidVaccineId').value;   
+    const id = this.CovidVaccineForm.get('covidVaccineId')?.value;   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

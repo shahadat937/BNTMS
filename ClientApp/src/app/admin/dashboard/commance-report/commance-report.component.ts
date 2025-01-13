@@ -12,11 +12,14 @@ import { DateTimeAdapter } from "ng-pick-datetime/date-time/adapter/date-time-ad
 import { AuthService } from "../../../core/service/auth.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+import * as html2pdf from 'html2pdf.js';
+import { jsPDF } from "jspdf";
+
 
 @Component({
   selector: "app-commance-report",
   templateUrl: "./commance-report.component.html",
-  styleUrls: ["./commance-report.component.sass"],
+  styleUrls: ["./commance-report.component.scss"],
 })
 export class CommanceReportComponent
   extends UnsubscribeOnDestroyAdapter
@@ -37,7 +40,7 @@ export class CommanceReportComponent
     totalCivilCount: 0,
     totalForignCount: 0,
   };
-  isShow = true;
+  isShow = false;
   constructor(
     private snackBar: MatSnackBar,
     private authService: AuthService,
@@ -91,7 +94,6 @@ export class CommanceReportComponent
       .subscribe((res) => {
         this.report = res;
         // this.isShow = true;
-
         // Initialize the totals
         let totalOfficer = 0;
         let totalMidCount = 0;
@@ -158,7 +160,10 @@ export class CommanceReportComponent
         };
         if (!this.groupArrays.length) {
           this.message = "No Data Found on " + this.selectedDate;
-          // this.isShow = false;
+          this.isShow = false;
+        }
+        else{
+          this.isShow = true;
         }
       });
   }
@@ -242,4 +247,29 @@ export class CommanceReportComponent
       </html>`);
     popupWin.document.close();
   }
+  downloadPDF(): void {
+    const element = document.getElementById('contentToConvert');
+    if (element) {
+      const options = {
+        margin: [10, 10, 26, 10], // Adjust margins if needed
+        filename: 'download.pdf',
+        image: { type: 'jpeg', quality: 0.98 }, // Use JPEG for better rendering
+        html2canvas: { 
+          scale: 2, // Increase scale for better resolution
+          useCORS: true, // Allow cross-origin images if any
+          scrollX: 0, 
+          scrollY: 0 
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'landscape',
+          pagebreak: { mode: 'always', before: '.table' }  
+        },
+      };
+  
+      html2pdf().set(options).from(element).save();
+    }
+  }
+  
 }

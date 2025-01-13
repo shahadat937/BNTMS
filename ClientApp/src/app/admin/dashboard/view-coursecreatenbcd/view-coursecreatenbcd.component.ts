@@ -10,12 +10,12 @@ import { ConfirmService } from "../../../core/service/confirm.service";
 //import{MasterData} from 'src/assets/data/master-data'
 import { MasterData } from "../../../../assets/data/master-data";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { SelectedModel } from "src/app/core/models/selectedModel";
-import { AuthService } from "src/app/core/service/auth.service";
-import { Role } from "src/app/core/models/role";
+import { SelectedModel } from "../../../../../src/app/core/models/selectedModel";
+import { AuthService } from "../../../../../src/app/core/service/auth.service";
+import { Role } from "../../../../../src/app/core/models/role";
 import { CourseNameService } from "../../../basic-setup/service/CourseName.service";
-import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
-import { SharedServiceService } from "src/app/shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../../../src/app/shared/UnsubscribeOnDestroyAdapter";
+import { SharedServiceService } from "../../../../../src/app/shared/shared-service.service";
 
 @Component({
   selector: "app-view-coursecreatenbcd",
@@ -121,15 +121,15 @@ export class ViewCourseCreateNbcdComponent
       status: [1],
       isActive: [true],
     });
-    this.CourseDurationForm.get("course").valueChanges.subscribe((value) => {
+    this.CourseDurationForm.get("course")?.valueChanges.subscribe((value) => {
       this.getSelectedCourseAutocomplete(value);
     });
   }
   //autocomplete
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value;
-    this.CourseDurationForm.get("courseNameId").setValue(item.value);
-    this.CourseDurationForm.get("course").setValue(item.text);
+    this.CourseDurationForm.get("courseNameId")?.setValue(item.value);
+    this.CourseDurationForm.get("course")?.setValue(item.text);
   }
   getSelectedCourseAutocomplete(cName) {
     this.CourseNameService.getSelectedCourseByNameAndType(3, cName).subscribe(
@@ -141,15 +141,15 @@ export class ViewCourseCreateNbcdComponent
   }
 
   onSubmit() {
-    this.CourseDurationForm.get("nbcd").setValue(this.nbcd);
-    this.CourseDurationForm.get("nbcdDurationFrom").setValue(this.durationFrom);
-    this.CourseDurationForm.get("nbcdDurationTo").setValue(this.durationTo);
-    this.CourseDurationForm.get("noOfCandidates").setValue(this.noOfCandidates);
-    this.CourseDurationForm.get("professional").setValue(this.professional);
-    this.CourseDurationForm.get("courseDurationId").setValue(
+    this.CourseDurationForm.get("nbcd")?.setValue(this.nbcd);
+    this.CourseDurationForm.get("nbcdDurationFrom")?.setValue(this.durationFrom);
+    this.CourseDurationForm.get("nbcdDurationTo")?.setValue(this.durationTo);
+    this.CourseDurationForm.get("noOfCandidates")?.setValue(this.noOfCandidates);
+    this.CourseDurationForm.get("professional")?.setValue(this.professional);
+    this.CourseDurationForm.get("courseDurationId")?.setValue(
       this.courseDurationId
     );
-    this.CourseDurationForm.get("courseTitle").setValue(this.courseTitle);
+    this.CourseDurationForm.get("courseTitle")?.setValue(this.courseTitle);
 
     this.CourseDurationService.saveCourseDurationNbcd(
       this.CourseDurationForm.value,

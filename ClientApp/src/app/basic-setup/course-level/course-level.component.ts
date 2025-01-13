@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
@@ -12,6 +13,23 @@ import { SelectedModel } from "../../core/models/selectedModel";
 import { ConfirmService } from "../../core/service/confirm.service";
 import { SharedServiceService } from "../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../shared/UnsubscribeOnDestroyAdapter";
+=======
+import { Component, OnInit } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CourseLevelService } from '../service/course-level.service';
+import { BaseSchoolNameService } from '../../basic-setup/service/BaseSchoolName.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { MasterData } from '../../../../src/assets/data/master-data';
+import { CourseLevel } from '../models/course-level';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
+
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
 @Component({
   selector: "app-course-level",
@@ -155,7 +173,11 @@ export class CourseLevelComponent
   }
 
   onSubmit() {
+<<<<<<< HEAD
     const id = this.CourseLevelForm.get("courseLevelId")?.value;
+=======
+    const id = this.CourseLevelForm.get('courseLevelId')?.value;
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
     if (id) {
       this.confirmService

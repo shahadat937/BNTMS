@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
@@ -11,6 +12,22 @@ import { MasterData } from "../../../../assets/data/master-data";
 import { ConfirmService } from "../../../core/service/confirm.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+=======
+import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { AccountType } from '../../models/AccountType';
+import { AccountTypeService } from '../../service/AccountType.service';
+import { Router } from '@angular/router';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+ 
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
 @Component({
   selector: "app-AccountType",

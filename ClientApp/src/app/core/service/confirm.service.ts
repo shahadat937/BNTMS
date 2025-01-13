@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
-import { ConfirmDialogComponent } from 'src/app/modals/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../src/app/modals/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -30,14 +30,14 @@ export class ConfirmService {
 
   private getResult() {
     return (observer) => {
-      const subscription = this.bsModelRef.onHidden.subscribe(() => {
+      const subscription = this.bsModelRef.onHidden?.subscribe(() => {
         observer.next(this.bsModelRef.content.result);
         observer.complete();
       });
 
       return {
         unsubscribe() {
-          subscription.unsubscribe();
+          subscription?.unsubscribe();
         }
       }
     }

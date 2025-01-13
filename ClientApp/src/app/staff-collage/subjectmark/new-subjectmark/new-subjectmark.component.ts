@@ -8,7 +8,7 @@ import { SelectedModel } from '../../../core/models/selectedModel';
 import {SubjectMark} from '../../../central-exam/models/SubjectMark'
 import {MasterData} from '../../../../../src/assets/data/master-data';
 import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.service'
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-subjectmark',
@@ -137,7 +137,7 @@ export class NewSubjectMarkComponent implements OnInit, OnDestroy {
   onsubjectSelectionChangeGetsubjectMarkList(){
    var courseNameId=MasterData.courseName.StaffCollage;
 
-    this.SubjectMarkForm.get('courseNameId').setValue(courseNameId);
+    this.SubjectMarkForm.get('courseNameId')?.setValue(courseNameId);
     this.bnaSubjectNameId=this.SubjectMarkForm.value['bnaSubjectNameId'];
     this.isShown=true;
     if(courseNameId != null  && this.bnaSubjectNameId !=null){
@@ -146,7 +146,7 @@ export class NewSubjectMarkComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const id = this.SubjectMarkForm.get('subjectMarkId').value;  
+    const id = this.SubjectMarkForm.get('subjectMarkId')?.value;  
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         
@@ -171,8 +171,8 @@ export class NewSubjectMarkComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/staff-collage/add-staffcollagesubjectmark');
         this.onsubjectSelectionChangeGetsubjectMarkList();
         this.SubjectMarkForm.reset();
-        this.SubjectMarkForm.get('subjectMarkId').setValue(0);
-        this.SubjectMarkForm.get('isActive').setValue(true);
+        this.SubjectMarkForm.get('subjectMarkId')?.setValue(0);
+        this.SubjectMarkForm.get('isActive')?.setValue(true);
         this.snackBar.open('Information Inserted Successfully ', '', {
           duration: 2000,
           verticalPosition: 'bottom',

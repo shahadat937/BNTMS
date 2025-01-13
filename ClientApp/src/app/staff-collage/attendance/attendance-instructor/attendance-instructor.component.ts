@@ -18,7 +18,7 @@ import { CheckboxSelectedModel } from '../../../../../src/app/core/models/checkb
 import { TraineeList } from '../../models/traineeList';
 import { DatePipe } from '@angular/common';
 import { ClassRoutineService } from '../../../../../src/app/routine-management/service/classroutine.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -130,7 +130,7 @@ export class AttendanceInstructorComponent implements OnInit, OnDestroy {
   }
 
   getControlLabel(index: number,type: string){
-    return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
 
    private createTraineeData() {
@@ -211,12 +211,12 @@ export class AttendanceInstructorComponent implements OnInit, OnDestroy {
         var bnaSubjectNameId=dropdown.source.value.bnaSubjectNameId;
  
         //set value to form
-        this.AttendanceForm.get('courseDurationId').setValue(courseDurationId);
-        this.AttendanceForm.get('classPeriodIds').setValue(classPeriodId);
-        this.AttendanceForm.get('classRoutineId').setValue(classRoutineId);
-        this.AttendanceForm.get('courseNameId').setValue(courseNameId);
-        this.AttendanceForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
-        this.AttendanceForm.get('bnaSubjectNameId').setValue(bnaSubjectNameId);
+        this.AttendanceForm.get('courseDurationId')?.setValue(courseDurationId);
+        this.AttendanceForm.get('classPeriodIds')?.setValue(classPeriodId);
+        this.AttendanceForm.get('classRoutineId')?.setValue(classRoutineId);
+        this.AttendanceForm.get('courseNameId')?.setValue(courseNameId);
+        this.AttendanceForm.get('baseSchoolNameId')?.setValue(baseSchoolNameId);
+        this.AttendanceForm.get('bnaSubjectNameId')?.setValue(bnaSubjectNameId);
 
 
         this.isShown=true;
@@ -310,7 +310,7 @@ export class AttendanceInstructorComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const id = this.AttendanceForm.get('attendanceId').value;
+    const id = this.AttendanceForm.get('attendanceId')?.value;
     // if(this.AttendanceForm.get('attendanceStatus').value === null){
     //   this.AttendanceForm.get('attendanceStatus').setValue(false);
     // }
