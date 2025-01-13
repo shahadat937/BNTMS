@@ -20,7 +20,7 @@ import { AuthService } from '../../../core/service/auth.service';
   templateUrl: './service-instructor-biodata-list.component.html',
   styleUrls: ['./service-instructor-biodata-list.component.sass']
 })
-export class ServiceInstructorBiodataListComponent implements OnInit {
+export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   masterData = MasterData;
@@ -137,8 +137,9 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
   onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-
+      this.isLoading = true;
       this.BIODataGeneralInfoService.uploadServiceInstructorFile(file, this.branchId).subscribe(
+        
         (response: any) => {
         (event.target as HTMLInputElement).value = '';
         if(response.success){
@@ -158,9 +159,11 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
             panelClass: 'snackbar-danger'
           });
         }
+        this.isLoading = false;
       },
         (error) => {
           (event.target as HTMLInputElement).value = '';
+          this.isLoading = false;
         }
       );
     }
