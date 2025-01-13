@@ -77,14 +77,14 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                                 else
                                 {
                                     errorCount++;
-                                    errorLogs.Add($"PNo: {user.PNo} already Assignd in other school.");
+                                    errorLogs.Add($"PNo: {pno} already Assignd in other school.");
                                 }
 
                             }
                             else
                             {
                                 errorCount++;
-                                errorLogs.Add($"PNo: {user.PNo} User Not Found");
+                                errorLogs.Add($"PNo: {pno} User Not Found");
                             }
 
                         }
