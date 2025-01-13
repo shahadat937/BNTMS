@@ -34,6 +34,7 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
             var response = new BaseCommandResponse();
             var successCount = 0;
             var errorCount = 0;
+            var errorLogs = new List<string>();
 
 
             using (var stream = new MemoryStream())
@@ -57,53 +58,49 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
 
                         if (traineeBioData != null)
                         {
-                            var instructor = _userService.GetUserByTraineeId(traineeBioData.TraineeId.ToString());
+                            var user = await _aspUserRepository.FindOneAsync(x => x.PNo == traineeBioData.TraineeId.ToString());
+                            if (user != null)
+                            {
+                                if (user.BranchId == null || user.BranchId == "")
+                                {
 
-                           
-                           
+                                    CreateUserDto userDto = new CreateUserDto
+                                    {
+                                        TraineeId = user.PNo,
+                                        RoleName = "Instructor",
+                                    };
+
+                                    await _userService.UpdateUserAsAServiceInstructor(user.Id, userDto, request.BranchId);
+                                    successCount++;
+
+                                }
+                                else
+                                {
+                                    errorCount++;
+                                    errorLogs.Add($"PNo: {user.PNo} already Assignd in other school.");
+                                }
+
+                            }
+                            else
+                            {
+                                errorCount++;
+                                errorLogs.Add($"PNo: {user.PNo} User Not Found");
+                            }
+
                         }
                         else
                         {
-
                             errorCount++;
-
+                            errorLogs.Add($"PNo: {pno} No Biodata found on system.");
                         }
 
-
-
-
-                        //    if (instructor != null)
-                        //    {
-                        //        if (instructor.BranchId != null)
-                        //        {
-                        //            response.Success = false;
-                        //            response.Message = "Creation Failed, Trainee already exist";
-                        //            errorCount++;
-                        //        }
-                        //        else
-                        //        {
-                        //            await _unitOfWork.Repository<AspNetUsers>().Update(instructor);
-
-                        //            try
-                        //            {
-                        //                await _unitOfWork.Save();
-                        //                successCount++;
-                        //            }
-                        //            catch (Exception ex)
-                        //            {
-                        //                Console.WriteLine(ex);
-                        //                errorCount++;
-                        //            }
-
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        errorCount++;
-                        //    }
                     }
                 }
             }
+
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var logFilePath = Path.Combine(desktopPath, "FailureLog.txt");
+            await File.WriteAllLinesAsync(logFilePath, errorLogs);
 
             if (successCount > 0)
             {

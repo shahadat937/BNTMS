@@ -65,6 +65,7 @@
     <Folder Include="wwwroot\Content\images\profile\" />
     <Folder Include="wwwroot\Content\images\" />
     <Folder Include="wwwroot\Content\images\" />
+    <Folder Include="wwwroot\biodata-excel-file\" />
   </ItemGroup>
 
   <ItemGroup>

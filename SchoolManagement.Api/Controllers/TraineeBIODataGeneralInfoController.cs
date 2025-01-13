@@ -7,6 +7,7 @@ using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Queries;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Commands;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Queries;
+using SchoolManagement.Application.Features.TraineeNominations.Requests.Commands;
 using SchoolManagement.Shared.Models;
 
 namespace SchoolManagement.Api.Controllers;
@@ -313,6 +314,18 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
         {
             BranchId = branchId
 
+        });
+        return Ok(trainee);
+    }
+
+    [HttpPost]
+    [Route("get-upload-service-instructor-execl-file")]
+    public async Task<ActionResult> UploadTraineeNomineeList([FromForm] IFormFile file, string branchId)
+    {
+        var trainee = await _mediator.Send(new UploadServiceInstructorCommand
+        {
+            ServiceInstructorFile = file,
+            BranchId = branchId
         });
         return Ok(trainee);
     }
