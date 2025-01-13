@@ -239,7 +239,6 @@ export class ViewSubjectListBySchoolAndCourseComponent
         this.dataSource.data,
         (courses) => courses.courseModule
       );
-      console.log(this.sharedService.groupedData)
       // this gives an object with dates as keys
       const groups = this.SelectedsubjectsBySchoolAndCourse.reduce(
         (groups, courses) => {

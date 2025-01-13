@@ -49,7 +49,6 @@ export class RoleFeatureService {
   find(Roleid:string,Featureid:number) {
 
     const result = this.http.get<RoleFeature>(this.baseUrl + '/RoleFeature/get-RoleFeatureDetail?RoleId='+Roleid+'&FeatureId='+Featureid);
-    console.log(result);
     return result;
   }
    

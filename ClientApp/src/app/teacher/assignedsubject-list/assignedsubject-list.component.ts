@@ -49,7 +49,6 @@ export class AssignedSubjectListComponent implements OnInit,OnDestroy {
         this.dataSource.data,
         (courses) => courses.schoolName
       );
-      console.log(this.sharedService.groupedData)
     });  
   }
   ngOnDestroy() {

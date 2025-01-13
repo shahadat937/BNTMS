@@ -118,7 +118,6 @@ export class SchoolListComponent
   }
 
   formatIntlDate(date) {
-    console.log(date)
     if (!(date instanceof Date)) {
       console.error("Invalid date. Ensure 'date' is a Date object.");
       return;
@@ -129,7 +128,6 @@ export class SchoolListComponent
       month: "short",
       year: "numeric",
     }).format(date);
-    console.log(this.todayFormatedDate);
   }
 
   print() {

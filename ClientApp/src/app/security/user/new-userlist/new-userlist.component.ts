@@ -174,8 +174,7 @@ export class NewUserListComponent implements OnInit, OnDestroy {
     //   this.UserForm.get('userName').setValue(element.pno);
     //   this.UserForm.get('traineeId').setValue(element.traineeId);
     //   this.UserForm.get('email').setValue(element.email);
-    //   this.UserForm.get('phoneNumber').setValue(element.mobile);
-    //   console.log("User Value : ",this.UserForm.value)
+    //   this.UserForm.get('phoneNumber').setValue(element.mobile)
     //   this.UserService.submit(this.UserForm.value).subscribe((response : any) => {
     //     if(response.success){
     //       this.snackBar.open('Information Inserted Successfully ', '', {

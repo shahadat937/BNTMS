@@ -96,11 +96,11 @@ export class NewcoursesubjectsectionasignComponent implements OnInit, OnDestroy 
    // const id = this.route.snapshot.paramMap.get('attendanceId'); 
     //this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
     
-    this.traineeNominationId= parseInt(this.route.snapshot.paramMap.get('traineeNominationId'));
-    this.schollNameId= parseInt(this.route.snapshot.paramMap.get('schollNameId'));
-    this.courseNameId= parseInt(this.route.snapshot.paramMap.get('courseNameId'));
-    this.bnaSubjectCurriculumId= parseInt(this.route.snapshot.paramMap.get('bnaSubjectCurriculumId'));
-    this.bnaSemesterId= parseInt(this.route.snapshot.paramMap.get('bnaSemesterId'));
+    this.traineeNominationId= parseInt(this.route.snapshot.paramMap.get('traineeNominationId')  ?? '0');
+    this.schollNameId= parseInt(this.route.snapshot.paramMap.get('schollNameId') ?? '0');
+    this.courseNameId= parseInt(this.route.snapshot.paramMap.get('courseNameId')?? '0');
+    this.bnaSubjectCurriculumId= parseInt(this.route.snapshot.paramMap.get('bnaSubjectCurriculumId')?? '0');
+    this.bnaSemesterId= parseInt(this.route.snapshot.paramMap.get('bnaSemesterId')?? '0');
 
     
     this.intitializeForm();
@@ -270,7 +270,6 @@ if (this.actionStatus=='S'){
       this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
         if (result) {
           this.loading = true;
-          console.log("Form Value : ", this.NomeneeSubjectSectionForm.value);
           this.subscription = this.CoursesubjectsectionasignService.update(this.NomeneeSubjectSectionForm.value).subscribe(response => {
             //this.router.navigateByUrl('/course-management/schoolcourse-list');
             this.reloadCurrentRoute();

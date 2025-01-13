@@ -183,7 +183,6 @@ export class DashboardComponent implements OnInit,OnDestroy {
   
   getActiveQexam(traineeId){
     this.subscription = this.instructorDashboardService.getSpInstructorInfoForCentralExam(traineeId,this.masterData.coursetype.CentralExam,this.masterData.courseName.QExam).subscribe(res=>{
-      console.log(res);
       this.qexamCount=res.length;  
     });
   }

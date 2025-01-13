@@ -59,7 +59,6 @@ export class CountedOfficersListComponent
   ngOnInit() {
     //this.getTraineeNominations();
     var traineeStatusId = this.route.snapshot.paramMap.get("traineeStatusId");
-    console.log(traineeStatusId);
     this.dbType = this.route.snapshot.paramMap.get("dbType");
 
     let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") || '';

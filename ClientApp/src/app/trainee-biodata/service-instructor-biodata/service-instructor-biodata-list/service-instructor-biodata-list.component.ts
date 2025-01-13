@@ -92,8 +92,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
       .subscribe(
         response => {
           this.serviceInstructorBioData = response 
-          this.sharedService.groupedData = this.sharedService.groupBy(this.serviceInstructorBioData, (bioData)=> bioData.schoolName );
-          console.log( this.sharedService.groupedData);       
+          this.sharedService.groupedData = this.sharedService.groupBy(this.serviceInstructorBioData, (bioData)=> bioData.schoolName );  
             this.warningMessage = this.serviceInstructorBioData.length ? "" : "No Instructor Found"
           
           this.isLoading = false;

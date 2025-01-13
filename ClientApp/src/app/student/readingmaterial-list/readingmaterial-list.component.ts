@@ -111,7 +111,6 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
         if (this.documentTypeId) {
           this.setPageTitle(this.documentTypeId)
           this.getReadingMaterialsForStudent(this.documentTypeId);
-          console.log(courseNameId);
         } 
         // else {
         //   this.pageTitle = "Course Material";

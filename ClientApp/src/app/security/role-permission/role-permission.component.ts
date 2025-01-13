@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 import { RoleFeatureService } from '../service/rolefeature.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { SelectMode } from 'ng-pick-datetime/date-time/date-time.class';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
@@ -66,7 +66,6 @@ export class RolePermissionComponent implements OnInit {
   }
 
   getFeatersbyModule(event: any) {
-    console.log(event.value);
     this.getFeaturesbyModule(event.value)
     
   }
@@ -74,7 +73,6 @@ export class RolePermissionComponent implements OnInit {
   getFeaturesbyModule(moduleId:number) {
     this.subscription = this.RoleFeatureService.getFeaturesbyModule(moduleId).subscribe(response => {
       this.features = response
-      console.log(this.features);
     })
   }
 

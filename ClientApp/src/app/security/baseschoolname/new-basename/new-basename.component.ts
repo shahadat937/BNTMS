@@ -105,7 +105,6 @@ export class NewBaseNameComponent implements OnInit, OnDestroy {
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.BaseNameForm.value['firstLevel'];
     this.subscription = this.BaseSchoolNameService.getSelectedCommendingArea(this.organizationId).subscribe(res=>{
-      console.log(res);
       this.selectedCommendingArea=res
       this.selectCommendingArea=res
     });        

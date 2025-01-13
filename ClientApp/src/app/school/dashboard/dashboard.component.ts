@@ -296,7 +296,6 @@ export class DashboardComponent implements OnInit {
   getRunningCourseDurationByBase(viewStatus) {
     let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     this.schoolDashboardService.getRunningCourseDurationByBase(currentDateTime, this.schoolId, viewStatus, this.searchText ).subscribe(response => {
-      console.log(this.searchText);
       this.runningCourses = response;
       // this gives an object with dates as keys
       const groups = this.runningCourses.reduce((groups, courses) => {
@@ -580,8 +579,6 @@ export class DashboardComponent implements OnInit {
   applySearch(filterValue: string) {
    
     this.searchText = filterValue;
-    console.log(filterValue)
-    console.log('S'+this.selectedFilter)
     this.getRunningCourseDurationByBase(this.selectedFilter);
 
   }

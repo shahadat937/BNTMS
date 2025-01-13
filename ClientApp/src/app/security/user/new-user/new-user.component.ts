@@ -211,7 +211,6 @@ export class NewUserComponent implements OnInit, OnDestroy {
   onSubmit() {
     const id = this.UserForm.get('id')?.value;  
     //const id = this.route.snapshot.paramMap.get('userId');   
-     console.log(this.UserForm.value)
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

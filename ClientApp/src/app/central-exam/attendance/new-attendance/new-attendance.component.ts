@@ -152,7 +152,6 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
 
         this.isLoading = true;
         this.classRoutineService.getClassRoutinesByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseDurationId).subscribe(response => {
-          console.log(response);
           this.dataSource.data = response.items.filter(x=>x.attendanceComplete===0); 
           this.paging.length = response.totalItemsCount    
           this.isLoading = false;
@@ -163,7 +162,6 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
 
   getSelectedCourseDurationByCourseTypeIdAndCourseNameId(){
     this.BNAExamMarkService.getSelectedCourseDurationByCourseTypeIdAndCourseNameId(MasterData.coursetype.CentralExam,MasterData.courseName.QExam).subscribe(res => {
-      console.log(res);
       this.selectedCourseDurationByCourseTypeAndCourseName = res;
     });
   }
