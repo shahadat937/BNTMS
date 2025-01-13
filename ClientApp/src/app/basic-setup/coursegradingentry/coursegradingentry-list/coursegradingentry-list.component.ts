@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { CourseGradingEntry } from "../../models/CourseGradingEntry";
+import { CourseGradingEntryService } from "../../service/CourseGradingEntry.service";
+import { SelectionModel } from "@angular/cdk/collections";
+import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { MasterData } from "../../../../assets/data/master-data";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+=======
 import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,51 +25,59 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
 @Component({
-  selector: 'app-coursegradingentry',
-  templateUrl: './coursegradingentry-list.component.html',
-  styleUrls: ['./coursegradingentry-list.component.sass']
+  selector: "app-coursegradingentry",
+  templateUrl: "./coursegradingentry-list.component.html",
+  styleUrls: ["./coursegradingentry-list.component.sass"],
 })
-export class CourseGradingEntryListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+export class CourseGradingEntryListComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  masterData = MasterData;
   loading = false;
   ELEMENT_DATA: CourseGradingEntry[] = [];
   isLoading = false;
-  
+
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
-    length: 1
-  }
-  searchText="";
+    length: 1,
+  };
+  searchText = "";
 
-  displayedColumns: string[] = ['ser', 'markObtained','grade', 'actions'];
+  displayedColumns: string[] = ["ser", "markObtained", "grade", "actions"];
   dataSource: MatTableDataSource<CourseGradingEntry> = new MatTableDataSource();
 
-
   selection = new SelectionModel<CourseGradingEntry>(true, []);
-  
+
   constructor(
     private snackBar: MatSnackBar,
     private CourseGradingEntryService: CourseGradingEntryService,
     private router: Router,
     private confirmService: ConfirmService,
-    public sharedService: SharedServiceService) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
-  
+
   ngOnInit() {
     this.getCourseGradingEntry();
   }
- 
+
   getCourseGradingEntry() {
     this.isLoading = true;
-    this.CourseGradingEntryService.getCourseGradingEntry(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-    this.dataSource.data = response.items; 
-    this.paging.length = response.totalItemsCount    
-    this.isLoading = false;
-    })
+    this.CourseGradingEntryService.getCourseGradingEntry(
+      this.paging.pageIndex,
+      this.paging.pageSize,
+      this.searchText
+    ).subscribe((response) => {
+      this.dataSource.data = response.items;
+      this.paging.length = response.totalItemsCount;
+      this.isLoading = false;
+    });
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -70,36 +92,35 @@ export class CourseGradingEntryListComponent extends UnsubscribeOnDestroyAdapter
           this.selection.select(row)
         );
   }
-  addNew(){
-    
-  }
+  addNew() {}
   pageChanged(event: PageEvent) {
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
+    this.paging.pageIndex = event.pageIndex;
+    this.paging.pageSize = event.pageSize;
+    this.paging.pageIndex = this.paging.pageIndex + 1;
     this.getCourseGradingEntry();
   }
 
-  applyFilter(searchText: any){ 
+  applyFilter(searchText: any) {
     this.searchText = searchText;
     this.getCourseGradingEntry();
-  } 
-
+  }
 
   deleteItem(row) {
-    const id = row.courseGradingEntryId; 
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
-      if (result) {
-        this.CourseGradingEntryService.delete(id).subscribe(() => {
-          this.getCourseGradingEntry();
-          this.snackBar.open('Information Delete Successfully ', '', {
-            duration: 2000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'right',
-            panelClass: 'snackbar-danger'
+    const id = row.courseGradingEntryId;
+    this.confirmService
+      .confirm("Confirm delete message", "Are You Sure Delete This Item")
+      .subscribe((result) => {
+        if (result) {
+          this.CourseGradingEntryService.delete(id).subscribe(() => {
+            this.getCourseGradingEntry();
+            this.snackBar.open("Information Delete Successfully ", "", {
+              duration: 2000,
+              verticalPosition: "bottom",
+              horizontalPosition: "right",
+              panelClass: "snackbar-danger",
+            });
           });
-        })
-      }
-    })     
+        }
+      });
   }
 }

@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { BNAClassScheduleStatusService } from "../../service/bnaclassschedulestatus.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+=======
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,18 +18,22 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
 @Component({
-  selector: 'app-new-bnaclassschedulestatus',
-  templateUrl: './new-bnaclassschedulestatus.component.html',
-  styleUrls: ['./new-bnaclassschedulestatus.component.sass']
+  selector: "app-new-bnaclassschedulestatus",
+  templateUrl: "./new-bnaclassschedulestatus.component.html",
+  styleUrls: ["./new-bnaclassschedulestatus.component.sass"],
 })
-export class NewBNAClassScheduleStatusComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class NewBNAClassScheduleStatusComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   loading = false;
   pageTitle: string;
-  destination:string;
+  destination: string;
   BNAClassScheduleStatusForm: FormGroup;
-  buttonText:string;
+  buttonText: string;
   validationErrors: string[] = [];
 
   constructor(
@@ -29,80 +43,94 @@ export class NewBNAClassScheduleStatusComponent extends UnsubscribeOnDestroyAdap
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    public sharedService: SharedServiceService,) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('bnaClassScheduleStatusId'); 
+    const id = this.route.snapshot.paramMap.get("bnaClassScheduleStatusId");
     if (id) {
-      this.pageTitle = 'Edit BNA Class Schedule Status';
+      this.pageTitle = "Edit BNA Class Schedule Status";
       this.destination = "Edit";
-      this.buttonText= "Update"
-      this.BNAClassScheduleStatusService.find(+id).subscribe(
-        res => {
-          this.BNAClassScheduleStatusForm.patchValue({          
-
-            bnaClassScheduleStatusId: res.bnaClassScheduleStatusId,
-            name: res.name,
+      this.buttonText = "Update";
+      this.BNAClassScheduleStatusService.find(+id).subscribe((res) => {
+        this.BNAClassScheduleStatusForm.patchValue({
+          bnaClassScheduleStatusId: res.bnaClassScheduleStatusId,
+          name: res.name,
           //  menuPosition: res.menuPosition,
-          
-          });          
-        }
-      );
+        });
+      });
     } else {
-      this.pageTitle = 'Create BNA Class Schedule Status';
+      this.pageTitle = "Create BNA Class Schedule Status";
       this.destination = "Add";
-      this.buttonText= "Save"
+      this.buttonText = "Save";
     }
     this.intitializeForm();
   }
   intitializeForm() {
     this.BNAClassScheduleStatusForm = this.fb.group({
       bnaClassScheduleStatusId: [0],
-      name: ['', Validators.required],
-    //  menuPosition: ['', Validators.required],
+      name: ["", Validators.required],
+      //  menuPosition: ['', Validators.required],
       isActive: [true],
-    
-    })
+    });
   }
-  
+
   onSubmit() {
+<<<<<<< HEAD
+    const id = this.BNAClassScheduleStatusForm.get(
+      "bnaClassScheduleStatusId"
+    )?.value;
+=======
     const id = this.BNAClassScheduleStatusForm.get('bnaClassScheduleStatusId')?.value;   
+>>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        if (result) {
-          this.loading=true;
-          this.BNAClassScheduleStatusService.update(+id,this.BNAClassScheduleStatusForm.value).subscribe(response => {
-            this.router.navigateByUrl('/basic-setup/bnaclassschedulestatus-list');
-            this.snackBar.open(' Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    }
-   else {
-    this.loading=true;
-      this.BNAClassScheduleStatusService.submit(this.BNAClassScheduleStatusForm.value).subscribe(response => {
-        this.router.navigateByUrl('/basic-setup/bnaclassschedulestatus-list');
-        this.snackBar.open(' Information Save Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
+      this.confirmService
+        .confirm("Confirm Update message", "Are You Sure Update This Item")
+        .subscribe((result) => {
+          if (result) {
+            this.loading = true;
+            this.BNAClassScheduleStatusService.update(
+              +id,
+              this.BNAClassScheduleStatusForm.value
+            ).subscribe(
+              (response) => {
+                this.router.navigateByUrl(
+                  "/basic-setup/bnaclassschedulestatus-list"
+                );
+                this.snackBar.open(" Information Updated Successfully ", "", {
+                  duration: 2000,
+                  verticalPosition: "bottom",
+                  horizontalPosition: "right",
+                  panelClass: "snackbar-success",
+                });
+              },
+              (error) => {
+                this.validationErrors = error;
+              }
+            );
+          }
         });
-      }, error => {
-        this.validationErrors = error;
-      })
+    } else {
+      this.loading = true;
+      this.BNAClassScheduleStatusService.submit(
+        this.BNAClassScheduleStatusForm.value
+      ).subscribe(
+        (response) => {
+          this.router.navigateByUrl("/basic-setup/bnaclassschedulestatus-list");
+          this.snackBar.open(" Information Save Successfully ", "", {
+            duration: 2000,
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            panelClass: "snackbar-success",
+          });
+        },
+        (error) => {
+          this.validationErrors = error;
+        }
+      );
     }
- 
   }
-
 }
