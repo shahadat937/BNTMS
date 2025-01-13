@@ -125,7 +125,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
   }
 
   downloadExcelFile(){
-    const url = environment.fileUrl + '/files/trainee-nominee-file/Trainee Nomination.xlsx'
+    const url = environment.fileUrl + '/files/biodata-excel-file/Service_Instructor_Biodata_UploadFile.xlsx'
     const a = document.createElement('a');
     a.href = url;
     a.download = 'Trainee Nomination.xlsx';
