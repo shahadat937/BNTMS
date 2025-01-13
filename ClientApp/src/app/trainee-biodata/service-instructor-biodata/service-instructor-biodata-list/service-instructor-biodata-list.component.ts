@@ -207,7 +207,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
   }
 
   releseInstractor(userId){
-    this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
+    this.confirmService.confirm('Confirm Update message', 'Are You Sure Release This Instructor?').subscribe(result => {
       if (result) {
         this.UserService.releseServiceInstructor(userId).subscribe(response => {
           this.getBIODataGeneralInfos();
