@@ -283,7 +283,6 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
       this.subscription = this.CourseInstructorService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
         // this.selectedmarktype[bnaSubjectNameId]=res;
         this.selectMarkType=res
-        console.log("Type",res);
       });
   }
 
@@ -291,9 +290,7 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
 
     let subjectMarkId = event.source.value;
    
-      this.CourseInstructorService.findSubjectMark(subjectMarkId).subscribe(res=>{
-       console.log(res);
-   
+      this.CourseInstructorService.findSubjectMark(subjectMarkId).subscribe(res=>{   
        this.CourseInstructorForm.get('markTypeId')?.setValue(res.markTypeId);
       });
    

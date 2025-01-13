@@ -92,8 +92,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
       .subscribe(
         response => {
           this.serviceInstructorBioData = response 
-          this.sharedService.groupedData = this.sharedService.groupBy(this.serviceInstructorBioData, (bioData)=> bioData.schoolName );
-          console.log( this.sharedService.groupedData);       
+          this.sharedService.groupedData = this.sharedService.groupBy(this.serviceInstructorBioData, (bioData)=> bioData.schoolName );  
             this.warningMessage = this.serviceInstructorBioData.length ? "" : "No Instructor Found"
           
           this.isLoading = false;
@@ -125,7 +124,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
   }
 
   downloadExcelFile(){
-    const url = environment.fileUrl + '/files/trainee-nominee-file/Trainee Nomination.xlsx'
+    const url = environment.fileUrl + '/files/biodata-excel-file/Service_Instructor_Biodata_UploadFile.xlsx'
     const a = document.createElement('a');
     a.href = url;
     a.download = 'Trainee Nomination.xlsx';

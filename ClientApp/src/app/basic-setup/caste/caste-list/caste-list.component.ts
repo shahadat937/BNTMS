@@ -1,17 +1,4 @@
-<<<<<<< HEAD
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
-import { Caste } from "../../models/Caste";
-import { CasteService } from "../../service/Caste.service";
-import { SelectionModel } from "@angular/cdk/collections";
-import { Router } from "@angular/router";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { MasterData } from "../../../../assets/data/master-data";
-import { ConfirmService } from "../../../core/service/confirm.service";
-import { SharedServiceService } from "../../../shared/shared-service.service";
-import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
-=======
+
 import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,7 +12,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
  
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
 @Component({
   selector: "app-Caste",

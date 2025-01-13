@@ -1,13 +1,4 @@
-<<<<<<< HEAD
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute, Router } from "@angular/router";
-import { CountryService } from "../../service/country.service";
-import { ConfirmService } from "../../../core/service/confirm.service";
-import { SharedServiceService } from "../../../shared/shared-service.service";
-import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
-=======
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +7,7 @@ import { ConfirmService } from '../../../../../src/app/core/service/confirm.serv
 import { CountryService } from '../../service/country.service';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
+
 
 @Component({
   selector: "app-new-country",
@@ -78,11 +69,8 @@ export class NewcountryComponent
   }
 
   onSubmit() {
-<<<<<<< HEAD
-    const id = this.countryForm.get("countryId")?.value;
-=======
+
     const id = this.countryForm.get('countryId')?.value;  
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
     if (id) {
       this.confirmService
         .confirm(

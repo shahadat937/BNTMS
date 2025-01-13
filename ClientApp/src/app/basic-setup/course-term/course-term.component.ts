@@ -1,21 +1,4 @@
-<<<<<<< HEAD
-import { Component, OnInit } from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute, Router } from "@angular/router";
-import { CourseTermService } from "../service/course-term.service";
-import { CourseLevelService } from "../service/course-level.service";
-import { BaseSchoolNameService } from "../../basic-setup/service/BaseSchoolName.service";
-import { CourseTerm } from "../models/course-term";
-import { stringify } from "@angular/compiler/src/util";
-import { MasterData } from "../../../assets/data/master-data";
-import { SelectedModel } from "../../core/models/selectedModel";
-import { ConfirmService } from "../../core/service/confirm.service";
-import { SharedServiceService } from "../../shared/shared-service.service";
-import { UnsubscribeOnDestroyAdapter } from "../../shared/UnsubscribeOnDestroyAdapter";
-=======
+
 import { Component, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -33,7 +16,7 @@ import { stringify } from '@angular/compiler/src/util';
 import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
+
 @Component({
   selector: "app-course-term",
   templateUrl: "./course-term.component.html",
@@ -197,11 +180,9 @@ export class CourseTermComponent
   }
 
   onSubmit() {
-<<<<<<< HEAD
-    const id = this.CourseTermForm.get("courseTermId")?.value;
-=======
+
     const id = this.CourseTermForm.get('courseTermId')?.value;   
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
+
 
     if (id) {
       this.confirmService

@@ -312,7 +312,6 @@ export class NewAttendanceComponent extends UnsubscribeOnDestroyAdapter implemen
      }
 
      resetWarningMessage(){
-      console.log('resetWarningMessage triggered');
       this.warrningMessage = "";
       this.AttendanceForm.get('attendanceDate')?.reset(); // Reset the date field
       this.AttendanceForm.get('classPeriod')?.reset();

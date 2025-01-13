@@ -62,10 +62,8 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
     const id = this.route.snapshot.paramMap.get('traineeNominationId');  
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId');  
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    console.log(this.courseNameId, this.courseDurationId)
     this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
-        console.log(res);
         this.TraineeNominationForm.patchValue({          
           traineeNominationId:res.traineeNominationId, 
           courseDurationId: res.courseDurationId, 
@@ -249,7 +247,6 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
         }
       })
     }else {
-      console.log(this.TraineeNominationForm.value);
       this.loading=true;
       this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         this.router.navigateByUrl('/inter-service/traineenomination-list/'+this.courseDurationId);

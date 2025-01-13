@@ -365,9 +365,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     var courseNameId=this.BNAExamMarkForm.value['courseNameId'];
     var bnaSubjectNameId=this.BNAExamMarkForm.value['bnaSubjectNameId'];
     var SubjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
-    this.isShown = true;
-    // console.log(courseNameId,bnaSubjectNameId,this.subjectMarkId,false,1)
- 
+    this.isShown = true; 
     this.subscription = this.BNAExamMarkService.getCentralexamMarkListByParameters(courseNameId,bnaSubjectNameId,this.subjectMarkId,false,1).subscribe(res=>{
       var unapprovedlistItemCount = res.length;
       if(unapprovedlistItemCount > 0){

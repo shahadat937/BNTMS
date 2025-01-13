@@ -269,8 +269,6 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
       let baseSchoolNameId: SelectedModel ={value: parseInt(this.BulletinForm.get('baseSchoolNameId')?.value),text:"custom"};
 
       this.BulletinForm.get('baseSchoolNameId')?.patchValue([baseSchoolNameId]);
-
-      console.log(this.BulletinForm.value);
       this.subscription = this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({
         next: response => {
           if(response.success) {
@@ -303,7 +301,6 @@ export class NewBulletinComponent implements OnInit, OnDestroy {
     else {
       //
       this.loading = true;
-      console.log(this.BulletinForm.value);
 
       this.subscription = this.bulletinService.submitBulletinBulk(this.BulletinForm.value).subscribe({
         next: response => {

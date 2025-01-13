@@ -187,14 +187,12 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
 
  onSubjectNameSelectionChangeGet(dropdown){
     var bnaSubjectNameId = dropdown.source.value.value;
-    console.log(bnaSubjectNameId);
     this.ClassRoutineForm.get('subjectName')?.setValue(bnaSubjectNameId);
     this.ClassRoutineForm.get('bnaSubjectNameId')?.setValue(bnaSubjectNameId);
 
     this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       // this.selectedmarktype[bnaSubjectNameId]=res;
       this.selectMarkType=res
-      console.log("Type",res);
     });
 }
 
@@ -210,7 +208,6 @@ onSubjectMarkSelectionGetMarkType(event){
  let subjectMarkId = event.source.value;
 
    this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
-    console.log(res);
 
     this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
    });
@@ -249,7 +246,7 @@ getClassRoutineList(){
 
   onSubmit() {
     const id = this.ClassRoutineForm.get('classRoutineId')?.value;   
-    console.log(this.ClassRoutineForm.value)
+
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

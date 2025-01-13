@@ -113,7 +113,6 @@ export class BIODataGeneralInfoListComponent implements OnInit, OnDestroy {
   }
  
   pageChanged(event: PageEvent) {
-    console.log(event);
     this.paging.pageIndex = event.pageIndex
     this.paging.pageSize = event.pageSize
     this.paging.pageIndex = this.paging.pageIndex + 1

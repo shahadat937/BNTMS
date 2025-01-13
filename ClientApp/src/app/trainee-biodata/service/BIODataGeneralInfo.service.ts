@@ -319,7 +319,6 @@ getSelectedPno(pno){
   }
 
   findSchoolById(id: any) {
-    console.log(id);
     return this.http.get<any>(this.baseUrl + '/base-School-name/get-baseSchoolNameDetail/' + id);
   }
 

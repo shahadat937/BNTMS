@@ -81,7 +81,7 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
             this.dataSource.data,
             (courses) => courses.course + '-'+ courses.courseTitle
           );
-          console.log(this.sharedService.groupedData)
+         
           
         })
       }
@@ -94,7 +94,6 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
             this.dataSource.data,
             (courses) => courses.course+ '-'+ courses.courseTitle
           );
-          console.log(this.sharedService.groupedData)
           this.showSpinner = true;
   
           
@@ -111,7 +110,6 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
             this.dataSource.data,
             (courses) => courses.course + '-'+ courses.courseTitle
           );
-          console.log(this.sharedService.groupedData)
         })
       }
       else if(Number(traineeStatusId) == this.masterData.TraineeStatus.civil){
@@ -123,7 +121,7 @@ export class CountedOfficersListComponent extends UnsubscribeOnDestroyAdapter im
             this.dataSource.data,
             (courses) => courses.course + '-'+ courses.courseTitle
           );
-          console.log(this.sharedService.groupedData)
+
         })
       }
       else{

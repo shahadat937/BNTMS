@@ -84,8 +84,7 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
 
     var currentDate = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     //Date dateTime11 = Convert.ToDateTime(dateFrom);  
-    var current = new Date(currentDate);
-    console.log(current)
+    var current = new Date(currentDate ?? new Date().toISOString());
     // var date1 = new Date(obj.durationFrom); 
 	  var date2 =  new Date(obj.durationTo);
 
@@ -104,7 +103,6 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
 
   applyFilter(searchTerm: any) {
     // filterValue = filterValue.toLowerCase().replace(/\s/g, "");
-    // console.log(filterValue)
     // this.dataSource.filter = filterValue;
     this.searchTerm = searchTerm;
     this.getCourseDurationsByCourseType(this.branchId, this.searchTerm)

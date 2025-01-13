@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { Role } from '../../models/role';
 import { User } from '../../models/User';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 import { UserService } from '../../service/User.service';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
@@ -176,7 +176,6 @@ export class TraineeListComponent implements OnInit, OnDestroy{
 
         this.UserService.find(id).subscribe(
           res => {
-            console.log(this.TraineeForm);
             this.TraineeForm.patchValue({          
   
               id: res.id,
@@ -199,12 +198,12 @@ export class TraineeListComponent implements OnInit, OnDestroy{
   }
 
   changeRole(){
-    var userId = this.TraineeForm.get('id').value; 
-    var currentRole = this.TraineeForm.get('roleName').value; 
+    var userId = this.TraineeForm.get('id')?.value; 
+    var currentRole = this.TraineeForm.get('roleName')?.value; 
     if( currentRole == 'Instructor'){
-      this.TraineeForm.get('roleName').setValue('Student');
+      this.TraineeForm.get('roleName')?.setValue('Student');
     }else if( currentRole == 'Student'){
-      this.TraineeForm.get('roleName').setValue('Instructor');
+      this.TraineeForm.get('roleName')?.setValue('Instructor');
     }
     
     this.subscription = this.UserService.update(userId,this.TraineeForm.value).subscribe(response => {

@@ -185,7 +185,6 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
     })
   }
   getControlLabel(index: number, type: string) {
-   // console.log((this.BNAExamMarkForm.get('traineeListForm')as FormArray).at(index).get(type).value )
     return (this.BNAExamMarkForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
@@ -455,7 +454,6 @@ export class NewReExamMarkComponent extends UnsubscribeOnDestroyAdapter implemen
       })
     } else {
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
-     //   console.log(result)
         if (result) {
       
           this.BNAExamMarkService.submit(JSON.stringify(this.BNAExamMarkForm.value)).subscribe(response => {

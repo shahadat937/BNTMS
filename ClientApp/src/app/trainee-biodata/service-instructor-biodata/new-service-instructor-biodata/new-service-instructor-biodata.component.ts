@@ -163,7 +163,6 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
       this.isInstractorNotAvailable = res.fourthLevel? true : false;
       if(this.isInstractorNotAvailable){
         this.bioDataGeneralInfoService.findSchoolById(res.fourthLevel).subscribe(res=>{
-          console.log("X"+res.schoolName);
           this.warningMessage = `The instructor is currently assigned to ${res.schoolName}. Please contact either ${res.schoolName} or the administrator to facilitate the instructor's release from the school.`
         })
       }
@@ -180,7 +179,6 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
     var userId = this.ServiceInstructorForm.get('id')?.value;
     this.ServiceInstructorForm.get('roleName')?.setValue('Instructor');
     this.ServiceInstructorForm.get('')?.setValue('Instructor');
-    console.log(this.branchId);
     this.subscription = this.userService.updateUserAsServiceInstructor(userId, this.ServiceInstructorForm.value, this.branchId).subscribe(response => {
 
       this.sharedService.goBack();

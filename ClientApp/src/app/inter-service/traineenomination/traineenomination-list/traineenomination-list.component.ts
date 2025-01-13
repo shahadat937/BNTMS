@@ -46,7 +46,6 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
     this.courseDurationId = Number(this.route.snapshot.paramMap.get('courseDurationId')); 
     this.TraineeNominationService.findByCourseDuration(this.courseDurationId ).subscribe(
       res => {
-        console.log(res);
           this.courseDurationId= res[0].courseDurationId, 
           this.courseNameId = res[0].courseNameId 
       }

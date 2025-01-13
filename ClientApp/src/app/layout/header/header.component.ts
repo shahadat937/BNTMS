@@ -309,7 +309,6 @@ this.userRole.SchoolOIC
     }
     else {
       this.router.navigate(['/password/password-change']);
-      console.log("SchoolId");
     }
   }
 

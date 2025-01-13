@@ -84,7 +84,6 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     this.role = this.authService.currentUserValue.role.trim();
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId  ? this.authService.currentUserValue.branchId.trim() : "";
-    console.log(this.route.snapshot.paramMap);
 
     if (id) {
       this.pageTitle = 'Edit  Exam Mark'; 
@@ -158,8 +157,7 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     this.BNAExamMarkForm.get('courseSectionId')?.setValue(courseSectionId);
     this.BNAExamMarkForm.get('examTypeCount')?.setValue(1);
 
-    this.subscription = this.markTypeService.find(Number(markTypeId)).subscribe(res => {   
-      // console.log("D", res);    
+    this.subscription = this.markTypeService.find(Number(markTypeId)).subscribe(res => {     
       this.markTypeName = res.typeName;
       this.onSubjectMarkSelectionGetPassMark();
       this.getselectedtraineebytype();
@@ -178,8 +176,6 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
       var mark = res.mark;
       this.passMarkBna = res.passMark;
       this.totalMark = res.mark;
-
-      console.log(res);
       this.BNAExamMarkForm.get('totalMark')?.setValue(mark);
       this.BNAExamMarkForm.get('passMark')?.setValue(this.subjectPassMark);
     });
@@ -347,8 +343,6 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
     var SubjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
     this.isShown = true;
     this.subscription = this.BNAExamMarkService.getCentralexamMarkListByParameters(courseNameId,bnaSubjectNameId,SubjectMarkId,false,0).subscribe(res=>{
-
-      console.log(res);
       var unapprovedlistItemCount = res.length;
       if(unapprovedlistItemCount > 0){
         this.traineeList=res;  
@@ -536,7 +530,6 @@ export class QExamMarkApproveComponent implements OnInit, OnDestroy {
             this.validationErrors = error;
           });
         }
-        console.log(this.BNAExamMarkForm.value);
       });
       
     //}
