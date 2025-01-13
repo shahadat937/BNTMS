@@ -123,6 +123,49 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
           this.selection.select(row)
         );
   }
+
+  downloadExcelFile(){
+    const url = environment.fileUrl + '/files/trainee-nominee-file/Trainee Nomination.xlsx'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Trainee Nomination.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+
+      this.BIODataGeneralInfoService.uploadServiceInstructorFile(file, this.branchId).subscribe(
+        (response: any) => {
+        (event.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+          this.getBIODataGeneralInfos();
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        }
+      },
+        (error) => {
+          (event.target as HTMLInputElement).value = '';
+        }
+      );
+    }
+  }
+  
    
   pageChanged(event: PageEvent) {
     this.paging.pageIndex = event.pageIndex
