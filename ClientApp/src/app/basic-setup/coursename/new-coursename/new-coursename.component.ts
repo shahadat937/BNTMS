@@ -1,14 +1,4 @@
-<<<<<<< HEAD
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute, Router } from "@angular/router";
-import { CourseNameService } from "../../service/CourseName.service";
-import { ConfirmService } from "../../../core/service/confirm.service";
-import { SelectedModel } from "../../../core/models/selectedModel";
-import { SharedServiceService } from "../../../shared/shared-service.service";
-import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
-=======
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,7 +8,7 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
+
 
 @Component({
   selector: "app-new-coursename",
@@ -108,11 +98,8 @@ export class NewCourseNameComponent
   }
 
   onSubmit() {
-<<<<<<< HEAD
-    const id = this.CourseNameForm.get("courseNameId")?.value;
-=======
+
     const id = this.CourseNameForm.get('courseNameId')?.value;  
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
     const formData = new FormData();
     for (const key of Object.keys(this.CourseNameForm.value)) {
       const value = this.CourseNameForm.value[key];

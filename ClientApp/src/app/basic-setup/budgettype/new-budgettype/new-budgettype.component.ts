@@ -6,19 +6,6 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfirmService } from "../../../core/service/confirm.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
-
-<<<<<<< HEAD
-=======
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BudgetTypeService } from '../../service/BudgetType.service';
-import { MasterData } from '../../../../../src/assets/data/master-data';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
-
 @Component({
   selector: "app-new-budgettype",
   templateUrl: "./new-budgettype.component.html",
@@ -77,11 +64,8 @@ export class NewBudgetTypeComponent
   }
 
   onSubmit() {
-<<<<<<< HEAD
-    const id = this.BudgetTypeForm.get("budgetTypeId")?.value;
-=======
+
     const id = this.BudgetTypeForm.get('budgetTypeId')?.value;   
->>>>>>> 88d368759e0e15a558ceda810473fca6d7a871ed
 
     if (id) {
       this.confirmService
