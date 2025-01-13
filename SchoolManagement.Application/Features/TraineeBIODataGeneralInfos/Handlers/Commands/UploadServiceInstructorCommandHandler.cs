@@ -98,9 +98,13 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                 }
             }
 
-            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            var logFilePath = Path.Combine(desktopPath, "FailureLog.txt");
-            await File.WriteAllLinesAsync(logFilePath, errorLogs);
+            if(errorCount > 0)
+            {
+                var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                var logFilePath = Path.Combine(desktopPath, "FailureLog.txt");
+                await File.WriteAllLinesAsync(logFilePath, errorLogs);
+            }
+           
 
             if (successCount > 0)
             {
