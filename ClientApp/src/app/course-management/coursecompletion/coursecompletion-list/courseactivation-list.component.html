@@ -88,13 +88,13 @@
                     <th class="course-name-col"><h5>Name of Course</h5></th>
                     <th class="cl-mrk"><h5>Duration</h5></th>
                     
-                    <th class="cl-mrk-rmrk"><h5>Actions</h5></th>
+                    <th class="cl-mrk-rmrk text-center"><h5>Actions</h5></th>
                   </tr>
                 </thead>
                 <tbody>
                   <ng-container *ngFor="let data of sharedService.groupedData,let i= index;">
                     <tr>
-                      <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey}}</td>
+                      <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey === 'null'? "administrative": data.groupKey}}</td>
                     </tr>
                     <tr *ngFor="let number of data.groupedItems">
                       <td class="course-name-col">{{number.courseName}} - {{number.courseTitle}}</td>
@@ -112,14 +112,22 @@
                         
                         <!-- <a [routerLink]="['/admin/dashboard/traineenomination-list', number.courseDurationId]" style="color: green;text-decoration: underline; font-weight: bold;">{{getTraineeNominationsByCourseDurationId(number.courseDurationId)}}</a> -->
                       </td>
-                      <td>
+                      <td class="text-center py-2">
                         <button 
+                          *ngIf="number.isCompletedStatus === 0"
                           mat-raised-button 
                           class="custom-btn courseplan-btn"  
                           (click)="inActiveItem(number)"  
                           (click)="$event.stopPropagation()"
                         >
-                          {{ number.isCompletedStatus === 0 ? 'Is Completed?' : 'Completed' }}
+                          {{ 'Is Completed?' }}
+                        </button>
+                        <button 
+                          *ngIf="number.isCompletedStatus === 1"
+                          mat-raised-button 
+                          class="btn btn-xs btn-success "  
+                        >
+                          {{ 'Completed' }}
                         </button>
                       </td>
                       
