@@ -69,7 +69,8 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
 
             var totalCount = CourseDurations.Count();
-            CourseDurations = CourseDurations.OrderByDescending(x => x.CourseDurationId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize).Where(x=>x.IsCompletedStatus==0);
+            CourseDurations = CourseDurations.OrderByDescending(x => x.CourseDurationId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
+                //.Where(x=>x.IsCompletedStatus==0);
 
             var CourseDurationDtos = _mapper.Map<List<CourseDurationDto>>(CourseDurations);
             var result = new PagedResult<CourseDurationDto>(CourseDurationDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
