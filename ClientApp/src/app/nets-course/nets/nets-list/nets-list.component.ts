@@ -124,7 +124,7 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
 
    var currentDate = this.datepipe.transform((new Date), 'MM/dd/yyyy');
    //Date dateTime11 = Convert.ToDateTime(dateFrom);  
-   var current = new Date(currentDate);
+   var current = currentDate ? new Date(currentDate) : new Date();
    // var date1 = new Date(obj.durationFrom); 
    var date2 =  new Date(obj.durationTo);
    

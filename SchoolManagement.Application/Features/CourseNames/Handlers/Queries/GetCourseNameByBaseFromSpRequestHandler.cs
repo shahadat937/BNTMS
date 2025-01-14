@@ -22,12 +22,15 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
         public async Task<object> Handle(GetCourseNameByBaseFromSpRequest request, CancellationToken cancellationToken)
         {
-            
-            var spQuery = String.Format("exec [spGetCourseListByBase] {0}", request.BaseNameId);
-            
-            DataTable dataTable = _courseDurationRepository.ExecWithSqlQuery(spQuery);
-            return dataTable;
+
          
+            var searchTerm = string.IsNullOrEmpty(request.SearchTerm) ? "NULL" : $"'{request.SearchTerm.Replace("'", "''")}'";
+            var spQuery = String.Format("exec [spGetCourseListByBase] {0}, {1}", request.BaseNameId, searchTerm);
+
+            DataTable dataTable = _courseDurationRepository.ExecWithSqlQuery(spQuery);
+
+            return dataTable;
+
         }
     }
 }
