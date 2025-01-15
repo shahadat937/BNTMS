@@ -293,6 +293,21 @@ getSelectedPno(pno){
         })
       );
   }
+  uploadServiceInstructorFileByAdmin(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    // Add the missing '&' between courseDurationId and courseNameId
+    const url = `${this.baseUrl}/trainee-bio-data-general-info/get-upload-service-instructor-execl-file-by-admin`;
+  
+    return this.http.post(url, formData)
+      .pipe(
+        catchError(error => {
+          console.error('Upload failed:', error);
+          return throwError(() => new Error('File upload failed, see console for details.'));
+        })
+      );
+  }
 
   getSelectedTraineeByparameterRequest(pno){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/trainee-bio-data-general-info/get-autocompletePnoAndName?pNo='+pno)
@@ -320,6 +335,10 @@ getSelectedPno(pno){
 
   findSchoolById(id: any) {
     return this.http.get<any>(this.baseUrl + '/base-School-name/get-baseSchoolNameDetail/' + id);
+  }
+
+  getselectedbaseschools(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/base-School-name/get-selectedSchools')
   }
 
 }
