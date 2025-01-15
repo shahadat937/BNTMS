@@ -320,12 +320,24 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
 
     [HttpPost]
     [Route("get-upload-service-instructor-execl-file")]
-    public async Task<ActionResult> UploadTraineeNomineeList([FromForm] IFormFile file, string branchId)
+    public async Task<ActionResult> UploadServiceInstructorListBySchool([FromForm] IFormFile file, string branchId)
     {
         var trainee = await _mediator.Send(new UploadServiceInstructorCommand
         {
             ServiceInstructorFile = file,
             BranchId = branchId
+        });
+        return Ok(trainee);
+    }
+
+    [HttpPost]
+    [Route("get-upload-service-instructor-execl-file-by-admin")]
+    public async Task<ActionResult> UploadServiceInstructorListByMasterAdmin([FromForm] IFormFile file)
+    {
+        var trainee = await _mediator.Send(new UploadServiceInstructorByAdminCommand
+        {
+            ServiceInstructorFile = file,
+
         });
         return Ok(trainee);
     }

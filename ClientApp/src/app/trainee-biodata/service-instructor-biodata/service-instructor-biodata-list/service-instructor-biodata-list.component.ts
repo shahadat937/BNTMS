@@ -124,7 +124,8 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
   }
 
   downloadExcelFile(){
-    const url = environment.fileUrl + '/files/biodata-excel-file/Service_Instructor_Biodata_UploadFile.xlsx'
+    const url = this.role === this.userRoles.SuperAdmin ? environment.fileUrl + '/files/biodata-excel-file/Service_Instructor_Biodata_UploadFile.xlsx' : 
+    environment.fileUrl + '/files/biodata-excel-file/Service_Instractor_Biodata_uploadFile_Admin.xlsx'
     const a = document.createElement('a');
     a.href = url;
     a.download = 'Trainee Nomination.xlsx';
@@ -136,8 +137,18 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
   onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      this.isLoading = true;
-      this.BIODataGeneralInfoService.uploadServiceInstructorFile(file, this.branchId).subscribe(
+      if(this.role === this.userRoles.SuperAdmin){
+        this.fileUploadBySchool(file, this.branchId)
+      }
+      else{
+        this.fileUploadByAdmin(file);
+      }
+    }
+  }
+
+  fileUploadBySchool(file, branchId){
+    this.isLoading = true;
+      this.BIODataGeneralInfoService.uploadServiceInstructorFile(file, branchId).subscribe(
         
         (response: any) => {
         (event.target as HTMLInputElement).value = '';
@@ -165,8 +176,41 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
           this.isLoading = false;
         }
       );
-    }
+
   }
+
+  fileUploadByAdmin(file){
+    this.isLoading = true;
+      this.BIODataGeneralInfoService.uploadServiceInstructorFileByAdmin(file).subscribe(
+        
+        (response: any) => {
+        (event.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+          this.getBIODataGeneralInfos();
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        }
+        this.isLoading = false;
+      },
+        (error) => {
+          (event.target as HTMLInputElement).value = '';
+          this.isLoading = false;
+        }
+      );
+  }
+
   
    
   pageChanged(event: PageEvent) {

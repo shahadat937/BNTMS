@@ -64,8 +64,10 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
   totalWeek: any;
   selectedItems: any[] = [];
   warningMessage : string = ""
-  //formGroup : FormGroup;
-
+  selectedBaseSchoolList : any;
+  schoolList : any;
+  instructorSchoolId : any;
+  isSchoolSelected : boolean
 
   options = [];
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -82,7 +84,9 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
     this.buttonText = "Save";
     this.branchId = this.authService.currentUserValue.branchId;
     this.role = this.authService.currentUserValue.role;
-    this.intitializeForm()
+    this.intitializeForm();
+    this.getselectedbaseschools();
+    this.isSchoolSelected = this.role === this.userRoles.MasterAdmin? true : false;
   }
 
   intitializeForm() {
@@ -150,6 +154,17 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
     });
   }
 
+  getselectedbaseschools(){
+    this.bioDataGeneralInfoService.getselectedbaseschools().subscribe(res =>{
+     this.selectedBaseSchoolList = res;
+     this.schoolList = res;
+      console.log(res);
+    })
+  }
+  filterBySchool(value:any){
+    this.selectedBaseSchoolList = this.schoolList.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  }
+
   getUserInfo(traineeId) {
     this.userService.findUserByTraineeId(traineeId).subscribe(res => {
       this.userInfo = res;
@@ -174,12 +189,19 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
     );
   }
 
+  setInstractorBranch(value){
+    this.instructorSchoolId= value;
+    this.isSchoolSelected = false
+  }
+
   
   onSubmit() {
     var userId = this.ServiceInstructorForm.get('id')?.value;
     this.ServiceInstructorForm.get('roleName')?.setValue('Instructor');
-    this.ServiceInstructorForm.get('')?.setValue('Instructor');
-    this.subscription = this.userService.updateUserAsServiceInstructor(userId, this.ServiceInstructorForm.value, this.branchId).subscribe(response => {
+    if(this.role === this.userRoles.SuperAdmin){
+      this.instructorSchoolId = this.branchId;
+    }
+    this.subscription = this.userService.updateUserAsServiceInstructor(userId, this.ServiceInstructorForm.value, this.instructorSchoolId).subscribe(response => {
 
       this.sharedService.goBack();
 

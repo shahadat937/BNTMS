@@ -14,21 +14,23 @@ using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handlers.Commands
 {
-    public class UploadServiceInstructorCommandHandler : IRequestHandler<UploadServiceInstructorCommand, BaseCommandResponse>
+    public class UploadServiceInstructorByAdminCommandHandler : IRequestHandler<UploadServiceInstructorByAdminCommand, BaseCommandResponse>
     {
         private readonly ISchoolManagementRepository<AspNetUsers> _aspUserRepository;
         private readonly ISchoolManagementRepository<TraineeBioDataGeneralInfo> _traineeBioDataGeneralInfo;
+        private readonly ISchoolManagementRepository<BaseSchoolName> _baseSchoolName;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
 
-        public UploadServiceInstructorCommandHandler(ISchoolManagementRepository<AspNetUsers> aspUserRepository, IUnitOfWork unitOfWork, ISchoolManagementRepository<TraineeBioDataGeneralInfo> traineeBioDataGeneralInfo, IUserService userService)
+        public UploadServiceInstructorByAdminCommandHandler(ISchoolManagementRepository<AspNetUsers> aspUserRepository, IUnitOfWork unitOfWork, ISchoolManagementRepository<TraineeBioDataGeneralInfo> traineeBioDataGeneralInfo, ISchoolManagementRepository<BaseSchoolName> baseSchoolName, IUserService userService)
         {
             _aspUserRepository = aspUserRepository;
             _unitOfWork = unitOfWork;
             _traineeBioDataGeneralInfo = traineeBioDataGeneralInfo;
+            _baseSchoolName = baseSchoolName;
             _userService = userService;
         }
-        public async Task<BaseCommandResponse> Handle(UploadServiceInstructorCommand request, CancellationToken cancellationToken)
+        public async Task<BaseCommandResponse> Handle(UploadServiceInstructorByAdminCommand request, CancellationToken cancellationToken)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var response = new BaseCommandResponse();
@@ -53,8 +55,12 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                             break;
                         }
                         var pno = worksheet.Cells[row, 2].Text;
+                        var branchName = worksheet.Cells[row, 3].Text;
 
                         TraineeBioDataGeneralInfo traineeBioData = await _traineeBioDataGeneralInfo.FindOneAsync(x => x.Pno == pno);
+
+                        BaseSchoolName branchInfo = _baseSchoolName.FindOne(x => x.SchoolName == branchName);
+
 
                         if (traineeBioData != null)
                         {
@@ -70,8 +76,17 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                                         RoleName = "Instructor",
                                     };
 
-                                    await _userService.UpdateUserAsAServiceInstructor(user.Id, userDto, request.BranchId);
-                                    successCount++;
+                                    if (branchInfo != null)
+                                    {
+
+                                        await _userService.UpdateUserAsAServiceInstructor(user.Id, userDto, branchInfo.BaseSchoolNameId.ToString());
+                                        successCount++;
+                                    }
+                                    else
+                                    {
+                                        errorCount++;
+                                        errorLogs.Add($" {branchName} Not Found");
+                                    }
 
                                 }
                                 else
@@ -98,13 +113,12 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                 }
             }
 
-            //if(errorCount > 0)
+            //if (errorCount > 0)
             //{
             //    var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             //    var logFilePath = Path.Combine(desktopPath, "FailureLog.txt");
-            //    await File.WriteAllLinesAsync(logFilePath, errorLogs);
             //}
-           
+
 
             if (successCount > 0)
             {

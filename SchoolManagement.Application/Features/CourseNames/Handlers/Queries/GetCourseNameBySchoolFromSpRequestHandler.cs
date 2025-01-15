@@ -20,14 +20,16 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
             _mapper = mapper;
         }
 
-        public async Task<object> Handle(GetCourseNameBySchoolFromSpRequest request, CancellationToken cancellationToken)
+        public async Task<object> Handle( GetCourseNameBySchoolFromSpRequest request, CancellationToken cancellationToken)
         {
-            
-            var spQuery = String.Format("exec [spGetCourseListBySchool] {0}", request.BaseSchoolNameId);
-            
+
+            var searchTerm = string.IsNullOrEmpty(request.SearchTerm) ? "NULL" : $"'{request.SearchTerm.Replace("'", "''")}'";
+            var spQuery = String.Format("exec [spGetCourseListBySchool] {0}, {1}", request.BaseSchoolNameId, searchTerm);
+
             DataTable dataTable = _courseDurationRepository.ExecWithSqlQuery(spQuery);
+
             return dataTable;
-         
         }
+
     }
 }

@@ -26,7 +26,7 @@
           <div class="body">
             <form class="m-4" [formGroup]="ServiceInstructorForm" (ngSubmit)="onSubmit()">
               <div class="row">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                         <mat-label>Enter Instructor Pno</mat-label>                        
                         <input formControlName="traineeName" matInput type="text" [matAutocomplete]="auto" />
@@ -37,11 +37,33 @@
                         </mat-autocomplete>
                     </mat-form-field>
                   </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2" *ngIf="role !==userRoles.SuperAdmin">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>School Name</mat-label>
+                      <mat-select required>
+                        <input type="text" 
+                              style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+	                              id="selectRank" 
+                                (keydown.space)="$event.stopPropagation()"
+                                (input)="filterBySchool($event.target.value)"
+                                placeholder="Search">
+                        <mat-option  disabled>--Select--</mat-option >
+                        <mat-option 
+                        *ngFor="let code of selectedBaseSchoolList"
+                        [value]="code.value"
+                        (onSelectionChange) = setInstractorBranch(code.value)
+                        >
+                            {{code.text}}
+                        </mat-option>                          
+                      </mat-select>
+                     
+                    </mat-form-field>
+                  </div>
               </div>
              <h4 class="text-center text-danger">{{warningMessage}}</h4>
               <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="isInstractorNotAvailable"  mat-raised-button
+                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="isInstractorNotAvailable || isSchoolSelected"  mat-raised-button
                       color="primary">{{buttonText}}<mat-icon>save</mat-icon> 
                   </button>
                 </div>
