@@ -16,26 +16,26 @@ import { SharedServiceService } from '../../../../../src/app/shared/shared-servi
   styleUrls: ['./new-foreigncourse.component.sass']
 })
 export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
-  buttonText:string;
+  buttonText: string;
   pageTitle: string;
-  destination:string;
+  destination: string;
   CourseDurationForm: FormGroup;
   validationErrors: string[] = [];
-  selectedcourse:SelectedModel[];
-  selectedbaseschool:SelectedModel[];
-  selectedcountry:SelectedModel[];
-  selectedLocationType:SelectedModel[];
-  selectedcoursetype:SelectedModel[];
-  courseTypeId:string;
-  dayCount:any=0;
-  selectedSchool:SelectedModel[];
-  selectedBaseName:SelectedModel[];
-  foreignCourseListByCountry:any[];
-  isShown:boolean=false;
-  countryId:any;
-  groupArrays:{ country: string; courses: any; }[];
+  selectedcourse: SelectedModel[];
+  selectedbaseschool: SelectedModel[];
+  selectedcountry: SelectedModel[];
+  selectedLocationType: SelectedModel[];
+  selectedcoursetype: SelectedModel[];
+  courseTypeId: string;
+  dayCount: any = 0;
+  selectedSchool: SelectedModel[];
+  selectedBaseName: SelectedModel[];
+  foreignCourseListByCountry: any[];
+  isShown: boolean = false;
+  countryId: any;
+  groupArrays: { country: string; courses: any; }[];
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -43,48 +43,50 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
     length: 1
   }
 
-  displayedColumns: string[] = ['ser','courseTitle','courseName','durationFrom','durationTo', 'country', 'actions'];
+  displayedColumns: string[] = ['ser', 'courseTitle', 'courseName', 'durationFrom', 'durationTo', 'country', 'actions'];
 
 
-  constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private CourseDurationService: CourseDurationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService ) {
+  constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private CourseDurationService: CourseDurationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('courseDurationId'); 
-     this.courseTypeId= this.route.snapshot.paramMap.get('courseTypeId');  
+    const id = this.route.snapshot.paramMap.get('courseDurationId');
+    
+    this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId') ?? "";
+    console.log("X",this.courseTypeId);
     if (id) {
-      this.pageTitle = 'Edit Foreign Course'; 
-      this.destination = "Edit"; 
-      this.buttonText= "Update" 
+      this.pageTitle = 'Edit Foreign Course';
+      this.destination = "Edit";
+      this.buttonText = "Update"
       this.CourseDurationService.find(+id).subscribe(
         res => {
-          this.CourseDurationForm.patchValue({          
-            courseDurationId:res.courseDurationId, 
-            courseNameId: res.courseNameId, 
-            courseTitle:res.courseTitle, 
-            baseSchoolNameId:res.baseSchoolNameId, 
-            durationFrom:res.durationFrom, 
-            durationTo:res.durationTo,
-            professional:res.durationTo,
-            nbcd:res.nbcd,
-            remark:res.remark,
-            courseTypeId:res.courseTypeId,
-            countryId:res.countryId,
-            baseNameId:res.baseNameId,
-            status:res.status,
-            isCompletedStatus:res.isCompletedStatus,
+          this.CourseDurationForm.patchValue({
+            courseDurationId: res.courseDurationId,
+            courseNameId: res.courseNameId,
+            courseTitle: res.courseTitle,
+            baseSchoolNameId: res.baseSchoolNameId,
+            durationFrom: res.durationFrom,
+            durationTo: res.durationTo,
+            professional: res.durationTo,
+            nbcd: res.nbcd,
+            remark: res.remark,
+            courseTypeId: res.courseTypeId,
+            countryId: res.countryId,
+            baseNameId: res.baseNameId,
+            status: res.status,
+            isCompletedStatus: res.isCompletedStatus,
             menuPosition: res.menuPosition,
             isActive: res.isActive,
-          });     
+          });
           this.onBaseNameSelectionChangeGetSchool(res.baseNameId)
         }
       );
     } else {
       this.pageTitle = 'Create Foreign Course';
-      this.destination = "Add"; 
-      this.buttonText= "Save"
-    } 
+      this.destination = "Add";
+      this.buttonText = "Save"
+    }
     this.intitializeForm();
     this.getselectedcoursename();
     this.getselectedbaseschools();
@@ -95,36 +97,36 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
   intitializeForm() {
     this.CourseDurationForm = this.fb.group({
       courseDurationId: [0],
-      courseNameId:['',Validators.required],
-      courseTitle:['',Validators.required],
-      
-      durationFrom:[],
-      durationTo:[],    
-      professional:[''],
-      nbcd:[''], 
-      remark:[''],
-      courseTypeId:[this.courseTypeId],
-      countryId:[],
-      isCompletedStatus:[0],
-      status:[1],
-      isActive: [true],    
+      courseNameId: ['', Validators.required],
+      courseTitle: ['', Validators.required],
+
+      durationFrom: [],
+      durationTo: [],
+      professional: [''],
+      nbcd: [''],
+      remark: [''],
+      courseTypeId: [this.courseTypeId],
+      countryId: [],
+      isCompletedStatus: [0],
+      status: [1],
+      isActive: [true],
     })
   }
 
-  getDaysfromDate(lastDate){
-    var date1 = this.CourseDurationForm.get('durationFrom')?.value; 
-	  var date2 = lastDate.value; 
-  
-    var Time = date2.getTime() - date1.getTime(); 
+  getDaysfromDate(lastDate) {
+    var date1 = this.CourseDurationForm.get('durationFrom')?.value;
+    var date2 = lastDate.value;
+
+    var Time = date2.getTime() - date1.getTime();
     var Days = Time / (1000 * 3600 * 24);
-    this.dayCount = Days+1;
+    this.dayCount = Days + 1;
   }
-  
-  getForeignCoursesByCountryId(){
-    this.isShown=true;
+
+  getForeignCoursesByCountryId() {
+    this.isShown = true;
     this.countryId = this.CourseDurationForm.value['countryId'];
-    this.CourseDurationService.getForeignCoursesByCountryId(this.countryId).subscribe(res=>{
-      this.foreignCourseListByCountry=res
+    this.CourseDurationService.getForeignCoursesByCountryId(this.countryId).subscribe(res => {
+      this.foreignCourseListByCountry = res
 
       // this gives an object with dates as keys
       const groups = this.foreignCourseListByCountry.reduce((groups, courses) => {
@@ -145,48 +147,48 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
       });
     });
   }
-  getselectedbasesName(){
-    this.CourseDurationService.getSelectedBaseName().subscribe(res=>{
-      this.selectedBaseName=res
+  getselectedbasesName() {
+    this.CourseDurationService.getSelectedBaseName().subscribe(res => {
+      this.selectedBaseName = res
     });
   }
-  onBaseNameSelectionChangeGetSchool(baseNameId){
-    this.CourseDurationService.getSchoolByBaseId(baseNameId).subscribe(res=>{
-      this.selectedSchool=res
-    });
-   }
-
-  getselectedcoursename(){
-    this.CourseDurationService.getCourseByType(this.courseTypeId).subscribe(res=>{
-      this.selectedcourse=res
-    });
-  } 
-
-  getselectedcoursetype(){
-    this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
-      this.selectedcoursetype=res
-    });
-  } 
-
-  getselectedbaseschools(){
-    this.CourseDurationService.getselectedbaseschools().subscribe(res=>{
-      this.selectedbaseschool=res
+  onBaseNameSelectionChangeGetSchool(baseNameId) {
+    this.CourseDurationService.getSchoolByBaseId(baseNameId).subscribe(res => {
+      this.selectedSchool = res
     });
   }
 
-  getselectedcountry(){
-    this.CourseDurationService.getselectedcountry().subscribe(res=>{
-      this.selectedcountry=res
+  getselectedcoursename() {
+    this.CourseDurationService.getCourseByType(this.courseTypeId).subscribe(res => {
+      this.selectedcourse = res
+    });
+  }
+
+  getselectedcoursetype() {
+    this.CourseDurationService.getselectedcoursetype().subscribe(res => {
+      this.selectedcoursetype = res
+    });
+  }
+
+  getselectedbaseschools() {
+    this.CourseDurationService.getselectedbaseschools().subscribe(res => {
+      this.selectedbaseschool = res
+    });
+  }
+
+  getselectedcountry() {
+    this.CourseDurationService.getselectedcountry().subscribe(res => {
+      this.selectedcountry = res
     });
   }
 
   onSubmit() {
-    const id = this.CourseDurationForm.get('courseDurationId')?.value;   
+    const id = this.CourseDurationForm.get('courseDurationId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
-          this.loading=true;
-          this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
+          this.loading = true;
+          this.CourseDurationService.update(+id, this.CourseDurationForm.value).subscribe(response => {
             this.router.navigateByUrl('/foreign-training/foreigncourse-list');
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
@@ -199,8 +201,8 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
           })
         }
       })
-    }else {
-      this.loading=true;
+    } else {
+      this.loading = true;
       this.CourseDurationService.submit(this.CourseDurationForm.value).subscribe(response => {
         this.router.navigateByUrl('/foreign-training/foreigncourse-list');
         this.snackBar.open('Information Inserted Successfully ', '', {
@@ -213,16 +215,16 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
         this.validationErrors = error;
       })
     }
- 
+
   }
 
-  inActiveItem(row){
-    const id = row.courseDurationId; 
+  inActiveItem(row) {
+    const id = row.courseDurationId;
 
-    if(row.isCompletedStatus == 0){
+    if (row.isCompletedStatus == 0) {
       this.confirmService.confirm('Confirm Deactive message', 'Are You Sure to Mark Complete This Course').subscribe(result => {
         if (result) {
-          this.CourseDurationService.ChangeCourseCompleteStatus(id,1).subscribe(() => {
+          this.CourseDurationService.ChangeCourseCompleteStatus(id, 1).subscribe(() => {
             this.getForeignCoursesByCountryId();
             this.snackBar.open('Course Completed!', '', {
               duration: 3000,
@@ -234,12 +236,12 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
         }
       })
     }
-    else{
+    else {
       this.confirmService.confirm('Confirm Active message', 'Are You Sure Mark Running This Course').subscribe(result => {
         if (result) {
-          this.CourseDurationService.ChangeCourseCompleteStatus(id,0).subscribe(() => {
+          this.CourseDurationService.ChangeCourseCompleteStatus(id, 0).subscribe(() => {
             this.getForeignCoursesByCountryId();
-            this.snackBar.open('Course Running!', '', { 
+            this.snackBar.open('Course Running!', '', {
               duration: 3000,
               verticalPosition: 'bottom',
               horizontalPosition: 'right',
