@@ -93,8 +93,8 @@ export class AllowancePercentageListComponent
     this.getAllowancePercentages();
   }
 
-  applyFilter(searchText: any) {
-    this.searchText = searchText;
+  applyFilter(searchText: string) {
+    this.searchText = searchText? searchText.trim() : searchText;
     this.getAllowancePercentages();
   }
 

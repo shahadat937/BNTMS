@@ -45,6 +45,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
       this.buttonText = "Update"
       this.FamilyNominationService.find(+id).subscribe(
         res => {
+
           this.FamilyNominationForm.patchValue({
             familyNominationId: res.familyNominationId,
             traineeId: res.traineeId,
@@ -123,6 +124,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
     this.FamilyNominationForm.get('traineeId')?.setValue(this.traineeId)
     this.FamilyNominationService.getfamilyInfoListByTraineeId(this.traineeId).subscribe(res => {
       //this.relationTypeValues=res
+      console.log(res);
       this.traineeList = res;
       this.clearList()
       this.getTraineeListonClick();
@@ -160,6 +162,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
       })
     }
     else {
+      console.log(this.FamilyNominationForm.value);
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading=true;

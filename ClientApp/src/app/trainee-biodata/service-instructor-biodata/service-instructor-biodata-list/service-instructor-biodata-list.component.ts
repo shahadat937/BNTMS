@@ -151,7 +151,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
       this.BIODataGeneralInfoService.uploadServiceInstructorFile(file, branchId).subscribe(
         
         (response: any) => {
-        (event.target as HTMLInputElement).value = '';
+        (event?.target as HTMLInputElement).value = '';
         if(response.success){
           this.snackBar.open(response.message, '', {
             duration: 2000,
@@ -172,7 +172,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
         this.isLoading = false;
       },
         (error) => {
-          (event.target as HTMLInputElement).value = '';
+          (event?.target as HTMLInputElement).value = '';
           this.isLoading = false;
         }
       );
@@ -184,7 +184,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
       this.BIODataGeneralInfoService.uploadServiceInstructorFileByAdmin(file).subscribe(
         
         (response: any) => {
-        (event.target as HTMLInputElement).value = '';
+        (event?.target as HTMLInputElement).value = '';
         if(response.success){
           this.snackBar.open(response.message, '', {
             duration: 2000,
@@ -205,7 +205,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy 
         this.isLoading = false;
       },
         (error) => {
-          (event.target as HTMLInputElement).value = '';
+          (event?.target as HTMLInputElement).value = '';
           this.isLoading = false;
         }
       );

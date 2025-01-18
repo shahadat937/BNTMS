@@ -35,7 +35,8 @@ export class CountryListComponent
   displayedColumns: string[] = [
     "sl",
     "countryName",
-    "countryGroupId",
+    "countryGroupName",
+    "currentPrice",
     "actions",
   ];
   dataSource: MatTableDataSource<Country> = new MatTableDataSource();

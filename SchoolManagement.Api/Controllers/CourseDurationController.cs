@@ -171,10 +171,22 @@ public class CourseDurationController : ControllerBase
     }
 
     [HttpGet]
-    [Route("get-courseDurationByCourseType")]
+    [Route("get-courseDurationByCourseType")] // ForGeting Data GroupBy
     public async Task<ActionResult<List<CourseDurationDto>>> GetCourseDurationByCourseType([FromQuery] QueryParams queryParams, int courseTypeId, int status)
-    {
+    {   
         var localCourses = await _mediator.Send(new GetCourseDurationByCourseTypeIdRequest 
+        {
+            CourseTypeId  = courseTypeId,
+            QueryParams = queryParams,
+            Status = status
+        });
+        return Ok(localCourses); 
+    }  
+    [HttpGet]
+    [Route("get-courseDurationByCourseTypeId")] // For Geting Data without GroupBy
+    public async Task<ActionResult<List<CourseDurationDto>>> GetCourseDurationByCourseTypeIdWithOutGroupBy([FromQuery] QueryParams queryParams, int courseTypeId, int status)
+    {   
+        var localCourses = await _mediator.Send(new GetCourseDurationByCourseTypeIdWithOutGroupByRequest 
         {
             CourseTypeId  = courseTypeId,
             QueryParams = queryParams,

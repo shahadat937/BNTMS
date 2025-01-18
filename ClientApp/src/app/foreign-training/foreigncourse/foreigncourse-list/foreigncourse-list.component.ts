@@ -47,7 +47,7 @@ export class ForeigncourseListComponent extends UnsubscribeOnDestroyAdapter impl
   }
   getCourseDurationsByCourseType(){
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
+    this.CourseDurationService.getCourseDurationsByCourseTypeId(this.paging.pageIndex, this.paging.pageSize,this.searchText,this.courseTypeId).subscribe(response => {
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;

@@ -619,7 +619,8 @@ namespace SchoolManagement.Application.Profiles
             #endregion
 
             #region Country  Mappings 
-            CreateMap<Country, CountryDto>().ReverseMap();
+            CreateMap<CountryDto, Country>().ReverseMap()
+                .ForMember(d=> d.CountryGroupName, o=> o.MapFrom (s=> s.CountryGroup.Name));
             CreateMap<Country, CreateCountryDto>().ReverseMap();
             #endregion
             #region CountryGroup  Mappings 
