@@ -126,6 +126,7 @@ export class NewAllowanceComponent
     });
   }
 
+
   onSubmit() {
     const id = this.AllowanceForm.get("allowanceId")?.value;
     if (id) {

@@ -174,7 +174,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
             DateTime today = DateTime.Now;
 
-            // Apply status-based filtering
+
             switch (request.Status)
             {
                 case 1: // Running courses
