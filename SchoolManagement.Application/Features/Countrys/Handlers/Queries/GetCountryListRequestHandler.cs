@@ -38,9 +38,9 @@ namespace SchoolManagement.Application.Features.Countrys.Handlers.Queries
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            IQueryable<SchoolManagement.Domain.Country> UTOfficerCategories = _CountryRepository.FilterWithInclude(x => x.CountryId != 217 && (x.CountryName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)));
+            IQueryable<SchoolManagement.Domain.Country> UTOfficerCategories =  _CountryRepository.FilterWithInclude(x => x.CountryId != 217 && (x.CountryName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)), "CountryGroup").OrderBy(x=> x.CountryName);
             var totalCount = UTOfficerCategories.Count();
-            UTOfficerCategories = UTOfficerCategories.OrderByDescending(x => x.CountryId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
+            UTOfficerCategories =  UTOfficerCategories.Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 
             var CountryDtos = _mapper.Map<List<CountryDto>>(UTOfficerCategories);
             var result = new PagedResult<CountryDto>(CountryDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
