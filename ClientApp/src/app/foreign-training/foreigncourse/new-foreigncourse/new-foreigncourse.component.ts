@@ -78,6 +78,11 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
             menuPosition: res.menuPosition,
             isActive: res.isActive,
           });
+          const durationFrom = new Date(res.durationFrom);
+          const durationTo = new Date(res.durationTo);
+          
+          // Difference in days
+          this.dayCount = Math.ceil((durationTo.getTime() - durationFrom.getTime()) / (1000 * 60 * 60 * 24))+1;
           this.onBaseNameSelectionChangeGetSchool(res.baseNameId)
         }
       );
@@ -183,6 +188,13 @@ export class NewForeigncourseComponent extends UnsubscribeOnDestroyAdapter imple
 
   onSubmit() {
     const id = this.CourseDurationForm.get('courseDurationId')?.value;
+
+    const durationFrom = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationFrom')?.value);
+    const durationTo = this.sharedService.formatDateTime(this.CourseDurationForm.get('durationTo')?.value);
+
+    this.sharedService.formatDateTime(this.CourseDurationForm.get('durationFrom')?.setValue(durationFrom));
+    this.sharedService.formatDateTime(this.CourseDurationForm.get('durationTo')?.setValue(durationTo));
+
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
