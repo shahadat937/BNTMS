@@ -15,7 +15,7 @@ namespace SchoolManagement.Application.DTOs.FamilyNomination.converter
         public string? FullName { get; set; }
         public string? RelationType { get; set; }
         public bool? Status { get; set; }
-
+        public int? FamilyNominationId { get; set; }
         //public int? TraineeNominationId { get; set; }
         //public int? CourseDurationId { get; set; }
         //public int? TraineeId { get; set; }
