@@ -23,8 +23,21 @@ namespace SchoolManagement.Application.Features.InterServiceMarks.Handlers.Comma
         {
             var response = new BaseCommandResponse();
 
-            var InterServiceMarks = request.InterServiceMarkListDto;
 
+            var resultInfo = request.InterServiceMarkListDto;
+
+            var result = resultInfo.TraineeListForm.Select(x => new InterServiceMark
+            {
+                CourseDurationId = x.CourseDurationId,
+                ObtaintMark = x.ObtaintMark,
+                CourseNameId = x.CourseNameId,
+                TraineeId = x.TraineeId,
+                TraineeNominationId = x.TraineeNominationId,
+                CoursePosition = x.CoursePosition,
+                Remarks = x.Remarks,
+            });
+            await _unitOfWork.Repository<InterServiceMark>().AddRangeAsync(result);
+            await _unitOfWork.Save();
             /////// File Upload //////////
 
             //string uniqueFileName = null;
@@ -55,49 +68,49 @@ namespace SchoolManagement.Application.Features.InterServiceMarks.Handlers.Comma
             //response.Message = "Creation Successful";
             //response.Id = ForeignCourseGOInfo.ForeignCourseOthersDocumentId;
             ///
-            var interServiceMarkList = new List<InterServiceMark>();
-            var TraineeListForm = new List<InterServiceMarkListFormDto>();
-            foreach (var item in TraineeListForm)
-            {
-                /////// File Upload //////////
+            //var interServiceMarkList = new List<InterServiceMark>();
+            //var TraineeListForm = new List<InterServiceMarkListFormDto>();
+            //foreach (var item in TraineeListForm)
+            //{
+            //    /////// File Upload //////////
 
-                string uniqueFileName = null;
+            //    string uniqueFileName = null;
 
-                if (item.Doc != null)
-                {
+            //    if (item.Doc != null)
+            //    {
 
-                  //  var fileName = Path.GetFileName(item.Doc.FileName);
-                  //  uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;
-                    var a = Directory.GetCurrentDirectory();
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Content\\files\\inter-service-mark", uniqueFileName);
-                    using (var fileSteam = new FileStream(filePath, FileMode.Create))
-                    {
-                       // await item.Doc.CopyToAsync(fileSteam);
-                    }  
+            //      //  var fileName = Path.GetFileName(item.Doc.FileName);
+            //      //  uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;
+            //        var a = Directory.GetCurrentDirectory();
+            //        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Content\\files\\inter-service-mark", uniqueFileName);
+            //        using (var fileSteam = new FileStream(filePath, FileMode.Create))
+            //        {
+            //           // await item.Doc.CopyToAsync(fileSteam);
+            //        }  
 
-                    //var InterServiceMark = _mapper.Map<InterServiceMarkListDto>(request.ForeignCourseOthersDocumentDto);
+            //        //var InterServiceMark = _mapper.Map<InterServiceMarkListDto>(request.ForeignCourseOthersDocumentDto);
 
-                    //InterServiceMark.Doc = request.ForeignCourseOthersDocumentDto.FileUpload ?? "files/inter-service-mark/" + uniqueFileName;
+            //        //InterServiceMark.Doc = request.ForeignCourseOthersDocumentDto.FileUpload ?? "files/inter-service-mark/" + uniqueFileName;
 
-                }
-                var interServiceMark = new InterServiceMark()
-                {
-                    //CourseDurationId = InterServiceMarks.CourseDurationId,
-                    //CourseNameId = item.CourseNameId,
-                    //CourseTypeId = InterServiceMarks.CourseTypeId,
-                    //CountryId = item.CountryId,
-                    //OrganizationNameId = InterServiceMarks.OrganizationNameId,
-                    //TraineeNominationId = item.TraineeNominationId,
-                    //IsActive = InterServiceMarks.IsActive,
-                    //TraineeId = item.TraineeId,
-                    //CoursePosition = item.CoursePosition,
-                    //ObtaintMark = item.ObtaintMark,
-                    //Doc = item.Image,
-                    //Remarks = item.Remarks,
-                };
-                interServiceMarkList.Add(interServiceMark);
-            };
-           
+            //    }
+            //    //var interServiceMark = new InterServiceMark()
+            //    //{
+            //        //CourseDurationId = InterServiceMarks.CourseDurationId,
+            //        //CourseNameId = item.CourseNameId,
+            //        //CourseTypeId = InterServiceMarks.CourseTypeId,
+            //        //CountryId = item.CountryId,
+            //        //OrganizationNameId = InterServiceMarks.OrganizationNameId,
+            //        //TraineeNominationId = item.TraineeNominationId,
+            //        //IsActive = InterServiceMarks.IsActive,
+            //        //TraineeId = item.TraineeId,
+            //        //CoursePosition = item.CoursePosition,
+            //        //ObtaintMark = item.ObtaintMark,
+            //        //Doc = item.Image,
+            //        //Remarks = item.Remarks,
+            //    //};
+            //    //interServiceMarkList.Add(interServiceMark);
+            //};
+
             //var interServiceMarkList = InterServiceMarks.traineeListForm.Select(x => new InterServiceMark()
             //{
             //    CourseDurationId = InterServiceMarks.CourseDurationId,

@@ -36,6 +36,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot.paramMap);
     const id = this.route.snapshot.paramMap.get('familyNominationId');
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
@@ -65,7 +66,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
     } else {
       this.pageTitle = 'Create Family Nomination';
       this.destination = "Add";
-      this.buttonText = "Save"
+      this.buttonText = "Update"
     }
     this.intitializeForm();
     this.getfamilyInfoListByTraineeId()
@@ -73,7 +74,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   }
   intitializeForm() {
     this.FamilyNominationForm = this.fb.group({
-      familyNominationId: [0],
+      // familyNominationId: [0],
       traineeId: [],
       courseDurationId: [],
       familyInfoId:[],
@@ -101,7 +102,8 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
       traineeId: [],
       fullName: [],
       relationType: [],
-      status: ['']
+      status: [''],
+      familyNominationId: [0]
     });
   }
   getTraineeListonClick() {
@@ -143,6 +145,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
 
   onSubmit() {
     const id = this.FamilyNominationForm.get('familyNominationId')?.value;
+    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
@@ -178,6 +181,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
           }, error => {
             this.validationErrors = error;
           })
+          this.sharedService.goBack();
         }
       })
     }

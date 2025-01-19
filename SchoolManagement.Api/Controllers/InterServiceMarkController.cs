@@ -49,13 +49,11 @@ public class InterServiceMarkController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [Route("save-interServiceMarklist")]
-     
-    public async Task<ActionResult<BaseCommandResponse>> SaveInterServiceMarkList([FromForm] InterServiceMarkListDto interServiceMarkListDto)
+    public async Task<ActionResult<BaseCommandResponse>> SaveInterServiceMarkList([FromBody] InterServiceMarkListDto interServiceMarkListDto)
     {
-        var command = new CreateInterServiceMarkListCommand { InterServiceMarkListDto = new InterServiceMarkListDto() };
+        var command = new CreateInterServiceMarkListCommand { InterServiceMarkListDto = interServiceMarkListDto };
         var response = await _mediator.Send(command);
         return Ok(response);
-        //return Ok();
     }
 
 

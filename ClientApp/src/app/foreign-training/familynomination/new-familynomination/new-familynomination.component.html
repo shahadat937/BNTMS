@@ -23,6 +23,7 @@
         <div class="card">
           <div class="body">
             <form class="m-4" [formGroup]="FamilyNominationForm" (ngSubmit)="onSubmit()">
+
               <div class="row">
 
               </div>
@@ -62,6 +63,7 @@
                           </td>
                           <td class="cl-nm-rnk">
                             {{getControlLabel(i,'relationType')}}
+                            <input type="hidden" formControlName="familyNominationId" />
                           </td>
 
                           <td class="cl-mrk">
