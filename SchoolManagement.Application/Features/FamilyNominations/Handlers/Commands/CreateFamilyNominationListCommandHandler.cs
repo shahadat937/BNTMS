@@ -56,9 +56,6 @@ namespace SchoolManagement.Application.Features.FamilyNominations.Handlers.Comma
                 await _unitOfWork.Save();
             }
 
-            //await _unitOfWork.Repository<FamilyNomination>().AddRangeAsync(familyNominationList);
-            //await _unitOfWork.Save();
-
 
             response.Success = true;
             response.Message = "Creation Successful";
