@@ -52,7 +52,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
                     courseDurationsQuery = courseDurationsQuery.Where(x => x.IsCompletedStatus == 0 && x.DurationFrom > today);
                     break;
                 default: // All courses
-                    courseDurationsQuery = courseDurationsQuery.Where(x => x.IsCompletedStatus == 0);
+                    courseDurationsQuery = courseDurationsQuery;
                     break;
             }
 

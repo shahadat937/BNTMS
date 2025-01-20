@@ -61,7 +61,7 @@ export class NewForeignCourseOtherDocComponent
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get("foreignCourseOtherDocId");
     if (id) {
-      this.pageTitle = "Edit Foreign Course Other Doc";
+      this.pageTitle = "Update Related Work Status";
       this.destination = "Edit";
       this.buttonText = "Update";
       this.ForeignCourseOtherDocService.find(+id).subscribe((res) => {
@@ -82,7 +82,7 @@ export class NewForeignCourseOtherDocComponent
         //this.onCountrySelectionChangeGetCurrency(res.countryId)
       });
     } else {
-      this.pageTitle = "Create Foreign Course Other Doc";
+      this.pageTitle = "Update Related Work Status";
       this.destination = "Add";
       this.buttonText = "Save";
     }

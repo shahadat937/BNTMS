@@ -168,6 +168,7 @@ export class ScheduleInstallmentListComponent extends UnsubscribeOnDestroyAdapte
   }
 
   onCourseNameSelectionChange(dropdown){
+    console.log(dropdown.source.value);
     if (dropdown.isUserInput) {
       this.isShown=true;
       var courseNameArr = dropdown.source.value.split('_');

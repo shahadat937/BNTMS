@@ -84,6 +84,9 @@ export class InterServiceMarkService {
       })
     );
   }
+  findInterServiceMarkByCourseDurationId(courseDuration) {
+    return this.http.get<any>(this.baseUrl + `/inter-service-mark/get-InterServiceMarkListByCourseDurationId?courseDurationId=${courseDuration}`);
+  }
   
   delete(id) {
     return this.http.delete(this.baseUrl + '/inter-service-mark/delete-InterServiceMark/' + id);
