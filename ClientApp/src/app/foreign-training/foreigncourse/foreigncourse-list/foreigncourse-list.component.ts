@@ -79,7 +79,6 @@ export class ForeigncourseListComponent extends UnsubscribeOnDestroyAdapter impl
 
   isAllPassingOutCourseComplete() {
     this.CourseDurationService.isAllpassingOutCourseCompleted(this.courseTypeId).subscribe(res => {
-      console.log(res);
       if (res === false) {
         this.CourseDurationService.makeAllPassingOutCourseComplete(this.courseTypeId).subscribe(res => {
 
