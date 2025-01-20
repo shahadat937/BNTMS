@@ -99,7 +99,20 @@ public class InterServiceMarkController : ControllerBase
             TraineeId = traineeId
         });
         return Ok(iSMarks);
+    } 
+    
+    [HttpGet]
+    [Route("get-InterServiceMarkListByCourseDurationId")]
+    public async Task<ActionResult<List<InterServiceMarkDto>>> GetInterServiceMarkListByCourseDurationId( int courseDurationId)
+    {
+        var iSMarks = await _mediator.Send(new GetInterServiceMarkListByCourseDurationIdRequest
+        {
+            CourseDurationId = courseDurationId
+        });
+        return Ok(iSMarks);
     }
+
+
     
 }
 
