@@ -668,5 +668,31 @@ public class CourseDurationController : ControllerBase
         });
         return Ok(proceduredCourses);
     }
+
+    [HttpPut]
+    [Route ("update-all-passing-out-course-as-complete")]
+    public async Task<ActionResult> UpdatePassingOutCourseAsCompleted(int courseTypeId)
+    {
+        var command = new UpdatePassingOutCourseDurationCommand { 
+            CoureseTypeId = courseTypeId
+            
+        };
+        await _mediator.Send(command);
+        return NoContent();
+    } 
+    
+    [HttpGet]
+    [Route ("get-is-all-passing-out-course-complete")]
+    public async Task<ActionResult> IsAllPassingOutCourseComplete(int courseTypeId)
+    {
+        var command = new GetIsAllPassingOutCourseCompleteRequest
+        { 
+            CourseTypeId = courseTypeId
+            
+        };
+        var isCompleted = await _mediator.Send(command);
+        return Ok(isCompleted);
+    }
+
 }
 

@@ -177,4 +177,13 @@ activeCoursePlan(id : number){
   delete(id:number){
     return this.http.delete(this.baseUrl + '/course-duration/delete-courseDuration/'+id);
   }
+
+  isAllpassingOutCourseCompleted(courseTypeId){
+    return this.http.get(this.baseUrl + `/course-duration/get-is-all-passing-out-course-complete?courseTypeId=${courseTypeId}`);
+  }
+
+  makeAllPassingOutCourseComplete(courseTypeId){
+    return  this.http.put(this.baseUrl+ `/course-duration/update-all-passing-out-course-as-complete?courseTypeId=${courseTypeId}`, null)
+  }
+
 }
