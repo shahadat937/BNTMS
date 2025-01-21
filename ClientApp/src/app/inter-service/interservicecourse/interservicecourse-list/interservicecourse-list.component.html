@@ -86,7 +86,7 @@
                     <tr *ngFor="let number of this.dataSource.data; let i = index">
                       <td class="td-cell" scope="row"> {{ ((paging.pageIndex-1) * paging.pageSize) +
                         i+1}}</td>   
-                      <td class="td-cell">courseTitle
+                      <td class="td-cell">
                         {{number.course}} - {{number.courseTitle}}
                       </td>
                       <td class="td-cell">
@@ -101,9 +101,10 @@
                       <td class="td-cell">
                         {{number.durationTo | date:'mediumDate'}}
                       </td>
-                      <td class="td-cell">
-                        <button style="color: red !important;" *ngIf="number.isCompletedStatus == 0" mat-raised-button class="custom-status-btn"  (click)="inActiveItem(number)"  (click)="$event.stopPropagation()">Not Completed</button>
+                      <td class="td-cell px-2">
+                       
                         <span *ngIf="number.isCompletedStatus == 1" style="color: green;font-weight: bold;"> Completed</span>
+                        <span *ngIf="number.isCompletedStatus == 0" style="color: rgb(235, 78, 16);font-weight: bold;">Running</span>
                       </td>
                       <td class="td-cell">
                         <button mat-icon-button class="btn-tbl-nomination" title="Nomination"

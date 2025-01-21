@@ -225,11 +225,12 @@ public class CourseDurationController : ControllerBase
 
     [HttpGet]
     [Route("get-courseDurationByCourseTypeForInterService")]
-    public async Task<ActionResult> GetCourseDurationForInterserviceByCourseType(int courseTypeId)
+    public async Task<ActionResult> GetCourseDurationForInterserviceByCourseType(int courseTypeId, string searchTerm)
     {
         var localCourses = await _mediator.Send(new GetCourseDurationForInterserviceByCourseTypeIdRequest
         {
             CourseTypeId = courseTypeId,
+            SearchTerm = searchTerm
         }); 
         return Ok(localCourses);
     }

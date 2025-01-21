@@ -40,12 +40,13 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
    selection = new SelectionModel<CourseDuration>(true, []);
 
   
-  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) {
+  constructor(private snackBar: MatSnackBar,private CourseDurationService: CourseDurationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService,) {
     super();
   }
 
   ngOnInit() {
    //  this.getCourseDurationsByCourseType();
+   this.isAllPassingOutCourseComplet()
      this.getCourseDurationForInterService();
   }
   getCourseDurationsByCourseType(){
@@ -58,7 +59,7 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   getCourseDurationForInterService(){
-    this.CourseDurationService.getCourseDurationForInterServiceByCourseType(this.courseTypeId).subscribe(response => {
+    this.CourseDurationService.getCourseDurationForInterServiceByCourseType(this.courseTypeId, this.searchText).subscribe(response => {
       this.dataSource.data = response; 
       // this.paging.length = response.totalItemsCount    
       // this.isLoading = false;
@@ -92,6 +93,17 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
     this.paging.pageIndex = this.paging.pageIndex + 1
     this.getCourseDurationForInterService();
   }
+
+  isAllPassingOutCourseComplet(){
+  this.CourseDurationService.isAllpassingOutCourseCompleted(this.courseTypeId).subscribe(res=>{
+    console.log(res);
+    if(res === false){
+      this.CourseDurationService.makeAllPassingOutCourseComplete(this.courseTypeId).subscribe();
+    }
+  })
+
+}
+
   applyFilter(searchText: any){ 
     this.searchText = searchText;
     this.getCourseDurationForInterService();
@@ -112,58 +124,59 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
       <html>
         <head>
           <style>
-          body{  width: 99%;}
-            label { font-weight: 400;
-                    font-size: 13px;
-                    padding: 2px;
-                    margin-bottom: 5px;
-                  }
-            table, td, th {
-                  border: 1px solid silver;
-                    }
-                    table td {
-                  font-size: 13px;
-                    }
-                  
-                    .table.table.tbl-by-group.db-li-s-in tr .cl-action{
-                      display: none;
-                    }
-        
-                    .table.table.tbl-by-group.db-li-s-in tr td{
-                      text-align:center;
-                      padding: 0px 5px;
-                    }
-                    table th {
-                  font-size: 13px;
-                    }
-              table {
-                    border-collapse: collapse;
-                    width: 98%;
-                    }
-                th {
-                    height: 26px;
-                    }
-                .header-text{
-                  text-align:center;
-                }
-                .header-text h3{
-                  margin:0;
-                }
+          body { width: 99%; }
+          label { 
+            font-weight: 400;
+            font-size: 13px;
+            padding: 2px;
+            margin-bottom: 5px;
+          }
+          table, td, th {
+            border: 1px solid silver;
+          }
+          table td {
+            font-size: 13px;
+          }
+          table th {
+            font-size: 13px;
+          }
+          table {
+            border-collapse: collapse;
+            width: 98%;
+          }
+          th {
+            height: 26px;
+          }
+          .header-text {
+            text-align: center;
+          }
+          .header-text h3 {
+            margin: 0;
+          }
+          
+          /* Hide the last two columns when printing */
+          @media print {
+            .th-cell-status, 
+            .th-cell-action, 
+            .td-cell:last-child, 
+            .td-cell:nth-last-child(2) {
+              display: none;
+            }
+          }
           </style>
         </head>
         <body onload="window.print();window.close()">
           <div class="header-text">
-          <h3>Inter Service Course List</h3>
-          
+            <h3>Inter Service Course List</h3>
           </div>
           <br>
           <hr>
           ${printContents}
-          
         </body>
       </html>`);
     popupWin.document.close();
   }
+  
   deleteItem(row) {
     const id = row.courseDurationId; 
     this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item?').subscribe(result => {
