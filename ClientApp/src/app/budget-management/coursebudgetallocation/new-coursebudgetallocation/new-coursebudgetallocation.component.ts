@@ -189,7 +189,6 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
   }
 
   onCourseNameSelectionChange(dropdown){
-    // console.log(dropdown.source.value);
     var courseNameArr = dropdown.source.value.split('_');
     var courseDurationId = courseNameArr[0];
     var courseNameId = courseNameArr[1];
@@ -201,7 +200,7 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
    });
    
 
-    // this.CourseBudgetAllocationForm.get('courseNameId')?.setValue(courseNameId);
+    this.CourseBudgetAllocationForm.get('courseNameId')?.setValue(courseNameId);
     this.CourseBudgetAllocationForm.get('courseDurationId')?.setValue(courseDurationId);
 }
 
@@ -315,7 +314,9 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
   onSubmit() {
     const id = this.CourseBudgetAllocationForm.get('courseBudgetAllocationId')?.value; 
     if (id) {
+
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+
         if (result) {
           this.loading=true;
           this.CourseBudgetAllocationService.update(+id,this.CourseBudgetAllocationForm.value).subscribe(response => {

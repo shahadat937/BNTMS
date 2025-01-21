@@ -29,6 +29,8 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   selectedFundingDetail: SelectedModel[];
   relationTypeValues: SelectedModel[];
   traineeList: FamilyInfoListforFamilyNomination[]
+  isBtnDisabled : boolean = true;
+  warningMessage : string = ""
 
   displayedColumnsForFamilyInfoList: string[] = ['sl', 'fullName', 'relationType', 'status'];
   constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private FamilyNominationService: FamilyNominationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) {
@@ -36,7 +38,6 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.paramMap);
     const id = this.route.snapshot.paramMap.get('familyNominationId');
     this.traineeId = this.route.snapshot.paramMap.get('traineeId');
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId');
@@ -125,8 +126,8 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
     
     this.FamilyNominationForm.get('traineeId')?.setValue(this.traineeId)
     this.FamilyNominationService.getfamilyInfoListByTraineeId(this.traineeId).subscribe(res => {
-      //this.relationTypeValues=res
-      console.log(res);
+     this.isBtnDisabled = res?.length ? false : true;
+     this.warningMessage = this.isBtnDisabled? "Family Info Not Found" : ""
       this.traineeList = res;
       this.clearList()
       this.getTraineeListonClick();
@@ -145,7 +146,6 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
 
   onSubmit() {
     const id = this.FamilyNominationForm.get('familyNominationId')?.value;
-    console.log(id);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
@@ -165,7 +165,6 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
       })
     }
     else {
-      console.log(this.FamilyNominationForm.value);
       this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
         if (result) {
           this.loading=true;

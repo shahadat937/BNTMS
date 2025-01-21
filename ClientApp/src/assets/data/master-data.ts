@@ -55,7 +55,9 @@ export const MasterData = {
       TraineeStatus: {
         officer:4,
         sailor:5,
-        civil:6
+        civil:10,
+        mid : 7,
+        cadet : 9
       },
       OfficerType: {
         Bangladesh:1,

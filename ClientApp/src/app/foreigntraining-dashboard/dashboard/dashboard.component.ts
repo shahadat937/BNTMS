@@ -69,6 +69,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   ForeignOfficerCount:any;
   ForeignSailorCount:any;
   ForeignCivilCount:any;
+  ForeignMidCount : any;
+  ForeignCadetCount : any;
 
   role:any;
   dayCount:any;
@@ -172,6 +174,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     })
     this.foreignDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime,this.runningCourseType,this.masterData.TraineeStatus.civil).subscribe(response => {           
       this.ForeignCivilCount=response.length;
+    })
+    this.foreignDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime,this.runningCourseType,this.masterData.TraineeStatus.mid).subscribe(response => {           
+      this.ForeignMidCount=response.length;
+    })
+    this.foreignDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime,this.runningCourseType,this.masterData.TraineeStatus.cadet).subscribe(response => {           
+      this.ForeignCadetCount=response.length;
     })
   } 
 

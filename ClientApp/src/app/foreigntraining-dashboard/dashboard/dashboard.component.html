@@ -123,6 +123,18 @@
                     <a [routerLink]="['/admin/dashboard/view-foreigncourseraineelist',runningCourseType,this.masterData.TraineeStatus.civil,dbType]">{{ForeignCivilCount}}</a>
                   </td>
                 </tr>
+                <tr>
+                  <th>Mid</th>
+                  <td>
+                    <a [routerLink]="['/admin/dashboard/view-foreigncourseraineelist',runningCourseType,this.masterData.TraineeStatus.mid,dbType]">{{ForeignMidCount}}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Cadet</th>
+                  <td>
+                    <a [routerLink]="['/admin/dashboard/view-foreigncourseraineelist',runningCourseType,this.masterData.TraineeStatus.cadet,dbType]">{{ForeignCadetCount}}</a>
+                  </td>
+                </tr>
                 <!-- <tr>
                   <th>Total Local Courses (Running)</th>
                   <td><span class="no-link"><a [routerLink]="['/admin/dashboard/runningcourses-list', schoolId]">{{localCourseCount}}</a></span></td>
