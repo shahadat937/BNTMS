@@ -58,8 +58,8 @@ getSelectedBaseName(){
     return this.http.get<CourseDuration[]>(this.baseUrl + '/course-duration/get-selectedInterServiceCourseListByCourseNameIdAndOrganizationNameId?courseNameId='+courseNameId+'&organizationNameId='+organizationNameId);
   }
   
-  getCourseDurationForInterServiceByCourseType(courseTypeId){
-    return this.http.get<CourseDuration[]>(this.baseUrl + '/course-duration/get-courseDurationByCourseTypeForInterService?courseTypeId='+courseTypeId);
+  getCourseDurationForInterServiceByCourseType(courseTypeId, searchText){
+    return this.http.get<CourseDuration[]>(this.baseUrl + '/course-duration/get-courseDurationByCourseTypeForInterService?courseTypeId='+courseTypeId+"&searchTerm="+searchText);
   }
 
   getCourseDurationsByCourseType(pageNumber, pageSize,searchText,courseTypeId:number) {
@@ -116,5 +116,12 @@ getSelectedBaseName(){
 
   deactiveCourseDuration(id: number) {
     return this.http.get<CourseDuration>(this.baseUrl + '/course-duration/deactive-courseDuration/' + id);
+  }
+  isAllpassingOutCourseCompleted(courseTypeId){
+    return this.http.get(this.baseUrl + `/course-duration/get-is-all-passing-out-course-complete?courseTypeId=${courseTypeId}`);
+  }
+
+  makeAllPassingOutCourseComplete(courseTypeId){
+    return  this.http.put(this.baseUrl+ `/course-duration/update-all-passing-out-course-as-complete?courseTypeId=${courseTypeId}`, null)
   }
 }

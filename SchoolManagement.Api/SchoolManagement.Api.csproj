@@ -40,6 +40,9 @@
     <Folder Include="wwwroot\Content\files\base-school-name\" />
     <Folder Include="wwwroot\Content\files\course-names\" />
     <Folder Include="wwwroot\Content\files\interservice-course-report\NewFolder\" />
+    <Folder Include="wwwroot\Content\files\interservice-course-document\" />
+    <Folder Include="wwwroot\Content\files\inter-service-mark\" />
+    <Folder Include="wwwroot\Content\files\NewFolder\" />
     <Folder Include="wwwroot\Content\files\online-library\" />
     <Folder Include="wwwroot\Content\files\reading-materials\NewFolder\" />
     <Folder Include="wwwroot\Content\files\user-manuals\" />

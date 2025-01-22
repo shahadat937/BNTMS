@@ -98,9 +98,9 @@
                             <th class="cl-mrk">
                               <h5>Obtained Marks (%)</h5>
                             </th>
-                            <th class="cl-mrk">
+                            <!-- <th class="cl-mrk">
                               <h5>Document</h5>
-                            </th>
+                            </th> -->
                             <th class="cl-mrk">
                               <h5>Remarks</h5>
                             </th>
@@ -134,19 +134,15 @@
                               </mat-form-field>
                             </td>
 
-                            <td class="cl-mrk-rmrk">
+                            <!-- <td class="cl-mrk-rmrk">
                               <mat-form-field class="example-full-width mb-3" appearance="outline">
                                 <mat-label>Browse</mat-label>                        
-                                <!-- <input matInput formControlName="documentLink"> -->
                                 <ngx-mat-file-input (change)="onFileChanged($event,unit)" accept=".txt,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx">
                                 </ngx-mat-file-input>
                                 <mat-icon matSuffix>attachment</mat-icon>
                               </mat-form-field>
-                              <!-- <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile"
-                                       (change)="onFileChanged($event)" accept=".pdf">
-                              </div> -->
-                            </td>
+                             
+                            </td> -->
                             <td class="cl-mrk">
                               <mat-form-field class="example-full-width mb-3" appearance="outline">
                                 <input matInput type="text" formControlName="remarks" />
@@ -156,14 +152,16 @@
 
                         </tbody>
                       </table>
+             
                     </div>
                   </div>
                 </div>
               </div>
+              <h4 class="text-center text-danger">{{warningMessage}}</h4>
               <!-- #END# Basic Table -->
               <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!InterServiceMarkForm.valid " mat-raised-button
+                  <button *ngIf="isShown" class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!InterServiceMarkForm.valid " mat-raised-button
                     color="primary">{{buttonText}}</button>
                   <!-- <button type="button" mat-button routerLink="/inter-service/interservicemark-list">Cancel</button> -->
                 </div>
