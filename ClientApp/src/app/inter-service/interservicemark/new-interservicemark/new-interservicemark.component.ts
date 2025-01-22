@@ -50,6 +50,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
   options = [];
   filteredOptions;
   searchText = "";
+  warningMessage : string = "";
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -171,29 +172,68 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
   filterByCourseName(value:any){
     this.selectedCourseValue=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
+  // onCourseNameSelectionChangeGetTraineeList(dropdown) {
+  //   if (dropdown.isUserInput) {
+  //   this.isShown = true;
+  //     this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId')?.value;
+  //     this.courseDurationId = dropdown.source.value;
+
+  //     this.InterServiceMarkForm.get('courseDurationId')?.setValue(dropdown.source.value)
+
+  //     this.courseDurationService.find(this.courseDurationId).subscribe(res => {
+  //       this.durateDateForm = res.durationFrom;
+  //       this.durationDateTo = res.durationTo;
+  //     });
+
+  //     this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
+  //       this.traineeList = res;
+  //       this.clearList()
+  //       this.getTraineeListonClick();
+  //     });
+  //   }
+  // }
+
   onCourseNameSelectionChangeGetTraineeList(dropdown) {
     if (dropdown.isUserInput) {
-    this.isShown = true;
       this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId')?.value;
       this.courseDurationId = dropdown.source.value;
 
       this.InterServiceMarkForm.get('courseDurationId')?.setValue(dropdown.source.value)
-
-      this.courseDurationService.find(this.courseDurationId).subscribe(res => {
-        this.durateDateForm = res.durationFrom;
-        this.durationDateTo = res.durationTo;
-      });
-
-      this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
-        this.traineeList = res;
-        this.clearList()
-        this.getTraineeListonClick();
-      });
+      this.getInterServiceMarkByCourseDurationId(this.courseDurationId);    
     }
   }
+
   filterByOrganization(value:any){
     this.selectedOrganization=this.selectOrganization.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
+
+  getInterServiceMarkByCourseDurationId (courseDurationId){
+    this.InterServiceMarkService.findInterServiceMarkByCourseDurationId(courseDurationId).subscribe(res=>{
+      if (!res.length){
+        this.isShown = true;
+        this.warningMessage = ""
+        this.courseDurationService.find(this.courseDurationId).subscribe(res => {
+          this.durateDateForm = res.durationFrom;
+          this.durationDateTo = res.durationTo;
+        });
+  
+        this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
+          this.traineeList = res;
+          if(!this.traineeList?.length){
+            this.isShown = false;
+            this.warningMessage = "No Trainees Have Been Nominated for the Course"
+          } 
+          this.clearList()
+          this.getTraineeListonClick();
+        });
+      }
+      else{
+        this.isShown = false;
+        this.warningMessage = "Mark Entry Already Completed"
+        console.log(this.warningMessage);
+      }
+    })
+    }
 
   getSelectedOrganizationName() {
     this.InterServiceMarkService.getSelectedOrganizationName().subscribe(res => {
@@ -213,15 +253,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
     });
   }
 
-  // onFileChanged(event) {
-  //   if (event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     this.ForeignCourseGOInfoForm.patchValue({
-  //       doc: file,
-  //     });
-  //   }
-  // }
-
+ 
   onFileChanged(event,form) {
    
     if (event.target.files.length > 0) {

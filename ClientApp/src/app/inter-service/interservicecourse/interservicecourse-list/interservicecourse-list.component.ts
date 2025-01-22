@@ -115,15 +115,16 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
     this.showHideDiv = false;
     this.print();
   }
+  
   print() {
-    let printContents, popupWin;
-    printContents = document.getElementById("print-routine")?.innerHTML;
-    popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
-    popupWin.document.open();
-    popupWin.document.write(`
-      <html>
-        <head>
-          <style>
+  let printContents, popupWin;
+  printContents = document.getElementById("print-routine")?.innerHTML;
+  popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
+  popupWin.document.open();
+  popupWin.document.write(`
+    <html>
+      <head>
+        <style>
           body { width: 99%; }
           label { 
             font-weight: 400;
@@ -133,15 +134,17 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
           }
           table, td, th {
             border: 1px solid silver;
+            border-collapse: collapse;
           }
           table td {
             font-size: 13px;
+            padding: 8px; /* Add padding to all <td> */
           }
           table th {
             font-size: 13px;
+            padding: 8px; /* Add padding to all <th> */
           }
           table {
-            border-collapse: collapse;
             width: 98%;
           }
           th {
@@ -162,20 +165,51 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
             .td-cell:nth-last-child(2) {
               display: none;
             }
+
+            /* Ensure header is repeated on every page */
+            @page {
+              margin-top: 10mm;
+              margin-bottom: 10mm;
+            }
+            thead {
+              display: table-header-group;
+            }
+            .header-text {
+              width: 100%;
+              text-align: center;
+              margin-bottom: 10px;
+            }
           }
-          </style>
-        </head>
-        <body onload="window.print();window.close()">
-          <div class="header-text">
-            <h3>Inter Service Course List</h3>
-          </div>
-          <br>
-          <hr>
-          ${printContents}
-        </body>
-      </html>`);
-    popupWin.document.close();
-  }
+        </style>
+      </head>
+      <body onload="window.print();window.close()">
+        <div class="header-text">
+          <h3>Inter Service Course List</h3>
+        </div>
+        <br>
+        <hr>
+        <table>
+          <thead>
+            <tr>
+              <th class="th-cell-ser">Ser:</th>
+              <th class="th-cell-course">Course Name</th>
+              <th class="th-cell-organiztion">Organization Name</th>
+              <th class="th-cell-noofcandidates">No of Candidates</th>
+              <th class="th-cell-durationform">Duration From</th>
+              <th class="th-cell-durationform">Duration To</th>
+              <th class="th-cell-status">Status</th>
+              <th class="th-cell-action">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${printContents}
+          </tbody>
+        </table>
+      </body>
+    </html>`);
+  popupWin.document.close();
+}
+
   
   deleteItem(row) {
     const id = row.courseDurationId; 

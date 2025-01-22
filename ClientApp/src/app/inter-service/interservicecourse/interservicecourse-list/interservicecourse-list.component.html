@@ -86,19 +86,19 @@
                     <tr *ngFor="let number of this.dataSource.data; let i = index">
                       <td class="td-cell" scope="row"> {{ ((paging.pageIndex-1) * paging.pageSize) +
                         i+1}}</td>   
-                      <td class="td-cell">
+                      <td class="td-cell px-1">
                         {{number.course}} - {{number.courseTitle}}
                       </td>
-                      <td class="td-cell">
+                      <td class="td-cell px-1">
                         {{number.orgName}}
                       </td>
-                      <td class="td-cell">
+                      <td class="td-cell px-1">
                         {{number.candidates}}
                       </td>
-                      <td class="td-cell">
+                      <td class="td-cell px-1">
                         {{number.durationFrom | date:'mediumDate'}}
                       </td>
-                      <td class="td-cell">
+                      <td class="td-cell px-1">
                         {{number.durationTo | date:'mediumDate'}}
                       </td>
                       <td class="td-cell px-2">
