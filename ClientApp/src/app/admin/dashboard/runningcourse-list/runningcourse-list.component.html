@@ -526,10 +526,9 @@
                         class="btn-tbl-nomination"
                         title="Nomination"
                         [routerLink]="[
-                          '/admin/dashboard/traineenomination-list',
-                          row.courseDurationId,
-                          runningCourseType
-                        ]"
+                        '/admin/dashboard/marklist-interservice-forignservice',
+                        row.courseDurationId
+                      ]"
                       >
                         <mat-icon aria-label="Edit" class="col-white"
                           >supervisor_account</mat-icon
@@ -628,7 +627,7 @@
                       *matCellDef="let row; let i = index"
                       class="pr-0"
                     >
-                      <button
+                      <button *ngIf="courseTypeId !=19"
                         mat-icon-button
                         class="btn-tbl-nomination"
                         title="Nomination"
@@ -636,6 +635,19 @@
                           '/admin/dashboard/traineenomination-list',
                           row.courseDurationId,
                           runningCourseType
+                        ]"
+                      >
+                        <mat-icon aria-label="Edit" class="col-white"
+                          >supervisor_account</mat-icon
+                        >
+                      </button>
+                      <button *ngIf="courseTypeId ==19"
+                        mat-icon-button
+                        class="btn-tbl-nomination"
+                        title="Nomination"
+                        [routerLink]="[
+                          '/admin/dashboard/marklist-interservice-forignservice',
+                          row.courseDurationId
                         ]"
                       >
                         <mat-icon aria-label="Edit" class="col-white"

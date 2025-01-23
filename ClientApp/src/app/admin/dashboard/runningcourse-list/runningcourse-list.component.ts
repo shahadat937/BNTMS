@@ -81,7 +81,9 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     this.branchId = this.authService.currentUserValue.branchId.trim();
 
     this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId');
+    console.log(this.courseTypeId)
     this.getCoursesByViewType(1);
+
 
   }
 
@@ -242,6 +244,8 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     // this.getCourseDurations();
     // getSpRunningCourseDurations();
   }
+
+
 
   print() {
 

@@ -882,7 +882,7 @@ const routes: Routes = [
     component: CourseTerminatedComponent,
   },
   {
-    path: "marklist-interservice-forignservice",
+    path: "marklist-interservice-forignservice/:courseDurationId",
     component: MarklistInterserviceForeignCourseComponent
   }
 ];
