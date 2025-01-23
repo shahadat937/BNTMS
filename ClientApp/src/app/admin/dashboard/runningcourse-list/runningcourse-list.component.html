@@ -428,7 +428,7 @@
               <div
                 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20"
               >
-                <button
+                <!-- <button
                   class="btn-space"
                   mat-raised-button
                   color="primary"
@@ -436,7 +436,7 @@
                 >
                   Print
                   <mat-icon class="col-white">print</mat-icon>
-                </button>
+                </button> -->
               </div>
 
               <!-- foreign course -->
@@ -464,7 +464,7 @@
                       >Course Name
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                      {{ element.course }}
+                      {{ element.courseName }}
                     </mat-cell>
                   </ng-container>
 
@@ -505,7 +505,7 @@
                       >country
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                      {{ element.countryName }}
+                      {{ element.country}}
                     </mat-cell>
                   </ng-container>
 
@@ -579,7 +579,7 @@
                       >Course Name
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                      {{ element.course }}
+                      {{ element.courseName }}
                     </mat-cell>
                   </ng-container>
 
@@ -588,7 +588,7 @@
                       >Organization Name</mat-header-cell
                     >
                     <mat-cell *matCellDef="let element">
-                      {{ element.orgName }}
+                      {{ element.organizationName }}
                     </mat-cell>
                   </ng-container>
 

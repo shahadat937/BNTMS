@@ -4,10 +4,11 @@ using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.DTOs.InterServiceMark;
 using SchoolManagement.Application.Features.InterServiceMarks.Requests.Queries;
 using SchoolManagement.Domain;
+using System.Data;
 
 namespace SchoolManagement.Application.Features.InterServiceMarks.Handlers.Queries
 {
-    public class GetInterServiceMarkListByCourseDurationIdRequestHandler : IRequestHandler<GetInterServiceMarkListByCourseDurationIdRequest, List<InterServiceMarkDto>>
+    public class GetInterServiceMarkListByCourseDurationIdRequestHandler : IRequestHandler<GetInterServiceMarkListByCourseDurationIdRequest, object>
     {
         private readonly ISchoolManagementRepository<InterServiceMark> _InterServiceMarkRepository;
         private readonly IMapper _mapper;
@@ -18,12 +19,13 @@ namespace SchoolManagement.Application.Features.InterServiceMarks.Handlers.Queri
             _mapper = mapper;
         }
          
-        public async Task<List<InterServiceMarkDto>> Handle(GetInterServiceMarkListByCourseDurationIdRequest request, CancellationToken cancellationToken)
+        public async Task<object> Handle(GetInterServiceMarkListByCourseDurationIdRequest request, CancellationToken cancellationToken)
         {
-            ICollection<InterServiceMark> InterServiceMarks = _InterServiceMarkRepository.FilterWithInclude(x=> x.CourseDurationId == request.CourseDurationId,"CourseDuration", "CourseName").ToList();
-            
-            var InterServiceMarkDtos = _mapper.Map<List<InterServiceMarkDto>>(InterServiceMarks);
-            return InterServiceMarkDtos; 
+            var spQuery = String.Format("exec [spGetMarkListByCourseDurationId] {0}", request.CourseDurationId);
+
+            DataTable dataTable = _InterServiceMarkRepository.ExecWithSqlQuery(spQuery);
+
+            return dataTable; 
         }
     }
 }

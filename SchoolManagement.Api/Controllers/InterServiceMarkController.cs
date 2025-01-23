@@ -103,7 +103,7 @@ public class InterServiceMarkController : ControllerBase
     
     [HttpGet]
     [Route("get-InterServiceMarkListByCourseDurationId")]
-    public async Task<ActionResult<List<InterServiceMarkDto>>> GetInterServiceMarkListByCourseDurationId( int courseDurationId)
+    public async Task<ActionResult> GetInterServiceMarkListByCourseDurationId( int courseDurationId)
     {
         var iSMarks = await _mediator.Send(new GetInterServiceMarkListByCourseDurationIdRequest
         {
