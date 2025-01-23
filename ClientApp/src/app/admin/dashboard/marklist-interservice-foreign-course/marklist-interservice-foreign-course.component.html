@@ -1,0 +1,117 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style">
+                        <li class="breadcrumb-item">
+                            <h4 class="page-title">Trainee Nomination</h4>
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item bcrumb-2">
+                            <a href="#" onClick="return false;">Trainee Nomination</a>
+                        </li>
+                        <li class="breadcrumb-item active">All</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="responsive_table">
+                            <div class="materialTableHeader">
+                                <div class="row">
+                                    <div class="col-8">
+
+                                        <div *ngIf="isShow">
+                                            <h4>Course : {{ courseName?? "-" }}</h4>
+                                            <h5 *ngIf="countryName">Country : {{ countryName?? "-" }}</h5>
+                                            <h5 *ngIf="organizationName">Organization Name : {{ organizationName?? "-" }}</h5>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-4">
+                                        <ul class="header-buttons">
+                                            <li>
+                                                <div class="icon-button-demo">
+                                                    <button *ngIf="isShow" class="btn-space" mat-raised-button
+                                                        color="primary" (click)="printSingle()">
+                                                        Print
+                                                        <mat-icon class="col-white">print</mat-icon>
+                                                    </button>
+
+                                                    <button class="btn-space" mat-raised-button color="warn"
+                                                        (click)="sharedService.goBack()">
+                                                        <mat-icon class="col-white">keyboard_backspace</mat-icon>
+                                                        Back
+                                                    </button>
+
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="print-routine" class="my-3">
+                                <table class="table tbl-by-group db-li-s-in">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-cell-ser">Ser:</th>
+                                            <th class="th-cell-course">PNO / ONO</th>
+                                            <th class="th-cell-course">Name</th>
+                                            <th class="th-cell-course">Rank</th>
+                                            <th class="th-cell-course">Obtaint Mark</th>
+                                            <th class="th-cell-course">Position</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="
+                          let data of nominatedPercentageList;
+                          let i = index
+                        ">
+                                            <tr>
+                                                <td class="td-cell">
+                                                    {{ i + 1 }}
+                                                </td>
+                                                <td class="td-cell">
+                                                    <a [routerLink]="[
+                                '/admin/dashboard/jstitrainee-details',
+                                data.traineeId
+                              ]">{{ data.pno }}
+                                                    </a>
+                                                </td>
+                                                <td class="td-cell">
+                                                    {{ data.name }}
+                                                </td>
+                                                <td class="td-cell">
+                                                    {{ data.officerRank?? data.saylorRank ?? "-"}}
+                                                </td>
+                                                <td class="td-cell">
+                                                    {{ data.obtaintMark?? "-" }}
+                                                </td>
+                                                <td class="td-cell">
+                                                    {{ data.coursePosition?? "-" }}
+                                                </td>
+
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                                <h4 class="text-center text-danger">{{warningMessage}}</h4>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SchoolManagement.Application.Features.InterServiceMarks.Requests.Queries
 {
-    public class GetInterServiceMarkListByCourseDurationIdRequest : IRequest<List<InterServiceMarkDto>>
+    public class GetInterServiceMarkListByCourseDurationIdRequest : IRequest<object>
     {
         public int CourseDurationId { get; set; }
     }

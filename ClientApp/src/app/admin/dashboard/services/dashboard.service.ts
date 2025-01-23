@@ -254,5 +254,25 @@ export class dashboardService {
       })
     )
   }
+
+    getCourseDurationsByCourseTypeId(pageNumber, pageSize,searchText,courseTypeId:number, status) {
+  
+      let params = new HttpParams(); 
+      
+      params = params.append('searchText', searchText.toString());
+      params = params.append('pageNumber', pageNumber.toString());
+      params = params.append('pageSize', pageSize.toString());
+      params = params.append('courseTypeId', courseTypeId.toString());
+      params = params.append('status', status.toString());
+     
+      return this.http.get<ICourseDurationPagination>(this.baseUrl + '/course-duration/get-courseDurationByCourseTypeId', { observe: 'response', params })
+      .pipe(
+        map(response => {
+          this.CourseDurations = [...this.CourseDurations, ...response.body.items];
+          this.CourseDurationPagination = response.body;
+          return this.CourseDurationPagination;
+        })
+      ); 
+    }
   
 }

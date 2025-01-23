@@ -16,6 +16,8 @@ import { Role } from '../../../../../src/app/core/models/role';
 import { environment } from '../../../../../src/environments/environment';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { CourseDuration } from '../models/courseduration';
+import { CourseDurationService } from '../services/courseduration.service';
 
 @Component({
   selector: 'app-runningcourse-list',
@@ -81,7 +83,9 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     this.branchId = this.authService.currentUserValue.branchId.trim();
 
     this.courseTypeId = this.route.snapshot.paramMap.get('courseTypeId');
+    console.log(this.courseTypeId)
     this.getCoursesByViewType(1);
+
 
   }
 
@@ -155,7 +159,11 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
       this.selectedFilter = viewStatus;
       this.courseListTitle = "Upcomming";
       let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
-      // this.getSpRunningCourseDurations(courseTypeId,viewStatus)
+      if(courseTypeId === this.masterData.coursetype.InterService.toString() || courseTypeId === this.masterData.coursetype.ForeignCourse.toString()){
+        this.getSpRunningCourseDurations(courseTypeId, viewStatus)
+      }
+      else{
+        // this.getSpRunningCourseDurations(courseTypeId,viewStatus)
       this.dashboardService.getUpcomingCourseListByBase(currentDateTime, 0).subscribe(response => {
 
         this.upcomingCourses = response;
@@ -179,6 +187,7 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
         });
         this.isLoading=false
       })
+      }
     }
   }
 
@@ -216,16 +225,16 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
       })
     } else if (this.runningCourseType == this.masterData.coursetype.ForeignCourse) {
       this.courseTitle = "Foreign ";
-      this.dashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType, currentDateTime).subscribe(response => {
+      this.dashboardService.getCourseDurationsByCourseTypeId(1, 1000, '', this.runningCourseType,viewStatus).subscribe(response => {
 
-        this.runningForeignCourses = response;
+        this.runningForeignCourses = response.items;
       })
       this.isLoading=false
     } else {
       this.courseTitle = "Inter Service ";
-      this.dashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType, currentDateTime).subscribe(response => {
+      this.dashboardService.getCourseDurationsByCourseTypeId(1, 1000, '', this.runningCourseType,viewStatus).subscribe(response => {
 
-        this.interServiceCourses = response;
+        this.interServiceCourses = response.items;
       })
       this.isLoading=false;
     }
@@ -242,6 +251,8 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     // this.getCourseDurations();
     // getSpRunningCourseDurations();
   }
+
+
 
   print() {
 

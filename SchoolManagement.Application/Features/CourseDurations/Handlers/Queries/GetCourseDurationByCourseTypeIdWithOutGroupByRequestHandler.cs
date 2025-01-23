@@ -46,10 +46,10 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
                     courseDurationsQuery = courseDurationsQuery.Where(x => x.IsCompletedStatus == 0 && x.DurationTo >= today);
                     break;
                 case 2: // Passing-out courses
-                    courseDurationsQuery = courseDurationsQuery.Where(x => x.IsCompletedStatus == 0 && x.DurationTo < today);
+                    courseDurationsQuery = courseDurationsQuery.Where(x =>  x.DurationTo < today);
                     break;
                 case 3: // Upcoming courses
-                    courseDurationsQuery = courseDurationsQuery.Where(x => x.IsCompletedStatus == 0 && x.DurationFrom > today);
+                    courseDurationsQuery = courseDurationsQuery.Where(x =>  x.DurationFrom > today);
                     break;
                 default: // All courses
                     courseDurationsQuery = courseDurationsQuery;
