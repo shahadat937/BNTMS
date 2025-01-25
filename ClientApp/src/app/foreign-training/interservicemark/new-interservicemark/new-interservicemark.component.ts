@@ -217,7 +217,6 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
 
   onSubmit() {
     const id = this.InterServiceMarkForm.get('interServiceMarkId')?.value;
-    console.log(this.InterServiceMarkForm.value);
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {

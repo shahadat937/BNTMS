@@ -194,7 +194,6 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
     var courseNameId = courseNameArr[1];
 
     this.CourseBudgetAllocationService.getSelectedTraineeByCourseDurationId(courseDurationId).subscribe(res=>{
-      console.log(res);
     this.selectedTrainee=res 
     this.selectTrainee=res
    });

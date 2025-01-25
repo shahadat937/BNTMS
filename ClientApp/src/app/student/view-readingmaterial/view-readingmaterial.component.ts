@@ -155,7 +155,6 @@ export class ViewReadingMaterialComponent implements OnInit, OnDestroy {
   }
 
   getReadingMaterialsForStudents(){
-    console.log(this.masterData.readingMaterial.books, this.baseSchoolNameId,this.cousrseId);
     this.subscription = this.studentDashboardService.getReadingMaterialListForStudens(this.masterData.readingMaterial.books, this.baseSchoolNameId,this.cousrseId).subscribe(res => {
       this.bookList = res;
       this.countbooks = this.bookList.length;

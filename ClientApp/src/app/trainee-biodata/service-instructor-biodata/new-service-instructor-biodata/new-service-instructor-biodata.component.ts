@@ -158,7 +158,6 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
     this.bioDataGeneralInfoService.getselectedbaseschools().subscribe(res =>{
      this.selectedBaseSchoolList = res;
      this.schoolList = res;
-      console.log(res);
     })
   }
   filterBySchool(value:any){
