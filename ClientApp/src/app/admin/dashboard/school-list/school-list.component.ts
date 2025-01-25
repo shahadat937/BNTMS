@@ -162,6 +162,7 @@ export class SchoolListComponent
 
                     table th {
                   font-size: 13px;
+                  padding : 0 .4rem 
                     }
               table {
                     border-collapse: collapse;
