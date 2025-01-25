@@ -209,6 +209,9 @@
                             id="selectCommendingArea" 
                             (input)="filterCommendingArea($event.target.value)"
                             placeholder="Search">
+                            <mat-option Selected [value]="">
+                              Select
+                            </mat-option>      
                             <mat-option *ngFor="let code of selectedCommendingArea" [value]="code.value">
                                 {{code.text}}
                               </mat-option>                          
@@ -228,6 +231,9 @@
                             id="selectBase" 
                            (input)="filterByBase($event.target.value)"
                             placeholder="Search">
+                            <mat-option Selected [value]="">
+                              Select
+                            </mat-option> 
                             <mat-option *ngFor="let code of selectedBaseName" [value]="code.value">
                                 {{code.text}}
                               </mat-option>                          
@@ -248,6 +254,9 @@
                             (keydown.space)="$event.stopPropagation()"
                            (input)="filterBySchoolName($event.target.value)"
                             placeholder="Search">
+                            <mat-option Selected [value]="">
+                              Select
+                            </mat-option> 
                             <mat-option *ngFor="let code of selectedSchoolName" [value]="code.value">
                                 {{code.text}}
                               </mat-option>                          

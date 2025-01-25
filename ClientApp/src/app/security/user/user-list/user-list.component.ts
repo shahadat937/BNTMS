@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef, OnDestroy  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from '../../models/User';
@@ -7,7 +7,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
-import{MasterData} from '../../../../../src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
@@ -18,33 +18,34 @@ import { SharedServiceService } from '../../../../../src/app/shared/shared-servi
   styleUrls: ['./user-list.component.sass']
 })
 export class UserListComponent implements OnInit, OnDestroy {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   InstructorForm: FormGroup;
   ELEMENT_DATA: User[] = [];
   isLoading = false;
-  
+
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
-  
+  searchText = "";
 
-  displayedColumns: string[] = ['ser', 'userName','firstName','role','phoneNumber','email', 'actions'];
+
+  displayedColumns: string[] = ['ser', 'userName', 'firstName', 'role', 'phoneNumber', 'email', 'actions'];
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
 
   selection = new SelectionModel<User>(true, []);
   subscription: any;
-  
-  constructor(private snackBar: MatSnackBar,private fb: FormBuilder,private UserService: UserService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
+
+  constructor(private snackBar: MatSnackBar, private fb: FormBuilder, private UserService: UserService, private router: Router, private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
   // ngOnInit() {
   //   this.dataSource2.paginator = this.paginator;
   // }
   ngOnInit() {
-    this.getUsers();
+    // this.getUsers();
+    this.getEastablishmentUsers();
     this.intitializeForm();
   }
   ngOnDestroy() {
@@ -63,26 +64,40 @@ export class UserListComponent implements OnInit, OnDestroy {
       password: ['Admin@123'],
       confirmPassword: ['Admin@123'],
       firstName: [''],
-      lastName:[''],
-      phoneNumber : ['', Validators.required],
-      email : ['', Validators.required],
-      traineeId:[]
+      lastName: [''],
+      phoneNumber: ['', Validators.required],
+      email: ['', Validators.required],
+      traineeId: []
 
     })
   }
- 
+
   getUsers() {
     this.isLoading = true;
-    this.subscription = this.UserService.getUsers(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-    this.dataSource.data = response.items; 
-    this.paging.length = response.totalItemsCount    
-    this.isLoading = false;
+    this.subscription = this.UserService.getUsers(this.paging.pageIndex, this.paging.pageSize, this.searchText).subscribe(response => {
+      this.dataSource.data = response.items;
+      this.paging.length = response.totalItemsCount
+      this.isLoading = false;
+
+    })
+  }
+  getEastablishmentUsers() {
+    this.isLoading = true;
+    this.subscription = this.UserService.getEastablishmentUsers(this.paging.pageIndex, 2000, this.searchText).subscribe(response => {
+
+      var eistablishmentUsers = response.body;
+      console.log(eistablishmentUsers);
+
+      this.sharedService.groupedData = this.sharedService.groupBy(eistablishmentUsers, (eistablishmentUsers) => eistablishmentUsers.commandingArea)
+      console.log(this.sharedService.groupedData);
+
+      this.isLoading = false;
 
     })
   }
   isAllSelected() {
-    const numSelected = this.selection.selected.length; 
-    const numRows = this.dataSource.filteredData.length;  
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.filteredData.length;
     return numSelected === numRows;
   }
 
@@ -90,11 +105,11 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.filteredData.forEach((row) =>
-          this.selection.select(row)
-        );
+        this.selection.select(row)
+      );
   }
-  addNew(){
-    
+  addNew() {
+
   }
   pageChanged(event: PageEvent) {
     this.paging.pageIndex = event.pageIndex
@@ -103,20 +118,22 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.getUsers();
   }
 
-  applyFilter(searchText: any){ 
+  applyFilter(searchText: any) {
     this.paging.pageSize = 10;
     this.paging.pageIndex = 1;
     this.searchText = searchText;
-    this.getUsers();
-  } 
+    // this.getUsers();
+    this.getEastablishmentUsers();
+  }
 
 
   deleteItem(row) {
-    const id = row.id; 
+    const id = row.id;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
       if (result) {
         this.UserService.delete(id).subscribe(() => {
-          this.getUsers();
+          // this.getUsers();
+          this.getEastablishmentUsers();
           this.snackBar.open('Information Deleted Successfully ', '', {
             duration: 3000,
             verticalPosition: 'bottom',
@@ -126,7 +143,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         })
       }
     })
-     //this.UserService.delete(id).subscribe();
+    //this.UserService.delete(id).subscribe();
 
     // const dialogRef = this.dialog.open(DeleteDialogComponent, {
     //   data: row,
@@ -137,7 +154,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     //     const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
     //       (x) => x.id === this.id
     //     );
-       
+
     //     this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
     //     this.refreshTable();
     //     this.showNotification(
@@ -151,39 +168,44 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   PasswordUpdate(row) {
-    const id = row.id; 
+    const id = row.id;
     this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Resetting This  User Password?').subscribe(result => {
-      if (id) {
-        this.UserService.find(id).subscribe(
-          res => {
-            this.InstructorForm.patchValue({          
-  
-              id: res.id,
-              userName: res.userName,            
-              roleName: res.roleName,         
-              firstName : res.firstName,
-              lastName : res.lastName,
-              phoneNumber : res.phoneNumber,
-              email : res.email,   
-              traineeId:res.traineeId     
-            
-            });   
-            this.subscription = this.UserService.resetPassword(id,this.InstructorForm.value).subscribe(response => {
-              // this.router.navigateByUrl('/security/instructor-list');
-              //vaiya eta theke ami password nicchi
-              this.getUsers();
-              this.snackBar.open('Password Reseted Successfully ', '', {
-                duration: 2000,
-                verticalPosition: 'bottom',
-                horizontalPosition: 'right',
-                panelClass: 'snackbar-success'
+
+      if (result) {
+
+        if (id) {
+          this.UserService.find(id).subscribe(
+            res => {
+              this.InstructorForm.patchValue({
+
+                id: res.id,
+                userName: res.userName,
+                roleName: res.roleName,
+                firstName: res.firstName,
+                lastName: res.lastName,
+                phoneNumber: res.phoneNumber,
+                email: res.email,
+                traineeId: res.traineeId
+
               });
-            })
-            
-          }
-        );        
+              this.subscription = this.UserService.resetPassword(id, this.InstructorForm.value).subscribe(response => {
+                // this.router.navigateByUrl('/security/instructor-list');
+                // this.getUsers();
+                this.snackBar.open('Password Reseted Successfully ', '', {
+                  duration: 2000,
+                  verticalPosition: 'bottom',
+                  horizontalPosition: 'right',
+                  panelClass: 'snackbar-success'
+                });
+              })
+
+            }
+          );
+        }
       }
-    })
-    
+
+    }
+    )
+
   }
 }
