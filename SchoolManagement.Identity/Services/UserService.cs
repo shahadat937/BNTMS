@@ -422,8 +422,10 @@ namespace SchoolManagement.Identity.Services
 
                 if (existingUser != null)
                 {
-                    //throw new BadRequestException($"Username '{item.UserName}' already exists.");
-                    errorCount++;
+                    if (userDto.Count == 1)
+                        throw new BadRequestException($"Username '{item.UserName}' already exists.");
+                    else
+                        errorCount++;
                 }
 
                 var existingEmailFound = false;
@@ -432,6 +434,7 @@ namespace SchoolManagement.Identity.Services
                     var existingEmail = await _userManager.FindByEmailAsync(item.Email);
                     if (existingEmail != null)
                     {
+
                         existingEmailFound = true;
                     }
                 }
@@ -452,7 +455,9 @@ namespace SchoolManagement.Identity.Services
                 }
                 else
                 {
-                    //throw new BadRequestException($"Email {item.Email} already exists.");
+                    if (userDto.Count == 1)
+                        throw new BadRequestException($"Email {item.Email} already exists.");
+                    else
                     errorCount++;
                 }
             }
