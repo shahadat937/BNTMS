@@ -34,6 +34,7 @@ namespace SchoolManagement.Application.Contracts.Identity
         Task<PagedResult<UserDto>> GetTeacherUsers(QueryParams queryParams);
         Task<PagedResult<UserDto>> GetTraineeList(QueryParams queryParams);
         Task<PagedResult<UserDto>> GetInstructorList(QueryParams queryParams);
+        Task<object> GetEastablishmentUsers(int pageSize, int pageNumber, string SearchText); 
 
     }
 }

@@ -189,5 +189,15 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Route("get-eastablishment-users")]
+    public async Task<object> GetEastablishmentUsers(int pageSize, int pageNumber, string searchText)
+    {
+        var users = await _userService.GetEastablishmentUsers(pageSize, pageNumber, searchText);
+        return users;
+    }
+
 }
 

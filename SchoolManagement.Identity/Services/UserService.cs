@@ -22,6 +22,7 @@ using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo;
+using System.Data;
 
 namespace SchoolManagement.Identity.Services
 {
@@ -940,5 +941,13 @@ namespace SchoolManagement.Identity.Services
         //        Lastname = employee.LastName
         //    }; 
         //}
+
+        public async Task<object> GetEastablishmentUsers(int pageSize, int pageNumber, string searchText)
+        {
+            var searchTextParam = string.IsNullOrEmpty(searchText) ? "NULL" : $"'{searchText.Replace("'", "''")}'";
+            var sqlQuery = String.Format("Exec [spGetEastablishmentUsers] {0}, {1}, {2}", pageSize, pageNumber, searchTextParam);
+            DataTable dataTable = _aspNetUsers.ExecWithSqlQuery(sqlQuery);
+            return dataTable;
+        }
     }
 }
