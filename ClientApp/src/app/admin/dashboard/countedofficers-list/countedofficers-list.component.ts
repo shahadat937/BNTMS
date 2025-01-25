@@ -47,10 +47,6 @@ export class CountedOfficersListComponent
     private datepipe: DatePipe,
     private dashboardService: dashboardService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private TraineeNominationService: TraineeNominationService,
-    private router: Router,
-    private confirmService: ConfirmService,
     public sharedService: SharedServiceService
   ) {
     super();
