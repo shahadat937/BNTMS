@@ -96,7 +96,6 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
 
   isAllPassingOutCourseComplet(){
   this.CourseDurationService.isAllpassingOutCourseCompleted(this.courseTypeId).subscribe(res=>{
-    console.log(res);
     if(res === false){
       this.CourseDurationService.makeAllPassingOutCourseComplete(this.courseTypeId).subscribe();
     }

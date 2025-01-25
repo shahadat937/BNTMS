@@ -86,11 +86,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.subscription = this.UserService.getEastablishmentUsers(this.paging.pageIndex, 2000, this.searchText).subscribe(response => {
 
       var eistablishmentUsers = response.body;
-      console.log(eistablishmentUsers);
-
       this.sharedService.groupedData = this.sharedService.groupBy(eistablishmentUsers, (eistablishmentUsers) => eistablishmentUsers.commandingArea)
-      console.log(this.sharedService.groupedData);
-
       this.isLoading = false;
 
     })

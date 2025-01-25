@@ -62,9 +62,6 @@ export class MarklistInterserviceForeignCourseComponent extends UnsubscribeOnDes
   }
 
   loadData() {
-
-  
-    console.log(this.courseDuration);
     this.TraineeNominationService.getMarkListByCourseDurationId(this.courseDuration).subscribe(res=>{
      
       if(!res?.length){

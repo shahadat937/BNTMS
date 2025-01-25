@@ -230,7 +230,6 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
       else{
         this.isShown = false;
         this.warningMessage = "Mark Entry Already Completed"
-        console.log(this.warningMessage);
       }
     })
     }

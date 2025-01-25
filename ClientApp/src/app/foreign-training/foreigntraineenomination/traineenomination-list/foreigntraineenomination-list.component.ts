@@ -59,9 +59,7 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
       this.route.snapshot.paramMap.get("courseDurationId");
     this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
-        console.log(res);
           this.courseNameId = res[0]?.courseNameId ?? ""
-          console.log(this.courseNameId);
 
       }
     );
@@ -76,7 +74,6 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
       this.searchText,
       courseDurationId
     ).subscribe((response) => {
-      console.log(response);
       this.dataSource.data = response.items;
       this.paging.length = response.totalItemsCount;
       this.isLoading = false;

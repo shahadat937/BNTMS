@@ -52,7 +52,6 @@ export class NewForeignTraineeNominationComponent extends UnsubscribeOnDestroyAd
     const id = this.route.snapshot.paramMap.get('traineeNominationId');  
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId') ?? ""; 
     this.courseNameId = this.route.snapshot.paramMap.get('courseNameId') ?? ""; 
-    console.log(this.courseNameId)
     this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
         this.foreigntraineenominationForm.patchValue({          
@@ -229,7 +228,6 @@ getSelectedTraineeByPno(pno){
       })
     }else {
       this.loading=true;
-      console.log(this.foreigntraineenominationForm.value);
       this.TraineeNominationService.submit(this.foreigntraineenominationForm.value).subscribe(response => {
         this.router.navigateByUrl('/foreign-training/foreigntraineenomination-list/'+this.courseDurationId);
         this.snackBar.open('Information Inserted Successfully ', '', {
