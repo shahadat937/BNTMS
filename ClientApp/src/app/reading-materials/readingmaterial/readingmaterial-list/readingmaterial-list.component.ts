@@ -97,17 +97,11 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     this.ReadingMaterialService.getReadingMaterialsBySchool(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText, this.branchId).subscribe(response => {
     
       this.dataSource.data = response.items; 
-      console.log(response.items);
-
       this.sharedService.groupedData = this.sharedService.groupBy(
         this.dataSource.data,
         (courses) => courses.readingMaterialTitle
 
       );
-
-      console.log(this.sharedService.groupedData);
-
-
       // const groups = this.dataSource.data.reduce((groups, courses) => {
       //   const materialTitle = courses.readingMaterialTitle;
       //   if (!groups[materialTitle]) {
