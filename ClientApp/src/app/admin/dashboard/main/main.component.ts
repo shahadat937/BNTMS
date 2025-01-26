@@ -211,8 +211,8 @@ export class MainComponent
 
     // this.getSpSchoolCount();
     this.getNotificationReminderForDashboard();
-    this.getnominatedCourseListFromSpRequest();
-    this.getrunningCourseTotalOfficerListfromprocedure();
+    // this.getnominatedCourseListFromSpRequest();
+    // this.getrunningCourseTotalOfficerListfromprocedure();
     this.getTotalRunningTrainee()
   }
 
@@ -294,17 +294,17 @@ export class MainComponent
       });
   }
 
-  getnominatedCourseListFromSpRequest() {
+  // getnominatedCourseListFromSpRequest() {
     // let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") ?? '';
     // this.dashboardService
     //   .getnominatedCourseListFromSpRequest(currentDateTime)
     //   .subscribe((response) => {
     //     this.nomineeCount = response.length;
     //   });
-  }
+  // }
 
-  getrunningCourseTotalOfficerListfromprocedure() {
-    let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy" )?? '';
+  // getrunningCourseTotalOfficerListfromprocedure() {
+    // let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy" )?? '';
     // this.dashboardService
     //   .getrunningCourseTotalOfficerListfromprocedureRequest(
     //     currentDateTime,
@@ -337,7 +337,7 @@ export class MainComponent
     //   .subscribe((response) => {
     //     this.runningCivilCount = response.length;
     //   });
-  }
+  // }
 
   getTotalRunningTrainee(){
     this.dashboardService.getRunningTraineeCount().subscribe(res =>{
