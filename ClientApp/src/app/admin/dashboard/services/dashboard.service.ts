@@ -274,5 +274,13 @@ export class dashboardService {
         })
       ); 
     }
+
+    getRunningTraineeCount(){
+      return this.http.get<any>(this.baseUrl+`/dashboard/get-traineeCountByTraineeStatus`).pipe(
+        map(res =>{
+          return res
+        })
+      )
+    }
   
 }

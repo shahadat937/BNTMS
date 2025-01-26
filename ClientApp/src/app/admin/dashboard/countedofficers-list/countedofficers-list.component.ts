@@ -67,6 +67,7 @@ export class CountedOfficersListComponent
         )
         .subscribe((response) => {
           this.Countedlist = response;
+          console.log(response);
           // this gives an object with dates as keys
           const groups = this.Countedlist.reduce((groups, courses) => {
             const schoolName = courses.course;
@@ -95,6 +96,7 @@ export class CountedOfficersListComponent
           this.masterData.TraineeStatus.sailor
         )
         .subscribe((response) => {
+          console.log(response);
           this.Countedlist = response;
           // this gives an object with dates as keys
           const groups = this.Countedlist.reduce((groups, courses) => {

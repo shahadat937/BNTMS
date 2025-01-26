@@ -67,6 +67,9 @@ export class MainComponent
   foreignCourseCount: number;
   intServiceCount: number;
   nomineeCount: number;
+  cadetCount : number;
+  isCount: number;
+  midCount : number;
   notificationCount: any = 0;
   branchId: any;
   traineeId: any;
@@ -210,6 +213,7 @@ export class MainComponent
     this.getNotificationReminderForDashboard();
     this.getnominatedCourseListFromSpRequest();
     this.getrunningCourseTotalOfficerListfromprocedure();
+    this.getTotalRunningTrainee()
   }
 
   initializeEvents() {
@@ -291,48 +295,75 @@ export class MainComponent
   }
 
   getnominatedCourseListFromSpRequest() {
-    let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") ?? '';
-    this.dashboardService
-      .getnominatedCourseListFromSpRequest(currentDateTime)
-      .subscribe((response) => {
-        this.nomineeCount = response.length;
-      });
+    // let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") ?? '';
+    // this.dashboardService
+    //   .getnominatedCourseListFromSpRequest(currentDateTime)
+    //   .subscribe((response) => {
+    //     this.nomineeCount = response.length;
+    //   });
   }
 
   getrunningCourseTotalOfficerListfromprocedure() {
     let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy" )?? '';
-    this.dashboardService
-      .getrunningCourseTotalOfficerListfromprocedureRequest(
-        currentDateTime,
-        this.masterData.TraineeStatus.officer
-      )
-      .subscribe((response) => {
-        this.runningOfficerCount = response.length;
-      });
-    this.dashboardService
-      .getnominatedForeignTraineeFromSpRequestBySchoolId(
-        currentDateTime,
-        this.masterData.OfficerType.Foreign
-      )
-      .subscribe((response) => {
-        this.foreignNomineeCount = response.length;
-      });
-    this.dashboardService
-      .getrunningCourseTotalOfficerListfromprocedureRequest(
-        currentDateTime,
-        this.masterData.TraineeStatus.sailor
-      )
-      .subscribe((response) => {
-        this.runningSailorCount = response.length;
-      });
-    this.dashboardService
-      .getrunningCourseTotalOfficerListfromprocedureRequest(
-        currentDateTime,
-        this.masterData.TraineeStatus.civil
-      )
-      .subscribe((response) => {
-        this.runningCivilCount = response.length;
-      });
+    // this.dashboardService
+    //   .getrunningCourseTotalOfficerListfromprocedureRequest(
+    //     currentDateTime,
+    //     this.masterData.TraineeStatus.officer
+    //   )
+    //   .subscribe((response) => {
+    //     this.runningOfficerCount = response.length;
+    //   });
+    // this.dashboardService
+    //   .getnominatedForeignTraineeFromSpRequestBySchoolId(
+    //     currentDateTime,
+    //     this.masterData.OfficerType.Foreign
+    //   )
+    //   .subscribe((response) => {
+    //     this.foreignNomineeCount = response.length;
+    //   });
+    // this.dashboardService
+    //   .getrunningCourseTotalOfficerListfromprocedureRequest(
+    //     currentDateTime,
+    //     this.masterData.TraineeStatus.sailor
+    //   )
+    //   .subscribe((response) => {
+    //     this.runningSailorCount = response.length;
+    //   });
+    // this.dashboardService
+    //   .getrunningCourseTotalOfficerListfromprocedureRequest(
+    //     currentDateTime,
+    //     this.masterData.TraineeStatus.civil
+    //   )
+    //   .subscribe((response) => {
+    //     this.runningCivilCount = response.length;
+    //   });
+  }
+
+  getTotalRunningTrainee(){
+    this.dashboardService.getRunningTraineeCount().subscribe(res =>{
+      const runningTraineeList = res[0];
+      if(runningTraineeList){
+        const {
+          officerCount,
+          saylorsCount,
+          civilianCount,
+          midCount,
+          isCount,
+          cadetCount,
+          foreignTraineeCount
+        } = runningTraineeList;
+
+        this.runningOfficerCount = officerCount;
+        this.foreignNomineeCount = foreignTraineeCount;
+        this.runningSailorCount = saylorsCount;
+        this.runningCivilCount = civilianCount;
+        this.midCount = midCount;
+        this.cadetCount = cadetCount;
+        this.isCount = isCount;
+        this.nomineeCount = officerCount + foreignTraineeCount + saylorsCount + civilianCount + midCount + cadetCount + isCount;
+      }
+      
+    })
   }
 
   // getSpTotalTrainee() {

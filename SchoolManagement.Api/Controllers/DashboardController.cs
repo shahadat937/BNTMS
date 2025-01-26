@@ -1078,5 +1078,19 @@ public class DashboardController : ControllerBase
         return Ok(proceduredCourses);
     }
 
+    [HttpGet]
+    [Route("get-traineeCountByTraineeStatus")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+
+    public async Task<ActionResult> GetTraineeCountByTraineeStatus()
+    {
+        var traineeCount = await _mediator.Send(new GetTraineeCountByTraineeStatusRequest
+        {
+
+        });
+        return Ok(traineeCount);
+    }
+
+
 }
 
