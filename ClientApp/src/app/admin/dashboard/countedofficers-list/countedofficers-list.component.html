@@ -31,24 +31,24 @@
                     <ul class="header-buttons-left ml-0">
                       <li class="dropdown"></li>
                       <li class="dropdown">
-                        <!-- <input
+                        <input
                           placeholder="Search"
                           type="text"
                           [(ngModel)]="searchText"
                           #filter
                           class="browser-default search-field"
                           aria-label="Search box"
-                        /> -->
+                        />
                       </li>
                       <li>
                         <div class="icon-button-demo m-l-10">
-                          <!-- <button
+                          <button
                             mat-mini-fab
                             color="accent"
                             (click)="applyFilter(searchText)"
                           >
                             <mat-icon class="col-white">search</mat-icon>
-                          </button> -->
+                          </button>
                         </div>
                       </li>
                     </ul>
@@ -112,18 +112,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container *ngFor="let data of groupArrays; let i = index">
+                  <ng-container *ngFor="let data of sharedService.groupedData; let i = index">
                     <tr>
-                      <td
-                        class="cl-srl"
-                        [attr.rowspan]="data.courses.length + 1"
-                      >
-                        {{ data.courseName }}
-                      </td>
+                      <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey === 'null'? "-": data.groupKey}}</td>
                     </tr>
-                    <tr *ngFor="let number of data.courses">
+                    <tr *ngFor="let number of data.groupedItems">
                       <td class="course-name-col">
-                        {{ number.position }} - {{ number.name }} (PNo
+                        {{ number.position?? number.saylorRank ?? "" }} - {{ number.name }} (PNo
                         {{ number.pno }})
                       </td>
                       <!-- <td>{{number.durationFrom | date:'mediumDate'}} - {{number.durationTo | date:'mediumDate'}}</td> -->

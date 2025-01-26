@@ -439,6 +439,10 @@ const routes: Routes = [
     component: CountedOfficersListComponent,
   },
   {
+    path: "view-officerlist/:traineeStatusId/:officerTypeId",
+    component: CountedOfficersListComponent,
+  },
+  {
     path: "view-totaltraineelist",
     component: CountedOfficersListComponent,
   },
