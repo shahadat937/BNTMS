@@ -21,13 +21,17 @@
 >
   <h2>Search Result</h2>
 
-  <mat-accordion>
-    <app-search-detail
-      *ngFor="let data of searchResults.results"
-      [Payload]="data"
-    >
+  <mat-accordion *ngIf="searchResults!=null">
+    <app-search-detail *ngFor="let data of searchResults.results" [Payload]="data">
+
     </app-search-detail>
   </mat-accordion>
+
+  <div *ngIf="searchResults!=null&&searchResults.results.length<=0" class="d-flex justify-content-center align-items-center" style="height: 100%;">
+      <h1 class="fw-bold text-muted">No Result Found</h1>
+  </div>
+
+
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <mat-paginator

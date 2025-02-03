@@ -33,7 +33,7 @@ export class GlobalSearchModalComponent
     this.pageIndex = 1;
     this.pageSize = 5;
     this.totalResult = 0;
-    this.searchResults = [];
+    this.searchResults = null;
   }
 
   ngOnInit(): void {}
@@ -43,8 +43,8 @@ export class GlobalSearchModalComponent
       this.subscription.unsubscribe();
     }
 
-    if (this.searchText.trim() == "") {
-      this.searchResults = [];
+    if(this.searchText.trim()=="") {
+      this.searchResults = null
       return;
     }
 
