@@ -5,12 +5,12 @@ import { BloodGroup } from '../../models/BloodGroup';
 import { BloodGroupService } from '../../service/BloodGroup.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
- 
+import { MasterData } from '../../../../assets/data/master-data';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { SharedServiceService } from '../../../shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
+
 
 @Component({
   selector: 'app-BloodGroup',

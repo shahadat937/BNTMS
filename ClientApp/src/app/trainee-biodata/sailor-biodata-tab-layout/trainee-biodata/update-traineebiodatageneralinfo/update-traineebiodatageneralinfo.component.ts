@@ -4,13 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../../../../src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 import { Subscription } from 'rxjs';
-import { MasterData } from 'src/assets/data/master-data';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
+import { MasterData } from '../../../../../../src/assets/data/master-data';
+import { AuthService } from '../../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../../src/app/core/models/role';
 
 @Component({
   selector: 'app-update-BIODataGeneralInfo',
@@ -611,15 +611,15 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
 
   onSubmit() {
 
-    const id = this.BIODataGeneralInfoForm.get('traineeId').value;
+    const id = this.BIODataGeneralInfoForm.get('traineeId')?.value;
 
-    const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth').value)
+    const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)
     this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
 
-    this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString());
-    this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString());
+    this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)).toUTCString());
+    this.BIODataGeneralInfoForm.get('joiningDate')?.setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate')?.value)).toUTCString());
 
-    var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId').value;
+    var traineeStatusId = this.BIODataGeneralInfoForm.get('traineeStatusId')?.value;
     if (traineeStatusId == this.masterData.TraineeStatus.sailor) {
       // this.BIODataGeneralInfoForm.get('bnaBatchId').setValue(282);
       // this.BIODataGeneralInfoForm.get('branchId').setValue(17);
@@ -679,7 +679,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
     }
   }
   whiteSpaceRemove(value) {
-    this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
+    this.BIODataGeneralInfoForm.get('email')?.patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
   }
 
   removeImage(event: Event) {

@@ -119,6 +119,25 @@ activeCoursePlan(id : number){
       })
     ); 
   }
+// getCourseDurationsByCourseType Without GroupBy
+  getCourseDurationsByCourseTypeId(pageNumber, pageSize,searchText,courseTypeId:number) {
+
+    let params = new HttpParams(); 
+    
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+    params = params.append('courseTypeId', courseTypeId.toString());
+   
+    return this.http.get<ICourseDurationPagination>(this.baseUrl + '/course-duration/get-courseDurationByCourseTypeId', { observe: 'response', params })
+    .pipe(
+      map(response => {
+        this.CourseDurations = [...this.CourseDurations, ...response.body.items];
+        this.CourseDurationPagination = response.body;
+        return this.CourseDurationPagination;
+      })
+    ); 
+  }
 
 
   getCourseDurations(pageNumber, pageSize,searchText) {
@@ -158,4 +177,13 @@ activeCoursePlan(id : number){
   delete(id:number){
     return this.http.delete(this.baseUrl + '/course-duration/delete-courseDuration/'+id);
   }
+
+  isAllpassingOutCourseCompleted(courseTypeId){
+    return this.http.get(this.baseUrl + `/course-duration/get-is-all-passing-out-course-complete?courseTypeId=${courseTypeId}`);
+  }
+
+  makeAllPassingOutCourseComplete(courseTypeId){
+    return  this.http.put(this.baseUrl+ `/course-duration/update-all-passing-out-course-as-complete?courseTypeId=${courseTypeId}`, null)
+  }
+
 }

@@ -171,10 +171,22 @@ public class CourseDurationController : ControllerBase
     }
 
     [HttpGet]
-    [Route("get-courseDurationByCourseType")]
+    [Route("get-courseDurationByCourseType")] // ForGeting Data GroupBy
     public async Task<ActionResult<List<CourseDurationDto>>> GetCourseDurationByCourseType([FromQuery] QueryParams queryParams, int courseTypeId, int status)
-    {
+    {   
         var localCourses = await _mediator.Send(new GetCourseDurationByCourseTypeIdRequest 
+        {
+            CourseTypeId  = courseTypeId,
+            QueryParams = queryParams,
+            Status = status
+        });
+        return Ok(localCourses); 
+    }  
+    [HttpGet]
+    [Route("get-courseDurationByCourseTypeId")] // For Geting Data without GroupBy
+    public async Task<ActionResult<List<CourseDurationDto>>> GetCourseDurationByCourseTypeIdWithOutGroupBy([FromQuery] QueryParams queryParams, int courseTypeId, int status)
+    {   
+        var localCourses = await _mediator.Send(new GetCourseDurationByCourseTypeIdWithOutGroupByRequest 
         {
             CourseTypeId  = courseTypeId,
             QueryParams = queryParams,
@@ -213,11 +225,12 @@ public class CourseDurationController : ControllerBase
 
     [HttpGet]
     [Route("get-courseDurationByCourseTypeForInterService")]
-    public async Task<ActionResult> GetCourseDurationForInterserviceByCourseType(int courseTypeId)
+    public async Task<ActionResult> GetCourseDurationForInterserviceByCourseType(int courseTypeId, string searchTerm)
     {
         var localCourses = await _mediator.Send(new GetCourseDurationForInterserviceByCourseTypeIdRequest
         {
             CourseTypeId = courseTypeId,
+            SearchTerm = searchTerm
         }); 
         return Ok(localCourses);
     }
@@ -656,5 +669,31 @@ public class CourseDurationController : ControllerBase
         });
         return Ok(proceduredCourses);
     }
+
+    [HttpPut]
+    [Route ("update-all-passing-out-course-as-complete")]
+    public async Task<ActionResult> UpdatePassingOutCourseAsCompleted(int courseTypeId)
+    {
+        var command = new UpdatePassingOutCourseDurationCommand { 
+            CoureseTypeId = courseTypeId
+            
+        };
+        await _mediator.Send(command);
+        return NoContent();
+    } 
+    
+    [HttpGet]
+    [Route ("get-is-all-passing-out-course-complete")]
+    public async Task<ActionResult> IsAllPassingOutCourseComplete(int courseTypeId)
+    {
+        var command = new GetIsAllPassingOutCourseCompleteRequest
+        { 
+            CourseTypeId = courseTypeId
+            
+        };
+        var isCompleted = await _mediator.Send(command);
+        return Ok(isCompleted);
+    }
+
 }
 

@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoleFeatureService } from '../../service/rolefeature.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-edit-rolefeature',
@@ -32,11 +32,10 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
   constructor(private snackBar: MatSnackBar,private confirmService: ConfirmService,private RoleFeatureService: RoleFeatureService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, public sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
-    this.Roleid = this.route.snapshot.paramMap.get('roleId'); 
+    this.Roleid = this.route.snapshot.paramMap.get('roleId') ?? ''; 
     // this.Roleid = Number(rid);
     const fid = this.route.snapshot.paramMap.get('featureKey'); 
     this.Featureid = Number(fid)
-   console.log(this.Roleid , this.Featureid )
     if (this.Roleid && this.Featureid) {
       this.pageTitle = 'Edit RoleFeature';
       this.destination = "Edit";
@@ -99,7 +98,6 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
     this.subscription = this.RoleFeatureService.getselectedfeature().subscribe(res=>{
       this.selectedfeature=res
       this.selectFeature=res
-      console.log(this.selectedfeature);
     });
   }
 
@@ -126,7 +124,6 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
         }
       })
     } else {
-      console.log(this.RoleFeatureForm.value)
       this.loading=true;
       this.subscription = this.RoleFeatureService.submit(this.RoleFeatureForm.value).subscribe(response => {
         

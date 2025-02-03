@@ -22,10 +22,11 @@ using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Application.DTOs.TraineeBioDataGeneralInfo;
+using System.Data;
 
 namespace SchoolManagement.Identity.Services
 {
-    public class UserService : IUserService 
+    public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signinManager;
@@ -58,10 +59,10 @@ namespace SchoolManagement.Identity.Services
                 Lastname = employee.LastName
             };
         }
-        public async Task<BaseCommandResponse> UpdateUserPassword(string userId,PasswordChangeDto userDto)
+        public async Task<BaseCommandResponse> UpdateUserPassword(string userId, PasswordChangeDto userDto)
         {
             var response = new BaseCommandResponse();
-          //  await _userManager.UpdateAsync()
+            //  await _userManager.UpdateAsync()
             var user = await _userManager.FindByIdAsync(userId);
             await _userManager.ChangePasswordAsync(user, userDto.CurrentPassword, userDto.NewPassword);
             await _signinManager.RefreshSignInAsync(user);
@@ -74,18 +75,18 @@ namespace SchoolManagement.Identity.Services
             var response = new BaseCommandResponse();
 
             var user = await _userManager.FindByIdAsync(userId);
-          
-           
+
+
             if (user == null)
                 throw new BadRequestException("Invalide Request !!");
             string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             string newPassword = "Admin@123";
             var resetPassResult = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
-           
+
             if (!resetPassResult.Succeeded)
             {
                 throw new BadRequestException(resetPassResult.Errors.ToString());
-               
+
             }
             //await _userManager.ChangePasswordAsync(user, user.p, userDto.NewPassword);
             //var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -132,7 +133,8 @@ namespace SchoolManagement.Identity.Services
         public async Task<List<Employee>> GetEmployees()
         {
             var employees = await _userManager.GetUsersInRoleAsync("Employee");
-            return employees.Select(q => new Employee { 
+            return employees.Select(q => new Employee
+            {
                 Id = q.Id,
                 Email = q.Email,
                 Firstname = q.FirstName,
@@ -144,23 +146,23 @@ namespace SchoolManagement.Identity.Services
         {
             var user = await _userManager.FindByIdAsync(id);
             var userDto = new UserDto();
-                
+
             userDto = new UserDto
             {
-                    Id = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    PhoneNumber = user.PhoneNumber,
-                    LastName = user.LastName,
-                    UserName = user.UserName,
-                    RoleName = user.RoleName
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                PhoneNumber = user.PhoneNumber,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                RoleName = user.RoleName
             };
 
             if (user.BranchId != null && !String.IsNullOrEmpty(user.BranchId))
             {
                 BaseSchoolName baseSchoolName = await _BaseSchoolNameRepository.Where(x => x.BaseSchoolNameId == Convert.ToInt16(user.BranchId)).FirstOrDefaultAsync();
 
-                if(baseSchoolName != null)
+                if (baseSchoolName != null)
                 {
                     userDto.FirstLevel = baseSchoolName.FirstLevel;
                     userDto.SecondLevel = baseSchoolName.SecondLevel;
@@ -168,7 +170,53 @@ namespace SchoolManagement.Identity.Services
                     userDto.FourthLevel = baseSchoolName.FourthLevel;
 
                 }
-                
+
+            }
+
+            if (user.PNo != null && !String.IsNullOrEmpty(user.PNo))
+            {
+                TraineeBioDataGeneralInfo biodata = await _BiodataRepository.Where(x => x.TraineeId == Convert.ToInt32(user.PNo)).FirstOrDefaultAsync();
+
+                userDto.TraineeId = biodata.TraineeId;
+                userDto.TraineeName = biodata.Pno + "_" + biodata.Name;
+            }
+
+
+
+            return userDto;
+
+
+        }
+
+        public async Task<UserDto> GetUserByTraineeId(string traineeId)
+        {
+            var user = await _aspNetUsers.FindOneAsync(x => x.PNo == traineeId);
+            var userDto = new UserDto();
+
+            userDto = new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                PhoneNumber = user.PhoneNumber,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                RoleName = user.RoleName,
+            };
+
+            if (user.BranchId != null && !String.IsNullOrEmpty(user.BranchId))
+            {
+                BaseSchoolName baseSchoolName = await _BaseSchoolNameRepository.Where(x => x.BaseSchoolNameId == Convert.ToInt16(user.BranchId)).FirstOrDefaultAsync();
+
+                if (baseSchoolName != null)
+                {
+                    userDto.FirstLevel = baseSchoolName.FirstLevel;
+                    userDto.SecondLevel = baseSchoolName.SecondLevel;
+                    userDto.ThirdLevel = baseSchoolName.ThirdLevel;
+                    userDto.FourthLevel = baseSchoolName.FourthLevel;
+
+                }
+
             }
 
             if (user.PNo != null && !String.IsNullOrEmpty(user.PNo))
@@ -194,7 +242,7 @@ namespace SchoolManagement.Identity.Services
 
             try
             {
-                 var user = await _aspNetUsers.FindOneAsync(x => x.PNo == traineeId.ToString());
+                var user = await _aspNetUsers.FindOneAsync(x => x.PNo == traineeId.ToString());
                 if (user != null)
                 {
                     var role = _aspNetUserRoles.FindOne(x => x.UserId == user.Id);
@@ -259,11 +307,11 @@ namespace SchoolManagement.Identity.Services
 
         public bool DeleteUserRoles(ApplicationUser user)
         {
-           
+
             IList<string> userRoles = _userManager.GetRolesAsync(user).Result;
             if (userRoles.Any())
             {
-                return  _userManager.RemoveFromRolesAsync(user, userRoles).Result.Succeeded;
+                return _userManager.RemoveFromRolesAsync(user, userRoles).Result.Succeeded;
             }
 
             return true;
@@ -291,7 +339,7 @@ namespace SchoolManagement.Identity.Services
                 FirstName = q.FirstName,
                 LastName = q.LastName,
                 UserName = q.UserName,
-                PhoneNumber =q.PhoneNumber,
+                PhoneNumber = q.PhoneNumber,
                 RoleName = q.RoleName
             }).ToList();
 
@@ -304,7 +352,7 @@ namespace SchoolManagement.Identity.Services
         public async Task<BaseCommandResponse> UpdateUser(string userId, UpdateEmailPhoneDto userDto)
         {
             var response = new BaseCommandResponse();
-      
+
             var User = new ApplicationUser();
             if (!string.IsNullOrWhiteSpace(userId))
             {
@@ -321,7 +369,7 @@ namespace SchoolManagement.Identity.Services
             return response;
         }
 
-        public async Task<BaseCommandResponse> Save(string userId,List<CreateUserDto> userDto)
+        public async Task<BaseCommandResponse> Save(string userId, List<CreateUserDto> userDto)
         {
             var response = new BaseCommandResponse();
 
@@ -374,8 +422,10 @@ namespace SchoolManagement.Identity.Services
 
                 if (existingUser != null)
                 {
-                    //throw new BadRequestException($"Username '{item.UserName}' already exists.");
-                    errorCount++;
+                    if (userDto.Count == 1)
+                        throw new BadRequestException($"Username '{item.UserName}' already exists.");
+                    else
+                        errorCount++;
                 }
 
                 var existingEmailFound = false;
@@ -384,6 +434,7 @@ namespace SchoolManagement.Identity.Services
                     var existingEmail = await _userManager.FindByEmailAsync(item.Email);
                     if (existingEmail != null)
                     {
+
                         existingEmailFound = true;
                     }
                 }
@@ -404,7 +455,9 @@ namespace SchoolManagement.Identity.Services
                 }
                 else
                 {
-                    //throw new BadRequestException($"Email {item.Email} already exists.");
+                    if (userDto.Count == 1)
+                        throw new BadRequestException($"Email {item.Email} already exists.");
+                    else
                     errorCount++;
                 }
             }
@@ -419,7 +472,7 @@ namespace SchoolManagement.Identity.Services
                 response.Success = true;
                 response.Message = $"{successCount} Users Created and {errorCount} Users Faild";
             }
-            
+
             return response;
         }
 
@@ -690,6 +743,86 @@ namespace SchoolManagement.Identity.Services
             return response;
         }
 
+        public async Task<BaseCommandResponse> UpdateUserAsAServiceInstructor(string userId, CreateUserDto userDto, string branchId)
+        {
+            var response = new BaseCommandResponse();
+
+
+            var User = new ApplicationUser();
+            bool isNotSameRole = false;
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                User = _userManager.Users.FirstOrDefault(x => x.Id == userId);
+                isNotSameRole = User.RoleName != userDto.RoleName;
+            }
+            User.RoleName = userDto.RoleName;
+            User.BranchId = branchId;
+            User.PNo = userDto.TraineeId;
+
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                await _userManager.UpdateAsync(User);
+                if (isNotSameRole)
+                {
+                    IList<string> userRoles = await _userManager.GetRolesAsync(User);
+                    if (userRoles.Any())
+                    {
+                        await _userManager.RemoveFromRolesAsync(User, userRoles);
+                    }
+
+                    try
+                    {
+                        await _userManager.AddToRoleAsync(User, userDto.RoleName);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+
+                }
+                response.Success = true;
+                response.Message = "Updated Successful";
+                return response;
+            }
+
+            return response;
+        }
+
+        public async Task<BaseCommandResponse> ReleseServiceInstructor(string userId)
+        {
+            var response = new BaseCommandResponse();
+
+            var User = new ApplicationUser();
+
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                User = _userManager.Users.FirstOrDefault(x => x.Id == userId);
+
+            }
+            User.RoleName = "Student";
+            User.BranchId = null;
+
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                await _userManager.UpdateAsync(User);
+
+                IList<string> userRoles = await _userManager.GetRolesAsync(User);
+
+                if (userRoles.Any())
+                {
+                    await _userManager.RemoveFromRolesAsync(User, userRoles);
+                    await _userManager.AddToRoleAsync(User, "Student");
+                }
+
+                response.Success = true;
+                response.Message = "Updated Successful";
+                return response;
+            }
+
+            return response;
+        }
+
 
         public async Task<PagedResult<UserDto>> GetTeacherUsers(QueryParams queryParams)
         {
@@ -734,7 +867,7 @@ namespace SchoolManagement.Identity.Services
 
             IQueryable<ApplicationUser> userQuery = _userManager.Users.AsQueryable();
 
-            string[] searchingRoles = {CustomRoleTypes.Student };
+            string[] searchingRoles = { CustomRoleTypes.Student };
             var userQueryRoleFilter = userQuery.Where(x => searchingRoles.Contains(x.RoleName));
             userQuery = userQueryRoleFilter.Where(x => searchingRoles.Contains(x.RoleName) && (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
             //userQuery = userQuery.Where(x => (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
@@ -813,5 +946,13 @@ namespace SchoolManagement.Identity.Services
         //        Lastname = employee.LastName
         //    }; 
         //}
+
+        public async Task<object> GetEastablishmentUsers(int pageSize, int pageNumber, string searchText)
+        {
+            var searchTextParam = string.IsNullOrEmpty(searchText) ? "NULL" : $"'{searchText.Replace("'", "''")}'";
+            var sqlQuery = String.Format("Exec [spGetEastablishmentUsers] {0}, {1}, {2}", pageSize, pageNumber, searchTextParam);
+            DataTable dataTable = _aspNetUsers.ExecWithSqlQuery(sqlQuery);
+            return dataTable;
+        }
     }
 }

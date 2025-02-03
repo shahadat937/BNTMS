@@ -6,11 +6,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute,Router } from '@angular/router';
 import { BNASubjectNameService } from '../../service/BNASubjectName.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import{MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNASubjectName } from '../../models/BNASubjectName';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-viewsubjectbystaffcollage',

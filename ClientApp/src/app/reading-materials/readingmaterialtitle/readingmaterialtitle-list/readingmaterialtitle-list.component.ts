@@ -5,10 +5,10 @@ import { ReadingMaterialTitle } from '../../models/ReadingMaterialTitle';
 import { ReadingMaterialTitleService } from '../../service/ReadingMaterialTitle.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import{MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-readingmaterialtitle-list',
@@ -54,7 +54,6 @@ export class ReadingmaterialtitleListComponent implements OnInit, OnDestroy {
      
 
       this.dataSource.data = response.items; 
-      console.log(this.dataSource.data)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })

@@ -5,15 +5,15 @@ import {ReadingMaterial} from '../../models/readingmaterial'
 import {ReadingMaterialService} from '../../service/readingmaterial.service'
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
-import {Role} from 'src/app/core/models/role'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../../src/assets/data/master-data'
+import {Role} from '../../../../../src/app/core/models/role'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-readingmaterial-list',
@@ -97,32 +97,30 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     this.ReadingMaterialService.getReadingMaterialsBySchool(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText, this.branchId).subscribe(response => {
     
       this.dataSource.data = response.items; 
-
       this.sharedService.groupedData = this.sharedService.groupBy(
         this.dataSource.data,
-        (courses) => courses.readingMaterial
+        (courses) => courses.readingMaterialTitle
+
       );
-      console.log(this.sharedService.groupedData)
-      const groups = this.dataSource.data.reduce((groups, courses) => {
-        const materialTitle = courses.readingMaterialTitle;
-        if (!groups[materialTitle]) {
-          groups[materialTitle] = [];
-        }
-        groups[materialTitle].push(courses);
-        return groups;
-      }, {});
-      console.log(groups)
+      // const groups = this.dataSource.data.reduce((groups, courses) => {
+      //   const materialTitle = courses.readingMaterialTitle;
+      //   if (!groups[materialTitle]) {
+      //     groups[materialTitle] = [];
+      //   }
+      //   groups[materialTitle].push(courses);
+      //   return groups;
+      // }, {});
 
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((readingMaterialTitle) => {
-        return {
-          readingMaterialTitle,
-          courses: groups[readingMaterialTitle]
-        };
-      });
+      // // Edit: to add it in the array format instead
+      // this.groupArrays = Object.keys(groups).map((readingMaterialTitle) => {
+      //   return {
+      //     readingMaterialTitle,
+      //     courses: groups[readingMaterialTitle]
+      //   };
+      // });
 
-      this.paging.length = response.totalItemsCount    
-      this.isLoading = false;
+      // this.paging.length = response.totalItemsCount    
+      // this.isLoading = false;
     })
   }
 

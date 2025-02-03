@@ -4,13 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../app/core/service/confirm.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
 
 import { ViewChild, ElementRef } from '@angular/core';
-import { Role } from 'src/app/core/models/role';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 @Component({
   selector: 'app-new-BIODataGeneralInfos',
   templateUrl: './new-biodata-general-infos.component.html',
@@ -292,11 +292,11 @@ export class NewBIODataGeneralInfosComponent extends UnsubscribeOnDestroyAdapter
   
   onSubmit() {
 
-    const id = this.BIODataGeneralInfoForm.get('traineeId').value; 
+    const id = this.BIODataGeneralInfoForm.get('traineeId')?.value; 
 
-    this.BIODataGeneralInfoForm.get('dateOfBirth').setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('joiningDate').setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate').value)).toUTCString()) ;
-    this.BIODataGeneralInfoForm.get('marriedDate').setValue((new Date(this.BIODataGeneralInfoForm.get('marriedDate').value)).toUTCString()) ;
+    this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue((new Date(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)).toUTCString()) ;
+    this.BIODataGeneralInfoForm.get('joiningDate')?.setValue((new Date(this.BIODataGeneralInfoForm.get('joiningDate')?.value)).toUTCString()) ;
+    this.BIODataGeneralInfoForm.get('marriedDate')?.setValue((new Date(this.BIODataGeneralInfoForm.get('marriedDate')?.value)).toUTCString()) ;
 
     
 

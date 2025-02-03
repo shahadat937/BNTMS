@@ -110,21 +110,24 @@
               <table *ngIf="!isLoading" class="mat-elevation-z8">
                 <thead>
                   <tr>
-                    <th>Force Type</th>
-                    <th>Organization Name</th>
-                    <th>Actions</th>
+                    <th class="px-2">Force Type</th>
+                    <th class="px-2">Organization Name</th>
+                    <th class="px-2 text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container *ngFor="let group of groupArrays">
-                    <ng-container *ngFor="let element of group.organization; let i = index">
+                  
+                    <ng-container *ngFor="let data of sharedService.groupedData;let i= index;">
                       <tr>
-                        <td class="force-type" *ngIf="shouldDisplayRowspan(group.organization, element, i)" 
+                        <td class="cl-srl force-type px-2" [attr.rowspan]="data.groupedItems.length + 1">{{data.groupKey}}</td>
+                      </tr>
+                      <tr *ngFor="let element of data.groupedItems;">
+                        <!-- <td class="force-type" *ngIf="shouldDisplayRowspan(group.organization, element, i)" 
                             [attr.rowspan]="getRowspan(group.organization, element.forceType)">
                           {{ element.forceType }}
-                        </td>
-                        <td>{{ element.name }}</td>
-                        <td>
+                        </td> -->
+                        <td class="px-2">{{ element.name }}</td>
+                        <td class="text-center">
                           <button mat-icon-button color="primary" class="btn-tbl-edit"
                                   [routerLink]="['/inter-service/update-organizationname', element.organizationNameId]">
                             <mat-icon>edit</mat-icon>
@@ -135,7 +138,7 @@
                         </td>
                       </tr>
                     </ng-container>
-                  </ng-container>
+                  
 
                  
                 </tbody>

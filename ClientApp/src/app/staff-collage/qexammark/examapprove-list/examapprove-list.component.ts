@@ -62,7 +62,6 @@ export class ExamApproveComponent implements OnInit, OnDestroy {
   getStuffClgApproveList(){
     this.destination="Stuff Collage"
     this.subscription = this.BNAExamMarkService.getCentralExamApproveList(this.masterData.coursetype.CentralExam, this.masterData.courseName.StaffCollage).subscribe(res=>{
-      console.log(res);
       this.examList=res;  
     });
   }

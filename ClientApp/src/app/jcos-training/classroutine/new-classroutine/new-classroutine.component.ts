@@ -13,8 +13,8 @@ import { BNAExamMarkService } from '../../service/bnaexammark.service';
 import { BNASubjectNameService } from '../../service/BNASubjectName.service'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classroutine',
@@ -196,8 +196,8 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
-      this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
-      this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
+      this.ClassRoutineForm.get('courseNameId')?.setValue(courseNameId);
+      this.ClassRoutineForm.get('courseDurationId')?.setValue(courseDurationId);
       
 
       this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
@@ -237,7 +237,6 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
     this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       // this.selectedmarktype[bnaSubjectNameId]=res;
       this.selectMarkType=res
-      console.log("Type",res);
     });
 }
 
@@ -246,7 +245,6 @@ onSubjectMarkSelectionGetMarkType(event){
   let subjectMarkId = event.source.value;
  
     this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
-     console.log(res);
  
      this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
     });
@@ -279,9 +277,9 @@ onSubjectMarkSelectionGetMarkType(event){
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
       this.courseName=dropdown.text;
-      this.ClassRoutineForm.get('courseName').setValue(dropdown.text);
-      this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
-      this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
+      this.ClassRoutineForm.get('courseName')?.setValue(dropdown.text);
+      this.ClassRoutineForm.get('courseNameId')?.setValue(courseNameId);
+      this.ClassRoutineForm.get('courseDurationId')?.setValue(courseDurationId);
     } 
     
     this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
@@ -319,7 +317,7 @@ onSubjectMarkSelectionGetMarkType(event){
   
 
   onSubmit() {
-    const id = this.ClassRoutineForm.get('classRoutineId').value;   
+    const id = this.ClassRoutineForm.get('classRoutineId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

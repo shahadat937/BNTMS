@@ -17,8 +17,8 @@ import { INITIAL_EVENTS } from '../events-util';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAdapter';
 import {dashboardService} from '../../admin/dashboard/services/dashboard.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',

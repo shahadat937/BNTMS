@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { InterServiceMarkService } from '../../service/interservicemark.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { InterServiceMark } from '../../models/interservicemark';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { TraineeListforForeignCourse } from '../../models/traineeListforforeigncourse';
 import { CourseDurationService } from '../../service/courseduration.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-interservicemark',
@@ -44,6 +44,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
 
   durateDateForm:any;
   durationDateTo:any;
+  warningMessage : string = "";
 
   options = [];
   filteredOptions;
@@ -118,7 +119,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
 
   }
   getControlLabel(index: number, type: string) {
-    return (this.InterServiceMarkForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.InterServiceMarkForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
 
@@ -160,14 +161,12 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
       
     });
   }
-  onCourseNameSelectionChangeGetTraineeList(dropdown) {
-    this.isShown = true;
-    if (dropdown.isUserInput) {
-      this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId').value;
-      this.courseDurationId = dropdown.source.value;
 
-      this.InterServiceMarkForm.get('courseDurationId').setValue(dropdown.source.value)
-
+  getInterServiceMarkByCourseDurationId (courseDurationId){
+  this.InterServiceMarkService.findInterServiceMarkByCourseDurationId(courseDurationId).subscribe(res=>{
+    if (!res.length){
+      this.isShown = true;
+      this.warningMessage = ""
       this.courseDurationService.find(this.courseDurationId).subscribe(res => {
         this.durateDateForm = res.durationFrom;
         this.durationDateTo = res.durationTo;
@@ -175,9 +174,27 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
 
       this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
         this.traineeList = res;
+        if(!this.traineeList?.length){
+          this.isShown = false;
+          this.warningMessage = "No Trainees Have Been Nominated for the Course"
+        } 
         this.clearList()
         this.getTraineeListonClick();
       });
+    }
+    else{
+      this.isShown = false;
+      this.warningMessage = "Mark Entry Already Completed"
+    }
+  })
+  }
+  onCourseNameSelectionChangeGetTraineeList(dropdown) {
+    if (dropdown.isUserInput) {
+      this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId')?.value;
+      this.courseDurationId = dropdown.source.value;
+
+      this.InterServiceMarkForm.get('courseDurationId')?.setValue(dropdown.source.value)
+      this.getInterServiceMarkByCourseDurationId(this.courseDurationId);    
     }
   }
 
@@ -199,7 +216,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   onSubmit() {
-    const id = this.InterServiceMarkForm.get('interServiceMarkId').value;
+    const id = this.InterServiceMarkForm.get('interServiceMarkId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {

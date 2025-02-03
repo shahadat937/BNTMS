@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { TrainingObjective } from '../../models/TrainingObjective';
 import { TrainingObjectiveService } from '../../service/TrainingObjective.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-trainingobjective',
@@ -89,7 +89,7 @@ export class NewTrainingObjectiveComponent implements OnInit,OnDestroy {
     }
     this.intitializeForm();
     if(this.role === 'Super Admin'){
-      this.TrainingObjectiveForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.TrainingObjectiveForm.get('baseSchoolNameId')?.setValue(this.branchId);
     }
     this.getselectedBaseScoolName();
     //this.getSelectedSubjectNameBySchoolNameIdAndCourseNameId();
@@ -115,7 +115,7 @@ export class NewTrainingObjectiveComponent implements OnInit,OnDestroy {
 
     })
     //autocomplete for Course
-    this.TrainingObjectiveForm.get('course').valueChanges
+    this.TrainingObjectiveForm.get('course')?.valueChanges
       .subscribe(value => {
         this.getSelectedCourseName(value);
       })
@@ -128,8 +128,8 @@ export class NewTrainingObjectiveComponent implements OnInit,OnDestroy {
   //autocomplete for Course
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value
-    this.TrainingObjectiveForm.get('courseNameId').setValue(item.value);
-    this.TrainingObjectiveForm.get('course').setValue(item.text);
+    this.TrainingObjectiveForm.get('courseNameId')?.setValue(item.value);
+    this.TrainingObjectiveForm.get('course')?.setValue(item.text);
   }
   //autocomplete for Course
   getSelectedCourseName(courseName) {
@@ -157,7 +157,7 @@ export class NewTrainingObjectiveComponent implements OnInit,OnDestroy {
   onSubjectSelectionChange(dropdown) {
     this.isShown = true;
     if (dropdown.isUserInput) {
-      this.TrainingObjectiveForm.get('bnaSubjectNameId').setValue(dropdown.source.value);
+      this.TrainingObjectiveForm.get('bnaSubjectNameId')?.setValue(dropdown.source.value);
       // this.baseSchoolNameId = this.CourseTaskForm.get('baseSchoolNameId').value;
       // this.courseNameId = this.CourseTaskForm.get('courseNameId').value;
       // this.bnaSubjectNameId = dropdown.source.value;
@@ -178,7 +178,7 @@ export class NewTrainingObjectiveComponent implements OnInit,OnDestroy {
   }
 
   onSubmit() {
-    const id = this.TrainingObjectiveForm.get('trainingObjectiveId').value;
+    const id = this.TrainingObjectiveForm.get('trainingObjectiveId')?.value;
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {

@@ -127,14 +127,15 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-runningCourseDurationBySchool")]
-    public async Task<ActionResult> GetRunningCourseDurationBySchool(int courseTypeId, DateTime CurrentDate, int baseSchoolNameId, int viewStatus)
+    public async Task<ActionResult> GetRunningCourseDurationBySchool(int courseTypeId, DateTime CurrentDate, int baseSchoolNameId, int viewStatus, string searchTerm)
     {
         var proceduredCourses = await _mediator.Send(new GetRunningCourseDurationListBySchoolFromSpRequest
         {
             CourseTypeId = courseTypeId,
             CurrentDate = CurrentDate,
             BaseSchoolNameId = baseSchoolNameId,
-            ViewStatus = viewStatus
+            ViewStatus = viewStatus,
+            SearchTerm = searchTerm
         });
         return Ok(proceduredCourses);
     }
@@ -256,11 +257,13 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-nominatedCourseListFromSpRequest")]
-    public async Task<ActionResult> GetNominatedCourseListFromSpRequest(DateTime CurrentDate)
+    public async Task<ActionResult> GetNominatedCourseListFromSpRequest(DateTime CurrentDate, string searchText)
     {
         var proceduredNominee = await _mediator.Send(new GetNominatedCourseListFromSpRequest
         {
-            CurrentDate = CurrentDate
+            CurrentDate = CurrentDate,
+            SearchText = searchText
+            
         });
         return Ok(proceduredNominee);
     }
@@ -698,11 +701,12 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-instructorRoutineByTraineeId")]
-    public async Task<ActionResult> GetInstructorRoutineByTraineeId(int TraineeId)
+    public async Task<ActionResult> GetInstructorRoutineByTraineeId(int TraineeId, string searchTerm)
     {
         var instructorRoutineByTraineeId = await _mediator.Send(new GetInstructorRoutineByTraineeIdSpRequest
         {
-            TraineeId = TraineeId
+            TraineeId = TraineeId,
+            SearchTerm = searchTerm
         });
         return Ok(instructorRoutineByTraineeId);
     }
@@ -804,13 +808,14 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-runningCourseDurationByBase")]
-    public async Task<ActionResult> GetRunningCourseDurationByBase(int baseNameId, DateTime currentDate,int viewStatus)
+    public async Task<ActionResult> GetRunningCourseDurationByBase(int baseNameId, DateTime currentDate,int viewStatus, string searchTerm)
     {
         var proceduredCourses = await _mediator.Send(new GetRunningCourseDurationByBaseSpRequest
         {
             BaseNameId = baseNameId,
             CurrentDate = currentDate,
-            ViewStatus = viewStatus
+            ViewStatus = viewStatus,
+            SearchTerm = searchTerm
         });
         return Ok(proceduredCourses);
     }
@@ -1074,6 +1079,43 @@ public class DashboardController : ControllerBase
         });
         return Ok(proceduredCourses);
     }
+
+    [HttpGet]
+    [Route("get-traineeCountByTraineeStatus")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+
+    public async Task<ActionResult> GetTraineeCountByTraineeStatus()
+    {
+        var traineeCount = await _mediator.Send(new GetTraineeCountByTraineeStatusRequest {});
+        return Ok(traineeCount);
+    }
+    
+    [HttpGet]
+    [Route("get-traineeRunningTraineeByTraineeStatus")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+
+    public async Task<ActionResult> GetRunningTraineeByTraineeStatus(int traineeStatusId, int officerTypeId, string searchText)
+    {
+        var trainee = await _mediator.Send(new GetRunningTraineeByTraineeStatusRequest {
+        TraineeStatusId  = traineeStatusId,
+        OfficerTypeId = officerTypeId,
+        SearchText = searchText
+        });
+        return Ok(trainee);
+    }
+     
+    [HttpGet]
+    [Route("get-traineeRunningCivilTrainee")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+
+    public async Task<ActionResult> GetCivilRunningTrainee(string searchText)
+    {
+        var trainee = await _mediator.Send(new GetRunningCivilTraineeRequest {
+        SearchText = searchText
+        });
+        return Ok(trainee);
+    }
+
 
 }
 

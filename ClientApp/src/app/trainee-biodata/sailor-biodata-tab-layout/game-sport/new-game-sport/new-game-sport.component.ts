@@ -5,10 +5,10 @@ import { GameSportService } from '../../service/GameSport.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../../src/app/core/models/role';
 
 @Component({
   selector: 'app-new-game-sport',
@@ -99,8 +99,7 @@ export class NewGameSportComponent extends UnsubscribeOnDestroyAdapter implement
 
 
   onSubmit() {
-    const id = this.GameSportForm.get('gameSportId').value;
-    console.log(this.GameSportForm.value.traineeId);
+    const id = this.GameSportForm.get('gameSportId')?.value;
     if (this.checkTraineeId(this.GameSportForm.value.traineeId)) {
       return; // Stop further execution if checkTraineeId returns true
     }

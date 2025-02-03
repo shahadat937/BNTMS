@@ -19,7 +19,7 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../routine-management/models/classroutine';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-attendance',
@@ -145,8 +145,8 @@ export class NewAttendanceComponent implements OnInit, OnDestroy {
       this.courseNameId = courseNameArr[1];
 
 
-      this.AttendanceForm.get('courseNameId').setValue(this.courseNameId);
-      this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.AttendanceForm.get('courseNameId')?.setValue(this.courseNameId);
+      this.AttendanceForm.get('courseDurationId')?.setValue(this.courseDurationId);
 
       // this.subjectNameService.getSelectedSubjectNameByCourseNameId(courseNameId).subscribe(res => {
       //   this.selectedSubjectNameByCourseNameId = res;
@@ -294,7 +294,7 @@ export class NewAttendanceComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const id = this.AttendanceForm.get('attendanceId').value;
+    const id = this.AttendanceForm.get('attendanceId')?.value;
     var classLeaderName= this.AttendanceForm.value['classLeaderName'];
     var attendanceDate= this.AttendanceForm.value['attendanceDate'];
     var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
@@ -329,7 +329,7 @@ export class NewAttendanceComponent implements OnInit, OnDestroy {
       this.loading=true;
       this.subscription = this.AttendanceService.submit(JSON.stringify(this.traineeNominationListForAttendance) ).subscribe(response => {
         this.AttendanceForm.reset();
-        this.AttendanceForm.get('attendanceId').setValue(0);
+        this.AttendanceForm.get('attendanceId')?.setValue(0);
         this.isShown=false;
 
         this.snackBar.open('Information Inserted Successfully ', '', {

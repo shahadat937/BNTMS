@@ -29,7 +29,6 @@ export class ExamResultService {
     return this.http.put(this.baseUrl + '/UniversityCourseResult/update-UniversityCourseResult/'+id, model);
   }
   submit(model: any) {
-    console.log('model from servece',model)
     return this.http.post<PostResponse>(this.baseUrl + '/UniversityCourseResult/save-universityCourseResult', model).pipe(
       map((BnaClassTest: PostResponse) => {
         if (BnaClassTest) {

@@ -1,18 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
-import { SelectionModel } from "@angular/cdk/collections";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ConfirmService } from "src/app/core/service/confirm.service";
-import { MasterData } from "src/assets/data/master-data";
+import { ConfirmService } from "../../../../src/app/core/service/confirm.service";
+import { MasterData } from "../../../../src/assets/data/master-data";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DatePipe } from "@angular/common";
 import { SchoolDashboardService } from "../services/SchoolDashboard.service";
-import { environment } from "src/environments/environment";
-import { AuthService } from "src/app/core/service/auth.service";
-import { Role } from "src/app/core/models/role";
+import { environment } from "../../../../src/environments/environment";
+import { AuthService } from "../../../../src/app/core/service/auth.service";
+import { Role } from "../../../../src/app/core/models/role";
 import { MatSort } from "@angular/material/sort";
-import { SharedServiceService } from "src/app/shared/shared-service.service";
+import { SharedServiceService } from "../../../../src/app/shared/shared-service.service";
 
 @Component({
   selector: "app-view-courselistbyschool.component",
@@ -79,27 +78,32 @@ export class ViewCourseListBySchoolComponent implements OnInit, OnDestroy {
   }
   getCourseListBySchool(schoolId) {
     this.schoolDashboardService
-      .getCourseNamesBySchool(schoolId)
+      .getCourseNamesBySchool(schoolId, this.searchText)
       .subscribe((response) => {
         this.CourseNamesList = response;
-        const groups = this.CourseNamesList.reduce((groups, courses) => {
-          const schoolname = courses.schoolname;
-          if (!groups[schoolname]) {
-            groups[schoolname] = [];
-          }
-          groups[schoolname].push(courses);
-          return groups;
-        }, {});
+        // const groups = this.CourseNamesList.reduce((groups, courses) => {
+        //   const schoolname = courses.schoolname;
+        //   if (!groups[schoolname]) {
+        //     groups[schoolname] = [];
+        //   }
+        //   groups[schoolname].push(courses);
+        //   return groups;
+        // }, {});
 
         // Edit: to add it in the array format instead
-        this.groupArrays = Object.keys(groups).map((schoolname) => {
-          return {
-            schoolname,
-            courses: groups[schoolname],
-          };
-        });
-
+        // this.groupArrays = Object.keys(groups).map((schoolname) => {
+        //   return {
+        //     schoolname,
+        //     courses: groups[schoolname],
+        //   };
+        // });
+        this.sharedService.groupedData = this.sharedService.groupBy(
+          this.CourseNamesList,
+          (school)=> school.schoolname
+        )
       });
+     
+
   }
   toggle(){
     this.showHideDiv = !this.showHideDiv;
@@ -112,7 +116,7 @@ export class ViewCourseListBySchoolComponent implements OnInit, OnDestroy {
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
@@ -177,7 +181,7 @@ export class ViewCourseListBySchoolComponent implements OnInit, OnDestroy {
 
 }
   getCourseListByBase(schoolId) {
-   this.subscription = this.schoolDashboardService.getCourseNamesByBase(schoolId).subscribe((response) => {
+   this.subscription = this.schoolDashboardService.getCourseNamesByBase(schoolId, this.searchText).subscribe((response) => {
       this.dataSource = new MatTableDataSource(response);
       
       this.dataSource.sort = this.InitialOrdersort;
@@ -185,30 +189,37 @@ export class ViewCourseListBySchoolComponent implements OnInit, OnDestroy {
       
       
         this.CourseNamesList = response;
-        this.CourseNamesList = new MatTableDataSource(response)
-        const groups = this.CourseNamesList.reduce((groups, courses) => {
-          const schoolname = courses.schoolname;
-          if (!groups[schoolname]) {
-            groups[schoolname] = [];
-          }
-          groups[schoolname].push(courses);
-          return groups;
-        }, {});
+        // this.CourseNamesList = new MatTableDataSource(response)
+        // const groups = this.CourseNamesList.reduce((groups, courses) => {
+        //   const schoolname = courses.schoolname;
+        //   if (!groups[schoolname]) {
+        //     groups[schoolname] = [];
+        //   }
+        //   groups[schoolname].push(courses);
+        //   return groups;
+        // }, {});
 
-        // Edit: to add it in the array format instead
-        this.groupArrays = Object.keys(groups).map((schoolname) => {
-          return {
-            schoolname,
-            courses: groups[schoolname],
-          };
-        });
-
+        // // Edit: to add it in the array format instead
+        // this.groupArrays = Object.keys(groups).map((schoolname) => {
+        //   return {
+        //     schoolname,
+        //     courses: groups[schoolname],
+        //   };
+        // });
+        this.sharedService.groupedData = this.sharedService.groupBy(
+          this.CourseNamesList,
+          (school)=> school.schoolname
+        )
       });
+
   }
  
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase().replace(/\s/g,'');
-    this.dataSource.filter = filterValue;
+  applyFilter(searchText: string) {
+   this.searchText = searchText;
+   if (this.role == this.userRole.CO || this.role == this.userRole.TrainingOffice || this.role == this.userRole.TC || this.role == this.userRole.TCO) {
+    this.getCourseListByBase(this.branchId);
+  } else {
+    this.getCourseListBySchool(this.schoolId);
+  }
   }
 }

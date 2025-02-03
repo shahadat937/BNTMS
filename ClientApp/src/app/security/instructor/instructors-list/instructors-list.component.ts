@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { Role } from '../../models/role';
 import { User } from '../../models/User';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,8 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 import { PageEvent } from '@angular/material/paginator';
 import { UserService } from '../../service/User.service';
 
@@ -56,7 +56,6 @@ export class InstructorsListComponent implements OnInit {
   getAllInstructor() {
     this.isLoading = true;
     this.subscription = this.UserService.getAllInstructor(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-      console.log(response);
     this.dataSource.data = response.items; 
     this.paging.length = response.totalItemsCount    
     this.isLoading = false;
@@ -178,7 +177,6 @@ export class InstructorsListComponent implements OnInit {
 
         this.UserService.find(id).subscribe(
           res => {
-            console.log(this.InstructorForm);
             this.InstructorForm.patchValue({          
   
               id: res.id,
@@ -201,12 +199,12 @@ export class InstructorsListComponent implements OnInit {
   }
 
   changeRole(){
-    var userId = this.InstructorForm.get('id').value; 
-    var currentRole = this.InstructorForm.get('roleName').value; 
+    var userId = this.InstructorForm.get('id')?.value; 
+    var currentRole = this.InstructorForm.get('roleName')?.value; 
     if( currentRole == 'Instructor'){
-      this.InstructorForm.get('roleName').setValue('Student');
+      this.InstructorForm.get('roleName')?.setValue('Student');
     }else if( currentRole == 'Student'){
-      this.InstructorForm.get('roleName').setValue('Instructor');
+      this.InstructorForm.get('roleName')?.setValue('Instructor');
     }
     
     this.subscription = this.UserService.update(userId,this.InstructorForm.value).subscribe(response => {

@@ -2,15 +2,15 @@ import { Component, OnInit  } from '@angular/core';
 import { BNASubjectName } from '../../../subject-management/models/BNASubjectName';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute,Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import{ MasterData } from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import{ MasterData } from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BNAExamMarkService } from '../../../exam-management/service/bnaexammark.service';
 import { CourseDurationService } from '../../service/courseduration.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { BaseSchoolNameService } from 'src/app/security/service/BaseSchoolName.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { BaseSchoolNameService } from '../../../../../src/app/security/service/BaseSchoolName.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-marklistbycourse',
@@ -93,7 +93,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
   print(){ 
      
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
@@ -187,7 +187,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
       this.course = res.courseName+"_"+res.courseTitle;
     });
     if(this.courseNameId == this.masterData.courseName.StaffCollage){
-      console.log("Test 1")
+      // console.log("Test 1")
       this.title = "Staff Collage Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForStuffClg(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
@@ -197,7 +197,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         
       });
     }else if(this.courseNameId == this.masterData.courseName.JCOsTraining){
-      console.log("Test 2")
+      // console.log("Test 2")
       this.title = "JCO's Exam Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForStuffClg(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
@@ -206,7 +206,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         
       });
     }else if(this.courseNameId == this.masterData.courseName.QExam){
-      console.log("Test 3")
+      // console.log("Test 3")
       this.title = " Q-Exam Mark";
       this.BNAExamMarkService.getTraineeMarkListByDurationForQexam(courseDurationId).subscribe(res=>{
         this.marklistbycourse=res;  
@@ -218,7 +218,6 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     }else{
       this.title = "Course Subject";
       this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res=>{
-        console.log('marklistbycourse',res)
         this.marklistbycourse=res;   
         if(this.marklistbycourse && this.marklistbycourse.length){
           this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];

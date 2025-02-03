@@ -64,8 +64,9 @@ export class SchoolDashboardService {
     ); 
   }
 
-  getRunningCourseDurationByBase(current, baseNameId,viewStatus) {
-    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-runningCourseDurationByBase?baseNameId='+baseNameId+'&currentDate='+current+'&viewStatus='+viewStatus).pipe(
+  getRunningCourseDurationByBase(current, baseNameId,viewStatus, searchTerm) {
+    const encodedSearchTerm = encodeURIComponent(searchTerm);
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-runningCourseDurationByBase?baseNameId='+baseNameId+'&currentDate='+current+'&viewStatus='+viewStatus+'&searchTerm='+encodedSearchTerm).pipe(
       map(response => {        
         return response;
       })
@@ -294,16 +295,16 @@ export class SchoolDashboardService {
     ); 
   }
 
-  getCourseNamesBySchool(id) {
-    return this.http.get<any[]>(this.baseUrl + '/course-name/get-courseNamesBySchool?baseSchoolNameId='+id).pipe(
+  getCourseNamesBySchool(id, searchText) {
+    return this.http.get<any[]>(this.baseUrl + '/course-name/get-courseNamesBySchool?baseSchoolNameId='+id+"&searchTerm="+searchText).pipe(
       map(response => {
         return response;
       })
     ); 
   }
   
-  getCourseNamesByBase(id) {
-    return this.http.get<any[]>(this.baseUrl + '/course-name/get-courseNamesByBase?baseNameId='+id).pipe(
+  getCourseNamesByBase(id, searchText) {
+    return this.http.get<any[]>(this.baseUrl + '/course-name/get-courseNamesByBase?baseNameId='+id+"&searchTerm="+searchText).pipe(
       map(response => {
         return response;
       })

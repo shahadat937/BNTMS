@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FamilyNominationService } from '../../service/familynomination.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { FamilyInfoListforFamilyNomination } from '../../models/familyinfoListforfamilynomination';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-familynomination',
@@ -29,6 +29,8 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   selectedFundingDetail: SelectedModel[];
   relationTypeValues: SelectedModel[];
   traineeList: FamilyInfoListforFamilyNomination[]
+  isBtnDisabled : boolean = true;
+  warningMessage : string = ""
 
   displayedColumnsForFamilyInfoList: string[] = ['sl', 'fullName', 'relationType', 'status'];
   constructor(private snackBar: MatSnackBar, private confirmService: ConfirmService, private CodeValueService: CodeValueService, private FamilyNominationService: FamilyNominationService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, public sharedService: SharedServiceService) {
@@ -45,6 +47,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
       this.buttonText = "Update"
       this.FamilyNominationService.find(+id).subscribe(
         res => {
+
           this.FamilyNominationForm.patchValue({
             familyNominationId: res.familyNominationId,
             traineeId: res.traineeId,
@@ -64,7 +67,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
     } else {
       this.pageTitle = 'Create Family Nomination';
       this.destination = "Add";
-      this.buttonText = "Save"
+      this.buttonText = "Update"
     }
     this.intitializeForm();
     this.getfamilyInfoListByTraineeId()
@@ -72,7 +75,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   }
   intitializeForm() {
     this.FamilyNominationForm = this.fb.group({
-      familyNominationId: [0],
+      // familyNominationId: [0],
       traineeId: [],
       courseDurationId: [],
       familyInfoId:[],
@@ -88,7 +91,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
     })
   }
   getControlLabel(index: number, type: string) {
-    return (this.FamilyNominationForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.FamilyNominationForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
 
@@ -100,7 +103,8 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
       traineeId: [],
       fullName: [],
       relationType: [],
-      status: ['']
+      status: [''],
+      familyNominationId: [0]
     });
   }
   getTraineeListonClick() {
@@ -120,9 +124,10 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   }
   getfamilyInfoListByTraineeId() {
     
-    this.FamilyNominationForm.get('traineeId').setValue(this.traineeId)
+    this.FamilyNominationForm.get('traineeId')?.setValue(this.traineeId)
     this.FamilyNominationService.getfamilyInfoListByTraineeId(this.traineeId).subscribe(res => {
-      //this.relationTypeValues=res
+     this.isBtnDisabled = res?.length ? false : true;
+     this.warningMessage = this.isBtnDisabled? "Family Info Not Found" : ""
       this.traineeList = res;
       this.clearList()
       this.getTraineeListonClick();
@@ -140,7 +145,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   onSubmit() {
-    const id = this.FamilyNominationForm.get('familyNominationId').value;
+    const id = this.FamilyNominationForm.get('familyNominationId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {
@@ -175,6 +180,7 @@ export class NewFamilyNominationComponent extends UnsubscribeOnDestroyAdapter im
           }, error => {
             this.validationErrors = error;
           })
+          this.sharedService.goBack();
         }
       })
     }

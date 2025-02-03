@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { BNACurriculamTypeService } from '../../service/bNACurriculamType.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { SharedServiceService } from '../../../shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
+
 
 @Component({
   selector: 'app-new-bnacurriculamtype',
@@ -66,7 +67,7 @@ export class NewBNACurriculamTypeComponent extends UnsubscribeOnDestroyAdapter i
   }
   
   onSubmit() {
-    const id = this.bNACurriculamTypeForm.get('bnaCurriculumTypeId').value;
+    const id = this.bNACurriculamTypeForm.get('bnaCurriculumTypeId')?.value;
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         if (result) {

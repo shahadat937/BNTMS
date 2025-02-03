@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDurationService } from '../../service/courseduration.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-mist',
@@ -23,7 +23,7 @@ export class NewMistComponent implements OnInit, OnDestroy {
   CourseDurationForm: FormGroup;
   validationErrors: string[] = [];
   selectedcoursetype:SelectedModel[];
-  courseTypeId:string;
+  courseTypeId:string | null;
   selectedcoursename:SelectedModel[];
   selectCourseName:SelectedModel[];
   selectedschoolname:SelectedModel[];
@@ -123,7 +123,7 @@ export class NewMistComponent implements OnInit, OnDestroy {
     });
   }
   onSubmit() {
-    const id = this.CourseDurationForm.get('courseDurationId').value;   
+    const id = this.CourseDurationForm.get('courseDurationId')?.value;   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import { ICourseInstructorPagination,CourseInstructorPagination } from '../models/courseinstructorPagination';
 import { CourseInstructor } from '../models/courseinstructor';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { map } from 'rxjs';
-import { PostResponse } from 'src/app/core/models/PostResponse';
+import { PostResponse } from '../../../../src/app/core/models/PostResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -167,4 +167,7 @@ export class CourseInstructorService {
   findSubjectMark(id: number) {
     return this.http.get<any>(this.baseUrl + '/subject-mark/get-subjectmarkdetail/' + id);
   }
+
+  getSelectedInstructorBySchool(branchId){
+    return this.http.get<any>(this.baseUrl + `/trainee-bio-data-general-info/get-selected-instructor-by-school?branchId=${branchId}`)}
 }

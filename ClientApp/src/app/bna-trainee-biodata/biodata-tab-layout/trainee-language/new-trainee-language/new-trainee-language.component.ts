@@ -5,8 +5,8 @@ import { TraineeLanguageService } from '../../service/TraineeLanguage.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-trainee-language',
@@ -86,7 +86,7 @@ export class NewTraineeLanguageComponent extends UnsubscribeOnDestroyAdapter imp
 
   
   onSubmit() {
-    const id = this.TraineeLanguageForm.get('traineeLanguageId').value;   
+    const id = this.TraineeLanguageForm.get('traineeLanguageId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { SpCourseDuration } from '../models/spcourseduration';
 import { SpTotalTrainee } from '../models/sptotaltrainee';
 import { SpOfficerDetails } from '../models/spofficerdetails';
@@ -69,9 +69,9 @@ export class dashboardService {
       })
     ); 
   }
-  getnominatedCourseListFromSpRequest(current:string) {
+  getnominatedCourseListFromSpRequest(current:string, searchText) {
 
-    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-nominatedCourseListFromSpRequest?CurrentDate='+current).pipe(
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-nominatedCourseListFromSpRequest?CurrentDate='+current+"&searchText="+searchText).pipe(
       map(response => {
         
         return response;
@@ -254,5 +254,64 @@ export class dashboardService {
       })
     )
   }
+
+    getCourseDurationsByCourseTypeId(pageNumber, pageSize,searchText,courseTypeId:number, status) {
+  
+      let params = new HttpParams(); 
+      
+      params = params.append('searchText', searchText.toString());
+      params = params.append('pageNumber', pageNumber.toString());
+      params = params.append('pageSize', pageSize.toString());
+      params = params.append('courseTypeId', courseTypeId.toString());
+      params = params.append('status', status.toString());
+     
+      return this.http.get<ICourseDurationPagination>(this.baseUrl + '/course-duration/get-courseDurationByCourseTypeId', { observe: 'response', params })
+      .pipe(
+        map(response => {
+          this.CourseDurations = [...this.CourseDurations, ...response.body.items];
+          this.CourseDurationPagination = response.body;
+          return this.CourseDurationPagination;
+        })
+      ); 
+    }
+
+    getRunningTraineeCount(){
+      return this.http.get<any>(this.baseUrl+`/dashboard/get-traineeCountByTraineeStatus`).pipe(
+        map(res =>{
+          return res
+        })
+      )
+    }
+
+    getRunningTeaineeInfo(traineeStatusId, officerTypeId, searchText){
+      let params = new HttpParams(); 
+      
+      params = params.append('traineeStatusId', traineeStatusId.toString());
+      if(officerTypeId){
+        params = params.append('officerTypeId', officerTypeId.toString())
+      }
+      params = params.append('searchText', searchText.toString());
+
+     
+      return this.http.get<any>(this.baseUrl + '/dashboard/get-traineeRunningTraineeByTraineeStatus', { observe: 'response', params })
+      .pipe(
+        map(response => {
+   
+          return response.body;
+        })
+      ); 
+    }
+
+    getRunningCivilTeaineeInfo(searchText){
+      let params = new HttpParams(); 
+      params = params.append('searchText', searchText.toString());
+     
+      return this.http.get<any>(this.baseUrl + '/dashboard/get-traineeRunningCivilTrainee', { observe: 'response', params })
+      .pipe(
+        map(response => {   
+          return response.body;
+        })
+      ); 
+    }
   
 }

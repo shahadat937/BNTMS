@@ -2,18 +2,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoticeService } from '../../service/notice.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service';
-import { TraineeNominationService } from 'src/app/central-exam/service/traineenomination.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { ClassRoutineService } from '../../../../../src/app/routine-management/service/classroutine.service';
+import { TraineeNominationService } from '../../../../../src/app/central-exam/service/traineenomination.service';
 import { Notice } from '../../models/notice';
-import { TraineeList } from 'src/app/attendance-management/models/traineeList';
+import { TraineeList } from '../../../../../src/app/attendance-management/models/traineeList';
 import {IndividualNoticeService} from '../../../notice-bulletin/service/individualnotice.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -98,7 +98,7 @@ export class IndividualNoticeComponent implements OnInit, OnDestroy {
     } 
     this.intitializeForm();
     if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.JSTISchool || this.role === this.userRole.BNASchool){
-      this.NoticeForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.NoticeForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
      }
     this.getselectedbaseschools();
@@ -132,7 +132,7 @@ export class IndividualNoticeComponent implements OnInit, OnDestroy {
   }
   
   getControlLabel(index: number,type: string){
-    return  (this.NoticeForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.NoticeForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
   private createTraineeData() {
  
@@ -203,8 +203,8 @@ export class IndividualNoticeComponent implements OnInit, OnDestroy {
 
 
   //this.NoticeForm.get('courseName').setValue(dropdown.text);
-  this.NoticeForm.get('courseNameId').setValue(courseNameId);
-  this.NoticeForm.get('courseDurationId').setValue(courseDurationId);
+  this.NoticeForm.get('courseNameId')?.setValue(courseNameId);
+  this.NoticeForm.get('courseDurationId')?.setValue(courseDurationId);
   }
 
   
@@ -349,7 +349,7 @@ ngAfterViewInit() {
  
   // }
   onSubmit() {
-    const id = this.NoticeForm.get('noticeId').value;
+    const id = this.NoticeForm.get('noticeId')?.value;
    
   
  
@@ -358,7 +358,6 @@ ngAfterViewInit() {
       ? notices.filter((x: any) => x.isNotify === true)
       : [];
   
-    console.log('Filtered Notices:', filteredNotices);
   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item')

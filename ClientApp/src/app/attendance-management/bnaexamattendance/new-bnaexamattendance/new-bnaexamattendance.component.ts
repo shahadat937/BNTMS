@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BNAExamAttendanceService } from '../../service/bnaexamattendance.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
 import { AttendanceService } from '../../service/attendance.service';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
 import { TraineeList } from '../../models/traineeList';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { MasterData } from '../../../../assets/data/master-data';
+import { SelectedModel } from '../../../core/models/selectedModel';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { TraineeNominationService } from '../../../course-management/service/traineenomination.service';
+import { SharedServiceService } from '../../../shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
+
 
 @Component({
   selector: 'app-new-bnaexamattendance',
@@ -49,7 +49,6 @@ export class NewBNAExamAttendanceComponent extends UnsubscribeOnDestroyAdapter i
   constructor(
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
-    private CodeValueService: CodeValueService,
     private attendanceService: AttendanceService,
     private BNAExamAttendanceService: BNAExamAttendanceService,
     private traineeNominationService:TraineeNominationService,
@@ -185,7 +184,7 @@ export class NewBNAExamAttendanceComponent extends UnsubscribeOnDestroyAdapter i
           this.selectedCourseDurationByParameterRequest=res;   
          this.traineeNominationService.getTraineeNominationByCourseDurationId(this.selectedCourseDurationByParameterRequest,0).subscribe(res=>{
           this.traineeNominationListForAttendance=res;  
-           this.BNAExamAttendanceForm.get('traineeList').setValue(res); 
+           this.BNAExamAttendanceForm.get('traineeList')?.setValue(res); 
          });
         });
       }  
@@ -227,7 +226,7 @@ export class NewBNAExamAttendanceComponent extends UnsubscribeOnDestroyAdapter i
   }
 
   onSubmit() {
-    const id = this.BNAExamAttendanceForm.get('bnaExamAttendanceId').value;   
+    const id = this.BNAExamAttendanceForm.get('bnaExamAttendanceId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

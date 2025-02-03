@@ -117,6 +117,13 @@ public class UsersController : ControllerBase
     {
         var User = await  _userService.GetUserById(id);
         return Ok(User);
+    } 
+    [HttpGet]
+    [Route("get-userDetailByTraineeId/{traineeId}")]
+    public async Task<ActionResult<UserDto>> GetUserByTraineeId(string traineeId)
+    {
+        var User = await _userService.GetUserByTraineeId(traineeId);
+        return Ok(User);
     }
 
     [HttpPost]
@@ -150,6 +157,27 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [Route("update-user-as-service-instructor")]
+    public async Task<ActionResult> UpdateUserAsServiceInstructor(string userId,[FromBody] CreateUserDto User, string branchId)
+    {
+        await _userService.UpdateUserAsAServiceInstructor(userId,User, branchId);
+        return NoContent();
+    }
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [Route("relese-service-instructor")]
+    public async Task<ActionResult> ReleseServiceInstructor(string userId)
+    {
+        await _userService.ReleseServiceInstructor(userId);
+        return NoContent();
+    }
+
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -159,6 +187,16 @@ public class UsersController : ControllerBase
     {
         await _userService.DeleteUser(id);
         return NoContent();
+    }
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Route("get-eastablishment-users")]
+    public async Task<object> GetEastablishmentUsers(int pageSize, int pageNumber, string searchText)
+    {
+        var users = await _userService.GetEastablishmentUsers(pageSize, pageNumber, searchText);
+        return users;
     }
 
 }

@@ -1,76 +1,75 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SelectedModel } from '../../../core/models/selectedModel';
-import { AllowanceService } from '../../service/allowance.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SelectedModel } from "../../../core/models/selectedModel";
+import { AllowanceService } from "../../service/allowance.service";
+import { ConfirmService } from "../../../core/service/confirm.service";
+import { SharedServiceService } from "../../../shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
 
 @Component({
-  selector: 'app-new-allowance',
-  templateUrl: './new-allowance.component.html',
-  styleUrls: ['./new-allowance.component.sass']
+  selector: "app-new-allowance",
+  templateUrl: "./new-allowance.component.html",
+  styleUrls: ["./new-allowance.component.sass"],
 })
-export class NewAllowanceComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-  buttonText:string;
+export class NewAllowanceComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  buttonText: string;
   loading = false;
   pageTitle: string;
-  destination:string;
+  destination: string;
   AllowanceForm: FormGroup;
   validationErrors: string[] = [];
-  selectedCountry:SelectedModel[];
-  selectedRanks:SelectedModel[];
-  selectedcourse:SelectedModel[];
-  selectedAllowanceType:SelectedModel[];
-  selectedAllowanceNamebyFromRankIdandToRankId:SelectedModel[];
+  selectedCountry: SelectedModel[];
+  selectedRanks: SelectedModel[];
+  selectedcourse: SelectedModel[];
+  selectedAllowanceType: SelectedModel[];
+  selectedAllowanceNamebyFromRankIdandToRankId: SelectedModel[];
 
   constructor(
     private snackBar: MatSnackBar,
     private AllowanceService: AllowanceService,
-    private fb: FormBuilder, 
-    private router: Router,  
+    private fb: FormBuilder,
+    private router: Router,
     private route: ActivatedRoute,
     private confirmService: ConfirmService,
-    public sharedService: SharedServiceService,
+    public sharedService: SharedServiceService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('allowanceId'); 
+    const id = this.route.snapshot.paramMap.get("allowanceId");
     if (id) {
-      this.pageTitle = 'Edit Allowance ';
-      this.destination='Edit';
-      this.buttonText="Update";
-      this.AllowanceService.find(+id).subscribe(
-        res => {
-          this.AllowanceForm.patchValue({          
-
-            allowanceId: res.allowanceId,
-            courseNameId: res.courseNameId,
-            countryId: res.countryId,
-            fromRankId: res.fromRankId,
-            toRankId: res.toRankId,
-            durationFrom:res.durationFrom,
-            durationTo:res.durationTo,
-            vacancy: res.vacancy,
-            AllowanceCategoryId:res.allowanceCategoryId,
-            provideByAuthority: res.provideByAuthority,
-            tarminal: res.tarminal,
-            transit: res.transit,
-            bankCommission:res.bankCommission,
-          
-          }); 
-          var editArr = [res.fromRankId, res.toRankId, ];
-          this.getSelectedAllowanceNameByFromRankIdAndToRankId();
-        }
-      );
+      this.pageTitle = "Edit Allowance ";
+      this.destination = "Edit";
+      this.buttonText = "Update";
+      this.AllowanceService.find(+id).subscribe((res) => {
+        this.AllowanceForm.patchValue({
+          allowanceId: res.allowanceId,
+          courseNameId: res.courseNameId,
+          countryId: res.countryId,
+          fromRankId: res.fromRankId,
+          toRankId: res.toRankId,
+          durationFrom: res.durationFrom,
+          durationTo: res.durationTo,
+          vacancy: res.vacancy,
+          AllowanceCategoryId: res.allowanceCategoryId,
+          provideByAuthority: res.provideByAuthority,
+          tarminal: res.tarminal,
+          transit: res.transit,
+          bankCommission: res.bankCommission,
+        });
+        var editArr = [res.fromRankId, res.toRankId];
+        this.getSelectedAllowanceNameByFromRankIdAndToRankId();
+      });
     } else {
-      this.pageTitle = 'Create Allowance ';
-      this.destination='Add';
-      this.buttonText="Save";
+      this.pageTitle = "Create Allowance ";
+      this.destination = "Add";
+      this.buttonText = "Save";
     }
     this.intitializeForm();
     this.getselectedRank();
@@ -82,82 +81,97 @@ export class NewAllowanceComponent extends UnsubscribeOnDestroyAdapter implement
     this.AllowanceForm = this.fb.group({
       allowanceId: [0],
       courseNameId: [],
-      countryId:[],
+      countryId: [],
       fromRankId: [],
       toRankId: [],
       durationFrom: [],
       durationTo: [],
-      vacancy: [''],
-      provideByAuthority: [''],
+      vacancy: [""],
+      provideByAuthority: [""],
       tarminal: [],
       transit: [],
       bankCommission: [],
       isActive: [true],
-      AllowanceCategoryId:[],
-       
-    })
-  }
-  getselectedRank(){
-    this.AllowanceService.getselectedRank().subscribe(res=>{
-      this.selectedRanks=res
+      AllowanceCategoryId: [],
     });
   }
-  getselectedCountry(){
-    this.AllowanceService.getselectedCountry().subscribe(res=>{
-      this.selectedCountry=res
+  getselectedRank() {
+    this.AllowanceService.getselectedRank().subscribe((res) => {
+      this.selectedRanks = res;
     });
   }
-  getselectedcoursename(){
-    this.AllowanceService.getselectedcoursename().subscribe(res=>{
-      this.selectedcourse=res
+  getselectedCountry() {
+    this.AllowanceService.getselectedCountry().subscribe((res) => {
+      this.selectedCountry = res;
     });
   }
-  getselectedAllowanceCategory(){
-    this.AllowanceService.getselectedAllowanceCategory().subscribe(res=>{
-      this.selectedAllowanceType=res
+  getselectedcoursename() {
+    this.AllowanceService.getselectedcoursename().subscribe((res) => {
+      this.selectedcourse = res;
     });
   }
-  getSelectedAllowanceNameByFromRankIdAndToRankId(){
-    var fromRankId=this.AllowanceForm.value['fromRankId'];
-    var toRankId=this.AllowanceForm.value['toRankId'];
-    this.AllowanceService.getSelectedAllowanceNameByFromRankIdAndToRankId(fromRankId,toRankId).subscribe(res=>{
-      this.selectedAllowanceNamebyFromRankIdandToRankId=res;
+  getselectedAllowanceCategory() {
+    this.AllowanceService.getselectedAllowanceCategory().subscribe((res) => {
+      this.selectedAllowanceType = res;
     });
-} 
-  
+  }
+  getSelectedAllowanceNameByFromRankIdAndToRankId() {
+    var fromRankId = this.AllowanceForm.value["fromRankId"];
+    var toRankId = this.AllowanceForm.value["toRankId"];
+    this.AllowanceService.getSelectedAllowanceNameByFromRankIdAndToRankId(
+      fromRankId,
+      toRankId
+    ).subscribe((res) => {
+      this.selectedAllowanceNamebyFromRankIdandToRankId = res;
+    });
+  }
+
+
   onSubmit() {
-    const id = this.AllowanceForm.get('allowanceId').value;  
+    const id = this.AllowanceForm.get("allowanceId")?.value;
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
-        if (result) {
-          this.loading=true;
-            this.AllowanceService.update(+id,this.AllowanceForm.value).subscribe(response => {
-              this.router.navigateByUrl('/allowance-management/allowance-list');
-              this.snackBar.open('Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    } else {
-      this.loading=true;
-        this.AllowanceService.submit(this.AllowanceForm.value).subscribe(response => {
-          this.router.navigateByUrl('/allowance-management/allowance-list');
-          this.snackBar.open('Information Inserted Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
+      this.confirmService
+        .confirm("Confirm Update message", "Are You Sure Update This Item?")
+        .subscribe((result) => {
+          if (result) {
+            this.loading = true;
+            this.AllowanceService.update(
+              +id,
+              this.AllowanceForm.value
+            ).subscribe(
+              (response) => {
+                this.router.navigateByUrl(
+                  "/allowance-management/allowance-list"
+                );
+                this.snackBar.open("Information Updated Successfully ", "", {
+                  duration: 2000,
+                  verticalPosition: "bottom",
+                  horizontalPosition: "right",
+                  panelClass: "snackbar-success",
+                });
+              },
+              (error) => {
+                this.validationErrors = error;
+              }
+            );
+          }
         });
-      }, error => {
-        this.validationErrors = error;
-      })
+    } else {
+      this.loading = true;
+      this.AllowanceService.submit(this.AllowanceForm.value).subscribe(
+        (response) => {
+          this.router.navigateByUrl("/allowance-management/allowance-list");
+          this.snackBar.open("Information Inserted Successfully ", "", {
+            duration: 2000,
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            panelClass: "snackbar-success",
+          });
+        },
+        (error) => {
+          this.validationErrors = error;
+        }
+      );
     }
- 
   }
 }

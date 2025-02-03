@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import { IUserPagination,UserPagination } from '../models/UserPagination';
 import { User } from '../models/User';
 import { Observable, map, shareReplay } from 'rxjs';
 import { SelectedModel } from '../../core/models/selectedModel';
-import { BIODataGeneralInfoPagination, IBIODataGeneralInfoPagination } from 'src/app/trainee-biodata/models/BIODataGeneralInfoPagination';
-import { BIODataGeneralInfo } from 'src/app/trainee-biodata/models/BIODataGeneralInfo';
+import { BIODataGeneralInfoPagination, IBIODataGeneralInfoPagination } from '../../../../src/app/trainee-biodata/models/BIODataGeneralInfoPagination';
+import { BIODataGeneralInfo } from '../../../../src/app/trainee-biodata/models/BIODataGeneralInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +37,16 @@ export class UserService {
         return this.UserPagination;
       })
     );
+   
+  }
+  getEastablishmentUsers(pageNumber, pageSize,searchText) {
+
+    let params = new HttpParams();
+
+    params = params.append('searchText', searchText.toString());
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+    return this.http.get<any>(`${this.baseUrl}/users/get-eastablishment-users`, { observe: 'response', params });
    
   }
 
@@ -157,9 +167,18 @@ export class UserService {
   find(id: string) {
     return this.http.get<User>(this.baseUrl + '/users/get-userDetail/' + id);
   }
+  findUserByTraineeId(id: string) {
+    return this.http.get<User>(this.baseUrl + '/users/get-userDetailByTraineeId/' + id);
+  }
 
   update(id:any, model: any) {
     return this.http.put(this.baseUrl + '/users/update-user?userId='+id, model);
+  }
+  updateUserAsServiceInstructor(id:any, model: any, branchId) {
+    return this.http.put(this.baseUrl + '/users/update-user-as-service-instructor?userId='+id+"&branchId="+branchId, model);
+  }
+  releseServiceInstructor(id:any) {
+    return this.http.put(this.baseUrl + '/users/relese-service-instructor?userId='+id, null);
   }
   
   resetPassword(id:any, model: any) {

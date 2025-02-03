@@ -2,62 +2,22 @@ import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SchoolDashboardService } from '../services/SchoolDashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexTooltip,
-  ApexYAxis,
-  ApexStroke,
-  ApexLegend,
-  ApexMarkers,
-  ApexGrid,
-  ApexFill,
-  ApexTitleSubtitle,
-  ApexNonAxisChartSeries,
-  ApexResponsive,
-} from 'ng-apexcharts';
-import { MasterData } from 'src/assets/data/master-data';
-import { environment } from 'src/environments/environment';
+
+import { MasterData } from '../../../../src/assets/data/master-data';
+import { environment } from '../../../../src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { scheduled } from 'rxjs';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
 import { ReadingMaterialService } from '../../reading-materials/service/readingmaterial.service';
-import { StudentDashboardService } from 'src/app/student/services/StudentDashboard.service';
-import { BaseSchoolNameService } from 'src/app/basic-setup/service/BaseSchoolName.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { StudentDashboardService } from '../../../../src/app/student/services/StudentDashboard.service';
+import { BaseSchoolNameService } from '../../../../src/app/basic-setup/service/BaseSchoolName.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../src/app/core/models/role';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ScrollService } from 'src/app/course-management/localcourse/scrole-restore/scrole-position.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ScrollService } from '../../../../src/app/course-management/localcourse/scrole-restore/scrole-position.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
-export type avgLecChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  stroke: ApexStroke;
-  dataLabels: ApexDataLabels;
-  markers: ApexMarkers;
-  colors: string[];
-  yaxis: ApexYAxis;
-  grid: ApexGrid;
-  tooltip: ApexTooltip;
-  legend: ApexLegend;
-  fill: ApexFill;
-  title: ApexTitleSubtitle;
-};
-
-export type pieChartOptions = {
-  series: ApexNonAxisChartSeries;
-  chart: ApexChart;
-  legend: ApexLegend;
-  dataLabels: ApexDataLabels;
-  responsive: ApexResponsive[];
-  labels: any;
-};
 
 @Component({
   selector: 'app-dashboard',
@@ -73,9 +33,7 @@ export class DashboardComponent implements OnInit {
   newStatusCount: number = 0;
   
 
-  @ViewChild('chart') chart: ChartComponent;
-  public avgLecChartOptions: Partial<avgLecChartOptions>;
-  public pieChartOptions: Partial<pieChartOptions>;
+
   masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -129,6 +87,7 @@ export class DashboardComponent implements OnInit {
   oldScrollPosition: number = 0;
   selectedFilter: number;
   index: number;
+  searchText : string = '';
   //Restoring End
 
   pageTitle: any;
@@ -151,6 +110,7 @@ export class DashboardComponent implements OnInit {
   displayedInstructorColumns: string[] = ['ser', 'course', 'instructorCount', 'actions'];
   displayedUpcomingColumns: string[] = ['ser', 'course', 'durationFrom', 'durationTo', 'daysCalculate', 'actions'];
   displayedNbcdUpcomingColumns: string[] = ['ser', 'comeform', 'course', 'durationFrom', 'durationTo', 'daysCalculate', 'actions'];
+  dataSource: any;
   constructor(private datepipe: DatePipe, private snackBar: MatSnackBar, private confirmService: ConfirmService, private authService: AuthService, private baseSchoolNameService: BaseSchoolNameService, private studentDashboardService: StudentDashboardService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private ReadingMaterialService: ReadingMaterialService, private schoolDashboardService: SchoolDashboardService, private scrollPositionService: ScrollService, public sharedService: SharedServiceService) { }
 
 
@@ -335,7 +295,7 @@ export class DashboardComponent implements OnInit {
 
   getRunningCourseDurationByBase(viewStatus) {
     let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.schoolDashboardService.getRunningCourseDurationByBase(currentDateTime, this.schoolId, viewStatus).subscribe(response => {
+    this.schoolDashboardService.getRunningCourseDurationByBase(currentDateTime, this.schoolId, viewStatus, this.searchText ).subscribe(response => {
       this.runningCourses = response;
       // this gives an object with dates as keys
       const groups = this.runningCourses.reduce((groups, courses) => {
@@ -614,5 +574,12 @@ export class DashboardComponent implements OnInit {
     this.schoolDashboardService.getRoutineByCourse(schoolId).subscribe(response => {
       this.RoutineByCourse = response;
     })
+  }
+
+  applySearch(filterValue: string) {
+   
+    this.searchText = filterValue;
+    this.getRunningCourseDurationByBase(this.selectedFilter);
+
   }
 }

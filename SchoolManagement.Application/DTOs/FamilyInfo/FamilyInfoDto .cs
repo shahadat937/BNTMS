@@ -36,6 +36,8 @@
         public string? District { get; set; }
         public string? Thana { get; set; }
         public string? Nationality { get; set; }
+        public  bool? Status { get; set; }
+        public int? FamilyNominationId { get; set; }
 
 
     }

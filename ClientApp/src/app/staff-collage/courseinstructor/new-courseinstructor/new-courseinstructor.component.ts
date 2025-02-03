@@ -132,7 +132,7 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
     })
 
     //autocomplete
-    this.subscription = this.CourseInstructorForm.get('traineeName').valueChanges
+    this.subscription = this.CourseInstructorForm.get('traineeName')?.valueChanges
       .subscribe(value => {
 
         this.getSelectedTraineeByPno(value);
@@ -152,8 +152,8 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
       this.courseDurationId = courseNameArr[0];
       this.courseNameId = courseNameArr[1];
 
-      this.CourseInstructorForm.get('courseNameId').setValue(this.courseNameId);
-      this.CourseInstructorForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.CourseInstructorForm.get('courseNameId')?.setValue(this.courseNameId);
+      this.CourseInstructorForm.get('courseDurationId')?.setValue(this.courseDurationId);
 
       this.subscription = this.subjectNameService.getSelectedSubjectNameByCourseNameId(this.courseNameId).subscribe(res => {
         this.selectedSubjectNameByCourseNameId = res;
@@ -218,8 +218,8 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
 
   //autocomplete
   onTraineeSelectionChanged(item) {
-    this.CourseInstructorForm.get('traineeId').setValue(item.value);
-    this.CourseInstructorForm.get('traineeName').setValue(item.text);
+    this.CourseInstructorForm.get('traineeId')?.setValue(item.value);
+    this.CourseInstructorForm.get('traineeName')?.setValue(item.text);
   }
 
   onBaseNameSelectionChangeGetModule(dropdown) {
@@ -231,9 +231,9 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
       var courseDurationId = courseNameArr[0];
       var courseNameId = courseNameArr[1];
 
-      this.CourseInstructorForm.get('courseName').setValue(dropdown.text);
-      this.CourseInstructorForm.get('courseNameId').setValue(courseNameId);
-      this.CourseInstructorForm.get('courseDurationId').setValue(courseDurationId);
+      this.CourseInstructorForm.get('courseName')?.setValue(dropdown.text);
+      this.CourseInstructorForm.get('courseNameId')?.setValue(courseNameId);
+      this.CourseInstructorForm.get('courseDurationId')?.setValue(courseDurationId);
 
 
       if (baseSchoolNameId != null && courseNameId != null) {
@@ -283,7 +283,6 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
       this.subscription = this.CourseInstructorService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
         // this.selectedmarktype[bnaSubjectNameId]=res;
         this.selectMarkType=res
-        console.log("Type",res);
       });
   }
 
@@ -291,9 +290,7 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
 
     let subjectMarkId = event.source.value;
    
-      this.CourseInstructorService.findSubjectMark(subjectMarkId).subscribe(res=>{
-       console.log(res);
-   
+      this.CourseInstructorService.findSubjectMark(subjectMarkId).subscribe(res=>{   
        this.CourseInstructorForm.get('markTypeId')?.setValue(res.markTypeId);
       });
    
@@ -333,8 +330,8 @@ export class NewCourseInstructorComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const id = this.CourseInstructorForm.get('courseInstructorId').value;
-    this.CourseInstructorForm.get('status').setValue(0);
+    const id = this.CourseInstructorForm.get('courseInstructorId')?.value;
+    this.CourseInstructorForm.get('status')?.setValue(0);
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

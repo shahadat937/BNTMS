@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { InterServiceMarkService } from '../../service/interservicemark.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { InterServiceMark } from '../../models/interservicemark';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 import { TraineeListforInterService } from '../../models/traineeListforinterservice';
 import { CourseDurationService } from '../../service/courseduration.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-interservicemark',
@@ -50,6 +50,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
   options = [];
   filteredOptions;
   searchText = "";
+  warningMessage : string = "";
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -126,7 +127,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
 
   }
   getControlLabel(index: number, type: string) {
-    return (this.InterServiceMarkForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.InterServiceMarkForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
   private createTraineeData() {
 
@@ -171,29 +172,67 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
   filterByCourseName(value:any){
     this.selectedCourseValue=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
+  // onCourseNameSelectionChangeGetTraineeList(dropdown) {
+  //   if (dropdown.isUserInput) {
+  //   this.isShown = true;
+  //     this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId')?.value;
+  //     this.courseDurationId = dropdown.source.value;
+
+  //     this.InterServiceMarkForm.get('courseDurationId')?.setValue(dropdown.source.value)
+
+  //     this.courseDurationService.find(this.courseDurationId).subscribe(res => {
+  //       this.durateDateForm = res.durationFrom;
+  //       this.durationDateTo = res.durationTo;
+  //     });
+
+  //     this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
+  //       this.traineeList = res;
+  //       this.clearList()
+  //       this.getTraineeListonClick();
+  //     });
+  //   }
+  // }
+
   onCourseNameSelectionChangeGetTraineeList(dropdown) {
     if (dropdown.isUserInput) {
-    this.isShown = true;
-      this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId').value;
+      this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId')?.value;
       this.courseDurationId = dropdown.source.value;
 
-      this.InterServiceMarkForm.get('courseDurationId').setValue(dropdown.source.value)
-
-      this.courseDurationService.find(this.courseDurationId).subscribe(res => {
-        this.durateDateForm = res.durationFrom;
-        this.durationDateTo = res.durationTo;
-      });
-
-      this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
-        this.traineeList = res;
-        this.clearList()
-        this.getTraineeListonClick();
-      });
+      this.InterServiceMarkForm.get('courseDurationId')?.setValue(dropdown.source.value)
+      this.getInterServiceMarkByCourseDurationId(this.courseDurationId);    
     }
   }
+
   filterByOrganization(value:any){
     this.selectedOrganization=this.selectOrganization.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
   }
+
+  getInterServiceMarkByCourseDurationId (courseDurationId){
+    this.InterServiceMarkService.findInterServiceMarkByCourseDurationId(courseDurationId).subscribe(res=>{
+      if (!res.length){
+        this.isShown = true;
+        this.warningMessage = ""
+        this.courseDurationService.find(this.courseDurationId).subscribe(res => {
+          this.durateDateForm = res.durationFrom;
+          this.durationDateTo = res.durationTo;
+        });
+  
+        this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
+          this.traineeList = res;
+          if(!this.traineeList?.length){
+            this.isShown = false;
+            this.warningMessage = "No Trainees Have Been Nominated for the Course"
+          } 
+          this.clearList()
+          this.getTraineeListonClick();
+        });
+      }
+      else{
+        this.isShown = false;
+        this.warningMessage = "Mark Entry Already Completed"
+      }
+    })
+    }
 
   getSelectedOrganizationName() {
     this.InterServiceMarkService.getSelectedOrganizationName().subscribe(res => {
@@ -213,15 +252,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
     });
   }
 
-  // onFileChanged(event) {
-  //   if (event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     this.ForeignCourseGOInfoForm.patchValue({
-  //       doc: file,
-  //     });
-  //   }
-  // }
-
+ 
   onFileChanged(event,form) {
    
     if (event.target.files.length > 0) {
@@ -239,7 +270,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   onSubmit() {
-    const id = this.InterServiceMarkForm.get('interServiceMarkId').value;
+    const id = this.InterServiceMarkForm.get('interServiceMarkId')?.value;
 
     // const formData = new FormData();
     // for (const key of Object.keys(this.InterServiceMarkForm.value)) {

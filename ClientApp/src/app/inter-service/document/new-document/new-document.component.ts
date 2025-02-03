@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { Document } from '../../models/document';
 import { DocumentService } from '../../service/document.service';
-import { CourseBudgetAllocationService } from 'src/app/budget-management/service/courseBudgetAllocation.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { CourseBudgetAllocationService } from '../../../../../src/app/budget-management/service/courseBudgetAllocation.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-document',
@@ -140,9 +140,9 @@ export class NewDocumentComponent extends UnsubscribeOnDestroyAdapter implements
       var courseNameArr = dropdown.source.value.split('_');
       this.courseDurationId = courseNameArr[0];
       this.courseNameId = courseNameArr[1];
-      this.DocumentForm.get('courseNameId').setValue(this.courseNameId);
-      this.DocumentForm.get('courseDurationId').setValue(this.courseDurationId);
-      this.DocumentForm.get('courseTypeId').setValue(MasterData.coursetype.InterService);
+      this.DocumentForm.get('courseNameId')?.setValue(this.courseNameId);
+      this.DocumentForm.get('courseDurationId')?.setValue(this.courseDurationId);
+      this.DocumentForm.get('courseTypeId')?.setValue(MasterData.coursetype.InterService);
       // this.CourseBudgetAllocationService.getSelectedTraineeByCourseDurationId(this.courseDurationId).subscribe(res=>{
       //   this.selectedTrainee=res 
       // });
@@ -176,7 +176,7 @@ export class NewDocumentComponent extends UnsubscribeOnDestroyAdapter implements
     });
   }
   onSubmit() {
-    const id = this.DocumentForm.get('documentId').value;  
+    const id = this.DocumentForm.get('documentId')?.value;  
     const formData = new FormData();
     for (const key of Object.keys(this.DocumentForm.value)) {
       const value = this.DocumentForm.value[key];

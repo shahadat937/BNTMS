@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 import { TdecQuationGroupService } from '../../service/TdecQuationGroup.service';
 import { TdecQuestionName } from '../../models/TdecQuestionName';
-import { Role } from 'src/app/core/models/role';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { Role } from '../../../../../src/app/core/models/role';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-tdecquationgroup',
@@ -87,7 +87,7 @@ export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
     }
     this.intitializeForm();
     if((this.role === this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool) || (this.role === this.userRole.SchoolOIC)){
-      this.TdecQuationGroupForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.TdecQuationGroupForm.get('baseSchoolNameId')?.setValue(this.branchId);
       this.getselectedcoursedurationbyschoolname();
     }
     this.getselectedBaseScoolName();
@@ -120,14 +120,14 @@ export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
 
     })
     //autocomplete for pno
-    this.TdecQuationGroupForm.get('pno').valueChanges
+    this.TdecQuationGroupForm.get('pno')?.valueChanges
       .subscribe(value => {
         this.getSelectedPno(value);
       })
   }
 
   getControlLabel(index: number,type: string){
-    return  (this.TdecQuationGroupForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return  (this.TdecQuationGroupForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
    }
 
    private createTraineeData() {
@@ -161,8 +161,8 @@ export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
   //autocomplete for pno
   onTraineePnoSelectionChanged(item) {
     this.traineeId = item.value;
-    this.TdecQuationGroupForm.get('traineeId').setValue(item.value);
-    this.TdecQuationGroupForm.get('pno').setValue(item.text);
+    this.TdecQuationGroupForm.get('traineeId')?.setValue(item.value);
+    this.TdecQuationGroupForm.get('pno')?.setValue(item.text);
   }
   //autocomplete  Pno
   getSelectedPno(pno) {
@@ -217,10 +217,10 @@ export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
       var bnaSubjectNameId = dropdown.source.value.value;
     var baseSchoolNameId = this.TdecQuationGroupForm.value['baseSchoolNameId'];
 
-    this.TdecQuationGroupForm.get('baseSchoolNameId').setValue(baseSchoolNameId);
-    this.TdecQuationGroupForm.get('courseDurationId').setValue(this.courseDurationId);
-    this.TdecQuationGroupForm.get('courseNameId').setValue(this.courseNameId);
-    this.TdecQuationGroupForm.get('bnaSubjectNameIds').setValue(bnaSubjectNameId);
+    this.TdecQuationGroupForm.get('baseSchoolNameId')?.setValue(baseSchoolNameId);
+    this.TdecQuationGroupForm.get('courseDurationId')?.setValue(this.courseDurationId);
+    this.TdecQuationGroupForm.get('courseNameId')?.setValue(this.courseNameId);
+    this.TdecQuationGroupForm.get('bnaSubjectNameIds')?.setValue(bnaSubjectNameId);
 
     this.subscription = this.TdecQuationGroupService.getinstructorNameByParams(baseSchoolNameId,this.courseNameId,this.courseDurationId,bnaSubjectNameId).subscribe(res => {
       
@@ -228,7 +228,7 @@ export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
       this.getinstructorid = this.selectedinstructorname[0].traineeId,
       this.getinstructorname = this.selectedinstructorname[0].name;
 
-      this.TdecQuationGroupForm.get('traineeId').setValue(this.getinstructorid);
+      this.TdecQuationGroupForm.get('traineeId')?.setValue(this.getinstructorid);
       //this.branchId == '' ? 0 :this.branchId
       this.TdecQuationGroupService.getTdecQuestionNameList(this.branchId == '' ? 0 :this.branchId).subscribe(res => {
        this.TraineeListFormDtos=res;
@@ -255,7 +255,7 @@ reloadCurrentRoute() {
       });
     }
     onSubmit() {
-      const id = this.TdecQuationGroupForm.get('tdecQuationGroupId').value;
+      const id = this.TdecQuationGroupForm.get('tdecQuationGroupId')?.value;
       if (id) {
         this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
           if (result) {

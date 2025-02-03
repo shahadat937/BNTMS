@@ -7,5 +7,6 @@ namespace SchoolManagement.Application.Features.CourseDurations.Requests.Queries
         public int BaseNameId { get; set; }
         public DateTime? CurrentDate { get; set; }
         public int ViewStatus { get; set; }
+        public string SearchTerm { get; set; }
     }
 }

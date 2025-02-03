@@ -13,7 +13,7 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import {BNASubjectNameService} from '../../../central-exam/service/BNASubjectName.service'
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-classroutine',
@@ -187,14 +187,12 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
 
  onSubjectNameSelectionChangeGet(dropdown){
     var bnaSubjectNameId = dropdown.source.value.value;
-    console.log(bnaSubjectNameId);
     this.ClassRoutineForm.get('subjectName')?.setValue(bnaSubjectNameId);
     this.ClassRoutineForm.get('bnaSubjectNameId')?.setValue(bnaSubjectNameId);
 
     this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       // this.selectedmarktype[bnaSubjectNameId]=res;
       this.selectMarkType=res
-      console.log("Type",res);
     });
 }
 
@@ -210,7 +208,6 @@ onSubjectMarkSelectionGetMarkType(event){
  let subjectMarkId = event.source.value;
 
    this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
-    console.log(res);
 
     this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
    });
@@ -249,7 +246,7 @@ getClassRoutineList(){
 
   onSubmit() {
     const id = this.ClassRoutineForm.get('classRoutineId')?.value;   
-    console.log(this.ClassRoutineForm.value)
+
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

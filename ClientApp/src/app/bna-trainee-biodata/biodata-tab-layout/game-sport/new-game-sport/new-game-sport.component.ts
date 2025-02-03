@@ -5,8 +5,8 @@ import { GameSportService } from '../../service/GameSport.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-game-sport',
@@ -18,7 +18,7 @@ export class NewGameSportComponent extends UnsubscribeOnDestroyAdapter implement
   loading = false;
   pageTitle: string;
   destination:string;
-  traineeId:  string;
+  traineeId:  string | null;
   GameSportForm: FormGroup;
   validationErrors: string[] = [];
   gameValues:SelectedModel[];  
@@ -80,7 +80,7 @@ export class NewGameSportComponent extends UnsubscribeOnDestroyAdapter implement
  
   
   onSubmit() {
-    const id = this.GameSportForm.get('gameSportId').value;   
+    const id = this.GameSportForm.get('gameSportId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

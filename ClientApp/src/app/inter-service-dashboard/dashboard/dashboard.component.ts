@@ -11,54 +11,20 @@ import { Calendar } from '../../calendar/models/calendar';
 import { CalendarService } from '../../calendar/service/calendar.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {InterServiceDashboardService} from '../services/InterServiceDashboard.service';
-import {MasterData} from 'src/assets/data/master-data';
+import {MasterData} from '../../../../src/assets/data/master-data';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { INITIAL_EVENTS } from '../../calendar/events-util';
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexTooltip,
-  ApexYAxis,
-  ApexPlotOptions,
-  ApexStroke,
-  ApexLegend,
-  ApexFill,
-} from 'ng-apexcharts';
+
 import { DatePipe } from '@angular/common';
-import { Role } from 'src/app/core/models/role';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { SchoolDashboardService } from 'src/app/school/services/SchoolDashboard.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Role } from '../../../../src/app/core/models/role';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { SchoolDashboardService } from '../../../../src/app/school/services/SchoolDashboard.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 //import { MasterData } from 'src/assets/data/master-data';
 //import { CourseDuration } from '../models/courseduration';
 //import { CourseDurationService } from '../services/courseduration.service';
-export type areaChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-  legend: ApexLegend;
-  colors: string[];
-};
-
-export type barChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  yaxis: ApexYAxis;
-  xaxis: ApexXAxis;
-  fill: ApexFill;
-  colors: string[];
-};
 
 @Component({
   selector: 'app-dashboard',
@@ -72,10 +38,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   dialogTitle: string;
   filterOptions = 'All';
   calendarData: any;
-  @ViewChild('chart') chart: ChartComponent;
-  public areaChartOptions: Partial<areaChartOptions>;
-  public barChartOptions: Partial<barChartOptions>;
-   masterData = MasterData;
+    masterData = MasterData;
   loading = false;
   userRole = Role;
   isLoading = false;
@@ -161,7 +124,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
   print() {
     let printContents, popupWin;
-    printContents = document.getElementById("print-routine").innerHTML;
+    printContents = document.getElementById("print-routine")?.innerHTML;
     popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
     popupWin.document.open();
     popupWin.document.write(`

@@ -6,16 +6,16 @@ import {CourseDuration} from '../../models/courseduration'
 import {CourseDurationService} from '../../service/courseduration.service'
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../src/environments/environment';
 import { TraineeNominationService } from '../../service/traineenomination.service';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-religation-list',
@@ -84,8 +84,7 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
 
     var currentDate = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     //Date dateTime11 = Convert.ToDateTime(dateFrom);  
-    var current = new Date(currentDate);
-    console.log(current)
+    var current = new Date(currentDate ?? new Date().toISOString());
     // var date1 = new Date(obj.durationFrom); 
 	  var date2 =  new Date(obj.durationTo);
 
@@ -104,7 +103,6 @@ export class ReligationListComponent extends UnsubscribeOnDestroyAdapter impleme
 
   applyFilter(searchTerm: any) {
     // filterValue = filterValue.toLowerCase().replace(/\s/g, "");
-    // console.log(filterValue)
     // this.dataSource.filter = filterValue;
     this.searchTerm = searchTerm;
     this.getCourseDurationsByCourseType(this.branchId, this.searchTerm)

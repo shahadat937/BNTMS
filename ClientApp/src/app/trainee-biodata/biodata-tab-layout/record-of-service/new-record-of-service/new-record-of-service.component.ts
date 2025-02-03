@@ -5,7 +5,7 @@ import { RecordOfServiceService } from '../../service/RecordOfService.service';
 import { SelectedModel } from '../../../../core/models/selectedModel';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-record-of-service',
@@ -75,7 +75,7 @@ export class NewRecordOfServiceComponent implements OnInit,OnDestroy {
  
   
   onSubmit() {
-    const id = this.RecordOfServiceForm.get('recordOfServiceId').value;   
+    const id = this.RecordOfServiceForm.get('recordOfServiceId')?.value;   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

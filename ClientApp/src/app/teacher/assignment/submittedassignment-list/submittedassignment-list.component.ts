@@ -3,14 +3,14 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { InstructorDashboardService } from '../../services/InstructorDashboard.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../src/environments/environment';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-submittedassignment-list',
@@ -119,17 +119,17 @@ export class SubmittedAssignmentComponent implements OnInit,OnDestroy {
       
       this.subscription = this.instructorDashboardService.find(formValues.traineeAssignmentSubmitId).subscribe(response => {         
         this.getTraineeAssignmentSubmit=response;
-        this.assignmentMarkForm.get('traineeAssignmentSubmitId').setValue(this.getTraineeAssignmentSubmit.traineeAssignmentSubmitId);
-        this.assignmentMarkForm.get('instructorAssignmentId').setValue(this.getTraineeAssignmentSubmit.instructorAssignmentId);
-        this.assignmentMarkForm.get('courseInstructorId').setValue(this.getTraineeAssignmentSubmit.courseInstructorId);
-        this.assignmentMarkForm.get('courseDurationId').setValue(this.getTraineeAssignmentSubmit.courseDurationId);
-        this.assignmentMarkForm.get('courseNameId').setValue(this.getTraineeAssignmentSubmit.courseNameId);
-        this.assignmentMarkForm.get('baseSchoolNameId').setValue(this.getTraineeAssignmentSubmit.baseSchoolNameId);
-        this.assignmentMarkForm.get('bnaSubjectNameId').setValue(this.getTraineeAssignmentSubmit.bnaSubjectNameId);
-        this.assignmentMarkForm.get('traineeId').setValue(this.getTraineeAssignmentSubmit.traineeId);
+        this.assignmentMarkForm.get('traineeAssignmentSubmitId')?.setValue(this.getTraineeAssignmentSubmit.traineeAssignmentSubmitId);
+        this.assignmentMarkForm.get('instructorAssignmentId')?.setValue(this.getTraineeAssignmentSubmit.instructorAssignmentId);
+        this.assignmentMarkForm.get('courseInstructorId')?.setValue(this.getTraineeAssignmentSubmit.courseInstructorId);
+        this.assignmentMarkForm.get('courseDurationId')?.setValue(this.getTraineeAssignmentSubmit.courseDurationId);
+        this.assignmentMarkForm.get('courseNameId')?.setValue(this.getTraineeAssignmentSubmit.courseNameId);
+        this.assignmentMarkForm.get('baseSchoolNameId')?.setValue(this.getTraineeAssignmentSubmit.baseSchoolNameId);
+        this.assignmentMarkForm.get('bnaSubjectNameId')?.setValue(this.getTraineeAssignmentSubmit.bnaSubjectNameId);
+        this.assignmentMarkForm.get('traineeId')?.setValue(this.getTraineeAssignmentSubmit.traineeId);
       })
       
-      this.assignmentMarkForm.get('assignmentMark').setValue(formValues.assignmentMark);
+      this.assignmentMarkForm.get('assignmentMark')?.setValue(formValues.assignmentMark);
     }
     
     if(assignmentMarkEntryId){
@@ -170,7 +170,7 @@ export class SubmittedAssignmentComponent implements OnInit,OnDestroy {
   }
 
   getControlLabel(index: number,type: string){
-    return  (this.AssignmentListForm.get('SubmittedAssignmentListForm') as FormArray).at(index).get(type).value;
+    return  (this.AssignmentListForm.get('SubmittedAssignmentListForm') as FormArray).at(index).get(type)?.value;
   }
   
 }

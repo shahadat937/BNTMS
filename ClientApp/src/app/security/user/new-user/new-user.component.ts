@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../service/User.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { BaseSchoolNameService } from '../../service/BaseSchoolName.service';
 import {RoleService} from '../../service/role.service'
-import { MasterData } from 'src/assets/data/master-data';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-user',
@@ -209,9 +209,8 @@ export class NewUserComponent implements OnInit, OnDestroy {
 
   
   onSubmit() {
-    const id = this.UserForm.get('id').value;  
+    const id = this.UserForm.get('id')?.value;  
     //const id = this.route.snapshot.paramMap.get('userId');   
-     
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

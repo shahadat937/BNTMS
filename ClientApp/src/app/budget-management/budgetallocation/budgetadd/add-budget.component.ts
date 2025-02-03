@@ -2,13 +2,13 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { BudgetAllocationService } from '../../service/BudgetAllocation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 import { BudgetAllocation } from '../../models/BudgetAllocation';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { CourseBudgetAllocationService } from '../../service/courseBudgetAllocation.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -130,7 +130,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
       this.BudgetAllocationService.getSelectedBudgetCodeNameByBudgetCodeId(dropdown.source.value).subscribe(res=>{
         this.selectedBudgetCodeName=res
         this.budgetCodeName = res[0].text;
-        this.BudgetAllocationForm.get('budgetCodeName').setValue(this.budgetCodeName);
+        this.BudgetAllocationForm.get('budgetCodeName')?.setValue(this.budgetCodeName);
       });
     }
   } 
@@ -139,7 +139,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
   if (dropdown.isUserInput) {
     var budgetCodeId = dropdown.source.value; 
 
-    this.BudgetAllocationForm.get('budgetCodeId').setValue(budgetCodeId);
+    this.BudgetAllocationForm.get('budgetCodeId')?.setValue(budgetCodeId);
 
     this.BudgetAllocationService.getTotalBudgetByBudgetCodeIdRequest(budgetCodeId).subscribe(res=>{
     this.totalBudget=res[0].text; 
@@ -190,7 +190,7 @@ export class AddBudgetListComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   onSubmit() {
-    const id = this.BudgetAllocationForm.get('budgetAllocationId').value;
+    const id = this.BudgetAllocationForm.get('budgetAllocationId')?.value;
    
     if (id) {
       this.confirmService.confirm('Confirm Update', 'Are you sure you want to update this item?').subscribe(result => {

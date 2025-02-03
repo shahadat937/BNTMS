@@ -1,18 +1,24 @@
 <div mat-dialog-title style="font-size: 12px">
-    <mat-form-field style="width:70%;" appearance="outline">
-        <button matPrefix disabled="true" mat-icon-button>
-            <mat-icon >search</mat-icon>
-        </button>
-        <input style="font-size:18px" type="text" 
-        matInput 
-        name="search"
-        [(ngModel)]="searchText"
-        (input)="onSearch(true)" 
-        placeholder="Search Trainee, Instructor, or Course">
-    </mat-form-field>
-    <hr>
+  <mat-form-field style="width: 70%" appearance="outline">
+    <button matPrefix disabled="true" mat-icon-button>
+      <mat-icon>search</mat-icon>
+    </button>
+    <input
+      style="font-size: 18px"
+      type="text"
+      matInput
+      name="search"
+      [(ngModel)]="searchText"
+      (input)="onSearch(true)"
+      placeholder="Search Trainee, Instructor, or Course"
+    />
+  </mat-form-field>
+  <hr />
 </div>
-<mat-dialog-content style="max-width: 60vw;min-width:60vw;min-height:50vh" class="mat-typography">
+<mat-dialog-content
+  style="max-width: 60vw; min-width: 60vw; min-height: 50vh"
+  class="mat-typography"
+>
   <h2>Search Result</h2>
 
   <mat-accordion *ngIf="searchResults!=null">
@@ -28,11 +34,13 @@
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <mat-paginator [length]="totalResult"
-              [pageSize]="pageSize"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              (page) ="updatePage($event)"
-              [pageIndex]="pageIndex-1"
-              aria-label="Select page">
+  <mat-paginator
+    [length]="totalResult"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="updatePage($event)"
+    [pageIndex]="pageIndex - 1"
+    aria-label="Select page"
+  >
   </mat-paginator>
 </mat-dialog-actions>

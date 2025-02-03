@@ -9,6 +9,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Requests.Queries
     public class GetCourseDurationForInterserviceByCourseTypeIdRequest : IRequest<object>
     {
         public int? CourseTypeId { get; set; }
+        public string? SearchTerm { get; set; }
     }
 }
   

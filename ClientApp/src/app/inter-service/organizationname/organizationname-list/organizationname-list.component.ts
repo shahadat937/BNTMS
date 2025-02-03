@@ -4,12 +4,12 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrganizationName } from '../../models/organizationname';
 import { OrganizationNameService } from '../../service/organizationname.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -55,10 +55,16 @@ export class OrganizationNameListComponent extends UnsubscribeOnDestroyAdapter i
       this.searchText
     ).subscribe(response => {
       this.dataSource.data = response.items;
+
       this.paging.length = response.totalItemsCount;
 
-     
-      this.groupArrays = this.sharedService.groupByTableType(this.dataSource.data);
+      // this.groupArrays = this.sharedService.groupByTableType(this.dataSource.data);
+
+
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.forceType
+      );
       this.isLoading = false;
     });
   }

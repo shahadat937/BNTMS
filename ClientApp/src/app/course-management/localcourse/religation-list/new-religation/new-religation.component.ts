@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SelectedModel } from '../../../../../../src/app/core/models/selectedModel';
+import { ConfirmService } from '../../../../../../src/app/core/service/confirm.service';
+import { TraineeNominationService } from '../../../../../../src/app/course-management/service/traineenomination.service';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-new-religation',
@@ -76,7 +76,7 @@ export class NewReligationComponent extends UnsubscribeOnDestroyAdapter implemen
     });
   }
   onSubmit() {
-    this.TraineeNominationForm.get('withdrawnDate').setValue((new Date(this.TraineeNominationForm.get('withdrawnDate').value)).toUTCString());
+    this.TraineeNominationForm.get('withdrawnDate')?.setValue((new Date(this.TraineeNominationForm.get('withdrawnDate')?.value)).toUTCString());
     const formData = new FormData();
     for (const key of Object.keys(this.TraineeNominationForm.value)) {
       const value = this.TraineeNominationForm.value[key];

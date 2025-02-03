@@ -27,6 +27,7 @@ export class LocalcourseListComponent
 {
   scrollPosition: number = 0;
   oldScrollPosition: number = 0;
+  maxScrolledPosition = 0;
   index: number;
 
   masterData = MasterData;
@@ -37,8 +38,8 @@ export class LocalcourseListComponent
   courseTypeId = MasterData.coursetype.LocalCourse;
   groupArrays: { schoolName: string; courses: any }[];
   paging = {
-    pageIndex: this.masterData.paging.pageIndex,
-    pageSize: this.masterData.paging.pageSize,
+    pageIndex: 5,
+    pageSize: 1,
     length: 1,
   };
   searchText = "";
@@ -46,6 +47,12 @@ export class LocalcourseListComponent
   candidateCount: any;
   passOutStatus: any;
   localCourseList: any;
+  courseList: any[] = [];
+  scrollCounter = 0;
+  isAllDataLoaded : boolean = false
+  lastApiCallPosition = 0;
+
+ 
 
   displayedColumns: string[] = [
     "ser",
@@ -82,7 +89,20 @@ export class LocalcourseListComponent
 
   @HostListener("window:scroll")
   onWindowScroll() {
-    this.scrollPosition = window.scrollY || window.pageYOffset;
+    
+    this.scrollPosition = window.scrollY || window.pageYOffset; // Current scroll position
+
+    let delay = this.selectedFilter === 2? 500 : 250;
+  
+    if (!this.isAllDataLoaded && this.scrollPosition - this.lastApiCallPosition >= delay && this.scrollPosition > this.lastApiCallPosition) {
+      this.paging.pageSize++;
+      this.lastApiCallPosition = this.scrollPosition; 
+      this.getCoursesByViewType(this.selectedFilter); 
+      // console.log('API called at position:', this.scrollPosition);
+    }
+   
+   
+    
   }
   selectedFilter: number;
   ngOnInit() {
@@ -154,15 +174,19 @@ export class LocalcourseListComponent
 
   getCourseDurationsByCourseType() {
     this.isLoading = true;
-    this.CourseDurationService.getCourseDurationsByCourseType(
-      1,
-      2,
+    this.CourseDurationService.getCourseDurationsByCourseType(     
+      this.paging.pageSize,
+      this.paging.pageIndex,
       this.searchText,
       this.courseTypeId,
       this.viewStatus
     ).subscribe((response) => {
-      console.log(response);
-      this.dataSource.data = response.items;
+      // console.log(response);
+
+      this.courseList = [  ...this.courseList, ...response.items ]
+      // console.log(this.courseList);
+      this.isAllDataLoaded = !response.items.length? true : false
+      this.dataSource.data = this.courseList;
       this.sharedService.groupedData = this.sharedService.groupBy(
         this.dataSource.data,
         (courses) => courses.baseSchoolName
@@ -173,26 +197,25 @@ export class LocalcourseListComponent
   }
 
   getCoursesByViewType(viewStatus) {
+    if(this.selectedFilter !== viewStatus){
+      this.courseList = [];
+      this.paging.pageIndex = 5;
+      this.paging.pageSize = 1;
+      this.lastApiCallPosition = 0;
+    }
     if (viewStatus == 1) {
-      this.isLoading = true;
-      //   this.selectedFilter = viewStatus;
-      //  this.getCourseDurationFilterList(viewStatus)
-      //  this.selectedFilter = 1;
+      this.isLoading = true;     
       this.selectedFilter = 1;
       this.viewStatus = 1;
       this.getCourseDurationsByCourseType();
     } else if (viewStatus == 2) {
-      this.isLoading = true;
-      // this.selectedFilter = viewStatus;
-      // this.getCourseDurationFilterList(viewStatus)
+      this.isLoading = true;     
       this.selectedFilter = 2;
       this.viewStatus = 2;
       this.getCourseDurationsByCourseType();
     } else if (viewStatus == 3) {
-      this.isLoading = true;
-      // this.selectedFilter = 3;
-      // this.selectedFilter = viewStatus;
-      // this.getCourseDurationFilterList(viewStatus)
+
+      this.isLoading = true;      
       this.selectedFilter = 3;
       this.viewStatus = 3;
       this.getCourseDurationsByCourseType();
@@ -211,8 +234,6 @@ export class LocalcourseListComponent
           (courses) => courses.baseSchoolName
         );
 
-        // this.paging.length = response.totalItemsCount
-        // this.isLoading = false;
       });
     } else {
       let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy");
@@ -256,6 +277,10 @@ export class LocalcourseListComponent
   //   this.getCourseDurationsByCourseType();
   // }
   applyFilter(searchText: any) {
+    this.courseList = [];
+    this.paging.pageIndex = 5;
+    this.paging.pageSize = 1;
+    this.lastApiCallPosition = 0;
     this.searchText = searchText;
 
     this.getCourseDurationsByCourseType();
@@ -266,6 +291,7 @@ export class LocalcourseListComponent
   //     this.candidateCount = res.countedTrainee;
   //   });
   // }
+
 
   deleteItem(row) {
     const id = row.courseDurationId;

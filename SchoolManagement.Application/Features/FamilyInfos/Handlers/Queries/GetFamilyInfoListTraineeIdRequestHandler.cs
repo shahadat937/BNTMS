@@ -22,24 +22,33 @@ namespace SchoolManagement.Application.Features.FamilyInfos.Handlers.Queries
     {
          
         private readonly ISchoolManagementRepository<FamilyInfo> _FamilyInfoRepository;
+        private readonly ISchoolManagementRepository<FamilyNomination> _FamilyNomination;
 
         private readonly IMapper _mapper;
 
-        public GetFamilyInfoListTraineeIdRequestHandler(ISchoolManagementRepository<SchoolManagement.Domain.FamilyInfo> FamilyInfoRepository, IMapper mapper)
+        public GetFamilyInfoListTraineeIdRequestHandler(ISchoolManagementRepository<SchoolManagement.Domain.FamilyInfo> FamilyInfoRepository, IMapper mapper, ISchoolManagementRepository<FamilyNomination> familyNomination)
         {
             _FamilyInfoRepository = FamilyInfoRepository;
             _mapper = mapper;
+            _FamilyNomination = familyNomination;
         }
 
         public async Task<List<FamilyInfoDto>> Handle(GetFamilyInfoListTraineeIdRequest request, CancellationToken cancellationToken)
         {
             var FamilyInfos = _FamilyInfoRepository.FilterWithInclude(x => x.TraineeId == request.TraineeId, "Trainee", "RelationType", "Trainee.Rank");
+            var familyNomination = _FamilyNomination.FilterWithInclude(x => x.TraineeId == request.TraineeId);
             var FamilyInfoDtos = _mapper.Map<List<FamilyInfoDto>>(FamilyInfos);
+            foreach (var familyInfoDto in FamilyInfoDtos)
+            {
+                var nomination = familyNomination.FirstOrDefault(n => n.FamilyInfoId == familyInfoDto.FamilyInfoId);
+                if (nomination != null)
+                {
+                    familyInfoDto.Status = nomination.Status;
+                    familyInfoDto.FamilyNominationId = nomination.FamilyNominationId;
+                }
+            }
 
             return FamilyInfoDtos;
-
-            
-
 
         }
     }

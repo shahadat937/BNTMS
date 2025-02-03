@@ -23,6 +23,7 @@
         <div class="card">
           <div class="body">
             <form class="m-4" [formGroup]="FamilyNominationForm" (ngSubmit)="onSubmit()">
+
               <div class="row">
 
               </div>
@@ -62,6 +63,7 @@
                           </td>
                           <td class="cl-nm-rnk">
                             {{getControlLabel(i,'relationType')}}
+                            <input type="hidden" formControlName="familyNominationId" />
                           </td>
 
                           <td class="cl-mrk">
@@ -73,12 +75,13 @@
                         </tr>
                       </tbody>
                     </table>
+                    <h4 class="text-center text-info">{{warningMessage}}</h4>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="!FamilyNominationForm.valid " mat-raised-button
+                  <button class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="isBtnDisabled" mat-raised-button
                     color="primary">{{buttonText}}</button>
                     <!-- <button
                     class="btn-space"

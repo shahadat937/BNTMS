@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
 
 import { ViewChild, ElementRef } from '@angular/core';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import {  Role } from 'src/app/core/models/role';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import {  Role } from '../../../../../src/app/core/models/role';
 @Component({
   selector: 'app-new-foreignbiodatainfo',
   templateUrl: './new-foreignbiodatainfo.component.html',
@@ -376,10 +376,10 @@ filterCountry(value:any){
   
   onSubmit() {
 
-    const id = this.BIODataGeneralInfoForm.get('traineeId').value; 
+    const id = this.BIODataGeneralInfoForm.get('traineeId')?.value; 
 
-    if(this.BIODataGeneralInfoForm.get('dateOfBirth').value){
-      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth').value)
+    if(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value){
+      const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)
       this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
     }
 
@@ -437,7 +437,7 @@ filterCountry(value:any){
     }
   }
   whiteSpaceRemove(value){
-    this.BIODataGeneralInfoForm.get('email').patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
+    this.BIODataGeneralInfoForm.get('email')?.patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
    }
    removeImage(event: Event) {
     event.preventDefault(); 

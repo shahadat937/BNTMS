@@ -46,58 +46,45 @@
                     </div>
                   </div>
                 </div>
-                <mat-table  #table [dataSource]="courseList" matSort class=" mat-cell db-tbl s-db-t-6 ins-db">               
-                  <ng-container matColumnDef="ser">
-                    <mat-header-cell class="ser-col" *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
-                    <mat-cell class="ser-col" *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
-                  </ng-container>    
-        
-                  <ng-container matColumnDef="schoolName">
-                    <mat-header-cell  *matHeaderCellDef mat-sort-header>School </mat-header-cell>
-                    <mat-cell  *matCellDef="let element"> {{element.schoolName}} </mat-cell>
-                  </ng-container>
-        
-                  <ng-container matColumnDef="course">
-                    <mat-header-cell  *matHeaderCellDef mat-sort-header>Course </mat-header-cell>
-                    <mat-cell  *matCellDef="let element"> {{element.course}} - {{element.courseTitle}} </mat-cell>
-                  </ng-container>
-
-    
-                  <ng-container matColumnDef="subjectName">
-                    <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Subject Name </mat-header-cell>
-                    <mat-cell class="sub-col" *matCellDef="let element"> {{element.subjectName}} ( {{element.shortName}} )</mat-cell>
-                  </ng-container>
-                  
-                  <ng-container matColumnDef="courseSyllabus">
-                    <mat-header-cell class="sub-col" *matHeaderCellDef mat-sort-header>Course Syllabus </mat-header-cell>
-                    <mat-cell class="sub-col" *matCellDef="let row"> 
-                      <button *ngIf="row.courseSyllabus" mat-icon-button class="btn-tbl-view" title="View Course Syllabus">
-                        <a [href]='this.fileUrl+row.courseSyllabus' target='_blank'><mat-icon aria-label="Edit" class="col-white">picture_as_pdf</mat-icon></a>
-                      </button>  
-                    </mat-cell>
-                  </ng-container>
-    
-                  <ng-container matColumnDef="actions">
-                    <mat-header-cell ngClass="custom-action local" *matHeaderCellDef class="pr-0">Subject Mark</mat-header-cell>
-                    <mat-cell ngClass="custom-action local" *matCellDef="let row; let i=index;" class="pr-0">
+                <table class="db-tbl s-db-t-6 ins-db">
+                  <thead>
+                    <tr>
                       
-                      
-
-                      <button mat-icon-button class="btn-tbl-nomination" title="Subject Mark List" [routerLink]="['/admin/dashboard/assignedsubjectmark-list',traineeId,row.baseSchoolNameId,row.courseNameId,row.courseDurationId,row.bnaSubjectNameId]">
-                        <mat-icon aria-label="Edit" class="col-white">book</mat-icon>
-                      </button> 
-
-                      <!-- <button mat-icon-button color="accent" title=" Subject Syllabus" class="btn-tbl-view" 
-                        [routerLink]="['/admin/dashboard/view-syllabusbySubject', traineeId, row.baseSchoolNameId, row.courseNameId,row.courseDurationId, row.bnaSubjectNameId]">
-                          <mat-icon aria-label="Edit" class="col-white">book</mat-icon>
-                        </button> -->
-                      
-                    </mat-cell>
+                      <th>School</th>
+                      <th>Course</th>
+                      <th class="sub-col">Subject Name</th>
+                      <th class="sub-col">Course Syllabus</th>
+                      <th class="custom-action local pr-0">Subject Mark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let data of  sharedService.groupedData;let i= index;">
+                      <tr>
+                        <td class="cl-srl school-name" [attr.rowspan]="data.groupedItems.length + 1">
+                            {{data.groupKey}}</td>
+                    </tr>
+                 
+                    <tr *ngFor="let element of data.groupedItems;">
+                      <td>{{ element.course }} - {{ element.courseTitle }}</td>
+                      <td class="sub-col">{{ element.subjectName }} ( {{ element.shortName }} )</td>
+                      <td class="sub-col">
+                        <button *ngIf="element.courseSyllabus" class="btn-tbl-view" title="View Course Syllabus">
+                          <a [href]="fileUrl + element.courseSyllabus" target="_blank">
+                            <img src="assets/icons/pdf-icon.png" alt="PDF" class="icon"> <!-- Replace with appropriate icon -->
+                          </a>
+                        </button>
+                      </td>
+                      <td class="custom-action local pr-0">
+                        <button class="btn-tbl-nomination" title="Subject Mark List" 
+                                [routerLink]="['/admin/dashboard/assignedsubjectmark-list', traineeId, element.baseSchoolNameId, element.courseNameId, element.courseDurationId, element.bnaSubjectNameId]">
+                          <img src="assets/icons/book-icon.png" alt="Book" class="icon"> <!-- Replace with appropriate icon -->
+                        </button>
+                      </td>
+                    </tr>
                   </ng-container>
-        
-                  <mat-header-row *matHeaderRowDef="displayedCourseColumns"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedCourseColumns;"></mat-row>
-                </mat-table>
+                  </tbody>
+                </table>
+                
               </div>
             </div>
           </div>

@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { BIODataGeneralInfo } from '../../models/BIODataGeneralInfo';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { PageEvent } from '@angular/material/paginator';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
 import { environment } from '../../../../environments/environment';

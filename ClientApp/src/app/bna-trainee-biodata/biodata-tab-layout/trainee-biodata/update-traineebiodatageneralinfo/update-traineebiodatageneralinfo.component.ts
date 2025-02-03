@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../../core/service/confirm.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../../../../src/app/core/models/selectedModel';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-update-BIODataGeneralInfo',
@@ -218,7 +218,7 @@ export class UpdateTraineeBIODataGeneralInfoComponent extends UnsubscribeOnDestr
   
   onSubmit() {
 
-    this.traineeId = this.BIODataGeneralInfoForm.get('traineeId').value;   
+    this.traineeId = this.BIODataGeneralInfoForm.get('traineeId')?.value;   
 
     if (this.traineeId) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {

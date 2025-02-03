@@ -25,8 +25,8 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
         public async Task<object> Handle(GetCourseDurationForInterserviceByCourseTypeIdRequest request, CancellationToken cancellationToken)
         {
-
-            var spQuery = String.Format("exec [spGetInterServiceCourseList] {0}", request.CourseTypeId);
+            var searchTerm = $"'{request.SearchTerm?.Replace("'", "''")}'";
+            var spQuery = String.Format("exec [spGetInterServiceCourseList] {0}, {1}", request.CourseTypeId, searchTerm);
 
             DataTable dataTable = _courseDurationRepository.ExecWithSqlQuery(spQuery);
             return dataTable;

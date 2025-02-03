@@ -5,15 +5,15 @@ import { BNASubjectName } from '../../subject-management/models/BNASubjectName';
 import { BNASubjectNameService } from '../../subject-management/service/BNASubjectName.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { MasterData } from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { MasterData } from '../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StudentDashboardService } from '../services/StudentDashboard.service';
-import { environment } from 'src/environments/environment';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
+import { environment } from '../../../../src/environments/environment';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../src/app/core/models/role';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
+import { InstructorDashboardService } from '../../../../src/app/teacher/services/InstructorDashboard.service';
 
 @Component({
   selector: 'app-readingmaterial',
@@ -111,7 +111,6 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
         if (this.documentTypeId) {
           this.setPageTitle(this.documentTypeId)
           this.getReadingMaterialsForStudent(this.documentTypeId);
-          console.log(courseNameId);
         } 
         // else {
         //   this.pageTitle = "Course Material";

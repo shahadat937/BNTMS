@@ -4,18 +4,18 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BIODataGeneralInfo } from '../../models/BIODataGeneralInfo';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
+import { AuthService } from '../../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../../src/app/core/models/role';
 import { MatSort } from '@angular/material/sort';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 @Component({
@@ -89,7 +89,6 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
   getBIODataGeneralInfos() {
     this.isLoading = true;
     this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
-      console.log(response);
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -99,12 +98,9 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
   getTraineeListForUpdate(){
     this.BIODataGeneralInfoService.getTraineeListForUpdate(this.branchId,this.searchText).subscribe(response => {
 
-      this.dataSource = new MatTableDataSource(response);
-      console.log(this.dataSource)
-      
+      this.dataSource = new MatTableDataSource(response);      
       this.dataSource.sort = this.InitialOrdersort;
       this.dataSource.paginator = this.InitialOrderpaginator;
-      console.log(this.dataSource.paginator)
       this.traineeList=response;     
     })
   }

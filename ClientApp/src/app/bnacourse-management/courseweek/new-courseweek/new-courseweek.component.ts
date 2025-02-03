@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseWeekService } from '../../service/CourseWeek.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { SelectedModel } from '../../../../../src/app/core/models/selectedModel';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-courseweek',
@@ -120,9 +120,9 @@ export class NewCourseWeekComponent extends UnsubscribeOnDestroyAdapter implemen
       var courseNameArr = dropdown.value.split('_');
       var courseDurationId = courseNameArr[0];
       var courseNameId=courseNameArr[1];
-      this.CourseWeekForm.get('courseName').setValue(dropdown.text);
-      this.CourseWeekForm.get('courseNameId').setValue(courseNameId);
-      this.CourseWeekForm.get('courseDurationId').setValue(courseDurationId);
+      this.CourseWeekForm.get('courseName')?.setValue(dropdown.text);
+      this.CourseWeekForm.get('courseNameId')?.setValue(courseNameId);
+      this.CourseWeekForm.get('courseDurationId')?.setValue(courseDurationId);
     }  
     // this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
     //   this.selectedsubjectname=res;
@@ -164,7 +164,7 @@ export class NewCourseWeekComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   onSubmit() {
-    const id = this.CourseWeekForm.get('courseWeekId').value;   
+    const id = this.CourseWeekForm.get('courseWeekId')?.value;   
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

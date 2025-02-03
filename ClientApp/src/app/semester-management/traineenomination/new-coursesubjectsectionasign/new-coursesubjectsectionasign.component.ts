@@ -18,10 +18,10 @@ import { CoursesubjectsectionasignService } from '../../../semester-management/s
 import { AuthService } from '../../../core/service/auth.service';
 import { Role } from '../../../core/models/role';
 import { TraineeListForExamMark } from '../../../exam-management/models/traineeListforexammark';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
+import { TraineeNominationService } from '../../../../../src/app/course-management/service/traineenomination.service';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
 import { Location } from '@angular/common';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-coursesubjectsectionasign',
@@ -96,11 +96,11 @@ export class NewcoursesubjectsectionasignComponent implements OnInit, OnDestroy 
    // const id = this.route.snapshot.paramMap.get('attendanceId'); 
     //this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
     
-    this.traineeNominationId= parseInt(this.route.snapshot.paramMap.get('traineeNominationId'));
-    this.schollNameId= parseInt(this.route.snapshot.paramMap.get('schollNameId'));
-    this.courseNameId= parseInt(this.route.snapshot.paramMap.get('courseNameId'));
-    this.bnaSubjectCurriculumId= parseInt(this.route.snapshot.paramMap.get('bnaSubjectCurriculumId'));
-    this.bnaSemesterId= parseInt(this.route.snapshot.paramMap.get('bnaSemesterId'));
+    this.traineeNominationId= parseInt(this.route.snapshot.paramMap.get('traineeNominationId')  ?? '0');
+    this.schollNameId= parseInt(this.route.snapshot.paramMap.get('schollNameId') ?? '0');
+    this.courseNameId= parseInt(this.route.snapshot.paramMap.get('courseNameId')?? '0');
+    this.bnaSubjectCurriculumId= parseInt(this.route.snapshot.paramMap.get('bnaSubjectCurriculumId')?? '0');
+    this.bnaSemesterId= parseInt(this.route.snapshot.paramMap.get('bnaSemesterId')?? '0');
 
     
     this.intitializeForm();
@@ -152,7 +152,7 @@ export class NewcoursesubjectsectionasignComponent implements OnInit, OnDestroy 
 
 
   getControlLabel(index: number, type: string) {
-    return (this.NomeneeSubjectSectionForm.get('subjectSectionForm') as FormArray).at(index).get(type).value;
+    return (this.NomeneeSubjectSectionForm.get('subjectSectionForm') as FormArray).at(index).get(type)?.value;
   }
 
   getTraineeListonClick() {
@@ -228,8 +228,9 @@ storeValues() {
     const selectedCourseSection = this.selectedCourseSections.find(item => item.index === i);
     const courseSectionId = selectedCourseSection ? selectedCourseSection.courseSectionId : '';
 
-    control.at(i).get('bnaSubjectNameId').setValue(bnaSubjectNameId);
-    control.at(i).get('courseSectionId').setValue(courseSectionId);
+    control.at(i).get('bnaSubjectNameId')
+    ?.setValue(bnaSubjectNameId);
+    control.at(i).get('courseSectionId')?.setValue(courseSectionId);
   }
 }
 
@@ -269,7 +270,6 @@ if (this.actionStatus=='S'){
       this.subscription = this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
         if (result) {
           this.loading = true;
-          console.log("Form Value : ", this.NomeneeSubjectSectionForm.value);
           this.subscription = this.CoursesubjectsectionasignService.update(this.NomeneeSubjectSectionForm.value).subscribe(response => {
             //this.router.navigateByUrl('/course-management/schoolcourse-list');
             this.reloadCurrentRoute();

@@ -5,11 +5,11 @@ import {TraineeNomination} from '../../models/traineenomination'
 import {TraineeNominationService} from '../../service/traineenomination.service'
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-traineenomination-list',
@@ -43,18 +43,19 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   }
 
   ngOnInit() {
-    var courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
-    this.TraineeNominationService.findByCourseDuration(+courseDurationId).subscribe(
+    this.courseDurationId = Number(this.route.snapshot.paramMap.get('courseDurationId')); 
+    this.TraineeNominationService.findByCourseDuration(this.courseDurationId ).subscribe(
       res => {
-          this.courseDurationId= res.courseDurationId, 
-          this.courseNameId = res.courseNameId 
+          this.courseDurationId= res[0].courseDurationId, 
+          this.courseNameId = res[0].courseNameId 
       }
     );
-    this.getTraineeNominationsByCourseDurationId(courseDurationId)
+    this.getTraineeNominationsByCourseDurationId(this.courseDurationId )
   }
  getTraineeNominationsByCourseDurationId(courseDurationId) {
     this.isLoading = true;
     this.TraineeNominationService.getTraineeNominationsByCourseDurationId(this.paging.pageIndex, this.paging.pageSize,this.searchText,courseDurationId).subscribe(response => {
+   
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
@@ -83,7 +84,9 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
             horizontalPosition: 'right',
             panelClass: 'snackbar-danger'
           });
+          this.getTraineeNominationsByCourseDurationId(this.courseDurationId )
         })
+
       }
     })
     

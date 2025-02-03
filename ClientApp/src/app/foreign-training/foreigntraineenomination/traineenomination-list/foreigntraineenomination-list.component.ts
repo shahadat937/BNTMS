@@ -5,11 +5,11 @@ import { TraineeNomination } from "../../models/traineenomination";
 import { TraineeNominationService } from "../../service/traineenomination.service";
 import { SelectionModel } from "@angular/cdk/collections";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ConfirmService } from "src/app/core/service/confirm.service";
-import { MasterData } from "src/assets/data/master-data";
+import { ConfirmService } from "../../../../../src/app/core/service/confirm.service";
+import { MasterData } from "../../../../../src/assets/data/master-data";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
-import { SharedServiceService } from "src/app/shared/shared-service.service";
+import { UnsubscribeOnDestroyAdapter } from "../../../../../src/app/shared/UnsubscribeOnDestroyAdapter";
+import { SharedServiceService } from "../../../../../src/app/shared/shared-service.service";
 
 @Component({
   selector: "app-foreigntraineenomination-list",
@@ -22,7 +22,7 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
   ELEMENT_DATA: TraineeNomination[] = [];
   isLoading = false;
   courseDurationId: any;
-  courseNameId: number;
+  courseNameId: any;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -57,13 +57,12 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
   ngOnInit() {
     this.courseDurationId =
       this.route.snapshot.paramMap.get("courseDurationId");
-    // this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
-    //   res => {
-    //       this.courseDurationId= res.courseDurationId,
-    //       this.courseNameId = res.courseNameId
+    this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
+      res => {
+          this.courseNameId = res[0]?.courseNameId ?? ""
 
-    //   }
-    // );
+      }
+    );
     this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
   }
 

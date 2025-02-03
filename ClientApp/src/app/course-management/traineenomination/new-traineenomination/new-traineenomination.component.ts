@@ -4,21 +4,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TraineeNominationService } from '../../service/traineenomination.service';
 
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { CodeValueService } from '../../../../../src/app/basic-setup/service/codevalue.service';
+import { MasterData } from '../../../../../src/assets/data/master-data';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map, delay, concatMap } from 'rxjs/operators';
-import { BIODataGeneralInfoService } from 'src/app/trainee-biodata/service/BIODataGeneralInfo.service';
+import { BIODataGeneralInfoService } from '../../../../../src/app/trainee-biodata/service/BIODataGeneralInfo.service';
 import { CourseDurationService } from '../../service/courseduration.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TraineeNomination } from '../../models/traineenomination';
 import { Location } from '@angular/common';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
-import { environment } from 'src/environments/environment';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { environment } from '../../../../../src/environments/environment';
 import { SelectedModel } from '../../../core/models/selectedModel';
 
 @Component({
@@ -301,7 +301,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   }
 
   downloadExcelFile(){
-    const url = environment.fileUrl + '/files/trainee-nominee-file/Trainee Nomination.xlsx'
+    const url = environment.fileUrl + '/files/biodata-excel-file/Service_Instructor_Biodata_UploadFile.xlsx'
     const a = document.createElement('a');
     a.href = url;
     a.download = 'Trainee Nomination.xlsx';

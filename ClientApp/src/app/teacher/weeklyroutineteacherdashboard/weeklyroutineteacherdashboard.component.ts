@@ -3,14 +3,14 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { InstructorDashboardService } from '../services/InstructorDashboard.service';
 //import { SchoolDashboardService } from '../services/SchoolDashboard.service';
-import { environment } from 'src/environments/environment';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { environment } from '../../../../src/environments/environment';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-weeklyroutineteacherdashboard.component',
@@ -39,6 +39,7 @@ export class WeeklyRoutineTeacherDashboard implements OnInit,OnDestroy {
   searchText="";
   displayedRoutineColumns: string[] = ['ser', 'date','schoolName','duration', 'course','subject', 'location'];
   subscription: any;
+  dataSource: any;
   constructor(private datepipe: DatePipe,private instructorDashboardService: InstructorDashboardService,private route: ActivatedRoute,private snackBar: MatSnackBar,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
@@ -53,26 +54,11 @@ export class WeeklyRoutineTeacherDashboard implements OnInit,OnDestroy {
   getWeeklyRoutineByInstructor(id){
     this.subscription = this.instructorDashboardService.getSpInstructorRoutineByTraineeId(id).subscribe(res=>{
       this.routineList = res;
-
-      // this gives an object with dates as keys
-      const groups = this.routineList.reduce((groups, courses) => {
-        const courseName = courses.course+"_"+courses.courseTitle;
-        if (!groups[courseName]) {
-          groups[courseName] = [];
-        }
-        groups[courseName].push(courses);
-        return groups;
-      }, {});
-
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((course) => {
-        return {
-          course,
-          courses: groups[course]
-        };
-      });
-
-
+      this.dataSource = new MatTableDataSource(res);
+      this.sharedService.groupedData = this.sharedService.groupBy(
+        this.dataSource.data,
+        (courses) => courses.course+"_"+courses.courseTitle
+      );
     });
   }
   toggle(){
@@ -85,7 +71,7 @@ export class WeeklyRoutineTeacherDashboard implements OnInit,OnDestroy {
   print(){ 
     
     let printContents, popupWin;
-    printContents = document.getElementById('print-routine').innerHTML;
+    printContents = document.getElementById('print-routine')?.innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`

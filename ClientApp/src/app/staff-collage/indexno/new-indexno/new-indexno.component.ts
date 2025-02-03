@@ -19,8 +19,8 @@ import {BNAExamMarkService} from '../../../central-exam/service/bnaexammark.serv
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassRoutine } from '../../../routine-management/models/classroutine';
-import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { TraineeListForExamMark } from '../../../../../src/app/exam-management/models/traineeListforexammark';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-indexno',
@@ -178,7 +178,7 @@ export class NewIndexNoComponent implements OnInit, OnDestroy {
   }
 
   getControlLabel(index: number, type: string) {
-    return (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type).value;
+    return (this.AttendanceForm.get('traineeListForm') as FormArray).at(index).get(type)?.value;
   }
 
   getTraineeListonClick() {
@@ -203,8 +203,8 @@ export class NewIndexNoComponent implements OnInit, OnDestroy {
       var courseNameArr = dropdown.source.value.split('_');
       this.courseDurationId = courseNameArr[0];
       this.courseNameId = courseNameArr[1];
-      this.AttendanceForm.get('courseNameId').setValue(this.courseNameId);
-      this.AttendanceForm.get('courseDurationId').setValue(this.courseDurationId);
+      this.AttendanceForm.get('courseNameId')?.setValue(this.courseNameId);
+      this.AttendanceForm.get('courseDurationId')?.setValue(this.courseDurationId);
 
       this.subscription = this.traineeNominationService.getTestTraineeNominationByCourseDurationId(this.courseDurationId,0).subscribe(res => {
         this.traineeList = res;

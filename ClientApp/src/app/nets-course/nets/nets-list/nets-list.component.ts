@@ -5,15 +5,15 @@ import {CourseDuration} from '../../models/courseduration'
 import {CourseDurationService} from '../../service/courseduration.service'
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import {MasterData} from 'src/assets/data/master-data'
+import { ConfirmService } from '../../../../../src/app/core/service/confirm.service';
+import {MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { dashboardService } from 'src/app/admin/dashboard/services/dashboard.service';
-import { environment } from 'src/environments/environment';
+import { dashboardService } from '../../../../../src/app/admin/dashboard/services/dashboard.service';
+import { environment } from '../../../../../src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { TraineeNominationService } from '../../service/traineenomination.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 
 
@@ -72,8 +72,7 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
         this.dataSource.data,
         (courses) => courses.baseSchoolName
       );
-      console.log(this.sharedService.groupedData)
- 
+       
     
      this.paging.length = response.totalItemsCount    
      this.isLoading = false;
@@ -100,7 +99,6 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
         this.dataSource.data,
         (courses) => courses.schoolName
       );
-      console.log(this.sharedService.groupedData)
        
  
      })
@@ -115,9 +113,7 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
       this.dataSource.data,
       (courses) => courses.schoolName
     );
-    console.log(this.sharedService.groupedData)
-    
-     
+   
 
      // this.paging.length = response.totalItemsCount    
      // this.isLoading = false;
@@ -128,7 +124,7 @@ export class NetsListComponent extends UnsubscribeOnDestroyAdapter implements On
 
    var currentDate = this.datepipe.transform((new Date), 'MM/dd/yyyy');
    //Date dateTime11 = Convert.ToDateTime(dateFrom);  
-   var current = new Date(currentDate);
+   var current = currentDate ? new Date(currentDate) : new Date();
    // var date1 = new Date(obj.durationFrom); 
    var date2 =  new Date(obj.durationTo);
    

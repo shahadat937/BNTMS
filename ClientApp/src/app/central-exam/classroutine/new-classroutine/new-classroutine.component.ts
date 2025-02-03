@@ -219,7 +219,6 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
         
       })
       this.ClassRoutineService.getQexamRoutine(courseDurationId).subscribe(response => {     
-        console.log(response);
         this.qexamRoutineList=response;
 
         for(let i=0;i<=this.qexamRoutineList.length;i++){
@@ -238,9 +237,7 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
     let subjectMarkId = event.source.value;
    
       this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
-       console.log(res);
-   
-       this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
+      this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
       });
    
     }
@@ -266,7 +263,6 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
     this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       // this.selectedmarktype[bnaSubjectNameId]=res;
       this.selectMarkType=res
-      console.log("Type",res);
     });
 }
 

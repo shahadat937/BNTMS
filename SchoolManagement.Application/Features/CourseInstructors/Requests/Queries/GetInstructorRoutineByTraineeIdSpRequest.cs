@@ -5,5 +5,7 @@ namespace SchoolManagement.Application.Features.CourseInstructors.Requests.Queri
     public class GetInstructorRoutineByTraineeIdSpRequest : IRequest<object>
     {
         public int TraineeId { get; set; }
+        public string SearchTerm { get; set; }
+
     }
 }

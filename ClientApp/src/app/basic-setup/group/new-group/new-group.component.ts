@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupService } from '../../service/group.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmService } from '../../../core/service/confirm.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-new-group',
@@ -65,7 +65,7 @@ export class NewGroupComponent extends UnsubscribeOnDestroyAdapter implements On
   }
   
   onSubmit() {
-    const id = this.groupForm.get('groupId').value;  
+    const id = this.groupForm.get('groupId')?.value;  
     
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Group Item').subscribe(result => {

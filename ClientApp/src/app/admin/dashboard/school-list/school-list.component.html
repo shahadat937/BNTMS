@@ -3,12 +3,14 @@
     <div class="block-header">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <ul class="breadcrumb breadcrumb-style ">
+          <ul class="breadcrumb breadcrumb-style">
             <li class="breadcrumb-item">
               <h4 class="page-title">School List</h4>
             </li>
             <li class="breadcrumb-item bcrumb-1">
-              <a [routerLink]="sharedService.redirectDashboard()"><i class="fas fa-home"></i></a>
+              <a [routerLink]="sharedService.redirectDashboard()"
+                ><i class="fas fa-home"></i
+              ></a>
             </li>
             <li class="breadcrumb-item bcrumb-2">
               <a href="#" onClick="return false;">School List</a>
@@ -27,8 +29,7 @@
                 <div class="row">
                   <div class="col-8">
                     <ul class="header-buttons-left ml-0">
-                      <li class="dropdown">
-                      </li>
+                      <li class="dropdown"></li>
                       <!-- <li class="dropdown">
                           <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
                           aria-label="Search box">
@@ -46,23 +47,57 @@
                     <ul class="header-buttons">
                       <li>
                         <div class="icon-button-demo">
-
-                          <button *ngIf="role != (userRole.InterSeeviceCourse || userRole.InterSeeviceDesk)"
-                            class="btn-space" mat-raised-button color="warn" [routerLink]="['/admin/dashboard/main']">
-                            <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          
+                          <button
+                            *ngIf="
+                              role !=
+                              (userRole.InterSeeviceCourse ||
+                                userRole.InterSeeviceDesk)
+                            "
+                            class="btn-space"
+                            mat-raised-button
+                            color="warn"
+                            [routerLink]="['/admin/dashboard/main']"
+                          >
+                            <mat-icon class="col-white"
+                              >keyboard_backspace</mat-icon
+                            >
+                            Back
                           </button>
-                          <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()"> Print
+                          <button
+                            class="btn-space"
+                            mat-raised-button
+                            color="primary"
+                            (click)="printSingle()"
+                          >
+                            Print
                             <mat-icon class="col-white">print</mat-icon>
                           </button>
+                          <button class="btn-space btn-info"
+                          mat-raised-button
+                          color="primary"
+                          (click)="downloadPDF()">  <mat-icon class="col-white"
+                          >download</mat-icon
+                        > Download</button>
 
-                          <button *ngIf="role == (userRole.InterSeeviceCourse || userRole.InterSeeviceDesk)"
-                            class="btn-space" mat-raised-button color="warn"
-                            routerLink="/admin/dashboard/interservice-dashboard">
-                            <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          <button
+                            *ngIf="
+                              role ==
+                              (userRole.InterSeeviceCourse ||
+                                userRole.InterSeeviceDesk)
+                            "
+                            class="btn-space"
+                            mat-raised-button
+                            color="warn"
+                            routerLink="/admin/dashboard/interservice-dashboard"
+                          >
+                            <mat-icon class="col-white"
+                              >keyboard_backspace</mat-icon
+                            >
+                            Back
                           </button>
                         </div>
                       </li>
-
                     </ul>
                   </div>
                 </div>
@@ -90,90 +125,111 @@
                   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                  </mat-table> -->
-                 <div class="my-3">
-                  <h2>BN TRAINING STATE (Running)</h2>
-                 </div>
+                 <div id="contentToConvert">
+              <div class="my-3">
+                <h2 class="text-center">BN TRAINING STATE</h2>
+                <h2 class="text-center">Date - {{todayFormatedDate}}</h2>
+                
+              </div>
               <div id="print-routine">
-                <table class="table  tbl-by-group db-li-s-in">
+                <table class="tbl-by-group db-li-s-in">
                   <thead>
                     <tr>
                       <!-- <th class="cl-srl"><h5>Ser</h5></th> -->
-                      <th class="cl-nm-rnk">
+                      <th class="cl-nm-rnk px-1">
                         <h5>Base/Institute/Ship</h5>
                       </th>
-                      <th class="cl-mrk">
+                      <th class="cl-mrk px-1">
                         <h5>School</h5>
                       </th>
                       <th class="cl-mrk-rmrk">
-                        <h5>Qty Course</h5>
+                        <h5>No. of Running Courses</h5>
                       </th>
-                      <th class="cl-mrk-rmrk">
-                        <h5>Officer's </h5>
+                      <th class="cl-mrk-rmrk px-1">
+                        <h5>Officer's</h5>
                       </th>
-                      <th class="cl-mrk-rmrk">
-                        <h5>Mids </h5>
+                      <th class="cl-mrk-rmrk px-1">
+                        <h5>Mids</h5>
                       </th>
-                      <th class="cl-mrk-rmrk">
-                        <h5>Cadet </h5>
+                      <th class="cl-mrk-rmrk px-1">
+                        <h5>Cadet</h5>
                       </th>
-                      <th class="cl-mrk-rmrk">
+                      <th class="cl-mrk-rmrk px-1">
                         <h5>I/S</h5>
                       </th>
-                      <th class="cl-mrk-rmrk">
-                        <h5>Sailor's </h5>
+                      <th class="cl-mrk-rmrk px-1">
+                        <h5>Sailor's</h5>
                       </th>
-                      <th class="cl-mrk-rmrk">
-                        <h5>Civil </h5>
+                      <th class="cl-mrk-rmrk px-1">
+                        <h5>Civil</h5>
                       </th>
-                      <th class="cl-mrk-rmrk">
-                        <h5>Foreign </h5>
+                      <th class="cl-mrk-rmrk px-1">
+                        <h5>Foreign</h5>
                       </th>
-                      <th class="cl-mrk-rmrk">
-                        <h5>Total </h5>
+                      <th class="cl-mrk-rmrk px-1">
+                        <h5>Total</h5>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <ng-container *ngFor="let data of groupArrays;let i= index;">
+                    <ng-container
+                      *ngFor="let data of groupArrays; let i = index"
+                    >
                       <tr>
-                        <td [attr.rowspan]="data.schools.length + 1">{{data.baseName}}</td>
+                        <td [attr.rowspan]="data.schools.length + 1">
+                          {{ data.baseName }}
+                        </td>
                       </tr>
-                      <tr *ngFor="let number of data.schools;">
-                        <td>{{number.schoolName}} </td>
-                        <td><a [routerLink]="['/admin/dashboard/coursebyschool-list',number.baseSchoolNameId]"><span
-                              class="text-danger"> {{number.courseCount}}</span></a> </td>
-                        <td>{{number.officerCount}} </td>
-                        <td>{{number.midCount}} </td>
-                        <td>{{number.cadetCount}} </td>
-                        <td>{{number.isCount}} </td>
-                        <td>{{number.saylorCount}} </td>
-                        <td>{{number.civilCount}} </td>
-                        <td>{{number.foreignCount}} </td>
-                        <td>{{number.traineeCount}} </td>
+                      <tr *ngFor="let number of data.schools">
+                        <td>{{ number.schoolName }}</td>
+                        <td>
+                          <!-- <a
+                            [routerLink]="[
+                              '/admin/dashboard/coursebyschool-list',
+                              number.baseSchoolNameId
+                            ]"
+                            ><span class="text-danger">
+                              {{ number.courseCount }}</span
+                            ></a
+                          > -->
+                        <span class="text-danger fw-bold">{{number.courseCount}}</span
+                            >
+                        </td>
+                        <td class="fw-bold">{{ number.officerCount }}</td>
+                        <td class="fw-bold">{{ number.midCount }}</td>
+                        <td class="fw-bold">{{ number.cadetCount }}</td>
+                        <td class="fw-bold">{{ number.isCount }}</td>
+                        <td class="fw-bold">{{ number.saylorCount }}</td>
+                        <td class="fw-bold">{{ number.civilCount }}</td>
+                        <td class="fw-bold">{{ number.foreignCount }}</td>
+                        <td class="fw-bold">{{ number.traineeCount }}</td>
                       </tr>
                     </ng-container>
                   </tbody>
 
-                  <tr style="border: 1px solid black" *ngFor="let data of totalCount">
+                  <tr
+                    style="border: 1px solid black"
+                    *ngFor="let data of totalCount"
+                  >
                     <td></td>
                     <td class="text-center">Total</td>
-                    <td>{{data.totalCourseCount || 0}}</td>
-                    <td>{{data.totalOfficerCount || 0}}</td>
-                    <td>{{data.totalMidCount || 0}}</td>
-                    <td>{{data.totalCadetCount || 0}}</td>
-                    <td>{{data.totalISCount || 0}}</td>
-                    <td>{{data.totalSaylorCount || 0}}</td>
-                    <td>{{data.totalCivilCount || 0}}</td>
-                    <td>{{data.totalForeignCount || 0}}</td>
-                    <td>{{data.totalTraineeCount || 0}}</td>                   
+                    <td class="fw-bold">{{ data.totalCourseCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalOfficerCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalMidCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalCadetCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalISCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalSaylorCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalCivilCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalForeignCount || 0 }}</td>
+                    <td class="fw-bold">{{ data.totalTraineeCount || 0 }}</td>
                   </tr>
-
                 </table>
                 <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
                         [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
                         (page)="pageChanged($event)">
                         </mat-paginator> -->
               </div>
+            </div>
             </div>
           </div>
         </div>

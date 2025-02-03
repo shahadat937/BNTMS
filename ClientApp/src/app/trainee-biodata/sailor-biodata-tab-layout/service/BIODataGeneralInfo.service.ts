@@ -107,7 +107,6 @@ export class BIODataGeneralInfoService {
     return this.http.get<BIODataGeneralInfo>(this.baseUrl + '/trainee-bio-data-general-info/get-traineedetails/' + id);
   }
   update(id: number,model: any) {
-    console.log(model.value);
     return this.http.put(this.baseUrl + '/trainee-bio-data-general-info/update-traineeBioDataGeneralInfo/'+id, model);
   }
   submit(model: any) {

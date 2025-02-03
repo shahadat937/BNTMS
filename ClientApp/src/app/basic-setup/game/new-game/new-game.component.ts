@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../../service/game.service';
 import { ConfirmService } from '../../../core/service/confirm.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-edit-game',
@@ -68,7 +68,7 @@ export class NewGameComponent extends UnsubscribeOnDestroyAdapter implements OnI
   }
   
   onSubmit() {
-    const id = this.gameForm.get('gameId').value; 
+    const id = this.gameForm.get('gameId')?.value; 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
         if (result) {

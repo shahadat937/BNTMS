@@ -8,6 +8,7 @@ namespace SchoolManagement.Application.DTOs.Country
     {
         public int CountryId { get; set; }
         public int? CountryGroupId { get; set; }
+        public string? CountryGroupName { get; set; }
         public int? CurrencyNameId { get; set; }
         public string CountryName { get; set; } = null!;
         public int? CurrentPrice { get; set; }

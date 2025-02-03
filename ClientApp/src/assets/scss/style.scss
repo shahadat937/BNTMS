@@ -168,6 +168,9 @@ img.routine-icon{
 .attn-btn{
     margin-left: 900px;
 }
+.btn-reading{
+    margin-left: 500px;
+}
 
 .table-scroller {
     height: -webkit-fill-available;
@@ -705,7 +708,7 @@ div#print-barcode {
         text-align: center;
     }
     table.tblinterserviceList {
-        border: 1px solid #2633bf;
+        // border: 1px solid #2633bf;
         border-collapse: collapse;
         background: #C3C9D4;
     }
@@ -717,7 +720,7 @@ div#print-barcode {
         color: white;
     }
     td.td-cell {
-        border: 2px solid #2c2929;
+        border: .5px solid #2c2929;
         border-collapse: collapse;
         text-align: center;
         color: black;
@@ -1832,7 +1835,7 @@ app-header .container-fluid {
 // table group by design start
 
 .content .card .body .tbl-by-group thead tr th {
-    background: #f44336;
+    background: #f44336 !important;
     color: #fff;
     height: 30px;
     font-size: 16px;
@@ -3645,6 +3648,12 @@ app-main-tab-layout .table-bordered tbody tr td {
 }
 //Dashboard Notice Board Message End
 
+.table > :not(caption) > * > * {
+    
+    background-color: transparent !important;
+    // z-index: -1000 !important;
+   
+}
 
 
 
