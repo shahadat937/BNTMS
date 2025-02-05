@@ -619,7 +619,8 @@ namespace SchoolManagement.Application.Profiles
             #endregion
 
             #region Country  Mappings 
-            CreateMap<Country, CountryDto>().ReverseMap();
+            CreateMap<CountryDto, Country>().ReverseMap()
+                .ForMember(d=> d.CountryGroupName, o=> o.MapFrom (s=> s.CountryGroup.Name));
             CreateMap<Country, CreateCountryDto>().ReverseMap();
             #endregion
             #region CountryGroup  Mappings 
@@ -1096,7 +1097,7 @@ namespace SchoolManagement.Application.Profiles
             #region InterServiceMark Mapping    
             CreateMap<InterServiceMarkDto, InterServiceMark>().ReverseMap()
                 .ForMember(d => d.OrganizationName, o => o.MapFrom(s => s.OrganizationName.Name))
-                .ForMember(d => d.CourseDuration, o => o.MapFrom(s => s.CourseDuration.CourseName.Course))
+                .ForMember(d => d.CourseName, o => o.MapFrom(s => s.CourseName.Course))
                 .ForMember(d => d.TraineeName, o => o.MapFrom(s => s.Trainee.Name))
                 .ForMember(d => d.TraineePNo, o => o.MapFrom(s => s.Trainee.Pno))
                 .ForMember(d => d.RankPosition, o => o.MapFrom(s => s.Trainee.Rank.Position))

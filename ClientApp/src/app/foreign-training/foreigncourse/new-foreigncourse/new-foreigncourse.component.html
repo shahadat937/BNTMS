@@ -112,7 +112,7 @@
                           <th class="cl-srl"><h5>Attend Year</h5></th>
                           <th class="cl-mrk"><h5> Duration</h5></th>
                           <th class="cl-mrk"><h5> Status</h5></th>
-                          <th class="cl-mrk-rmrk"><h5>Actions</h5></th>
+                          <th class="cl-mrk-rmrk text-center"><h5>Actions</h5></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -124,8 +124,8 @@
                             <td class="cl-srl">{{number.courseName}}</td>
                             <td>{{number.courseTitle}}</td>
                             <td>{{number.durationFrom | date:'mediumDate'}} - {{number.durationTo | date:'mediumDate'}}</td>
-                            <td class="cl-status"><button mat-raised-button class="custom-btn courseplan-btn btn-green-bordered"  (click)="inActiveItem(number)"  (click)="$event.stopPropagation()">{{ number.isCompletedStatus == 0 ? 'Running' : 'Completed' }}</button></td>
-                            <td>
+                            <td class="cl-status"><button type="button" mat-raised-button class="custom-btn courseplan-btn btn-green-bordered"  (click)="inActiveItem(number)"  (click)="$event.stopPropagation()">{{ number.isCompletedStatus == 0 ? 'Running' : 'Completed' }}</button></td>
+                            <td class="text-center">
                               
                               <button mat-icon-button class="btn-tbl-nomination" title="List Of Trainee"
                                 [routerLink]="['/foreign-training/foreigntraineenomination-list/', number.courseDurationId]">
@@ -135,10 +135,10 @@
                                 [routerLink]="['/foreign-training/update-foreigncourse', number.courseDurationId]">
                                 <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
                               </button>
-                              <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
+                              <!-- <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
                                 (click)="deleteItem(number)">
                                 <mat-icon aria-label="Delete" class="col-white">delete</mat-icon>
-                              </button>
+                              </button> -->
                             </td>
                           </tr>
                         </ng-container>

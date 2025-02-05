@@ -189,7 +189,6 @@ export class ViewCourseListBySchoolComponent implements OnInit, OnDestroy {
       
       
         this.CourseNamesList = response;
-        console.log("X",response)
         // this.CourseNamesList = new MatTableDataSource(response)
         // const groups = this.CourseNamesList.reduce((groups, courses) => {
         //   const schoolname = courses.schoolname;
@@ -207,7 +206,6 @@ export class ViewCourseListBySchoolComponent implements OnInit, OnDestroy {
         //     courses: groups[schoolname],
         //   };
         // });
-        console.log("Y",this.sharedService.groupedData)
         this.sharedService.groupedData = this.sharedService.groupBy(
           this.CourseNamesList,
           (school)=> school.schoolname

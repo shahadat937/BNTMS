@@ -74,7 +74,7 @@
 
                   <ng-container matColumnDef="traineeName">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Rank & Name </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.position}} {{element.name}}  <span class="t-n-pno-d">(P No {{element.pno}})</span> </mat-cell>
+                    <mat-cell *matCellDef="let element"> {{element.position}} {{element.name}}  <span class="t-n-pno-d py-1">(P No {{element.pno}})</span> </mat-cell>
                   </ng-container>
 
 
@@ -88,7 +88,7 @@
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                  </mat-table>
                 </div>
-                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
+                 <div class="my-3 col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20">
                   <button class="btn-space"  mat-raised-button color="primary" (click)="printSingle()"> Print
                     <mat-icon class="col-white">print</mat-icon>
                   </button>

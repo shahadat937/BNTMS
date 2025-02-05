@@ -13,6 +13,7 @@ import { MasterData } from "../../../../assets/data/master-data";
 import { ConfirmService } from "../../../core/service/confirm.service";
 import { SharedServiceService } from "../../../shared/shared-service.service";
 import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestroyAdapter";
+// import { serialize } from "v8";
 
 @Component({
   selector: "app-countedofficers-list",
@@ -21,8 +22,7 @@ import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestro
 })
 export class CountedOfficersListComponent
   extends UnsubscribeOnDestroyAdapter
-  implements OnInit
-{
+  implements OnInit {
   masterData = MasterData;
   loading = false;
   ELEMENT_DATA: TraineeNomination[] = [];
@@ -32,6 +32,7 @@ export class CountedOfficersListComponent
   dbType: any;
   officerTypeId: any;
   groupArrays: { courseName: string; courses: any }[];
+  traineeStatusId: any;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -47,139 +48,199 @@ export class CountedOfficersListComponent
     private datepipe: DatePipe,
     private dashboardService: dashboardService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private TraineeNominationService: TraineeNominationService,
-    private router: Router,
-    private confirmService: ConfirmService,
     public sharedService: SharedServiceService
   ) {
     super();
   }
 
   ngOnInit() {
-    //this.getTraineeNominations();
-    var traineeStatusId = this.route.snapshot.paramMap.get("traineeStatusId");
+
+    this.traineeStatusId = this.route.snapshot.paramMap.get("traineeStatusId");
+    this.officerTypeId = this.route.snapshot.paramMap.get("officerTypeId");
     this.dbType = this.route.snapshot.paramMap.get("dbType");
+    // console.log( this.masterData.TraineeStatus.civil);
 
-    let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") || '';
-    if (Number(traineeStatusId) == this.masterData.TraineeStatus.officer) {
-      this.destination = "Officer";
-      this.dashboardService
-        .getrunningCourseTotalOfficerListfromprocedureRequest(
-          currentDateTime,
-          this.masterData.TraineeStatus.officer
-        )
-        .subscribe((response) => {
-          this.Countedlist = response;
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName = courses.course;
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
 
-          // Edit: to add it in the array format instead
-          this.groupArrays = Object.keys(groups).map((courseName) => {
-            return {
-              courseName,
-              courses: groups[courseName],
-            };
-          });
-        });
-    } else if (
-      Number(traineeStatusId) == this.masterData.TraineeStatus.sailor
-    ) {
-      this.destination = "Sailor";
-      this.dashboardService
-        .getrunningCourseTotalOfficerListfromprocedureRequest(
-          currentDateTime,
-          this.masterData.TraineeStatus.sailor
-        )
-        .subscribe((response) => {
-          this.Countedlist = response;
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName =
-              courses.course + "_(" + courses.courseTitle + ")";
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
+    if (Number(this.traineeStatusId) === this.masterData.TraineeStatus.civil || Number(this.traineeStatusId) === this.masterData.TraineeStatus.civilInstructor) {
+      this.getRunningCivilTrainee();
+    }
+     else if (this.traineeStatusId) {
+      this.getRunningTrainee();
+    }
+    else{
+      this.getAllRunningTrainee();
+    }
 
-          // Edit: to add it in the array format instead
-          this.groupArrays = Object.keys(groups).map((courseName) => {
-            return {
-              courseName,
-              courses: groups[courseName],
-            };
-          });
-        });
-    } else if (Number(traineeStatusId) == this.masterData.TraineeStatus.civil) {
-      this.destination = "Civil";
-      this.dashboardService
-        .getrunningCourseTotalOfficerListfromprocedureRequest(
-          currentDateTime,
-          this.masterData.TraineeStatus.civil
-        )
-        .subscribe((response) => {
-          this.Countedlist = response;
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName =
-              courses.course + "_(" + courses.courseTitle + ")";
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
 
-          // Edit: to add it in the array format instead
-          this.groupArrays = Object.keys(groups).map((courseName) => {
-            return {
-              courseName,
-              courses: groups[courseName],
-            };
-          });
-        });
-    } else {
-      this.destination = "Trainee";
-      this.dashboardService
-        .getnominatedCourseListFromSpRequest(currentDateTime)
-        .subscribe((response) => {
-          this.Countedlist = response;
+    // let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") || '';
+    // if (Number(this.traineeStatusId) == this.masterData.TraineeStatus.officer) {
+    //   this.destination = "Officer";
+    //   this.dashboardService
+    //     .getrunningCourseTotalOfficerListfromprocedureRequest(
+    //       currentDateTime,
+    //       this.masterData.TraineeStatus.officer
+    //     )
+    //     .subscribe((response) => {
+    //       this.Countedlist = response;
+    //       console.log(response);
+    //       // this gives an object with dates as keys
+    //       const groups = this.Countedlist.reduce((groups, courses) => {
+    //         const schoolName = courses.course;
+    //         if (!groups[schoolName]) {
+    //           groups[schoolName] = [];
+    //         }
+    //         groups[schoolName].push(courses);
+    //         return groups;
+    //       }, {});
 
-          // this gives an object with dates as keys
-          const groups = this.Countedlist.reduce((groups, courses) => {
-            const schoolName =
-              courses.course + "_(" + courses.courseTitle + ")";
-            if (!groups[schoolName]) {
-              groups[schoolName] = [];
-            }
-            groups[schoolName].push(courses);
-            return groups;
-          }, {});
+    //       // Edit: to add it in the array format instead
+    //       this.groupArrays = Object.keys(groups).map((courseName) => {
+    //         return {
+    //           courseName,
+    //           courses: groups[courseName],
+    //         };
+    //       });
+    //     });
+    // } else if (
+    //   Number(this.traineeStatusId) == this.masterData.TraineeStatus.sailor
+    // ) {
+    //   this.destination = "Sailor";
+    //   this.dashboardService
+    //     .getrunningCourseTotalOfficerListfromprocedureRequest(
+    //       currentDateTime,
+    //       this.masterData.TraineeStatus.sailor
+    //     )
+    //     .subscribe((response) => {
+    //       console.log(response);
+    //       this.Countedlist = response;
+    //       // this gives an object with dates as keys
+    //       const groups = this.Countedlist.reduce((groups, courses) => {
+    //         const schoolName =
+    //           courses.course + "_(" + courses.courseTitle + ")";
+    //         if (!groups[schoolName]) {
+    //           groups[schoolName] = [];
+    //         }
+    //         groups[schoolName].push(courses);
+    //         return groups;
+    //       }, {});
 
-          // Edit: to add it in the array format instead
-          this.groupArrays = Object.keys(groups).map((courseName) => {
-            return {
-              courseName,
-              courses: groups[courseName],
-            };
-          });
-        });
+    //       // Edit: to add it in the array format instead
+    //       this.groupArrays = Object.keys(groups).map((courseName) => {
+    //         return {
+    //           courseName,
+    //           courses: groups[courseName],
+    //         };
+    //       });
+    //     });
+    // } else if (Number(this.traineeStatusId) == this.masterData.TraineeStatus.civil) {
+    //   this.destination = "Civil";
+    //   this.dashboardService
+    //     .getrunningCourseTotalOfficerListfromprocedureRequest(
+    //       currentDateTime,
+    //       this.masterData.TraineeStatus.civil
+    //     )
+    //     .subscribe((response) => {
+    //       this.Countedlist = response;
+    //       // this gives an object with dates as keys
+    //       const groups = this.Countedlist.reduce((groups, courses) => {
+    //         const schoolName =
+    //           courses.course + "_(" + courses.courseTitle + ")";
+    //         if (!groups[schoolName]) {
+    //           groups[schoolName] = [];
+    //         }
+    //         groups[schoolName].push(courses);
+    //         return groups;
+    //       }, {});
+
+    //       // Edit: to add it in the array format instead
+    //       this.groupArrays = Object.keys(groups).map((courseName) => {
+    //         return {
+    //           courseName,
+    //           courses: groups[courseName],
+    //         };
+    //       });
+    //     });
+    // } else {
+    //   this.destination = "Trainee";
+    //   this.dashboardService
+    //     .getnominatedCourseListFromSpRequest(currentDateTime)
+    //     .subscribe((response) => {
+    //       this.Countedlist = response;
+
+    //       // this gives an object with dates as keys
+    //       const groups = this.Countedlist.reduce((groups, courses) => {
+    //         const schoolName =
+    //           courses.course + "_(" + courses.courseTitle + ")";
+    //         if (!groups[schoolName]) {
+    //           groups[schoolName] = [];
+    //         }
+    //         groups[schoolName].push(courses);
+    //         return groups;
+    //       }, {});
+
+    //       // Edit: to add it in the array format instead
+    //       this.groupArrays = Object.keys(groups).map((courseName) => {
+    //         return {
+    //           courseName,
+    //           courses: groups[courseName],
+    //         };
+    //       });
+    //     });
+    // }
+  }
+  applyFilter(search: any) {
+    this.searchText = search;
+
+    if (Number(this.traineeStatusId) === this.masterData.TraineeStatus.civil || Number(this.traineeStatusId) === this.masterData.TraineeStatus.civilInstructor) {
+      this.getRunningCivilTrainee();
+    }
+     else if (this.traineeStatusId) {
+      this.getRunningTrainee();
+    }
+    else{
+      this.getAllRunningTrainee();
     }
   }
-  applyFilter(search: any) {}
-  pageChanged(event: PageEvent) {
-    this.paging.pageIndex = event.pageIndex;
-    this.paging.pageSize = event.pageSize;
-    this.paging.pageIndex = this.paging.pageIndex + 1;
-    // this.getCourseDurationsByCourseType();
+  // pageChanged(event: PageEvent) {
+  //   this.paging.pageIndex = event.pageIndex;
+  //   this.paging.pageSize = event.pageSize;
+  //   this.paging.pageIndex = this.paging.pageIndex + 1;
+  //   // this.getCourseDurationsByCourseType();
+  // }
+
+  getRunningTrainee() {
+    this.dashboardService.getRunningTeaineeInfo(this.traineeStatusId, this.officerTypeId, this.searchText).subscribe(res => {
+      const trainee = res;
+      if (trainee?.length) {
+        this.sharedService.groupedData = this.sharedService.groupBy(trainee, (trainee) => trainee.course)
+      }
+
+    })
+  }
+
+  getRunningCivilTrainee() {
+    this.dashboardService.getRunningCivilTeaineeInfo(this.searchText).subscribe(res => {
+      const trainee = res;
+      if (trainee?.length) {
+        this.sharedService.groupedData = this.sharedService.groupBy(trainee, (trainee) => trainee.course)
+      }
+    })
+  }
+
+  getAllRunningTrainee() {
+    let currentDateTime = this.datepipe.transform(new Date(), "MM/dd/yyyy") || '';
+    this.destination = "Trainee";
+    this.dashboardService
+      .getnominatedCourseListFromSpRequest(currentDateTime, this.searchText)
+      .subscribe((response) => {
+       
+        var trainee = response;
+        if(trainee){
+          this.sharedService.groupedData = this.sharedService.groupBy(trainee, (trainee) => trainee.course)
+        }
+       
+      });
   }
 }
+
+

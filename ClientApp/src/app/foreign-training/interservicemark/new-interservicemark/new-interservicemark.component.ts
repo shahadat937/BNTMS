@@ -44,6 +44,7 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
 
   durateDateForm:any;
   durationDateTo:any;
+  warningMessage : string = "";
 
   options = [];
   filteredOptions;
@@ -160,14 +161,12 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
       
     });
   }
-  onCourseNameSelectionChangeGetTraineeList(dropdown) {
-    this.isShown = true;
-    if (dropdown.isUserInput) {
-      this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId')?.value;
-      this.courseDurationId = dropdown.source.value;
 
-      this.InterServiceMarkForm.get('courseDurationId')?.setValue(dropdown.source.value)
-
+  getInterServiceMarkByCourseDurationId (courseDurationId){
+  this.InterServiceMarkService.findInterServiceMarkByCourseDurationId(courseDurationId).subscribe(res=>{
+    if (!res.length){
+      this.isShown = true;
+      this.warningMessage = ""
       this.courseDurationService.find(this.courseDurationId).subscribe(res => {
         this.durateDateForm = res.durationFrom;
         this.durationDateTo = res.durationTo;
@@ -175,9 +174,27 @@ export class NewInterServiceMarkComponent extends UnsubscribeOnDestroyAdapter im
 
       this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId).subscribe(res => {
         this.traineeList = res;
+        if(!this.traineeList?.length){
+          this.isShown = false;
+          this.warningMessage = "No Trainees Have Been Nominated for the Course"
+        } 
         this.clearList()
         this.getTraineeListonClick();
       });
+    }
+    else{
+      this.isShown = false;
+      this.warningMessage = "Mark Entry Already Completed"
+    }
+  })
+  }
+  onCourseNameSelectionChangeGetTraineeList(dropdown) {
+    if (dropdown.isUserInput) {
+      this.courseDurationId = this.InterServiceMarkForm.get('courseDurationId')?.value;
+      this.courseDurationId = dropdown.source.value;
+
+      this.InterServiceMarkForm.get('courseDurationId')?.setValue(dropdown.source.value)
+      this.getInterServiceMarkByCourseDurationId(this.courseDurationId);    
     }
   }
 

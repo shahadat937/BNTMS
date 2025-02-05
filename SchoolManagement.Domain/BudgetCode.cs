@@ -11,7 +11,7 @@ namespace SchoolManagement.Domain
             CourseBudgetAllocations = new HashSet<CourseBudgetAllocation>();
         }
 
-        public int? BudgetCodeId { get; set; } 
+        public int BudgetCodeId { get; set; } 
         public string? BudgetCodes { get; set; }
         public string? Name { get; set; }
         public double? TotalBudget { get; set; }

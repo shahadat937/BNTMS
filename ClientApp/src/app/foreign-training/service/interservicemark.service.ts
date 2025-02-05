@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import { InterServiceMark } from '../models/interservicemark';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { IInterServiceMarkPagination, InterServiceMarkPagination } from '../models/interservicemarkPagination'
-import { PostResponse } from 'src/app/core/models/PostResponse';
+import { PostResponse } from '../../../../src/app/core/models/PostResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class InterServiceMarkService {
     return this.http.get<SelectedModel[]>(this.baseUrl + '/country/get-selectedCountries')
   }
   getSelectedDocument() {
-    return this.http.get<SelectedModel[]>(this.baseUrl + '/document/get-selectedDocuments')
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/document/get-selectedDocument')
   }
   // getSelectedPno(){
   //   return this.http.get<SelectedModel[]>(this.baseUrl + '/trainee-bio-data-general-info/get-selectedTraineeByPno')
@@ -72,15 +72,21 @@ export class InterServiceMarkService {
   submit(model: any) {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    }
+    };
     return this.http.post<PostResponse>(this.baseUrl + '/inter-service-mark/save-interServiceMarklist', model, httpOptions).pipe(
       map((InterServiceMark: PostResponse) => {
         if (InterServiceMark) {
           return InterServiceMark;
+        } else {
+          throw new Error('Response is empty');
         }
       })
     );
   }
+  findInterServiceMarkByCourseDurationId(courseDuration) {
+    return this.http.get<any>(this.baseUrl + `/inter-service-mark/get-InterServiceMarkListByCourseDurationId?courseDurationId=${courseDuration}`);
+  }
+  
   delete(id) {
     return this.http.delete(this.baseUrl + '/inter-service-mark/delete-InterServiceMark/' + id);
   }

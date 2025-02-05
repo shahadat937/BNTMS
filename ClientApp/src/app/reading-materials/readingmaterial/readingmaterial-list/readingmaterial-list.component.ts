@@ -97,30 +97,30 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     this.ReadingMaterialService.getReadingMaterialsBySchool(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText, this.branchId).subscribe(response => {
     
       this.dataSource.data = response.items; 
-
       this.sharedService.groupedData = this.sharedService.groupBy(
         this.dataSource.data,
-        (courses) => courses.readingMaterial
+        (courses) => courses.readingMaterialTitle
+
       );
-      const groups = this.dataSource.data.reduce((groups, courses) => {
-        const materialTitle = courses.readingMaterialTitle;
-        if (!groups[materialTitle]) {
-          groups[materialTitle] = [];
-        }
-        groups[materialTitle].push(courses);
-        return groups;
-      }, {});
+      // const groups = this.dataSource.data.reduce((groups, courses) => {
+      //   const materialTitle = courses.readingMaterialTitle;
+      //   if (!groups[materialTitle]) {
+      //     groups[materialTitle] = [];
+      //   }
+      //   groups[materialTitle].push(courses);
+      //   return groups;
+      // }, {});
 
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((readingMaterialTitle) => {
-        return {
-          readingMaterialTitle,
-          courses: groups[readingMaterialTitle]
-        };
-      });
+      // // Edit: to add it in the array format instead
+      // this.groupArrays = Object.keys(groups).map((readingMaterialTitle) => {
+      //   return {
+      //     readingMaterialTitle,
+      //     courses: groups[readingMaterialTitle]
+      //   };
+      // });
 
-      this.paging.length = response.totalItemsCount    
-      this.isLoading = false;
+      // this.paging.length = response.totalItemsCount    
+      // this.isLoading = false;
     })
   }
 

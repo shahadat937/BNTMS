@@ -180,7 +180,7 @@
                   <a
                     [routerLink]="[
                       '/admin/dashboard/view-officerlist',
-                      masterData.TraineeStatus.officer
+                      masterData.TraineeStatus.officer, masterData.OfficerType.Bangladesh
                     ]"
                     >{{ runningOfficerCount }}</a
                   >
@@ -215,8 +215,7 @@
                 <td class="py-1">
                   <a
                     [routerLink]="[
-                      '/admin/dashboard/view-totalforeigntraineelistbyschool',
-                      0,
+                      '/admin/dashboard/view-officerlist', masterData.TraineeStatus.officer,
                       masterData.OfficerType.Foreign
                     ]"
                     >{{ foreignNomineeCount }}</a

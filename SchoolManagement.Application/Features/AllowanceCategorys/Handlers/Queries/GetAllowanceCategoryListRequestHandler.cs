@@ -31,7 +31,7 @@ namespace SchoolManagement.Application.Features.AllowanceCategorys.Handlers.Quer
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
 
-            IQueryable<AllowanceCategory> AllowanceCategorys = _AllowanceCategoryRepository.FilterWithInclude(x => String.IsNullOrEmpty(request.QueryParams.SearchText), "FromRank", "ToRank", "CountryGroup", "Country", "CurrencyName", "AllowancePercentage");
+            IQueryable<AllowanceCategory> AllowanceCategorys = _AllowanceCategoryRepository.FilterWithInclude(x => String.IsNullOrEmpty(request.QueryParams.SearchText) || x.FromRank.RankName.Contains(request.QueryParams.SearchText), "FromRank", "ToRank", "CountryGroup", "Country", "CurrencyName", "AllowancePercentage");
             var totalCount = AllowanceCategorys.Count();
             AllowanceCategorys = AllowanceCategorys.OrderByDescending(x => x.AllowanceCategoryId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 

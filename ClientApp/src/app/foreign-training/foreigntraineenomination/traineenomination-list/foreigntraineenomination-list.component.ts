@@ -22,7 +22,7 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
   ELEMENT_DATA: TraineeNomination[] = [];
   isLoading = false;
   courseDurationId: any;
-  courseNameId: number;
+  courseNameId: any;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -57,13 +57,12 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
   ngOnInit() {
     this.courseDurationId =
       this.route.snapshot.paramMap.get("courseDurationId");
-    // this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
-    //   res => {
-    //       this.courseDurationId= res.courseDurationId,
-    //       this.courseNameId = res.courseNameId
+    this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
+      res => {
+          this.courseNameId = res[0]?.courseNameId ?? ""
 
-    //   }
-    // );
+      }
+    );
     this.getTraineeNominationsByCourseDurationId(this.courseDurationId);
   }
 

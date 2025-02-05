@@ -35,6 +35,7 @@ export class NewForeignTraineeNominationComponent extends UnsubscribeOnDestroyAd
   traineeInfoById:any;
   traineeId:number;
   courseDurationId:string;
+  courseNameId : string;
 
   //formGroup : FormGroup;
 
@@ -49,7 +50,8 @@ export class NewForeignTraineeNominationComponent extends UnsubscribeOnDestroyAd
   ngOnInit(): void {
    
     const id = this.route.snapshot.paramMap.get('traineeNominationId');  
-    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
+    this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId') ?? ""; 
+    this.courseNameId = this.route.snapshot.paramMap.get('courseNameId') ?? ""; 
     this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {
         this.foreigntraineenominationForm.patchValue({          
@@ -108,7 +110,7 @@ export class NewForeignTraineeNominationComponent extends UnsubscribeOnDestroyAd
     } 
     this.intitializeForm();
     this.getselectedcoursename();
-    this.getselectedcourseduration();
+    // this.getselectedcourseduration();
     this.getselectedTraineeCourseStatus();
     this.getselectedWithdrawnDoc();
     this.getSelectedTrainee();
@@ -122,15 +124,15 @@ export class NewForeignTraineeNominationComponent extends UnsubscribeOnDestroyAd
       traineeId:[''],
       traineeName:[''],
       familyAllowId:[''],
-      traineeCourseStatusId:[],
-      saylorRankId:[],
-      rankId:[],
-      saylorBranchId:[],
-      saylorSubBranchId:[],
-      branchId:[],
-      withdrawnDocId:[],    
+      traineeCourseStatusId:[''],
+      saylorRankId:[''],
+      rankId:[''],
+      saylorBranchId:[''],
+      saylorSubBranchId:[''],
+      branchId:[''],
+      withdrawnDocId:[''],    
       withdrawnRemarks:[''],
-      withdrawnDate:[], 
+      withdrawnDate:[''], 
       status:[1],
       isActive: [true],    
     })
@@ -203,7 +205,9 @@ getSelectedTraineeByPno(pno){
   }
 
   onSubmit() {
-    const id = this.foreigntraineenominationForm.get('traineeNominationId')?.value;   
+    const id = this.foreigntraineenominationForm.get('traineeNominationId')?.value; 
+    this.foreigntraineenominationForm.get('courseDurationId')?.setValue(this.courseDurationId); 
+    this.foreigntraineenominationForm.get('courseNameId')?.setValue(this.courseNameId); 
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {

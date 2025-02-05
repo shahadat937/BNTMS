@@ -113,6 +113,7 @@ import { RunningCoursForeignRraineecountDetailsListComponent } from "../../forei
 import { RunningCourseForeignRraineeUpcomingListComponent } from "../../foreign-training/runningcourseforeigntraineeupcoming/runningcourseforeigntraineeupcoming-list.component";
 import { NewPasswordChangeComponent } from "../../instructor/passwordchange/new-passwordchange.component";
 import { NewForeignTrainingCourseReportComponent } from "../../foreign-training/foreigntrainingcoursereport/new-foreigntrainingcoursereport/new-foreigntrainingcoursereport.component";
+import { MarklistInterserviceForeignCourseComponent } from "./marklist-interservice-foreign-course/marklist-interservice-foreign-course.component";
 
 const routes: Routes = [
   {
@@ -435,6 +436,10 @@ const routes: Routes = [
 
   {
     path: "view-officerlist/:traineeStatusId",
+    component: CountedOfficersListComponent,
+  },
+  {
+    path: "view-officerlist/:traineeStatusId/:officerTypeId",
     component: CountedOfficersListComponent,
   },
   {
@@ -880,6 +885,10 @@ const routes: Routes = [
     path: "termination-report",
     component: CourseTerminatedComponent,
   },
+  {
+    path: "marklist-interservice-forignservice/:courseDurationId",
+    component: MarklistInterserviceForeignCourseComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
