@@ -160,7 +160,7 @@
                     appearance="outline"
                   >
                     <mat-label>Tarminal</mat-label>
-                    <input matInput formControlName="tarminal" required />
+                    <input matInput formControlName="tarminal" type="number" required />
                     <mat-error
                       *ngIf="AllowanceForm.get('tarminal').hasError('required')"
                     >
@@ -175,7 +175,7 @@
                     appearance="outline"
                   >
                     <mat-label>Transit</mat-label>
-                    <input matInput formControlName="transit" required />
+                    <input matInput formControlName="transit"  type="number" required />
                     <mat-error
                       *ngIf="AllowanceForm.get('transit').hasError('required')"
                     >
@@ -190,7 +190,7 @@
                     appearance="outline"
                   >
                     <mat-label>Bank Commission</mat-label>
-                    <input matInput formControlName="bankCommission" required />
+                    <input matInput formControlName="bankCommission" type="number" required />
                     <mat-error
                       *ngIf="
                         AllowanceForm.get('bankCommission').hasError('required')

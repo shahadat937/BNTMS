@@ -7,6 +7,7 @@ import { NewForeignCourseOtherDocComponent } from './foreigncourseotherdoc/new-f
 import {NewForeignCourseOtherDocumentComponent} from './foreigncourseotherdocument/new-foreigncourseotherdocument/new-foreigncourseotherdocument.component'
 import {ForeignCourseOtherDocumentComponent} from './foreigncourseotherdocument/foreigncourseotherdocument-list/foreigncourseotherdocument-list.component'
 import { ForeignTrainingCourseReportListComponent } from '../foreign-training/foreigntrainingcoursereport/foreigntrainingcoursereport-list/foreigntrainingcoursereport-list.component';
+import { NewForeignTrainingCourseReportComponent } from '../foreign-training/foreigntrainingcoursereport/new-foreigntrainingcoursereport/new-foreigntrainingcoursereport.component';
 //import {ForeignCourseDocTypeListComponent} from './foreigncoursedoctype/foreigncoursedoctype-list/foreigncoursedoctype-list.component'
 //import {NewForeignCourseDocTypeComponent} from './foreigncoursedoctype/new-foreigncoursedoctype/new-foreigncoursedoctype.component'
 const routes: Routes = [
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'foreigntrainingcoursereport-list', 
     component: ForeignTrainingCourseReportListComponent,
+  },
+  {
+    path: 'new-foreigntrainingcoursereport', 
+    component: NewForeignTrainingCourseReportComponent,
   },
   // {
   //   path: 'foreigncoursedoctype-list', 

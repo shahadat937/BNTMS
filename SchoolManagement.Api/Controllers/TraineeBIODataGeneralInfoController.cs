@@ -7,6 +7,7 @@ using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.
 using SchoolManagement.Application.Features.TraineeBioDataGeneralInfos.Requests.Queries;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Commands;
 using SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Requests.Queries;
+using SchoolManagement.Application.Features.TraineeNominations.Requests.Commands;
 using SchoolManagement.Shared.Models;
 
 namespace SchoolManagement.Api.Controllers;
@@ -303,6 +304,42 @@ public class TraineeBioDataGeneralInfoController : ControllerBase
 
         });
         return Ok(bioData);
+    }
+
+    [HttpGet]
+    [Route("get-selected-instructor-by-school")]
+    public async Task<ActionResult<List<SelectedModel>>> GetSelectedInstructorBySchool(int branchId)
+    {
+        var trainee = await _mediator.Send(new GetSelectedTraineeBioDataGeneralInfoRequestBySchoolRequest
+        {
+            BranchId = branchId
+
+        });
+        return Ok(trainee);
+    }
+
+    [HttpPost]
+    [Route("get-upload-service-instructor-execl-file")]
+    public async Task<ActionResult> UploadServiceInstructorListBySchool([FromForm] IFormFile file, string branchId)
+    {
+        var trainee = await _mediator.Send(new UploadServiceInstructorCommand
+        {
+            ServiceInstructorFile = file,
+            BranchId = branchId
+        });
+        return Ok(trainee);
+    }
+
+    [HttpPost]
+    [Route("get-upload-service-instructor-execl-file-by-admin")]
+    public async Task<ActionResult> UploadServiceInstructorListByMasterAdmin([FromForm] IFormFile file)
+    {
+        var trainee = await _mediator.Send(new UploadServiceInstructorByAdminCommand
+        {
+            ServiceInstructorFile = file,
+
+        });
+        return Ok(trainee);
     }
 
 }

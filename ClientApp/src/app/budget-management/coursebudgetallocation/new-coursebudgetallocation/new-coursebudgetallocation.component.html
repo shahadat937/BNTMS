@@ -53,7 +53,29 @@
                             (input)="filterByCourseName($event.target.value)"
                             placeholder="Search">
                           <mat-option  value="0">--Select--</mat-option >
-                            <mat-option  (onSelectionChange)="onCourseNameSelectionChange($event)"  *ngFor="let dropdown of selectedcoursename" [value]="dropdown.value" matTooltip="{{dropdown.text}}"
+                            <mat-option  (onSelectionChange)="onCourseNameSelectionChange($event)"  *ngFor="let dropdown of selectedCourseDuration" [value]="dropdown.value" matTooltip="{{dropdown.text}}"
+                            matTooltipPosition="above">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <!-- <mat-error *ngIf="CourseBudgetAllocationForm.get('courseNameId').hasError('required')">
+                          Budget Code is Required!
+                        </mat-error> -->
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Trainee</mat-label>                        
+                        <mat-select formControlName="traineeId" required>
+                          <input type="text" 
+                          style="width:100%; height:50px; padding:10px; border: 1px solid #ccc; position: sticky; top:0; background-color: white; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+                            id="selectCourseName"
+                            (keydown.space)="$event.stopPropagation()"
+                            (input)="filterByCourseName($event.target.value)"
+                            placeholder="Search">
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option  (onSelectionChange)="onTraineeSelectionChange($event)"   *ngFor="let dropdown of selectedTrainee" [value]="dropdown.value" matTooltip="{{dropdown.text}}"
                             matTooltipPosition="above">
                                 {{dropdown.text}} 
                               </mat-option>                          

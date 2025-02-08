@@ -40,7 +40,6 @@ activeCoursePlan(id : number){
   }
   
   getSelectedSchoolsForCourse(id:number){
-    console.log(id);
     return this.http.get<SelectedModel[]>(this.baseUrl + '/base-School-name/get-selectedSchoolNames?thirdLevel=' + id);
   }
 

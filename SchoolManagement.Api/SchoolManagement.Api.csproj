@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Content\**" />
+    <Compile Remove="wwwroot\Content\files\reading-materials\NewFolder\**" />
     <Content Remove="Content\**" />
+    <Content Remove="wwwroot\Content\files\reading-materials\NewFolder\**" />
     <EmbeddedResource Remove="Content\**" />
+    <EmbeddedResource Remove="wwwroot\Content\files\reading-materials\NewFolder\**" />
     <None Remove="Content\**" />
+    <None Remove="wwwroot\Content\files\reading-materials\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,39 +36,34 @@
   <ItemGroup>
     <Folder Include="wwwroot\Content\files\base-school-name\" />
     <Folder Include="wwwroot\Content\files\course-names\" />
-    <Folder Include="wwwroot\Content\files\foreign-course-other-documents\" />
+    <Folder Include="wwwroot\Content\files\foreign-course-go-infos\NewFolder\" />
     <Folder Include="wwwroot\Content\files\base-school-name\" />
     <Folder Include="wwwroot\Content\files\course-names\" />
-    <Folder Include="wwwroot\Content\files\foreign-course-other-documents\" />
-    <Folder Include="wwwroot\Content\files\foreign-course-go-infos\" />
-    <Folder Include="wwwroot\Content\files\foreign-course-other-documents\" />
-    <Folder Include="wwwroot\Content\files\interservice-course-report\" />
-    <Folder Include="wwwroot\Content\files\foreign-training-course-report\" />
-    <Folder Include="wwwroot\Content\files\foreign-training-course-report\" />
+    <Folder Include="wwwroot\Content\files\foreign-course-other-documents\NewFolder\" />
+    <Folder Include="wwwroot\Content\files\foreign-training-course-report\NewFolder\" />
     <Folder Include="wwwroot\Content\files\base-school-name\" />
     <Folder Include="wwwroot\Content\files\course-names\" />
-    <Folder Include="wwwroot\Content\files\foreign-course-go-infos\" />
-    <Folder Include="wwwroot\Content\files\foreign-course-other-documents\" />
-    <Folder Include="wwwroot\Content\files\foreign-training-course-report\" />
-    <Folder Include="wwwroot\Content\files\interservice-course-report\" />
+    <Folder Include="wwwroot\Content\files\interservice-course-report\NewFolder\" />
+    <Folder Include="wwwroot\Content\files\interservice-course-document\" />
+    <Folder Include="wwwroot\Content\files\inter-service-mark\" />
+    <Folder Include="wwwroot\Content\files\NewFolder\" />
     <Folder Include="wwwroot\Content\files\online-library\" />
+    <Folder Include="wwwroot\Content\files\reading-materials\" />
     <Folder Include="wwwroot\Content\files\user-manuals\" />
     <Folder Include="wwwroot\Content\files\routinesoftcopy-upload\" />
     <Folder Include="wwwroot\Content\files\religation-doc\" />
-    <Folder Include="wwwroot\Content\files\reading-materials\" />
     <Folder Include="wwwroot\Content\files\routinesoftcopy-upload\" />
     <Folder Include="wwwroot\Content\files\routinesoftcopy-upload\" />
     <Folder Include="wwwroot\Content\files\religation-doc\" />
     <Folder Include="wwwroot\Content\files\user-manuals\" />
     <Folder Include="wwwroot\Content\files\user-manuals\" />
-    <Folder Include="wwwroot\Content\files\reading-materials\" />
-    <Folder Include="wwwroot\Content\files\reading-materials\" />
     <Folder Include="wwwroot\Content\files\user-manuals\" />
     <Folder Include="wwwroot\Content\files\user-manuals\" />
     <Folder Include="wwwroot\Content\images\profile\" />
     <Folder Include="wwwroot\Content\images\profile\" />
     <Folder Include="wwwroot\Content\images\" />
     <Folder Include="wwwroot\Content\images\" />
+    <Folder Include="wwwroot\Content\files\biodata-excel-file\" />
   </ItemGroup>
 
   <ItemGroup>

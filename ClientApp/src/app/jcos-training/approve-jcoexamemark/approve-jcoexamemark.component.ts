@@ -367,7 +367,6 @@ export class ApproveJcoexamemarkComponent implements OnInit {
     var bnaSubjectNameId=this.BNAExamMarkForm.value['bnaSubjectNameId'];
     var SubjectMarkId=this.BNAExamMarkForm.value['SubjectMarkId'];
     this.isShown = true;
-    // console.log(courseNameId,bnaSubjectNameId,this.subjectMarkId,false,1)
  
     this.subscription = this.BNAExamMarkService.getCentralexamMarkListByParameters(courseNameId,bnaSubjectNameId,this.subjectMarkId,false,1).subscribe(res=>{
       var unapprovedlistItemCount = res.length;

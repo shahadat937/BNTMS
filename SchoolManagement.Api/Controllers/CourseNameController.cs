@@ -175,11 +175,12 @@ public class CourseNameController : ControllerBase
 
     [HttpGet]
     [Route("get-courseNamesBySchool")]
-    public async Task<ActionResult> GetCourseNamesBySchool(int baseSchoolNameId)
+    public async Task<ActionResult> GetCourseNamesBySchool(int baseSchoolNameId, string searchTerm)
     {
         var CourseTotal = await _mediator.Send(new GetCourseNameBySchoolFromSpRequest
         {
-            BaseSchoolNameId = baseSchoolNameId
+            BaseSchoolNameId = baseSchoolNameId,
+            SearchTerm = searchTerm
         });
         return Ok(CourseTotal);
     }
@@ -187,11 +188,12 @@ public class CourseNameController : ControllerBase
 
     [HttpGet]
     [Route("get-courseNamesByBase")]
-    public async Task<ActionResult> GetCourseNamesByBase(int baseNameId)
+    public async Task<ActionResult> GetCourseNamesByBase(int baseNameId, string searchTerm)
     {
         var CourseTotal = await _mediator.Send(new GetCourseNameByBaseFromSpRequest
         {
-            BaseNameId = baseNameId
+            BaseNameId = baseNameId,
+            SearchTerm = searchTerm
         });
         return Ok(CourseTotal);
     }

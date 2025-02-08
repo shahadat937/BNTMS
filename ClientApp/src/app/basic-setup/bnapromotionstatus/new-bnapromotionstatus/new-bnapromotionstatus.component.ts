@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,16 +8,20 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
+
 @Component({
-  selector: 'app-new-bnapromotionstatus',
-  templateUrl: './new-bnapromotionstatus.component.html',
-  styleUrls: ['./new-bnapromotionstatus.component.sass']
+  selector: "app-new-bnapromotionstatus",
+  templateUrl: "./new-bnapromotionstatus.component.html",
+  styleUrls: ["./new-bnapromotionstatus.component.sass"],
 })
-export class NewBNAPromotionStatusComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class NewBNAPromotionStatusComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   pageTitle: string;
   loading = false;
-  destination:string;
-  btnText:string;
+  destination: string;
+  btnText: string;
   BNAPromotionStatusForm: FormGroup;
   validationErrors: string[] = [];
 
@@ -24,82 +29,92 @@ export class NewBNAPromotionStatusComponent extends UnsubscribeOnDestroyAdapter 
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
     private BNAPromotionStatusService: BNAPromotionStatusService,
-    private fb: FormBuilder, 
-    private router: Router,  
+    private fb: FormBuilder,
+    private router: Router,
     private route: ActivatedRoute,
-    public sharedService: SharedServiceService,) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('bnaPromotionStatusId'); 
+    const id = this.route.snapshot.paramMap.get("bnaPromotionStatusId");
     if (id) {
-      this.pageTitle = 'Edit BNA Promotion Status';
+      this.pageTitle = "Edit BNA Promotion Status";
       this.destination = "Edit";
-      this.btnText = 'Update';
-      this.BNAPromotionStatusService.find(+id).subscribe(
-        res => {
-          this.BNAPromotionStatusForm.patchValue({          
-
-            bnaPromotionStatusId: res.bnaPromotionStatusId,
-            promotionStatusName: res.promotionStatusName,
-            //menuPosition: res.menuPosition,
-          
-          });          
-        }
-      );
+      this.btnText = "Update";
+      this.BNAPromotionStatusService.find(+id).subscribe((res) => {
+        this.BNAPromotionStatusForm.patchValue({
+          bnaPromotionStatusId: res.bnaPromotionStatusId,
+          promotionStatusName: res.promotionStatusName,
+          //menuPosition: res.menuPosition,
+        });
+      });
     } else {
-      this.pageTitle = 'Create BNA Promotion Status';
+      this.pageTitle = "Create BNA Promotion Status";
       this.destination = "Add";
-      this.btnText = 'Save';
+      this.btnText = "Save";
     }
     this.intitializeForm();
   }
   intitializeForm() {
     this.BNAPromotionStatusForm = this.fb.group({
       bnaPromotionStatusId: [0],
-      promotionStatusName: ['', Validators.required],
+      promotionStatusName: ["", Validators.required],
       //menuPosition: ['', Validators.required],
       isActive: [true],
-    
-    })
-  }
-  
-  onSubmit() {
-    const id = this.BNAPromotionStatusForm.get('bnaPromotionStatusId')?.value;   
-    if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        
-        if (result) {
-          this.loading=true;
-          this.BNAPromotionStatusService.update(+id,this.BNAPromotionStatusForm.value).subscribe(response => {
-            this.router.navigateByUrl('/basic-setup/bnapromotionstatus-list');
-            this.snackBar.open('Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    } else {
-      this.loading=true;
-      this.BNAPromotionStatusService.submit(this.BNAPromotionStatusForm.value).subscribe(response => {
-        this.router.navigateByUrl('/basic-setup/bnapromotionstatus-list');
-        this.snackBar.open('Information Inserted Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
-        });
-      }, error => {
-        this.validationErrors = error;
-      })
-    }
- 
-  }
 
+    });
+
+  }   
+
+  onSubmit() {
+    const id = this.BNAPromotionStatusForm.get("bnaPromotionStatusId")?.value;
+    if (id) {
+      this.confirmService
+        .confirm("Confirm Update message", "Are You Sure Update This  Item")
+        .subscribe((result) => {
+          if (result) {
+            this.loading = true;
+            this.BNAPromotionStatusService.update(
+              +id,
+              this.BNAPromotionStatusForm.value
+            ).subscribe(
+              (response) => {
+                this.router.navigateByUrl(
+                  "/basic-setup/bnapromotionstatus-list"
+                );
+                this.snackBar.open("Information Updated Successfully ", "", {
+                  duration: 2000,
+                  verticalPosition: "bottom",
+                  horizontalPosition: "right",
+                  panelClass: "snackbar-success",
+                });
+              },
+              (error) => {
+                this.validationErrors = error;
+              }
+            );
+          }
+        });
+    } else {
+      this.loading = true;
+      this.BNAPromotionStatusService.submit(
+        this.BNAPromotionStatusForm.value
+      ).subscribe(
+        (response) => {
+          this.router.navigateByUrl("/basic-setup/bnapromotionstatus-list");
+          this.snackBar.open("Information Inserted Successfully ", "", {
+            duration: 2000,
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            panelClass: "snackbar-success",
+          });
+        },
+        (error) => {
+          this.validationErrors = error;
+        }
+      );
+    }
+  }
 }

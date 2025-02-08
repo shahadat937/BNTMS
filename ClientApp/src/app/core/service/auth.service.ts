@@ -24,11 +24,13 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string, captchaAnswer: number, captchaResult: number) {
     return this.http
       .post<any>(`${environment.securityUrl}/account/login`, {
         email,
         password,
+        captchaAnswer,
+        captchaResult
       })
       .pipe(
         map((user) => {

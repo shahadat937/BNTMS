@@ -60,7 +60,6 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
   getQexamApproveList(){
     this.destination="Q-Exam"
     this.BNAExamMarkService.getCentralExamApproveList(this.masterData.coursetype.CentralExam, this.masterData.courseName.QExam).subscribe(res=>{
-      console.log(res);
       this.examList=res;  
     });
   }

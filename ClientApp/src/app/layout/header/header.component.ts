@@ -309,7 +309,6 @@ this.userRole.SchoolOIC
     }
     else {
       this.router.navigate(['/password/password-change']);
-      console.log("SchoolId");
     }
   }
 
@@ -328,6 +327,9 @@ this.userRole.SchoolOIC
       }
       else if (this.role === "Inter Seevice Course"){
         this.router.navigate(['/admin/dashboard/interservice-dashboard']);
+      }
+      else if(this.role === "Foreign Training"){
+        this.router.navigate(['/admin/dashboard/foreigntraining-dashboard']);
       }
       else {
         this.router.navigate(['/admin/dashboard/school-dashboard']);

@@ -20,7 +20,7 @@ import { AuthService } from '../../../core/service/auth.service';
   templateUrl: './service-instructor-biodata-list.component.html',
   styleUrls: ['./service-instructor-biodata-list.component.sass']
 })
-export class ServiceInstructorBiodataListComponent implements OnInit {
+export class ServiceInstructorBiodataListComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   masterData = MasterData;
@@ -92,8 +92,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
       .subscribe(
         response => {
           this.serviceInstructorBioData = response 
-          this.sharedService.groupedData = this.sharedService.groupBy(this.serviceInstructorBioData, (bioData)=> bioData.schoolName );
-          console.log( this.sharedService.groupedData);       
+          this.sharedService.groupedData = this.sharedService.groupBy(this.serviceInstructorBioData, (bioData)=> bioData.schoolName );  
             this.warningMessage = this.serviceInstructorBioData.length ? "" : "No Instructor Found"
           
           this.isLoading = false;
@@ -123,6 +122,96 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
           this.selection.select(row)
         );
   }
+
+  downloadExcelFile(){
+    const url = this.role === this.userRoles.SuperAdmin ? environment.fileUrl + '/files/biodata-excel-file/Service_Instructor_Biodata_UploadFile.xlsx' : 
+    environment.fileUrl + '/files/biodata-excel-file/Service_Instractor_Biodata_uploadFile_Admin.xlsx'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Trainee Nomination.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      if(this.role === this.userRoles.SuperAdmin){
+        this.fileUploadBySchool(file, this.branchId)
+      }
+      else{
+        this.fileUploadByAdmin(file);
+      }
+    }
+  }
+
+  fileUploadBySchool(file, branchId){
+    this.isLoading = true;
+      this.BIODataGeneralInfoService.uploadServiceInstructorFile(file, branchId).subscribe(
+        
+        (response: any) => {
+        (event?.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+          this.getBIODataGeneralInfos();
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        }
+        this.isLoading = false;
+      },
+        (error) => {
+          (event?.target as HTMLInputElement).value = '';
+          this.isLoading = false;
+        }
+      );
+
+  }
+
+  fileUploadByAdmin(file){
+    this.isLoading = true;
+      this.BIODataGeneralInfoService.uploadServiceInstructorFileByAdmin(file).subscribe(
+        
+        (response: any) => {
+        (event?.target as HTMLInputElement).value = '';
+        if(response.success){
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+          this.getBIODataGeneralInfos();
+        }
+        else{
+          this.snackBar.open(response.message, '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-danger'
+          });
+        }
+        this.isLoading = false;
+      },
+        (error) => {
+          (event?.target as HTMLInputElement).value = '';
+          this.isLoading = false;
+        }
+      );
+  }
+
+  
    
   pageChanged(event: PageEvent) {
     this.paging.pageIndex = event.pageIndex
@@ -162,7 +251,7 @@ export class ServiceInstructorBiodataListComponent implements OnInit {
   }
 
   releseInstractor(userId){
-    this.confirmService.confirm('Confirm Update message', 'Are You Sure Switch This  User?').subscribe(result => {
+    this.confirmService.confirm('Confirm Update message', 'Are You Sure Release This Instructor?').subscribe(result => {
       if (result) {
         this.UserService.releseServiceInstructor(userId).subscribe(response => {
           this.getBIODataGeneralInfos();

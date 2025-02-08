@@ -65,7 +65,6 @@ export class WeeklyAttendanceListComponent implements OnInit, OnDestroy {
         this.dataSource.data,
         (courses) => courses.attendanceDate
       );
-      console.log(this.sharedService.groupedData)
       
     });
   }

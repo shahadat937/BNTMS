@@ -119,12 +119,12 @@
                   </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="countryGroupId">
+                <ng-container matColumnDef="countryGroupName">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
                     Country Group
                   </mat-header-cell>
                   <mat-cell *matCellDef="let element">
-                    {{ element.countryGroupId }}
+                    {{ element.countryGroupName}}
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="countryName">
@@ -133,6 +133,14 @@
                   >
                   <mat-cell *matCellDef="let element">
                     {{ element.countryName }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="currentPrice">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Current Price</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let element">
+                    {{ element.currentPrice }}
                   </mat-cell>
                 </ng-container>
 

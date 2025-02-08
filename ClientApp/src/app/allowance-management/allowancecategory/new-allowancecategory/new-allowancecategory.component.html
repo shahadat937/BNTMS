@@ -207,7 +207,7 @@
                     appearance="outline"
                   >
                     <mat-label>Daily Payment</mat-label>
-                    <input matInput formControlName="dailyPayment" required />
+                    <input matInput type="number" formControlName="dailyPayment" required />
                     <mat-error
                       *ngIf="
                         AllowanceCategoryForm.get('dailyPayment').hasError(
@@ -298,7 +298,7 @@
                       >{{ element.dailyPayment }}
                     </mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="actions">
+                  <!-- <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef class="pr-0"
                       >Actions</mat-header-cell
                     >
@@ -328,7 +328,7 @@
                         >
                       </button>
                     </mat-cell>
-                  </ng-container>
+                  </ng-container> -->
 
                   <mat-header-row
                     *matHeaderRowDef="displayedColumns"

@@ -65,7 +65,6 @@ export class PendingExamEvaluationlistDashboardComponent implements OnInit, OnDe
   getPendingExamEvaluation(schoolId){
     this.subscription = this.schoolDashboardService.getPendingExamEvaluation(schoolId).subscribe(response => {   
       this.dataSource = new MatTableDataSource(response);
-      console.log(this.dataSource)
       this.dataSource.sort = this.InitialOrdersort;
       this.dataSource.paginator = this.InitialOrderpaginator;      
       this.PendingExamEvaluation=response;

@@ -358,7 +358,6 @@ ngAfterViewInit() {
       ? notices.filter((x: any) => x.isNotify === true)
       : [];
   
-    console.log('Filtered Notices:', filteredNotices);
   
     if (id) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item')

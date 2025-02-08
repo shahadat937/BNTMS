@@ -118,7 +118,6 @@ export class SchoolListComponent
   }
 
   formatIntlDate(date) {
-    console.log(date)
     if (!(date instanceof Date)) {
       console.error("Invalid date. Ensure 'date' is a Date object.");
       return;
@@ -129,7 +128,6 @@ export class SchoolListComponent
       month: "short",
       year: "numeric",
     }).format(date);
-    console.log(this.todayFormatedDate);
   }
 
   print() {
@@ -164,6 +162,7 @@ export class SchoolListComponent
 
                     table th {
                   font-size: 13px;
+                  padding : 0 .4rem 
                     }
               table {
                     border-collapse: collapse;
@@ -200,7 +199,7 @@ export class SchoolListComponent
     const element = document.getElementById('contentToConvert');
     if (element) {
       const options = {
-        margin: [10, 10, 26, 10], // Adjust margins if needed
+        margin: [10, 10, 15, 10], // Adjust margins if needed
         filename: 'download.pdf',
         image: { type: 'jpeg', quality: 0.98 }, // Use JPEG for better rendering
         html2canvas: { 

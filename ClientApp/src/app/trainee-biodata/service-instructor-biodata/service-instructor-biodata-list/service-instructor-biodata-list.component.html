@@ -50,10 +50,20 @@
                     <div class="col-4">
                       <ul class="header-buttons">
                         <li>
-                          <div *ngIf="role === userRoles.SuperAdmin" class="icon-button-demo">
+                          <div class="icon-button-demo">
                             <button class="btn-space" mat-raised-button
                              color="primary" routerLink="/trainee-biodata/add-service-instractor-biodatainfo">Add
                               <mat-icon class="col-white">add</mat-icon>
+                            </button>
+
+                            <button mat-raised-button class="bg-success text-light btn-space" type="button" (click)="triggerFileSelect()">
+                              <mat-icon>upload</mat-icon> Import Service Instructor
+                            </button>
+        
+                            <input #fileInput type="file" accept=".xlsx" style="display: none" (change)="onFileSelected($event)" />
+        
+                            <button mat-raised-button class="bg-primary text-light btn-space" type="button" (click)="downloadExcelFile()">
+                              <mat-icon>download</mat-icon> Download Sample File
                             </button>
 
                           </div>
@@ -96,8 +106,7 @@
                               <td class="cl-srl" [attr.rowspan]="data.groupedItems.length + 1">
                                   {{data.groupKey}}</td>
                           </tr>
-                          <tr *ngFor="let instructor of data.groupedItems; let j = index"
-                              [ngStyle]="{'background-color': j %2 == 0 ? 'rgb(172 235 155)' : ''}">
+                          <tr *ngFor="let instructor of data.groupedItems;">
                               <td class="course-name-col">
                                   {{instructor.name}} (Pno : {{instructor.pno}})
                               </td>

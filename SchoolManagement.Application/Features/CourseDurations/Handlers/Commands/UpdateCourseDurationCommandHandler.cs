@@ -34,6 +34,13 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Command
             if (CourseDuration is null)
                 throw new NotFoundException(nameof(CourseDuration), request.CourseDurationDto.CourseDurationId);
 
+            DateTime today = DateTime.Today;
+
+            if(CourseDuration.IsCompletedStatus == 1 && request.CourseDurationDto.DurationTo >= today)
+            {
+                request.CourseDurationDto.IsCompletedStatus = 0;
+            }
+
             _mapper.Map(request.CourseDurationDto, CourseDuration);
 
             await _unitOfWork.Repository<CourseDuration>().Update(CourseDuration);

@@ -100,7 +100,6 @@ export class NewGameSportComponent extends UnsubscribeOnDestroyAdapter implement
 
   onSubmit() {
     const id = this.GameSportForm.get('gameSportId')?.value;
-    console.log(this.GameSportForm.value.traineeId);
     if (this.checkTraineeId(this.GameSportForm.value.traineeId)) {
       return; // Stop further execution if checkTraineeId returns true
     }

@@ -189,7 +189,6 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
   }
 
   onCourseNameSelectionChange(dropdown){
-
     var courseNameArr = dropdown.source.value.split('_');
     var courseDurationId = courseNameArr[0];
     var courseNameId = courseNameArr[1];
@@ -231,10 +230,10 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
     });
   }
   filterByCourseName(value:any){
-    this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   filterByTrainee(value:any){
-    this.selectedTrainee=this.selectTrainee.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    this.selectedTrainee=this.selectTrainee.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getSelectedCourseDuration(CourseTypeId){
@@ -255,7 +254,7 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
     });
   } 
   filterByBudget(value:any){
-    this.selectedBudgetCode=this.selectBUdgetCode.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    this.selectedBudgetCode=this.selectBUdgetCode.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
   getselectedPaymentType(){
     this.CourseBudgetAllocationService.getselectedPaymentType().subscribe(res=>{
@@ -264,7 +263,7 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
     });
   }
   filterByPayment(value:any){
-    this.selectedPaymentType=this.selectPayment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    this.selectedPaymentType=this.selectPayment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 
   getselectedBudgetType(){
@@ -277,6 +276,13 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
       this.selectedFiscalYear=res
     });
   } 
+
+  //   getSelectedCourseDurationByCourseTypeId(){
+  //   this.CourseBudgetAllocationService.getSelectedCourseDurationByCourseTypeId(MasterData.coursetype.ForeignCourse).subscribe(res=>{
+  //     this.selectedCourseDuration=res
+  //     this.selectCourse=res
+  //   });
+  // }
 
   deleteItem(row) {
     const id = row.courseBudgetAllocationId; 
@@ -307,7 +313,9 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
   onSubmit() {
     const id = this.CourseBudgetAllocationForm.get('courseBudgetAllocationId')?.value; 
     if (id) {
+
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
+
         if (result) {
           this.loading=true;
           this.CourseBudgetAllocationService.update(+id,this.CourseBudgetAllocationForm.value).subscribe(response => {

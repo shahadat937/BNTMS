@@ -7,16 +7,20 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
+
 @Component({
-  selector: 'app-new-adminauthority',
-  templateUrl: './new-adminauthority.component.html',
-  styleUrls: ['./new-adminauthority.component.sass']
+  selector: "app-new-adminauthority",
+  templateUrl: "./new-adminauthority.component.html",
+  styleUrls: ["./new-adminauthority.component.sass"],
 })
-export class NewAdminAuthorityComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class NewAdminAuthorityComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   pageTitle: string;
   loading = false;
-  destination:string;
-  btnText:string;
+  destination: string;
+  btnText: string;
   AdminAuthorityForm: FormGroup;
   validationErrors: string[] = [];
 
@@ -24,82 +28,89 @@ export class NewAdminAuthorityComponent extends UnsubscribeOnDestroyAdapter impl
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
     private AdminAuthorityService: AdminAuthorityService,
-    private fb: FormBuilder, 
-    private router: Router,  
+    private fb: FormBuilder,
+    private router: Router,
     private route: ActivatedRoute,
-    public sharedService: SharedServiceService,) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('adminAuthorityId'); 
+    const id = this.route.snapshot.paramMap.get("adminAuthorityId");
     if (id) {
-      this.pageTitle = 'Edit Admin Authority';
+      this.pageTitle = "Edit Admin Authority";
       this.destination = "Edit";
-      this.btnText = 'Update';
-      this.AdminAuthorityService.find(+id).subscribe(
-        res => {
-          this.AdminAuthorityForm.patchValue({          
-
-            adminAuthorityId: res.adminAuthorityId,
-            adminAuthorityName: res.adminAuthorityName,
-            //menuPosition: res.menuPosition,
-          
-          });          
-        }
-      );
+      this.btnText = "Update";
+      this.AdminAuthorityService.find(+id).subscribe((res) => {
+        this.AdminAuthorityForm.patchValue({
+          adminAuthorityId: res.adminAuthorityId,
+          adminAuthorityName: res.adminAuthorityName,
+          //menuPosition: res.menuPosition,
+        });
+      });
     } else {
-      this.pageTitle = 'Create Admin Authority';
+      this.pageTitle = "Create Admin Authority";
       this.destination = "Add";
-      this.btnText = 'Save';
+      this.btnText = "Save";
     }
     this.intitializeForm();
   }
   intitializeForm() {
     this.AdminAuthorityForm = this.fb.group({
       adminAuthorityId: [0],
-      adminAuthorityName: ['', Validators.required],
+      adminAuthorityName: ["", Validators.required],
       //menuPosition: ['', Validators.required],
-      isActive: [true],
-    
+      isActive: [true],    
     })
   }
   
+  
   onSubmit() {
-    const id = this.AdminAuthorityForm.get('adminAuthorityId')?.value;   
+    const id = this.AdminAuthorityForm.get("adminAuthorityId")?.value;
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        
-        if (result) {
-          this.loading=true;
-          this.AdminAuthorityService.update(+id,this.AdminAuthorityForm.value).subscribe(response => {
-            this.router.navigateByUrl('/basic-setup/adminauthority-list');
-            this.snackBar.open('Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    } else {
-      this.loading=true;
-      this.AdminAuthorityService.submit(this.AdminAuthorityForm.value).subscribe(response => {
-        this.router.navigateByUrl('/basic-setup/adminauthority-list');
-        this.snackBar.open('Information Inserted Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
+      this.confirmService
+        .confirm("Confirm Update message", "Are You Sure Update This  Item")
+        .subscribe((result) => {
+          if (result) {
+            this.loading = true;
+            this.AdminAuthorityService.update(
+              +id,
+              this.AdminAuthorityForm.value
+            ).subscribe(
+              (response) => {
+                this.router.navigateByUrl("/basic-setup/adminauthority-list");
+                this.snackBar.open("Information Updated Successfully ", "", {
+                  duration: 2000,
+                  verticalPosition: "bottom",
+                  horizontalPosition: "right",
+                  panelClass: "snackbar-success",
+                });
+              },
+              (error) => {
+                this.validationErrors = error;
+              }
+            );
+          }
         });
-      }, error => {
-        this.validationErrors = error;
-      })
+    } else {
+      this.loading = true;
+      this.AdminAuthorityService.submit(
+        this.AdminAuthorityForm.value
+      ).subscribe(
+        (response) => {
+          this.router.navigateByUrl("/basic-setup/adminauthority-list");
+          this.snackBar.open("Information Inserted Successfully ", "", {
+            duration: 2000,
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            panelClass: "snackbar-success",
+          });
+        },
+        (error) => {
+          this.validationErrors = error;
+        }
+      );
     }
- 
   }
-
 }

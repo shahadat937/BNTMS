@@ -15,11 +15,14 @@ import { SharedServiceService } from '../../../../src/app/shared/shared-service.
 
 
 @Component({
-  selector: 'app-course-level',
-  templateUrl: './course-level.component.html',
-  styleUrls: ['./course-level.component.sass']
+  selector: "app-course-level",
+  templateUrl: "./course-level.component.html",
+  styleUrls: ["./course-level.component.sass"],
 })
-export class CourseLevelComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class CourseLevelComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   pageTitle: string;
   loading = false;
   destination: string;
@@ -29,22 +32,23 @@ export class CourseLevelComponent extends UnsubscribeOnDestroyAdapter implements
   selectedSchool: SelectedModel[];
   selectSchool: SelectedModel[];
 
-
-
   masterData = MasterData;
   isLoading = false;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
-    length: 1
-  }
+    length: 1,
+  };
   searchText = "";
 
-  displayedColumns: string[] = ['ser', 'courseLeveTitle', 'isActive', 'actions'];
+  displayedColumns: string[] = [
+    "ser",
+    "courseLeveTitle",
+    "isActive",
+    "actions",
+  ];
   dataSource: MatTableDataSource<CourseLevel> = new MatTableDataSource();
-
-
 
   constructor(
     private baseSchoolNameService: BaseSchoolNameService,
@@ -54,69 +58,62 @@ export class CourseLevelComponent extends UnsubscribeOnDestroyAdapter implements
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    public sharedService: SharedServiceService) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit(): void {
-
-    const id = this.route.snapshot.paramMap.get('courseLevelId');
+    const id = this.route.snapshot.paramMap.get("courseLevelId");
     if (id) {
-      this.pageTitle = 'Edit Course Level Group';
+      this.pageTitle = "Edit Course Level Group";
       this.destination = "Edit";
-      this.btnText = 'Update';
-      this.CourseLevelService.find(+id).subscribe(
-        res => {
-          this.CourseLevelForm.patchValue({
-
-            courseLevelId: res.courseLevelId,
-            courseLeveTitle: res.courseLeveTitle,
-            baseSchoolNameId: res.baseSchoolNameId,
-            //menuPosition: res.menuPosition,
-
-          });
-        }
-      );
+      this.btnText = "Update";
+      this.CourseLevelService.find(+id).subscribe((res) => {
+        this.CourseLevelForm.patchValue({
+          courseLevelId: res.courseLevelId,
+          courseLeveTitle: res.courseLeveTitle,
+          baseSchoolNameId: res.baseSchoolNameId,
+          //menuPosition: res.menuPosition,
+        });
+      });
     } else {
-      this.pageTitle = 'Create Course Level ';
+      this.pageTitle = "Create Course Level ";
       this.destination = "Add";
-      this.btnText = 'Save';
+      this.btnText = "Save";
     }
     this.intitializeForm();
 
     this.getSelectedbaseSchoolName();
     this.getCourseLevels();
-
   }
   intitializeForm() {
     this.CourseLevelForm = this.fb.group({
       courseLevelId: [0],
-      courseLeveTitle: ['', Validators.required],
+      courseLeveTitle: ["", Validators.required],
       baseSchoolNameId: [0],
       //menuPosition: ['', Validators.required],
       isActive: [true],
-
-    })
+    });
   }
-
-
-
-
 
   getCourseLevels() {
     this.isLoading = true;
-    this.CourseLevelService.getCourseLevels(this.paging.pageIndex, this.paging.pageSize, this.searchText).subscribe(response => {
-
+    this.CourseLevelService.getCourseLevels(
+      this.paging.pageIndex,
+      this.paging.pageSize,
+      this.searchText
+    ).subscribe((response) => {
       this.dataSource.data = response.items;
-      this.paging.length = response.totalItemsCount
+      this.paging.length = response.totalItemsCount;
       this.isLoading = false;
-    })
+    });
   }
 
   pageChanged(event: PageEvent) {
-    this.paging.pageIndex = event.pageIndex
-    this.paging.pageSize = event.pageSize
-    this.paging.pageIndex = this.paging.pageIndex + 1
+    this.paging.pageIndex = event.pageIndex;
+    this.paging.pageSize = event.pageSize;
+    this.paging.pageIndex = this.paging.pageIndex + 1;
     this.getCourseLevels();
   }
 
@@ -129,69 +126,80 @@ export class CourseLevelComponent extends UnsubscribeOnDestroyAdapter implements
 
   deleteItem(row) {
     const id = row.courseLevelId;
-    this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This  Item').subscribe(result => {
-      if (result) {
-        this.CourseLevelService.delete(id).subscribe(() => {
-          this.getCourseLevels();
-          this.snackBar.open('Information Deleted Successfully ', '', {
-            duration: 2000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'right',
-            panelClass: 'snackbar-danger'
+    this.confirmService
+      .confirm("Confirm delete message", "Are You Sure Delete This  Item")
+      .subscribe((result) => {
+        if (result) {
+          this.CourseLevelService.delete(id).subscribe(() => {
+            this.getCourseLevels();
+            this.snackBar.open("Information Deleted Successfully ", "", {
+              duration: 2000,
+              verticalPosition: "bottom",
+              horizontalPosition: "right",
+              panelClass: "snackbar-danger",
+            });
           });
-        })
-      }
-    })
+        }
+      });
   }
 
   getSelectedbaseSchoolName() {
-    this.baseSchoolNameService.getselectedSchools().subscribe(res => {
-      this.selectedSchool = res
-      this.selectSchool = res
+    this.baseSchoolNameService.getselectedSchools().subscribe((res) => {
+      this.selectedSchool = res;
+      this.selectSchool = res;
     });
   }
   filterBySchool(value: any) {
-    this.selectedSchool = this.selectSchool.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    this.selectedSchool = this.selectSchool.filter((x) =>
+      x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, ""))
+    );
   }
 
-
   onSubmit() {
+
     const id = this.CourseLevelForm.get('courseLevelId')?.value;
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        if (result) {
-          this.loading = true;
-          this.CourseLevelService.update(+id, this.CourseLevelForm.value).subscribe(response => {
-            this.router.navigateByUrl('/basic-setup/add-courseLevel');
-            this.snackBar.open('Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    }
-
-    else {
-      this.loading = true;
-      this.CourseLevelService.submit(this.CourseLevelForm.value).subscribe(response => {
-        this.router.navigateByUrl('/basic-setup/add-courseLevel');
-        this.snackBar.open('Information Inserted Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
+      this.confirmService
+        .confirm("Confirm Update message", "Are You Sure Update This Item")
+        .subscribe((result) => {
+          if (result) {
+            this.loading = true;
+            this.CourseLevelService.update(
+              +id,
+              this.CourseLevelForm.value
+            ).subscribe(
+              (response) => {
+                this.router.navigateByUrl("/basic-setup/add-courseLevel");
+                this.snackBar.open("Information Updated Successfully ", "", {
+                  duration: 2000,
+                  verticalPosition: "bottom",
+                  horizontalPosition: "right",
+                  panelClass: "snackbar-success",
+                });
+              },
+              (error) => {
+                this.validationErrors = error;
+              }
+            );
+          }
         });
-      }, error => {
-        this.validationErrors = error;
-      })
+    } else {
+      this.loading = true;
+      this.CourseLevelService.submit(this.CourseLevelForm.value).subscribe(
+        (response) => {
+          this.router.navigateByUrl("/basic-setup/add-courseLevel");
+          this.snackBar.open("Information Inserted Successfully ", "", {
+            duration: 2000,
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            panelClass: "snackbar-success",
+          });
+        },
+        (error) => {
+          this.validationErrors = error;
+        }
+      );
     }
-
   }
-
 }

@@ -46,7 +46,6 @@ export class RoleService {
     return this.http.post(this.baseUrl + '/role/save-role', model);
   }
   delete(id: string){
-    // console.log(id);
     return this.http.delete(this.baseUrl + '/role/delete-role/'+id);
   }
   getselectedrole(){

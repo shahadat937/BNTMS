@@ -211,14 +211,12 @@ export class RoutineByCourseListComponent implements OnInit, OnDestroy {
       if(this.selectedRoutineByParametersAndDate.length){
         this.displayedColumns =[...Object.keys(this.selectedRoutineByParametersAndDate[0])];
       }
-      console.log(this.selectedRoutineByParametersAndDate)
     });
 
   }
  
   }
   filterByWeek(value:any){
-    console.log(value)
     this.selectedWeek = this.selectWeek.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
   }
 

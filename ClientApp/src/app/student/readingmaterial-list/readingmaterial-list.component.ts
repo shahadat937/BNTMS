@@ -14,13 +14,14 @@ import { AuthService } from '../../../../src/app/core/service/auth.service';
 import { Role } from '../../../../src/app/core/models/role';
 import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 import { InstructorDashboardService } from '../../../../src/app/teacher/services/InstructorDashboard.service';
+import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-readingmaterial',
   templateUrl: './readingmaterial-list.component.html',
   styleUrls: ['./readingmaterial-list.component.sass']
 })
-export class ReadingMaterialListComponent implements OnInit, OnDestroy {
+export class ReadingMaterialListComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -67,7 +68,9 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
       private route: ActivatedRoute,
       public sharedService: SharedServiceService,
       private instructorDashboardService: InstructorDashboardService
-    ) { }
+    ) { 
+      super();
+    }
 
   ngOnInit() {
     this.role = this.authService.currentUserValue.role.trim();
@@ -111,7 +114,6 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
         if (this.documentTypeId) {
           this.setPageTitle(this.documentTypeId)
           this.getReadingMaterialsForStudent(this.documentTypeId);
-          console.log(courseNameId);
         } 
         // else {
         //   this.pageTitle = "Course Material";

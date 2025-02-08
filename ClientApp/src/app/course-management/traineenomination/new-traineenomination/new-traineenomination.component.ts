@@ -255,7 +255,6 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
 
   this.subscription = delay$.subscribe(data => {
     this.TraineeNominationService.getSelectedTraineeByparameterRequest(data,courseDurationId,courseNameId).subscribe(response => {
-      console.log(response);
       this.options = response;
       this.filteredOptions = response;
     })
@@ -302,7 +301,7 @@ getSelectedTraineeByPno(pno,courseDurationId,courseNameId){
   }
 
   downloadExcelFile(){
-    const url = environment.fileUrl + '/files/trainee-nominee-file/Trainee Nomination.xlsx'
+    const url = environment.fileUrl + '/files/biodata-excel-file/Service_Instructor_Biodata_UploadFile.xlsx'
     const a = document.createElement('a');
     a.href = url;
     a.download = 'Trainee Nomination.xlsx';

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import { ITraineeNominationPagination,TraineeNominationPagination } from '../models/traineenominationPagination';
 import { TraineeNomination } from '../models/traineenomination';
 import { SelectedModel } from '../../core/models/selectedModel';
 import { catchError, map, throwError } from 'rxjs';
-import { PostResponse } from 'src/app/core/models/PostResponse';
+import { PostResponse } from '../../../../src/app/core/models/PostResponse';
 import { TraineeList} from '../../attendance-management/models/traineeList'
-import { TraineeListForExamMark } from 'src/app/exam-management/models/traineeListforexammark';
-import { TraineeListNewEntryEvaluation } from 'src/app/trainee-biodata/models/traineeList';
-import { TraineeListForForeignCourseOtherDoc } from 'src/app/air-ticket/models/traineeListforforeigncourseotherdoc';
+import { TraineeListForExamMark } from '../../../../src/app/exam-management/models/traineeListforexammark';
+import { TraineeListNewEntryEvaluation } from '../../../../src/app/trainee-biodata/models/traineeList';
+import { TraineeListForForeignCourseOtherDoc } from '../../../../src/app/air-ticket/models/traineeListforforeigncourseotherdoc';
 
 @Injectable({
   providedIn: 'root'
@@ -124,6 +124,9 @@ export class TraineeNominationService {
   
   gettraineeNominationListByCourseNameId(courseNameId){
     return this.http.get<any[]>(this.baseUrl + '/trainee-nomination/get-traineeNomination-list-by-course-name-id/'+courseNameId)
+  }
+  getMarkListByCourseDurationId(courseDurationId){
+    return this.http.get<any[]>(this.baseUrl + `/inter-service-mark/get-InterServiceMarkListByCourseDurationId?courseDurationId=${courseDurationId}`);
   }
  
   getTraineeNominationsByCourseDurationId(pageNumber, pageSize,searchText,courseDurationId) {

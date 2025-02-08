@@ -17,8 +17,7 @@ import { UnsubscribeOnDestroyAdapter } from "../../../shared/UnsubscribeOnDestro
 })
 export class NewAllowanceCategoryComponent
   extends UnsubscribeOnDestroyAdapter
-  implements OnInit
-{
+  implements OnInit {
   buttonText: string;
   loading = false;
   pageTitle: string;
@@ -45,7 +44,7 @@ export class NewAllowanceCategoryComponent
     "currencyName",
     "allowancePercentage",
     "dailyPayment",
-    "actions",
+    // "actions",
   ];
   constructor(
     private snackBar: MatSnackBar,
@@ -126,8 +125,16 @@ export class NewAllowanceCategoryComponent
     this.AllowanceCategoryService.getCurrencyByCountryId(countryId).subscribe(
       (res) => {
         this.selectedCurrencyValue = res;
-        (this.getcurrencyid = this.selectedCurrencyValue[0].value),
-          (this.getcurrencyname = this.selectedCurrencyValue[0].text);
+        if (this.selectedCurrencyValue.length) {
+          this.getcurrencyid = this.selectedCurrencyValue[0].value;
+          this.getcurrencyname = this.selectedCurrencyValue[0].text;
+        }
+        else{
+          this.getcurrencyid = 0;
+          this.getcurrencyname = "";
+
+        }
+
       }
     );
   }

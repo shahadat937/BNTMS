@@ -229,7 +229,6 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          console.log('Test',this.CourseDurationForm.value);
           this.CourseDurationService.update(+id,this.CourseDurationForm.value).subscribe(response => {
             this.router.navigateByUrl('/course-management/localcourse-list');
             this.snackBar.open('Information Updated Successfully ', '', {

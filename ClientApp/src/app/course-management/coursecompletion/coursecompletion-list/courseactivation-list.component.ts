@@ -137,7 +137,6 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
         this.dataSource.data,
         (courses) => courses.baseSchoolName
       );
-      console.log(this.sharedService.groupedData)
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     });

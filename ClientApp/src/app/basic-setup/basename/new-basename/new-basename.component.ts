@@ -9,62 +9,64 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
+
 @Component({
-  selector: 'app-new-basename',
-  templateUrl: './new-basename.component.html',
-  styleUrls: ['./new-basename.component.sass']
+  selector: "app-new-basename",
+  templateUrl: "./new-basename.component.html",
+  styleUrls: ["./new-basename.component.sass"],
 })
-export class NewBaseNameComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class NewBaseNameComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   pageTitle: string;
   loading = false;
-  destination:string;
-  btnText:string;
+  destination: string;
+  btnText: string;
   BaseNameForm: FormGroup;
   validationErrors: string[] = [];
-  selectedDivision:SelectedModel[]; 
-  selectedDistrict:SelectedModel[];
-  selectedAdminAuthority:SelectedModel[]; 
-  selectedForceType:SelectedModel[]; 
-  districtByDivisionId:SelectedModel[];
+  selectedDivision: SelectedModel[];
+  selectedDistrict: SelectedModel[];
+  selectedAdminAuthority: SelectedModel[];
+  selectedForceType: SelectedModel[];
+  districtByDivisionId: SelectedModel[];
 
   constructor(
     private snackBar: MatSnackBar,
-    private AdminAuthorityService:AdminAuthorityService,
+    private AdminAuthorityService: AdminAuthorityService,
     private confirmService: ConfirmService,
     private BaseNameService: BaseNameService,
-    private fb: FormBuilder, 
-    private router: Router,  
+    private fb: FormBuilder,
+    private router: Router,
     private route: ActivatedRoute,
-    public sharedService: SharedServiceService,) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('baseNameId'); 
+    const id = this.route.snapshot.paramMap.get("baseNameId");
     if (id) {
-      this.pageTitle = 'Edit Base Name'; 
+      this.pageTitle = "Edit Base Name";
       this.destination = "Edit";
-      this.btnText = 'Update';
-      this.BaseNameService.find(+id).subscribe(
-        res => {
-          this.BaseNameForm.patchValue({          
-
-            baseNameId: res.baseNameId,
-            adminAuthorityId: res.adminAuthorityId,
-            divisionId: res.divisionId,
-            districtId:res.districtId,
-            shortName:res.shortName,
-            forceTypeId:res.forceTypeId,
-            baseNames: res.baseNames,
-            baseLogo: res.baseLogo,
-          });          
-          this.onDivisionSelectionChangeGetDistrict(res.divisionId)
-        }
-      );
+      this.btnText = "Update";
+      this.BaseNameService.find(+id).subscribe((res) => {
+        this.BaseNameForm.patchValue({
+          baseNameId: res.baseNameId,
+          adminAuthorityId: res.adminAuthorityId,
+          divisionId: res.divisionId,
+          districtId: res.districtId,
+          shortName: res.shortName,
+          forceTypeId: res.forceTypeId,
+          baseNames: res.baseNames,
+          baseLogo: res.baseLogo,
+        });
+        this.onDivisionSelectionChangeGetDistrict(res.divisionId);
+      });
     } else {
-      this.pageTitle = 'Create BaseName';
+      this.pageTitle = "Create BaseName";
       this.destination = "Add";
-      this.btnText = 'Save';
+      this.btnText = "Save";
     }
     this.intitializeForm();
     this.getSelectedDistrict();
@@ -75,84 +77,93 @@ export class NewBaseNameComponent extends UnsubscribeOnDestroyAdapter implements
   intitializeForm() {
     this.BaseNameForm = this.fb.group({
       baseNameId: [0],
-      adminAuthorityId: ['', Validators.required],      
-      divisionId: ['', Validators.required],
-      baseNames: ['', Validators.required],
-      baseLogo: [''],
-      districtId:[''],
-      shortName:[''],
+      adminAuthorityId: ["", Validators.required],
+      divisionId: ["", Validators.required],
+      baseNames: ["", Validators.required],
+      baseLogo: [""],
+      districtId: [""],
+      shortName: [""],
       //status: [''],
-      forceTypeId:[''],
+      forceTypeId: [""],
       //menuPosition: ['', Validators.required],
       isActive: [true],
-    
-    })
-  }
-
-  onDivisionSelectionChangeGetDistrict(baseSchoolNameId){
-    this.BaseNameService.getSelectedDistrictByDivision(baseSchoolNameId).subscribe(res=>{
-      this.districtByDivisionId=res;
-   })
-  } 
-
-  getSelectedDistrict(){
-    this.BaseNameService.getSelectedDistrict().subscribe(res=>{
-      this.selectedDistrict=res
-    });
-  }
-  getDivisionName(){
-    this.BaseNameService.getselecteddivision().subscribe(res=>{
-      this.selectedDivision=res
     });
   }
 
-  getselectedforcetype(){
-    this.BaseNameService.getselectedforcetype().subscribe(res=>{
-      this.selectedForceType=res
+  onDivisionSelectionChangeGetDistrict(baseSchoolNameId) {
+    this.BaseNameService.getSelectedDistrictByDivision(
+      baseSchoolNameId
+    ).subscribe((res) => {
+      this.districtByDivisionId = res;
     });
   }
 
-  getAdminAuthorityName(){
-    this.AdminAuthorityService.getselectedAdminAuthorities().subscribe(res=>{
-      this.selectedAdminAuthority=res
+  getSelectedDistrict() {
+    this.BaseNameService.getSelectedDistrict().subscribe((res) => {
+      this.selectedDistrict = res;
     });
   }
-  
+  getDivisionName() {
+    this.BaseNameService.getselecteddivision().subscribe((res) => {
+      this.selectedDivision = res;
+    });
+  }
+
+  getselectedforcetype() {
+    this.BaseNameService.getselectedforcetype().subscribe((res) => {
+      this.selectedForceType = res;
+    });
+  }
+
+  getAdminAuthorityName() {
+    this.AdminAuthorityService.getselectedAdminAuthorities().subscribe(
+      (res) => {
+        this.selectedAdminAuthority = res;
+      }
+    );
+  }
+
   onSubmit() {
+
     const id = this.BaseNameForm.get('baseNameId')?.value;   
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
-        
-        if (result) {
-          this.loading=true;
-          this.BaseNameService.update(+id,this.BaseNameForm.value).subscribe(response => {
-            this.router.navigateByUrl('/basic-setup/basename-list');
-            this.snackBar.open('Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    } else {
-      this.loading=true;
-      this.BaseNameService.submit(this.BaseNameForm.value).subscribe(response => {
-        this.router.navigateByUrl('/basic-setup/basename-list');
-        this.snackBar.open('Information Inserted Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
+      this.confirmService
+        .confirm("Confirm Update message", "Are You Sure Update This  Item")
+        .subscribe((result) => {
+          if (result) {
+            this.loading = true;
+            this.BaseNameService.update(+id, this.BaseNameForm.value).subscribe(
+              (response) => {
+                this.router.navigateByUrl("/basic-setup/basename-list");
+                this.snackBar.open("Information Updated Successfully ", "", {
+                  duration: 2000,
+                  verticalPosition: "bottom",
+                  horizontalPosition: "right",
+                  panelClass: "snackbar-success",
+                });
+              },
+              (error) => {
+                this.validationErrors = error;
+              }
+            );
+          }
         });
-      }, error => {
-        this.validationErrors = error;
-      })
+    } else {
+      this.loading = true;
+      this.BaseNameService.submit(this.BaseNameForm.value).subscribe(
+        (response) => {
+          this.router.navigateByUrl("/basic-setup/basename-list");
+          this.snackBar.open("Information Inserted Successfully ", "", {
+            duration: 2000,
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            panelClass: "snackbar-success",
+          });
+        },
+        (error) => {
+          this.validationErrors = error;
+        }
+      );
     }
- 
   }
-
 }

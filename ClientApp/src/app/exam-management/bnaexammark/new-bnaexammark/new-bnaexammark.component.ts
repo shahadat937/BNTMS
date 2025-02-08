@@ -208,7 +208,6 @@ export class NewBNAExamMarkComponent extends UnsubscribeOnDestroyAdapter impleme
       control.push(this.createTraineeData());
       
     }
-    console.log('this.traineeList',this.traineeList)
     this.BNAExamMarkForm.patchValue({ traineeListForm: this.traineeList });
     
   }

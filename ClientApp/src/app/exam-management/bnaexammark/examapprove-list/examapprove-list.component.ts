@@ -118,7 +118,6 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
             this.dataSource.data,
             (courses) => courses.course + '-'+ courses.courseTitle
           );
-          console.log(this.sharedService.groupedData)
       // Store the original data for resetting the filter
       this.originalGroupArrays = [...this.groupArrays];  // Keep a copy of the original data
     });
@@ -139,8 +138,6 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
       );
     }
     
-    // Log to check the filtered result
-    console.log("Filtered Group Arrays:", this.groupArrays);
   }
 
   // Utility function to normalize strings by removing spaces and unwanted characters

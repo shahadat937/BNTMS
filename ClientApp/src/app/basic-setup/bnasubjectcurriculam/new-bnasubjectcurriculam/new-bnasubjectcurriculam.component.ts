@@ -7,16 +7,20 @@ import { ConfirmService } from '../../../core/service/confirm.service';
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
+
 @Component({
-  selector: 'app-new-bnasubjectcurriculam',
-  templateUrl: './new-bnasubjectcurriculam.component.html',
-  styleUrls: ['./new-bnasubjectcurriculam.component.sass']
+  selector: "app-new-bnasubjectcurriculam",
+  templateUrl: "./new-bnasubjectcurriculam.component.html",
+  styleUrls: ["./new-bnasubjectcurriculam.component.sass"],
 })
-export class NewBnasubjectcurriculamComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-  buttonText:string;
+export class NewBnasubjectcurriculamComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  buttonText: string;
   loading = false;
   pageTitle: string;
-  destination:string;
+  destination: string;
   BNASubjectCurriculamForm: FormGroup;
   validationErrors: string[] = [];
 
@@ -24,83 +28,97 @@ export class NewBnasubjectcurriculamComponent extends UnsubscribeOnDestroyAdapte
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
     private BNASubjectCurriculamService: BNASubjectCurriculamService,
-    private fb: FormBuilder, 
-    private router: Router,  
+    private fb: FormBuilder,
+    private router: Router,
     private route: ActivatedRoute,
-    public sharedService: SharedServiceService,) {
+    public sharedService: SharedServiceService
+  ) {
     super();
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('bnaSubjectCurriculumId'); 
+    const id = this.route.snapshot.paramMap.get("bnaSubjectCurriculumId");
     if (id) {
-      this.pageTitle = 'Edit BNA Subject Curriculam';
+      this.pageTitle = "Edit BNA Subject Curriculam";
       this.destination = "Edit";
-      this.buttonText= "Update"
-      this.BNASubjectCurriculamService.find(+id).subscribe(
-        res => {
-          this.BNASubjectCurriculamForm.patchValue({          
-
-            bnaSubjectCurriculumId: res.bnaSubjectCurriculumId,
-            subjectCurriculumName: res.subjectCurriculumName,
-         //   menuPosition: res.menuPosition,
-          });          
-        }
-      );
+      this.buttonText = "Update";
+      this.BNASubjectCurriculamService.find(+id).subscribe((res) => {
+        this.BNASubjectCurriculamForm.patchValue({
+          bnaSubjectCurriculumId: res.bnaSubjectCurriculumId,
+          subjectCurriculumName: res.subjectCurriculumName,
+          //   menuPosition: res.menuPosition,
+        });
+      });
     } else {
-      this.pageTitle = 'Create BNA Subject Curriculam';
+      this.pageTitle = "Create BNA Subject Curriculam";
       this.destination = "Add";
-      this.buttonText= "Save"
+      this.buttonText = "Save";
     }
     this.intitializeForm();
   }
   intitializeForm() {
     this.BNASubjectCurriculamForm = this.fb.group({
       bnaSubjectCurriculumId: [0],
-      subjectCurriculumName: ['', Validators.required],
-    //  menuPosition: ['', Validators.required],
+      subjectCurriculumName: ["", Validators.required],
+      //  menuPosition: ['', Validators.required],
       isActive: [true],
-    
-    })
+    });
   }
-  
+
   onSubmit() {
+
     const id = this.BNASubjectCurriculamForm.get('bnaSubjectCurriculumId')?.value;   
 
     if (id) {
-      this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
-        if (result) {
-          this.loading=true;
-          this.BNASubjectCurriculamService.update(+id,this.BNASubjectCurriculamForm.value).subscribe(response => {
-            this.router.navigateByUrl('/basic-setup/bnasubjectcurriculam-list'); 
-            this.snackBar.open('BNA Subject Curriculum Information Updated Successfully ', '', {
-              duration: 2000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              panelClass: 'snackbar-success'
-            });
-          }, error => {
-            this.validationErrors = error;
-          })
-        }
-      })
-    }
-    
-   else {
-    this.loading=true;
-      this.BNASubjectCurriculamService.submit(this.BNASubjectCurriculamForm.value).subscribe(response => {
-        this.router.navigateByUrl('/basic-setup/bnasubjectcurriculam-list');
-
-        this.snackBar.open('BNA Subject Curriculum Saved Successfully ', '', {
-          duration: 2000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-success'
+      this.confirmService
+        .confirm("Confirm Update message", "Are You Sure Update This Item")
+        .subscribe((result) => {
+          if (result) {
+            this.loading = true;
+            this.BNASubjectCurriculamService.update(
+              +id,
+              this.BNASubjectCurriculamForm.value
+            ).subscribe(
+              (response) => {
+                this.router.navigateByUrl(
+                  "/basic-setup/bnasubjectcurriculam-list"
+                );
+                this.snackBar.open(
+                  "BNA Subject Curriculum Information Updated Successfully ",
+                  "",
+                  {
+                    duration: 2000,
+                    verticalPosition: "bottom",
+                    horizontalPosition: "right",
+                    panelClass: "snackbar-success",
+                  }
+                );
+              },
+              (error) => {
+                this.validationErrors = error;
+              }
+            );
+          }
         });
-      }, error => {
-        this.validationErrors = error;
-      })
+    } else {
+      this.loading = true;
+      this.BNASubjectCurriculamService.submit(
+        this.BNASubjectCurriculamForm.value
+      ).subscribe(
+        (response) => {
+          this.router.navigateByUrl("/basic-setup/bnasubjectcurriculam-list");
+
+          this.snackBar.open("BNA Subject Curriculum Saved Successfully ", "", {
+            duration: 2000,
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            panelClass: "snackbar-success",
+          });
+        },
+        (error) => {
+          this.validationErrors = error;
+        }
+      );
     }
- 
   }
 }

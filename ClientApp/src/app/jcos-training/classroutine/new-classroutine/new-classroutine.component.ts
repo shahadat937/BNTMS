@@ -237,7 +237,6 @@ export class NewClassRoutineComponent extends UnsubscribeOnDestroyAdapter implem
     this.subscription = this.ClassRoutineService.getselectedmarktype(bnaSubjectNameId).subscribe(res=>{
       // this.selectedmarktype[bnaSubjectNameId]=res;
       this.selectMarkType=res
-      console.log("Type",res);
     });
 }
 
@@ -246,7 +245,6 @@ onSubjectMarkSelectionGetMarkType(event){
   let subjectMarkId = event.source.value;
  
     this.ClassRoutineService.findSubjectMark(subjectMarkId).subscribe(res=>{
-     console.log(res);
  
      this.ClassRoutineForm.get('markTypeId')?.setValue(res.markTypeId);
     });

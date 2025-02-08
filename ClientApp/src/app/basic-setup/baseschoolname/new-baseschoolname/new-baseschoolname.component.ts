@@ -8,6 +8,7 @@ import { ConfirmService } from '../../../../../src/app/core/service/confirm.serv
 import { UnsubscribeOnDestroyAdapter } from '../../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 
+
 @Component({
   selector: 'app-new-baseschoolname',
   templateUrl: './new-baseschoolname.component.html',

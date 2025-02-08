@@ -14,13 +14,14 @@ import { AuthService } from '../../../../../src/app/core/service/auth.service';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-readingmaterial-list',
   templateUrl: './readingmaterial-list.component.html',
   styleUrls: ['./readingmaterial-list.component.sass']
 })
-export class ReadingMaterialListComponent implements OnInit, OnDestroy {
+export class ReadingMaterialListComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   userRole = Role;
@@ -60,7 +61,9 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     private confirmService: ConfirmService,
     public sharedService: SharedServiceService
   ) 
-  { }
+  {
+    super();
+   }
 
   ngOnInit() {
     
@@ -97,32 +100,30 @@ export class ReadingMaterialListComponent implements OnInit, OnDestroy {
     this.ReadingMaterialService.getReadingMaterialsBySchool(this.paging.pageIndex, this.paging.pageSize,this.subscription = this.searchText, this.branchId).subscribe(response => {
     
       this.dataSource.data = response.items; 
-
       this.sharedService.groupedData = this.sharedService.groupBy(
         this.dataSource.data,
-        (courses) => courses.readingMaterial
+        (courses) => courses.readingMaterialTitle
+
       );
-      console.log(this.sharedService.groupedData)
-      const groups = this.dataSource.data.reduce((groups, courses) => {
-        const materialTitle = courses.readingMaterialTitle;
-        if (!groups[materialTitle]) {
-          groups[materialTitle] = [];
-        }
-        groups[materialTitle].push(courses);
-        return groups;
-      }, {});
-      console.log(groups)
+      // const groups = this.dataSource.data.reduce((groups, courses) => {
+      //   const materialTitle = courses.readingMaterialTitle;
+      //   if (!groups[materialTitle]) {
+      //     groups[materialTitle] = [];
+      //   }
+      //   groups[materialTitle].push(courses);
+      //   return groups;
+      // }, {});
 
-      // Edit: to add it in the array format instead
-      this.groupArrays = Object.keys(groups).map((readingMaterialTitle) => {
-        return {
-          readingMaterialTitle,
-          courses: groups[readingMaterialTitle]
-        };
-      });
+      // // Edit: to add it in the array format instead
+      // this.groupArrays = Object.keys(groups).map((readingMaterialTitle) => {
+      //   return {
+      //     readingMaterialTitle,
+      //     courses: groups[readingMaterialTitle]
+      //   };
+      // });
 
-      this.paging.length = response.totalItemsCount    
-      this.isLoading = false;
+      // this.paging.length = response.totalItemsCount    
+      // this.isLoading = false;
     })
   }
 
