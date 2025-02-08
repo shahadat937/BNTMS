@@ -40,7 +40,7 @@ export class SigninComponent
   }
 
   ngOnInit() {
-    this.lastPublishDate = '12/30/2024';
+    this.lastPublishDate = '02/05/2025';
     this.authForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
@@ -83,7 +83,7 @@ export class SigninComponent
         horizontalPosition: 'right',
         panelClass: 'snackbar-danger'
       });
-     
+
       return;
     } else {
       this.subs.sink = this.authService
@@ -98,7 +98,7 @@ export class SigninComponent
                 panelClass: 'snackbar-success'
               });
 
-  
+
              // setTimeout(() => {
               const roleCheck = this.authService.currentUserValue.role;
 
@@ -123,12 +123,12 @@ export class SigninComponent
                   this.router.navigate(['/admin/dashboard/school-dashboard']);
                 }
                 else if (role === Role.MIST  ) {
-                  
+
                   this.router.navigate(['/admin/dashboard/school-dashboard']);
-                }  
+                }
                 else if (role === Role.BnaDataEntry) {
                   this.router.navigate(['/admin/dashboard/school-dashboard']);
-                }  
+                }
 
                 else if (role === Role.Instructor) {
                   this.router.navigate(['/admin/dashboard/instructor-dashboard']);
