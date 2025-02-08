@@ -39,6 +39,7 @@ export class RoleService {
    
 
   update(id: string,model: any) {
+    console.log(id);
     return this.http.put(this.baseUrl + '/role/update-role/'+id, model);
   }
   submit(model: any) {

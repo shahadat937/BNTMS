@@ -9,28 +9,33 @@ import { ConfirmService } from '../../../../../src/app/core/service/confirm.serv
 import{MasterData} from '../../../../../src/assets/data/master-data'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { SelectedModel } from '../../../core/models/selectedModel';
+
 
 @Component({
   selector: 'app-rolefeature',
   templateUrl: './rolefeature-list.component.html',
-  styleUrls: ['./rolefeature-list.component.sass']
+  styleUrls: ['./rolefeature-list.component.css']
 })
 export class RoleFeatureListComponent implements OnInit, OnDestroy {
    masterData = MasterData;
   loading = false;
   ELEMENT_DATA: RoleFeature[] = [];
   isLoading = false;
-  
+  selectedRole: any = null;
+  featuresList: any[] = [];
+  selectedrole:SelectedModel[];
   paging = {
-    pageIndex: this.masterData.paging.pageIndex,
-    pageSize: this.masterData.paging.pageSize,
+    pageIndex: 1,
+    pageSize: 1000,
     length: 1
   }
   searchText="";
 
   displayedColumns: string[] = ['ser','roleName','featureName','add','update','delete','report', 'actions'];
   dataSource: MatTableDataSource<RoleFeature> = new MatTableDataSource();
-
+  selectedRoleId: string = '';
+  filteredData: any;
 
    selection = new SelectionModel<RoleFeature>(true, []);
   subscription: any;
@@ -40,7 +45,8 @@ export class RoleFeatureListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getRoleFeatures();
-    
+    this.getselectedrole();
+    console.log('Data for *ngFor:', this.dataSource);
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -58,6 +64,12 @@ export class RoleFeatureListComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     })
   }
+  getselectedrole(){
+    this.subscription = this.RoleFeatureService.getselectedrole().subscribe(res=>{
+      this.selectedrole=res;
+      console.log(this.selectedrole)
+    });
+  }
 
   pageChanged(event: PageEvent) {
   
@@ -67,6 +79,16 @@ export class RoleFeatureListComponent implements OnInit, OnDestroy {
     this.getRoleFeatures();
  
   }
+  filterTableData() {
+    if (this.selectedRoleId) {
+      this.filteredData = this.dataSource.filteredData.filter(feature => String(feature.roleId) === this.selectedRoleId);
+
+      console.log("filter data - ",this.filteredData)
+    } else {
+      this.filteredData = [];
+    }
+  }
+  
   applyFilter(searchText: any){ 
     this.searchText = searchText;
     this.paging.pageIndex = 1
@@ -78,9 +100,9 @@ export class RoleFeatureListComponent implements OnInit, OnDestroy {
   //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
   //   this.dataSource.filter = filterValue;
   // }
-  deleteItem(row) {
-    const Roleid = row.roleId; 
-    const Featureid = row.featureKey;
+  deleteItem(feature) {
+    const Roleid = feature.roleId; 
+    const Featureid = feature.featureKey;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.subscription = this.RoleFeatureService.delete(Roleid,Featureid).subscribe(() => {
