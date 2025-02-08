@@ -55,6 +55,7 @@ export class RoleFeatureService {
    
 
   update(Roleid:string,Featureid:number,model: any) { 
+    console.log('output', Roleid, Featureid, model)
     //return this.http.put(this.baseUrl + '/RoleFeature/update-RoleFeature/'+id, model);
     return this.http.put(this.baseUrl + '/RoleFeature/update-RoleFeature?RoleId='+Roleid+'&FeatureId='+Featureid, model);
   }

@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 import { SelectedModel } from '../../../core/models/selectedModel';
 
+
 @Component({
   selector: 'app-rolefeature',
   templateUrl: './rolefeature-list.component.html',
@@ -99,9 +100,9 @@ export class RoleFeatureListComponent implements OnInit, OnDestroy {
   //   filterValue = filterValue.toLowerCase().replace(/\s/g,'');
   //   this.dataSource.filter = filterValue;
   // }
-  deleteItem(row) {
-    const Roleid = row.roleId; 
-    const Featureid = row.featureKey;
+  deleteItem(feature) {
+    const Roleid = feature.roleId; 
+    const Featureid = feature.featureKey;
     this.subscription = this.confirmService.confirm('Confirm delete message', 'Are You Sure Delete This Item').subscribe(result => {
       if (result) {
         this.subscription = this.RoleFeatureService.delete(Roleid,Featureid).subscribe(() => {

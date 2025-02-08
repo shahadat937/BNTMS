@@ -105,12 +105,15 @@ export class NewRoleFeatureComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const rid = this.route.snapshot.paramMap.get('roleId'); 
-    //this.Roleid = Number(rid);
+    // this.Roleid = Number(rid);
     const fid = this.route.snapshot.paramMap.get('featureKey'); 
     this.Featureid = Number(fid)
+    console.log(this.RoleFeatureForm.value);
     if (this.Roleid && this.Featureid) {
       this.subscription = this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item').subscribe(result => {
+        console.log(this.RoleFeatureForm.value);
         if (result) {
+
           this.loading=true;
           this.subscription = this.RoleFeatureService.update(this.Roleid,this.Featureid,this.RoleFeatureForm.value).subscribe(response => {
             this.router.navigateByUrl('/security/rolefeature-list');
