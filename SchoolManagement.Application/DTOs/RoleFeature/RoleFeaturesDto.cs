@@ -8,7 +8,6 @@ namespace SchoolManagement.Application.DTOs.RoleFeature
 {
     public class RoleFeaturesDto
     {
-        public int RoleFeatureId { get; set; }
         public string? RoleId { get; set; }
         public string? RoleName { get; set; }
         public string? ModuleName { get; set; }
@@ -16,8 +15,6 @@ namespace SchoolManagement.Application.DTOs.RoleFeature
         public int? MenuPosition { get; set; }
         public int FeatureKey { get; set; }
         public string? FeatureName { get; set; }
-        public string? FeaturePath { get; set; }
-        public bool ViewStatus { get; set; }
         public bool Add { get; set; }
         public bool Update { get; set; }
         public bool Delete { get; set; }

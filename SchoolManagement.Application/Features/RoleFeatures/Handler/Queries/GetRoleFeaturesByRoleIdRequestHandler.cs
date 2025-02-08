@@ -36,10 +36,11 @@ namespace SchoolManagement.Application.Features.RoleFeatures.Handler.Queries
                 return new RoleFeaturesDto
                 {
     
-                    RoleId = roleFeature?.RoleId ?? request.Id,
+                    RoleId = roleFeature?.RoleId ?? "",
                     RoleName = roleName.Name,
                     FeatureKey = f.FeatureId,
                     FeatureName = f.FeatureName,
+                    ModuleId = f.ModuleId,
                     ModuleName = f.Module.ModuleName,
                     Add = roleFeature?.Add ?? false,
                     Update = roleFeature?.Update ?? false,
