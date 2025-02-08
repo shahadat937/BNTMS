@@ -38,8 +38,9 @@ namespace SchoolManagement.Application.Features.RoleFeatures.Handler.Queries
     
                     RoleId = roleFeature?.RoleId ?? "",
                     RoleName = roleName.Name,
-                    FeatureKey = f.FeatureId,
+                    FeatureKey = roleFeature?.FeatureKey ?? 0,
                     FeatureName = f.FeatureName,
+                    FeatureId = f.FeatureId,
                     ModuleId = f.ModuleId,
                     ModuleName = f.Module.ModuleName,
                     Add = roleFeature?.Add ?? false,

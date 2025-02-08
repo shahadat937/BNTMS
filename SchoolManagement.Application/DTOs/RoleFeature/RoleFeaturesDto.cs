@@ -13,7 +13,8 @@ namespace SchoolManagement.Application.DTOs.RoleFeature
         public string? ModuleName { get; set; }
         public int? ModuleId { get; set; }
         public int? MenuPosition { get; set; }
-        public int FeatureKey { get; set; }
+        public int? FeatureKey { get; set; }
+        public int? FeatureId { get; set; }
         public string? FeatureName { get; set; }
         public bool Add { get; set; }
         public bool Update { get; set; }
