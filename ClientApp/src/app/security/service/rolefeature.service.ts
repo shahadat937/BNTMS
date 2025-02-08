@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http'; 
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import {IRoleFeaturePagination, RoleFeaturePagination } from '../models/RoleFeaturePagination'
 import { map } from 'rxjs';
 import { SelectedModel } from '../../core/models/selectedModel';
@@ -54,6 +54,7 @@ export class RoleFeatureService {
    
 
   update(Roleid:string,Featureid:number,model: any) { 
+    console.log('output', Roleid, Featureid, model)
     //return this.http.put(this.baseUrl + '/RoleFeature/update-RoleFeature/'+id, model);
     return this.http.put(this.baseUrl + '/RoleFeature/update-RoleFeature?RoleId='+Roleid+'&FeatureId='+Featureid, model);
   }
