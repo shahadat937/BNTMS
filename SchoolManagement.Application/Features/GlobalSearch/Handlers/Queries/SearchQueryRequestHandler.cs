@@ -40,6 +40,7 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
         public async Task<object> Handle(SearchQueryRequest request, CancellationToken cancellationToken)
         {
+            request.Query.keyword = request.Query.keyword.Replace("'", "''");
             string traineeCountQuery = $"EXEC [dbo].[spTraineeSearchCount] @query='{request.Query.keyword}'";
             string traineeQuery = $"EXEC [dbo].[spTraineeSearch] @query=N'{request.Query.keyword}'";
             string instructorCountQuery = $"EXEC [dbo].[spInstructorSearchCount] @query='{request.Query.keyword}'";
