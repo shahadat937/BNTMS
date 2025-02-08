@@ -26,6 +26,14 @@ public class RoleFeatureController : ControllerBase
     {
         var RoleFeatures = await _mediator.Send(new GetRoleFeatureListRequest { QueryParams = queryParams });
         return Ok(RoleFeatures);
+    } 
+    
+    [HttpGet]
+    [Route("get-RoleFeatures-by-roleId")]
+    public async Task<ActionResult<List<RoleFeatureDto>>> GetFeaturesByRoleId(string roleId)
+    {
+        var RoleFeatures = await _mediator.Send(new GetRoleFeaturesByRoleIdRequest { Id = roleId });
+        return Ok(RoleFeatures);
     }
 
     [HttpGet]
