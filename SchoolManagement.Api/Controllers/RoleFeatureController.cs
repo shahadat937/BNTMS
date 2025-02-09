@@ -29,12 +29,22 @@ public class RoleFeatureController : ControllerBase
     } 
     
     [HttpGet]
-    [Route("get-RoleFeatures-by-roleId")]
+    [Route("get-RoleFeaturesByRoleId")]
     public async Task<ActionResult<List<RoleFeatureDto>>> GetFeaturesByRoleId(string roleId)
     {
         var RoleFeatures = await _mediator.Send(new GetRoleFeaturesByRoleIdRequest { Id = roleId });
         return Ok(RoleFeatures);
     }
+
+    [HttpPost]
+    [Route("save-roleFeatures")]
+    public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] List<CreateRoleFeatureDto> roleFeatureDto)
+    {
+        var command = new CreateRoleFeaturesCommand { RoleFeatureDtos = roleFeatureDto };
+        var response = await _mediator.Send(command);
+        return Ok(response);
+    }
+
 
     [HttpGet]
     [Route("get-RoleFeatureDetail")]

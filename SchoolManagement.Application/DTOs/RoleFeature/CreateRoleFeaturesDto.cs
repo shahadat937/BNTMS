@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace SchoolManagement.Application.DTOs.RoleFeature 
+namespace SchoolManagement.Application.DTOs.RoleFeature
 {
-    public class CreateRoleFeatureDto : IRoleFeatureDto
+    public class CreateRoleFeaturesDto : IRoleFeatureDto
     {
         public string RoleId { get; set; }
         public int FeatureKey { get; set; }
@@ -13,6 +15,5 @@ namespace SchoolManagement.Application.DTOs.RoleFeature
         public bool Delete { get; set; }
         public bool Report { get; set; }
         public int FeatureId { get; set; }
-        //public bool IsActive { get; set; }
     }
 }
