@@ -313,5 +313,19 @@ export class dashboardService {
         })
       ); 
     }
+
+    getCourseReport(from, to){
+      let params = new HttpParams(); 
+      
+      params = params.append('from', from.toString());
+      params = params.append('to', to.toString());
+      
+      return this.http.get<any>(this.baseUrl + `/dashboard/get-courseReport?from=${from}&to=${to}`, { observe: 'response', params })
+      .pipe(
+        map(response => {   
+          return response.body;
+        })
+      ); 
+    }
   
 }

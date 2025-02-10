@@ -114,6 +114,7 @@ import { RunningCourseForeignRraineeUpcomingListComponent } from "../../foreign-
 import { NewPasswordChangeComponent } from "../../instructor/passwordchange/new-passwordchange.component";
 import { NewForeignTrainingCourseReportComponent } from "../../foreign-training/foreigntrainingcoursereport/new-foreigntrainingcoursereport/new-foreigntrainingcoursereport.component";
 import { MarklistInterserviceForeignCourseComponent } from "./marklist-interservice-foreign-course/marklist-interservice-foreign-course.component";
+import { CourseReportComponent } from "./course-report/course-report.component";
 
 const routes: Routes = [
   {
@@ -888,6 +889,10 @@ const routes: Routes = [
   {
     path: "marklist-interservice-forignservice/:courseDurationId",
     component: MarklistInterserviceForeignCourseComponent
+  },
+  {
+    path: "course-report",
+    component: CourseReportComponent
   }
 ];
 @NgModule({
