@@ -182,7 +182,7 @@
                     <th class="th-cell-durationform">From</th>
                     <th class="th-cell-durationform">To</th>
                     <th class="th-cell-status">Duration</th>
-                    <th class="th-cell-action">Candidates/ Submitted </th>
+                    <th class="th-cell-action">Number of Candidates</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -204,7 +204,8 @@
                         {{getCalculateAge(number.durationFrom | date:'mediumDate',number.durationTo | date:'mediumDate', 0)}} 
                       </td>
                       <td class="td-cell">
-                        <a [routerLink]="['/admin/dashboard/traineenomination-list', number.courseDurationId,runningCourseType]" style="color: green;text-decoration: underline; font-weight: bold;">{{number.candidates}}/{{number.submittedReport}}
+                       <a [routerLink]="['/admin/dashboard/traineenomination-list', number.courseDurationId,runningCourseType]" style="color: green;text-decoration: none; font-weight: bold;"> <!-- {{number.candidates}}/{{number.submittedReport}} -->
+                        {{number.candidates}}
                         </a>
                     
                       </td>

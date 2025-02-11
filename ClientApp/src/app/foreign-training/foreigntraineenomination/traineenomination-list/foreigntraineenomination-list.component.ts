@@ -23,6 +23,7 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
   isLoading = false;
   courseDurationId: any;
   courseNameId: any;
+  courseName: any;
 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -75,6 +76,11 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
       courseDurationId
     ).subscribe((response) => {
       this.dataSource.data = response.items;
+
+      if(response.items.length){
+        this.courseName = response.items[0]?.courseName
+      }
+
       this.paging.length = response.totalItemsCount;
       this.isLoading = false;
     });
@@ -109,4 +115,53 @@ export class ForeignTraineeNominationListComponent extends UnsubscribeOnDestroyA
         }
       });
   }
+
+  // printSingle() {
+  //   // this.showHideDiv = false;
+  //   this.print();
+  // }
+  
+  printSingle() {
+    // this.showHideDiv = false;
+    this.print();
+  }
+  print() {
+    let printContents, popupWin;
+    printContents = document.getElementById("print")?.innerHTML;
+    popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
+    popupWin.document.open();
+    popupWin.document.write(`
+      <html>
+        <head>
+          <style>
+          body { width: 99%; }
+          label { font-weight: 400; font-size: 13px; padding: 2px; margin-bottom: 5px; }
+          table, td, th { border: 1px solid silver; padding: 5px; }
+          table td { font-size: 13px; }
+          table th { font-size: 13px; }
+          table { border-collapse: collapse; width: 98%; }
+          th { height: 26px; }
+          .header-text { text-align: center; }
+          .header-text h3 { margin: 0; }
+          a { text-decoration: none; color: black; }
+          
+          /* Hide Action column */
+          th:nth-child(5), td:nth-child(5) {
+            display: none;
+          }
+          </style>
+        </head>
+        <body onload="window.print();window.close()">
+          <div class="header-text">
+            <h3>Trainee Nomination (Foreign Course)</h3>
+            <h3>${this.courseName ?? ""}</h3>
+          </div>
+          <br>
+          <hr>
+          ${printContents}
+        </body>
+      </html>`);
+    popupWin.document.close();
+  }
+  
 }
