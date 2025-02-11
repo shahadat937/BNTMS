@@ -69,43 +69,7 @@
                   </div>
                 </div>
               </div>
-              <!-- <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">               
-                <ng-container matColumnDef="ser">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Ser: </mat-header-cell>
-                  <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
-                </ng-container>    
-
-
-                <ng-container matColumnDef="traineeName">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Rank & Name </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.rankPosition}} {{element.traineeName}}  <span class="t-n-pno-d"> - (P No {{element.traineePNo}})</span> </mat-cell>
-                </ng-container>
-
-
-                <ng-container matColumnDef="courseName">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Course Name</mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.courseName}}  </mat-cell>
-                </ng-container>
-                
-                <ng-container matColumnDef="actions">
-                  <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
-                  <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                    <!-- <button mat-icon-button color="accent" class="btn-tbl-edit" 
-                    [routerLink]="['/inter-service/update-traineenomination', row.traineeNominationId]">
-                      <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
-                    </button> 
-                    <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
-                      (click)="deleteItem(row)">
-                      <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
-                    </button>
-                  </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-               
-              </mat-table> -->
-
+              
               <div id="print">
                 <table class="tblinterserviceList">
                   <thead>
