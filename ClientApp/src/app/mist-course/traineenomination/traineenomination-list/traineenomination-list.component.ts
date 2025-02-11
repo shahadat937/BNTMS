@@ -41,7 +41,6 @@ export class TraineeNominationListComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,private snackBar: MatSnackBar,private TraineeNominationService: TraineeNominationService,private router: Router,private confirmService: ConfirmService, public sharedService: SharedServiceService) { }
 
   ngOnInit() {
-    //this.getTraineeNominations();
     this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.subscription = this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
       res => {

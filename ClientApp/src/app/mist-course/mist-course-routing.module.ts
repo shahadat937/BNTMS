@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'update-traineenomination/:traineeNominationId',  
   component: NewTraineeNominationComponent, 
   },
-  { path: 'add-traineenomination/:courseDurationId',   
+  { path: 'add-traineenomination/:courseDurationId/:courseNameId',   
   component: NewTraineeNominationComponent, 
   },
 
