@@ -84,7 +84,7 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
             var routines = await _unitOfWork.Repository<ClassRoutine>().Get(request.ApproveBnaExamMarkListDto.ClassRoutineId.Value);
 
 
-            if (BnaExamMarks.ExamTypeCount == 1)
+            if (BnaExamMarks.ExamTypeCount == 1 && request.ApproveBnaExamMarkListDto.IsApproved == true)
             {
                 routines.FinalApproveStatus = 1;
 
@@ -94,7 +94,7 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Commands
             else
             {
                 //routines.FinalApproveStatus = 0;
-                routines.FinalApproveStatus = 1;
+                routines.FinalApproveStatus = 0;
 
                 await _unitOfWork.Repository<ClassRoutine>().Update(routines);
                 await _unitOfWork.Save();

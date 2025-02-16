@@ -218,6 +218,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     }else{
       this.title = "Course Subject";
       this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res=>{
+        console.log("Ok");
         this.marklistbycourse=res;   
         if(this.marklistbycourse && this.marklistbycourse.length){
           this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];

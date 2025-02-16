@@ -35,7 +35,7 @@
                     <ul class="header-buttons">
                       <li>
                         <div class="icon-button-demo">
-                          <button class="btn-space" mat-raised-button color="warn" routerLink="/admin/dashboard/main">
+                          <button class="btn-space" mat-raised-button color="warn" (click)="sharedService.goBack()">
                             <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                           </button>
                         </div>

@@ -425,7 +425,6 @@ filterBySection(value:any){
 
   onSubmit() {
     const id = this.BNAExamMarkForm.get('bnaExamMarkId')?.value;
-
     if (id) {
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item?').subscribe(result => {
         if (result) {

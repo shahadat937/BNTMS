@@ -22,8 +22,9 @@ namespace SchoolManagement.Application.Features.BnaExamMarks.Handlers.Queries
 
         public async Task<object> Handle(GetSchoolExamApproveListSpRequest request, CancellationToken cancellationToken)
         {
-           // object obj = new object();
-            var spQuery = String.Format("exec [spGetSchoolExamApproveList] {0}", request.BaseSchoolNameId);
+            // object obj = new object();
+            var searchText = request.SearchTerm == null ? "NULL" : $"'{request.SearchTerm.Replace("'", "''")}'";
+            var spQuery = String.Format("exec [spGetSchoolExamApproveList] {0}, {1}", request.BaseSchoolNameId, searchText);
             
             DataTable dataTable = _studentInfoByTraineeIdRepository.ExecWithSqlQuery(spQuery);
            
