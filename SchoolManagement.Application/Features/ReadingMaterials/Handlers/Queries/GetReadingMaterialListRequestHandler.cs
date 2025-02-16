@@ -33,53 +33,45 @@ namespace SchoolManagement.Application.Features.ReadingMaterials.Handlers.Querie
             var validator = new QueryParamsValidator();
             var validationResult = await validator.ValidateAsync(request.QueryParams);
 
-            if (validationResult.IsValid == false)
+            if (!validationResult.IsValid)
                 throw new ValidationException(validationResult);
 
-            if(request.BaseSchoolNameId == 0)
+            IQueryable<ReadingMaterial> ReadingMaterials;
+
+            if (request.BaseSchoolNameId == 0)
             {
-                IQueryable<ReadingMaterial> ReadingMaterials = _ReadingMaterialRepository.FilterWithInclude(x => (String.IsNullOrEmpty(request.QueryParams.SearchText) || x.CourseName.Course.Contains(request.QueryParams.SearchText) || x.DocumentName.Contains(request.QueryParams.SearchText)), "CourseName", "BaseSchoolName", "DocumentType", "DownloadRight", "ReadingMaterialTitle", "ShowRight");
-                var totalCount = ReadingMaterials.Count();
-                ReadingMaterials = ReadingMaterials.OrderByDescending(x => x.ReadingMaterialId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
-
-                var ReadingMaterialDtos = _mapper.Map<List<ReadingMaterialDto>>(ReadingMaterials);
-                var result = new PagedResult<ReadingMaterialDto>(ReadingMaterialDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
-
-                return result;
+                ReadingMaterials = _ReadingMaterialRepository.FilterWithInclude(
+                    x => string.IsNullOrEmpty(request.QueryParams.SearchText) ||
+                         x.CourseName.Course.Contains(request.QueryParams.SearchText) ||
+                         x.DocumentName.Contains(request.QueryParams.SearchText),
+                    "CourseName", "BaseSchoolName", "DocumentType", "DownloadRight", "ReadingMaterialTitle", "ShowRight");
             }
             else
             {
-                if(request.BaseSchoolNameId == 0)
-                {
-                    IQueryable<ReadingMaterial> ReadingMaterials = _ReadingMaterialRepository.FilterWithInclude(x => (String.IsNullOrEmpty(request.QueryParams.SearchText)), "CourseName", "BaseSchoolName", "DocumentType", "DownloadRight", "ReadingMaterialTitle", "ShowRight");
-                    var totalCount = ReadingMaterials.Count();
-                    ReadingMaterials = ReadingMaterials.OrderByDescending(x => x.ReadingMaterialId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
-
-                    var ReadingMaterialDtos = _mapper.Map<List<ReadingMaterialDto>>(ReadingMaterials);
-                    var result = new PagedResult<ReadingMaterialDto>(ReadingMaterialDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
-
-                    return result;
-                }
-                else
-                {
-                    IQueryable<ReadingMaterial> ReadingMaterials = _ReadingMaterialRepository.FilterWithInclude(x => (String.IsNullOrEmpty(request.QueryParams.SearchText) && (x.BaseSchoolNameId == request.BaseSchoolNameId)), "CourseName", "BaseSchoolName", "DocumentType", "DownloadRight", "ReadingMaterialTitle", "ShowRight");
-                    var totalCount = ReadingMaterials.Count();
-                    ReadingMaterials = ReadingMaterials.OrderByDescending(x => x.ReadingMaterialId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
-
-                    var ReadingMaterialDtos = _mapper.Map<List<ReadingMaterialDto>>(ReadingMaterials);
-                    var result = new PagedResult<ReadingMaterialDto>(ReadingMaterialDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
-
-                    return result;
-                }
-                
+                ReadingMaterials = _ReadingMaterialRepository.FilterWithInclude(
+                    x => (string.IsNullOrEmpty(request.QueryParams.SearchText) ||
+                          x.ReadingMaterialTitle.Title == request.QueryParams.SearchText ||
+                          x.CourseName.Course.Contains(request.QueryParams.SearchText) ||
+                          x.DocumentName.Contains(request.QueryParams.SearchText)) &&
+                         x.BaseSchoolNameId == request.BaseSchoolNameId,
+                    "CourseName", "BaseSchoolName", "DocumentType", "DownloadRight", "ReadingMaterialTitle", "ShowRight");
             }
 
-            //var ReadingMaterialDtos = _mapper.Map<List<ReadingMaterialDto>>(ReadingMaterials);
-            //var result = new PagedResult<ReadingMaterialDto>(ReadingMaterialDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
+            var totalCount = ReadingMaterials.Count();
+            ReadingMaterials = ReadingMaterials.OrderByDescending(x => x.ReadingMaterialId)
+                                               .Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize)
+                                               .Take(request.QueryParams.PageSize);
 
-            //return result;
-
-
+            var ReadingMaterialDtos = _mapper.Map<List<ReadingMaterialDto>>(ReadingMaterials);
+            return new PagedResult<ReadingMaterialDto>(ReadingMaterialDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
         }
+
+        //var ReadingMaterialDtos = _mapper.Map<List<ReadingMaterialDto>>(ReadingMaterials);
+        //var result = new PagedResult<ReadingMaterialDto>(ReadingMaterialDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
+
+        //return result;
+
+
     }
 }
+
