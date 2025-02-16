@@ -235,11 +235,12 @@ public class BnaExamMarkController : ControllerBase
 
     [HttpGet]
     [Route("get-schoolExamApproveList")]
-    public async Task<ActionResult> GetschoolExamApproveListBySp(int baseSchoolNameId)
+    public async Task<ActionResult> GetschoolExamApproveListBySp(int baseSchoolNameId, string searchTerm)
     {
         var proceduredCourses = await _mediator.Send(new GetSchoolExamApproveListSpRequest
         {
-            BaseSchoolNameId = baseSchoolNameId
+            BaseSchoolNameId = baseSchoolNameId,
+            SearchTerm = searchTerm
         });
         return Ok(proceduredCourses);
     }
