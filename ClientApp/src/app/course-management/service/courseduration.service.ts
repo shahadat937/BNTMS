@@ -138,7 +138,7 @@ activeCoursePlan(id : number){
   //       })
   //     ); 
   //   }
-  getCourseDuraionByBaseName(baseSchoolNameId: string, pageNumber: number, pageSize: number) {
+  getCourseDuraionByBaseName(baseSchoolNameId: string, pageNumber: number, pageSize: number, searchText : string) {
     // Validate pageNumber and pageSize
     if (pageNumber < 1) {
       pageNumber = 1; // Set to minimum valid page number
@@ -153,6 +153,7 @@ activeCoursePlan(id : number){
     params = params.append('baseSchoolNameId', baseSchoolNameId);
     params = params.append('pageNumber', pageNumber.toString());
     params = params.append('pageSize', pageSize.toString());
+    params = params.append('searchText', searchText.toString());
   
     return this.http.get<ICourseDurationPagination>(this.baseUrl + '/course-duration/get-courseDurationsbybasename', {
       observe: 'response',
