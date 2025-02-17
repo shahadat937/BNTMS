@@ -42,22 +42,17 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
             string trimmedSearchText = request.QueryParams.SearchText?.Trim() ?? string.Empty;
 
-                
+
             string normalizedSearchText = trimmedSearchText.Replace(" ", "").ToLower();
 
             IQueryable<CourseDuration> CourseDurations = _CourseDurationRepository.FilterWithInclude(
                 x =>
-                 
+
                     EF.Functions.Like(
-                        (x.CourseName.Course + " - " + x.CourseTitle).Replace(" ", "").ToLower(),
-                        $"%{normalizedSearchText}%") ||
-
+                        (x.CourseName.Course + " - " + x.CourseTitle).Replace(" ", "").ToLower(), $"%{normalizedSearchText}%") ||
                     x.CourseTitle.Contains(trimmedSearchText) ||
-
-                  
+                    x.BaseSchoolName.SchoolName.Contains(trimmedSearchText) ||
                     string.IsNullOrEmpty(trimmedSearchText) ||
-
-                    
                     EF.Functions.Like(
                         x.CourseName.Course.Trim() + " - " + x.CourseTitle.Trim(),
                         $"%{trimmedSearchText}%"),
@@ -70,7 +65,7 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
             var totalCount = CourseDurations.Count();
             CourseDurations = CourseDurations.OrderByDescending(x => x.CourseDurationId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
-                //.Where(x=>x.IsCompletedStatus==0);
+            //.Where(x=>x.IsCompletedStatus==0);
 
             var CourseDurationDtos = _mapper.Map<List<CourseDurationDto>>(CourseDurations);
             var result = new PagedResult<CourseDurationDto>(CourseDurationDtos, totalCount, request.QueryParams.PageNumber, request.QueryParams.PageSize);
