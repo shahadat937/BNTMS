@@ -10,8 +10,8 @@ import { EventInput } from '@fullcalendar/angular';
 import { Calendar } from '../../calendar/models/calendar';
 import { CalendarService } from '../../calendar/service/calendar.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {InterServiceDashboardService} from '../services/InterServiceDashboard.service';
-import {MasterData} from '../../../../src/assets/data/master-data';
+import { InterServiceDashboardService } from '../services/InterServiceDashboard.service';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -22,6 +22,7 @@ import { Role } from '../../../../src/app/core/models/role';
 import { AuthService } from '../../../../src/app/core/service/auth.service';
 import { SchoolDashboardService } from '../../../../src/app/school/services/SchoolDashboard.service';
 import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 //import { MasterData } from 'src/assets/data/master-data';
 //import { CourseDuration } from '../models/courseduration';
 //import { CourseDurationService } from '../services/courseduration.service';
@@ -38,82 +39,81 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   dialogTitle: string;
   filterOptions = 'All';
   calendarData: any;
-    masterData = MasterData;
+  masterData = MasterData;
   loading = false;
   userRole = Role;
   isLoading = false;
-  runningCourseType:number;
-  traineeCount:number;
-  dbType:any;
-  schoolCount:number;
-  localCourseCount:number;
-  interServiceTraineeCount:number;
-  interServiceOfficerCount:number;
-  interServiceCivilCount:number;
-  interServiceSailorCount:number;
-  intServiceCount:number;
-  nomineeCount:number;
-  interServiceCourses:any;
-  viewStatus:any;
-  viewCourseTitle:any;
-  schoolId:any;
-  UpcomingCourseCount:number;
-  upcomingCourses:any;
-  runningCourses:any;
-  isJcosOpen:any;
-  budgetCodes:any;
-  dayCount:any;
-  yearNow:any;
+  runningCourseType: number;
+  traineeCount: number;
+  dbType: any;
+  schoolCount: number;
+  localCourseCount: number;
+  interServiceTraineeCount: number;
+  interServiceOfficerCount: number;
+  interServiceCivilCount: number;
+  interServiceSailorCount: number;
+  intServiceCount: number;
+  nomineeCount: number;
+  interServiceCourses: any;
+  viewStatus: any;
+  viewCourseTitle: any;
+  schoolId: any;
+  UpcomingCourseCount: number;
+  upcomingCourses: any;
+  runningCourses: any;
+  isJcosOpen: any;
+  budgetCodes: any;
+  dayCount: any;
+  yearNow: any;
   status: any;
-  branchId:any;
-  traineeId:any;
-  role:any;
-  showHideDiv:any;
+  branchId: any;
+  traineeId: any;
+  role: any;
+  showHideDiv: any;
   selectedFilter: number;
-  groupArrays:{ schoolName: string; courses: any; }[];
+  groupArrays: { schoolName: string; courses: any; }[];
   calendarEvents: EventInput[];
   calendarOptions: CalendarOptions;
-  pageTitle :string;
+  pageTitle: string;
+  private searchSubscription: Subscription;
+  private searchSubject: Subject<string> = new Subject<string>();
+  courseTypeId = MasterData.coursetype.InterService;
 
-  courseTypeId=MasterData.coursetype.InterService;
-  
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
-  searchText="";
-  displayedColumns: string[] = ['ser','course', 'durationFrom', 'durationTo'];
-  displayedUpcomingInterServiceColumns: string[] = ['ser','courseName', 'orgName','durationFrom','durationTo','dayCount', 'candidates'];
-  displayedColumnsBudgetCode: string[] = ['sl', 'budgetCodes', 'availableAmount','targetAmount'];
-  
+  searchText = "";
+  displayedColumns: string[] = ['ser', 'course', 'durationFrom', 'durationTo'];
+  displayedUpcomingInterServiceColumns: string[] = ['ser', 'courseName', 'orgName', 'durationFrom', 'durationTo', 'dayCount', 'candidates'];
+  displayedColumnsBudgetCode: string[] = ['sl', 'budgetCodes', 'availableAmount', 'targetAmount'];
 
-  constructor(private datepipe: DatePipe, private authService: AuthService,private schoolDashboardService: SchoolDashboardService,private interServiceDashboardService: InterServiceDashboardService) {
+
+  constructor(private datepipe: DatePipe, private authService: AuthService, private schoolDashboardService: SchoolDashboardService, private interServiceDashboardService: InterServiceDashboardService) {
     super();
   }
- 
+
 
   ngOnInit() {
 
     this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId.trim();
-
-
-    this.runningCourseType=this.masterData.coursetype.InterService;
-    
-    //this.getCourseDurationsByCourseType();
+    this.traineeId = this.authService.currentUserValue.traineeId.trim();
+    this.branchId = this.authService.currentUserValue.branchId.trim();
+    this.runningCourseType = this.masterData.coursetype.InterService;
     this.getRunningCourseTotalTraineeByCourseType();
     this.getBudgetCodeList();
-    // this.getSpCourseDurations(3);
     this.getJcoCourseDurations();
     this.getCoursesByViewType(1);
-    this.getSpUpcomingCourseDurationsByTypeForInterService()
 
-    // this.getSpSchoolCount();
-    // this.getnominatedCourseListFromSpRequest();
-    // this.getrunningCourseTotalOfficerListfromprocedure();
-    
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(searchText => {
+      this.applyFilter(searchText);
+    });
+
+
   }
 
   toggle() {
@@ -194,74 +194,86 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.status = dropdown.source.value;
     }
   }
-  getSpUpcomingCourseDurationsByTypeForInterService(){
-    this.selectedFilter = 3;
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+  getSpUpcomingCourseDurationsByTypeForInterService() {
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy') ?? "";
     this.pageTitle = "Upcoming Interservice Course"
-    this.interServiceDashboardService.getSpUpcomingCourseDurationsByTypeForInterService(this.runningCourseType,currentDateTime).subscribe(response => {           
-      this.interServiceCourses=response;
+    this.interServiceDashboardService.getSpUpcomingCourseDurationsByTypeForInterService(this.runningCourseType, currentDateTime, this.searchText).subscribe(response => {
+      this.interServiceCourses = response;
     })
   }
 
-  getCoursesByViewType(viewStatus){
+  getCoursesByViewType(viewStatus) {
     // this.viewStatus = viewStatus;
-    if(viewStatus == 1){
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy') ?? "";
+    if (viewStatus == 1) {
       this.viewStatus = 1
       this.selectedFilter = 1;
-      this.getRunningCourseTotalTraineeByCourseType();
-       this.pageTitle = "Running Interservice Courses"
+      this.pageTitle = "Running Interservice Courses"
+
+      this.interServiceDashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType, currentDateTime, viewStatus, this.searchText).subscribe(response => {
+        this.interServiceCourses = response;
+
+      })
     }
-    else if(viewStatus == 2){
+    else if (viewStatus == 2) {
 
       this.viewStatus = 2
       this.selectedFilter = 2;
-      this.getRunningCourseTotalTraineeByCourseType();
       this.pageTitle = "Passing Out Interservice Courses"
-    
+
+      this.interServiceDashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType, currentDateTime, viewStatus, this.searchText).subscribe(response => {
+        this.interServiceCourses = response;
+
+      })
+
     }
-    else if(viewStatus == 3){
+    else if (viewStatus == 3) {
       this.viewStatus = 3
       this.selectedFilter = 3;
-      this.getRunningCourseTotalTraineeByCourseType();
+      this.getSpUpcomingCourseDurationsByTypeForInterService()
     }
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.interServiceDashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime,viewStatus).subscribe(response => {           
-      this.interServiceCourses=response;
-     
-    })
+
   }
 
+  applyFilter(filterText: string) {
+    this.searchText = filterText;
+    this.getCoursesByViewType(this.viewStatus);
+  }
+
+  onSearchChange(searchValue: string): void {
+    this.searchSubject.next(searchValue);
+  }
   // getCourseDurationsByCourseType(){
-    
+
   //   let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
   //   this.interServiceDashboardService.getSpRunningForeignCourseDurationsByType(this.runningCourseType,currentDateTime).subscribe(response => {           
   //     this.interServiceCourses=response;
   //   })
   // }
 
-  getJcoCourseDurations(){
-        this.interServiceDashboardService.getCentralCourseDuration(this.masterData.coursetype.CentralExam,this.masterData.courseName.JCOsTraining).subscribe(response => {           
-      this.isJcosOpen=response.length;
+  getJcoCourseDurations() {
+    this.interServiceDashboardService.getCentralCourseDuration(this.masterData.coursetype.CentralExam, this.masterData.courseName.JCOsTraining).subscribe(response => {
+      this.isJcosOpen = response.length;
     })
   }
 
-  getBudgetCodeList(){
-    this.interServiceDashboardService.getBudgetCodeList().subscribe(res=>{
-      this.budgetCodes=res 
-     });  
+  getBudgetCodeList() {
+    this.interServiceDashboardService.getBudgetCodeList().subscribe(res => {
+      this.budgetCodes = res
+    });
   }
 
-  getDaysfromDate(dateFrom:any,dateTo:any){
+  getDaysfromDate(dateFrom: any, dateTo: any) {
     //Date dateTime11 = Convert.ToDateTime(dateFrom);  
-    var date1 = new Date(dateFrom); 
-	  var date2 =  new Date(dateTo);
-    var Time = date2.getTime() - date1.getTime(); 
+    var date1 = new Date(dateFrom);
+    var date2 = new Date(dateTo);
+    var Time = date2.getTime() - date1.getTime();
     var Days = Time / (1000 * 3600 * 24);
-    this.dayCount = Days+1;
+    this.dayCount = Days + 1;
     return this.dayCount;
   }
 
-  getCalculateAge(getStartDate, getEndDate,returnstatus){
+  getCalculateAge(getStartDate, getEndDate, returnstatus) {
     var currentDate = new Date(getEndDate);
     var startDate = new Date(getStartDate);
 
@@ -272,22 +284,22 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     var yearDob = startDate.getFullYear();
     var monthDob = startDate.getMonth() + 1;
     var dateDob = startDate.getDate();
-    var yearAge,monthAge,dateAge;
-    
+    var yearAge, monthAge, dateAge;
+
     yearAge = this.yearNow - yearDob;
 
     if (monthNow >= monthDob)
-       monthAge = monthNow - monthDob;
+      monthAge = monthNow - monthDob;
     else {
       yearAge--;
-       monthAge = 12 + monthNow -monthDob;
+      monthAge = 12 + monthNow - monthDob;
     }
 
     if (dateNow >= dateDob)
-       dateAge = dateNow - dateDob;
+      dateAge = dateNow - dateDob;
     else {
       monthAge--;
-       dateAge = 31 + dateNow - dateDob;
+      dateAge = 31 + dateNow - dateDob;
 
       if (monthAge < 0) {
         monthAge = 11;
@@ -295,37 +307,37 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       }
     }
 
-    if(returnstatus == 0){
-      return (yearAge +" Years "+ monthAge +" Months "+ dateAge +" Days");
-    }else if(returnstatus == 1){
+    if (returnstatus == 0) {
+      return (yearAge + " Years " + monthAge + " Months " + dateAge + " Days");
+    } else if (returnstatus == 1) {
       return (yearAge);
-    }else if(returnstatus == 2){
+    } else if (returnstatus == 2) {
       return (monthAge);
-    }else if(returnstatus == 3){
+    } else if (returnstatus == 3) {
       return (dateAge);
-    }else{
+    } else {
       return 0;
     }
-    
+
   }
 
-  getRunningCourseTotalTraineeByCourseType(){
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime,this.runningCourseType,0).subscribe(response => {           
-      this.interServiceTraineeCount=response.length;
+  getRunningCourseTotalTraineeByCourseType() {
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
+    this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime, this.runningCourseType, 0).subscribe(response => {
+      this.interServiceTraineeCount = response.length;
     })
-    this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime,this.runningCourseType,this.masterData.TraineeStatus.officer).subscribe(response => {           
-      this.interServiceOfficerCount=response.length;
+    this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime, this.runningCourseType, this.masterData.TraineeStatus.officer).subscribe(response => {
+      this.interServiceOfficerCount = response.length;
     })
-    this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime,this.runningCourseType,this.masterData.TraineeStatus.sailor).subscribe(response => {           
-      this.interServiceSailorCount=response.length;
+    this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime, this.runningCourseType, this.masterData.TraineeStatus.sailor).subscribe(response => {
+      this.interServiceSailorCount = response.length;
     })
-    this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime,this.runningCourseType,this.masterData.TraineeStatus.civil).subscribe(response => {           
-      this.interServiceCivilCount=response.length;
+    this.interServiceDashboardService.getRunningCourseTotalTraineeByCourseType(currentDateTime, this.runningCourseType, this.masterData.TraineeStatus.civil).subscribe(response => {
+      this.interServiceCivilCount = response.length;
     })
-  }  
- 
-  initializeEvents(){
+  }
+
+  initializeEvents() {
     // this.dashboardService.getCourseDurationForEventCalendar().subscribe(res=>{
     //   //var durationData: EventInput[] = res;
     //   // const durationData: EventInput[] =res;
@@ -343,18 +355,18 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     //   // }];
     // //  this.tempEvents = this.calendarEvents;
     //   this.calendarOptions.initialEvents = this.calendarEvents;
-      
+
     // });
   }
-  inActiveItem(id){
+  inActiveItem(id) {
     this.courseTypeId = id;
-    this.getSpCourseDurations(this.courseTypeId);    
+    this.getSpCourseDurations(this.courseTypeId);
   }
-  getSpCourseDurations(id:number) {
+  getSpCourseDurations(id: number) {
     this.isLoading = true;
     this.courseTypeId = id;
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
-    if(this.courseTypeId == this.masterData.coursetype.LocalCourse){
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
+    if (this.courseTypeId == this.masterData.coursetype.LocalCourse) {
       // this.dashboardService.getSpCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
       //   this.upcomingLocalCourses=response;
       //   // this gives an object with dates as keys
@@ -378,29 +390,29 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
       //   // this.upcomingLocalCourses=response;
       // })
-    }else if(this.courseTypeId === this.masterData.coursetype.ForeignCourse){
+    } else if (this.courseTypeId === this.masterData.coursetype.ForeignCourse) {
       // this.dashboardService.getSpForeignCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
       //   this.upcomingForeignCourses=response;
       // })
-    }else{
+    } else {
       // this.dashboardService.getSpCourseDurationsByType(this.courseTypeId,currentDateTime).subscribe(response => {   
       //   this.dataSource.data=response;
       // })
     }
-    
-  }
- 
 
-  getnominatedCourseListFromSpRequest(){
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+  }
+
+
+  getnominatedCourseListFromSpRequest() {
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     // this.dashboardService.getnominatedCourseListFromSpRequest(currentDateTime).subscribe(response => {   
-      
+
     //   this.nomineeCount=response.length;
     // })
   }
 
-  getrunningCourseTotalOfficerListfromprocedure(){
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+  getrunningCourseTotalOfficerListfromprocedure() {
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     // this.dashboardService.getrunningCourseTotalOfficerListfromprocedureRequest(currentDateTime, this.masterData.TraineeStatus.officer).subscribe(response => {         
     //   this.runningOfficerCount=response.length;
     // })
@@ -420,23 +432,23 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   getSpSchoolCount() {
     // this.dashboardService.getSpSchoolCount().subscribe(response => {   
     //   this.schoolCount=response
-    
+
     // })
   }
 
-  getLocalCourseCount(){
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+  getLocalCourseCount() {
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     // this.dashboardService.getSpRunningCourseDurationsByType(this.masterData.coursetype.LocalCourse,currentDateTime).subscribe(response => {           
     //   this.localCourseCount=response.length;
     // })
   }
-  
-  getIntServiceCount(){
-    let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+
+  getIntServiceCount() {
+    let currentDateTime = this.datepipe.transform((new Date), 'MM/dd/yyyy');
     // this.dashboardService.getSpRunningCourseDurationsByType(this.masterData.coursetype.InterService,currentDateTime).subscribe(response => {           
     //   this.intServiceCount=response.length;
     // })
   }
-  
+
 
 }

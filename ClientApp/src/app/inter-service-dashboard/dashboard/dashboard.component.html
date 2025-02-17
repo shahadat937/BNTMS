@@ -128,22 +128,45 @@
               <!-- <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 div-class div-left">
                 <h3 class="rnc">Running Courses</h3>
              </div> -->
-             <div *ngIf="!isLoading">
-
-             
-             <div class="col-lg-11 col-md-11 col-sm-12 col-xs-12 div-class div-left course-filter">
+       
+             <div *ngIf="!isLoading" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 div-class div-left course-filter">
               <button class="running-course btn" [ngClass]="{'active-button': selectedFilter === 1}" (click)="getCoursesByViewType(1)">Running</button>
               <button class="passing-course btn" [ngClass]="{'active-button': selectedFilter === 2}" (click)="getCoursesByViewType(2)">Passing Out</button>
-              <button class="upcoming-course btn" [ngClass]="{'active-button': selectedFilter === 3}" (click)="getSpUpcomingCourseDurationsByTypeForInterService()">Upcoming</button>
-              
+              <button class="upcoming-course btn" [ngClass]="{'active-button': selectedFilter === 3}" (click)="getCoursesByViewType(3)">Upcoming</button>              
             </div>
             
-             <div class="col-lg-1 col-md-1 col-sm-1">
+             <div class="col-lg-4 col-md-4 col-sm-4 text-end">
               <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
                 <mat-icon class="col-white">print</mat-icon>
               </button>
-           </div>
-            </div> 
+           </div> 
+           <div class="col-5">
+            <ul class="header-buttons-left ml-0">
+              <li class="dropdown">
+              </li>
+              <li class="dropdown">
+                <!-- <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field" (input)="applyFilter($event.target.value)"
+                aria-label="Search box"> -->
+                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Search by: Course Name or Organization Name</mat-label>
+                  <input matInput 
+                         placeholder="Search" 
+                         #filter 
+                         (keyup)="onSearchChange(filter.value)" 
+                         aria-label="Search box">
+                </mat-form-field>
+              </li>
+              <li> 
+                <!-- <div class="icon-button-demo m-l-10">
+                  <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                    <mat-icon class="col-white">search</mat-icon>
+                  </button>
+                </div> -->
+                
+                
+              </li>
+            </ul>
+          </div>
 
             <div id="print-routine">
               <!-- <mat-table  #table [dataSource]="runningCourses" matSort class="mat-cell notice-list db-tbl scl-db">               

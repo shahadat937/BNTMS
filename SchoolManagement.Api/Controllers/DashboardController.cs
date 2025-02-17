@@ -101,13 +101,14 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-runningCourseDurationfromprocedure")]
-    public async Task<ActionResult> GetRunningCourseDurationfromprocedure(int courseTypeId, DateTime CurrentDate, int viewStatus)
+    public async Task<ActionResult> GetRunningCourseDurationfromprocedure(int courseTypeId, DateTime CurrentDate, int viewStatus, string searchTerm)
     {
         var proceduredCourses = await _mediator.Send(new GetRunningCourseDurationListFromSpRequest
         {
             CourseTypeId = courseTypeId,
             CurrentDate = CurrentDate,
-            ViewStatus = viewStatus
+            ViewStatus = viewStatus,
+            SearchTerm = searchTerm
         });
         return Ok(proceduredCourses);
     }
@@ -1047,12 +1048,13 @@ public class DashboardController : ControllerBase
 
     [HttpGet]
     [Route("get-upcomingCourseDurationforInterServicefromprocedure")]
-    public async Task<ActionResult> GetUpcomingCourseDurationforInterServicefromprocedure (int courseTypeId, DateTime CurrentDate)
+    public async Task<ActionResult> GetUpcomingCourseDurationforInterServicefromprocedure (int courseTypeId, DateTime CurrentDate, string searchTerm)
     {
         var proceduredCourses = await _mediator.Send(new GetUpcomingCourseDurationListForInterServiceFromSpRequest
         {
             CourseTypeId = courseTypeId,
-            CurrentDate = CurrentDate
+            CurrentDate = CurrentDate,
+            SearchTerm = searchTerm
             //ViewStatus = viewStatus
         });
         return Ok(proceduredCourses);

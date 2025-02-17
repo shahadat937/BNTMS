@@ -22,8 +22,9 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
         public async Task<object> Handle(GetRunningCourseDurationListFromSpRequest request, CancellationToken cancellationToken)
         {
+            var search = request.SearchTerm == null ? "NULL" : $"'{request.SearchTerm.Replace("'","''")}'";
             
-            var spQuery = String.Format("exec [spGetRunningCourseDuration] {0},'{1}',{2}", request.CourseTypeId, request.CurrentDate, request.ViewStatus);
+            var spQuery = String.Format("exec [spGetRunningCourseDuration] {0},'{1}',{2},{3}", request.CourseTypeId, request.CurrentDate, request.ViewStatus, search);
             
             DataTable dataTable = _courseDurationRepository.ExecWithSqlQuery(spQuery);
             return dataTable;
