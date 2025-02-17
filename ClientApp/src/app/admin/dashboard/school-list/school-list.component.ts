@@ -147,49 +147,81 @@ export class SchoolListComponent
       <html>
         <head>
           <style>
-          body{  width: 99%;}
-            label { font-weight: 400;
-                    font-size: 13px;
-                    padding: 2px;
-                    margin-bottom: 5px;
-                  }
+            body {
+              width: 99%;
+              font-family: Arial, sans-serif;
+            }
+            label {
+              font-weight: 400;
+              font-size: 13px;
+              padding: 2px;
+              margin-bottom: 5px;
+            }
             table, td, th {
-                  border: 1px solid silver;
-                    }
-                    table td {
-                  font-size: 13px;
-                    }
-
-                    table th {
-                  font-size: 13px;
-                  padding : 0 .4rem 
-                    }
-              table {
-                    border-collapse: collapse;
-                    width: 98%;
-                    }
-                th {
-                    height: 26px;
-                    }
-                .header-text, td{
-                  text-align:center;
-                }
-                .header-text h3{
-                  margin:0;
-                }
-                
+              border: 1px solid silver;
+            }
+            table td {
+              font-size: 13px;
+            }
+            table th {
+              font-size: 13px;
+            }
+            table {
+              border-collapse: collapse;
+              width: 98%;
+            }
+            th {
+              height: 26px;
+            }
+            .header-text, td {
+              text-align: center;
+            }
+            .header-text h3 {
+              margin: 0;
+            }
+  
+            /* Custom styles for printing */
+            @media print {
+              /* Prevent page breaks inside rows */
+              tr {
+                page-break-inside: avoid;
+              }
+  
+              /* Prevent page breaks between Base/Institute and its courses */
+              .base-institute-group {
+                page-break-inside: avoid; /* Don't break between Base and courses */
+              }
+  
+              /* Allow breaks after the group, but keep rows together */
+              .course-row {
+                page-break-after: auto; /* Allow row to break, but courses will stay together */
+              }
+  
+              /* Custom styles for better printing */
+              body {
+                font-size: 12px;
+                line-height: 1.4;
+              }
+  
+              /* Add padding to table cells for readability */
+              td, th {
+                padding: 4px;
+              }
+  
+              /* Ensure content fits on a page */
+              .base-institute {
+                page-break-before: auto; /* Only break before the Base/Institute name if needed */
+              }
+            }
           </style>
         </head>
-        <body onload="window.print();window.close()">
+                <body onload="window.print();window.close()">
           <div class="header-text">
           <h3><u>BN TRAINING STATE</u></h3>
           <h3><u>Date : ${formatedDate}</u></h3>
-
-         
           </div>
           <br>
-          <hr>
-          
+          <hr>          
           ${printContents}
         </body>
       </html>`);
