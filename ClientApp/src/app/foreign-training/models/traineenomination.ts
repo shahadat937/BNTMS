@@ -21,7 +21,7 @@ export interface TraineeNomination {
       isActive: boolean
 
       schoolNameId:number,
-      //courseNameId:number,
+      courseName:string,
       classPeriodId:number,
 
       // bnaAttendanceRemarksId:number,

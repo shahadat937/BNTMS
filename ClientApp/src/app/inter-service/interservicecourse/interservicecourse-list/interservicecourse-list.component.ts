@@ -116,99 +116,77 @@ export class InterservicecourseListComponent extends UnsubscribeOnDestroyAdapter
   }
   
   print() {
-  let printContents, popupWin;
-  printContents = document.getElementById("print-routine")?.innerHTML;
-  popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
-  popupWin.document.open();
-  popupWin.document.write(`
-    <html>
-      <head>
-        <style>
-          body { width: 99%; }
-          label { 
-            font-weight: 400;
-            font-size: 13px;
-            padding: 2px;
-            margin-bottom: 5px;
-          }
-          table, td, th {
-            border: 1px solid silver;
-            border-collapse: collapse;
-          }
-          table td {
-            font-size: 13px;
-            padding: 8px; /* Add padding to all <td> */
-          }
-          table th {
-            font-size: 13px;
-            padding: 8px; /* Add padding to all <th> */
-          }
-          table {
-            width: 98%;
-          }
-          th {
-            height: 26px;
-          }
-          .header-text {
-            text-align: center;
-          }
-          .header-text h3 {
-            margin: 0;
-          }
-          
-          /* Hide the last two columns when printing */
-          @media print {
-            .th-cell-status, 
-            .th-cell-action, 
-            .td-cell:last-child, 
-            .td-cell:nth-last-child(2) {
-              display: none;
+    let printContents, popupWin;
+    printContents = document.getElementById("print-routine")?.innerHTML;
+    popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
+    popupWin.document.open();
+    popupWin.document.write(`
+      <html>
+        <head>
+          <style>
+            body { width: 99%; }
+            label { 
+              font-weight: 400;
+              font-size: 13px;
+              padding: 2px;
+              margin-bottom: 5px;
             }
-
-            /* Ensure header is repeated on every page */
-            @page {
-              margin-top: 10mm;
-              margin-bottom: 10mm;
+            table, td, th {
+              border: 1px solid silver;
+              border-collapse: collapse;
             }
-            thead {
-              display: table-header-group;
+            table td {
+              font-size: 13px;
+              padding: 8px;
+            }
+            table th {
+              font-size: 13px;
+              padding: 8px;
+            }
+            table {
+              width: 98%;
+            }
+            th {
+              height: 26px;
             }
             .header-text {
-              width: 100%;
               text-align: center;
-              margin-bottom: 10px;
             }
-          }
-        </style>
-      </head>
-      <body onload="window.print();window.close()">
-        <div class="header-text">
-          <h3>Inter Service Course List</h3>
-        </div>
-        <br>
-        <hr>
-        <table>
-          <thead>
-            <tr>
-              <th class="th-cell-ser">Ser:</th>
-              <th class="th-cell-course">Course Name</th>
-              <th class="th-cell-organiztion">Organization Name</th>
-              <th class="th-cell-noofcandidates">No of Candidates</th>
-              <th class="th-cell-durationform">Duration From</th>
-              <th class="th-cell-durationform">Duration To</th>
-              <th class="th-cell-status">Status</th>
-              <th class="th-cell-action">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${printContents}
-          </tbody>
-        </table>
-      </body>
-    </html>`);
-  popupWin.document.close();
-}
-
+            .header-text h3 {
+              margin: 0;
+            }
+            
+            /* Hide the last two columns when printing */
+            @media print {
+              .th-cell-status, 
+              .th-cell-action, 
+              .td-cell:last-child, 
+              .td-cell:nth-last-child(2) {
+                display: none;
+              }
+              thead {
+                display: table-header-group;
+              }
+              .header-text {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+              }
+            }
+          </style>
+        </head>
+        <body onload="window.print();window.close()">
+          <div class="header-text">
+            <h3>Inter Service Course List</h3>
+          </div>
+          <br>
+          <hr>
+          ${printContents}  <!-- Use the original table content without adding another thead -->
+        </body>
+      </html>`);
+    popupWin.document.close();
+  }
+  
   
   deleteItem(row) {
     const id = row.courseDurationId; 

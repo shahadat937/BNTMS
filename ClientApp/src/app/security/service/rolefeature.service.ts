@@ -44,6 +44,13 @@ export class RoleFeatureService {
       return response;
     })
   }
+
+  getRoleFeaturesByRole(roleId){
+    return this.http.get<any>(this.baseUrl+ `/RoleFeature/get-RoleFeaturesByRoleId?roleId=${roleId}`)
+    .pipe(response => {
+      return response;
+    })
+  }
   
 
   find(Roleid:string,Featureid:number) {
@@ -54,7 +61,6 @@ export class RoleFeatureService {
    
 
   update(Roleid:string,Featureid:number,model: any) { 
-    console.log('output', Roleid, Featureid, model)
     //return this.http.put(this.baseUrl + '/RoleFeature/update-RoleFeature/'+id, model);
     return this.http.put(this.baseUrl + '/RoleFeature/update-RoleFeature?RoleId='+Roleid+'&FeatureId='+Featureid, model);
   }
@@ -93,6 +99,10 @@ export class RoleFeatureService {
       })
     );
    
+  }
+
+  updateRoleFeatures(updatedFeatures: any[]) {
+    return this.http.post(`${this.baseUrl}/RoleFeature/save-roleFeatures`, updatedFeatures);
   }
 
   getselectedmodule(){

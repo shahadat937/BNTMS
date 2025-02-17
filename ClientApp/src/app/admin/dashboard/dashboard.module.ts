@@ -81,6 +81,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { CommanceReportComponent } from './commance-report/commance-report.component';
 import { CourseTerminatedComponent } from './course-terminated/course-terminated.component';
 import { MarklistInterserviceForeignCourseComponent } from './marklist-interservice-foreign-course/marklist-interservice-foreign-course.component';
+import { CourseReportComponent } from './course-report/course-report.component';
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
@@ -139,7 +140,8 @@ FullCalendarModule.registerPlugins([
     SearchedCourseDetailComponent,
     CommanceReportComponent,
     CourseTerminatedComponent,
-    MarklistInterserviceForeignCourseComponent
+    MarklistInterserviceForeignCourseComponent,
+    CourseReportComponent
   ],
   imports: [
     CommonModule,

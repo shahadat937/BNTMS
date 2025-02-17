@@ -278,6 +278,7 @@ export class NewCivilInstructorBioDataInfoComponent extends UnsubscribeOnDestroy
       image: [''],
 
       officerTypeId: [3], //officerTypeId  for Civil Instructor
+      traineeStatusId:['6'], // for Civil Instructor
       userName: [''],
       roleName: [this.userRoles.Student],
       password: ['Admin@123'],

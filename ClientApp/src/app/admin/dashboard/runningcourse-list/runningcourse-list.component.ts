@@ -146,7 +146,7 @@ export class RunningCourseListComponent extends UnsubscribeOnDestroyAdapter impl
     var courseTypeId = this.route.snapshot.paramMap.get('courseTypeId');
     if (viewStatus == 1) {
       this.isLoading
-      this.courseListTitle = "Runnung";
+      this.courseListTitle = "Running";
       this.selectedFilter = viewStatus;
       this.masterData.coursetype.LocalCourse
       this.getSpRunningCourseDurations(courseTypeId, viewStatus)

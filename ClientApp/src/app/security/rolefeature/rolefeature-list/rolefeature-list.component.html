@@ -88,11 +88,11 @@
                 </div>
                 <div class="col-4 ">
                   <p>Select Role</p>
-                  <mat-select required class="role-button" [(ngModel)]="selectedRoleId" (selectionChange)="filterTableData()">
+                  <mat-select required class="role-button" [(ngModel)]="selectedRoleId" (selectionChange)="getFeaturesRoleByRole($event)">
                     
                     
                         
-                    <mat-option  value="0">--Select--</mat-option >
+                    <mat-option disabled selected >--Select--</mat-option >
                       <mat-option *ngFor="let role of selectedrole" [value]="role.value">
                           {{role.text}}  
                         </mat-option>                          
@@ -100,39 +100,58 @@
 
                 </div>
 
-                <div *ngIf="filteredData">
-                  <table class="custom-table">
-                    <thead>
-                      <tr>
-                        <th>Feature Name</th>
-                        <th>Can Add</th>
-                        <th>Can Edit</th>
-                        <th>Can Delete</th>
-                        <th>Can See Report</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let feature of filteredData">
-                        <td>{{ feature.featureName }}</td>
-                        <td><input type="checkbox" [(ngModel)]="feature.add" [checked]="feature.add"></td>
-                        <td><input type="checkbox" [(ngModel)]="feature.update" [checked]="feature.update"></td>
-                        <td><input type="checkbox" [(ngModel)]="feature.delete" [checked]="feature.delete"></td>
-                        <td><input type="checkbox" [(ngModel)]="feature.report" [checked]="feature.report"></td>
-                        <td> 
-                          <button mat-icon-button color="accent" class="btn-tbl-edit" 
-                            [routerLink]="['/security/update-rolefeature', feature.roleId, feature.featureKey]">
-                            <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
-                          </button>
-                          <button mat-icon-button color="accent" class="btn-tbl-delete" 
-                  (click)="$event.stopPropagation()" (click)="deleteItem(feature)">
-                  <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
-                  </button>
-
-                      </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div>
+                  <div class="table-responsive" *ngIf="FeaturesListArray.controls?.length">
+                    <form [formGroup]="RoleFeaturesForm" (ngSubmit)="submitFeature()">
+                        <table borderless cTable hover>
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <input type="checkbox" class="form-check-input" (change)="toggleAllSelection($event)" />
+                                    </th>
+                                    <th scope="col">Feature Name</th>
+                                    <th scope="col">Can Add</th>
+                                    <th scope="col">Can Edit</th>
+                                    <th scope="col">Can Delete</th>
+                                    <th scope="col">Can See Report</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="featuresList">
+                                <ng-container *ngFor="let p of FeaturesListArray.controls; let i = index">
+                                    <!-- Check for new moduleName -->
+                                    <tr *ngIf="i === 0 || p.get('moduleName')?.value !== FeaturesListArray.controls[i - 1]?.get('moduleName')?.value">
+                                        <td colspan="7" class="module-header text-center bg-info text-light">{{ p.get('moduleName')?.value }}</td>
+                                    </tr>
+                                    <tr [formGroupName]="i">
+                                        <td>
+                                            <input type="checkbox" formControlName="selectAll" class="form-check-input" (change)="toggleRowSelection(i)" />
+                                        </td>
+                                        <td>{{ p.get('featureName')?.value }}</td>
+                                        <td>
+                                            <input type="checkbox" formControlName="add" class="form-check-input" />
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" formControlName="update" class="form-check-input" />
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" formControlName="delete" class="form-check-input" />
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" formControlName="report" class="form-check-input" />
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                            
+                        </table>
+                        <div class="text-center">
+                            <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+                               
+                                <mat-icon [hidden]="loading" >update</mat-icon> Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
     
                 </div>
                 <!-- <button *ngIf="filteredData" class="btn-space" [class.auth-spinner]="loading" [disabled]="loading" [disabled]="" mat-raised-button

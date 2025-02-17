@@ -23,6 +23,7 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   isLoading = false;
   courseDurationId:number;
   courseNameId:number;
+  courseName: string;
   
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
@@ -59,6 +60,9 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
       this.dataSource.data = response.items; 
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
+      if(response.items.length){
+        this.courseName = response.items[0].courseName
+      }
     })
   }
 
@@ -72,6 +76,49 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   applyFilter(searchText: any){ 
     this.searchText = searchText;
   } 
+
+  printSingle() {
+    // this.showHideDiv = false;
+    this.print();
+  }
+  print() {
+    let printContents, popupWin;
+    printContents = document.getElementById("print")?.innerHTML;
+    popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
+    popupWin.document.open();
+    popupWin.document.write(`
+      <html>
+        <head>
+          <style>
+          body { width: 99%; }
+          label { font-weight: 400; font-size: 13px; padding: 2px; margin-bottom: 5px; }
+          table, td, th { border: 1px solid silver; padding: 5px; }
+          table td { font-size: 13px; }
+          table th { font-size: 13px; }
+          table { border-collapse: collapse; width: 98%; }
+          th { height: 26px; }
+          .header-text { text-align: center; }
+          .header-text h3 { margin: 0; }
+          a { text-decoration: none; color: black; }
+          
+          /* Hide Action column */
+          th:nth-child(4), td:nth-child(4) {
+            display: none;
+          }
+          </style>
+        </head>
+        <body onload="window.print();window.close()">
+          <div class="header-text">
+            <h3>Trainee Nomination (Interservice Course)</h3>
+            <h3>${this.courseName}}</h3>
+          </div>
+          <br>
+          <hr>
+          ${printContents}
+        </body>
+      </html>`);
+    popupWin.document.close();
+  }
 
   deleteItem(row) {
     const id = row.traineeNominationId; 

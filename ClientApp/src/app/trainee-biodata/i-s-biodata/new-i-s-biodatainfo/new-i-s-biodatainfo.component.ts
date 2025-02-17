@@ -326,7 +326,7 @@ filterByCaste(value:any){
       email: ['', [Validators.email]],
       bnaPhotoUrl: [''],
       image: [''],
-      bnaNo: ['',Validators.required],
+      bnaNo: [''],
       pno: ['',Validators.required],
       shortCode:[''],
       presentBillet:[''],

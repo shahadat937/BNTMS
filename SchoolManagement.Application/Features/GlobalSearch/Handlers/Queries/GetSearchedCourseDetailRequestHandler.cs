@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 {
-    public class GetSearchedCourseDetailRequestHandler: IRequestHandler<GetSearchedCourseDetailRequest, object>
+    public class GetSearchedCourseDetailRequestHandler : IRequestHandler<GetSearchedCourseDetailRequest, object>
     {
         private readonly ISchoolManagementRepository<Domain.TraineeNomination> _TraineeNominationRepo;
         private readonly ISchoolManagementRepository<Domain.CourseInstructor> _CourseInstructorRepo;
@@ -21,8 +21,8 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
         private readonly ISchoolManagementRepository<Domain.BnaSubjectName> _BnaSubjectRepo;
         private readonly ISchoolManagementRepository<Domain.CourseDuration> _CourseDurationRepo;
 
-        public GetSearchedCourseDetailRequestHandler(ISchoolManagementRepository<Domain.CourseInstructor> CourseInstructorRepo, ISchoolManagementRepository<Domain.TraineeBioDataGeneralInfo> TraineeBioDataRepo, ISchoolManagementRepository<Domain.BnaSubjectName> bnaSubjectRepo, 
-          ISchoolManagementRepository<Domain.CourseDuration> CourseDurationRepo, 
+        public GetSearchedCourseDetailRequestHandler(ISchoolManagementRepository<Domain.CourseInstructor> CourseInstructorRepo, ISchoolManagementRepository<Domain.TraineeBioDataGeneralInfo> TraineeBioDataRepo, ISchoolManagementRepository<Domain.BnaSubjectName> bnaSubjectRepo,
+          ISchoolManagementRepository<Domain.CourseDuration> CourseDurationRepo,
           ISchoolManagementRepository<Domain.TraineeNomination> TraineeNominationRepo)
         {
             _CourseInstructorRepo = CourseInstructorRepo;
@@ -38,13 +38,15 @@ namespace SchoolManagement.Application.Features.GlobalSearch.Handlers.Queries
 
             // 
             var courseDuration = await _CourseDurationRepo.Get(request.CourseDurationId);
-            if(courseDuration == null)
+            if (courseDuration == null)
             {
                 throw new NotFoundException(nameof(courseDuration), request.CourseDurationId);
             }
 
+            string baseSchoolNameIdValue = courseDuration.BaseSchoolNameId.HasValue
+             ? courseDuration.BaseSchoolNameId.ToString() :  "NULL";
 
-            string totalInstructorQuery = $"EXEC [dbo].[spGetInstructorCountByCourse] @CourseDurationId={request.CourseDurationId}, @BaseSchoolNameId={courseDuration.BaseSchoolNameId}, @CourseNameId={courseDuration.CourseNameId}";
+            string totalInstructorQuery = $"EXEC [dbo].[spGetInstructorCountByCourse] @CourseDurationId={request.CourseDurationId}, @BaseSchoolNameId={baseSchoolNameIdValue}, @CourseNameId={courseDuration.CourseNameId}";
 
 
             var summary = new CourseSummaryDto();

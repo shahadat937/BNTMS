@@ -23,6 +23,7 @@ export interface TraineeNomination {
       schoolNameId:number,
       //courseNameId:number,
       classPeriodId:number,
+      courseName: string;
 
       // bnaAttendanceRemarksId:number,
       // AttendanceStatus:boolean

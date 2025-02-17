@@ -6,18 +6,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseTermService } from '../../basic-setup/service/course-term.service';
 import { ExamResultService } from '../service/exam-result.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
 import { CourseLevelService } from '../../basic-setup/service/course-level.service';
 import { BaseSchoolNameService } from '../../basic-setup/service/BaseSchoolName.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { ExamResultList } from '../models/exam-result-list';
 import { CourseDurationService } from '../service/courseduration.service';
 import { TraineeNominationService } from '../service/traineenomination.service';
 import { TraineeNomination } from '../models/traineenomination';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { Role } from '../../../../src/app/core/models/role';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 
 @Component({
   selector: 'app-exam-result-nomenee-list',

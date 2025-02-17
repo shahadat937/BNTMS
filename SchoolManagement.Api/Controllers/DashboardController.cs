@@ -1116,6 +1116,20 @@ public class DashboardController : ControllerBase
         return Ok(trainee);
     }
 
+    [HttpGet]
+    [Route("get-courseReport")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+
+    public async Task<ActionResult> GetCourseReport(DateTime from , DateTime to)
+    {
+        var trainee = await _mediator.Send(new GetCourseReportByDateRangeRequest
+        {
+           From = from,
+           To = to
+        });
+        return Ok(trainee);
+    }
+
 
 }
 

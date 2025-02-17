@@ -110,7 +110,7 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
 
   getQexamApproveList(baseSchoolId: string) {
     this.destination = "Exam";
-    this.BNAExamMarkService.getSchoolExamApproveList(baseSchoolId).subscribe(res => {
+    this.BNAExamMarkService.getSchoolExamApproveList(baseSchoolId, this.searchText).subscribe(res => {
       this.examList = res;
       this.dataSource = new MatTableDataSource(res);
    
@@ -118,25 +118,18 @@ export class ExamApproveComponent extends UnsubscribeOnDestroyAdapter implements
             this.dataSource.data,
             (courses) => courses.course + '-'+ courses.courseTitle
           );
+
+          console.log(this.sharedService.groupedData);
       // Store the original data for resetting the filter
-      this.originalGroupArrays = [...this.groupArrays];  // Keep a copy of the original data
+      // this.originalGroupArrays = [...this.groupArrays];  // Keep a copy of the original data
     });
     
   }
 
   
   applyFilter(filterValue: string) {
-    const processedFilter = this.normalizeString(filterValue); // Normalize the filter input
-    
-    // If the filter value is empty, show all records
-    if (!processedFilter) {
-      this.groupArrays = [...this.originalGroupArrays]; // Reset to original data
-    } else {
-      // Filter groups by normalized key if there's a filter value
-      this.groupArrays = this.originalGroupArrays.filter(group =>
-        this.normalizeString(group.key).includes(processedFilter) // Compare normalized key
-      );
-    }
+    this.searchText = filterValue
+    this.getQexamApproveList(this.branchId);
     
   }
 

@@ -73,6 +73,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   groupArrays:{ schoolName: string; courses: any; }[];
   calendarEvents: EventInput[];
   calendarOptions: CalendarOptions;
+  pageTitle :string;
 
   courseTypeId=MasterData.coursetype.InterService;
   
@@ -142,6 +143,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
                     }
                     table td {
                   font-size: 13px;
+                  padding : 5px;
                     }
                   
                     .table.table.tbl-by-group.db-li-s-in tr .cl-action{
@@ -168,11 +170,15 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
                 .header-text h3{
                   margin:0;
                 }
+                  a{
+                  color: black,
+                  text-decoration: none;
+                  }
           </style>
         </head>
         <body onload="window.print();window.close()">
           <div class="header-text">
-          <h3>Running Courses</h3>
+          <h3>${this.pageTitle}</h3>
           
           </div>
           <br>
@@ -189,7 +195,9 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     }
   }
   getSpUpcomingCourseDurationsByTypeForInterService(){
+    this.selectedFilter = 3;
     let currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy');
+    this.pageTitle = "Upcoming Interservice Course"
     this.interServiceDashboardService.getSpUpcomingCourseDurationsByTypeForInterService(this.runningCourseType,currentDateTime).subscribe(response => {           
       this.interServiceCourses=response;
     })
@@ -201,12 +209,14 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.viewStatus = 1
       this.selectedFilter = 1;
       this.getRunningCourseTotalTraineeByCourseType();
+       this.pageTitle = "Running Interservice Courses"
     }
     else if(viewStatus == 2){
 
       this.viewStatus = 2
       this.selectedFilter = 2;
       this.getRunningCourseTotalTraineeByCourseType();
+      this.pageTitle = "Passing Out Interservice Courses"
     
     }
     else if(viewStatus == 3){

@@ -70,6 +70,13 @@ export class RolePermissionComponent implements OnInit {
     
   }
 
+  getFeaturesRoleByRole(event:any){
+    console.log("WE");
+    this.RoleFeatureService.getRoleFeaturesByRole(event.value).subscribe(res=>{
+      console.log("RES",res);
+    })
+  }
+
   getFeaturesbyModule(moduleId:number) {
     this.subscription = this.RoleFeatureService.getFeaturesbyModule(moduleId).subscribe(response => {
       this.features = response

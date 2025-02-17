@@ -81,8 +81,8 @@ export class BNAExamMarkService {
     return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-name/get-selectedSubjectNameByParametersFromAttendanceTableForExam?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId+'&courseDurationId='+courseDurationId+'&courseSectionId='+courseSectionId+'&examStatus='+examStatus);
   }
  
-  getSchoolExamApproveList(baseSchoolNameId){
-    return this.http.get<any[]>(this.baseUrl + '/bna-exam-mark/get-schoolExamApproveList?baseSchoolNameId='+baseSchoolNameId);
+  getSchoolExamApproveList(baseSchoolNameId, searchText){
+    return this.http.get<any[]>(this.baseUrl + '/bna-exam-mark/get-schoolExamApproveList?baseSchoolNameId='+baseSchoolNameId+'&searchTerm='+searchText);
   }
 
   

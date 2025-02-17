@@ -104,8 +104,7 @@
                   <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                      <button mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/mist-course/add-traineenomination', row.courseDurationId]">
-                        <!-- <mat-icon aria-label="Edit" class="col-white">supervisor_account</mat-icon> -->
+                      <button mat-icon-button class="btn-tbl-nomination" title="List of Trainee" [routerLink]="['/mist-course/add-traineenomination', row.courseDurationId, row.courseNameId]">
                         <img src="../../../assets/images/app-icon/biodata.png" class="biodata-icon"/>
                       </button>
                       <button mat-icon-button color="accent" class="btn-tbl-edit" 
