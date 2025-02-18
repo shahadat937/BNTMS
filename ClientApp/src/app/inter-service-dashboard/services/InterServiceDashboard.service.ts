@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
 import { SpInstructorInfoByTraineeId } from '../models/spinstructorinfobytraineeid';
 import {SpUpcomingClassesNotification} from '../models/spupcomingclassesnotification';
 
 import { map } from 'rxjs';
-import { CourseDuration } from 'src/app/course-management/models/courseduration';
-import { CourseDurationPagination, ICourseDurationPagination } from 'src/app/course-management/models/coursedurationPagination';
+import { CourseDuration } from '../../../../src/app/course-management/models/courseduration';
+import { CourseDurationPagination, ICourseDurationPagination } from '../../../../src/app/course-management/models/coursedurationPagination';
 
 @Injectable({
   providedIn: 'root'
@@ -109,18 +109,18 @@ export class InterServiceDashboardService {
     ); 
   }
 
-  getSpRunningForeignCourseDurationsByType(id:number,current:string,viewStatus:number) {
+  getSpRunningForeignCourseDurationsByType(id:number,current:string,viewStatus:number, searchText) {
 
-    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-runningCourseDurationfromprocedure?courseTypeId='+id+'&CurrentDate='+current+'&viewStatus='+viewStatus).pipe(
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-runningCourseDurationfromprocedure?courseTypeId='+id+'&CurrentDate='+current+'&viewStatus='+viewStatus+'&searchTerm='+searchText).pipe(
       map(response => {
         
         return response;
       })
     ); 
   }
-  getSpUpcomingCourseDurationsByTypeForInterService(id:number,current:string) {
+  getSpUpcomingCourseDurationsByTypeForInterService(id:number,current:string, searchText : string) {
 
-    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-upcomingCourseDurationforInterServicefromprocedure?courseTypeId='+id+'&CurrentDate='+current).pipe(
+    return this.http.get<any[]>(this.baseUrl + '/dashboard/get-upcomingCourseDurationforInterServicefromprocedure?courseTypeId='+id+'&CurrentDate='+current+'&searchTerm='+searchText).pipe(
       map(response => {
         
         return response;

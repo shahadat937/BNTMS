@@ -75,6 +75,7 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
   }
   applyFilter(searchText: any){ 
     this.searchText = searchText;
+    this.getTraineeNominationsByCourseDurationId(this.courseDurationId )
   } 
 
   printSingle() {

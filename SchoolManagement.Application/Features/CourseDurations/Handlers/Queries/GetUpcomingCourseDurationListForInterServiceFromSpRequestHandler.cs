@@ -22,8 +22,9 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
         public async Task<object> Handle(GetUpcomingCourseDurationListForInterServiceFromSpRequest request, CancellationToken cancellationToken)
         {
-            
-            var spQuery = String.Format("exec [spGetUpcomingCourseDurationforInterService] {0},'{1}'", request.CourseTypeId, request.CurrentDate);
+            var search = request.SearchTerm == null ? "NULL" : $"'{request.SearchTerm.Replace("'", "''")}'";
+
+            var spQuery = String.Format("exec [spGetUpcomingCourseDurationforInterService] {0},'{1}', {2}", request.CourseTypeId, request.CurrentDate, search);
             
             DataTable dataTable = _courseDurationRepository.ExecWithSqlQuery(spQuery);
             return dataTable;

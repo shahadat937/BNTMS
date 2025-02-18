@@ -77,18 +77,28 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
     ).subscribe(searchText => {
       this.applyFilter(searchText);
     });
-    this.route.paramMap.subscribe(params => {
-      this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
+    this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
+    // this.route.paramMap.subscribe(params => {
+    //   this.baseSchoolNameId = this.route.snapshot.paramMap.get('baseSchoolNameId');
 
-      if ( this.roleName === this.userRole.SuperAdmin) {
-        
-        this.getCourseDuraionByBaseName();
-      } else {
-        this.getCourseDurations();
-      }
-    });
+
+    // });
+
+    this.getCourseDurationByRole();
+
+
     
   }
+
+  getCourseDurationByRole(){
+    if ( this.roleName === this.userRole.SuperAdmin) {
+        
+      this.getCourseDuraionByBaseName();
+    } else {
+      this.getCourseDurations();
+    }
+  }
+
   onSearchChange(searchValue: string): void {
     this.searchSubject.next(searchValue);
   }
@@ -130,7 +140,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
   }
   getCourseDuraionByBaseName() {
     this.isLoading = true;
-    this.CourseDurationService.getCourseDuraionByBaseName(this.branchId, this.paging.pageIndex, this.paging.pageSize).subscribe(response => {
+    this.CourseDurationService.getCourseDuraionByBaseName(this.branchId, this.paging.pageIndex, this.paging.pageSize, this.searchText).subscribe(response => {
       // this.dataSource.data = response;
       this.dataSource.data = response.items; 
       this.sharedService.groupedData = this.sharedService.groupBy(
@@ -152,7 +162,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
   // }
   applyFilter(searchText: any){ 
     this.searchText = searchText;
-    this.getCourseDurations();
+    this.getCourseDurationByRole();
   }  
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
@@ -169,7 +179,7 @@ export class CourseActivationListComponent extends UnsubscribeOnDestroyAdapter i
            
             row.isCompletedStatus = 1; 
   
-            this.snackBar.open('Information Deactive Successfully', '', {
+            this.snackBar.open('Course Completed Successfully', '', {
               duration: 3000,
               verticalPosition: 'bottom',
               horizontalPosition: 'right',
