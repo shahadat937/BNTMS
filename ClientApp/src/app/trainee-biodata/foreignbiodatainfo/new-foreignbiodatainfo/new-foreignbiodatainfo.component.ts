@@ -122,7 +122,9 @@ export class NewForeignBIODataInfoComponent implements OnInit, OnDestroy {
     });
   }
 filterBna(value:any){
-  this.batchValues= this.selectBatchValue.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.batchValues= this.selectBatchValue.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
 
   getreligions(){
@@ -132,7 +134,9 @@ filterBna(value:any){
     });
   }
   filterByReligion(value:any){
-    this.religionValues=this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.religionValues=this.selectReligion.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   gethaircolors(){
     this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
@@ -141,7 +145,9 @@ filterBna(value:any){
     });
   }  
   filterByHairColor(value:any){
-    this.hairColorValues=this.selectHairColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.hairColorValues=this.selectHairColor.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getselectedheight(){
@@ -164,7 +170,9 @@ filterBna(value:any){
   }
 
   filterByColor(value:any){
-    this.colorOfEyeValues=this.selectColor.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.colorOfEyeValues=this.selectColor.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getselectedbloodgroup(){
@@ -174,7 +182,9 @@ filterBna(value:any){
     });
   }
   filterByBloodGroup(value:any){
-    this.bloodValues=this.selectBlood.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.bloodValues=this.selectBlood.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getNationalitys(){
@@ -184,7 +194,9 @@ filterBna(value:any){
   }
 
 filterCountry(value:any){
-  this.cuntryValues = this.selectCountry.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.cuntryValues = this.selectCountry.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
 
   getselectedCountry(){
@@ -195,7 +207,9 @@ filterCountry(value:any){
   }
 
   filterBranch(value:any){
-    this.branchValues= this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.branchValues= this.selectBranch.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getBranch(){
     this.subscription = this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
@@ -206,7 +220,9 @@ filterCountry(value:any){
 
 
   rankFilter(value:any){
-  this.rankValues=this.selectRank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.rankValues=this.selectRank.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
 
 
@@ -283,7 +299,9 @@ filterCountry(value:any){
     });
   } 
   filterByCaste(value:any){
-    this.selectedCastes=this.selectCastes.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedCastes=this.selectCastes.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   // getMaritalStatus(){

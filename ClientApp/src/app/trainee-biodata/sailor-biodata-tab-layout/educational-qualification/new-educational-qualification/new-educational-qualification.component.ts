@@ -100,7 +100,9 @@ export class NewEducationalQualificationComponent extends UnsubscribeOnDestroyAd
     });
   }
   filterbyExamType(value:any){
-    this.examTypeValues=this.selectExamType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.examTypeValues=this.selectExamType.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getBoardName(){
@@ -110,7 +112,9 @@ export class NewEducationalQualificationComponent extends UnsubscribeOnDestroyAd
     });
   }
   filterByBoard(value:any){
-    this.boardValues=this.selectBoard.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.boardValues=this.selectBoard.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getGroupName(){
@@ -120,7 +124,9 @@ export class NewEducationalQualificationComponent extends UnsubscribeOnDestroyAd
     });
   }
   filterByGroup(value:any){
-    this.groupValues=this.selectGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.groupValues=this.selectGroup.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   onSubmit() {
     const id = this.EducationalQualificationForm.get('educationalQualificationId')?.value;  
