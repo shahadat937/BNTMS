@@ -297,14 +297,18 @@ ngAfterViewInit() {
   } 
 
   filterBaseSchools(value:string) {
-    this.filteredbaseschools = this.selectedbaseschools.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.filteredbaseschools = this.selectedbaseschools.filter(school =>
+      searchTerms.every(term => school.text.toLowerCase().includes(term)));
   }
 
   filterCourse(value:string) {
     if(this.selectedCourse==undefined||this.selectedCourse.length<=0) {
       return;
     }
-    this.filteredCourse = this.selectedCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.filteredCourse = this.selectedCourse.filter(school =>
+      searchTerms.every(term => school.text.toLowerCase().includes(term)));
   }
 
   // onSubmit() {

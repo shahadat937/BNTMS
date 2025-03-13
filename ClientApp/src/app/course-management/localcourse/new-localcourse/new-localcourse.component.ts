@@ -161,7 +161,7 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
       searchTerms.every(term => school.text.toLowerCase().includes(term)));
     console.log(this.filteredbaseSchoolFornbcd)
   }
-  //autocomplete
+
   onCourseSelectionChanged(item) {
     this.courseNameId = item.value 
     this.CourseDurationForm.get('courseNameId')?.setValue(item.value);
