@@ -130,17 +130,36 @@ export class NewLocalcourseComponent extends UnsubscribeOnDestroyAdapter impleme
     })
   }
 
-  filterBaseName(value:any) {
+ 
+  // filterBaseName(value:any) {
     
-    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+  //   this.filteredSelectedBaseName = this.selectedBaseName.filter(x=> x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, "")));
+  //   console.log(this.filteredSelectedBaseName)
+  // }
+  filterBaseName(value: string) {
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  
+    this.filteredSelectedBaseName = this.selectedBaseName.filter(school =>
+      searchTerms.every(term => school.text.toLowerCase().includes(term))
+    );
+  
+    console.log(this.filteredSelectedBaseName);
   }
 
+  
+
   filterSchoolName(value:any) {
-    this.filteredSelectedSchool = this.selectedSchool.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.filteredSelectedSchool = this.selectedSchool.filter(school =>
+      searchTerms.every(term => school.text.toLowerCase().includes(term)));
+    
   }
 
   filterNbcd(value: any) {
-    this.filteredbaseSchoolFornbcd = this.selectedbaseschoolfornbcd.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')));
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.filteredbaseSchoolFornbcd = this.selectedbaseschoolfornbcd.filter(school =>
+      searchTerms.every(term => school.text.toLowerCase().includes(term)));
+    console.log(this.filteredbaseSchoolFornbcd)
   }
   //autocomplete
   onCourseSelectionChanged(item) {
