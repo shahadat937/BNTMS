@@ -83,7 +83,9 @@ export class NewBnaCurriculumUpdateComponent extends UnsubscribeOnDestroyAdapter
   
   
   filterBnaBatch(value:any){
-    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getBnaBatch(){
     this.BnaCurriculumUpdateService.getselectedbnabatch().subscribe(res=>{
@@ -92,7 +94,9 @@ export class NewBnaCurriculumUpdateComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 filterSemesterId(value:any){
-  this.selectedBnaSemester=this.selectSemesterId.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.selectedBnaSemester=this.selectSemesterId.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
   getBnaSemester(){
     this.BnaCurriculumUpdateService.getselectedbnasemester().subscribe(res=>{
@@ -102,7 +106,9 @@ filterSemesterId(value:any){
   }
 
   filterSemesterDuration(value:any){
-    this.selectedBnaSemesterDurations=this.selectSemesterDuration.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBnaSemesterDurations=this.selectSemesterDuration.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getBnaSemesterDurations(){
     this.BnaCurriculumUpdateService.getselectedbnasemesterdurations().subscribe(res=>{
@@ -111,7 +117,9 @@ filterSemesterId(value:any){
     });
   }
 filterByType(value:any){
-  this.selectedbnacurriculamtype=this.selectCurriculumType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.selectedbnacurriculamtype=this.selectCurriculumType.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
   getbnacurriculamtype(){
     this.BnaCurriculumUpdateService.getselectedbnacurriculamtype().subscribe(res=>{
