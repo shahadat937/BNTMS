@@ -67,8 +67,8 @@ export class SigninComponent
   // }
 
   generateCaptcha(){
-    this.captchaNumber1 = Math.floor(Math.random() * 20);
-    this.captchaNumber2 = Math.floor(Math.random() * 20);
+    this.captchaNumber1 = Math.floor(Math.random() * 10);
+    this.captchaNumber2 = Math.floor(Math.random() * 10);
     this.captchaResult = this.captchaNumber1 + this.captchaNumber2;
   }
   onSubmit() {

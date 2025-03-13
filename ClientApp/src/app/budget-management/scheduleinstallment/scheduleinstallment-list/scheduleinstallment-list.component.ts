@@ -244,7 +244,9 @@ export class ScheduleInstallmentListComponent extends UnsubscribeOnDestroyAdapte
     });
   }
   fileterByCourse(value:any){
-    this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedCourseDuration=this.selectCourse.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   // getSelectedCourseName(){
   //   this.CourseBudgetAllocationService.getselectedBudgetCode().subscribe(res=>{
