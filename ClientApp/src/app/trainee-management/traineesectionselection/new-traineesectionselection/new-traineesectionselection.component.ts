@@ -96,7 +96,9 @@ export class NewTraineeSectionSelectionComponent extends UnsubscribeOnDestroyAda
     });
   }
   filterBnaBatch(value:any){
-    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBnaBatch=this.selectBNAbatch.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getBnaSemester(){
@@ -107,7 +109,9 @@ export class NewTraineeSectionSelectionComponent extends UnsubscribeOnDestroyAda
   }
 
   filterSemesterId(value:any){
-    this.selectedBnaSemester=this.selectSemesterId.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBnaSemester=this.selectSemesterId.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getbnaclasssectionselection(){
@@ -118,10 +122,14 @@ export class NewTraineeSectionSelectionComponent extends UnsubscribeOnDestroyAda
     });
   }
  filterClassSelection(value:any){
-  this.selectedbnaclasssectionselection=this.selectClassSelection.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.selectedbnaclasssectionselection=this.selectClassSelection.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
  }
 filterPreviewSection(value:any){
-  this.selectedbnaclasssectionselection=this.selectPreview.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.selectedbnaclasssectionselection=this.selectPreview.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
   getbnacurriculamtype(){
     this.TraineeSectionSelectionService.getselectedbnacurriculamtype().subscribe(res=>{

@@ -122,7 +122,9 @@ export class NewBnasemesterdurationComponent implements OnInit, OnDestroy {
   }
 
   filterSubjectCurriculam(value:any){
-    this.bnaSubjectCurriculam=this.selectCurriculam.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().reeplac(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.bnaSubjectCurriculam=this.selectCurriculam.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getSelectedBnaSubjectCurriculam(){
     this.subscription = this.BNASemesterDurationService.getSelectedBnaSubjectCurriculam().subscribe(res=>{
@@ -138,7 +140,9 @@ export class NewBnasemesterdurationComponent implements OnInit, OnDestroy {
   } 
 
   filterBySemester(value:any){
-    this.selectedSemester=this.selectSemester.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedSemester=this.selectSemester.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getSelectedBnaSemester(){
@@ -148,7 +152,9 @@ export class NewBnasemesterdurationComponent implements OnInit, OnDestroy {
     });
   } 
 filterByCourse(value:any){
-  this.selectedCourseDuration=this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.selectedCourseDuration=this.selectCourse.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
   getSelectedCourseDuration(){
     this.subscription = this.BNASemesterDurationService.getSelectedCourseDuration().subscribe(res=>{
@@ -158,7 +164,9 @@ filterByCourse(value:any){
   } 
 
   filterByBatch(value:any){
-    this.selectedBatch= this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBatch= this.selectBatch.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getSelectedBnaBatch(){
     this.subscription = this.BNASemesterDurationService.getSelectedBnaBatch().subscribe(res=>{
@@ -167,7 +175,9 @@ filterByCourse(value:any){
     });
   }
   filterPromotion(value:any){
-    this.selectedRank=this.selectPromotion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedRank=this.selectPromotion.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
   getSelectedRank(){
     this.subscription =  this.BNASemesterDurationService.getSelectedRank().subscribe(res=>{

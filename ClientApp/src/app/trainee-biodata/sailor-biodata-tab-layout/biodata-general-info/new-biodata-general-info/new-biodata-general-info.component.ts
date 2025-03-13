@@ -178,7 +178,9 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
     });
   }
   filterByHairColor(value: any) {
-    this.hairColorValues = this.selectHairColor.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.hairColorValues = this.selectHairColor.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedcaste() {
     this.BIODataGeneralInfoService.getselectedcaste().subscribe(res => {
@@ -187,8 +189,9 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
     });
   }
   filterBaseName(value: any) {
-
-    this.filteredSelectedBaseName = this.selectedBaseName.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')));
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.filteredSelectedBaseName = this.selectedBaseName.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)));
   }
   getselectedheight() {
     this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res => {
@@ -204,17 +207,23 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
     });
   }
   filterByRank(value: any) {
-    this.rankValues = this.selectrank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.rankValues = this.selectrank.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
 
 
   filterSaylorRank(value: any) {
-    this.selectedSailorRank = this.selectRank.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')));
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedSailorRank = this.selectRank.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)));
   }
 
   filterSaylorBranch(value: any) {
-    this.sailorBranch = this.selectedSaylorBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.sailorBranch = this.selectedSaylorBranch.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   // filterWeight(value:any){
@@ -226,11 +235,15 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
   // }
 
   filterBloodgroup(value: any) {
-    this.bloodValues = this.selectBloodGroup.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.bloodValues = this.selectBloodGroup.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   filterbyReligion(value: any) {
-    this.religionValues = this.selectedReligion.filter(x => x.text.toLowerCase().includes(value.toLowerCase().filter(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.religionValues = this.selectedReligion.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getselectedcolorofeye() {
@@ -241,7 +254,9 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
     });
   }
   filterByEyeCoor(value: any) {
-    this.colorOfEyeValues = this.selectEyeColor.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.colorOfEyeValues = this.selectEyeColor.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getselectedbloodgroup() {
@@ -290,7 +305,9 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
     });
   }
   filterBySubBranch(value: any) {
-    this.selectedSaylorSubBranch = this.selectSubBranch.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedSaylorSubBranch = this.selectSubBranch.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getMaritialStatus() {
@@ -308,7 +325,9 @@ export class NewBIODataGeneralInfoComponent extends UnsubscribeOnDestroyAdapter 
   }
 
   filterByCastes(value: any) {
-    this.selectedCastes = this.selectCastes.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedCastes = this.selectCastes.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   intitializeForm() {
     this.BIODataGeneralInfoForm = this.fb.group({

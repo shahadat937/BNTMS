@@ -264,7 +264,9 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
     });
   }
   filterByMaterial(value: any) {
-    this.selectedReadingMaterialTitle = this.selectMaterials.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedReadingMaterialTitle = this.selectMaterials.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedcoursename() {
     this.subscription = this.ReadingMaterialService.getselectedcoursename().subscribe(res => {
@@ -272,7 +274,9 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
     });
   }
   filterSchool(value: any) {
-    this.selectedschool = this.selectSchool.filter(x => x.text.toLowerCase().includes(value.toLowerCase()))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedschool = this.selectSchool.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedschools() {
     this.subscription = this.ReadingMaterialService.getselectedschools().subscribe(res => {
@@ -288,7 +292,9 @@ export class NewReadingMaterialComponent implements OnInit, OnDestroy {
     });
   }
   filterByDocs(value: any) {
-    this.selecteddocs = this.selectDocument.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selecteddocs = this.selectDocument.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getselecteddownloadright() {

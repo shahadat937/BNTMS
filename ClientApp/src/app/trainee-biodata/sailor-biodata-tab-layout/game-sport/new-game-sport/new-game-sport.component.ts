@@ -84,7 +84,9 @@ export class NewGameSportComponent extends UnsubscribeOnDestroyAdapter implement
     });
   }
   filterByGame(value: any) {
-    this.gameValues = this.selectGame.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.gameValues = this.selectGame.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   // If a trainee tries to view another trainee's information, it will be prevent.

@@ -106,7 +106,9 @@ export class NewMistComponent implements OnInit, OnDestroy {
     });
   }
   filterByCourseName(value:any){
-    this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedcoursename=this.selectCourseName.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedcoursetype(){
     this.subscription = this.CourseDurationService.getselectedcoursetype().subscribe(res=>{
@@ -114,7 +116,9 @@ export class NewMistComponent implements OnInit, OnDestroy {
     });
   } 
   filterSchoolName(value:any){
-    this.selectedschoolname=this.selecSchoolName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedschoolname=this.selecSchoolName.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedbaseschools(){
     this.subscription = this.CourseDurationService.getselectedbaseschools().subscribe(res=>{

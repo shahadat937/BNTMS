@@ -100,7 +100,9 @@ export class NewBaseNameComponent implements OnInit, OnDestroy {
   // }
 
   filterByCommendingArea(value:any){
-    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.BaseNameForm.value['firstLevel'];

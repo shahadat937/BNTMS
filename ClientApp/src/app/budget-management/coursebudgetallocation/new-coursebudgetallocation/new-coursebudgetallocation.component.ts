@@ -230,10 +230,14 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
     });
   }
   filterByCourseName(value:any){
-    this.selectedcoursename=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedcoursename=this.selectCourseName.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   filterByTrainee(value:any){
-    this.selectedTrainee=this.selectTrainee.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedTrainee=this.selectTrainee.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getSelectedCourseDuration(CourseTypeId){
@@ -254,7 +258,9 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
     });
   } 
   filterByBudget(value:any){
-    this.selectedBudgetCode=this.selectBUdgetCode.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBudgetCode=this.selectBUdgetCode.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedPaymentType(){
     this.CourseBudgetAllocationService.getselectedPaymentType().subscribe(res=>{
@@ -263,7 +269,9 @@ export class NewCourseBudgetAllocationComponent extends UnsubscribeOnDestroyAdap
     });
   }
   filterByPayment(value:any){
-    this.selectedPaymentType=this.selectPayment.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedPaymentType=this.selectPayment.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getselectedBudgetType(){

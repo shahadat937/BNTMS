@@ -87,7 +87,9 @@ export class NewFeatureComponent implements OnInit, OnDestroy {
     })
   }
 filterByModel(value:any){
-  this.selectedModel = this.selectModel.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.selectedModel = this.selectModel.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
   getModule(){
     this.subscription = this.FeatureService.getselectedmodule().subscribe(res=>{

@@ -111,10 +111,14 @@ export class NewSchoolNameComponent implements OnInit, OnDestroy {
     });        
   }
   filterByCommendingArea(value:any){
-    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedCommendingArea=this.selectCommendingArea.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   filterByBaseName(value:any){
-    this.selectedBaseName=this.selectBaseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBaseName=this.selectBaseName.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   onCommendingAreaSelectionChangeGetBaseName(){
     this.baseNameId=this.BaseSchoolForm.value['secondLevel'];

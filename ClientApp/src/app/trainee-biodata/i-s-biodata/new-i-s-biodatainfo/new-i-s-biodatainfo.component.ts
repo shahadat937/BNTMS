@@ -107,7 +107,9 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
   }
 
   filterByBatch(value:any){
-    this.batchValues = this.selectBatch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.batchValues = this.selectBatch.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getBatchs(){
     this.subscription = this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
@@ -116,7 +118,9 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
     });
   }
   filterByReligion(value:any){
-    this.religionValues = this.selectReligion.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.religionValues = this.selectReligion.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getreligions(){
     this.subscription = this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
@@ -148,7 +152,9 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
     });
   }
   filterBloodGroup(value:any){
-    this.bloodValues = this.selectBloodGroup.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.bloodValues = this.selectBloodGroup.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedbloodgroup(){
     this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
@@ -163,7 +169,9 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
     });
   }
   filterByBranch(value:any){
-    this.branchValues = this.selectBranch.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.branchValues = this.selectBranch.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getBranch(){
     this.subscription = this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
@@ -173,7 +181,9 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
   }
 
   filterByRank(value:any){
-    this.rankValues=this.selectrank.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.rankValues=this.selectrank.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getRanks(){
     this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
@@ -232,7 +242,9 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
   }
 
   filterByDistric(value:any){
-    this.selectedDistrict=this.selectDistric.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedDistrict=this.selectDistric.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   onDivisionSelectionChangeGetDistrict(divisionId){
     this.subscription = this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
@@ -242,7 +254,9 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
   }
 
   filterByThana(value:any){
-    this.selectedThana = this.selectThana.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedThana = this.selectThana.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   onDistrictSelectionChangeGetThana(districtId){
     this.subscription = this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
@@ -251,7 +265,9 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
     });
   }
 filterByCaste(value:any){
-  this.selectedCastes = this.selectcaste.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+  this.selectedCastes = this.selectcaste.filter(x=>
+    searchTerms.every(term => x.text.toLowerCase().includes(term)))
 }
   onReligionSelectionChangeGetCastes(religionId){
     this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
