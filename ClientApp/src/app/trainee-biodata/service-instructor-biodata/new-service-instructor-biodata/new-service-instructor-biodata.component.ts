@@ -161,7 +161,9 @@ export class NewServiceInstructorBiodataComponent extends UnsubscribeOnDestroyAd
     })
   }
   filterBySchool(value:any){
-    this.selectedBaseSchoolList = this.schoolList.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBaseSchoolList = this.schoolList.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getUserInfo(traineeId) {
