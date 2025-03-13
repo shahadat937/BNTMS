@@ -102,7 +102,9 @@ export class NewNETSComponent implements OnInit, OnDestroy {
     })
   }
   filterCourseName(value:any){
-    this.selectedcoursename = this.selectCourse.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedcoursename = this.selectCourse.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedcoursename(){
     this.subscription = this.CourseDurationService. getSelectedCourseByType(this.courseTypeId).subscribe(res=>{

@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Role } from 'src/app/core/models/role';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { MasterData } from 'src/assets/data/master-data';
+import { Role } from '../../../../src/app/core/models/role';
+import { SelectedModel } from '../../../../src/app/core/models/selectedModel';
+import { MasterData } from '../../../../src/assets/data/master-data';
 import { OnlineLibraryMaterial } from '../models/onlinelibrarymaterial';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
+import { AuthService } from '../../../../src/app/core/service/auth.service';
+import { ConfirmService } from '../../../../src/app/core/service/confirm.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InstructorDashboardService } from 'src/app/teacher/services/InstructorDashboard.service';
-import { SharedServiceService } from 'src/app/shared/shared-service.service';
+import { InstructorDashboardService } from '../../../../src/app/teacher/services/InstructorDashboard.service';
+import { SharedServiceService } from '../../../../src/app/shared/shared-service.service';
 import { OnlinelibraryService } from '../service/onlinelibrary.service';
-import { FileDialogMessageComponent } from 'src/app/reading-materials/readingmaterial/file-dialog-message/file-dialog-message.component';
+import { FileDialogMessageComponent } from '../../../../src/app/reading-materials/readingmaterial/file-dialog-message/file-dialog-message.component';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { UnsubscribeOnDestroyAdapter } from '../../../../src/app/shared/UnsubscribeOnDestroyAdapter';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
@@ -128,7 +128,7 @@ export class NewOnlineLibraryMetarialComponent extends UnsubscribeOnDestroyAdapt
     this.intitializeForm();
 
     if (this.role != this.roleList.MasterAdmin) {
-      this.onlineLibraryForm.get('baseSchoolNameId').setValue(this.branchId);
+      this.onlineLibraryForm.get('baseSchoolNameId')?.setValue(this.branchId);
     }
 
     this.getselectedDocumentType();
@@ -156,7 +156,7 @@ export class NewOnlineLibraryMetarialComponent extends UnsubscribeOnDestroyAdapt
   }
 
   onSubmit() {
-    this.onlineLibraryForm.get('approvedDate').setValue((new Date(this.onlineLibraryForm.get('approvedDate').value)).toUTCString());
+    this.onlineLibraryForm.get('approvedDate')?.setValue((new Date(this.onlineLibraryForm.get('approvedDate')?.value)).toUTCString());
     const formData = new FormData();
     for (const key of Object.keys(this.onlineLibraryForm.value)) {
       let value = this.onlineLibraryForm.value[key];
@@ -232,7 +232,9 @@ export class NewOnlineLibraryMetarialComponent extends UnsubscribeOnDestroyAdapt
   }
 
   filterByDocs(value: any) {
-    this.selecteddocs = this.selectDocument.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selecteddocs = this.selectDocument.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
     onFileChanged(event) {

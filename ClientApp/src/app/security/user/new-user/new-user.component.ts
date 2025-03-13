@@ -159,7 +159,9 @@ export class NewUserComponent implements OnInit, OnDestroy {
   }
 
   filterRoles(value:any){
-    this.roleValues=this.selectRole.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.roleValues=this.selectRole.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getRoleName(){
     this.subscription = this.RoleService.getselectedrole().subscribe(res=>{
@@ -175,7 +177,9 @@ export class NewUserComponent implements OnInit, OnDestroy {
   }
 
   filterCommendingArea(value:any){
-    this.selectedCommendingArea = this.selectCommendingArea.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedCommendingArea = this.selectCommendingArea.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   onOrganizationSelectionChangeGetCommendingArea(){
     this.organizationId=this.UserForm.value['firstLevel'];
@@ -185,7 +189,9 @@ export class NewUserComponent implements OnInit, OnDestroy {
     });        
   }
   filterByBase(value:any){
-    this.selectedBaseName = this.selectBaseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBaseName = this.selectBaseName.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   onCommendingAreaSelectionChangeGetBaseName(){
     this.commendingAreaId=this.UserForm.value['secondLevel'];
@@ -197,7 +203,9 @@ export class NewUserComponent implements OnInit, OnDestroy {
             
   }
   filterBySchoolName(value:any){
-    this.selectedSchoolName=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedSchoolName=this.selectSchool.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   onBaseNameSelectionChangeGetBaseSchoolName(){
     this.baseNameId=this.UserForm.value['thirdLevel'];
