@@ -178,7 +178,9 @@ export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
     });
   }
   filterSchoolName(value:any){
-    this.selectScoolName=this.selectSchool.filter(x=>x.text.toLowerCase().includes(value.toLowerCase()))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectScoolName=this.selectSchool.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedcoursedurationbyschoolname() {
     var baseSchoolNameId = this.TdecQuationGroupForm.value['baseSchoolNameId'];
@@ -188,10 +190,14 @@ export class NewTdecQuationGroupComponent implements OnInit,OnDestroy {
     });
   }
   filterByCourse(value:any){
-    this.selectedcoursedurationbyschoolname=this.selectCourseName.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedcoursedurationbyschoolname=this.selectCourseName.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   filterBySubject(value:any){
-    this.selectedSubjectNamebyschoolnameAndCourse=this.selectSubject.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedSubjectNamebyschoolnameAndCourse=this.selectSubject.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getSelectedSubjectNameBySchoolNameIdAndCourseNameId(dropdown) {
     

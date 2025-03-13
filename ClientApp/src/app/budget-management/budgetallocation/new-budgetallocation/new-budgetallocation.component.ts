@@ -113,7 +113,9 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
     });
   } 
   filterBudgetCode(value:any){
-    this.selectedBudgetCode=this.selectBudget.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBudgetCode=this.selectBudget.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
 
   getselectedBudgetType(){
@@ -123,10 +125,14 @@ export class NewBudgetAllocationComponent extends UnsubscribeOnDestroyAdapter im
     });
   } 
   filterByType(value:any){
-    this.selectedBudgetType=this.selectBudgetType.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedBudgetType=this.selectBudgetType.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   filterByYear(value:any){
-    this.selectedFiscalYear=this.selectYear.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedFiscalYear=this.selectYear.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
   getselectedFiscalYear(){
     this.BudgetAllocationService.getselectedFiscalYear().subscribe(res=>{
