@@ -92,7 +92,7 @@ export class LocalcourseListComponent
     
     this.scrollPosition = window.scrollY || window.pageYOffset; // Current scroll position
 
-    let delay = this.selectedFilter === 2? 500 : 100;
+    let delay = this.selectedFilter === 2? 500 : 250;
   
     if (!this.isAllDataLoaded && this.scrollPosition - this.lastApiCallPosition >= delay && this.scrollPosition > this.lastApiCallPosition) {
       this.paging.pageSize++;
