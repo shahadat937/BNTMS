@@ -37,7 +37,6 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
 
             DateTime today = DateTime.Now;
 
-
             switch (request.Status)
             {
                 case 1: // Running courses
@@ -54,36 +53,49 @@ namespace SchoolManagement.Application.Features.CourseDurations.Handlers.Queries
                     break;
             }
 
-            // Group by school
-            var groupedBySchool = courseDurationsQuery
+            // **Step 1: Get distinct schools (5 schools per page)**
+            var schoolIdsQuery = courseDurationsQuery
+                .Select(x => x.BaseSchoolNameId)
+                .Distinct()
+                .OrderBy(id => id); // Ensure stable ordering
+
+            int totalSchools = await schoolIdsQuery.CountAsync(cancellationToken); // Total school count for pagination
+
+            var paginatedSchoolIds = await schoolIdsQuery
+                .Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize)
+                .Take(request.QueryParams.PageSize)
+                .ToListAsync(cancellationToken);
+
+            // **Step 2: Get all courses belonging to those paginated schools**
+            var filteredCourses = await courseDurationsQuery
+                .Where(x => paginatedSchoolIds.Contains(x.BaseSchoolNameId))
+                .OrderBy(x => x.BaseSchoolNameId)
+                .ThenBy(x => x.CourseTitle) // Optional: Ensure consistent ordering
+                .ToListAsync(cancellationToken);
+
+            // **Step 3: Group by school**
+            var groupedBySchool = filteredCourses
                 .GroupBy(x => x.BaseSchoolNameId)
                 .Select(g => new
                 {
                     SchoolId = g.Key,
                     Courses = g.ToList()
-                });
+                })
+                .ToList();
 
-            // Pagination
-            var paginatedSchools = await groupedBySchool
-                .Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize)
-                .Take(request.QueryParams.PageSize)
-                .ToListAsync(cancellationToken);
-
-            // Map to DTOs
-            var courseDurationDtosList = paginatedSchools
+            // **Map to DTOs**
+            var courseDurationDtosList = groupedBySchool
                 .SelectMany(school => school.Courses.Select(course => _mapper.Map<CourseDurationDto>(course)))
                 .ToList();
 
-            // Calculate total count
-            var totalCount = await courseDurationsQuery.CountAsync(cancellationToken);
-
             return new PagedResult<CourseDurationDto>(
                 courseDurationDtosList,
-                totalCount,
+                totalSchools, // Total number of distinct schools
                 request.QueryParams.PageNumber,
                 request.QueryParams.PageSize
             );
         }
+
 
 
     }

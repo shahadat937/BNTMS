@@ -128,7 +128,7 @@ export class LocalcourseListComponent
       }, 0);
     });
 
-    this.getCourseDurationFilterList(this.selectedFilter);
+    // this.getCourseDurationFilterList(this.selectedFilter);
     this.index = this.scrollPositionService.getSelectedIndex("localCourse");
   }
 
@@ -181,7 +181,7 @@ export class LocalcourseListComponent
       this.courseTypeId,
       this.viewStatus
     ).subscribe((response) => {
-      // console.log(response);
+
 
       this.courseList = [  ...this.courseList, ...response.items ]
       // console.log(this.courseList);
