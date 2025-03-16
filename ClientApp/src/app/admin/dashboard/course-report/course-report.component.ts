@@ -44,6 +44,41 @@ export class CourseReportComponent extends UnsubscribeOnDestroyAdapter implement
     }
   }
 
+  getTotalCounts() {
+    let totalOfficerCount = 0;
+    let totalMidCount = 0;
+    let totalCadetCount = 0;
+    let totalISCount = 0;
+    let totalSailorCount = 0;
+    let totalCivilCount = 0;
+    let totalForeignCount = 0;
+    let totalTraineeCount = 0;
+
+    this.sharedService.groupedData.forEach(data => {
+      data.groupedItems.forEach(item => {
+        totalOfficerCount += item.officerCount;
+        totalMidCount += item.midCount;
+        totalCadetCount += item.cadetCount;
+        totalISCount += item.isCount;
+        totalSailorCount += item.sailorCount;
+        totalCivilCount += item.civilCount;
+        totalForeignCount += item.foreignCount;
+        totalTraineeCount += item.totalTraineeCount;
+      });
+    });
+
+    return {
+      totalOfficerCount,
+      totalMidCount,
+      totalCadetCount,
+      totalISCount,
+      totalSailorCount,
+      totalCivilCount,
+      totalForeignCount,
+      totalTraineeCount
+    };
+  }
+
   fromDateChange(event) {
     this.to = this.sharedService.formatDateTime(event.value);
     this.getCourseReport();
