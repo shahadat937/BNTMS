@@ -94,6 +94,30 @@
                             <th class="cl-mrk-rmrk">
                               <h5>Course</h5>
                             </th>
+                            <th class="cl-mrk-rmrk px-1">
+                              <h5>Officer's</h5>
+                            </th>
+                            <th class="cl-mrk-rmrk px-1">
+                              <h5>Mids</h5>
+                            </th>
+                            <th class="cl-mrk-rmrk px-1">
+                              <h5>Cadet</h5>
+                            </th>
+                            <th class="cl-mrk-rmrk px-1">
+                              <h5>I/S</h5>
+                            </th>
+                            <th class="cl-mrk-rmrk px-1">
+                              <h5>Sailor's</h5>
+                            </th>
+                            <th class="cl-mrk-rmrk px-1">
+                              <h5>Civil</h5>
+                            </th>
+                            <th class="cl-mrk-rmrk px-1">
+                              <h5>Foreign</h5>
+                            </th>
+                            <th class="cl-mrk-rmrk px-1">
+                              <h5>Total</h5>
+                            </th>
                             <th width="12%" class="cl-mrk-rmrk px-1">
                               <h5>Duration From</h5>
                             </th>
@@ -116,17 +140,35 @@
                             <tr *ngFor="let number of data.groupedItems">
                               <td>{{ number.schoolName }}</td>
                               <td>{{number.course}} - {{number.courseTitle}}     </td>
+                              <td class="fw-bold">{{ number.officerCount }}</td>
+                              <td class="fw-bold">{{ number.midCount }}</td>
+                              <td class="fw-bold">{{ number.cadetCount }}</td>
+                              <td class="fw-bold">{{ number.isCount }}</td>
+                              <td class="fw-bold">{{ number.sailorCount }}</td>
+                              <td class="fw-bold">{{ number.civilCount }}</td>
+                              <td class="fw-bold">{{ number.foreignCount }}</td>
+                              <td class="fw-bold">{{ number.totalTraineeCount }}</td>
                               <td>{{ number.durationFrom | date: "dd MMM YYYY" }}</td>
                               <td>{{ number.durationTo | date: "dd MMM YYYY"}}</td>
                             </tr>
                           </ng-container>
+                          <tr>
+                            <td colspan="3" class="text-end"><strong>Total</strong></td>
+                            <td class="fw-bold">{{ getTotalCounts().totalOfficerCount }}</td>
+                            <td class="fw-bold">{{ getTotalCounts().totalMidCount }}</td>
+                            <td class="fw-bold">{{ getTotalCounts().totalCadetCount }}</td>
+                            <td class="fw-bold">{{ getTotalCounts().totalISCount }}</td>
+                            <td class="fw-bold">{{ getTotalCounts().totalSailorCount }}</td>
+                            <td class="fw-bold">{{ getTotalCounts().totalCivilCount }}</td>
+                            <td class="fw-bold">{{ getTotalCounts().totalForeignCount }}</td>
+                            <td class="fw-bold">{{ getTotalCounts().totalTraineeCount }}</td>
+                            <td></td>
+                            <td></td>
+                          </tr>
                         </tbody>
 
                       </table>
-                      <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
-                              [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
-                              (page)="pageChanged($event)">
-                              </mat-paginator> -->
+                     
                     </div>
                   </div>
               </div>
