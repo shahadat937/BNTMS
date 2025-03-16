@@ -92,7 +92,7 @@ export class LocalcourseListComponent
     
     this.scrollPosition = window.scrollY || window.pageYOffset; // Current scroll position
 
-    let delay = this.selectedFilter === 2? 500 : 250;
+    let delay = this.selectedFilter === 2? 500 : 100;
   
     if (!this.isAllDataLoaded && this.scrollPosition - this.lastApiCallPosition >= delay && this.scrollPosition > this.lastApiCallPosition) {
       this.paging.pageSize++;
@@ -128,7 +128,7 @@ export class LocalcourseListComponent
       }, 0);
     });
 
-    this.getCourseDurationFilterList(this.selectedFilter);
+    // this.getCourseDurationFilterList(this.selectedFilter);
     this.index = this.scrollPositionService.getSelectedIndex("localCourse");
   }
 
@@ -181,7 +181,7 @@ export class LocalcourseListComponent
       this.courseTypeId,
       this.viewStatus
     ).subscribe((response) => {
-      // console.log(response);
+
 
       this.courseList = [  ...this.courseList, ...response.items ]
       // console.log(this.courseList);
