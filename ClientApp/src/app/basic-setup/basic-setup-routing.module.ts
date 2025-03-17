@@ -181,6 +181,7 @@ import { NewWithdrawnTypeComponent } from './withdrawntype/new-withdrawntype/new
 
 import { CourseTermComponent } from './course-term/course-term.component';
 import { CourseLevelComponent } from './course-level/course-level.component';
+import { ErrorLogListComponent } from './errorLog/error-log-list/error-log-list.component';
  
 
 const routes: Routes = [
@@ -1254,7 +1255,10 @@ const routes: Routes = [
   { path: 'update-courseLevel/:courseLevelId', 
   component: CourseLevelComponent, 
   },
-  
+  {
+    path: 'error-log-list',
+    component: ErrorLogListComponent,
+  },
   { path: '**', component: Page404Component },
 ];
 

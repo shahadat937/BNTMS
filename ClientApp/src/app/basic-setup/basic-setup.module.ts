@@ -198,6 +198,7 @@ import { NewWithdrawnTypeComponent } from './withdrawntype/new-withdrawntype/new
 import { CourseTermComponent } from './course-term/course-term.component';
 import { CourseLevelComponent } from './course-level/course-level.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ErrorLogListComponent } from './errorLog/error-log-list/error-log-list.component';
  
 
 @NgModule({
@@ -379,7 +380,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     SaylorBranchListComponent,
     NewSaylorBranchComponent,
     CourseTermComponent,
-    CourseLevelComponent, 
+    CourseLevelComponent,
+    ErrorLogListComponent, 
 
 
   ],

@@ -54,6 +54,7 @@
 
   <ItemGroup>
     <Folder Include="DTOs\BnaClassAttrendance\Validators\" />
+    <Folder Include="DTOs\ErrorLog\Validators\" />
     <Folder Include="DTOs\GlobalSearch\Validators\" />
     <Folder Include="Features\BnaExamManagements\Handlers\Commands\" />
     <Folder Include="Features\BnaExamManagements\Requests\Commands\" />
