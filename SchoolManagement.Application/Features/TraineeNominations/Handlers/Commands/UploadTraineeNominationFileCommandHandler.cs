@@ -33,6 +33,7 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Comm
             var response = new BaseCommandResponse();
             int successCount = 0;
             int errorCount = 0;
+            List<string> failedPnos = new List<string>(); // List to store failed PNOs
 
             using (var stream = new MemoryStream())
             {
@@ -73,6 +74,7 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Comm
                                 response.Message = "Creation Failed, Trainee already exist";
                                 response.Id = traineeNomination.TraineeNominationId;
                                 errorCount++;
+                                failedPnos.Add(pno);
                             }
                             else
                             {
@@ -87,6 +89,7 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Comm
                                 {
                                     Console.WriteLine(ex);
                                     errorCount++;
+                                    failedPnos.Add(pno);
                                 }
 
                             }
@@ -94,10 +97,42 @@ namespace SchoolManagement.Application.Features.TraineeNominations.Handlers.Comm
                         else
                         {
                             errorCount++;
+                            failedPnos.Add(pno);
                         }
                     }
                 }
             }
+
+            // Save failed PNOs to a text file
+            if (failedPnos.Count > 0)
+            {
+                string errorDirectory = Path.Combine("wwwroot", "Content", "files", "errorLog");
+                string fileName = $"ErrorLog_{DateTime.Now:yyyyMMddHHmmss}.txt";
+                string errorFilePath = Path.Combine(errorDirectory, fileName);
+                string dbFilePath = $"files/errorLog/{fileName}"; // Ensures forward slashes for web paths
+
+                // Ensure the directory exists before writing the file
+                if (!Directory.Exists(errorDirectory))
+                {
+                    Directory.CreateDirectory(errorDirectory);
+                }
+
+                await File.WriteAllLinesAsync(errorFilePath, failedPnos);
+
+                // Save error log in the database with relative path
+                var errorLog = new SchoolManagement.Domain.ErrorLog
+                {
+                    Subject = "Trainee Nomination",
+                    FailureCount = failedPnos.Count,
+                    FileUpload = dbFilePath, // Store relative path in DB with correct slashes
+                    CreatedDate = DateTime.Now
+                };
+
+                await _unitOfWork.Repository<SchoolManagement.Domain.ErrorLog>().Add(errorLog);
+                await _unitOfWork.Save();
+            }
+
+
 
             if (successCount > 0)
             {

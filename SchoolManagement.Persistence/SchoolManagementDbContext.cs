@@ -3623,6 +3623,7 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<OnlineLibrary> OnlineLibrary { get; set;} = null!;
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set;} = null!;
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set;} = null!;
+        public virtual DbSet<ErrorLog> ErrorLog { get; set;} = null!;
 
 
 

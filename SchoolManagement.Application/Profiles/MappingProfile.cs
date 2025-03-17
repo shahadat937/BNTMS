@@ -200,6 +200,7 @@ using SchoolManagement.Application.DTOs.UniversityCourseResult;
 using SchoolManagement.Application.DTOs.BudgetTransaction;
 using SchoolManagement.Application.DTOs.Instructor;
 using SchoolManagement.Application.DTOs.OnlineLibrary;
+using SchoolManagement.Application.DTOs.ErrorLog;
 
 
 namespace SchoolManagement.Application.Profiles
@@ -931,10 +932,15 @@ namespace SchoolManagement.Application.Profiles
             CreateMap<ExamPeriodType, CreateExamPeriodTypeDto>().ReverseMap();
             #endregion
 
+            #region ErrorLog  Mappings  
+            CreateMap<ErrorLog, CreateErrorLogDto>().ReverseMap();
+            CreateMap<ErrorLogDto, ErrorLog>().ReverseMap()
+                .ForMember(d => d.FileUrl, o => o.MapFrom<ErrorLogUrlResolver>());
+            #endregion
 
             //Lattar F
 
-            
+
 
             #region FamilyNomination Mappings 
             CreateMap<FamilyNominationDto, FamilyNomination>().ReverseMap()
