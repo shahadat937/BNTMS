@@ -10,6 +10,6 @@ namespace SchoolManagement.Application.DTOs.ErrorLog
         public string? Subject { get; set; }
         public int? FailureCount { get; set; }
         public string? FileUpload { get; set; }
-        public DateTime? DateTime { get; set; }
+        public DateTime? CreatedDate { get; set; }
     } 
 }

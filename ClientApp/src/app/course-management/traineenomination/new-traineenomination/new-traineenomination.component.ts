@@ -86,7 +86,7 @@ export class NewTraineeNominationComponent extends UnsubscribeOnDestroyAdapter i
     })
 
     this.route.paramMap.subscribe(param => {
-      this.courseDurationId = param.get('courseDurationId');
+      this.courseDurationId = param.get('courseDurationId') ?? "";
 
       this.onUpdate();
     })
