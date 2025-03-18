@@ -26,7 +26,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public string? TimeDuration { get; set; }
         public int? examMarkComplete { get; set; }
         public int? classTypeId { get; set; }
-        public int? classCountPeriod { get; set; }
+        public string? classCountPeriod { get; set; }
         public int? subjectCountPeriod { get; set; }
         public DateTime? date { get; set; }
         public string? Remarks { get; set; }

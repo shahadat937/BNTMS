@@ -13,7 +13,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? BnaSemesterId { get; set; }
         public int? ClassPeriodId { get; set; }
         public int? BaseSchoolNameId { get; set; }
-        public int? ClassCountPeriod { get; set; }
+        public string? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
         public int? CourseNameId { get; set; }
         public int? BranchId { get; set; }
@@ -69,7 +69,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
         public int? traineeId { get; set; }
         public int? subjectMarkId { get; set; }
         public int? markTypeId { get; set; }
-        public int? classCountPeriod { get; set; }
+        public string? classCountPeriod { get; set; }
         public int? subjectCountPeriod { get; set; }
 
         public int? classPeriodId { get; set; }
