@@ -19,7 +19,7 @@ namespace SchoolManagement.Domain
         public int? BnaSemesterId { get; set; }
         public int? ClassPeriodId { get; set; }
         public int? BaseSchoolNameId { get; set; }
-        public int? ClassCountPeriod { get; set; }
+        public string? ClassCountPeriod { get; set; }
         public int? SubjectCountPeriod { get; set; }
         public int? CourseNameId { get; set; }
         public int? CourseWeekId { get; set; }
