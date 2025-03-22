@@ -36,7 +36,7 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
             var response = new BaseCommandResponse();
             var successCount = 0;
             var errorCount = 0;
-            var errorLogs = new List<string>();
+            List<string> failedPnos = new List<string>(); // List to store failed PNOs
 
 
             using (var stream = new MemoryStream())
@@ -46,6 +46,7 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                 {
                     var worksheet = package.Workbook.Worksheets[0];
                     var rowCount = worksheet.Dimension.Rows;
+           
                     for (int row = 2; row <= rowCount; row++)
                     {
                         var cellValue = worksheet.Cells[row, 2].Text;
@@ -85,40 +86,62 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                                     else
                                     {
                                         errorCount++;
-                                        errorLogs.Add($" {branchName} Not Found");
+                                        failedPnos.Add(pno);
                                     }
 
                                 }
                                 else
                                 {
                                     errorCount++;
-                                    errorLogs.Add($"PNo: {pno} already Assignd in other school.");
+                                    failedPnos.Add(pno);
                                 }
 
                             }
                             else
                             {
                                 errorCount++;
-                                errorLogs.Add($"PNo: {pno} User Not Found");
+                                failedPnos.Add(pno);
                             }
 
                         }
                         else
                         {
                             errorCount++;
-                            errorLogs.Add($"PNo: {pno} No Biodata found on system.");
+                            failedPnos.Add(pno);
                         }
 
                     }
                 }
             }
 
-            //if (errorCount > 0)
-            //{
-            //    var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            //    var logFilePath = Path.Combine(desktopPath, "FailureLog.txt");
-            //}
+            // Save failed PNOs to a text file
+            if (failedPnos.Count > 0)
+            {
+                string errorDirectory = Path.Combine("wwwroot", "Content", "files", "errorLog");
+                string fileName = $"ErrorLog_{DateTime.Now:yyyyMMddHHmmss}.txt";
+                string errorFilePath = Path.Combine(errorDirectory, fileName);
+                string dbFilePath = $"files/errorLog/{fileName}"; // Ensures forward slashes for web paths
 
+                // Ensure the directory exists before writing the file
+                if (!Directory.Exists(errorDirectory))
+                {
+                    Directory.CreateDirectory(errorDirectory);
+                }
+
+                await File.WriteAllLinesAsync(errorFilePath, failedPnos);
+
+                // Save error log in the database with relative path
+                var errorLog = new SchoolManagement.Domain.ErrorLog
+                {
+                    Subject = "Service Instractors Excel Upload",
+                    FailureCount = failedPnos.Count,
+                    FileUpload = dbFilePath, // Store relative path in DB with correct slashes
+                    CreatedDate = DateTime.Now
+                };
+
+                await _unitOfWork.Repository<SchoolManagement.Domain.ErrorLog>().Add(errorLog);
+                await _unitOfWork.Save();
+            }
 
             if (successCount > 0)
             {
