@@ -49,7 +49,7 @@ export class InstructorExamComponent implements OnInit,OnDestroy {
     this.courseTypeId = Number(this.route.snapshot.paramMap.get('courseTypeId'));
     this.dbType = this.route.snapshot.paramMap.get('dbType'); 
     this.traineeId = this.route.snapshot.paramMap.get('traineeId'); 
-    this.getPendingExamEvaluation(this.traineeId,this.courseDurationId);
+    this.getPendingExamEvaluation(this.traineeId);
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -57,8 +57,8 @@ export class InstructorExamComponent implements OnInit,OnDestroy {
     }
   }
 
-  getPendingExamEvaluation(traineeId,courseDurationId){
-    this.subscription = this.instructorDashboardService.getInstructorPendingExamEvaluation(traineeId,courseDurationId).subscribe(response => {         
+  getPendingExamEvaluation(traineeId){
+    this.subscription = this.instructorDashboardService.getInstructorPendingExamEvaluation(traineeId).subscribe(response => {         
       this.PendingExamEvaluation=response;
     })
   }

@@ -23,7 +23,7 @@ namespace SchoolManagement.Application.Features.ClassRoutines.Handlers.Queries
         public async Task<object> Handle(GetPendingInstructorExamMarkInfoBySchoolIdSpRequest request, CancellationToken cancellationToken)
         {
            // object obj = new object();
-            var spQuery = String.Format("exec [spGetInstructorPendingExamEvaluation] {0}, {1}", request.TraineeId, request.CourseDurationId);
+            var spQuery = String.Format("exec [spGetInstructorPendingExamEvaluation] {0}", request.TraineeId);
             
             DataTable dataTable = _studentInfoByTraineeIdRepository.ExecWithSqlQuery(spQuery);
            

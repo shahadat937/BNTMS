@@ -150,8 +150,8 @@ export class dashboardService {
     .pipe(
       map(response => {
        
-        this.CourseDurations = [...this.CourseDurations, ...response.body.items];
-        this.CourseDurationPagination = response.body;
+        this.CourseDurations = [...this.CourseDurations, ...(response.body?.items || [])];
+        this.CourseDurationPagination = response.body ?? {} as CourseDurationPagination;
       
         return this.CourseDurationPagination;
       })
@@ -268,8 +268,8 @@ export class dashboardService {
       return this.http.get<ICourseDurationPagination>(this.baseUrl + '/course-duration/get-courseDurationByCourseTypeId', { observe: 'response', params })
       .pipe(
         map(response => {
-          this.CourseDurations = [...this.CourseDurations, ...response.body.items];
-          this.CourseDurationPagination = response.body;
+          this.CourseDurations = [...this.CourseDurations, ...(response.body?.items || [])];
+          this.CourseDurationPagination = response.body ?? {} as CourseDurationPagination;
           return this.CourseDurationPagination;
         })
       ); 
