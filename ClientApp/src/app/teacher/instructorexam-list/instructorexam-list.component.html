@@ -73,7 +73,7 @@
                   <ng-container matColumnDef="markStatus"> 
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Result Submission </mat-header-cell>
                     <mat-cell *matCellDef="let element" >
-                      <span class="mark-submit" *ngIf="element.attendanceComplete === 1 && element.examMarkComplete === 0"> 
+                      <span class="mark-submit" *ngIf="element.attendanceComplete === 1 && element.examMarkComplete !== 1"> 
                         <!-- <button [routerLink]="['/exam-management/add-bnaexammarkinstructor/',traineeId]" class="btnDetailsins" mat-flat-button color="primary">Syllabus</button> -->
                         <button mat-raised-button class="custom-btn courseplan-btn"  [routerLink]="['/admin/dashboard/localexammarkentry-list/',traineeId,element.baseSchoolNameId,element.courseDurationId,element.courseNameId,this.masterData.coursetype.LocalCourse,element.classRoutineId,element.bnaSubjectNameId,element.courseSectionId,element.subjectMarkId,element.markTypeId]">
                           Mark Submit

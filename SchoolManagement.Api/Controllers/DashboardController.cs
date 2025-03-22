@@ -652,12 +652,11 @@ public class DashboardController : ControllerBase
     [HttpGet]
     [Route("get-instructorPendingExamEvaluation")]
 
-    public async Task<ActionResult> GetInstructorPendingExamEvaluation(int traineeId, int courseDurationId)
+    public async Task<ActionResult> GetInstructorPendingExamEvaluation(int traineeId)
     {
         var ExamEvaluationByParameters = await _mediator.Send(new GetPendingInstructorExamMarkInfoBySchoolIdSpRequest
         {
-            TraineeId = traineeId,
-            CourseDurationId = courseDurationId
+            TraineeId = traineeId
         });
         return Ok(ExamEvaluationByParameters);
     }

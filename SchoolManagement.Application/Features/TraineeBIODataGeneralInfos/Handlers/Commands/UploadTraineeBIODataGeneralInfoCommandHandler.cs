@@ -55,7 +55,7 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
             var response = new BaseCommandResponse();
             int successCount = 0;
             int errorCount = 0;
-            var failedPnoList = new List<string>();
+            List<string> failedPnos = new List<string>(); // List to store failed PNOs
 
             using (var stream = new MemoryStream())
             {
@@ -154,7 +154,7 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                             response.Message = "Creation Failed, Pno already exist";
                             //response.Id = bioData.Pno;
                             errorCount++;
-                            failedPnoList.Add(worksheet.Cells[row, 2].Text);
+                            failedPnos.Add(worksheet.Cells[row, 2].Text);
                         }
                         else
                         {
@@ -173,19 +173,39 @@ namespace SchoolManagement.Application.Features.TraineeBIODataGeneralInfos.Handl
                             catch (Exception ex)
                             {
                                 errorCount++;
-                                failedPnoList.Add(worksheet.Cells[row, 2].Text);
+                                failedPnos.Add(worksheet.Cells[row, 2].Text);
                             }
 
                         }
                     }
                 }
-                // Save the failed Pno list to a text file on Desktop
-                if (failedPnoList.Any())
+                // Save failed PNOs to a text file
+                if (failedPnos.Count > 0)
                 {
-                    var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    string todayDate = DateTime.Now.ToString("yyyyMMdd");
-                    var failedPnoFilePath = Path.Combine(desktopPath, $"FailedPnoList_{todayDate}.txt");
-                    await File.WriteAllLinesAsync(failedPnoFilePath, failedPnoList);
+                    string errorDirectory = Path.Combine("wwwroot", "Content", "files", "errorLog");
+                    string fileName = $"ErrorLog_{DateTime.Now:yyyyMMddHHmmss}.txt";
+                    string errorFilePath = Path.Combine(errorDirectory, fileName);
+                    string dbFilePath = $"files/errorLog/{fileName}"; // Ensures forward slashes for web paths
+
+                    // Ensure the directory exists before writing the file
+                    if (!Directory.Exists(errorDirectory))
+                    {
+                        Directory.CreateDirectory(errorDirectory);
+                    }
+
+                    await File.WriteAllLinesAsync(errorFilePath, failedPnos);
+
+                    // Save error log in the database with relative path
+                    var errorLog = new SchoolManagement.Domain.ErrorLog
+                    {
+                        Subject = "Bio Data Upload",
+                        FailureCount = failedPnos.Count,
+                        FileUpload = dbFilePath, // Store relative path in DB with correct slashes
+                        CreatedDate = DateTime.Now
+                    };
+
+                    await _unitOfWork.Repository<SchoolManagement.Domain.ErrorLog>().Add(errorLog);
+                    await _unitOfWork.Save();
                 }
 
                 if (successCount > 0)

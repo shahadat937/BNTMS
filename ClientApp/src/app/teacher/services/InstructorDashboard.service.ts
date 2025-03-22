@@ -77,14 +77,12 @@ export class InstructorDashboardService {
       );
   }
 
-  getInstructorPendingExamEvaluation(traindeeId, courseDurationId) {
+  getInstructorPendingExamEvaluation(traindeeId) {
     return this.http
       .get<any[]>(
         this.baseUrl +
           "/dashboard/get-instructorPendingExamEvaluation?traineeId=" +
-          traindeeId +
-          "&courseDurationId=" +
-          courseDurationId
+          traindeeId
       )
       .pipe(
         map((response) => {

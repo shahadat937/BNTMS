@@ -173,7 +173,7 @@ export class NewQExamMarkComponent implements OnInit, OnDestroy {
     }else if (this.courseTypeId == this.masterData.coursetype.CentralExam){
       this.getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,this.courseNameId,bnaSubjectNameId,classRoutineId);
     }else{
-
+      this.getTraineeListByDurationAndSection(courseDurationId,courseSectionId,baseSchoolNameId,this.courseNameId,bnaSubjectNameId,classRoutineId);
     }
 
     this.subscription = this.BNAExamMarkService.GetSubjectMarkByCourseNameIdSubjectNameId(this.courseNameId, bnaSubjectNameId).subscribe(res => {

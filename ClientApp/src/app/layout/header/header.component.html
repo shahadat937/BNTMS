@@ -44,7 +44,7 @@
         <!-- </li> -->
         <!-- #START# Notifications-->
 
-        <li>
+        <li *ngIf="role === userRole.MasterAdmin || role === userRole.SuperAdmin">
           <a href="" (click)="triggerSearch($event)">
             <mat-icon style="font-size:28px; color: #fff" color="primary">
               search
