@@ -244,6 +244,17 @@ public class TraineeNominationController : ControllerBase
     }
 
     [HttpGet]
+    [Route("get-InterServicenominatedTraineeForProfileUpdatespRequest")]
+    public async Task<ActionResult> GetInterServiceNominatedTraineeForProfileUpdatespRequest(string searchText)
+    {
+        var trainee = await _mediator.Send(new GetInterServiceNominatedTraineeForProfileUpdateSpRequest
+        {
+            SearchText = searchText
+        });
+        return Ok(trainee);
+    }
+
+    [HttpGet]
     [Route("get-traineeNominationListByCourseDurationIdspRequest")]
     public async Task<ActionResult> GetTraineeNominationListByCourseDurationIdSpRequest(int courseDurationId)
     {

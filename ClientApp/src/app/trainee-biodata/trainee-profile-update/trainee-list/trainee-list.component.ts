@@ -69,6 +69,9 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
     if(this.role === this.userRole.SuperAdmin){
       this.getTraineeListForUpdate();
     }
+    else if( this.role=== this.userRole.InterSeeviceCourse ){
+      this.getInterServiceTraineeListForUpdate();
+    }
     else{
       this.getBIODataGeneralInfos();
     }
@@ -104,6 +107,15 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
       this.traineeList=response;     
     })
   }
+  getInterServiceTraineeListForUpdate(){
+    this.BIODataGeneralInfoService.getInterServiceTraineeListForUpdate(this.searchText).subscribe(response => {
+
+      this.dataSource = new MatTableDataSource(response);      
+      this.dataSource.sort = this.InitialOrdersort;
+      this.dataSource.paginator = this.InitialOrderpaginator;
+      this.traineeList=response;     
+    })
+  }
   // getTraineeListForProfileUpdate() {
   //   this.isLoading = true;
   //   this.BIODataGeneralInfoService.getBIODataGeneralInfos(this.paging.pageIndex, this.paging.pageSize,this.searchText).subscribe(response => {
@@ -125,11 +137,7 @@ export class TraineeListComponent extends UnsubscribeOnDestroyAdapter implements
           this.selection.select(row)
         );
   }
-  addNew(){
-    
-  }
  
-  
 
   applyFilter(searchText: any){ 
     this.searchText = searchText;
