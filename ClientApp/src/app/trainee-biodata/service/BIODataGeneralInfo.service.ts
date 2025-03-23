@@ -28,6 +28,11 @@ export class BIODataGeneralInfoService {
   getTraineeListForUpdate(baseSchoolNameId,searchText){
     return this.http.get<BIODataGeneralInfo[]>(this.baseUrl + '/trainee-nomination/get-nominatedTraineeForProfileUpdatespRequest?baseSchoolNameId='+baseSchoolNameId+'&searchText='+searchText)
   }
+
+  getInterServiceTraineeListForUpdate(searchText){
+    return this.http.get<BIODataGeneralInfo[]>(this.baseUrl + '/trainee-nomination/get-InterServicenominatedTraineeForProfileUpdatespRequest?searchText='+searchText)
+  }
+
   whiteSpaceRemove(value){
     return value.replace(/\s/g, '')
    }
