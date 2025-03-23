@@ -78,6 +78,11 @@
                           <button mat-raised-button class="bg-primary text-light btn-space" type="button" (click)="downloadExcelFile()">
                             <mat-icon>download</mat-icon> Download Sample File
                           </button>
+
+                          <button mat-raised-button class="bg-info text-light btn-space" type="button" [routerLink]="['/basic-setup/error-log-list']">
+                            Error Log
+                           </button>
+
                         </div>
                       </li>
                       <li>
