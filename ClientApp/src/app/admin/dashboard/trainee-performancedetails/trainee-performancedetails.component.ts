@@ -60,6 +60,9 @@ export class TraineePerformanceDetailsListComponent extends UnsubscribeOnDestroy
   showHideDiv= false;
   role:any;
   groupArrays:{ courseModule: string; courses: any; }[];
+  totalMark : number;
+  obtaintMark: number;
+  highestMark : number;
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -158,16 +161,20 @@ export class TraineePerformanceDetailsListComponent extends UnsubscribeOnDestroy
               font-family: arialfont;
               text-align:center;
             }
+              table td{
+              padding: 2px 4px;
+              }
             table th h5{
               margin:0;
-              font-size: 21px;
+              font-size: 18px;
             }
             table {
               border-collapse: collapse;
               width: 98%;
             }
             th {
-              height: 26px;
+              height: 20px;
+              padding: 0 4px;
             }
             .header-text{
               text-align:center;
@@ -181,17 +188,7 @@ export class TraineePerformanceDetailsListComponent extends UnsubscribeOnDestroy
               font-size: 27px;                  
               letter-spacing: 1.5pt;
             }
-            .db-li-s-in.traine-performance-details tr:last-child td {
-              font-weight: bold;
-            }
-            .db-li-s-in.traine-performance-details tr:last-child td:nth-child(1) {
-              border-right: none !important;
-              color: transparent !important;
-            }
-            .db-li-s-in.traine-performance-details tr:last-child td:nth-child(2) {
-              border-left: none !important;
-              text-align: center;
-            }
+            
             .incharge-font{
               width:85%;
               text-align:right;
@@ -200,6 +197,12 @@ export class TraineePerformanceDetailsListComponent extends UnsubscribeOnDestroy
             }
             .traine-performance-details .sub-name{
               text-align:left;
+            }
+               .total-text{
+            text-align: right;
+            }
+            .bold-text{
+            font-weight: bold;
             }
           </style>
         </head>
@@ -247,7 +250,14 @@ export class TraineePerformanceDetailsListComponent extends UnsubscribeOnDestroy
     });
 
     this.BNAExamMarkService.getTraineePerformanceDetailsByParameters(this.baseSchoolNameId,this.courseDurationId,this.traineeId).subscribe(res=>{
-      this.getMarkList=res;      
+      this.getMarkList=res; 
+      console.log(res);
+      if(res.length){
+        this.totalMark = res.reduce((acc, el)=> acc+ Number(el.totalMark), 0);
+        this.obtaintMark = res.reduce((acc, el)=> acc+ Number(el.obtaintMark),0);
+        this.highestMark = res.reduce((acc, el)=> acc+ Number(el.highestMark),0);
+
+      } 
     }); 
 
    

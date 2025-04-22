@@ -154,7 +154,7 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
                     }
         
                     .table.table.tbl-by-group.db-li-s-in tr td{
-                      text-align:center;
+                      // text-align:center;
                       padding: 0px 5px;
                     }
                     table th {
@@ -181,6 +181,17 @@ export class TraineeNominationListComponent extends UnsubscribeOnDestroyAdapter 
                   bottom:0;
                   left:44%;
                 }
+                a{
+                  color: #000;
+                  text-decoration: none;
+                  }
+                .text-start{
+                  text-align: left;
+                  padding : 0  5px;
+                  }
+                  .center-text{
+                  text-align: center;
+                  }
           </style>
         </head>
         <body onload="window.print();window.close()">

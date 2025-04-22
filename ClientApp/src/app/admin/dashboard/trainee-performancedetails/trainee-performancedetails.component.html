@@ -117,10 +117,10 @@
                     <tr>
                       <th class="th-cell-ser"><h5>Ser.</h5></th>
                       <th class="cl-mrk"><h5>Subject Name</h5></th>
-                      <th class="cl-mrk-rmrk"><h5>Full Marks</h5></th>
+                      <th class="cl-mrk-rmrk text-center"><h5>Full Marks</h5></th>
                       <!-- <th class="cl-mrk-rmrk"><h5>Pass Mark</h5></th> -->
-                      <th class="cl-mrk-rmrk"><h5>Marks Obtained</h5></th>
-                      <th class="cl-mrk-rmrk">
+                      <th class="cl-mrk-rmrk text-center"><h5>Marks Obtained</h5></th>
+                      <th class="cl-mrk-rmrk text-center">
                         <h5>Highest Marks of the Class</h5>
                       </th>
                     </tr>
@@ -136,9 +136,15 @@
                         <td class="cl-mrk sub-name">
                           {{ number.subjectName }}
                         </td>
-                        <td>{{ number.totalMark | number : "0.2" }}</td>
-                        <td>{{ number.obtaintMark | number : "0.2" }}</td>
-                        <td>{{ number.highestMark | number : "0.2" }}</td>
+                        <td class="text-center">{{ number.totalMark | number : "0.2" }}</td>
+                        <td class="text-center">{{ number.obtaintMark | number : "0.2" }}</td>
+                        <td class="text-center">{{ number.highestMark | number : "0.2" }}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="fw-bold text-end pe-2 total-text bold-text">Total</td>
+                        <td class="text-center bold-text">{{totalMark}}</td>
+                        <td class="text-center bold-text">{{obtaintMark}}</td>
+                        <td class="text-center bold-text">-</td>
                       </tr>
                     </ng-container>
                   </tbody>
