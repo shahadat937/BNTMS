@@ -136,7 +136,7 @@
                       <div class="row top-logo-ser-section">
                         <div class="col-md-4">
                           <p class="ser-top-left">
-                            Ser No<span class="dotted-border ser-field">{{
+                            Ser No<span class="dotted-border">{{
                               traineeCertificateDetails[0].certificateSerialNo
                             }}</span>
                           </p>
@@ -201,7 +201,7 @@
                                   }}</b></span
                                 >Name<span class="dotted-border name-field"
                                   ><b>{{
-                                    traineeCertificateDetails[0].name
+                                    traineeCertificateDetails[0].name.toUpperCase()
                                   }}</b></span
                                 >Rank<span class="dotted-border rank-field"
                                   ><b>{{
@@ -212,7 +212,7 @@
                               <span class="pm-earned-text block"
                                 >who has qualified
                                 <span class="dotted-border course-field">{{
-                                  traineeCertificateDetails[0].course
+                                  traineeCertificateDetails[0].course +" "+  traineeCertificateDetails[0].courseTitle
                                 }}</span>
                                 of
                                 <span class="dotted-border week-field">{{
@@ -224,12 +224,12 @@
                                 >duration held at this institution from
                                 <span class="dotted-border du-from-field">{{
                                   traineeCertificateDetails[0].durationFrom
-                                    | date : "dd MMMM yyyy"
+                                    | date : "dd MMMM yyyy" | uppercase
                                 }}</span>
                                 to
                                 <span class="dotted-border du-to-field">{{
                                   traineeCertificateDetails[0].durationTo
-                                    | date : "dd MMMM yyyy"
+                                    | date : "dd MMMM yyyy" | uppercase
                                 }}</span></span
                               >
                               <span class="pm-earned-text block"

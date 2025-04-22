@@ -152,6 +152,7 @@ export class TraineeCertificateListComponent
       this.courseDurationId,
       this.traineeId
     ).subscribe((res) => {
+      console.log(res);
       this.traineeCertificateDetails = res;
       this.traineePosition = res[0].position;
       this.isShown = true;

@@ -110,6 +110,15 @@
                               color="warn" [routerLink]="['/admin/dashboard/upcomingcourse-list']"> 
                               <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
                             </button> -->
+                            <button
+                            class="btn-space"
+                            mat-raised-button
+                            color="primary"
+                            (click)="printSingle()"
+                          >
+                            Print
+                            <mat-icon class="col-white">print</mat-icon>
+                          </button>
                           <button
                             class="btn-space"
                             mat-raised-button
@@ -121,6 +130,7 @@
                             >
                             Back
                           </button>
+
 
                           <!--[routerLink]="['/course-management/traineenomination-list', row.courseDurationId]"-->
                           <!-- <button class="btn-space"  mat-raised-button
@@ -144,9 +154,9 @@
                   <thead>
                     <tr>
                       <th class="th-cell-ser">Ser:</th>
-                      <th class="th-cell-course">PNO / ONO</th>
-                      <th class="th-cell-course">Name</th>
-                      <th class="th-cell-course">Rank</th>
+                      <th class="th-cell-course text-start">PNO / ONO</th>
+                      <th class="th-cell-course text-start">Name</th>
+                      <th class="th-cell-course text-start">Rank</th>
                       <th class="th-cell-durationform">Attandance (%)</th>
                       <th
                         *ngIf="role != userRole.TrainingOffice"
@@ -176,13 +186,13 @@
                       "
                     >
                       <tr>
-                        <td class="td-cell">
+                        <td class="td-cell center-text">
                           {{ i + 1 }}
                         </td>
                         <!-- <td class="td-cell">
                             {{data.position}} {{data.name}}  <span class="t-n-pno-d">(P No {{data.pno}})</span>
                           </td> -->
-                        <td class="td-cell">
+                        <td class="td-cell text-start">
                           <a
                             [routerLink]="[
                               '/admin/dashboard/jstitrainee-details',
@@ -191,13 +201,13 @@
                             >{{ data.pno }}
                           </a>
                         </td>
-                        <td class="td-cell">
+                        <td class="td-cell text-start">
                           {{ data.name }}
                         </td>
-                        <td class="td-cell">
+                        <td class="td-cell text-start">
                           {{ data.position }}
                         </td>
-                        <td class="td-cell">
+                        <td class="td-cell center-text">
                           <a
                             [routerLink]="[
                               '/admin/dashboard/view-traineeattendance/',
@@ -326,7 +336,7 @@
               <div
                 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-class div-left m-t-20"
               >
-                <button
+                <!-- <button
                   class="btn-space"
                   mat-raised-button
                   color="primary"
@@ -334,7 +344,7 @@
                 >
                   Print
                   <mat-icon class="col-white">print</mat-icon>
-                </button>
+                </button> -->
               </div>
               <mat-table
                 *ngIf="role === 'Inter Seevice Course' && courseTypeId == 19"
@@ -466,14 +476,14 @@
                   </tbody>
                 </table> -->
 
-              <mat-paginator
+              <!-- <mat-paginator
                 [length]="paging.length"
                 [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
                 [pageSize]="paging.pageSize"
                 [pageSizeOptions]="masterData.paging.pageSizeOptions"
                 (page)="pageChanged($event)"
               >
-              </mat-paginator>
+              </mat-paginator> -->
             </div>
           </div>
         </div>
