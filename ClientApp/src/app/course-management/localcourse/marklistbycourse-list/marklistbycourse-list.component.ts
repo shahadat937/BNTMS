@@ -99,57 +99,87 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
     popupWin.document.write(`
       <html>
         <head>
-          <style>
-          body{  width: 99%;}
-            label { font-weight: 400;
-                    font-size: 13px;
-                    padding: 2px;
-                    margin-bottom: 5px;
-                  }
-            table, td, th {
-                  border: 1px solid silver;
-                    }
-                    table td {
-                  font-size: 13px;
-                    }
-                    .dynamic-tbl tr th span {
-                      writing-mode: vertical-rl;
-                      transform: rotate(180deg);
-                      padding: 5px;
-                      text-transform: capitalize;
-                      height:195px;
-                  }
+         <style>
+  @media print {
+    body {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      zoom: 86%
+    }
 
-                    table th {
-                  font-size: 13px;
-                    }
-              table {
-                    border-collapse: collapse;
-                    width: 98%;
-                    }
-                th {
-                    height: 26px;
-                    }
-                .header-text{
-                  text-align:center;
-                }
-                .header-text h3{
-                  margin:0;
-                }
-                .header-warning{
-                  font-size:12px;
-                }
-                .header-warning.bottom{
-                  position:absolute;
-                  bottom:0;
-                  left:44%;
-                }
-                .text-bold-cap-und{
-                  font-weight: bold;
-                  text-transform: uppercase;
-                  text-decoration: underline;
-                }
-          </style>
+    .print-footer {
+      position: fixed;
+      bottom: -5px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+      z-index: 1000;
+
+    }
+
+ 
+  }
+
+  label {
+    font-weight: 400;
+    font-size: 13px;
+    padding: 2px;
+    margin-bottom: 5px;
+  }
+
+  table, td, th {
+    border: 1px solid silver;
+  }
+
+  table td {
+    font-size: 13px;
+    padding: 0 4px;
+  }
+
+  .dynamic-tbl tr th span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding: 5px;
+    text-transform: capitalize;
+    height: 195px;
+  }
+
+  table th {
+    font-size: 13px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 98%;
+  }
+
+  th {
+    height: 26px;
+  }
+
+  .header-text {
+    text-align: center;
+  }
+
+  .header-text h3 {
+    margin: 0;
+  }
+
+  .text-bold-cap-und {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+tr {
+  page-break-inside: avoid;
+}
+ 
+
+
+</style>
+
         </head>
         <body onload="window.print();window.close()">
           <div class="header-text">
@@ -164,7 +194,6 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
           <br>
           <hr>
           ${printContents}
-          <span class="header-warning bottom">CONFIDENTIAL</span>
         </body>
       </html>`
     );
@@ -215,24 +244,74 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
         this.isLoading = false;
       
       });
-    }else{
+    }
+    else {
+      console.log("Failed");
       this.title = "Course Subject";
-      this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res=>{
-        console.log("Ok");
-        this.marklistbycourse=res;   
-        if(this.marklistbycourse && this.marklistbycourse.length){
-          this.displayedColumns =[...Object.keys(this.marklistbycourse[0])];
-          this.isShown=true;
-        }
-        else{
-          this.warningMessage = "Trainee Mark has not been assigned yet";
+    
+      this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res => {
+        console.log(res);
+        this.marklistbycourse = res;
+    
+        if (this.marklistbycourse && this.marklistbycourse.length) {
+          // Step 1: Calculate totalObtained, totalMark, and percentage
+          this.marklistbycourse.forEach(student => {
+            let obtained = 0;
+            let total = 0;
+    
+            Object.keys(student).forEach(key => {
+              const match = key.match(/\( Total - ([\d.]+), Pass Marks - [\d.]+ \)/);
+              if (match) {
+                const totalMark = parseFloat(match[1]);
+                const obtainedMark = parseFloat(student[key]);
+                if (!isNaN(obtainedMark)) {
+                  obtained += obtainedMark;
+                  total += totalMark;
+                }
+              }
+            });
+    
+            student.totalObtained = obtained;
+            student.totalMark = total;
+            student.percentage = ((obtained / total) * 100).toFixed(2) + '%';
+
+          });
+    
+          // Step 2: Sort by totalObtained (descending)
+          this.marklistbycourse.sort((a, b) => b.totalObtained - a.totalObtained);
+    
+          // Step 3: Assign dense rankings
+          let position = 1;
+          let previousMarks = null;
+          let rank = 1;
           
+          this.marklistbycourse.forEach((student, index) => {
+            student.sln = index + 1;
+            if (student.totalObtained === previousMarks) {
+              student.position = position;
+            } else {
+              position = rank;
+              student.position = position;
+              previousMarks = student.totalObtained;
+              rank++;
+            }
+ // Always increment rank (total number of students processed)
+          });
+          
+    
+          this.displayedColumns = [...Object.keys(this.marklistbycourse[0])];
+          this.isShown = true;
+        } else {
+          this.warningMessage = "Trainee Mark has not been assigned yet";
         }
-   
+    
         this.isLoading = false;
-       
       });
     }
+    
+    
+    
+
     
   }
 
