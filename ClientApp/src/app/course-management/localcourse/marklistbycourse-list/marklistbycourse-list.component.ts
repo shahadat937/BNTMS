@@ -152,7 +152,7 @@ export class MarkListByCourseComponent extends UnsubscribeOnDestroyAdapter imple
 
   table {
     border-collapse: collapse;
-    width: 98%;
+    width: 100%;
   }
 
   th {
@@ -246,58 +246,67 @@ tr {
       });
     }
     else {
-      console.log("Failed");
       this.title = "Course Subject";
-    
       this.BNAExamMarkService.getTraineeMarkListByDuration(courseDurationId).subscribe(res => {
-        console.log(res);
         this.marklistbycourse = res;
     
         if (this.marklistbycourse && this.marklistbycourse.length) {
-          // Step 1: Calculate totalObtained, totalMark, and percentage
+          // Calculate percentage, passStatus, remarks
           this.marklistbycourse.forEach(student => {
-            let obtained = 0;
+            let isAbsent = false;
             let total = 0;
+            let obtained = 0;
     
             Object.keys(student).forEach(key => {
-              const match = key.match(/\( Total - ([\d.]+), Pass Marks - [\d.]+ \)/);
-              if (match) {
-                const totalMark = parseFloat(match[1]);
-                const obtainedMark = parseFloat(student[key]);
-                if (!isNaN(obtainedMark)) {
-                  obtained += obtainedMark;
-                  total += totalMark;
+              if (key.includes('(P)') || key.includes('(T)')) {
+                let mark = student[key];
+    
+                if (mark === null || mark === undefined || mark === '') {
+                  student[key] = 'A';
+                  isAbsent = true;
+                } else {
+                  let markNum = parseFloat(mark);
+                  obtained += markNum;
+    
+                  const totalMatch = key.match(/\(Total - ([\d.]+)/);
+                  if (totalMatch) {
+                    total += parseFloat(totalMatch[1]);
+                  }
                 }
               }
             });
     
-            student.totalObtained = obtained;
             student.totalMark = total;
+            student.totalObtained = obtained;
             student.percentage = ((obtained / total) * 100).toFixed(2) + '%';
-
+ 
+    
+            if (isAbsent) {
+              student.passStatus = 'Failed';
+              student.remarks = '';
+            } else {
+              student.passStatus = 'Passed';
+            }
           });
     
-          // Step 2: Sort by totalObtained (descending)
+          // Sort and assign position
           this.marklistbycourse.sort((a, b) => b.totalObtained - a.totalObtained);
     
-          // Step 3: Assign dense rankings
           let position = 1;
-          let previousMarks = null;
           let rank = 1;
-          
+          for (let i = 0; i < this.marklistbycourse.length; i++) {
+            if (i > 0 && this.marklistbycourse[i].totalObtained === this.marklistbycourse[i - 1].totalObtained) {
+              this.marklistbycourse[i].position = this.marklistbycourse[i - 1].position;
+            } else {
+              this.marklistbycourse[i].position = position;
+              position++;
+            }
+   
+          }
+
           this.marklistbycourse.forEach((student, index) => {
             student.sln = index + 1;
-            if (student.totalObtained === previousMarks) {
-              student.position = position;
-            } else {
-              position = rank;
-              student.position = position;
-              previousMarks = student.totalObtained;
-              rank++;
-            }
- // Always increment rank (total number of students processed)
           });
-          
     
           this.displayedColumns = [...Object.keys(this.marklistbycourse[0])];
           this.isShown = true;
@@ -308,6 +317,7 @@ tr {
         this.isLoading = false;
       });
     }
+    
     
     
     
