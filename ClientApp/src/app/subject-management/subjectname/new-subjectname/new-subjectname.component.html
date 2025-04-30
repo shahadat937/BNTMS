@@ -202,7 +202,7 @@
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2"> 
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Total Period</mat-label>
-                      <input matInput formControlName="totalPeriod" required>
+                      <input type="number" matInput formControlName="totalPeriod" required>
                       <mat-error *ngIf="BNASubjectNameForm.get('subjectCode').hasError('required')">
                         Total Period is required
                       </mat-error> 
