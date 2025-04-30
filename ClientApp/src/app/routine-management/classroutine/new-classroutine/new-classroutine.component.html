@@ -293,7 +293,7 @@
                             (keydown.space)="$event.stopPropagation()"
                             placeholder="Search">
                               <mat-option>--Select--</mat-option>
-                              <mat-option *ngFor="let dropdown of selectedsubjectname" [value]="dropdown.value" (onSelectionChange)="onSubjectNameSelectionChangeGet(dropdown,i)" matTooltip="{{dropdown.text}}"
+                              <mat-option *ngFor="let dropdown of selectedsubjectname" [value]="dropdown.value"  (onSelectionChange)="onSubjectOptionSelected($event, dropdown, i)" matTooltip="{{dropdown.text}}"
                               matTooltipPosition="above">
                                 {{dropdown.text}}
                               </mat-option>
@@ -403,13 +403,14 @@
                         </div> -->
 
 
+                        
                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 mb-2">
                           <mat-form-field class="example-full-width mb-3 classCountPeriod" appearance="outline">
                             <mat-label>Total Class Period</mat-label>
-                            <input matInput formControlName="classCountPeriod" value="{{getControlLevel(i,'classCountPeriod')}}">
-                            <span matSuffix>/{{getControlLevel(i,'subjectCountPeriod')}}</span>
+                            <input matInput formControlName="classCountPeriod" [value]="controlValues[i]?.classCountPeriod">
+                            <span matSuffix>/{{ controlValues[i]?.subjectCountPeriod }}</span>
                           </mat-form-field>
-                        </div>
+                        </div>                        
 
 
                         <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 mb-2">

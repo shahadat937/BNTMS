@@ -16,6 +16,7 @@ import { Role } from '../../../../../src/app/core/models/role';
 import { CourseWeekService } from '../../../../../src/app/course-management/service/CourseWeek.service';
 import { Subject } from 'rxjs';
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 
 
@@ -183,7 +184,6 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
     this.getselectedclasstype();
     this.getselectedCourseModules();
     this.getselectedcoursename();
-    
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -258,13 +258,30 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
   }
   
 
-  addSinglePeriod(){
-    const control = <FormArray>this.ClassRoutineForm.controls["perodListForm"];
-   
-    control.push(this.createPeriodData());
-   // this.ClassRoutineForm.patchValue({ perodListForm: this.traineeList });
-    
+  addSinglePeriod() {
+    const control = this.ClassRoutineForm.get("perodListForm") as FormArray;
+    const newPeriod = this.createPeriodData();
+  
+    let newValue = 1; // default starting value
+  
+    if (control.length > 0) {
+      const lastGroup = control.at(control.length - 1);
+      const rawVal = lastGroup.get('classCountPeriod')?.value || '';
+  
+      // Extract leading number only (drop suffix)
+      const match = String(rawVal).match(/^(\d+)/);
+      if (match) {
+        newValue = parseInt(match[1], 10) + 1;
+      }
+    }
+  
+    newPeriod.get('classCountPeriod')?.setValue(String(newValue));
+    control.push(newPeriod);
+  
+    this.updateControlValues();
   }
+  
+  
   
 
   deletePeriod(index: number) {
@@ -517,6 +534,13 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
   // addInputGroup() {
   //   this.inputGroups.push({ value: '' });
   // }
+
+  onSubjectOptionSelected(event: MatOptionSelectionChange, dropdown: any, index: number) {
+    if (event.isUserInput) {
+      this.onSubjectNameSelectionChangeGet(dropdown, index);
+    }
+  }
+  
   valueCopy(index: number, value: string){
     if (value) {
       this.inputGroups.push({ value });
@@ -535,29 +559,31 @@ export class NewClassRoutineComponent implements OnInit, OnDestroy {
   }
 
   onSubjectNameSelectionChange(baseSchoolNameId,courseNameId,courseSectionId,bnaSubjectNameId,courseDurationId,index){
-    // var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
-    // var courseNameId=this.ClassRoutineForm.value['courseNameId'];
-    // var bnaSubjectNameId=this.ClassRoutineForm.value['bnaSubjectNameId'];
-    // var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
-    //let routineCounttt;
+
 
     this.subscription = this.ClassRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
       this.routineCount=res;
       (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('classCountPeriod')?.setValue(this.routineCount);
-    //  this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
-    
-   // if ( bnaSubjectNameId)
-   //this.routineCount=this.routineCount+1;
 
     });
 
  
   
-    this.subscription = this.ClassRoutineService.getTotalPeriodByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId).subscribe(res=>{
-      this.totalPeriod=res;
-      (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('subjectCountPeriod')?.setValue(this.totalPeriod);
-      // this.ClassRoutineForm.get('subjectCountPeriod').setValue(this.totalPeriod);
+    this.subscription = this.ClassRoutineService
+    .getTotalPeriodByParameterRequest(baseSchoolNameId, courseNameId, bnaSubjectNameId)
+    .subscribe(res => {
+      this.totalPeriod = res;
+      (this.ClassRoutineForm.get('perodListForm') as FormArray)
+        .at(index)
+        .get('subjectCountPeriod')
+        ?.setValue(this.totalPeriod);
+        console.log(this.totalPeriod)
+        this.updateControlValues();
+
+        const formGroup = (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index);
+      
     });
+  
 
 
     if(baseSchoolNameId !=null && courseNameId !=null  && bnaSubjectNameId !=null){
@@ -586,6 +612,7 @@ filterBymarkType(value:any){
 }
    
   getControlLevel(index: number, type: string) {
+    console.log(Number, type)
   
     let y =1;
     let period_count=0;
@@ -593,6 +620,29 @@ filterBymarkType(value:any){
     return  period_count;
   }
  
+  controlValues: { classCountPeriod: number, subjectCountPeriod: number }[] = [];
+
+  updateControlValues() {
+    const formArray = this.ClassRoutineForm.get('perodListForm') as FormArray;
+  
+    this.controlValues = formArray.controls.map(ctrl => {
+      const subjectCount = ctrl.get('subjectCountPeriod')?.value ?? 0;
+  
+      if (subjectCount === 0) {
+        ctrl.get('classCountPeriod')?.setValue(0);
+      }
+  
+      return {
+        classCountPeriod: ctrl.get('classCountPeriod')?.value,
+        subjectCountPeriod: subjectCount
+      };
+    });
+  
+    console.log(formArray.value[0].subjectCountPeriod);
+  }
+  
+
+
 
   onSectionSelectionGet(){
     var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
@@ -759,6 +809,7 @@ filterBymarkType(value:any){
         panelClass: 'snackbar-success'
       });
     }, error => {
+      this.loading= false;
       this.validationErrors = error;
     })
     // if (id) {
