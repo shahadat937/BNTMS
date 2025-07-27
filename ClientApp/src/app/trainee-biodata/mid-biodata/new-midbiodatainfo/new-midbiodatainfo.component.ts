@@ -8,6 +8,7 @@ import { ConfirmService } from '../../../../../src/app/core/service/confirm.serv
 import { SharedServiceService } from '../../../../../src/app/shared/shared-service.service';
 import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.service';
 
+
 @Component({
   selector: 'app-new-midbiodatainfo',
   templateUrl: './new-midbiodatainfo.component.html',
@@ -47,6 +48,8 @@ export class NewMidbiodatainfoComponent implements OnInit, OnDestroy {
   selectReligion: SelectedModel[];
   selectcaste: SelectedModel[];
   selectBloodGroup:SelectedModel[];
+  selectRank: SelectedModel[];
+  selectedSailorRank: SelectedModel[];
   userRole = Role;
   fileAttr = 'Choose File';
   imageUrl:string="/assets/img/icon.png";
@@ -97,6 +100,7 @@ export class NewMidbiodatainfoComponent implements OnInit, OnDestroy {
     this.getselectedbloodgroup();
     this.getreligions();
     this.gethaircolors();
+    this.getselectedSaylorRank();
     
   }
   ngOnDestroy() {
@@ -207,6 +211,21 @@ export class NewMidbiodatainfoComponent implements OnInit, OnDestroy {
   //     });
   //   }
   // }
+
+
+    getselectedSaylorRank() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedSailorRank().subscribe(res => {
+     this.selectedSailorRank = res
+      this.selectRank = res
+
+    });
+  }
+
+  filterSaylorRank(value: any) {
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedSailorRank = this.selectRank.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)));
+  }
 
   onFileChanged(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -363,6 +382,7 @@ filterByCaste(value:any){
       confirmPassword: ['Admin@123'],
       firstName: ['na'],
       lastName:['na'],
+      saylorRankId: [],
 
       //traineeId:[],
       //bnaBatchId:[],
