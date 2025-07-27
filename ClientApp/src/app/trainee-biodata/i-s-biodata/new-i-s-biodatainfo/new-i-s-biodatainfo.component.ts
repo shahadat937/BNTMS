@@ -16,63 +16,65 @@ import { BIODataGeneralInfoService } from '../../service/BIODataGeneralInfo.serv
 export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
 
 
- @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; 
-  buttonText:string;
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  buttonText: string;
   loading = false;
   pageTitle: string;
-  destination:string;
+  destination: string;
   BIODataGeneralInfoForm: FormGroup;
   validationErrors: string[] = [];
 
-  batchValues:SelectedModel[]; 
-  rankValues:SelectedModel[]; 
-  genderValues:SelectedModel[];
-  divisionValues:SelectedModel[];
-  branchValues:SelectedModel[];
-  nationalityValues:SelectedModel[];
-  heightValues:SelectedModel[]; 
-  weightValues:SelectedModel[]; 
-  colorOfEyeValues:SelectedModel[]; 
+  batchValues: SelectedModel[];
+  rankValues: SelectedModel[];
+  genderValues: SelectedModel[];
+  divisionValues: SelectedModel[];
+  branchValues: SelectedModel[];
+  nationalityValues: SelectedModel[];
+  heightValues: SelectedModel[];
+  weightValues: SelectedModel[];
+  colorOfEyeValues: SelectedModel[];
   bloodValues: SelectedModel[];
   religionValues: SelectedModel[];
-  hairColorValues:SelectedModel[];
-  selectedCastes:SelectedModel[];
-  selectedDistrict:SelectedModel[];
-  selectedThana:SelectedModel[];
+  hairColorValues: SelectedModel[];
+  selectedCastes: SelectedModel[];
+  selectedDistrict: SelectedModel[];
+  selectedThana: SelectedModel[];
   selectrank: SelectedModel[];
   selectDivision: SelectedModel[];
   selectBranch: SelectedModel[];
   selectBatch: SelectedModel[];
-  selectDistric:SelectedModel[];
+  selectDistric: SelectedModel[];
   selectThana: SelectedModel[];
   selectReligion: SelectedModel[];
   selectcaste: SelectedModel[];
-  selectBloodGroup:SelectedModel[];
+  selectBloodGroup: SelectedModel[];
+  selectRank: SelectedModel[];
+  selectedSailorRank: SelectedModel[];
   userRole = Role;
   fileAttr = 'Choose File';
-  imageUrl:string="/assets/img/icon.png";
+  imageUrl: string = "/assets/img/icon.png";
   public files: any[];
   subscription: any;
   traineePhoto: string;
 
-  constructor(private snackBar: MatSnackBar,private BIODataGeneralInfoService: BIODataGeneralInfoService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute,private confirmService: ConfirmService, public sharedService: SharedServiceService) { 
+  constructor(private snackBar: MatSnackBar, private BIODataGeneralInfoService: BIODataGeneralInfoService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmService: ConfirmService, public sharedService: SharedServiceService) {
     this.files = [];
   }
 
-  @ViewChild('labelImport')  labelImport: ElementRef;
+  @ViewChild('labelImport') labelImport: ElementRef;
   ngOnInit(): void {
 
-    const id = this.route.snapshot.paramMap.get('traineeId'); 
+    const id = this.route.snapshot.paramMap.get('traineeId');
     if (id) {
       this.pageTitle = 'Edit I/S BIO Data';
-      this.destination='Edit';
-      this.buttonText="Update";
- 
+      this.destination = 'Edit';
+      this.buttonText = "Update";
+
       this.subscription = this.BIODataGeneralInfoService.find(+id).subscribe(
         res => {
           if (res) {
             this.BIODataGeneralInfoForm.patchValue(res);
-          }   
+          }
           this.traineePhoto = res.bnaPhotoUrl;
           this.onDivisionSelectionChangeGetDistrict(res.divisionId);
           this.onDistrictSelectionChangeGetThana(res.districtId);
@@ -82,8 +84,8 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
       );
     } else {
       this.pageTitle = 'I/S BIO Data';
-      this.destination='Add';
-      this.buttonText="Save";
+      this.destination = 'Add';
+      this.buttonText = "Save";
     }
     this.intitializeForm();
     this.getBatchs();
@@ -98,7 +100,8 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
     this.getselectedbloodgroup();
     this.getreligions();
     this.gethaircolors();
-    
+    this.getselectedSailorRank();
+
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -106,95 +109,95 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterByBatch(value:any){
+  filterByBatch(value: any) {
     const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
-    this.batchValues = this.selectBatch.filter(x=>
+    this.batchValues = this.selectBatch.filter(x =>
       searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
-  getBatchs(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res=>{
-      this.batchValues=res
-      this.selectBatch=res
+  getBatchs() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedbnabatch().subscribe(res => {
+      this.batchValues = res
+      this.selectBatch = res
     });
   }
-  filterByReligion(value:any){
+  filterByReligion(value: any) {
     const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
-    this.religionValues = this.selectReligion.filter(x=>
+    this.religionValues = this.selectReligion.filter(x =>
       searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
-  getreligions(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedreligion().subscribe(res=>{
-      this.religionValues=res
-      this.selectReligion=res
+  getreligions() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedreligion().subscribe(res => {
+      this.religionValues = res
+      this.selectReligion = res
     });
   }
-  gethaircolors(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res=>{
-      this.hairColorValues=res
-    });
-  }  
-
-  getselectedheight(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res=>{
-      this.heightValues=res
+  gethaircolors() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedhaircolor().subscribe(res => {
+      this.hairColorValues = res
     });
   }
 
-  getselectedweight(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res=>{
-      this.weightValues=res
+  getselectedheight() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedheight().subscribe(res => {
+      this.heightValues = res
     });
   }
 
-  getselectedcolorofeye(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res=>{
-      this.colorOfEyeValues=res
+  getselectedweight() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedweight().subscribe(res => {
+      this.weightValues = res
     });
   }
-  filterBloodGroup(value:any){
+
+  getselectedcolorofeye() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedcolorofeye().subscribe(res => {
+      this.colorOfEyeValues = res
+    });
+  }
+  filterBloodGroup(value: any) {
     const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
-    this.bloodValues = this.selectBloodGroup.filter(x=>
+    this.bloodValues = this.selectBloodGroup.filter(x =>
       searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
-  getselectedbloodgroup(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res=>{
-      this.bloodValues=res
-      this.selectBloodGroup=res
+  getselectedbloodgroup() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedbloodgroup().subscribe(res => {
+      this.bloodValues = res
+      this.selectBloodGroup = res
     });
   }
 
-  getNationalitys(){
-    this.subscription = this.BIODataGeneralInfoService.getselectednationality().subscribe(res=>{
-      this.nationalityValues=res
+  getNationalitys() {
+    this.subscription = this.BIODataGeneralInfoService.getselectednationality().subscribe(res => {
+      this.nationalityValues = res
     });
   }
-  filterByBranch(value:any){
+  filterByBranch(value: any) {
     const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
-    this.branchValues = this.selectBranch.filter(x=>
+    this.branchValues = this.selectBranch.filter(x =>
       searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
-  getBranch(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedbranch().subscribe(res=>{
-      this.branchValues=res
-      this.selectBranch=res
+  getBranch() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedbranch().subscribe(res => {
+      this.branchValues = res
+      this.selectBranch = res
     });
   }
 
-  filterByRank(value:any){
+  filterByRank(value: any) {
     const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
-    this.rankValues=this.selectrank.filter(x=>
+    this.rankValues = this.selectrank.filter(x =>
       searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
-  getRanks(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res=>{
-      this.rankValues=res
-      this.selectrank=res
+  getRanks() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedrank().subscribe(res => {
+      this.rankValues = res
+      this.selectrank = res
     });
   }
 
-  getGenders(){
-    this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res=>{
-      this.genderValues=res
+  getGenders() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedgender().subscribe(res => {
+      this.genderValues = res
     });
   }
 
@@ -214,13 +217,13 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       const reader = new FileReader();
-  
+
       reader.onload = () => {
         this.traineePhoto = reader.result as string; // Set traineePhoto to the image data URL
       };
-  
+
       reader.readAsDataURL(file); // Read file as data URL
-  
+
       // Update form control with the file
       if (this.BIODataGeneralInfoForm && this.BIODataGeneralInfoForm.controls['image']) {
         this.BIODataGeneralInfoForm.patchValue({
@@ -231,50 +234,64 @@ export class NewISBiodatainfoComponent implements OnInit, OnDestroy {
   }
 
 
-  filterDivision(value:any){
-      this.divisionValues=this.selectDivision.filter(x=>x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g,'')))
+  filterDivision(value: any) {
+    this.divisionValues = this.selectDivision.filter(x => x.text.toLowerCase().includes(value.toLowerCase().replace(/\s/g, '')))
   }
-  getDivisions(){
-    this.subscription = this.BIODataGeneralInfoService.getselecteddivision().subscribe(res=>{
-      this.divisionValues=res
-      this.selectDivision=res
+  getDivisions() {
+    this.subscription = this.BIODataGeneralInfoService.getselecteddivision().subscribe(res => {
+      this.divisionValues = res
+      this.selectDivision = res
     });
   }
 
-  filterByDistric(value:any){
+  filterByDistric(value: any) {
     const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
-    this.selectedDistrict=this.selectDistric.filter(x=>
+    this.selectedDistrict = this.selectDistric.filter(x =>
       searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
-  onDivisionSelectionChangeGetDistrict(divisionId){
-    this.subscription = this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res=>{
-      this.selectedDistrict=res
-      this.selectDistric=res
+  onDivisionSelectionChangeGetDistrict(divisionId) {
+    this.subscription = this.BIODataGeneralInfoService.getdistrictbydivision(divisionId).subscribe(res => {
+      this.selectedDistrict = res
+      this.selectDistric = res
     });
   }
 
-  filterByThana(value:any){
+  filterByThana(value: any) {
     const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
-    this.selectedThana = this.selectThana.filter(x=>
+    this.selectedThana = this.selectThana.filter(x =>
       searchTerms.every(term => x.text.toLowerCase().includes(term)))
   }
-  onDistrictSelectionChangeGetThana(districtId){
-    this.subscription = this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res=>{
-      this.selectedThana=res
-      this.selectThana=res
+  onDistrictSelectionChangeGetThana(districtId) {
+    this.subscription = this.BIODataGeneralInfoService.getthanaByDistrict(districtId).subscribe(res => {
+      this.selectedThana = res
+      this.selectThana = res
     });
   }
-filterByCaste(value:any){
-  const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
-  this.selectedCastes = this.selectcaste.filter(x=>
-    searchTerms.every(term => x.text.toLowerCase().includes(term)))
-}
-  onReligionSelectionChangeGetCastes(religionId){
-    this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res=>{
-      this.selectedCastes=res
-      this.selectcaste=res
+  filterByCaste(value: any) {
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedCastes = this.selectcaste.filter(x =>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)))
+  }
+  onReligionSelectionChangeGetCastes(religionId) {
+    this.subscription = this.BIODataGeneralInfoService.getcastebyreligion(religionId).subscribe(res => {
+      this.selectedCastes = res
+      this.selectcaste = res
     });
-  } 
+  }
+
+  getselectedSailorRank() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedSailorRank().subscribe(res => {
+      this.selectedSailorRank = res
+      this.selectRank = res
+
+    });
+  }
+
+  filterSaylorRank(value: any) {
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedSailorRank = this.selectRank.filter(x =>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)));
+  }
 
   // getMaritalStatus(){
   //   this.BIODataGeneralInfoService.getselectedMaritialStatus().subscribe(res=>{
@@ -313,7 +330,7 @@ filterByCaste(value:any){
   intitializeForm() {
     let now = new Date();
     this.BIODataGeneralInfoForm = this.fb.group({
-      
+
 
       traineeId: [0],
       bnaBatchId: [''],
@@ -322,7 +339,7 @@ filterByCaste(value:any){
       divisionId: [''],
       districtId: [''],
       thanaId: [''],
-      countryId:[1],
+      countryId: [1],
       heightId: [''],
       weightId: [''],
       colorOfEyeId: [''],
@@ -334,18 +351,18 @@ filterByCaste(value:any){
       //maritalStatusId: [],
       hairColorId: [],
       officerTypeId: [1], //officerTypeId 1 For Bangladesh
-      traineeStatusId:['8'], // for I/S
-      name: ['',Validators.required],
+      traineeStatusId: ['8'], // for I/S
+      name: ['', Validators.required],
       nameBangla: [''],
       mobile: [''],
-      fileAttr:[],
+      fileAttr: [],
       email: ['', [Validators.email]],
       bnaPhotoUrl: [''],
       image: [''],
       bnaNo: [''],
-      pno: ['',Validators.required],
-      shortCode:[''],
-      presentBillet:[''],
+      pno: ['', Validators.required],
+      shortCode: [''],
+      presentBillet: [''],
       dateOfBirth: [],
       joiningDate: [],
       identificationMark: [''],
@@ -353,7 +370,7 @@ filterByCaste(value:any){
       permanentAddress: [''],
       nid: [''],
       remarks: [''],
-      localNominationStatus:[0],
+      localNominationStatus: [0],
       isActive: [true],
       id: [0],
       userName: [''],
@@ -361,7 +378,8 @@ filterByCaste(value:any){
       password: ['Admin@123'],
       confirmPassword: ['Admin@123'],
       firstName: ['na'],
-      lastName:['na'],
+      lastName: ['na'],
+      saylorRankId: [],
 
       //traineeId:[],
       //bnaBatchId:[],
@@ -386,16 +404,16 @@ filterByCaste(value:any){
       //saylorRankId:[''],
       //saylorSubBranchId:[''],
       //name:[],
-      nickName:[],
+      nickName: [],
       //nameBangla:[],
-      chestNo:[],
-      localNo :[],
-      idCardNo:[],
-      shoeSize:[],
-      pantSize:[],
-      nominee:[],
-      closeRelative:[],
-      relativeRelation:[],
+      chestNo: [],
+      localNo: [],
+      idCardNo: [],
+      shoeSize: [],
+      pantSize: [],
+      nominee: [],
+      closeRelative: [],
+      relativeRelation: [],
       //mobile:[],
       //email:[],
       //bnaPhotoUrl:[],
@@ -409,37 +427,37 @@ filterByCaste(value:any){
       //presentAddress:[],
       //permanentAddress:[],
       //traineeStatusId:[],
-      passportNo:[],
+      passportNo: [],
       //nid:[],
       //remarks :[],
       //menuPosition :[],
       //isActive :[],
       //localNominationStatus:[],
-    
+
     })
   }
-  
+
   onSubmit() {
 
     const id = this.BIODataGeneralInfoForm.get('traineeId')?.value;
 
-    if(this.BIODataGeneralInfoForm.get('joiningDate')?.value){
+    if (this.BIODataGeneralInfoForm.get('joiningDate')?.value) {
       const joiningDate = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('joiningDate')?.value)
       this.BIODataGeneralInfoForm.get('joiningDate')?.setValue(joiningDate);
     }
-    if(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value){
+    if (this.BIODataGeneralInfoForm.get('dateOfBirth')?.value) {
       const dateOfBirth = this.sharedService.formatDateTime(this.BIODataGeneralInfoForm.get('dateOfBirth')?.value)
       this.BIODataGeneralInfoForm.get('dateOfBirth')?.setValue(dateOfBirth);
-    }    
+    }
 
     const formData = new FormData();
 
-    if(!this.traineePhoto){
+    if (!this.traineePhoto) {
       this.BIODataGeneralInfoForm.value.bnaPhotoUrl = null;
     }
     for (const key of Object.keys(this.BIODataGeneralInfoForm.value)) {
       let value = this.BIODataGeneralInfoForm.value[key];
-      if(value=== null || value === undefined){
+      if (value === null || value === undefined) {
         value = ""
       }
       formData.append(key, value);
@@ -449,7 +467,7 @@ filterByCaste(value:any){
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update  Item').subscribe(result => {
         if (result) {
           this.loading = true;
-          this.BIODataGeneralInfoService.update(+id,formData).subscribe(response => {
+          this.BIODataGeneralInfoService.update(+id, formData).subscribe(response => {
             this.sharedService.goBack();
             this.snackBar.open('Information Updated Successfully ', '', {
               duration: 3000,
@@ -463,7 +481,7 @@ filterByCaste(value:any){
           })
         }
       })
-    }else {
+    } else {
       this.loading = true;
       this.subscription = this.BIODataGeneralInfoService.submit(formData).subscribe(response => {
         this.sharedService.goBack();
@@ -480,23 +498,23 @@ filterByCaste(value:any){
       })
     }
   }
-  whiteSpaceRemove(value){
+  whiteSpaceRemove(value) {
     this.BIODataGeneralInfoForm.get('email')?.patchValue(this.BIODataGeneralInfoService.whiteSpaceRemove(value))
-   }
-   removeImage(event: Event) {
-    event.preventDefault(); 
+  }
+  removeImage(event: Event) {
+    event.preventDefault();
 
-   
+
     this.traineePhoto = '';
 
-   
+
     if (this.fileInput && this.fileInput.nativeElement) {
-      this.fileInput.nativeElement.value = ''; 
+      this.fileInput.nativeElement.value = '';
     }
   }
 
   handleImageError() {
-    this.traineePhoto = ''; 
+    this.traineePhoto = '';
   }
 
 
