@@ -260,6 +260,9 @@ getSelectedPno(pno){
   update(id: number,model: any) {
     return this.http.put(this.baseUrl + '/trainee-bio-data-general-info/update-traineeBioDataGeneralInfo/'+id, model);
   }
+    getselectedSailorRank(){
+      return this.http.get<SelectedModel[]>(this.baseUrl + '/saylor-rank/get-selectedSaylorRanks')
+    }
 
   submit(model: any) {
     return this.http.post(this.baseUrl + '/trainee-bio-data-general-info/save-traineeBioDataGeneralInfo', model);
