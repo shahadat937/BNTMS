@@ -47,6 +47,8 @@ export class NewCadetBiodatainfoComponent implements OnInit {
   selectReligion: SelectedModel[];
   selectcaste: SelectedModel[];
   selectBloodGroup:SelectedModel[];
+  selectRank: SelectedModel[];
+  selectedSailorRank: SelectedModel[];
   userRole = Role;
   fileAttr = 'Choose File';
   imageUrl:string="/assets/img/icon.png";
@@ -97,6 +99,7 @@ export class NewCadetBiodatainfoComponent implements OnInit {
     this.getselectedbloodgroup();
     this.getreligions();
     this.gethaircolors();
+    this.getselectedSaylorRank();
     
   }
   ngOnDestroy() {
@@ -277,6 +280,20 @@ filterByCaste(value:any){
     });
   } 
 
+   getselectedSaylorRank() {
+    this.subscription = this.BIODataGeneralInfoService.getselectedSailorRank().subscribe(res => {
+     this.selectedSailorRank = res
+      this.selectRank = res
+
+    });
+  }
+
+  filterSaylorRank(value: any) {
+    const searchTerms = value.toLowerCase().split(" ").filter(term => term.trim() !== "");
+    this.selectedSailorRank = this.selectRank.filter(x=>
+      searchTerms.every(term => x.text.toLowerCase().includes(term)));
+  }
+
   // getMaritalStatus(){
   //   this.BIODataGeneralInfoService.getselectedMaritialStatus().subscribe(res=>{
   //     this.maritalValues=res
@@ -397,6 +414,7 @@ filterByCaste(value:any){
       nominee:[],
       closeRelative:[],
       relativeRelation:[],
+      saylorRankId: [],
       //mobile:[],
       //email:[],
       //bnaPhotoUrl:[],
@@ -411,6 +429,7 @@ filterByCaste(value:any){
       //permanentAddress:[],
       //traineeStatusId:[],
       passportNo:[],
+
       //nid:[],
       //remarks :[],
       //menuPosition :[],
